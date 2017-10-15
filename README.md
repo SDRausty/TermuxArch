@@ -1,5 +1,7 @@
 # [TermuxArch](https://github.com/sdrausty/TermuxArch)
 
+[![Join the chat at https://gitter.im/termux/termux](https://badges.gitter.im/termux/termux.svg)](https://gitter.im/termux/termux)
+
 # -rwxrwx--- [setupTermuxArch.sh](https://github.com/sdrausty/TermuxArch/blob/master/setupTermuxArch.sh)
 
 You can use `setupTermuxArch.sh` 📲 to install [Arch Linux](http://mirror.archlinuxarm.org/os/) in [Termux](https://wiki.termux.com/) on Android and Chrome. This setup script will attempt to set Arch Linux up in your Termux environment. It  will generate many error messages, \"tar: Ignoring unknown extended header keyword 'SCHILY.fflags'\" && one \"tar: Exiting with failure status due to previous errors\" message.
