@@ -16,7 +16,7 @@ cd && git clone https://github.com/sdrausty/TermuxArch
 
 ```
 
-When successfully completed, you will be at the bash prompt with Arch Linux in Termux in the palm of your hand. 
+When successfully completed, you will be at the bash prompt with Arch Linux in Termux in the palm of your hand ☺
 
 ![Linux on Android](./archntoau.png)
 
