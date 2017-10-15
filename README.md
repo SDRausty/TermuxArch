@@ -8,7 +8,7 @@ Ignore these messages, and please wait patiently as tar decompresses the downloa
 
 ```
 cd && git clone https://github.com/sdrausty/TermuxArch
-./termuxarch/setupTermuxArch.sh
+./TermuxArch/setupTermuxArch.sh
 
 ```
 

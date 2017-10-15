@@ -4,7 +4,7 @@ Now you can install Arch Linux in Termux 📲 on your smartphone and tablet. Mor
 
 ```
 cd && git clone https://github.com/sdrausty/TermuxArch
-./termuxarch/setupTermuxArch.sh
+./TermuxArch/setupTermuxArch.sh
 ```
 
 Comments welcome at https://github.com/sdrausty/TermuxArch/issues
