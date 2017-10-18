@@ -75,19 +75,15 @@ proot --link2symlink -0 -r ~/arch -b /dev/ -b /sys/ -b /proc/ -b /storage/ -b $H
 EOM
 chmod 700 $bin
 echo 
-echo "Use \`pacman -Syu\` to update your Arch Linux in Termux distribution. Adjust your /etc/pacman.d/mirrorlist file in accordance with your 🌐 geographic location. See https://wiki.archlinux.org/index.php/Pacman for more information about easily managing packages in Arch Linux. Install packages with \`pacman -S package`." 
+echo "Use \`pacman -Syu\` to update your Arch Linux in Termux distribution.  Adjust your /etc/pacman.d/mirrorlist file in accordance with your 🌐 geographic location.  See https://wiki.archlinux.org/index.php/Pacman for more information about easily managing packages in Arch Linux. Install packages with \`pacman -S package\`." 
 echo
-echo "👉 Use \`./arch/$bin\` from your \$HOME directory to launch Arch Linux in Termux for future sessions."
-echo
-echo "👉 This might be abbreviated to \`!.\` at the bash prompt after login into Termux."
+echo "👉 Use \`./arch/$bin\` from your \$HOME directory to launch Arch Linux in Termux for future sessions.  This might be abbreviated to \`!.\` at the bash prompt after login into Termux."
 echo
 echo "Thank you for using \`setupTermuxArch.sh\` to install Arch Linux in Termux!"
 echo
 $HOME/arch/$bin
 echo
-echo "👉 Use \`./arch/$bin\` from your \$HOME directory to launch Arch Linux in Termux for future sessions."
-echo
-echo "👉 This might be abbreviated to \`!.\` at the bash prompt after login into Termux."
+echo "👉 Use \`./arch/$bin\` from your \$HOME directory to launch Arch Linux in Termux for future sessions.  This might be abbreviated to \`!.\` at the bash prompt after login into Termux."
 echo
 echo "Thank you for using \`setupTermuxArch.sh\` to install Arch Linux in Termux!"
 echo
