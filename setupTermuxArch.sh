@@ -70,4 +70,3 @@ echo
 echo "Thank you for using \`setupTermuxArch.sh\` to install Arch Linux in Termux. Use \`./arch/$bin\` from your \$HOME directory to launch Arch Linux in Termux for future sessions. This can be abbreviated to \`!.\` +enter/return at the bash prompt after login into Termux ☺"
 $HOME/arch/$bin
 echo "Thank you for using \`setupTermuxArch.sh\` to install Arch Linux in Termux. Use \`./arch/$bin\` from your \$HOME directory to launch Arch Linux in Termux for future sessions. This can be abbreviated to \`!.\` +enter/return at the bash prompt after login into Termux ☺"
-
