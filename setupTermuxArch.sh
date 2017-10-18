@@ -15,11 +15,11 @@ echo
 mkdir -p $HOME/arch
 cd $HOME/arch
 echo
-if [ "$(uname -m)" = "aarch64" ];then
-wget -c http://$mirror/os/ArchLinuxARM-aarch64-latest.tar.gz.md5
-wget -c http://$mirror/os/ArchLinuxARM-aarch64-latest.tar.gz
-echo "Checking md5sum. This may take a while. Please be patient."
-echo
+if [ "$(uname -m)" = "aarch64" ]; then
+	wget -c http://$mirror/os/ArchLinuxARM-aarch64-latest.tar.gz.md5
+	wget -c http://$mirror/os/ArchLinuxARM-aarch64-latest.tar.gz
+	echo "Checking md5sum. This may take a while. Please be patient."
+	echo
 if md5sum -c ArchLinuxARM-aarch64-latest.tar.gz.md5; then
 	echo
 	echo "Uncompressing ArchLinuxARM-aarch64-latest.tar.gz"
@@ -33,11 +33,11 @@ else
 	echo "Alternatively, change \`mirror=$mirror\` in line 7 and remove $HOME/arch with all downloads, then restart \`setupTermuxArch.sh\`. Use https://archlinuxarm.org/about/mirrors to choose an available mirror in accordance with your 🌎 geographic location." 
 	exit 1
 fi
-elif [ "$(uname -m)" = "armv7l" ];then
-wget -c http://$mirror/os/ArchLinuxARM-armv7-latest.tar.gz.md5
-wget -c http://$mirror/os/ArchLinuxARM-armv7-latest.tar.gz
-echo "Checking md5sum. This may take a while. Please be patient."
-echo
+elif [ "$(uname -m)" = "armv7l" ]; then
+	wget -c http://$mirror/os/ArchLinuxARM-armv7-latest.tar.gz.md5
+	wget -c http://$mirror/os/ArchLinuxARM-armv7-latest.tar.gz
+	echo "Checking md5sum. This may take a while. Please be patient."
+	echo
 if md5sum -c ArchLinuxARM-armv7-latest.tar.gz.md5; then
 	echo
 	echo "Uncompressing ArchLinuxARM-armv7-latest.tar.gz"
