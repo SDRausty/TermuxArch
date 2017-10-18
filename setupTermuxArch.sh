@@ -57,7 +57,7 @@ else
 	echo
 	echo "👉 If you find a match, then please submit a pull request at https://github.com/sdrausty/TermuxArch/pulls with script modifications."
 	echo
-	echo "👉 Alternatively, submit a request at https://github.com/sdrausty/TermuxArch/issues if you find a match. Please include output from \`uname -mo\` on the device in order to expand architecture autodetection for \`setupTermuxArch.sh\`."
+	echo "👉 Alternatively, submit a modification request at https://github.com/sdrausty/TermuxArch/issues if you find an architecture match. Please include output from \`uname -mo\` on the device in order to expand architecture autodetection for \`setupTermuxArch.sh\`."
 	echo
 	exit 1
 fi
