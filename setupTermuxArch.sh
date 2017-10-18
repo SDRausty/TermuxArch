@@ -4,6 +4,7 @@
 # Contributers @Soph1a7 et al.
 #####################################################################
 bin=startArch.sh
+mirror=mirror.archlinuxarm.org
 echo "This setup script will attempt to set Arch Linux up in your Termux environment."
 echo 
 sleep 2
@@ -16,27 +17,27 @@ cd $HOME/arch
 echo "Downloading arch-image."
 echo
 if [ "$(uname -m)" = "aarch64" ];then
-wget -c http://os.archlinuxarm.org/os/ArchLinuxARM-aarch64-latest.tar.gz.md5
-wget -c http://os.archlinuxarm.org/os/ArchLinuxARM-aarch64-latest.tar.gz
+wget -c http://$mirror/os/ArchLinuxARM-aarch64-latest.tar.gz.md5
+wget -c http://$mirror/os/ArchLinuxARM-aarch64-latest.tar.gz
 echo "Checking md5sum. This may take a while. Please be patient."
 if md5sum -c ArchLinuxARM-aarch64-latest.tar.gz.md5; then
 	echo "Uncompressing ArchLinuxARM-aarch64-latest.tar.gz"
 	echo "This will take some time. Please be patient."
 	proot --link2symlink tar -xf ArchLinuxARM-aarch64-latest.tar.gz 2>/dev/null||:
 else
-	echo "ERROR md5sum missmatch: Please move or remove $HOME/arch and restart this setup script."
+	echo "ERROR md5sum missmatch: Please remove $HOME/arch, change $mirror in line 7 and then restart \`setupTermuxArch.sh\`. See https://archlinuxarm.org/about/mirrors for a list of available mirrors."
 	exit 1
 fi
 elif [ "$(uname -m)" = "armv7l" ];then
-wget -c http://os.archlinuxarm.org/os/ArchLinuxARM-armv7-latest.tar.gz.md5
-wget -c http://os.archlinuxarm.org/os/ArchLinuxARM-armv7-latest.tar.gz
+wget -c http://$mirror/os/ArchLinuxARM-armv7-latest.tar.gz.md5
+wget -c http://$mirror/os/ArchLinuxARM-armv7-latest.tar.gz
 echo "Checking md5sum. This may take a while. Please be patient."
 if md5sum -c ArchLinuxARM-armv7-latest.tar.gz.md5; then
 	echo "Uncompressing ArchLinuxARM-armv7-latest.tar.gz"
 	echo "This will take some time. Please be patient."
 	proot --link2symlink tar -xf ArchLinuxARM-armv7-latest.tar.gz 2>/dev/null||:
 else
-	echo "ERROR md5sum missmatch: Please move or remove $HOME/arch and restart this setup script."
+	echo "ERROR md5sum missmatch: Please remove $HOME/arch, change $mirror in line 7 and then restart \`setupTermuxArch.sh\`. See https://archlinuxarm.org/about/mirrors for a list of available mirrors."
 	exit 1
 fi
 else
