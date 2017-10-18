@@ -22,7 +22,7 @@ wget -c http://$mirror/os/ArchLinuxARM-aarch64-latest.tar.gz
 echo "Checking md5sum. This may take a while. Please be patient."
 if md5sum -c ArchLinuxARM-aarch64-latest.tar.gz.md5; then
 	echo "Uncompressing ArchLinuxARM-aarch64-latest.tar.gz"
-	echo "This will take some time. Please be patient."
+	echo "This will take much longer. Please be patient."
 	proot --link2symlink tar -xf ArchLinuxARM-aarch64-latest.tar.gz 2>/dev/null||:
 else
 	echo "ERROR md5sum missmatch: Remove $HOME/arch with all downloads. Alternatively, also change \`mirror=$mirror\` in line 7 and then restart \`setupTermuxArch.sh\`. See https://archlinuxarm.org/about/mirrors for a list of available mirrors please."
@@ -34,7 +34,7 @@ wget -c http://$mirror/os/ArchLinuxARM-armv7-latest.tar.gz
 echo "Checking md5sum. This may take a while. Please be patient."
 if md5sum -c ArchLinuxARM-armv7-latest.tar.gz.md5; then
 	echo "Uncompressing ArchLinuxARM-armv7-latest.tar.gz"
-	echo "This will take some time. Please be patient."
+	echo "This will take much longer. Please be patient."
 	proot --link2symlink tar -xf ArchLinuxARM-armv7-latest.tar.gz 2>/dev/null||:
 else
 	echo "ERROR md5sum missmatch: Remove $HOME/arch with all downloads. Alternatively, also change \`mirror=$mirror\` in line 7 and then restart \`setupTermuxArch.sh\`. See https://archlinuxarm.org/about/mirrors for a list of available mirrors please."
