@@ -18,6 +18,7 @@ echo
 if [ "$(uname -m)" = "aarch64" ];then
 wget -c http://os.archlinuxarm.org/os/ArchLinuxARM-aarch64-latest.tar.gz.md5
 wget -c http://os.archlinuxarm.org/os/ArchLinuxARM-aarch64-latest.tar.gz
+echo "Checking md5sum; This may Take some time. Please be patient."
 if md5sum -c ArchLinuxARM-aarch64-latest.tar.gz.md5; then
 	echo "Uncompressing ArchLinuxARM-aarch64-latest.tar.gz"
 	echo "This will take some time. Please be patient."
@@ -29,6 +30,7 @@ fi
 elif [ "$(uname -m)" = "armv7l" ];then
 wget -c http://os.archlinuxarm.org/os/ArchLinuxARM-armv7-latest.tar.gz.md5
 wget -c http://os.archlinuxarm.org/os/ArchLinuxARM-armv7-latest.tar.gz
+echo "Checking md5sum; This may take a while. Please be patient."
 if md5sum -c ArchLinuxARM-armv7-latest.tar.gz.md5; then
 	echo "Uncompressing ArchLinuxARM-armv7-latest.tar.gz"
 	echo "This will take some time. Please be patient."
