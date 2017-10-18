@@ -25,7 +25,9 @@ if md5sum -c ArchLinuxARM-aarch64-latest.tar.gz.md5; then
 	echo "This will take much longer. Please be patient."
 	proot --link2symlink tar -xf ArchLinuxARM-aarch64-latest.tar.gz 2>/dev/null||:
 else
-	echo "ERROR md5sum missmatch: Remove $HOME/arch with all downloads. Alternatively, also change \`mirror=$mirror\` in line 7 and then restart \`setupTermuxArch.sh\`. Use https://archlinuxarm.org/about/mirrors to choose an available mirror in accordance 🌎 with your geographic location please." 
+	echo "ERROR md5sum missmatch: Remove $HOME/arch with all downloads and restart \`setupTermuxArch.sh\`."
+	echo
+	echo "Alternatively, also change \`mirror=$mirror\` in line 7 and then restart \`setupTermuxArch.sh\`. Use https://archlinuxarm.org/about/mirrors to choose an available mirror in accordance 🌎 with your geographic location please." 
 	exit 1
 fi
 elif [ "$(uname -m)" = "armv7l" ];then
@@ -37,7 +39,9 @@ if md5sum -c ArchLinuxARM-armv7-latest.tar.gz.md5; then
 	echo "This will take much longer. Please be patient."
 	proot --link2symlink tar -xf ArchLinuxARM-armv7-latest.tar.gz 2>/dev/null||:
 else
-	echo "ERROR md5sum missmatch: Remove $HOME/arch with all downloads. Alternatively, also change \`mirror=$mirror\` in line 7 and then restart \`setupTermuxArch.sh\`. Use https://archlinuxarm.org/about/mirrors to choose an available mirror in accordance 🌎 with your geographic location please." 
+	echo "ERROR md5sum missmatch: Remove $HOME/arch with all downloads and restart \`setupTermuxArch.sh\`."
+	echo
+	echo "Alternatively, also change \`mirror=$mirror\` in line 7 and then restart \`setupTermuxArch.sh\`. Use https://archlinuxarm.org/about/mirrors to choose an available mirror in accordance 🌎 with your geographic location please." 
 	exit 1
 fi
 else
