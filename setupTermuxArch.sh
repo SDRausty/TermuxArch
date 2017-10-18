@@ -53,8 +53,8 @@ fi
 else
 	echo "ERROR Unknown architecture version for \`setupTermuxArch.sh\`! There might still be hope."
 	echo "👉 Check for other available architectures at http://os.archlinuxarm.org/os/ and see if any match your device."
-	echo "👉 If you find a match, then please submit a pull request at https://github.com/sdrausty/TermuxArch/pulls "
-	echo "👉 If you find a match, then please submit a request at https://github.com/sdrausty/TermuxArch/issues Include output from \`uname -mo\` on the device in order to expand architecture autodetection for \`setupTermuxArch.sh\` if possible."
+	echo "👉 If you find a match, then please submit a pull request at https://github.com/sdrausty/TermuxArch/pulls with script modifications."
+	echo "👉 Alternatively, submit a request at https://github.com/sdrausty/TermuxArch/issues if you find a match. Please include output from \`uname -mo\` on the device in order to expand architecture autodetection for \`setupTermuxArch.sh\`."
 	exit 1
 fi
 rm etc/resolv*
@@ -73,3 +73,4 @@ echo
 echo "Thank you for using \`setupTermuxArch.sh\` to install Arch Linux in Termux. Use \`./arch/$bin\` from your \$HOME directory to launch Arch Linux in Termux for future sessions. This can be abbreviated to \`!.\` +enter/return at the bash prompt after login into Termux ☺"
 $HOME/arch/$bin
 echo "Thank you for using \`setupTermuxArch.sh\` to install Arch Linux in Termux. Use \`./arch/$bin\` from your \$HOME directory to launch Arch Linux in Termux for future sessions. This can be abbreviated to \`!.\` +enter/return at the bash prompt after login into Termux ☺"
+
