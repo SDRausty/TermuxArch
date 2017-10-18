@@ -25,7 +25,7 @@ if md5sum -c ArchLinuxARM-aarch64-latest.tar.gz.md5; then
 	echo "This will take some time. Please be patient."
 	proot --link2symlink tar -xf ArchLinuxARM-aarch64-latest.tar.gz 2>/dev/null||:
 else
-	echo "ERROR md5sum missmatch: Remove $HOME/arch please. Alternatively, also change \`\$mirror=$mirror\` in line 7 and then restart \`setupTermuxArch.sh\`. See https://archlinuxarm.org/about/mirrors for a list of available mirrors."
+	echo "ERROR md5sum missmatch: Remove $HOME/arch with all downloads. Alternatively, also change \`mirror=$mirror\` in line 7 and then restart \`setupTermuxArch.sh\`. See https://archlinuxarm.org/about/mirrors for a list of available mirrors please."
 	exit 1
 fi
 elif [ "$(uname -m)" = "armv7l" ];then
@@ -37,11 +37,11 @@ if md5sum -c ArchLinuxARM-armv7-latest.tar.gz.md5; then
 	echo "This will take some time. Please be patient."
 	proot --link2symlink tar -xf ArchLinuxARM-armv7-latest.tar.gz 2>/dev/null||:
 else
-	echo "ERROR md5sum missmatch: Remove $HOME/arch please. Alternatively, also change \`\$mirror=$mirror\` in line 7 and then restart \`setupTermuxArch.sh\`. See https://archlinuxarm.org/about/mirrors for a list of available mirrors."
+	echo "ERROR md5sum missmatch: Remove $HOME/arch with all downloads. Alternatively, also change \`mirror=$mirror\` in line 7 and then restart \`setupTermuxArch.sh\`. See https://archlinuxarm.org/about/mirrors for a list of available mirrors please."
 	exit 1
 fi
 else
-	echo "ERROR Unknown architecture version for \`setupTermuxArch.sh\`! There still is hope. Check for other available architectures at http://os.archlinuxarm.org/os/ and submit a request at https://github.com/sdrausty/TermuxArch/issues including output from \`uname -mo\` to expand architecture autodetection for \`setupTermuxArch.sh\`."
+	echo "ERROR Unknown architecture version for \`setupTermuxArch.sh\`! There still is hope. Check for other available architectures at http://os.archlinuxarm.org/os/ and submit a request at https://github.com/sdrausty/TermuxArch/issues including output from \`uname -mo\` on the device in order to expand architecture autodetection for \`setupTermuxArch.sh\` is possible."
 	exit 1
 fi
 rm etc/resolv*
