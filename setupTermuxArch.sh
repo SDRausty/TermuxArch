@@ -14,7 +14,6 @@ pkg install proot tar wget
 echo
 mkdir -p $HOME/arch
 cd $HOME/arch
-echo "Downloading arch-image."
 echo
 if [ "$(uname -m)" = "aarch64" ];then
 wget -c http://$mirror/os/ArchLinuxARM-aarch64-latest.tar.gz.md5
