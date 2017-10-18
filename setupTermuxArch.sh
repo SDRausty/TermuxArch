@@ -1,6 +1,8 @@
 #!/data/data/com.termux/files/usr/bin/sh -e
-# Copyright 2017 (c) all rights reserved 
+# Copyright 2017 (c) all rights reserved \ 
 # by SDRausty https://sdrausty.github.io/termux-arch
+# Contributers @Soph1a7 et al.
+#####################################################################
 bin=startArch.sh
 echo "This setup script will attempt to set Arch Linux up in your Termux environment."
 echo 
