@@ -30,7 +30,7 @@ else
 	echo
 	echo "ERROR md5sum missmatch: Remove $HOME/arch with all downloads and restart \`setupTermuxArch.sh\`."
 	echo
-	echo "Alternatively, also change \`mirror=$mirror\` in line 7 and then restart \`setupTermuxArch.sh\`. Please use https://archlinuxarm.org/about/mirrors to choose an available mirror in accordance with your 🌎 geographic location." 
+	echo "Alternatively, change \`mirror=$mirror\` in line 7 and remove $HOME/arch with all downloads, then restart \`setupTermuxArch.sh\`. Please use https://archlinuxarm.org/about/mirrors to choose an available mirror in accordance with your 🌎 geographic location." 
 	exit 1
 fi
 elif [ "$(uname -m)" = "armv7l" ];then
@@ -47,7 +47,7 @@ else
 	echo
 	echo "ERROR md5sum missmatch: Remove $HOME/arch with all downloads and restart \`setupTermuxArch.sh\`."
 	echo
-	echo "Alternatively, also change \`mirror=$mirror\` in line 7 and then restart \`setupTermuxArch.sh\`. Please use https://archlinuxarm.org/about/mirrors to choose an available mirror in accordance with your 🌎 geographic location." 
+	echo "Alternatively, change \`mirror=$mirror\` in line 7 and remove $HOME/arch with all downloads, then restart \`setupTermuxArch.sh\`. Please use https://archlinuxarm.org/about/mirrors to choose an available mirror in accordance with your 🌎 geographic location." 
 	exit 1
 fi
 else
