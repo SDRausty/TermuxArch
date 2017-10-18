@@ -54,7 +54,7 @@ fi
 else
 	echo "ERROR Unknown architecture version! There might still be hope."
 	echo
-	echo "👉 Check for other available architectures at http://os.archlinuxarm.org/os/ and see if any match your device."
+	echo "👉 Check for other available architectures at http://mirror.archlinuxarm.org/os/ and see if any match your device."
 	echo
 	echo "👉 If you find a match, then please submit a pull request at https://github.com/sdrausty/TermuxArch/pulls with script modifications."
 	echo
