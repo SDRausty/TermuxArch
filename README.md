@@ -4,7 +4,7 @@
 
 # -rwxrwx--- [setupTermuxArch.sh](https://raw.githubusercontent.com/sdrausty/TermuxArch/master/setupTermuxArch.sh)
 
-Run the following command lines to install Arch Linux in Termux on your device. Hint, copy and paste the following into the Termux window: 
+Run the following command lines to install Arch Linux in Termux on your device. Hint, copy and paste the following into the Termux bash shell window: 
 
 ```
 cd && git clone https://github.com/sdrausty/TermuxArch
