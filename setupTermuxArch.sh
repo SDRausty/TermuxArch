@@ -79,7 +79,7 @@ echo "Use \`pacman -Syu\` to update your Arch Linux in Termux distribution. Adju
 echo
 echo "👉 Use \`./arch/$bin\` from your \$HOME directory to launch Arch Linux in Termux for future sessions."
 echo
-echo "👉 This can be abbreviated to \`!.\` at the bash prompt after login into Termux."
+echo "👉 This might be abbreviated to \`!.\` at the bash prompt after login into Termux."
 echo
 echo "Thank you for using \`setupTermuxArch.sh\` to install Arch Linux in Termux!"
 echo
@@ -87,7 +87,7 @@ $HOME/arch/$bin
 echo
 echo "👉 Use \`./arch/$bin\` from your \$HOME directory to launch Arch Linux in Termux for future sessions."
 echo
-echo "👉 This can be abbreviated to \`!.\` at the bash prompt after login into Termux."
+echo "👉 This might be abbreviated to \`!.\` at the bash prompt after login into Termux."
 echo
 echo "Thank you for using \`setupTermuxArch.sh\` to install Arch Linux in Termux!"
 echo
