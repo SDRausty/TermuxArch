@@ -20,7 +20,9 @@ if [ "$(uname -m)" = "aarch64" ];then
 wget -c http://$mirror/os/ArchLinuxARM-aarch64-latest.tar.gz.md5
 wget -c http://$mirror/os/ArchLinuxARM-aarch64-latest.tar.gz
 echo "Checking md5sum. This may take a while. Please be patient."
+echo
 if md5sum -c ArchLinuxARM-aarch64-latest.tar.gz.md5; then
+	echo
 	echo "Uncompressing ArchLinuxARM-aarch64-latest.tar.gz"
 	echo "This will take much longer. Please be patient."
 	proot --link2symlink tar -xf ArchLinuxARM-aarch64-latest.tar.gz 2>/dev/null||:
@@ -35,7 +37,9 @@ elif [ "$(uname -m)" = "armv7l" ];then
 wget -c http://$mirror/os/ArchLinuxARM-armv7-latest.tar.gz.md5
 wget -c http://$mirror/os/ArchLinuxARM-armv7-latest.tar.gz
 echo "Checking md5sum. This may take a while. Please be patient."
+echo
 if md5sum -c ArchLinuxARM-armv7-latest.tar.gz.md5; then
+	echo
 	echo "Uncompressing ArchLinuxARM-armv7-latest.tar.gz"
 	echo "This will take much longer. Please be patient."
 	proot --link2symlink tar -xf ArchLinuxARM-armv7-latest.tar.gz 2>/dev/null||:
