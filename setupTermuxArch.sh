@@ -56,7 +56,7 @@ EOM
 chmod 700 $bin
 echo 
 echo "Use \`pacman -Syu\` to update your Arch Linux in Termux distribution. Adjust your /etc/pacman.d/mirrorlist file in accordance 🌎 with your geographic location." 
-echo
+echo "☺"
 echo "Thank you for using \`setupTermuxArch.sh\` to install Arch Linux in Termux. Use \`./arch/$bin\` from your \$HOME directory to launch Arch Linux in Termux for future sessions. This can be abbreviated to \`!.\` +enter/return at the bash prompt after login into Termux."
 $HOME/arch/$bin
 echo "Thank you for using \`setupTermuxArch.sh\` to install Arch Linux in Termux. Use \`./arch/$bin\` from your \$HOME directory to launch Arch Linux in Termux for future sessions. This can be abbreviated to \`!.\` at the bash prompt after login."
