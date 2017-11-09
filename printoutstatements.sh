@@ -8,22 +8,22 @@
 
 printdetectedsystem ()
 {
-	printf "\033[0m\n 🕜 \033[34;1m< 🕛 Detected $(uname -mo) Operating System.  \033[0m\n"
+	printf "\033[0m\n 🕜 \033[36;1m< 🕛 Detected $(uname -mo) Operating System.  \033[0m\n"
 }
 
 printdownloading ()
 {
-	printf "\033[0m\n 🕑 \033[34;1m<\033[0m 🕛 Now downloading \033[32;1m$file\033[0m and the corresponding checksum.  This may take a long time depending on your Internet speed.  \n\n"
+	printf "\033[0m\n 🕑 \033[36;1m<\033[0m 🕛 Now downloading \033[32;1m$file\033[0m and the corresponding checksum.  This may take a long time depending on your Internet speed.  \n\n"
 }
 
 printfooter()
 {
-	printf "\033[0m\n 🕙 \033[34;1m<\033[0m 🕛 Run \033[32;1mfinishsetup.sh\033[0m to continue the installation. Alternatively, go on with the installation by doing the following:\n\n	1) Run \033[32;1mlocale-gen\033[0m to generate the en_US.UTF-8 locale.  Edit \033[32;1m/etc/locale.gen \033[0mwith \033[32;1mnano\033[0m or \033[32;1mvi\033[0m specifing your preferred locale and run \033[32;1mlocale-gen\033[0m if you want other locales. See https://wiki.archlinux.org/index.php/Locale for more information.  \n\n	2) Adjust your \033[32;1m/etc/pacman.d/mirrorlist\033[0m file in accordance with your geographic location. Use \033[32;1mpacman -Syu\033[0m to update your Arch Linux in Termux distribution.  See https://wiki.archlinux.org/index.php/Pacman for more information.  \033[0m\n\n"
+	printf "\033[0m\n 🕙 \033[36;1m<\033[0m 🕛 Run \033[32;1mfinishsetup.sh\033[0m to continue the installation. Alternatively, go on with the installation by doing the following:\n\n	1) Run \033[32;1mlocale-gen\033[0m to generate the en_US.UTF-8 locale.  Edit \033[32;1m/etc/locale.gen \033[0mwith \033[32;1mnano\033[0m or \033[32;1mvi\033[0m specifing your preferred locale and run \033[32;1mlocale-gen\033[0m if you want other locales. See https://wiki.archlinux.org/index.php/Locale for more information.  \n\n	2) Adjust your \033[32;1m/etc/pacman.d/mirrorlist\033[0m file in accordance with your geographic location. Use \033[32;1mpacman -Syu\033[0m to update your Arch Linux in Termux distribution.  See https://wiki.archlinux.org/index.php/Pacman for more information.  \033[0m\n\n"
 }
 
 printmd5check ()
 {
-	printf "\033[0m\n 🕠 \033[34;1m<\033[0m 🕛 Checking download integrity with md5sum.  This may take a little while.  \n\n 🕕 \033[34;1m< 🕛 "
+	printf "\033[0m\n 🕠 \033[36;1m<\033[0m 🕛 Checking download integrity with md5sum.  This may take a little while.  \n\n 🕕 \033[36;1m< 🕛 "
 }
 
 printmd5error ()
@@ -34,7 +34,7 @@ printmd5error ()
 
 printmd5success ()
 {
-	printf "\033[0m\n\033[32;1m 🕡 \033[34;1m< 🕛 Download files integrity: OK  \n\n\033[0m 🕖 \033[34;1m<\033[0m 🕛 Now uncompressing \033[32;1m$file\033[0m.  \033[37;1mThis will take much longer!  Be patient.  \033[0m\n"
+	printf "\033[0m\n\033[32;1m 🕡 \033[36;1m< 🕛 Download files integrity: OK  \n\n\033[0m 🕖 \033[36;1m<\033[0m 🕛 Now uncompressing \033[32;1m$file\033[0m.  \033[37;1mThis will take much longer!  Be patient.  \033[0m\n"
 }
 
 printmd5syschkerror ()
@@ -45,7 +45,7 @@ printmd5syschkerror ()
 
 printmd5syschksuccess ()
 {
-	printf "\033[0m\n 🕐 \033[34;1m< 🕛 Installation script integrity: OK  \033[0m\n"
+	printf "\033[0m\n 🕐 \033[36;1m< 🕛 Installation script integrity: OK  \033[0m\n"
 }
 
 printmismatch ()
@@ -56,7 +56,7 @@ printmismatch ()
 
 printtail ()
 {
-	printf "\033[0m\n 🕚 \033[34;1m<\033[0m 🕛 Use \033[32;1m./arch/$bin\033[0m from your \033[32;1m\$HOME\033[0m directory to launch Arch Linux in Termux for future sessions.  This can be abbreviated to, \033[32;1m\"!.\"\033[0m at the bash prompt after starting a session in Termux.  Alternatively copy \033[32;1m$bin\033[0m to your \033[32;1m\$PATH\033[0m which is, \033[32;1m\"$PATH\"\033[0m.  \n\n"
+	printf "\033[0m\n 🕚 \033[36;1m<\033[0m 🕛 Use \033[32;1m./arch/$bin\033[0m from your \033[32;1m\$HOME\033[0m directory to launch Arch Linux in Termux for future sessions.  This can be abbreviated to, \033[32;1m\"!.\"\033[0m at the bash prompt after starting a session in Termux.  Alternatively copy \033[32;1m$bin\033[0m to your \033[32;1m\$PATH\033[0m which is, \033[32;1m\"$PATH\"\033[0m.  \n\n"
 	copybin2path 
 	printf "Thank you for using \033[32;1msetupTermuxArch.sh\033[0m to install Arch Linux in Termux🏁  \033[32;1mExiting...   \033[0m\n\n"'\033]2;  Thank you for using `setupTermuxArch.sh` to install Arch Linux in Termux 📲  \007'
 }

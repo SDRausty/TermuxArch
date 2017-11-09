@@ -72,7 +72,7 @@ finishsetup ()
 		ed=vi
 		break
 	else
-		printf "\nYou answered \033[34;1m\$nv\033[32;1m.\n"
+		printf "\nYou answered \033[36;1m\$nv\033[32;1m.\n"
 		printf "\nAnswer nano or vi (n|v).\n\n"
 	fi
 	done
@@ -80,7 +80,7 @@ finishsetup ()
 	locale-gen
 	\$ed /etc/pacman.d/mirrorlist
 	pacman -Syu
-	printf "\nUse \033[34;1mexit\033[32;1m to conclude this installation.\033[0m\n\n"
+	printf "\nUse \033[36;1mexit\033[32;1m to conclude this installation.\033[0m\n\n"
 	rm \$HOME/bin/finishsetup.sh 2>/dev/null||:
 	EOM
 	chmod 700 root/bin/finishsetup.sh 

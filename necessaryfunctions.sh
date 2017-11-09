@@ -27,7 +27,7 @@ askuser ()
 		armv7lChrome 
 		break
 	else
-		printf "\nYou answered \033[34;1m$ac\033[36;1m.\n"
+		printf "\nYou answered \033[36;1m$ac\033[36;1m.\n"
 		printf "\nAnswer Android or Chrome (A|C).\n\n"
 	fi
 	done
