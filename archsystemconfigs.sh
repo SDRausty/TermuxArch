@@ -33,9 +33,8 @@ bashrc ()
 	alias ...="cd ../../.. && pwd"
 	alias ....="cd ../../../.. && pwd"
 	alias .....="cd ../../../../.. && pwd"
-	alias e='exit'
 	alias d='du -hs'
-	alias h='history >> ~/.historyfile'
+	alias e='exit'
 	alias g='ga; gcm; gp'
 	alias ga='git add . '
 	alias gca='git commit -a'
@@ -45,6 +44,7 @@ bashrc ()
 	alias gpl='git pull'
 	alias gp='git push'
 	#alias gp='git push https://username:password@github.com/username/repository.git master'
+	alias h='history >> ~/.historyfile'
 	alias j='jobs'
 	alias l='ls -al'
 	alias p='pwd'
