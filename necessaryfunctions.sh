@@ -51,14 +51,14 @@ copybin2path ()
 		printf "\n 🕛 \033[36;1m=\033[0m 🕛 Copied \033[32;1m$bin\033[0m to \033[32;1m$PREFIX/bin\033[0m.  "
 		break
 	elif [[ $answer = [Nn]* ]];then
-		printf "\n 🕛=🕛 "
+		printf "\n 🕛 \033[36;1m=\033[0m 🕛 "
 		break
 	elif [[ $answer = [Qq]* ]];then
-		printf "\n 🕛=🕛 "
+		printf "\n 🕛 \033[36;1m=\033[0m 🕛 "
 		break
 	else
-		printf "\n 🕦<🕛 You answered \033[33;1m$answer\033[0m.\n"
-		printf "\n 🕦<🕛 Answer Yes or No (y|n).\n\n"
+		printf "\n 🕦 \033[36;1m<\033[0m 🕛 You answered \033[33;1m$answer\033[0m.\n"
+		printf "\n 🕦 \033[36;1m<\033[0m 🕛 Answer Yes or No (y|n).\n\n"
 	fi
 	done
 }
