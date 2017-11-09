@@ -8,7 +8,7 @@
 
 printdetectedsystem ()
 {
-	printf "\033[0m\n 🕜 \033[36;1m< 🕛 \033[34;1mDetected $(uname -mo) Operating System.  \033[0m\n"
+	printf "\033[0m\n 🕜 \033[36;1m< 🕛 Detected $(uname -mo) Operating System.  \033[0m\n"
 }
 
 printdownloading ()
@@ -23,7 +23,7 @@ printfooter()
 
 printmd5check ()
 {
-	printf "\033[0m\n 🕠 \033[36;1m<\033[0m 🕛 Checking download integrity with md5sum.  This may take a little while.  \n\n 🕕 \033[36;1m< 🕛 \033[34;1m"
+	printf "\033[0m\n 🕠 \033[36;1m<\033[0m 🕛 Checking download integrity with md5sum.  This may take a little while.  \n\n 🕕 \033[36;1m< 🕛 "
 }
 
 printmd5error ()
