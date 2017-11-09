@@ -2,9 +2,10 @@
 # Website for this project at https://sdrausty.github.io/TermuxArch
 # See https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank You! 
 # Copyright 2017 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
-#Run the following before using `raf.sh` to debug `setupTermuxArch.sh`:
-#apt-get -qq update && apt-get -qq upgrade --yes
-#apt-get -qq install findutils --yes 
+# Run the following before using `raf.sh` to debug `setupTermuxArch.sh`:
+# apt-get -qq update && apt-get -qq upgrade --yes
+# apt-get -qq install findutils --yes 
+# See README.md for instructions and warning! 
 #####################################################################
 
 rm setupTermuxArch.sh 2>/dev/null||:
