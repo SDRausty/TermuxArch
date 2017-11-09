@@ -8,7 +8,7 @@
 
 printdetectedsystem ()
 {
-	printf "\033[0m\n 🕜 \033[34;1m<\033[0m 🕛 Detected $(uname -mo) Operating System.  \033[0m\n"
+	printf "\033[0m\n 🕜 \033[34;1m< 🕛 Detected $(uname -mo) Operating System.  \033[0m\n"
 }
 
 printdownloading ()
@@ -23,7 +23,7 @@ printfooter()
 
 printmd5check ()
 {
-	printf "\033[0m\n 🕠 \033[34;1m<\033[0m 🕛 Checking download integrity with md5sum.  This may take a little while.  \n\n 🕕 \033[34;1m<\033[0m 🕛 "
+	printf "\033[0m\n 🕠 \033[34;1m<\033[0m 🕛 Checking download integrity with md5sum.  This may take a little while.  \n\n 🕕 \033[34;1m< 🕛 "
 }
 
 printmd5error ()
@@ -34,7 +34,7 @@ printmd5error ()
 
 printmd5success ()
 {
-	printf "\033[0m\n\033[32;1m 🕡 \033[34;1m<\033[0m 🕛 Download files integrity: OK  \n\n\033[0m 🕖 \033[34;1m<\033[0m 🕛 Now uncompressing \033[32;1m$file\033[10;1m.  \033[37;1mThis will take much longer!  Be patient.  \033[0m\n"
+	printf "\033[0m\n\033[32;1m 🕡 \033[34;1m< 🕛 Download files integrity: OK  \n\n\033[0m 🕖 \033[34;1m<\033[0m 🕛 Now uncompressing \033[32;1m$file\033[0m.  \033[37;1mThis will take much longer!  Be patient.  \033[0m\n"
 }
 
 printmd5syschkerror ()
@@ -45,7 +45,7 @@ printmd5syschkerror ()
 
 printmd5syschksuccess ()
 {
-	printf "\033[0m\n 🕐 \033[34;1m<\033[0m 🕛 Installation script integrity: OK  \n"
+	printf "\033[0m\n 🕐 \033[34;1m< 🕛 Installation script integrity: OK  \033[0m\n"
 }
 
 printmismatch ()
