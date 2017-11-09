@@ -34,7 +34,7 @@ printmd5error ()
 
 printmd5success ()
 {
-	printf "\033[0m\n\033[32;1m 🕡 \033[36;1m< 🕛 Download files integrity: OK  \n\n\033[0m 🕖 \033[36;1m<\033[0m 🕛 Now uncompressing \033[32;1m$file\033[0m.  \033[37;1mThis will take much longer!  Be patient.  \033[0m\n"
+	printf "\033[0m\n\033[32;1m 🕡 \033[36;1m< 🕛 Downloaded files integrity: OK  \n\n\033[0m 🕖 \033[36;1m<\033[0m 🕛 Now uncompressing \033[32;1m$file\033[0m.  \033[37;1mThis will take much longer!  Be patient.  \033[0m\n"
 }
 
 printmd5syschkerror ()
