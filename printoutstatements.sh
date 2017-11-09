@@ -13,7 +13,7 @@ printdetectedsystem ()
 
 printdownloading ()
 {
-	printf "\033[0m\n 🕑 \033[36;1m<\033[0m 🕛 Now downloading \033[36;1m$file\033[0m and the corresponding checksum.  This may take a long time depending on your Internet speed.  \n\n"
+	printf "\033[36;1m\n 🕑 < 🕛 Now downloading $file and the corresponding checksum.  \033[37;1mThis may take a long time depending on your Internet speed.  \033[0m\n\n"
 }
 
 printfooter()
@@ -23,7 +23,7 @@ printfooter()
 
 printmd5check ()
 {
-	printf "\033[0m\n 🕠 \033[36;1m<\033[0m 🕛 Checking download integrity with md5sum.  This may take a little while.  \n\n 🕕 \033[36;1m< 🕛 "
+	printf "\033[36;1m\n 🕠 < 🕛 Checking download integrity with md5sum.  \033[37;1mThis may take a little while.  \033[0m\n\n 🕕 \033[36;1m< 🕛 "
 }
 
 printmd5error ()
@@ -34,7 +34,7 @@ printmd5error ()
 
 printmd5success ()
 {
-	printf "\033[0m\n\033[36;1m 🕡 \033[36;1m< 🕛 Downloaded files integrity: OK  \n\n\033[0m 🕖 \033[36;1m<\033[0m 🕛 Now uncompressing \033[36;1m$file\033[0m.  \033[37;1mThis will take much longer!  Be patient.  \033[0m\n"
+	printf "\033[0m\n\033[36;1m 🕡 < 🕛 Downloaded files integrity: OK  \n\n 🕖 < 🕛 Now uncompressing $file.  \033[37;1mThis will take much longer!  Be patient.  \033[0m\n"
 }
 
 printmd5syschkerror ()
