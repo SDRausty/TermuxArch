@@ -140,7 +140,7 @@ makesystem ()
 preproot ()
 {
 	if [ "$(uname -m)" = "x86_64" ] || [ "$(uname -m)" = "i686" ];then
-		proot --link2symlink bsdtar -xpf --strip-components 1 $file 2>/dev/null||:
+		proot --link2symlink bsdtar -xpf $file --strip-components 1 2>/dev/null||:
 	else
 		proot --link2symlink bsdtar -xpf $file 2>/dev/null||:
 	fi
