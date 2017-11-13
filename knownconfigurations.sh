@@ -52,7 +52,7 @@ x86_64 ()
 	# Wants to download latest file..
 	file=archlinux-bootstrap-2017.11.01-x86_64.tar.gz
 	mirror=mirrors.evowise.com
-	path=/archlinux/iso/latest
+	path=/archlinux/iso/latest/
 	makesystem 
 }
 
