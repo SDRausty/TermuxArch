@@ -1,0 +1,29 @@
+#!/bin/bash
+
+# prints colored text
+print_style () {
+
+    if [ "$2" == "info" ] ; then
+        COLOR="018m";
+    elif [ "$2" == "success" ] ; then
+        COLOR="019m";
+    elif [ "$2" == "warning" ] ; then
+        COLOR="020m";
+    elif [ "$2" == "danger" ] ; then
+        COLOR="021m";
+	#'\e[48;5;%dm%03d'
+    else #default color
+        COLOR="0m";
+    fi
+
+    STARTCOLOR="\e[48;5;$COLOR";
+    ENDCOLOR="\e[0m";
+
+    printf "$STARTCOLOR%b$ENDCOLOR" "$1";
+}
+
+print_style "This is a green text " "success";
+print_style "This is a yellow text " "warning";
+print_style "This is a light blue with a \t tab " "info";
+print_style "This is a red text with a \n new line " "danger";
+print_style "This has no color";
