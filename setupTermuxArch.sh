@@ -124,7 +124,7 @@ rmds ()
 }
 
 bin=startarch
-dfl="/gen"
+#dfl="/gen"
 dm=wget
 
 if [[ $1 = [Cc]* ]] || [[ $1 = -[Cc]* ]] || [[ $1 = --[Cc]* ]] || [[ $1 = [Cc]*[Ii]* ]] || [[ $1 = -[Cc]*[Ii]* ]] || [[ $1 = --[Cc]*[Ii]* ]];then

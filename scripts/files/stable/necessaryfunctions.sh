@@ -7,12 +7,20 @@
 adjustmd5file ()
 {
 	if [ $(uname -m) = x86_64 ] || [ $(uname -m) = i686 ];then
-		wget -q -N --show-progress http://$mirror${path}md5sums.txt
+		if [[ $dm = wget ]];then 
+			wget -q -N --show-progress http://$mirror${path}md5sums.txt
+		else
+			curl --fail --retry 4 -o $mirror${path}md5sums.txt http://$mirror${path}md5sums.txt
+		fi
 		filename=$(ls *tar.gz)
 		sed '2q;d' md5sums.txt > $filename.md5
 		rm md5sums.txt
 	else
-		wget -q -N --show-progress http://$mirror$path$file.md5
+		if [[ $dm = wget ]];then 
+			wget -q -N --show-progress http://$mirror$path$file.md5 
+		else
+			curl --fail --retry 4 -o $mirror$path$file.md5  http://$mirror$path$file.md5
+		fi
 	fi
 }
 
@@ -84,11 +92,21 @@ detectsystem2p ()
 
 getimage ()
 {
-	# Get latest image for x86_64 wants refinement.  __Continue does not work.__ 
 	if [ $(getprop ro.product.cpu.abi) = x86_64 ];then
-		wget -A tar.gz -m -nd -np http://$mirror$path
+		if [[ $dm = wget ]];then 
+			# Get latest image for x86_64 via `wget` wants refinement.  Continue is not implemented. 
+			wget -A tar.gz -m -nd -np http://$mirror$path
+		else
+			# The `curl` self.-updating code is unknown at present.
+			printf "\nDefaulting to `wget` for x86_64 system image download.  \n"
+			wget -A tar.gz -m -nd -np http://$mirror$path
+		fi
 	else
-		wget -q -c --show-progress http://$mirror$path$file
+		if [[ $dm = wget ]];then 
+			wget -q -c --show-progress http://$mirror$path$file 
+		else
+			curl --fail --retry 4 -o "$file" http://$mirror$path$file
+		fi
 	fi
 }
 
@@ -224,9 +242,9 @@ sysinfo ()
 	if [ -d /storage/emulated/0/Download ]; then echo "/storage/emulated/0/Download exists"; else echo "/storage/emulated/0/Download not found"; fi >> setupTermuxArchdebug$ntime.log
 	printf "\nuname -mo results:\n\n" >> setupTermuxArchdebug$ntime.log
 	uname -mo >> setupTermuxArchdebug$ntime.log
-	printf "\nEnd setupTermuxArch debug information.\n\nPost this information along with information regarding your issue at https://github.com/sdrausty/TermuxArch/issues.  This debugging information is found in $(pwd)/$(ls setupTermuxArchdebug$ntime.log).  If you think screenshots will help in resolving this matter better, include them in your post please.  \n" >> setupTermuxArchdebug$ntime.log
+	printf "\nEnd \`setupTermuxArch.sh\` debug information.\n\nPost this information along with information regarding your issue at https://github.com/sdrausty/TermuxArch/issues.  Include information about input and output.  This debugging information is found in $(pwd)/$(ls setupTermuxArchdebug$ntime.log).  If you think screenshots will help in resolving this matter better, include them in your post please.  \n" >> setupTermuxArchdebug$ntime.log
 	cat setupTermuxArchdebug$ntime.log
-	printf "\n\033[0mSubmit this information if you plan to open up an issue at https://github.com/sdrausty/TermuxArch/issues to improve this installation script along with a screenshot of your topic.  \n"
+	printf "\n\033[0mSubmit this information if you plan to open up an issue at https://github.com/sdrausty/TermuxArch/issues to improve this installation script along with a screenshot of your topic.  Include information about input and output.  \n"
 }
 
 touchupsys ()
