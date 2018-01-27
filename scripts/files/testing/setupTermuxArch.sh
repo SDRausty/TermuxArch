@@ -41,7 +41,7 @@ depends ()
 
 downloadtargz ()
 {
-if [[ $dm = "curl" ]];then
+if [[ $dm = wget ]];then
 	wget -q -N --show-progress https://raw.githubusercontent.com/sdrausty/TermuxArch/master$dflag/setupTermuxArch.tar.gz
 	wget -q -N --show-progress https://raw.githubusercontent.com/sdrausty/TermuxArch/master$dflag/setupTermuxArch.md5 
 	printf "\n"
