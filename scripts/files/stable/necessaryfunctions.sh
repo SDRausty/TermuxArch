@@ -75,9 +75,9 @@ detectsystem2 ()
 detectsystem2p ()
 {
 	if [[ $(getprop ro.product.device) == *_cheets ]];then
-	printf "Chromebook.  \n\033[0m"
+	printf "Chromebook.  "
 	else
-	printf "$(uname -o) Operating System.  \n\033[0m"
+	printf "$(uname -o) Operating System.  "
 	fi
 }
 
@@ -185,6 +185,17 @@ setlocalegen()
 		en_US.UTF-8 UTF-8 
 		EOM
 	fi
+}
+
+spaceinfo ()
+{
+space=`df /storage/emulated/0 | awk '{print $4}' | sed '2q;d'`
+if [[ $space = *G ]] || [[ $space = *T ]];then
+	spaceMessage=""
+else
+	spaceMessage="Warning!  Start thinking about cleaning out some stuff.  The user space on this device has just $space."
+fi
+#printf "\nDisk report $spaceMessage on `date`\n" #should be added to sysinfo
 }
 
 sysinfo ()
