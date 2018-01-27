@@ -1,7 +1,6 @@
 #!/bin/bash
 # Copyright 2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
 # Website for this project at https://sdrausty.github.io/dfa
-# This script does a very simple test for checking disk space on Android, Chromebook and Fire OS. 
 
 pwd | grep -o '[^/]*$'
 pwd |sed 's!.*/!!'
