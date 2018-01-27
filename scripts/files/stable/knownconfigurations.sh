@@ -1,5 +1,5 @@
 #!/data/data/com.termux/files/usr/bin/bash -e
-# Copyright 2017 by SDRausty. All rights reserved.
+# Copyright 2017-2018 by SDRausty. All rights reserved.
 # Website for this project at https://sdrausty.github.io/TermuxArch
 # See https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank You 
 # Detected configurations. Change mirror to your desired geographic location.

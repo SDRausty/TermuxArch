@@ -1,5 +1,5 @@
 #!/data/data/com.termux/files/usr/bin/bash -e
-# Copyright 2017 by SDRausty. All rights reserved.
+# Copyright 2017-2018 by SDRausty. All rights reserved.
 # Website for this project at https://sdrausty.github.io/TermuxArch
 # See https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank You 
 ################################################################################
@@ -145,6 +145,37 @@ preproot ()
 	fi
 }
 
+rmarch ()
+{
+	while true; do
+	printf "\n\033[1;31m"
+	read -p "Run purge to uninstall Arch Linux? [y|n]  " uanswer
+	if [[ $uanswer = [Ee]* ]] || [[ $uanswer = [Nn]* ]] || [[ $uanswer = [Qq]* ]];then
+		break
+	elif [[ $uanswer = [Yy]* ]];then
+	printf "\nUninstalling Arch Linux...  \033[1;32m\n"
+	if [ -e $PREFIX/bin/$bin ] ;then
+	       	rm $PREFIX/bin/$bin 
+	else 
+		printf "Uninstalling Arch Linux, nothing to do for $PREFIX/bin/$bin.\n"
+       	fi
+	if [ -d $HOME/arch ] ;then
+		cd $HOME/arch
+		rm -rf * 2>/dev/null||:
+		find -type d -exec chmod 700 {} \; 2>/dev/null||:
+		cd ..
+		rm -rf $HOME/arch
+	else 
+		printf "Uninstalling Arch Linux, nothing to do for $HOME/arch.\n"
+	fi
+	printf "Uninstalling Arch Linux done.  \n"
+	printtail
+	else
+		printf "\nYou answered \033[33;1m$uanswer\033[1;31m.\n\nAnswer \033[32mYes\033[1;31m or No. [\033[32my\033[1;31m|n]\n"
+	fi
+	done
+}
+
 setlocalegen()
 {
 	if [ -e etc/locale.gen ]; then
@@ -156,18 +187,47 @@ setlocalegen()
 	fi
 }
 
+sysinfo ()
+{
+	printf "\n\033[1;32m"
+	printf "Begin setupTermuxArch debug information.\n\n" > setupTermuxArchDebug.log
+	date >> setupTermuxArchDebug.log 
+	for n in 0 1 2 3 4 5 
+	do 
+		echo "BASH_VERSINFO[$n] = ${BASH_VERSINFO[$n]}"  >> setupTermuxArchDebug.log
+	done
+	printf "\ncat /proc/cpuinfo results:\n\n" >> setupTermuxArchDebug.log
+	cat /proc/cpuinfo >> setupTermuxArchDebug.log
+	printf "\ndpkg --print-architecture result:\n\n" >> setupTermuxArchDebug.log
+	dpkg --print-architecture >> setupTermuxArchDebug.log
+	printf "\ngetprop ro.product.cpu.abi result:\n\n" >> setupTermuxArchDebug.log
+	getprop ro.product.cpu.abi >> setupTermuxArchDebug.log
+	printf "\ngetprop ro.product.device result:\n\n" >> setupTermuxArchDebug.log
+	getprop ro.product.device >> setupTermuxArchDebug.log
+	printf "\nDownload directory information results.\n\n" >> setupTermuxArchDebug.log
+	ls -al ~/storage/downloads  2>>setupTermuxArchDebug.log >> setupTermuxArchDebug.log ||:
+	ls -al ~/downloads 2>>setupTermuxArchDebug.log  >> setupTermuxArchDebug.log ||:
+	if [ -d /sdcard/Download ]; then echo "/sdcard/Download exists"; else echo "/sdcard/Download not found"; fi >> setupTermuxArchDebug.log 
+	if [ -d /storage/emulated/0/Download ]; then echo "/storage/emulated/0/Download exists"; else echo "/storage/emulated/0/Download not found"; fi >> setupTermuxArchDebug.log
+	printf "\nuname -mo results:\n\n" >> setupTermuxArchDebug.log
+	uname -mo >> setupTermuxArchDebug.log
+	printf "\nEnd setupTermuxArch debug information.\n\nPost this information along with information regarding your issue at https://github.com/sdrausty/TermuxArch/issues.  This debugging information is found in $(pwd)/$(ls setupTermuxArchDebug.log).  If you think screenshots will help in resolving this matter better, include them in your post please.  " >> setupTermuxArchDebug.log
+	cat setupTermuxArchDebug.log
+}
+
 touchupsys ()
 {
 	mkdir -p root/bin
 	addbash_profile 
 	addbashrc 
-	addprofile 
+	adddfa
 	addga
 	addgcl
 	addgcm
 	addgp
 	addgpl
 	addmotd
+	addprofile 
 	addresolvconf 
 	addt 
 	addyt 
