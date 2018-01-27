@@ -42,12 +42,12 @@ depends ()
 dwnl ()
 {
 if [[ $dm = wget ]];then
-	wget -q -N --show-progress https://raw.githubusercontent.com/sdrausty/TermuxArch/master$dflag/setupTermuxArch.tar.gz
-	wget -q -N --show-progress https://raw.githubusercontent.com/sdrausty/TermuxArch/master$dflag/setupTermuxArch.md5 
+	wget -q -N --show-progress https://raw.githubusercontent.com/sdrausty/TermuxArch/master$dfl/setupTermuxArch.tar.gz
+	wget -q -N --show-progress https://raw.githubusercontent.com/sdrausty/TermuxArch/master$dfl/setupTermuxArch.md5 
 	printf "\n"
 else
-	curl --fail --retry 4 -o setupTermuxArch.tar.gz https://raw.githubusercontent.com/sdrausty/TermuxArch/master$dflag/setupTermuxArch.tar.gz
-	curl --fail --retry 4 -o setupTermuxArch.md5 https://raw.githubusercontent.com/sdrausty/TermuxArch/master$dflag/setupTermuxArch.md5
+	curl --fail --retry 4 -o setupTermuxArch.tar.gz https://raw.githubusercontent.com/sdrausty/TermuxArch/master$dfl/setupTermuxArch.tar.gz
+	curl --fail --retry 4 -o setupTermuxArch.md5 https://raw.githubusercontent.com/sdrausty/TermuxArch/master$dfl/setupTermuxArch.md5
 	printf "\n"
 fi
 }
@@ -124,8 +124,7 @@ rmds ()
 }
 
 bin=startarch
-#dflag="/scripts/files"
-dflag=""
+dfl="/gen"
 dm=wget
 
 if [[ $1 = [Cc]* ]] || [[ $1 = -[Cc]* ]] || [[ $1 = --[Cc]* ]] || [[ $1 = [Cc]*[Ii]* ]] || [[ $1 = -[Cc]*[Ii]* ]] || [[ $1 = --[Cc]*[Ii]* ]];then
@@ -153,4 +152,3 @@ else
 	printusage
 	printtail
 fi
-
