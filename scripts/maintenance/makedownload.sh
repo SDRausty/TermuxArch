@@ -6,9 +6,16 @@
 
 cdir=${PWD##*/}        
 cp setupTermuxArch.sh ../../..
+ls -al setupTermuxArch.sh 
+pwd
 md5sum *sh > termuxarchchecksum.md5 
 cd ../../..
+pwd
 bsdtar -czv -f setupTermuxArch.tar.gz --strip-components 3 scripts/files/$cdir/*
 rm scripts/files/$cdir/termuxarchchecksum.md5
 md5sum setupTermuxArch.tar.gz > setupTermuxArch.md5
+pwd
+ls -al setupTermuxArch.md5
+ls -al setupTermuxArch.sh 
+ls -al setupTermuxArch.tar.gz 
 
