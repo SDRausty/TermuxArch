@@ -1,0 +1,84 @@
+Begin setupTermuxArch debug information.
+
+Disk report 2.08G on /storage/emulated/0 Sat Jan 27 17:42:22 EST 2018
+
+BASH_VERSINFO[0] = 4
+BASH_VERSINFO[1] = 4
+BASH_VERSINFO[2] = 12
+BASH_VERSINFO[3] = 1
+BASH_VERSINFO[4] = release
+BASH_VERSINFO[5] = arm-unknown-linux-androideabi
+
+cat /proc/cpuinfo results:
+
+processor	: 0
+model name	: ARMv7 Processor rev 5 (v7l)
+BogoMIPS	: 38.40
+Features	: swp half thumb fastmult vfp edsp neon vfpv3 tls vfpv4 idiva idivt vfpd32 evtstrm 
+CPU implementer	: 0x41
+CPU architecture: 7
+CPU variant	: 0x0
+CPU part	: 0xc07
+CPU revision	: 5
+
+processor	: 1
+model name	: ARMv7 Processor rev 5 (v7l)
+BogoMIPS	: 38.40
+Features	: swp half thumb fastmult vfp edsp neon vfpv3 tls vfpv4 idiva idivt vfpd32 evtstrm 
+CPU implementer	: 0x41
+CPU architecture: 7
+CPU variant	: 0x0
+CPU part	: 0xc07
+CPU revision	: 5
+
+processor	: 2
+model name	: ARMv7 Processor rev 5 (v7l)
+BogoMIPS	: 38.40
+Features	: swp half thumb fastmult vfp edsp neon vfpv3 tls vfpv4 idiva idivt vfpd32 evtstrm 
+CPU implementer	: 0x41
+CPU architecture: 7
+CPU variant	: 0x0
+CPU part	: 0xc07
+CPU revision	: 5
+
+processor	: 3
+model name	: ARMv7 Processor rev 5 (v7l)
+BogoMIPS	: 38.40
+Features	: swp half thumb fastmult vfp edsp neon vfpv3 tls vfpv4 idiva idivt vfpd32 evtstrm 
+CPU implementer	: 0x41
+CPU architecture: 7
+CPU variant	: 0x0
+CPU part	: 0xc07
+CPU revision	: 5
+
+Hardware	: Qualcomm Technologies, Inc MSM8909
+Revision	: 0000
+Serial		: 0000000000000000
+Processor	: ARMv7 Processor rev 5 (v7l)
+
+dpkg --print-architecture result:
+
+arm
+
+getprop ro.product.cpu.abi result:
+
+armeabi-v7a
+
+getprop ro.product.device result:
+
+m1
+
+Download directory information results.
+
+lrwxrwxrwx 1 u0_a119 u0_a119 28 Jan 17 09:31 /data/data/com.termux/files/home/storage/downloads -> /storage/emulated/0/Download
+ls: cannot access '/data/data/com.termux/files/home/downloads': No such file or directory
+/sdcard/Download exists
+/storage/emulated/0/Download exists
+
+uname -mo results:
+
+armv7l Android
+
+End `setupTermuxArch.sh` debug information.
+
+Post this information along with information regarding your issue at https://github.com/sdrausty/TermuxArch/issues.  Include information about input and output.  This debugging information is found in /data/data/com.termux/files/home/git/sdrausty/TermuxArch/setupTermuxArchdebug875255471.log.  If you think screenshots will help in resolving this matter better, include them in your post please.  

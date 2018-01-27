@@ -127,14 +127,14 @@ bin=startarch
 #dfl="/gen"
 dm=wget
 
-if [[ $1 = [Cc]* ]] || [[ $1 = -[Cc]* ]] || [[ $1 = --[Cc]* ]] || [[ $1 = [Cc]*[Ii]* ]] || [[ $1 = -[Cc]*[Ii]* ]] || [[ $1 = --[Cc]*[Ii]* ]] ;then
-	dm=curl
-	mainblock
-elif [[ $1 = [Cc]*[Pp]* ]] || [[ $1 = -[Cc]*[Pp]* ]] || [[ $1 = --[Cc]*[Pp]* ]] || [[ $1 = [Cc]*[Uu]* ]] || [[ $1 = -[Cc]*[Uu]* ]] || [[ $1 = --[Cc]*[Uu]* ]] ;then
+if [[ $1 = [Cc][Pp]* ]] || [[ $1 = -[Cc][Pp]* ]] || [[ $1 = --[Cc][Pp]* ]] || [[ $1 = [Cc][Uu]* ]] || [[ $1 = -[Cc]*[Uu]* ]] || [[ $1 = --[Cc]*[Uu]* ]] ;then
 	dm=curl
 	depends
 	rmarch
 	printtail
+elif [[ $1 = [Cc]* ]] || [[ $1 = -[Cc]* ]] || [[ $1 = --[Cc]* ]] || [[ $1 = [Cc][Ii]* ]] || [[ $1 = -[Cc][Ii]* ]] || [[ $1 = --[Cc][Ii]* ]] ;then
+	dm=curl
+	mainblock
 elif [[ $1 = "" ]] || [[ $1 = [Ii]* ]] || [[ $1 = -[Ii]* ]] || [[ $1 = --[Ii]* ]] ;then
 	mainblock
 elif [[ $1 = [Dd]* ]] || [[ $1 = -[Dd]* ]] || [[ $1 = --[Dd]* ]] || [[ $1 = [Ss]* ]] || [[ $1 = -[Ss]* ]] || [[ $1 = --[Ss]* ]] ;then
