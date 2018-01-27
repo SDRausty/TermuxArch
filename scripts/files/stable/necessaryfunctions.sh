@@ -195,14 +195,13 @@ if [[ $space = *G ]] || [[ $space = *T ]];then
 else
 	spaceMessage="Warning!  Start thinking about cleaning out some stuff.  The user space on this device has just $space."
 fi
-#printf "\nDisk report $spaceMessage on `date`\n" #should be added to sysinfo
 }
 
 sysinfo ()
 {
 	printf "\n\033[1;32m"
-	printf "Begin setupTermuxArch debug information.\n\n" > setupTermuxArchDebug.log
-	date >> setupTermuxArchDebug.log 
+	printf "Begin setupTermuxArch debug information.\n" > setupTermuxArchDebug.log
+	printf "\nDisk report $spaceMessage on `date`\n" >> setupTermuxArchDebug.log 
 	for n in 0 1 2 3 4 5 
 	do 
 		echo "BASH_VERSINFO[$n] = ${BASH_VERSINFO[$n]}"  >> setupTermuxArchDebug.log

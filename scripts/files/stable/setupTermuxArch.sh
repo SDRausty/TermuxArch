@@ -4,8 +4,6 @@
 # See https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank You! 
 ################################################################################
 
-bin=startarch
-
 printoneoclock ()
 {
 	printf "If you do not see 🕐 one o'clock below, check your Internet connection and run this script again.  "
@@ -87,6 +85,8 @@ rmds ()
 	rm setupTermuxArch.md5
 	rm setupTermuxArch.tar.gz
 }
+
+bin=startarch
 
 if [[ $1 = "" ]] || [[ $1 = [Ii]* ]] || [[ $1 = -[Ii]* ]] || [[ $1 = --[Ii]* ]];then
 	depends
