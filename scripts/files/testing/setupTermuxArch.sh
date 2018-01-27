@@ -42,12 +42,12 @@ depends ()
 downloadtargz ()
 {
 if [[ $dm = "curl" ]];then
-	wget -q -N --show-progress https://raw.githubusercontent.com/sdrausty/TermuxArch/master$flag/setupTermuxArch.tar.gz
-	wget -q -N --show-progress https://raw.githubusercontent.com/sdrausty/TermuxArch/master$flag/setupTermuxArch.md5 
+	wget -q -N --show-progress https://raw.githubusercontent.com/sdrausty/TermuxArch/master$dflag/setupTermuxArch.tar.gz
+	wget -q -N --show-progress https://raw.githubusercontent.com/sdrausty/TermuxArch/master$dflag/setupTermuxArch.md5 
 	printf "\n"
 else
-	curl --fail --retry 4 -o setupTermuxArch.tar.gz https://raw.githubusercontent.com/sdrausty/TermuxArch/master$flag/setupTermuxArch.tar.gz
-	curl --fail --retry 4 -o setupTermuxArchcurl.md5 https://raw.githubusercontent.com/sdrausty/TermuxArch/master$flag/setupTermuxArch.md5
+	curl --fail --retry 4 -o setupTermuxArch.tar.gz https://raw.githubusercontent.com/sdrausty/TermuxArch/master$dflag/setupTermuxArch.tar.gz
+	curl --fail --retry 4 -o setupTermuxArch.md5 https://raw.githubusercontent.com/sdrausty/TermuxArch/master$dflag/setupTermuxArch.md5
 	printf "\n"
 fi
 }
@@ -125,10 +125,12 @@ rmds ()
 
 bin=startarch
 dm=wget
-flag=/scripts/files
+dflag="/scripts/files"
 
 if [[ $1 = [Cc]* ]] || [[ $1 = -[Cc]* ]] || [[ $1 = --[Cc]* ]];then
 	dm=curl
+fi
+
 if [[ $1 = "" ]] || [[ $1 = [Ii]* ]] || [[ $1 = -[Ii]* ]] || [[ $1 = --[Ii]* ]];then
 	mainblock
 elif [[ $1 = [Dd]* ]] || [[ $1 = -[Dd]* ]] || [[ $1 = --[Dd]* ]] || [[ $1 = [Ss]* ]] || [[ $1 = -[Ss]* ]] || [[ $1 = --[Ss]* ]];then
@@ -145,6 +147,5 @@ elif [[ $1 = [Pp]* ]] || [[ $1 = -[Pp]* ]] || [[ $1 = --[Pp]* ]] || [[ $1 = [Uu]
 else
 	printusage
 	printtail
-fi
 fi
 
