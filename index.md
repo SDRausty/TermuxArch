@@ -1,5 +1,5 @@
 # [TermuxArch](https://github.com/sdrausty/TermuxArch)
-[![Join the chat at https://gitter.im/termux/termux](https://badges.gitter.im/termux/termux.svg)](https://gitter.im/termux/termux)  Termux developers, contributors and users welcome.   
+[![Join the chat at https://gitter.im/termux/termux](https://badges.gitter.im/termux/termux.svg)](https://gitter.im/termux/termux)  Termux developer questions welcome.   
 
 ##### -rwxrwx--- [setupTermuxArch.sh](https://sdrausty.github.io/TermuxArch/setupTermuxArch.sh) 
 ##### -r--r--r-- [setupTermuxArch.sh](https://raw.githubusercontent.com/sdrausty/TermuxArch/master/scripts/files/stable/setupTermuxArch.sh)

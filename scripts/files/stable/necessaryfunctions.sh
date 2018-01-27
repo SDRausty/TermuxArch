@@ -47,6 +47,7 @@ copybin2path ()
 
 detectsystem ()
 {
+	spaceinfo
 	printdetectedsystem
 	if [ $(getprop ro.product.cpu.abi) = armeabi ];then
 		armv5l
