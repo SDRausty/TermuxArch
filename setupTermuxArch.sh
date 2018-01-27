@@ -41,9 +41,15 @@ depends ()
 
 downloadtargz ()
 {
-	wget -q -N --show-progress https://raw.githubusercontent.com/sdrausty/TermuxArch/master/setupTermuxArch.tar.gz
-	wget -q -N --show-progress https://raw.githubusercontent.com/sdrausty/TermuxArch/master/setupTermuxArch.md5 
+if [[ $dm = wget ]];then
+	wget -q -N --show-progress https://raw.githubusercontent.com/sdrausty/TermuxArch/master$dflag/setupTermuxArch.tar.gz
+	wget -q -N --show-progress https://raw.githubusercontent.com/sdrausty/TermuxArch/master$dflag/setupTermuxArch.md5 
 	printf "\n"
+else
+	curl --fail --retry 4 -o setupTermuxArch.tar.gz https://raw.githubusercontent.com/sdrausty/TermuxArch/master$dflag/setupTermuxArch.tar.gz
+	curl --fail --retry 4 -o setupTermuxArch.md5 https://raw.githubusercontent.com/sdrausty/TermuxArch/master$dflag/setupTermuxArch.md5
+	printf "\n"
+fi
 }
 
 installtermuxdepends()
@@ -118,12 +124,16 @@ rmds ()
 }
 
 bin=startarch
-downloadmethod=wget
+dm=wget
+#dflag="/scripts/files"
+dflag=""
 
-if [[ $1 = "" ]] || [[ $1 = [Ii]* ]] || [[ $1 = -[Ii]* ]] || [[ $1 = --[Ii]* ]];then
-	mainblock
-elif [[ $1 = [Cc]* ]] || [[ $1 = -[Cc]* ]] || [[ $1 = --[Cc]* ]];then
-	downloadmethod=curl
+if [[ $1 = [Cc]* ]] || [[ $1 = -[Cc]* ]] || [[ $1 = --[Cc]* ]];then
+	dm=curl
+	depends
+	sysinfo 
+	printtail
+elif [[ $1 = "" ]] || [[ $1 = [Ii]* ]] || [[ $1 = -[Ii]* ]] || [[ $1 = --[Ii]* ]];then
 	mainblock
 elif [[ $1 = [Dd]* ]] || [[ $1 = -[Dd]* ]] || [[ $1 = --[Dd]* ]] || [[ $1 = [Ss]* ]] || [[ $1 = -[Ss]* ]] || [[ $1 = --[Ss]* ]];then
 	depends

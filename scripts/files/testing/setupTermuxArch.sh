@@ -125,7 +125,8 @@ rmds ()
 
 bin=startarch
 dm=wget
-dflag="/scripts/files"
+#dflag="/scripts/files"
+dflag=""
 
 if [[ $1 = [Cc]* ]] || [[ $1 = -[Cc]* ]] || [[ $1 = --[Cc]* ]];then
 	dm=curl
