@@ -105,7 +105,7 @@ getimage ()
 		if [[ $dm = wget ]];then 
 			wget -q -c --show-progress http://$mirror$path$file 
 		else
-			curl -C --fail --retry 4 -o $mirror$path$file http://$mirror$path$file
+			curl --fail --retry 4 -o $mirror$path$file http://$mirror$path$file
 		fi
 	fi
 }
