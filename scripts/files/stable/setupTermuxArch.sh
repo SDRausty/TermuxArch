@@ -5,14 +5,10 @@
 ################################################################################
 
 bin=startarch
-#flag="/scripts/files/experimental"
-#flag="/scripts/files/stable"
-flag=""
 
 printoneoclock ()
 {
 	printf "If you do not see 🕐 one o'clock below, check your Internet connection and run this script again.  "
-
 }
 
 
