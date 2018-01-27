@@ -190,40 +190,42 @@ setlocalegen()
 
 spaceinfo ()
 {
-space=`df /storage/emulated/0 | awk '{print $4}' | sed '2q;d'`
-if [[ $space = *G ]] || [[ $space = *T ]];then
+mntspace=`df /storage/emulated/0 | awk '{print $4}' | sed '2q;d'`
+if [[ $mntspace = *G ]] || [[ $mntspace = *T ]];then
 	spaceMessage=""
 else
-	spaceMessage="Warning!  Start thinking about cleaning out some stuff.  The user space on this device has just $space."
+	spaceMessage="Warning!  Start thinking about cleaning out some stuff.  The user space on this device is just $mntspace.  This is below the recommended amount of free space to install Arch Linux in Termux PRoot."
 fi
 }
 
 sysinfo ()
 {
+	ntime=`date +%N`
+	spaceinfo
 	printf "\n\033[1;32m"
-	printf "Begin setupTermuxArch debug information.\n" > setupTermuxArchDebug.log
-	printf "\nDisk report $spaceMessage on `date`\n" >> setupTermuxArchDebug.log 
+	printf "Begin setupTermuxArch debug information.\n" > setupTermuxArchdebug$ntime.log
+	printf "\nDisk report $mntspace on /storage/emulated/0 `date`\n\n" >> setupTermuxArchdebug$ntime.log 
 	for n in 0 1 2 3 4 5 
 	do 
-		echo "BASH_VERSINFO[$n] = ${BASH_VERSINFO[$n]}"  >> setupTermuxArchDebug.log
+		echo "BASH_VERSINFO[$n] = ${BASH_VERSINFO[$n]}"  >> setupTermuxArchdebug$ntime.log
 	done
-	printf "\ncat /proc/cpuinfo results:\n\n" >> setupTermuxArchDebug.log
-	cat /proc/cpuinfo >> setupTermuxArchDebug.log
-	printf "\ndpkg --print-architecture result:\n\n" >> setupTermuxArchDebug.log
-	dpkg --print-architecture >> setupTermuxArchDebug.log
-	printf "\ngetprop ro.product.cpu.abi result:\n\n" >> setupTermuxArchDebug.log
-	getprop ro.product.cpu.abi >> setupTermuxArchDebug.log
-	printf "\ngetprop ro.product.device result:\n\n" >> setupTermuxArchDebug.log
-	getprop ro.product.device >> setupTermuxArchDebug.log
-	printf "\nDownload directory information results.\n\n" >> setupTermuxArchDebug.log
-	ls -al ~/storage/downloads  2>>setupTermuxArchDebug.log >> setupTermuxArchDebug.log ||:
-	ls -al ~/downloads 2>>setupTermuxArchDebug.log  >> setupTermuxArchDebug.log ||:
-	if [ -d /sdcard/Download ]; then echo "/sdcard/Download exists"; else echo "/sdcard/Download not found"; fi >> setupTermuxArchDebug.log 
-	if [ -d /storage/emulated/0/Download ]; then echo "/storage/emulated/0/Download exists"; else echo "/storage/emulated/0/Download not found"; fi >> setupTermuxArchDebug.log
-	printf "\nuname -mo results:\n\n" >> setupTermuxArchDebug.log
-	uname -mo >> setupTermuxArchDebug.log
-	printf "\nEnd setupTermuxArch debug information.\n\nPost this information along with information regarding your issue at https://github.com/sdrausty/TermuxArch/issues.  This debugging information is found in $(pwd)/$(ls setupTermuxArchDebug.log).  If you think screenshots will help in resolving this matter better, include them in your post please.  " >> setupTermuxArchDebug.log
-	cat setupTermuxArchDebug.log
+	printf "\ncat /proc/cpuinfo results:\n\n" >> setupTermuxArchdebug$ntime.log
+	cat /proc/cpuinfo >> setupTermuxArchdebug$ntime.log
+	printf "\ndpkg --print-architecture result:\n\n" >> setupTermuxArchdebug$ntime.log
+	dpkg --print-architecture >> setupTermuxArchdebug$ntime.log
+	printf "\ngetprop ro.product.cpu.abi result:\n\n" >> setupTermuxArchdebug$ntime.log
+	getprop ro.product.cpu.abi >> setupTermuxArchdebug$ntime.log
+	printf "\ngetprop ro.product.device result:\n\n" >> setupTermuxArchdebug$ntime.log
+	getprop ro.product.device >> setupTermuxArchdebug$ntime.log
+	printf "\nDownload directory information results.\n\n" >> setupTermuxArchdebug$ntime.log
+	ls -al ~/storage/downloads  2>>setupTermuxArchdebug$ntime.log >> setupTermuxArchdebug$ntime.log||:
+	ls -al ~/downloads 2>>setupTermuxArchdebug$ntime.log  >> setupTermuxArchdebug$ntime.log||:
+	if [ -d /sdcard/Download ]; then echo "/sdcard/Download exists"; else echo "/sdcard/Download not found"; fi >> setupTermuxArchdebug$ntime.log 
+	if [ -d /storage/emulated/0/Download ]; then echo "/storage/emulated/0/Download exists"; else echo "/storage/emulated/0/Download not found"; fi >> setupTermuxArchdebug$ntime.log
+	printf "\nuname -mo results:\n\n" >> setupTermuxArchdebug$ntime.log
+	uname -mo >> setupTermuxArchdebug$ntime.log
+	printf "\nEnd setupTermuxArch debug information.\n\nPost this information along with information regarding your issue at https://github.com/sdrausty/TermuxArch/issues.  This debugging information is found in $(pwd)/$(ls setupTermuxArchdebug$ntime.log).  If you think screenshots will help in resolving this matter better, include them in your post please.  \n" >> setupTermuxArchdebug$ntime.log
+	cat setupTermuxArchdebug$ntime.log
 	printf "\n\033[0mSubmit this information if you plan to open up an issue at https://github.com/sdrausty/TermuxArch/issues to improve this installation script along with a screenshot of your topic.  \n"
 }
 

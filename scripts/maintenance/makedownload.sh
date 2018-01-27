@@ -4,6 +4,7 @@
 # See https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank You 
 #############################################################################
 
+cdir=${PWD##*/}        
 cp setupTermuxArch.sh ../../..
 ls -al setupTermuxArch.sh 
 pwd
@@ -11,7 +12,7 @@ md5sum *sh > termuxarchchecksum.md5
 cd ../../..
 pwd
 bsdtar -czv -f setupTermuxArch.tar.gz --strip-components 3 scripts/files/stable/*
-rm scripts/files/stable/termuxarchchecksum.md5
+rm scripts/files/$cdir/termuxarchchecksum.md5
 md5sum setupTermuxArch.tar.gz > setupTermuxArch.md5
 pwd
 ls -al setupTermuxArch.md5
