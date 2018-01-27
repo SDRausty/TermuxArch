@@ -223,7 +223,7 @@ sysinfo ()
 	uname -mo >> setupTermuxArchDebug.log
 	printf "\nEnd setupTermuxArch debug information.\n\nPost this information along with information regarding your issue at https://github.com/sdrausty/TermuxArch/issues.  This debugging information is found in $(pwd)/$(ls setupTermuxArchDebug.log).  If you think screenshots will help in resolving this matter better, include them in your post please.  " >> setupTermuxArchDebug.log
 	cat setupTermuxArchDebug.log
-	printf "Submit this information if you plan to open up an issue at https://github.com/sdrausty/TermuxArch/issues to improve this installation script along with a screenshot of your topic.  \n"
+	printf "\n\033[0mSubmit this information if you plan to open up an issue at https://github.com/sdrausty/TermuxArch/issues to improve this installation script along with a screenshot of your topic.  \n"
 }
 
 touchupsys ()
