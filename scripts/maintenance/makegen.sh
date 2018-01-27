@@ -21,4 +21,6 @@ pwd
 ls -al setupTermuxArch.md5
 ls -al setupTermuxArch.sh 
 ls -al setupTermuxArch.tar.gz 
+mv set* ../../gen
+ls -al  ../../gen
 

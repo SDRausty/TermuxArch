@@ -4,7 +4,7 @@
 # See https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank You! 
 ################################################################################
 
-checksetupTermuxArch()
+chk ()
 {
 if md5sum -c termuxarchchecksum.md5 ; then
 	. archsystemconfigs.sh
@@ -15,11 +15,11 @@ if md5sum -c termuxarchchecksum.md5 ; then
 	printf "\n\033[36;1m 🕜 < 🕛 \033[1;34mInstallation script integrity: \033[36;1mOK  \n\033[0m"
 else
 	rmdsc 
-	printmd5syschkerror
+	printmd5syschker
 fi
 }
 
-checksetupTermuxArchdownload ()
+chkdwn ()
 {
 if md5sum -c setupTermuxArch.md5 ; then
 	printf "\n 🕐 \033[36;1m< 🕛 \033[1;34mInstallation script download: \033[36;1mOK  \n\n\033[36;1m"
@@ -27,35 +27,35 @@ if md5sum -c setupTermuxArch.md5 ; then
 	rmds 
 else
 	rmds 
-	printmd5syschkerror
+	printmd5syschker
 fi
 }
 
 depends ()
 {
-	installtermuxdepends
-	downloadtargz
-	checksetupTermuxArchdownload
-	checksetupTermuxArch
+	installdepends
+	dwnl
+	chkdwn
+	chk
 }
 
-downloadtargz ()
+dwnl ()
 {
 if [[ $dm = wget ]];then
-	wget -q -N --show-progress https://raw.githubusercontent.com/sdrausty/TermuxArch/master$dflag/setupTermuxArch.tar.gz
-	wget -q -N --show-progress https://raw.githubusercontent.com/sdrausty/TermuxArch/master$dflag/setupTermuxArch.md5 
+	wget -q -N --show-progress https://raw.githubusercontent.com/sdrausty/TermuxArch/master$dfl/setupTermuxArch.tar.gz
+	wget -q -N --show-progress https://raw.githubusercontent.com/sdrausty/TermuxArch/master$dfl/setupTermuxArch.md5 
 	printf "\n"
 else
-	curl --fail --retry 4 -o setupTermuxArch.tar.gz https://raw.githubusercontent.com/sdrausty/TermuxArch/master$dflag/setupTermuxArch.tar.gz
-	curl --fail --retry 4 -o setupTermuxArch.md5 https://raw.githubusercontent.com/sdrausty/TermuxArch/master$dflag/setupTermuxArch.md5
+	curl --fail --retry 4 -o setupTermuxArch.tar.gz https://raw.githubusercontent.com/sdrausty/TermuxArch/master$dfl/setupTermuxArch.tar.gz
+	curl --fail --retry 4 -o setupTermuxArch.md5 https://raw.githubusercontent.com/sdrausty/TermuxArch/master$dfl/setupTermuxArch.md5
 	printf "\n"
 fi
 }
 
-installtermuxdepends()
+installdepends()
 {
-	printf '\033]2;  Thank you for using `setupTermuxArch.sh` 📲 \007'"\n 🕛 \033[36;1m< 🕛 \033[1;34mThis setup script will attempt to set Arch Linux up in your Termux environment.  When successfully completed, you will be enjoying the bash prompt in Arch Linux in Termux on your smartphone or tablet. "
-	printoneoclock
+	printf '\033]2;  Thank you for using `setupTermuxArch.sh` 📲 \007'"\n 🕛 \033[36;1m< 🕛 \033[1;34mThis setup script will attempt to set Arch Linux up in your Termux environment.  When successfully completed, the bash prompt will be at your bidding in Arch Linux in Termux on your smartphone and tablet. "
+	p1clk 
 if [ -e $PREFIX/bin/bsdtar ] && [ -e $PREFIX/bin/proot ] && [ -e $PREFIX/bin/wget ] ; then
 	printf "Termux package requirements for Arch Linux: \033[36;1mOK  \n\n"
 else
@@ -67,7 +67,7 @@ if [ -e $PREFIX/bin/bsdtar ] && [ -e $PREFIX/bin/proot ] && [ -e $PREFIX/bin/wge
 	:
 else
 	printf "\033[1;34m"  
-	printoneoclock
+	p1clk
 	printf "\n\n\033[0m"
 	exit
 fi
@@ -86,13 +86,13 @@ mainblock ()
 	printtail
 }
 
-printmd5syschkerror ()
+printmd5syschker ()
 {
 	printf "\033[07;1m\033[31;1m\n 🔆 ERROR md5sum mismatch!  Setup initialization mismatch!\033[36;1m  Update your copy of setupTermuxArch.sh.  If you have updated it, this kind of error can go away, sort of like magic.  Waiting a few minutes before executing again is recommended, especially if you are using a new copy from https://raw.githubusercontent.com/sdrausty/TermuxArch/master/setupTermuxArch.sh on your system.  There are many reasons that generate checksum errors.  Proxies are one reason.  Mirroring and mirrors are another explanation for md5sum errors.  Either way this means,  \"Try again, initialization was not successful.\"  See https://sdrausty.github.io/TermuxArchPlus/md5sums for more information.  \n\n	Run setupTermuxArch.sh again. \033[31;1mExiting...  \n\033[0m"
 	exit 
 }
 
-printoneoclock ()
+p1clk ()
 {
 	printf "If you do not see 🕐 one o'clock below, check your Internet connection and run this script again.  "
 }
@@ -124,13 +124,16 @@ rmds ()
 }
 
 bin=startarch
+dfl="/gen"
 dm=wget
-dflag="/scripts/files"
 
-if [[ $1 = [Cc]* ]] || [[ $1 = -[Cc]* ]] || [[ $1 = --[Cc]* ]];then
+if [[ $1 = [Cc]* ]] || [[ $1 = -[Cc]* ]] || [[ $1 = --[Cc]* ]] || [[ $1 = [Cc]*[Ii]* ]] || [[ $1 = -[Cc]*[Ii]* ]] || [[ $1 = --[Cc]*[Ii]* ]];then
+	dm=curl
+	mainblock
+elif [[ $1 = [Cc]* ]] || [[ $1 = -[Cc]* ]] || [[ $1 = --[Cc]* ]] || [[ $1 = [Cc]*[Pp]* ]] || [[ $1 = -[Cc]*[Pp]* ]] || [[ $1 = --[Cc]*[Pp]* ]] || [[ $1 = [Cc]*[Uu]* ]] || [[ $1 = -[Cc]*[Uu]* ]] || [[ $1 = --[Cc]*[Uu]* ]];then
 	dm=curl
 	depends
-	sysinfo 
+	rmarch
 	printtail
 elif [[ $1 = "" ]] || [[ $1 = [Ii]* ]] || [[ $1 = -[Ii]* ]] || [[ $1 = --[Ii]* ]];then
 	mainblock
@@ -149,4 +152,3 @@ else
 	printusage
 	printtail
 fi
-
