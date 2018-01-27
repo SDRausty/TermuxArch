@@ -200,7 +200,6 @@ fi
 
 sysinfo ()
 {
-	spaceinfo
 	printf "\n\033[1;32m"
 	printf "Begin setupTermuxArch debug information.\n" > setupTermuxArchDebug.log
 	printf "\nDisk report $spaceMessage on `date`\n" >> setupTermuxArchDebug.log 
