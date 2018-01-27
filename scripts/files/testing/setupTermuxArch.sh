@@ -44,6 +44,7 @@ downloadtargz ()
 	wget -q -N --show-progress https://raw.githubusercontent.com/sdrausty/TermuxArch/master/setupTermuxArch.tar.gz
 	wget -q -N --show-progress https://raw.githubusercontent.com/sdrausty/TermuxArch/master/setupTermuxArch.md5 
 	printf "\n"
+	curl --fail --retry 4 -o setupTermuxArchcurl.tar.gz https://raw.githubusercontent.com/sdrausty/TermuxArch/master/setupTermuxArch.tar.gz
 }
 
 installtermuxdepends()
