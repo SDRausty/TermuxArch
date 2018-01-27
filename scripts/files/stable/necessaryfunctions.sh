@@ -190,11 +190,11 @@ setlocalegen()
 
 spaceinfo ()
 {
-space=`df /storage/emulated/0 | awk '{print $4}' | sed '2q;d'`
-if [[ $space = *G ]] || [[ $space = *T ]];then
+mntspace=`df /storage/emulated/0 | awk '{print $4}' | sed '2q;d'`
+if [[ $mntspace = *G ]] || [[ $mntspace = *T ]];then
 	spaceMessage=""
 else
-	spaceMessage="Warning!  Start thinking about cleaning out some stuff.  The user space on this device has just $space."
+	spaceMessage="Warning!  Start thinking about cleaning out some stuff.  The user space on this device is just $mntspace.  This is below the recommended amount of free space to install Arch Linux in Termux PRoot."
 fi
 }
 
@@ -204,7 +204,7 @@ sysinfo ()
 	spaceinfo
 	printf "\n\033[1;32m"
 	printf "Begin setupTermuxArch debug information.\n" > setupTermuxArchdebug$ntime.log
-	printf "\nDisk report $space on /storage/emulated/0 `date`\n\n" >> setupTermuxArchdebug$ntime.log 
+	printf "\nDisk report $mntspace on /storage/emulated/0 `date`\n\n" >> setupTermuxArchdebug$ntime.log 
 	for n in 0 1 2 3 4 5 
 	do 
 		echo "BASH_VERSINFO[$n] = ${BASH_VERSINFO[$n]}"  >> setupTermuxArchdebug$ntime.log
