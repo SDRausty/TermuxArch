@@ -41,10 +41,15 @@ depends ()
 
 downloadtargz ()
 {
+if [[ $dm = curl ]];then
 	wget -q -N --show-progress https://raw.githubusercontent.com/sdrausty/TermuxArch/master/setupTermuxArch.tar.gz
 	wget -q -N --show-progress https://raw.githubusercontent.com/sdrausty/TermuxArch/master/setupTermuxArch.md5 
 	printf "\n"
-#	curl --fail --retry 4 -o setupTermuxArchcurl.tar.gz https://raw.githubusercontent.com/sdrausty/TermuxArch/master/setupTermuxArch.tar.gz
+else
+	curl --fail --retry 4 -o setupTermuxArch.tar.gz https://raw.githubusercontent.com/sdrausty/TermuxArch/master/setupTermuxArch.tar.gz
+	curl --fail --retry 4 -o setupTermuxArchcurl.md5 https://raw.githubusercontent.com/sdrausty/TermuxArch/master/setupTermuxArch.md5
+	printf "\n"
+fi
 }
 
 installtermuxdepends()
@@ -119,12 +124,11 @@ rmds ()
 }
 
 bin=startarch
-downloadmethod=wget
+dm=wget
 
+if [[ $1 = [Cc]* ]] || [[ $1 = -[Cc]* ]] || [[ $1 = --[Cc]* ]];then
+	dm=curl
 if [[ $1 = "" ]] || [[ $1 = [Ii]* ]] || [[ $1 = -[Ii]* ]] || [[ $1 = --[Ii]* ]];then
-	mainblock
-elif [[ $1 = [Cc]* ]] || [[ $1 = -[Cc]* ]] || [[ $1 = --[Cc]* ]];then
-	downloadmethod=curl
 	mainblock
 elif [[ $1 = [Dd]* ]] || [[ $1 = -[Dd]* ]] || [[ $1 = --[Dd]* ]] || [[ $1 = [Ss]* ]] || [[ $1 = -[Ss]* ]] || [[ $1 = --[Ss]* ]];then
 	depends
@@ -140,5 +144,6 @@ elif [[ $1 = [Pp]* ]] || [[ $1 = -[Pp]* ]] || [[ $1 = --[Pp]* ]] || [[ $1 = [Uu]
 else
 	printusage
 	printtail
+fi
 fi
 
