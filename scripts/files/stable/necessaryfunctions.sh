@@ -218,8 +218,8 @@ sysinfo ()
 	printf "\ngetprop ro.product.device result:\n\n" >> setupTermuxArchdebug$ntime.log
 	getprop ro.product.device >> setupTermuxArchdebug$ntime.log
 	printf "\nDownload directory information results.\n\n" >> setupTermuxArchdebug$ntime.log
-	ls -al ~/storage/downloads  2>>setupTermuxArchdebug$ntime.log >> setupTermuxArchdebug.log ||:
-	ls -al ~/downloads 2>>setupTermuxArchdebug.log  >> setupTermuxArchdebug.log$ntime ||:
+	ls -al ~/storage/downloads  2>>setupTermuxArchdebug$ntime.log >> setupTermuxArchdebug$ntime.log||:
+	ls -al ~/downloads 2>>setupTermuxArchdebug$ntime.log  >> setupTermuxArchdebug$ntime.log||:
 	if [ -d /sdcard/Download ]; then echo "/sdcard/Download exists"; else echo "/sdcard/Download not found"; fi >> setupTermuxArchdebug$ntime.log 
 	if [ -d /storage/emulated/0/Download ]; then echo "/storage/emulated/0/Download exists"; else echo "/storage/emulated/0/Download not found"; fi >> setupTermuxArchdebug$ntime.log
 	printf "\nuname -mo results:\n\n" >> setupTermuxArchdebug$ntime.log
