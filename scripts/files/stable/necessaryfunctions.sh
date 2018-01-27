@@ -203,7 +203,7 @@ sysinfo ()
 	spaceinfo
 	printf "\n\033[1;32m"
 	printf "Begin setupTermuxArch debug information.\n" > setupTermuxArchdebug.log
-	printf "\nDisk report $spaceMessage on `date`\n" >> setupTermuxArchdebug.log 
+	printf "\nDisk report $space on `date`\n\n" >> setupTermuxArchdebug.log 
 	for n in 0 1 2 3 4 5 
 	do 
 		echo "BASH_VERSINFO[$n] = ${BASH_VERSINFO[$n]}"  >> setupTermuxArchdebug.log
