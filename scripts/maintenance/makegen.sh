@@ -5,10 +5,12 @@
 #############################################################################
 
 cdir=${PWD##*/}        
-if [ ! -d "../../../gen" ]; then
-mkdir ../../../gen
-fi
 printf $cdir
+echo $cdir
+if [ ! -d "../../../gen" ] ; then
+mkdir -p ../../../gen
+fi
+
 cp setupTermuxArch.sh ..
 ls -al setupTermuxArch.sh 
 pwd
