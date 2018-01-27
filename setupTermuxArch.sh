@@ -2,22 +2,9 @@
 # Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
 # Website for this project at https://sdrausty.github.io/TermuxArch
 # See https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank You! 
-################################################################################
 
-depends ()
+checksetupTermuxArch()
 {
-	installtermuxdepends
-	wget -q -N --show-progress https://raw.githubusercontent.com/sdrausty/TermuxArch/master/setupTermuxArch.tar.gz
-	wget -q -N --show-progress https://raw.githubusercontent.com/sdrausty/TermuxArch/master/setupTermuxArch.md5 
-	printf "\n"
-if md5sum -c setupTermuxArch.md5 ; then
-	printf "\n 🕐 \033[36;1m< 🕛 \033[1;34mInstallation script download: \033[36;1mOK  \n\n\033[36;1m"
-	bsdtar -xf setupTermuxArch.tar.gz
-	rmds 
-else
-	rmds 
-	printmd5syschkerror
-fi
 if md5sum -c termuxarchchecksum.md5 ; then
 	. archsystemconfigs.sh
 	. knownconfigurations.sh
@@ -29,6 +16,33 @@ else
 	rmdsc 
 	printmd5syschkerror
 fi
+}
+
+checksetupTermuxArchdownload ()
+{
+if md5sum -c setupTermuxArch.md5 ; then
+	printf "\n 🕐 \033[36;1m< 🕛 \033[1;34mInstallation script download: \033[36;1mOK  \n\n\033[36;1m"
+	bsdtar -xf setupTermuxArch.tar.gz
+	rmds 
+else
+	rmds 
+	printmd5syschkerror
+fi
+}
+
+depends ()
+{
+	installtermuxdepends
+	downloadtargz
+	checksetupTermuxArchdownload
+	checksetupTermuxArch
+}
+
+downloadtargz ()
+{
+	wget -q -N --show-progress https://raw.githubusercontent.com/sdrausty/TermuxArch/master/setupTermuxArch.tar.gz
+	wget -q -N --show-progress https://raw.githubusercontent.com/sdrausty/TermuxArch/master/setupTermuxArch.md5 
+	printf "\n"
 }
 
 installtermuxdepends()
@@ -91,8 +105,11 @@ rmds ()
 }
 
 bin=startarch
+downloadmethod=wget
 
-if [[ $1 = "" ]] || [[ $1 = [Ii]* ]] || [[ $1 = -[Ii]* ]] || [[ $1 = --[Ii]* ]];then
+if [[ $1 = [Cc]* ]] || [[ $1 = -[Cc]* ]] || [[ $1 = --[Cc]* ]];then
+	downloadmethod=curl
+elif [[ $1 = "" ]] || [[ $1 = [Ii]* ]] || [[ $1 = -[Ii]* ]] || [[ $1 = --[Ii]* ]];then
 	depends
 	callsystem 
 	$HOME/arch/root/bin/setupbin.sh ||: 
