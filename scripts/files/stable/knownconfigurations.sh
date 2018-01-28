@@ -33,7 +33,7 @@ armv7lAndroid  ()
 armv7lChrome ()
 {
 	file=ArchLinuxARM-armv7-chromebook-latest.tar.gz
-	mirror=il.us.mirror.archlinuxarm.org
+	mirror=mirror.archlinuxarm.org
 	path=/os/
 	makesystem 
 }
