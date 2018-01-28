@@ -47,8 +47,8 @@ if [[ $dm = wget ]];then
 	printf "\n"
 else
 #	curl --fail --retry 4 --verbose -o setupTermuxArch.tar.gz https://raw.githubusercontent.com/sdrausty/TermuxArch/master$dfl/setupTermuxArch.tar.gz
-	curl --insecure --fail --retry 4 --verbose -O https://raw.githubusercontent.com/sdrausty/TermuxArch/master$dfl/setupTermuxArch.tar.gz
-	curl -C - --fail --retry 4 --verbose -o setupTermuxArch.md5 https://raw.githubusercontent.com/sdrausty/TermuxArch/master$dfl/setupTermuxArch.md5
+	curl --fail --retry 4 -O https://raw.githubusercontent.com/sdrausty/TermuxArch/master$dfl/setupTermuxArch.tar.gz
+	curl --fail --retry 4 --verbose -O https://raw.githubusercontent.com/sdrausty/TermuxArch/master$dfl/setupTermuxArch.md5
 	printf "\n"
 fi
 }
