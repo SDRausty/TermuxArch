@@ -153,10 +153,14 @@ addmotd ()
 	EOM
 }
 
-addtauser ()
+adtauser ()
 {
 	# add default Arch Termux user 
-	:
+	cat > root/bin/adtauser <<- EOM
+	useradd user
+	cp -r /root /home/user
+	su - user
+	EOM
 }
 
 addresolvconf ()

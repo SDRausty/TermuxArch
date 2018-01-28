@@ -55,7 +55,7 @@ fi
 installdepends()
 {
 	printf '\033]2;  Thank you for using `setupTermuxArch.sh` 📲 \007'"\n 🕛 \033[36;1m< 🕛 \033[1;34mThis setup script will attempt to set Arch Linux up in your Termux environment.  When successfully completed, the Linux command prompt will be at your bidding in Arch Linux in Termux PRoot on your smartphone and tablet. "
-	p1clk 
+	print1clk 
 if [ -e $PREFIX/bin/bsdtar ] && [ -e $PREFIX/bin/proot ] && [ -e $PREFIX/bin/wget ] ; then
 	printf "Termux package requirements for Arch Linux: \033[36;1mOK  \n\n"
 else
@@ -67,7 +67,7 @@ if [ -e $PREFIX/bin/bsdtar ] && [ -e $PREFIX/bin/proot ] && [ -e $PREFIX/bin/wge
 	:
 else
 	printf "\033[1;34m"  
-	p1clk
+	print1clk 
 	printf "\n\n\033[0m"
 	exit
 fi
@@ -92,7 +92,7 @@ printmd5syschker ()
 	exit 
 }
 
-p1clk ()
+print1clk ()
 {
 	printf "If you do not see 🕐 one o'clock below, check your Internet connection and run this script again.  "
 }
