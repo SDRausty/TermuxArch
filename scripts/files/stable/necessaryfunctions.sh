@@ -19,7 +19,7 @@ adjustmd5file ()
 		if [[ $dm = wget ]];then 
 			wget -q -N --show-progress http://$mirror$path$file.md5 
 		else
-			curl -s --fail --retry 4 --verbose -O http://$mirror$path$file.md5
+			curl -s --fail --retry 4 -O http://$mirror$path$file.md5
 		fi
 	fi
 }
@@ -106,7 +106,7 @@ getimage ()
 			wget -q -c --show-progress http://$mirror$path$file 
 		else
 			#curl --fail --retry 4 --verbose -O https://$mirror${path}$file
-			curl -C - -q --fail --retry 4 --verbose -O http://$mirror$path$file
+			curl -C - -q --fail --retry 4 -O http://$mirror$path$file
 		fi
 	fi
 }
