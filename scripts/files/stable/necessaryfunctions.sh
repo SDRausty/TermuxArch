@@ -6,11 +6,11 @@
 
 adjustmd5file ()
 {
-	if [ $(uname -m) = x86_64 ] || [ $(uname -m) = i686 ];then
+	if [ $(getprop ro.product.cpu.abi) = x86_64 ] || [ $(getprop ro.product.cpu.abi) = x86 ];then
 		if [[ $dm = wget ]];then 
 			wget -q -N --show-progress http://$mirror${path}md5sums.txt
 		else
-			curl --fail --retry 4 -o md5sums.txt http://$mirror${path}md5sums.txt
+			curl -s -O http://$mirror${path}md5sums.txt
 		fi
 		filename=$(ls *tar.gz)
 		sed '2q;d' md5sums.txt > $filename.md5
@@ -19,7 +19,7 @@ adjustmd5file ()
 		if [[ $dm = wget ]];then 
 			wget -q -N --show-progress http://$mirror$path$file.md5 
 		else
-			curl -s --fail --retry 4 -O http://$mirror$path$file.md5
+			curl -s -O http://$mirror$path$file.md5
 		fi
 	fi
 }
@@ -158,7 +158,7 @@ makesystem ()
 
 preproot ()
 {
-	if [ $(uname -m) = x86_64 ] || [ $(uname -m) = i686 ];then
+	if [ $(getprop ro.product.cpu.abi) = x86_64 ] || [ $(getprop ro.product.cpu.abi) = x86 ];then
 		proot --link2symlink bsdtar -xpf $file --strip-components 1 2>/dev/null||:
 	else
 		proot --link2symlink bsdtar -xpf $file 2>/dev/null||:
