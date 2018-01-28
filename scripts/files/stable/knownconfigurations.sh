@@ -25,7 +25,7 @@ armv5l ()
 armv7lAndroid  ()
 {
 	file=ArchLinuxARM-armv7-latest.tar.gz 
-	mirror=mirror.archlinuxarm.org
+	mirror=il.us.mirror.archlinuxarm.org
 	path=/os/
 	makesystem 
 }
