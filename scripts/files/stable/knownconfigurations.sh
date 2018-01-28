@@ -25,7 +25,7 @@ armv5l ()
 armv7lAndroid  ()
 {
 	file=ArchLinuxARM-armv7-latest.tar.gz 
-	mirror=il.us.mirror.archlinuxarm.org
+	mirror=mirror.archlinuxarm.org
 	path=/os/
 	makesystem 
 }
@@ -33,7 +33,7 @@ armv7lAndroid  ()
 armv7lChrome ()
 {
 	file=ArchLinuxARM-armv7-chromebook-latest.tar.gz
-	mirror=mirror.archlinuxarm.org
+	mirror=il.us.mirror.archlinuxarm.org
 	path=/os/
 	makesystem 
 }
