@@ -10,7 +10,7 @@ adjustmd5file ()
 		if [[ $dm = wget ]];then 
 			wget -q -N --show-progress http://$mirror${path}md5sums.txt
 		else
-			curl --fail --retry 4 -o $mirror${path}md5sums.txt http://$mirror${path}md5sums.txt
+			curl --fail --retry 4 -o md5sums.txt http://$mirror${path}md5sums.txt
 		fi
 		filename=$(ls *tar.gz)
 		sed '2q;d' md5sums.txt > $filename.md5
@@ -19,7 +19,7 @@ adjustmd5file ()
 		if [[ $dm = wget ]];then 
 			wget -q -N --show-progress http://$mirror$path$file.md5 
 		else
-			curl --fail --retry 4 -o $mirror$path$file.md5  http://$mirror$path$file.md5
+			curl --fail --retry 4 -o $file.md5  http://$mirror$path$file.md5
 		fi
 	fi
 }
@@ -105,7 +105,7 @@ getimage ()
 		if [[ $dm = wget ]];then 
 			wget -q -c --show-progress http://$mirror$path$file 
 		else
-			curl --fail --retry 4 -o "$file" http://$mirror$path$file
+			curl --fail --retry 4 -o $file http://$mirror$path$file
 		fi
 	fi
 }

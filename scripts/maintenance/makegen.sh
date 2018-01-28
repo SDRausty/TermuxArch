@@ -5,12 +5,9 @@
 #############################################################################
 
 cdir=${PWD##*/}        
-printf $cdir
-echo $cdir
 if [ ! -d "../../../gen" ] ; then
 mkdir -p ../../../gen
 fi
-
 cp setupTermuxArch.sh ..
 ls -al setupTermuxArch.sh 
 pwd
@@ -19,7 +16,6 @@ cd ..
 pwd
 bsdtar -czv -f setupTermuxArch.tar.gz --strip-components 1 $cdir/*
 ls -al setupTermuxArch.tar.gz 
-echo $cdir
 rm $cdir/termuxarchchecksum.md5
 md5sum setupTermuxArch.tar.gz > setupTermuxArch.md5
 pwd
