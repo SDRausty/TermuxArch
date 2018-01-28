@@ -51,6 +51,7 @@ addbashrc ()
 adddfa ()
 {
 	:
+	# userspace command
 }
 
 addprofile ()
@@ -150,6 +151,12 @@ addmotd ()
 	Search   packages: \033[0m\033[34mpacman -Ss <query>\033[0m\033[1;34m
 	Upgrade  packages: \033[0m\033[34mpacman -Syu \n\033[0m"
 	EOM
+}
+
+addtauser ()
+{
+	# add default Arch Termux user 
+	:
 }
 
 addresolvconf ()
