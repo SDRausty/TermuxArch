@@ -33,27 +33,6 @@ fi
 
 depends ()
 {
-	installdepends
-	dwnl
-	chkdwn
-	chk
-}
-
-dwnl ()
-{
-if [[ $dm = wget ]];then
-	wget -q -N --show-progress https://raw.githubusercontent.com/sdrausty/TermuxArch/master$dfl/setupTermuxArch.tar.gz
-	wget -q -N --show-progress https://raw.githubusercontent.com/sdrausty/TermuxArch/master$dfl/setupTermuxArch.md5 
-	printf "\n"
-else
-	curl -q -O https://raw.githubusercontent.com/sdrausty/TermuxArch/master$dfl/setupTermuxArch.tar.gz
-	curl -s -O https://raw.githubusercontent.com/sdrausty/TermuxArch/master$dfl/setupTermuxArch.md5
-	printf "\n"
-fi
-}
-
-installdepends()
-{
 	printf '\033]2;  Thank you for using `setupTermuxArch.sh` 📲 \007'"\n 🕛 \033[36;1m< 🕛 \033[1;34mThis setup script will attempt to set Arch Linux up in your Termux environment.  When successfully completed, the Arch Linux command prompt shall be available in Termux PRoot on smartphone and tablet."
 	print1clk 
 if [ -e $PREFIX/bin/bsdtar ] && [ -e $PREFIX/bin/proot ] && [ -e $PREFIX/bin/wget ] ; then
@@ -72,6 +51,22 @@ else
 	exit
 fi
 	printf "\n 🕧 < 🕛 \033[1;34mTermux package requirements for Arch Linux: \033[36;1mOK  \n\n"
+	dwnl
+	chkdwn
+	chk
+}
+
+dwnl ()
+{
+if [[ $dm = wget ]];then
+	wget -q -N --show-progress https://raw.githubusercontent.com/sdrausty/TermuxArch/master$dfl/setupTermuxArch.tar.gz
+	wget -q -N --show-progress https://raw.githubusercontent.com/sdrausty/TermuxArch/master$dfl/setupTermuxArch.md5 
+	printf "\n"
+else
+	curl -q -O https://raw.githubusercontent.com/sdrausty/TermuxArch/master$dfl/setupTermuxArch.tar.gz
+	curl -s -O https://raw.githubusercontent.com/sdrausty/TermuxArch/master$dfl/setupTermuxArch.md5
+	printf "\n"
+fi
 }
 
 mainblock ()
