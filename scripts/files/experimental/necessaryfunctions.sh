@@ -105,8 +105,8 @@ getimage ()
 		if [[ $dm = wget ]];then 
 			wget -q -c --show-progress http://$mirror$path$file 
 		else
-			echo curlq203
-			curl -v -C - --fail --retry 4 -O -L http://$mirror$path$file
+			echo curlq204
+			curl -q -C - --fail --retry 4 -O -L http://$mirror$path$file
 			#curl -v -C - --fail --retry 4 -O -L "http://$mirror$path$file"
 #			curl -v -C - --fail --retry 4 -O -L http://mirror.archlinuxarm.org/os/ArchLinuxARM-aarch64-latest.tar.gz
 			echo curl1
