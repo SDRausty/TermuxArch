@@ -36,7 +36,7 @@ depends ()
 	printf '\033]2;  Thank you for using `setupTermuxArch.sh` 📲 \007'"\n 🕛 \033[36;1m< 🕛 \033[1;34mThis setup script will attempt to set Arch Linux up in your Termux environment.  When successfully completed, the Arch Linux command prompt shall be available via Termux PRoot on smartphone and tablet.  "
 	print1clk 
 if [ -e $PREFIX/bin/bsdtar ] && [ -e $PREFIX/bin/curl ] && [ -e $PREFIX/bin/proot ] && [ -e $PREFIX/bin/wget ] ; then
-	printf "Termux package requirements for Arch Linux: \033[36;1mOK  \n\n"
+	:
 else
 	printf "\n\n\033[36;1m"
 	apt-get -qq update && apt-get -qq upgrade -y
