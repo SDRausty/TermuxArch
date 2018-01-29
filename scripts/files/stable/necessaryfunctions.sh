@@ -159,9 +159,9 @@ preproot ()
 {
 	if [ $(du ~/arch/*z | awk {'print $1}') -gt 112233 ];then
 		if [ $(getprop ro.product.cpu.abi) = x86_64 ] || [ $(getprop ro.product.cpu.abi) = x86 ];then
-			proot --link2symlink bsdtar -xpf $file --strip-components 1 2>/dev/null||:
+			proot --link2symlink -0 bsdtar -xpf $file --strip-components 1 2>/dev/null||:
 		else
-			proot --link2symlink bsdtar -xpf $file 2>/dev/null||:
+			proot --link2symlink -0 bsdtar -xpf $file 2>/dev/null||:
 		fi
 	else
 		printf "\n\nDownload Exception!  Exiting!\n\n"
