@@ -89,7 +89,7 @@ printmd5syschker ()
 
 print1clk ()
 {
-	printf "If you do not see 🕐 one o'clock below, check your Internet connection and run this script again.  "
+	printf "If you do not see 🕐 one o'clock below, check your Internet connection and run this script again.  \n"
 }
 
 printtail ()
