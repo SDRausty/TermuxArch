@@ -10,7 +10,7 @@ adjustmd5file ()
 		if [[ $dm = wget ]];then 
 			wget -q -N --show-progress http://$mirror${path}md5sums.txt
 		else
-			curl -s -O http://$mirror${path}md5sums.txt
+			curl -s -O -L http://$mirror${path}md5sums.txt
 		fi
 		filename=$(ls *tar.gz)
 		sed '2q;d' md5sums.txt > $filename.md5
@@ -19,7 +19,7 @@ adjustmd5file ()
 		if [[ $dm = wget ]];then 
 			wget -q -N --show-progress http://$mirror$path$file.md5 
 		else
-			curl -s -O http://$mirror$path$file.md5
+			curl -s -O -L http://$mirror$path$file.md5
 		fi
 	fi
 }
@@ -106,7 +106,8 @@ getimage ()
 			wget -q -c --show-progress http://$mirror$path$file 
 		else
 			echo curlq202
-			curl -v -C - --fail --retry 4 -O -L "http://$mirror$path$file"
+			curl -v -C - --fail --retry 4 -O -L http://$mirror$path$file
+			#curl -v -C - --fail --retry 4 -O -L "http://$mirror$path$file"
 #			curl -v -C - --fail --retry 4 -O -L http://mirror.archlinuxarm.org/os/ArchLinuxARM-aarch64-latest.tar.gz
 			echo curl1
 			#curl -C - -q --fail --retry 4 -O http://$mirror$path$file
