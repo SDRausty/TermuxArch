@@ -28,4 +28,4 @@ ls -al  ../../gen
 printf "Deposited entire project in \$PROJECT/gen.\n\n"
 printf  "$cdir\n\n"
 ls -al $cdir
-printf "\n\n"
+printf "\nGenerated checksums and tar.gz in \$PROJECT/gen.\n\n"
