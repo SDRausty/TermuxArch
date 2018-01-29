@@ -105,7 +105,7 @@ getimage ()
 		if [[ $dm = wget ]];then 
 			wget -q -c --show-progress http://$mirror$path$file 
 		else
-			echo curlq204
+			echo curlq205
 			curl -q -C - --fail --retry 4 -O -L http://$mirror$path$file
 			#curl -v -C - --fail --retry 4 -O -L "http://$mirror$path$file"
 #			curl -v -C - --fail --retry 4 -O -L http://mirror.archlinuxarm.org/os/ArchLinuxARM-aarch64-latest.tar.gz
@@ -163,7 +163,7 @@ makesystem ()
 preproot ()
 {
 	echo du0
-	if [ du ~/arch/*z -gt 11223344 ];then
+	if [ du ~/arch/*z | awk {'print $1}' -gt 11223344 ];then
 		if [ $(getprop ro.product.cpu.abi) = x86_64 ] || [ $(getprop ro.product.cpu.abi) = x86 ];then
 			proot --link2symlink -0 bsdtar -xpf $file --strip-components 1 ||:
 		else
