@@ -36,7 +36,7 @@ jlam: contributed `getprop ro.product.device` Chromebook detection, `getprop ro.
 
 [@staymetal](https://github.com/staymetal) contributed: debugging wget v1.19.3 errors Result: setupTermuxArch.sh improved!
 
-[@tomty89](https://github.com/tomty89) commented on issue 37 at [https://github.com/sdrausty/TermuxArch/issues/37](https://github.com/sdrausty/TermuxArch/issues/37) No such file or directory when setting Arch Linux up in Termux PRoot.  Helped debug `curl` download and `proot bsdtar` and other script statements.  Result: [https://github.com/sdrausty/dfa](https://github.com/sdrausty/dfa) created and setupTermuxArch.sh improved!
+[@tomty89](https://github.com/tomty89) commented on issue 37 at [https://github.com/sdrausty/TermuxArch/issues/37](https://github.com/sdrausty/TermuxArch/issues/37) No such file or directory when setting Arch Linux up in Termux PRoot.  Helped debug `curl`, `proot bsdtar` and other script statements.  Result: [https://github.com/sdrausty/dfa](https://github.com/sdrausty/dfa) created and setupTermuxArch.sh improved!
 
 [@Ublimjo](https://github.com/Ublimjo) submitted issue 37 at [https://github.com/sdrausty/TermuxArch/issues/37](https://github.com/sdrausty/TermuxArch/issues/37) No such or file directory when setting Arch Linux up in Termux PRoot and commented.  Result: [https://github.com/sdrausty/dfa](https://github.com/sdrausty/dfa) created and setupTermuxArch.sh improved!
 
