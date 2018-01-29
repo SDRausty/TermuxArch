@@ -40,7 +40,7 @@ armv7lChrome ()
 
 i686 ()
 {
-	# i686 is frozen at release 2017.03.01-i686. See https://www.archlinux.org/news/phasing-out-i686-support/ for more information.  Inquire https://archlinux32.org/ for updates.   
+	# i686 is frozen at release 2017.03.01-i686. See https://www.archlinux.org/news/phasing-out-i686-support/ for more information.  Inquire at https://archlinux32.org/ for updates.   
 	file=archlinux-bootstrap-2017.03.01-i686.tar.gz
 	mirror=archive.archlinux.org
 	path=/iso/2017.03.01/
