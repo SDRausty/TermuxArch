@@ -9,7 +9,7 @@
 aarch64 ()
 {
 	file=ArchLinuxARM-aarch64-latest.tar.gz
-	mirror=il.us.mirror.archlinuxarm.org
+	mirror=mirror.archlinuxarm.org
 	path=/os/
 	makesystem 
 }
