@@ -158,10 +158,15 @@ makesystem ()
 
 preproot ()
 {
-	if [ $(getprop ro.product.cpu.abi) = x86_64 ] || [ $(getprop ro.product.cpu.abi) = x86 ];then
-		proot --link2symlink bsdtar -xpf $file --strip-components 1 2>/dev/null||:
+	if [ du ~/arch/*z -gt 110000 ];then
+		if [ $(getprop ro.product.cpu.abi) = x86_64 ] || [ $(getprop ro.product.cpu.abi) = x86 ];then
+		proot --link2symlink -0 bsdtar -xpf $file --strip-components 1 ||:
+		else
+			proot --link2symlink -0 bsdtar -xpf $file ||:
+		fi
 	else
-		proot --link2symlink bsdtar -xpf $file 2>/dev/null||:
+		printf "exception"
+		exit
 	fi
 }
 
@@ -209,7 +214,7 @@ setlocalegen()
 
 spaceinfo ()
 {
-mntspace=`df /storage/emulated/0 | awk '{print $4}' | sed '2q;d'`
+mntspace=`df -h /storage/emulated/0 | awk '{print $4}' | sed '2q;d'`
 if [[ $mntspace = *G ]] || [[ $mntspace = *T ]];then
 	spaceMessage=""
 else
