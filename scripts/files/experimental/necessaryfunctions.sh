@@ -168,7 +168,7 @@ preproot ()
 			proot --link2symlink -0 bsdtar -xpf $file ||:
 		fi
 	else
-		printf "Download Exception!  Exiting!"
+		printf "\n\nDownload Exception!  Exiting!\n\n"
 		exit
 	fi
 	echo du1
