@@ -105,9 +105,9 @@ getimage ()
 		if [[ $dm = wget ]];then 
 			wget -q -c --show-progress http://$mirror$path$file 
 		else
-			echo 0
+			echo curl0
 			curl -v -C - --fail --retry 4 -O -L https://$mirror${path}$file
-			echo 1
+			echo curl1
 			#curl -C - -q --fail --retry 4 -O http://$mirror$path$file
 		fi
 	fi
@@ -160,6 +160,7 @@ makesystem ()
 
 preproot ()
 {
+	echo du0
 	if [ du ~/arch/*z -gt 11223344 ];then
 		if [ $(getprop ro.product.cpu.abi) = x86_64 ] || [ $(getprop ro.product.cpu.abi) = x86 ];then
 		proot --link2symlink -0 bsdtar -xpf $file --strip-components 1 ||:
@@ -170,6 +171,7 @@ preproot ()
 		printf "exception"
 		exit
 	fi
+	echo du1
 }
 
 rmarch ()
