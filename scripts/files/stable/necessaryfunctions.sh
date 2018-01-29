@@ -106,7 +106,8 @@ getimage ()
 			wget -q -c --show-progress http://$mirror$path$file 
 		else
 			#curl --fail --retry 4 --verbose -O https://$mirror${path}$file
-			curl -C - -q --fail --retry 4 -O -L http://$mirror$path$file
+			curl -v -C - --fail --retry 4 -O -L "http://$mirror$path$file"
+			#curl -C - -q --fail --retry 4 -O -L http://$mirror$path$file
 		fi
 	fi
 }
