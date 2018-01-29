@@ -158,7 +158,7 @@ makesystem ()
 
 preproot ()
 {
-	if [ du ~/arch/*z -gt 110000 ];then
+	if [ du ~/arch/*z -gt 112345 ];then
 		if [ $(getprop ro.product.cpu.abi) = x86_64 ] || [ $(getprop ro.product.cpu.abi) = x86 ];then
 		proot --link2symlink -0 bsdtar -xpf $file --strip-components 1 ||:
 		else
