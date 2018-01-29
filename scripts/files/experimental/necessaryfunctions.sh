@@ -214,7 +214,7 @@ setlocalegen()
 
 spaceinfo ()
 {
-mntspace=`df -h /storage/emulated/0 | awk '{print $4}' | sed '2q;d'`
+mntspace=`df /storage/emulated/0 | awk '{print $4}' | sed '2q;d'`
 if [[ $mntspace = *G ]] || [[ $mntspace = *T ]];then
 	spaceMessage=""
 else
