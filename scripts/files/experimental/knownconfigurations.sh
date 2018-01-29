@@ -9,7 +9,7 @@
 aarch64 ()
 {
 	file=ArchLinuxARM-aarch64-latest.tar.gz
-	mirror=ca.us.mirror.archlinuxarm.org
+	mirror=mirror.archlinuxarm.org
 	path=/os/
 	makesystem 
 }
@@ -25,7 +25,7 @@ armv5l ()
 armv7lAndroid  ()
 {
 	file=ArchLinuxARM-armv7-latest.tar.gz 
-	mirror=ca.us.mirror.archlinuxarm.org
+	mirror=mirror.archlinuxarm.org
 	path=/os/
 	makesystem 
 }
