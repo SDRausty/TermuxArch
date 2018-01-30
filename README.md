@@ -7,5 +7,6 @@ This Termux bash setup shell script will attempt to set Arch Linux up in your Te
 * Comments are welcome at https://github.com/sdrausty/TermuxArch/issues ✍ 
 * Pull requests are welcome https://github.com/sdrausty/TermuxArch/pulls ✍ 
 
-Thank you for making this project work better and please contribute 🔆  [Contributors](CONTRIBUTORS), [README.md](https://raw.githubusercontent.com/sdrausty/TermuxArch/master/README.md) and [Notice to Contributors](NOTICE) have more information about this project.
+Thank you for making this project work better and please contribute 🔆  [Contributors](CONTRIBUTORS.md) and [Notice to Contributors](NOTICE.md) have more information about this project.
+
 
