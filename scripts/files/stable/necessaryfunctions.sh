@@ -192,7 +192,6 @@ fi
 
 sysinfo ()
 {
-	depends
 	ntime=`date +%N`
 	spaceinfo
 	printf "\n\033[1;32m"
