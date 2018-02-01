@@ -192,6 +192,7 @@ fi
 
 sysinfo ()
 {
+	depends
 	ntime=`date +%N`
 	spaceinfo
 	printf "\n\033[1;32m"
@@ -219,6 +220,7 @@ sysinfo ()
 	printf "\nEnd \`setupTermuxArch.sh\` debug information.\n\nPost this information along with information regarding your issue at https://github.com/sdrausty/TermuxArch/issues.  Include information about input and output.  This debugging information is found in $(pwd)/$(ls setupTermuxArchdebug$ntime.log).  If you think screenshots will help in resolving this matter better, include them in your post please.  \n" >> setupTermuxArchdebug$ntime.log
 	cat setupTermuxArchdebug$ntime.log
 	printf "\n\033[0mSubmit this information if you plan to open up an issue at https://github.com/sdrausty/TermuxArch/issues to improve this installation script along with a screenshot of your topic.  Include information about input and output.  \n"
+	printtail
 }
 
 touchupsys ()
