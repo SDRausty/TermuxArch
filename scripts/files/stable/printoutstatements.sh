@@ -8,7 +8,7 @@
 
 printdetectedsystem ()
 {
-	printf "\n\033[36;1m 🕑 < 🕛 \033[1;34mDetected $(uname -m)" 
+	printf "\n\033[36;1m 🕑 < 🕛 \033[1;34mDetected $(uname -m) " 
 	detectsystem2p 
 	printf "\033[31;1m$spaceMessage  \n\033[0m"
 }
