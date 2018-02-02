@@ -64,7 +64,7 @@ if [[ $dm = wget ]];then
 	printf "\n"
 else
 	curl -q -O https://raw.githubusercontent.com/sdrausty/TermuxArch/master$dfl/setupTermuxArch.tar.gz
-	curl -s -O https://raw.githubusercontent.com/sdrausty/TermuxArch/master$dfl/setupTermuxArch.md5
+	curl -q -O https://raw.githubusercontent.com/sdrausty/TermuxArch/master$dfl/setupTermuxArch.md5
 	printf "\n"
 fi
 }
