@@ -50,7 +50,7 @@ else
 	printf "\n\n\033[0m"
 	exit
 fi
-	printf "\n 🕧 < 🕛 \033[1;34mTermux package requirements for Arch Linux: \033[36;1mOK  \n\n"
+	printf "\n 🕧 \033[1;36m< 🕛 \033[1;34mTermux package requirements for Arch Linux: \033[36;1mOK  \n\n"
 	dwnl
 	chkdwn
 	chk
