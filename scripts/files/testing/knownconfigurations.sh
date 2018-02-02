@@ -9,7 +9,7 @@
 aarch64 ()
 {
 	file=ArchLinuxARM-aarch64-latest.tar.gz
-	mirror=os.archlinuxarm.org
+	mirror=mirror.archlinuxarm.org
 	path=/os/
 	makesystem 
 }
@@ -17,7 +17,7 @@ aarch64 ()
 armv5l ()
 {
 	file=ArchLinuxARM-armv5-latest.tar.gz
-	mirror=os.archlinuxarm.org
+	mirror=mirror.archlinuxarm.org
 	path=/os/
 	makesystem 
 }
@@ -25,7 +25,7 @@ armv5l ()
 armv7lAndroid  ()
 {
 	file=ArchLinuxARM-armv7-latest.tar.gz 
-	mirror=os.archlinuxarm.org
+	mirror=mirror.archlinuxarm.org
 	path=/os/
 	makesystem 
 }
@@ -33,14 +33,14 @@ armv7lAndroid  ()
 armv7lChrome ()
 {
 	file=ArchLinuxARM-armv7-chromebook-latest.tar.gz
-	mirror=os.archlinuxarm.org
+	mirror=mirror.archlinuxarm.org
 	path=/os/
 	makesystem 
 }
 
 i686 ()
 {
-	# i686 is frozen at release 2017.03.01-i686. See https://www.archlinux.org/news/phasing-out-i686-support/ for more information.  
+	# i686 is frozen at release 2017.03.01-i686. See https://www.archlinux.org/news/phasing-out-i686-support/ for more information.  Inquire at https://archlinux32.org/ for updates.   
 	file=archlinux-bootstrap-2017.03.01-i686.tar.gz
 	mirror=archive.archlinux.org
 	path=/iso/2017.03.01/

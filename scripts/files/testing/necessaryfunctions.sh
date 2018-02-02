@@ -6,11 +6,11 @@
 
 adjustmd5file ()
 {
-	if [ $(uname -m) = x86_64 ] || [ $(uname -m) = i686 ];then
+	if [ $(getprop ro.product.cpu.abi) = x86_64 ] || [ $(getprop ro.product.cpu.abi) = x86 ];then
 		if [[ $dm = wget ]];then 
 			wget -q -N --show-progress http://$mirror${path}md5sums.txt
 		else
-			curl --fail --retry 4 -o $mirror${path}md5sums.txt http://$mirror${path}md5sums.txt
+			curl -s -O -L http://$mirror${path}md5sums.txt
 		fi
 		filename=$(ls *tar.gz)
 		sed '2q;d' md5sums.txt > $filename.md5
@@ -19,7 +19,7 @@ adjustmd5file ()
 		if [[ $dm = wget ]];then 
 			wget -q -N --show-progress http://$mirror$path$file.md5 
 		else
-			curl --fail --retry 4 -o $mirror$path$file.md5  http://$mirror$path$file.md5
+			curl -s -O -L http://$mirror$path$file.md5
 		fi
 	fi
 }
@@ -97,7 +97,7 @@ getimage ()
 			# Get latest image for x86_64 via `wget` wants refinement.  Continue is not implemented. 
 			wget -A tar.gz -m -nd -np http://$mirror$path
 		else
-			# The `curl` self.-updating code is unknown at present.
+			# The `curl` self-updating code is unknown at present.
 			printf "\nDefaulting to `wget` for x86_64 system image download.  \n"
 			wget -A tar.gz -m -nd -np http://$mirror$path
 		fi
@@ -105,7 +105,7 @@ getimage ()
 		if [[ $dm = wget ]];then 
 			wget -q -c --show-progress http://$mirror$path$file 
 		else
-			curl --fail --retry 4 -o "$file" http://$mirror$path$file
+			curl -q -C - --fail --retry 4 -O -L http://$mirror$path$file
 		fi
 	fi
 }
@@ -157,42 +157,16 @@ makesystem ()
 
 preproot ()
 {
-	if [ $(uname -m) = x86_64 ] || [ $(uname -m) = i686 ];then
-		proot --link2symlink bsdtar -xpf $file --strip-components 1 2>/dev/null||:
+	if [ $(du ~/arch/*z | awk {'print $1}') -gt 112233 ];then
+		if [ $(getprop ro.product.cpu.abi) = x86_64 ] || [ $(getprop ro.product.cpu.abi) = x86 ];then
+			proot --link2symlink -0 bsdtar -xpf $file --strip-components 1 2>/dev/null||:
+		else
+			proot --link2symlink -0 bsdtar -xpf $file 2>/dev/null||:
+		fi
 	else
-		proot --link2symlink bsdtar -xpf $file 2>/dev/null||:
+		printf "\n\nDownload Exception!  Exiting!\n\n"
+		exit
 	fi
-}
-
-rmarch ()
-{
-	while true; do
-	printf "\n\033[1;31m"
-	read -p "Run purge to uninstall Arch Linux? [y|n]  " uanswer
-	if [[ $uanswer = [Ee]* ]] || [[ $uanswer = [Nn]* ]] || [[ $uanswer = [Qq]* ]];then
-		break
-	elif [[ $uanswer = [Yy]* ]];then
-	printf "\nUninstalling Arch Linux...  \033[1;32m\n"
-	if [ -e $PREFIX/bin/$bin ] ;then
-	       	rm $PREFIX/bin/$bin 
-	else 
-		printf "Uninstalling Arch Linux, nothing to do for $PREFIX/bin/$bin.\n"
-       	fi
-	if [ -d $HOME/arch ] ;then
-		cd $HOME/arch
-		rm -rf * 2>/dev/null||:
-		find -type d -exec chmod 700 {} \; 2>/dev/null||:
-		cd ..
-		rm -rf $HOME/arch
-	else 
-		printf "Uninstalling Arch Linux, nothing to do for $HOME/arch.\n"
-	fi
-	printf "Uninstalling Arch Linux done.  \n"
-	printtail
-	else
-		printf "\nYou answered \033[33;1m$uanswer\033[1;31m.\n\nAnswer \033[32mYes\033[1;31m or No. [\033[32my\033[1;31m|n]\n"
-	fi
-	done
 }
 
 setlocalegen()
@@ -245,6 +219,7 @@ sysinfo ()
 	printf "\nEnd \`setupTermuxArch.sh\` debug information.\n\nPost this information along with information regarding your issue at https://github.com/sdrausty/TermuxArch/issues.  Include information about input and output.  This debugging information is found in $(pwd)/$(ls setupTermuxArchdebug$ntime.log).  If you think screenshots will help in resolving this matter better, include them in your post please.  \n" >> setupTermuxArchdebug$ntime.log
 	cat setupTermuxArchdebug$ntime.log
 	printf "\n\033[0mSubmit this information if you plan to open up an issue at https://github.com/sdrausty/TermuxArch/issues to improve this installation script along with a screenshot of your topic.  Include information about input and output.  \n"
+	printtail
 }
 
 touchupsys ()

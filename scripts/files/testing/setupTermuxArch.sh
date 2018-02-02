@@ -33,7 +33,24 @@ fi
 
 depends ()
 {
-	installdepends
+	printf '\033]2;  Thank you for using `setupTermuxArch.sh` 📲 \007'"\n 🕛 \033[36;1m< 🕛 \033[1;34mThis setup script will attempt to set Arch Linux up in your Termux environment.  When successfully completed, Arch Linux shall be available via Termux PRoot on smartphone and tablet.  "
+	print1clk 
+if [ -e $PREFIX/bin/bsdtar ] && [ -e $PREFIX/bin/curl ] && [ -e $PREFIX/bin/proot ] && [ -e $PREFIX/bin/wget ] ; then
+	:
+else
+	printf "\n\n\033[36;1m"
+	apt-get -qq update && apt-get -qq upgrade -y
+	apt-get -qq install bsdtar curl proot wget --yes 
+fi
+if [ -e $PREFIX/bin/bsdtar ] && [ -e $PREFIX/bin/curl ] && [ -e $PREFIX/bin/proot ] && [ -e $PREFIX/bin/wget ] ; then
+	:
+else
+	printf "\033[1;34m"  
+	print1clk 
+	printf "\n\n\033[0m"
+	exit
+fi
+	printf "\n 🕧 < 🕛 \033[1;34mTermux package requirements for Arch Linux: \033[36;1mOK  \n\n"
 	dwnl
 	chkdwn
 	chk
@@ -46,32 +63,10 @@ if [[ $dm = wget ]];then
 	wget -q -N --show-progress https://raw.githubusercontent.com/sdrausty/TermuxArch/master$dfl/setupTermuxArch.md5 
 	printf "\n"
 else
-	curl --fail --retry 4 -o setupTermuxArch.tar.gz https://raw.githubusercontent.com/sdrausty/TermuxArch/master$dfl/setupTermuxArch.tar.gz
-	curl --fail --retry 4 -o setupTermuxArch.md5 https://raw.githubusercontent.com/sdrausty/TermuxArch/master$dfl/setupTermuxArch.md5
+	curl -q -O https://raw.githubusercontent.com/sdrausty/TermuxArch/master$dfl/setupTermuxArch.tar.gz
+	curl -s -O https://raw.githubusercontent.com/sdrausty/TermuxArch/master$dfl/setupTermuxArch.md5
 	printf "\n"
 fi
-}
-
-installdepends()
-{
-	printf '\033]2;  Thank you for using `setupTermuxArch.sh` 📲 \007'"\n 🕛 \033[36;1m< 🕛 \033[1;34mThis setup script will attempt to set Arch Linux up in your Termux environment.  When successfully completed, the bash prompt will be at your bidding in Arch Linux in Termux on your smartphone and tablet. "
-	p1clk 
-if [ -e $PREFIX/bin/bsdtar ] && [ -e $PREFIX/bin/proot ] && [ -e $PREFIX/bin/wget ] ; then
-	printf "Termux package requirements for Arch Linux: \033[36;1mOK  \n\n"
-else
-	printf "\n\n\033[36;1m"
-	apt-get -qq update && apt-get -qq upgrade -y
-	apt-get -qq install bsdtar proot wget --yes 
-fi
-if [ -e $PREFIX/bin/bsdtar ] && [ -e $PREFIX/bin/proot ] && [ -e $PREFIX/bin/wget ] ; then
-	:
-else
-	printf "\033[1;34m"  
-	p1clk
-	printf "\n\n\033[0m"
-	exit
-fi
-	printf "\n 🕧 < 🕛 \033[1;34mTermux package requirements for Arch Linux: \033[36;1mOK  \n\n"
 }
 
 mainblock ()
@@ -92,9 +87,9 @@ printmd5syschker ()
 	exit 
 }
 
-p1clk ()
+print1clk ()
 {
-	printf "If you do not see 🕐 one o'clock below, check your Internet connection and run this script again.  "
+	printf "If you do not see 🕐 one o'clock below, check your Internet connection and run this script again.  \n"
 }
 
 printtail ()
@@ -106,6 +101,39 @@ printtail ()
 printusage ()
 {
 	printf "\n\n\033[1;34mUsage information for \033[1;32m\`setupTermuxArch.sh\`\033[1;34m.  You can abbreviate the argument to one letter:  \n\n\033[1;33mDEBUG\033[1;34m    Run \033[1;32m\`setupTermuxArch.sh --sysinfo\` \033[1;34mto create \033[1;32m\`setupTermuxArchdebug.log\`\033[1;34m and populate it with debug information.  Post this information along with detailed information about your issue at https://github.com/sdrausty/TermuxArch/issues.  If you think screenshots will help in resolving your issue better, include them in your post along with this log file.\n\n\033[1;33mHELP\033[1;34m     Run \033[1;32m\`setupTermuxArch.sh --help\` \033[1;34mto output this help screen.\n\n\033[1;33mINSTALL\033[1;34m  Run \033[1;32m\`setupTermuxArch.sh\`\033[1;34m without arguments in a bash shell to install Arch Linux in Termux.\n\n\033[1;33mPURGE\033[1;34m    Run \033[1;32m\`setupTermuxArch.sh --uninstall\` \033[1;34mto uninstall your Arch Linux installation from Termux.\n"
+	printtail
+}
+
+rmarch ()
+{
+	while true; do
+	printf "\n\033[1;31m"
+	read -p "Run purge to uninstall Arch Linux? [y|n]  " uanswer
+	if [[ $uanswer = [Ee]* ]] || [[ $uanswer = [Nn]* ]] || [[ $uanswer = [Qq]* ]];then
+		break
+	elif [[ $uanswer = [Yy]* ]];then
+	printf "\nUninstalling Arch Linux...  \033[1;32m\n"
+	if [ -e $PREFIX/bin/$bin ] ;then
+	       	rm $PREFIX/bin/$bin 
+	else 
+		printf "Uninstalling Arch Linux, nothing to do for $PREFIX/bin/$bin.\n"
+       	fi
+	if [ -d $HOME/arch ] ;then
+		cd $HOME/arch
+		rm -rf * 2>/dev/null||:
+		find -type d -exec chmod 700 {} \; 2>/dev/null||:
+		cd ..
+		rm -rf $HOME/arch
+	else 
+		printf "Uninstalling Arch Linux, nothing to do for $HOME/arch.\n"
+	fi
+	printf "Uninstalling Arch Linux done.  \n"
+	printtail
+	else
+		printf "\nYou answered \033[33;1m$uanswer\033[1;31m.\n\nAnswer \033[32mYes\033[1;31m or No. [\033[32my\033[1;31m|n]\n"
+	fi
+	done
+	printtail
 }
 
 rmdsc ()
@@ -124,31 +152,28 @@ rmds ()
 }
 
 bin=startarch
-dfl="/gen"
+#dfl="/gen"
 dm=wget
 
-if [[ $1 = [Cc]* ]] || [[ $1 = -[Cc]* ]] || [[ $1 = --[Cc]* ]] || [[ $1 = [Cc]*[Ii]* ]] || [[ $1 = -[Cc]*[Ii]* ]] || [[ $1 = --[Cc]*[Ii]* ]];then
+if [[ $1 = [Cc][Pp]* ]] || [[ $1 = -[Cc][Pp]* ]] || [[ $1 = --[Cc][Pp]* ]] || [[ $1 = [Cc][Uu]* ]] || [[ $1 = -[Cc][Uu]* ]] || [[ $1 = --[Cc][Uu]* ]];then
 	dm=curl
-	mainblock
-elif [[ $1 = [Cc]* ]] || [[ $1 = -[Cc]* ]] || [[ $1 = --[Cc]* ]] || [[ $1 = [Cc]*[Pp]* ]] || [[ $1 = -[Cc]*[Pp]* ]] || [[ $1 = --[Cc]*[Pp]* ]] || [[ $1 = [Cc]*[Uu]* ]] || [[ $1 = -[Cc]*[Uu]* ]] || [[ $1 = --[Cc]*[Uu]* ]];then
+	rmarch
+elif [[ $1 = [Cc][Dd]* ]] || [[ $1 = -[Cc][Dd]* ]] || [[ $1 = --[Cc][Dd]* ]] || [[ $1 = [Cc][Ss]* ]] || [[ $1 = -[Cc][Ss]* ]] || [[ $1 = --[Cc][Ss]* ]];then
 	dm=curl
 	depends
-	rmarch
-	printtail
-elif [[ $1 = "" ]] || [[ $1 = [Ii]* ]] || [[ $1 = -[Ii]* ]] || [[ $1 = --[Ii]* ]];then
+	sysinfo 
+elif [[ $1 = [Cc]* ]] || [[ $1 = -[Cc]* ]] || [[ $1 = --[Cc]* ]] || [[ $1 = [Cc][Ii]* ]] || [[ $1 = -[Cc][Ii]* ]] || [[ $1 = --[Cc][Ii]* ]];then
+	dm=curl
 	mainblock
 elif [[ $1 = [Dd]* ]] || [[ $1 = -[Dd]* ]] || [[ $1 = --[Dd]* ]] || [[ $1 = [Ss]* ]] || [[ $1 = -[Ss]* ]] || [[ $1 = --[Ss]* ]];then
 	depends
 	sysinfo 
-	printtail
 elif [[ $1 = [Hh]* ]] || [[ $1 = -[Hh]* ]] || [[ $1 = --[Hh]* ]]  || [[ $1 = [?]* ]] || [[ $1 = -[?]* ]] || [[ $1 = --[?]* ]];then
 	printusage
-	printtail
 elif [[ $1 = [Pp]* ]] || [[ $1 = -[Pp]* ]] || [[ $1 = --[Pp]* ]] || [[ $1 = [Uu]* ]] || [[ $1 = -[Uu]* ]] || [[ $1 = --[Uu]* ]];then
-	depends
 	rmarch
-	printtail
+elif [[ $1 = "" ]] || [[ $1 = [Ii]* ]] || [[ $1 = -[Ii]* ]] || [[ $1 = --[Ii]* ]];then
+	mainblock
 else
 	printusage
-	printtail
 fi
