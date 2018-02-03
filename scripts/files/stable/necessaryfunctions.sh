@@ -90,6 +90,16 @@ detectsystem2p ()
 	fi
 }
 
+ftchstnd ()
+{
+		if [[ $dm = wget ]];then 
+			wget -q -N --show-progress http://$mirror$path$file.md5 
+			wget -q -c --show-progress http://$mirror$path$file 
+		else
+			curl -q -L --fail --retry 4 -O http://$mirror$path$file.md5 -O http://$mirror$path$file
+		fi
+}
+
 getimage ()
 {
 	if [ $(getprop ro.product.cpu.abi) = x86_64 ];then
@@ -141,8 +151,12 @@ makesystem ()
 {
 	printdownloading 
 	termux-wake-lock 
-	adjustmd5file 
-	getimage
+	if [[ $(getprop ro.product.cpu.abi) -ne x86_64 ]] || [[ $(getprop ro.product.cpu.abi) -ne x86 ]];then
+		ftchstnd
+	else
+		adjustmd5file
+		getimage
+	fi
 	printmd5check
 	if md5sum -c $file.md5 ; then
 		printmd5success
