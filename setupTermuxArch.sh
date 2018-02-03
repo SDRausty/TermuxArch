@@ -1,7 +1,8 @@
 #!/bin/bash -e
 # Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
-# Website at https://sdrausty.github.io/TermuxArch; Courtesy of GitHub.  
-# https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank You! 
+# Website hosting https://sdrausty.github.io/TermuxArch is courtesy of GitHub.  
+# https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help!  
+# https://sdrausty.github.io/TermuxArch/NOTICE has info about this project. 
 ################################################################################
 
 chk ()
@@ -33,8 +34,7 @@ fi
 
 depends ()
 {
-	printf '\033]2;  Thank you for using `setupTermuxArch.sh` 📲 \007'"\n 🕛 \033[36;1m< 🕛 \033[1;34mTermuxArch will attempt to install Linux in Termux.  Arch Linux will be available upon successful completion.  "
-	print1clk 
+	printf '\033]2;  Thank you for using `setupTermuxArch.sh` 📲 \007'"\n 🕛 \033[36;1m< 🕛 \033[1;34mTermuxArch will attempt to install Linux in Termux.  Arch Linux will be available upon successful completion.  Check the Internet connection if you do not see one o'clock 🕐 below.  \n"
 if [ -e $PREFIX/bin/bsdtar ] && [ -e $PREFIX/bin/curl ] && [ -e $PREFIX/bin/proot ] && [ -e $PREFIX/bin/wget ] ; then
 	:
 else
@@ -86,11 +86,6 @@ printmd5syschker ()
 	exit 
 }
 
-print1clk ()
-{
-	printf "Check the Internet connection if you do not see one o'clock 🕐 below.  \n"
-}
-
 printtail ()
 {
 	printf "\n\033[0mThank you for using \033[1;32m\`setupTermuxArch.sh\`\033[0m 🏁  \n\n\033[0m"'\033]2;  Thank you for using `setupTermuxArch.sh`  🏁 \007'
@@ -121,7 +116,6 @@ rmds ()
 bin=startarch
 #dfl="/gen"
 dm=curl
-#dm=wget
 
 if [[ $1 = [Cc][Pp]* ]] || [[ $1 = -[Cc][Pp]* ]] || [[ $1 = --[Cc][Pp]* ]] || [[ $1 = [Cc][Uu]* ]] || [[ $1 = -[Cc][Uu]* ]] || [[ $1 = --[Cc][Uu]* ]];then
 	depends
