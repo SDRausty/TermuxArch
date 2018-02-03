@@ -153,7 +153,7 @@ rmds ()
 
 bin=startarch
 #dfl="/gen"
-fl="/gen"
+dfl="/gen"
 dm=curl
 #m=wget
 
