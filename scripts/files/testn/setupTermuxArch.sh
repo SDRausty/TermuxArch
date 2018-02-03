@@ -153,7 +153,7 @@ rmds ()
 
 bin=startarch
 #dfl="/gen"
-dm=curl
+dm=wget
 
 if [[ $1 = [Cc][Pp]* ]] || [[ $1 = -[Cc][Pp]* ]] || [[ $1 = --[Cc][Pp]* ]] || [[ $1 = [Cc][Uu]* ]] || [[ $1 = -[Cc][Uu]* ]] || [[ $1 = --[Cc][Uu]* ]];then
 	dm=curl
