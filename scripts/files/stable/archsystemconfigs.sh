@@ -234,7 +234,7 @@ makefinishsetup ()
 	cat >> root/bin/$binfs <<- EOM
 	pacman -Syu sed nano vim --noconfirm ||:
 	locale-gen
-	printf '\033]2; 🕙 < 🕛 Your Arch Linux in Termux is installed and configured.  📲  \007'
+	printf '\033]2; 🕙 < 🕛 Arch Linux in Termux is installed and configured.  📲  \007'
 	rm \$HOME/bin/finishsetup.sh 2>/dev/null ||:
 	EOM
 	chmod 770 root/bin/finishsetup.sh 
