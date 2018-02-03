@@ -7,65 +7,65 @@
 
 chk ()
 {
-if md5sum -c termuxarchchecksum.md5 ; then
-	. archsystemconfigs.sh
-	. knownconfigurations.sh
-	. necessaryfunctions.sh
-	. printoutstatements.sh
-	rmdsc 
-	printf "\n\033[36;1m 🕜 < 🕛 \033[1;34mTermuxArch integrity: \033[36;1mOK  \n\033[0m"
-else
-	rmdsc 
-	printmd5syschker
-fi
+	if md5sum -c termuxarchchecksum.md5 ; then
+		. archsystemconfigs.sh
+		. knownconfigurations.sh
+		. necessaryfunctions.sh
+		. printoutstatements.sh
+		rmdsc 
+		printf "\n\033[36;1m 🕜 < 🕛 \033[1;34mTermuxArch integrity: \033[36;1mOK  \n\033[0m"
+	else
+		rmdsc 
+		printmd5syschker
+	fi
 }
 
 chkdwn ()
 {
-if md5sum -c setupTermuxArch.md5 ; then
-	printf "\n 🕐 \033[36;1m< 🕛 \033[1;34mTermuxArch downloaded: \033[36;1mOK  \n\n\033[36;1m"
-	bsdtar -xf setupTermuxArch.tar.gz
-	rmds 
-else
-	rmds 
-	printmd5syschker
-fi
+	if md5sum -c setupTermuxArch.md5 ; then
+		printf "\n 🕐 \033[36;1m< 🕛 \033[1;34mTermuxArch downloaded: \033[36;1mOK  \n\n\033[36;1m"
+		bsdtar -xf setupTermuxArch.tar.gz
+		rmds 
+	else
+		rmds 
+		printmd5syschker
+	fi
 }
 
 depends ()
 {
 	printf '\033]2;  Thank you for using `setupTermuxArch.sh` 📲 \007'"\n 🕛 \033[36;1m< 🕛 \033[1;34mTermuxArch will attempt to install Linux in Termux.  Arch Linux will be available upon successful completion.  Check the Internet connection if you do not see one o'clock 🕐 below.  \n"
-if [ -e $PREFIX/bin/bsdtar ] && [ -e $PREFIX/bin/curl ] && [ -e $PREFIX/bin/proot ] && [ -e $PREFIX/bin/wget ] ; then
-	:
-else
-	printf "\n\n\033[36;1m"
-	apt-get -qq update && apt-get -qq upgrade -y
-	apt-get -qq install bsdtar curl proot wget --yes 
-fi
-if [ -e $PREFIX/bin/bsdtar ] && [ -e $PREFIX/bin/curl ] && [ -e $PREFIX/bin/proot ] && [ -e $PREFIX/bin/wget ] ; then
-	:
-else
-	printf "\033[1;34m"  
-	print1clk 
-	printf "\n\n\033[0m"
-	exit
-fi
-	printf "\n 🕧 \033[1;36m< 🕛 \033[1;34mPrerequisite packages: \033[36;1mOK  \n\n"
-	dwnl
-	chkdwn
-	chk
+	if [ -e $PREFIX/bin/bsdtar ] && [ -e $PREFIX/bin/curl ] && [ -e $PREFIX/bin/proot ] && [ -e $PREFIX/bin/wget ] ; then
+		:
+	else
+		printf "\n\n\033[36;1m"
+		apt-get -qq update && apt-get -qq upgrade -y
+		apt-get -qq install bsdtar curl proot wget --yes 
+	fi
+	if [ -e $PREFIX/bin/bsdtar ] && [ -e $PREFIX/bin/curl ] && [ -e $PREFIX/bin/proot ] && [ -e $PREFIX/bin/wget ] ; then
+		:
+	else
+		printf "\033[1;34m"  
+		printf "Prerequisites exception.  Run the script again. "
+		printf "\n\n\033[0m"
+		exit
+	fi
+		printf "\n 🕧 \033[1;36m< 🕛 \033[1;34mPrerequisite packages: \033[36;1mOK  \n\n"
+		dwnl
+		chkdwn
+		chk
 }
 
 dwnl ()
 {
-if [[ $dm = wget ]];then
-	wget -q -N --show-progress https://raw.githubusercontent.com/sdrausty/TermuxArch/master$flag/setupTermuxArch.tar.gz
-	wget -q -N --show-progress https://raw.githubusercontent.com/sdrausty/TermuxArch/master$flag/setupTermuxArch.md5 
-	printf "\n"
-else
-	curl -q -O https://raw.githubusercontent.com/sdrausty/TermuxArch/master$dfl/setupTermuxArch.md5 -O https://raw.githubusercontent.com/sdrausty/TermuxArch/master$dfl/setupTermuxArch.tar.gz
-	printf "\n"
-fi
+	if [[ $dm = wget ]];then
+		wget -q -N --show-progress https://raw.githubusercontent.com/sdrausty/TermuxArch/master$flag/setupTermuxArch.tar.gz
+		wget -q -N --show-progress https://raw.githubusercontent.com/sdrausty/TermuxArch/master$flag/setupTermuxArch.md5 
+		printf "\n"
+	else
+		curl -q -O https://raw.githubusercontent.com/sdrausty/TermuxArch/master$dfl/setupTermuxArch.md5 -O https://raw.githubusercontent.com/sdrausty/TermuxArch/master$dfl/setupTermuxArch.tar.gz
+		printf "\n"
+	fi
 }
 
 mainblock ()
@@ -82,7 +82,7 @@ mainblock ()
 
 printmd5syschker ()
 {
-	printf "\033[07;1m\033[31;1m\n 🔆 ERROR md5sum mismatch!  Setup initialization mismatch!\033[36;1m  Update this copy of \`setupTermuxArch.sh\`.  If it is updated, this kind of error can go away, like magic.  Waiting before executing again is recommended, especially if using a fresh copy from https://raw.githubusercontent.com/sdrausty/TermuxArch/master/setupTermuxArch.sh on this system.  There are many reasons for checksum errors.  Proxies are one reason.  Mirroring and mirrors are another explanation for md5sum errors.  Either way this means,  \"Try again, initialization was not successful this time.\"  https://sdrausty.github.io/TermuxArchPlus/md5sums has more information.  \n\n	Execute \`bash setupTermuxArch.sh\` again. \033[31;1mExiting...  \n\033[0m"
+	printf "\033[07;1m\033[31;1m\n 🔆 ERROR md5sum mismatch!  Setup initialization mismatch!\033[36;1m  Update this copy of \`setupTermuxArch.sh\`.  If it is updated, this kind of error can go away, like magic.  Wait before executing again, especially if using a fresh copy from https://raw.githubusercontent.com/sdrausty/TermuxArch/master/setupTermuxArch.sh on this system.  There are many reasons for checksum errors.  Proxies are one reason.  Mirroring and mirrors are another explanation for md5sum errors.  Either way this means,  \"Try again, initialization was not successful this time.\"  https://sdrausty.github.io/TermuxArchPlus/md5sums has more information.  \n\n	Execute \`bash setupTermuxArch.sh\` again. \033[31;1mExiting...  \n\033[0m"
 	exit 
 }
 
