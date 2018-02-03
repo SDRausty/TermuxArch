@@ -15,7 +15,7 @@ printdetectedsystem ()
 
 printdownloading ()
 {
-	printf "\n\033[36;1m 🕝 < 🕛 \033[1;34mActivating termux-wake-lock.  Now downloading \033[36;1m$file \033[1;34mand the corresponding checksum.  \033[37;1mThis may take a long time depending on your Internet connection.  \n\n\033[36;1m"'\033]2;  🕝 < 🕛 Now downloading the system image file and the corresponding checksum.  \007'
+	printf "\n\033[36;1m 🕝 < 🕛 \033[1;34mActivating termux-wake-lock.  Downloading \033[36;1m$file \033[1;34mand the corresponding checksum.  \033[37;1mThis may take a long time depending on your Internet connection.  \n\n\033[36;1m"'\033]2;  🕝 < 🕛 Downloading the system image file and the corresponding checksum.  \007'
 }
 
 printconfigq ()
@@ -36,7 +36,7 @@ printmd5error ()
 
 printmd5success ()
 {
-	printf '\033]2;  🕡 < 🕛 Now uncompressing the system image file.  This will take a long time.  Be patient.  \007'"\n\033[36;1m 🕕 < 🕛 \033[1;34mDownloaded files integrity: \033[36;1mOK  \n\n\033[36;1m 🕡 < 🕛 \033[1;34mNow uncompressing \033[36;1m$file\033[37;1m.  This will take a long time.  Be patient.  \n\033[0m"
+	printf '\033]2;  🕡 < 🕛 Uncompressing the system image file.  This will take a long time.  Be patient.  \007'"\n\033[36;1m 🕕 < 🕛 \033[1;34mDownloaded files integrity: \033[36;1mOK  \n\n\033[36;1m 🕡 < 🕛 \033[1;34mUncompressing \033[36;1m$file\033[37;1m.  This will take a long time.  Be patient.  \n\033[0m"
 }
 
 printmismatch ()
