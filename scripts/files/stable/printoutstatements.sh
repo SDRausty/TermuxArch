@@ -30,7 +30,7 @@ printmd5check ()
 
 printmd5error ()
 {
-	printf "\n\033[07;1m\033[31;1m 🔆 ERROR md5sum mismatch! The download was corrupt! Removing failed download.\033[36;1m  Run setupTermuxArch.sh again!  See https://sdrausty.github.io/docs/TermuxArch/md5sums for more information.  This kind of error can go away, sort of like magic.  Waiting a few minutes before executing again is recommended. There are many reasons that generate checksum errors.  Proxies are one reason.  Mirroring and mirrors are another explaination for md5sum errors.  Either way the download did not succeed.  If this keeps repeating, change the mirror with an editor like vi in knownconfigurations.sh.  See https://sdrausty.github.io/docs/TermuxArch/mirrors for more information.  \n\n	Run setupTermuxArch.sh again. \033[31;1mExiting...  \n\033[0m"
+	printf "\n\033[07;1m\033[31;1m 🔆 ERROR md5sum mismatch! The download failed and was removed!\033[36;1m  Use setupTermuxArch.sh again.  See https://sdrausty.github.io/docs/TermuxArch/md5sums for more information.  This kind of error can go away, like magic.  Waiting before executing again is recommended. There are many reasons that generate checksum errors.  Proxies are one reason.  Mirroring and mirrors are another explaination for md5sum errors.  Either way the download did not succeed.  If this keeps repeating, change the mirror with an editor like vi in knownconfigurations.sh.  See https://sdrausty.github.io/docs/TermuxArch/mirrors for more information.  \n\n	Run setupTermuxArch.sh again. \033[31;1mExiting...  \n\033[0m"
 	exit 
 }
 
