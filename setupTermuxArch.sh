@@ -59,7 +59,8 @@ fi
 dwnl ()
 {
 if [[ $dm = wget ]];then
-	curl -q -O https://raw.githubusercontent.com/sdrausty/TermuxArch/master$dfl/setupTermuxArch.md5 -O https://raw.githubusercontent.com/sdrausty/TermuxArch/master$dfl/setupTermuxArch.tar.gz
+	wget -q -N --show-progress https://raw.githubusercontent.com/sdrausty/TermuxArch/master$flag/setupTermuxArch.tar.gz
+	wget -q -N --show-progress https://raw.githubusercontent.com/sdrausty/TermuxArch/master$flag/setupTermuxArch.md5 
 	printf "\n"
 else
 	curl -q -O https://raw.githubusercontent.com/sdrausty/TermuxArch/master$dfl/setupTermuxArch.md5 -O https://raw.githubusercontent.com/sdrausty/TermuxArch/master$dfl/setupTermuxArch.tar.gz
