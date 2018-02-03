@@ -150,7 +150,8 @@ rmds ()
 }
 
 bin=startarch
-#dfl="/gen"
+# rootdir=arch
+# dfl="/gen"
 dfl="/gen"
 dm=curl
 # dm=wget
