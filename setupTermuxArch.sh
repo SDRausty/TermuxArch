@@ -12,7 +12,7 @@ if md5sum -c termuxarchchecksum.md5 ; then
 	. necessaryfunctions.sh
 	. printoutstatements.sh
 	rmdsc 
-	printf "\n\033[36;1m 🕜 < 🕛 \033[1;34mInstallation BASH script integrity: \033[36;1mOK  \n\033[0m"
+	printf "\n\033[36;1m 🕜 < 🕛 \033[1;34mThis installation script integrity: \033[36;1mOK  \n\033[0m"
 else
 	rmdsc 
 	printmd5syschker
@@ -22,7 +22,7 @@ fi
 chkdwn ()
 {
 if md5sum -c setupTermuxArch.md5 ; then
-	printf "\n 🕐 \033[36;1m< 🕛 \033[1;34mInstallation BASH script download: \033[36;1mOK  \n\n\033[36;1m"
+	printf "\n 🕐 \033[36;1m< 🕛 \033[1;34mInstallation script download: \033[36;1mOK  \n\n\033[36;1m"
 	bsdtar -xf setupTermuxArch.tar.gz
 	rmds 
 else
@@ -33,7 +33,7 @@ fi
 
 depends ()
 {
-	printf '\033]2;  Thank you for using `setupTermuxArch.sh` 📲 \007'"\n 🕛 \033[36;1m< 🕛 \033[1;34mThis BASH script will attempt to install Arch Linux in a Termux PRoot environment.  When successfully completed, Arch Linux will be available via Termux.  "
+	printf '\033]2;  Thank you for using `setupTermuxArch.sh` 📲 \007'"\n 🕛 \033[36;1m< 🕛 \033[1;34mRunning this script will attempt to install Arch Linux in a Termux PRoot environment.  When successfully completed, Arch Linux will be available via Termux.  "
 	print1clk 
 if [ -e $PREFIX/bin/bsdtar ] && [ -e $PREFIX/bin/curl ] && [ -e $PREFIX/bin/proot ] && [ -e $PREFIX/bin/wget ] ; then
 	:
