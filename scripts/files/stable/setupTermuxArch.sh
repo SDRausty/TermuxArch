@@ -88,7 +88,7 @@ printmd5syschker ()
 
 print1clk ()
 {
-	printf "If you do not see 🕐 one o'clock below, check the Internet connection.  \n"
+	printf "Check the Internet connection if you do not see 🕐 one o'clock below.  \n"
 }
 
 printtail ()
