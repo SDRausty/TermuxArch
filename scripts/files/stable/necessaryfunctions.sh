@@ -236,6 +236,38 @@ sysinfo ()
 	printtail
 }
 
+rmarch ()
+{
+	while true; do
+	printf "\n\033[1;31m"
+	read -p "Uninstall Arch Linux? [y|n]  " uanswer
+	if [[ $uanswer = [Ee]* ]] || [[ $uanswer = [Nn]* ]] || [[ $uanswer = [Qq]* ]];then
+		break
+	elif [[ $uanswer = [Yy]* ]];then
+	printf "\nUninstalling Arch Linux...  \033[1;32m\n"
+	if [ -e $PREFIX/bin/$bin ] ;then
+	       	rm $PREFIX/bin/$bin 
+	else 
+		printf "Uninstalling Arch Linux, nothing to do for $PREFIX/bin/$bin.\n"
+       	fi
+	if [ -d $HOME/arch ] ;then
+		cd $HOME/arch
+		rm -rf * 2>/dev/null||:
+		find -type d -exec chmod 700 {} \; 2>/dev/null||:
+		cd ..
+		rm -rf $HOME/arch
+	else 
+		printf "Uninstalling Arch Linux, nothing to do for $HOME/arch.\n"
+	fi
+	printf "Uninstalling Arch Linux done.  \n"
+	printtail
+	else
+		printf "\nYou answered \033[33;1m$uanswer\033[1;31m.\n\nAnswer \033[32mYes\033[1;31m or No. [\033[32my\033[1;31m|n]\n"
+	fi
+	done
+	printtail
+}
+
 touchupsys ()
 {
 	mkdir -p root/bin

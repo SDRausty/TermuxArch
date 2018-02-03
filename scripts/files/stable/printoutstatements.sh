@@ -49,6 +49,6 @@ printfooter ()
 {
 	printf "\n\033[36;1m 🕥 < 🕛 \033[1;34mUse \033[32;1m./arch/$bin\033[1;34m from the \033[32;1m\$HOME\033[1;34m directory to launch Arch Linux in Termux for future sessions.   Alternatively copy \033[32;1m$bin\033[1;34m to the \033[32m\$PATH\033[1;34m which is, \033[37m\"$PATH\"\033[0m.  \n\n"'\033]2;  Thank you for using `setupTermuxArch.sh` to install Arch Linux in Termux 📲  \007'
 	copybin2path
-	printf "\033[1;32m 🕛 = 🕛 \033[1;34mTermux-wake-lock released.  Arch Linux in Termux is installed.  \033[32;1m\`tzselect\`\033[1;34m wilk assit in setting the local time zone.  See https://github.com/sdrausty/TermuxArch/issues/25 \"Starting Arch Linux from Termux?\" for information.  \n\n\033[0m"
+	printf "\033[1;32m 🕛 = 🕛 \033[1;34mTermux-wake-lock released.  Arch Linux in Termux is installed.  \033[32;1m\`tzselect\`\033[1;34m assits in setting the local time zone.  https://github.com/sdrausty/TermuxArch/issues/25 \"Starting Arch Linux from Termux?\" has more information.  \n\n\033[0m"
 }
 
