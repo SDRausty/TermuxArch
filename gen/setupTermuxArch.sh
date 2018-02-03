@@ -1,6 +1,6 @@
 #!/data/data/com.termux/files/usr/bin/bash -e
 # Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
-# Website for this project at https://sdrausty.github.io/TermuxArch
+# Website for this project at https://sdrausty.github.io/TermuxArch; Courtesy of GitHub.  
 # See https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank You! 
 ################################################################################
 
@@ -59,11 +59,10 @@ fi
 dwnl ()
 {
 if [[ $dm = wget ]];then
-	wget -q -N --show-progress https://raw.githubusercontent.com/sdrausty/TermuxArch/master$dfl/setupTermuxArch.tar.gz
-	wget -q -N --show-progress https://raw.githubusercontent.com/sdrausty/TermuxArch/master$dfl/setupTermuxArch.md5 
+	curl -q -O https://raw.githubusercontent.com/sdrausty/TermuxArch/master$dfl/setupTermuxArch.tar.gz -O https://raw.githubusercontent.com/sdrausty/TermuxArch/master$dfl/setupTermuxArch.md5
 	printf "\n"
 else
-	curl -q -O https://raw.githubusercontent.com/sdrausty/TermuxArch/master$dfl/setupTermuxArch.md5 -O https://raw.githubusercontent.com/sdrausty/TermuxArch/master$dfl/setupTermuxArch.tar.gz
+	curl -q -O https://raw.githubusercontent.com/sdrausty/TermuxArch/master$dfl/setupTermuxArch.tar.gz -O https://raw.githubusercontent.com/sdrausty/TermuxArch/master$dfl/setupTermuxArch.md5
 	printf "\n"
 fi
 }
@@ -88,7 +87,7 @@ printmd5syschker ()
 
 print1clk ()
 {
-	printf "If you do not see 🕐 one o'clock below, check your Internet connection and run this BASH script again.  \n"
+	printf "If you do not see 🕐 one o'clock below, check your Internet connection.  \n"
 }
 
 printtail ()
@@ -152,9 +151,8 @@ rmds ()
 
 bin=startarch
 #dfl="/gen"
-dfl="/gen"
 dm=curl
-#m=wget
+#dm=wget
 
 if [[ $1 = [Cc][Pp]* ]] || [[ $1 = -[Cc][Pp]* ]] || [[ $1 = --[Cc][Pp]* ]] || [[ $1 = [Cc][Uu]* ]] || [[ $1 = -[Cc][Uu]* ]] || [[ $1 = --[Cc][Uu]* ]];then
 	dm=curl
