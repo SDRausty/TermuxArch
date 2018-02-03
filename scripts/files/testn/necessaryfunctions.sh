@@ -141,8 +141,8 @@ makesystem ()
 {
 	printdownloading 
 	termux-wake-lock 
-	getimage
 	adjustmd5file 
+	getimage
 	printmd5check
 	if md5sum -c $file.md5 ; then
 		printmd5success
