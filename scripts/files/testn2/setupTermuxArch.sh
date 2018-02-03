@@ -59,10 +59,11 @@ fi
 dwnl ()
 {
 if [[ $dm = wget ]];then
-	curl -q -O https://raw.githubusercontent.com/sdrausty/TermuxArch/master$dfl/setupTermuxArch.tar.gz -O https://raw.githubusercontent.com/sdrausty/TermuxArch/master$dfl/setupTermuxArch.md5
+	wget -q -N --show-progress https://raw.githubusercontent.com/sdrausty/TermuxArch/master$dfl/setupTermuxArch.tar.gz
+	wget -q -N --show-progress https://raw.githubusercontent.com/sdrausty/TermuxArch/master$dfl/setupTermuxArch.md5 
 	printf "\n"
 else
-	curl -q -O https://raw.githubusercontent.com/sdrausty/TermuxArch/master$dfl/setupTermuxArch.tar.gz -O https://raw.githubusercontent.com/sdrausty/TermuxArch/master$dfl/setupTermuxArch.md5
+	curl -q -O https://raw.githubusercontent.com/sdrausty/TermuxArch/master$dfl/setupTermuxArch.md5 -O https://raw.githubusercontent.com/sdrausty/TermuxArch/master$dfl/setupTermuxArch.tar.gz
 	printf "\n"
 fi
 }
@@ -87,7 +88,7 @@ printmd5syschker ()
 
 print1clk ()
 {
-	printf "If you do not see 🕐 one o'clock below, check your Internet connection.  \n"
+	printf "If you do not see 🕐 one o'clock below, check your Internet connection and run this BASH script again.  \n"
 }
 
 printtail ()
@@ -151,8 +152,9 @@ rmds ()
 
 bin=startarch
 #dfl="/gen"
+dfl="/gen"
 dm=curl
-#dm=wget
+#m=wget
 
 if [[ $1 = [Cc][Pp]* ]] || [[ $1 = -[Cc][Pp]* ]] || [[ $1 = --[Cc][Pp]* ]] || [[ $1 = [Cc][Uu]* ]] || [[ $1 = -[Cc][Uu]* ]] || [[ $1 = --[Cc][Uu]* ]];then
 	dm=curl
