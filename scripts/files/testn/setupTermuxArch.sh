@@ -33,7 +33,7 @@ fi
 
 depends ()
 {
-	printf '\033]2;  Thank you for using `setupTermuxArch.sh` 📲 \007'"\n 🕛 \033[36;1m< 🕛 \033[1;34mThis script will attempt to install Arch Linux in a Termux PRoot environment.  When successfully completed, Arch Linux will be available via Termux PRoot on smartphone and tablet in palm and pocket.  "
+	printf '\033]2;  Thank you for using `setupTermuxArch.sh` 📲 \007'"\n 🕛 \033[36;1m< 🕛 \033[1;34mThis script will attempt to install Arch Linux in a Termux PRoot environment.  When successfully completed, Arch Linux will be available via Termux PRoot.  "
 	print1clk 
 if [ -e $PREFIX/bin/bsdtar ] && [ -e $PREFIX/bin/curl ] && [ -e $PREFIX/bin/proot ] && [ -e $PREFIX/bin/wget ] ; then
 	:
