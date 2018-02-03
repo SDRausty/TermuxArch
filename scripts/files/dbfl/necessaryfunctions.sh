@@ -173,9 +173,9 @@ preproot ()
 {
 	if [ $(du ~/arch/*z | awk {'print $1}') -gt 112233 ];then
 		if [ $(getprop ro.product.cpu.abi) = x86_64 ] || [ $(getprop ro.product.cpu.abi) = x86 ];then
-			proot --link2symlink -0 bsdtar -xpf $file --strip-components 1 $dbfl0 $dbfl1
+			proot --link2symlink -0 bsdtar -xpf $file --strip-components 1  $dbfl0 ||:
 		else
-			proot --link2symlink -0 bsdtar -xpf $file $dbfl0 $dbfl1
+			proot --link2symlink -0 bsdtar -xpf $file  $dbfl0 ||:
 		fi
 	else
 		printf "\n\nDownload Exception!  Exiting!\n\n"
@@ -224,8 +224,8 @@ sysinfo ()
 	printf "\ngetprop ro.product.device result:\n\n" >> setupTermuxArchdebug$ntime.log
 	getprop ro.product.device >> setupTermuxArchdebug$ntime.log
 	printf "\nDownload directory information results.\n\n" >> setupTermuxArchdebug$ntime.log
-	ls -al ~/storage/downloads  2>>setupTermuxArchdebug$ntime.log >> setupTermuxArchdebug$ntime.log $dbfl1
-	ls -al ~/downloads 2>>setupTermuxArchdebug$ntime.log  >> setupTermuxArchdebug$ntime.log $dbfl1
+	ls -al ~/storage/downloads  2>>setupTermuxArchdebug$ntime.log >> setupTermuxArchdebug$ntime.log $dbfl0 ||:
+	ls -al ~/downloads 2>>setupTermuxArchdebug$ntime.log  >> setupTermuxArchdebug$ntime.log $dbfl0 ||:
 	if [ -d /sdcard/Download ]; then echo "/sdcard/Download exists"; else echo "/sdcard/Download not found"; fi >> setupTermuxArchdebug$ntime.log 
 	if [ -d /storage/emulated/0/Download ]; then echo "/storage/emulated/0/Download exists"; else echo "/storage/emulated/0/Download not found"; fi >> setupTermuxArchdebug$ntime.log
 	printf "\nuname -mo results:\n\n" >> setupTermuxArchdebug$ntime.log
@@ -252,8 +252,8 @@ rmarch ()
        	fi
 	if [ -d $HOME/arch ] ;then
 		cd $HOME/arch
-		rm -rf * $dbfl0 $dbfl1
-		find -type d -exec chmod 700 {} \; $dbfl0 $dbfl1
+		rm -rf *  $dbfl0 ||:
+		find -type d -exec chmod 700 {} \;  $dbfl0 ||:
 		cd ..
 		rm -rf $HOME/arch
 	else 
