@@ -14,7 +14,7 @@ addbash_profile ()
 	if [ ! -e $HOME/.bash_profile ] ; then
 		:
 	else
-		grep proxy $HOME/.bash_profile |grep "export" >>  root/.bash_profile 2>/dev/null||:
+		grep proxy $HOME/.bash_profile |grep "export" >>  root/.bash_profile
 	fi
 }
 
@@ -44,7 +44,7 @@ addbashrc ()
 	if [ ! -e $HOME/.bashrc ] ; then
 		:
 	else
-		grep proxy $HOME/.bashrc |grep "export" >>  root/.bashrc 2>/dev/null||:
+		grep proxy $HOME/.bashrc |grep "export" >>  root/.bashrc 
 	fi
 }
 
@@ -62,7 +62,7 @@ addprofile ()
 	if [ ! -e $HOME/.profile ] ; then
 		:
 	else
-		grep "proxy" $HOME/.profile |grep "export" >>  root/.profile 2>/dev/null||:
+		grep "proxy" $HOME/.profile |grep "export" >>  root/.profile 
 	fi
 }
 
@@ -165,7 +165,7 @@ adtauser ()
 
 addresolvconf ()
 {
-	rm etc/resolv* 2>/dev/null||:
+	rm etc/resolv* ||:
 	cat > etc/resolv.conf <<- EOM
 	nameserver 8.8.8.8
 	nameserver 8.8.4.4
@@ -217,17 +217,17 @@ makefinishsetup ()
 	#!/bin/bash -e
 	EOM
 	if [ -e $HOME/.bash_profile ]; then
-	grep "proxy" $HOME/.bash_profile | grep "export" >>  root/bin/$binfs 2>/dev/null ||:
+	grep "proxy" $HOME/.bash_profile | grep "export" >>  root/bin/$binfs
 	else
 		:
 	fi
 	if [ -e $HOME/.bashrc ]; then
-	grep "proxy" $HOME/.bashrc  | grep "export" >>  root/bin/$binfs 2>/dev/null ||:
+	grep "proxy" $HOME/.bashrc  | grep "export" >>  root/bin/$binfs
 	else
 		:
 	fi
 	if [ -e $HOME/.profile ]; then
-	grep "proxy" $HOME/.profile | grep "export" >>  root/bin/$binfs 2>/dev/null ||:
+	grep "proxy" $HOME/.profile | grep "export" >>  root/bin/$binfs
 	else
 		:
 	fi
@@ -235,7 +235,7 @@ makefinishsetup ()
 	pacman -Syu sed nano vim --noconfirm ||:
 	locale-gen
 	printf '\033]2; 🕙 < 🕛 Arch Linux in Termux is installed and configured.  📲  \007'
-	rm \$HOME/bin/finishsetup.sh 2>/dev/null ||:
+	rm \$HOME/bin/finishsetup.sh
 	EOM
 	chmod 770 root/bin/finishsetup.sh 
 }
