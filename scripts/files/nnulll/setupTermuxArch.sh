@@ -114,7 +114,7 @@ rmds ()
 }
 
 bin=startarch
-dfl="/gen/nnull"
+dfl="/gen/nnulll"
 dm=curl
 
 if [[ $1 = [Cc][Pp]* ]] || [[ $1 = -[Cc][Pp]* ]] || [[ $1 = --[Cc][Pp]* ]] || [[ $1 = [Cc][Uu]* ]] || [[ $1 = -[Cc][Uu]* ]] || [[ $1 = --[Cc][Uu]* ]];then
