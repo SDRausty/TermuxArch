@@ -86,7 +86,7 @@ detectsystem2p ()
 	if [[ $(getprop ro.product.device) == *_cheets ]];then
 	printf "Chromebook.  "
 	else
-	printf "$(uname -o) Operating System.  "
+	printf "$(uname -o) operating system.  "
 	fi
 }
 
