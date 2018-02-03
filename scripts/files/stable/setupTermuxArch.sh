@@ -87,7 +87,7 @@ printmd5syschker ()
 
 print1clk ()
 {
-	printf "If you do not see 🕐 one o'clock below, check your Internet connection and run this BASH script again.  \n"
+	printf "If you do not see 🕐 one o'clock below, check your Internet connection.  \n"
 }
 
 printtail ()
