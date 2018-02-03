@@ -12,7 +12,7 @@ if md5sum -c termuxarchchecksum.md5 ; then
 	. necessaryfunctions.sh
 	. printoutstatements.sh
 	rmdsc 
-	printf "\n\033[36;1m 🕜 < 🕛 \033[1;34mInstallation script integrity: \033[36;1mOK  \n\033[0m"
+	printf "\n\033[36;1m 🕜 < 🕛 \033[1;34mScript integrity: \033[36;1mOK  \n\033[0m"
 else
 	rmdsc 
 	printmd5syschker
@@ -22,7 +22,7 @@ fi
 chkdwn ()
 {
 if md5sum -c setupTermuxArch.md5 ; then
-	printf "\n 🕐 \033[36;1m< 🕛 \033[1;34mInstallation script download: \033[36;1mOK  \n\n\033[36;1m"
+	printf "\n 🕐 \033[36;1m< 🕛 \033[1;34mScript download: \033[36;1mOK  \n\n\033[36;1m"
 	bsdtar -xf setupTermuxArch.tar.gz
 	rmds 
 else
@@ -50,7 +50,7 @@ else
 	printf "\n\n\033[0m"
 	exit
 fi
-	printf "\n 🕧 \033[1;36m< 🕛 \033[1;34mTermux package requirements for Arch Linux: \033[36;1mOK  \n\n"
+	printf "\n 🕧 \033[1;36m< 🕛 \033[1;34mPrerequisite Termux packages: \033[36;1mOK  \n\n"
 	dwnl
 	chkdwn
 	chk
