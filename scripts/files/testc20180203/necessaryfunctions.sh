@@ -151,7 +151,7 @@ makesystem ()
 {
 	printdownloading 
 	termux-wake-lock 
-	if [ $(getprop ro.product.cpu.abi) -ne x86_64 ] || [ $(getprop ro.product.cpu.abi) -ne x86 ];then
+	if [[ $(getprop ro.product.cpu.abi) -ne x86_64 ]] || [[ $(getprop ro.product.cpu.abi) -ne x86 ]];then
 		ftchstnd
 	else
 		adjustmd5file
