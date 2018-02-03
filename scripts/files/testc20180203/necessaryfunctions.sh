@@ -16,11 +16,7 @@ adjustmd5file ()
 		sed '2q;d' md5sums.txt > $filename.md5
 		rm md5sums.txt
 	else
-		if [[ $dm = wget ]];then 
-			wget -q -N --show-progress http://$mirror$path$file.md5 
-		else
-			curl -q --fail --retry 4 -O -L http://$mirror$path$file.md5
-		fi
+		ftchstnd 
 	fi
 }
 
@@ -90,6 +86,16 @@ detectsystem2p ()
 	fi
 }
 
+ftchstnd ()
+{
+		if [[ $dm = wget ]];then 
+			wget -q -N --show-progress http://$mirror$path$file.md5 
+			wget -q -c --show-progress http://$mirror$path$file 
+		else
+			curl -q --fail --retry 4 -O -L http://$mirror$path$file.md5 -O -L http://$mirror$path$file
+		fi
+}
+
 getimage ()
 {
 	if [ $(getprop ro.product.cpu.abi) = x86_64 ];then
@@ -102,11 +108,7 @@ getimage ()
 			wget -A tar.gz -m -nd -np http://$mirror$path
 		fi
 	else
-		if [[ $dm = wget ]];then 
-			wget -q -c --show-progress http://$mirror$path$file 
-		else
-			curl -q -C - --fail --retry 4 -O -L http://$mirror$path$file
-		fi
+		ftchstnd 
 	fi
 }
 
