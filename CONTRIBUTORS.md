@@ -44,6 +44,6 @@ jlam: contributed `getprop ro.product.device` Chromebook detection, `getprop ro.
 
 [@vishalbiswas](https://github.com/vishalbiswas) contributed: `export LD_PRELOAD=$PREFIX/lib/libtermux-exec.so`.  Result: setupTermuxArch.sh improved!
 
-[@xeffyr](https://github.com/Xeffyr) contributed: debugging wget v1.19.3 errors Result: setupTermuxArch.sh improved!
+[@xeffyr](https://github.com/Xeffyr) contributed: debugging wget v1.19.3 errors and insight into PRoot.  Result: setupTermuxArch.sh improved!
 
 Thank you for making this project work better and please contribute 🔆  See [Notice to Contributors](NOTICE) for information.  See [PRoot](docs/PRoot) for more information about Linux on device with Termux.
