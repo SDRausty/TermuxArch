@@ -9,4 +9,3 @@ cat CHANGE.log
 du -hs .git >> CHANGE.log
 du -hs >> CHANGE.log
 cat CHANGE.log
-#git push master --force 

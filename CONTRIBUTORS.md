@@ -18,7 +18,9 @@
 
 [@developer787](https://github.com/developer787) submitted an issue.  Result: setupTermuxArch.sh improved! 
 
-[@fornwall](https://github.com/fornwall) contributed: pushed wget v1.19.4 fixing wget v1.19.3 errors Result: setupTermuxArch.sh improved!
+[@fornwall](https://github.com/fornwall) contributed: Created Termux...pushed wget v1.19.4 fixing wget v1.19.3 errors immediatly...  Result: setupTermuxArch.sh improved!
+
+[@Hax4us](https://github.com/Hax4us) provided insight regarding open issues. Submitted pull request.  Result: setupTermuxArch.sh improved! 
 
 [@iantothecore](https://github.com/iantothecore) submitted an issue.  Result: setupTermuxArch.sh improved! 
 
@@ -44,4 +46,4 @@ jlam: contributed `getprop ro.product.device` Chromebook detection, `getprop ro.
 
 [@xeffyr](https://github.com/Xeffyr) contributed: debugging wget v1.19.3 errors Result: setupTermuxArch.sh improved!
 
-Thank you for making this project work better and please contribute 🔆  See [Notice to Contributors](NOTICE) for more information.  Please see [PRoot](docs/PRoot) for more information about Linux on device with Termux.
+Thank you for making this project work better and please contribute 🔆  See [Notice to Contributors](NOTICE) for information.  See [PRoot](docs/PRoot) for more information about Linux on device with Termux.
