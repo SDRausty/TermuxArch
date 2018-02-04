@@ -12,6 +12,7 @@ chk ()
 		. knownconfigurations.sh
 		. necessaryfunctions.sh
 		. printoutstatements.sh
+		. systemmaintenance.sh
 		rmdsc 
 		printf "\n\033[36;1m 🕜 < 🕛 \033[1;34mTermuxArch integrity: \033[36;1mOK  \n\033[0m"
 	else
@@ -105,6 +106,7 @@ rmdsc ()
 	rm necessaryfunctions.sh
 	rm printoutstatements.sh
 	rm termuxarchchecksum.md5
+	rm systemmaintenance.sh
 }
 
 rmds ()
