@@ -114,9 +114,9 @@ rmds ()
 }
 
 bin=startarch
-dfl="/gen/dbfl"
-dbfl0="2>/dev/null"
-dbfl1="||:"
+dfl='/gen/dbfl'
+dbfl0='2>/dev/null'
+dbfl1='||:'
 dm=curl
 
 if [[ $1 = [Cc][Pp]* ]] || [[ $1 = -[Cc][Pp]* ]] || [[ $1 = --[Cc][Pp]* ]] || [[ $1 = [Cc][Uu]* ]] || [[ $1 = -[Cc][Uu]* ]] || [[ $1 = --[Cc][Uu]* ]];then
