@@ -115,7 +115,7 @@ rmds ()
 
 bin=startarch
 dfl="/gen/dbfl"
-dbfl0="2\>/dev/null"
+dbfl0="2>/dev/null"
 dbfl1="||:"
 dm=curl
 
