@@ -72,11 +72,11 @@ mainblock ()
 { 
 	depends
 	callsystem 
-	$HOME/arch/root/bin/setupbin.sh ||: 
+	$HOME/arch/root/bin/setupbin.sh $dgfl1
 	termux-wake-unlock
 	rm $HOME/arch/root/bin/setupbin.sh
 	printfooter
-	$HOME/arch/$bin ||: 
+	$HOME/arch/$bin $dgfl1
 	printtail
 }
 
@@ -115,6 +115,8 @@ rmds ()
 
 bin=startarch
 #dfl="/gen"
+dgfl0="2>/dev/null"
+dgfl1="||:"
 dm=curl
 
 if [[ $1 = [Cc][Pp]* ]] || [[ $1 = -[Cc][Pp]* ]] || [[ $1 = --[Cc][Pp]* ]] || [[ $1 = [Cc][Uu]* ]] || [[ $1 = -[Cc][Uu]* ]] || [[ $1 = --[Cc][Uu]* ]];then
