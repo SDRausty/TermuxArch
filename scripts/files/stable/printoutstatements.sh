@@ -36,7 +36,7 @@ printmd5error ()
 
 printmd5success ()
 {
-	printf '\033]2;  🕡 < 🕛 Uncompressing the system image file.  This will take a long time.  Be patient.  \007'"\n\033[36;1m 🕕 < 🕛 \033[1;34mDownload integrity: \033[36;1mOK  \n\n\033[36;1m 🕡 < 🕛 \033[1;34mUncompressing \033[36;1m$file\033[37;1m.  This will take a long time.  Be patient.  \n\033[0m"
+	printf '\033]2;  🕡 < 🕛 Uncompressing system image file.  This will take a long time; Be patient.  \007'"\n\033[36;1m 🕕 < 🕛 \033[1;34mDownload integrity: \033[36;1mOK  \n\n\033[36;1m 🕡 < 🕛 \033[1;34mUncompressing \033[36;1m$file\033[37;1m.  This will take a long time.  Be patient.  \n\033[0m"
 }
 
 printmismatch ()
