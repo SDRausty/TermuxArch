@@ -11,7 +11,7 @@ ntime=`date +%N`
 time=`date +%H:%M:%S`
 utime=`date +%s`
 ymnth=`date +%Y%m`
-msg="Using v0.4.$ntime from branch master created in $ymnth."
+msg="Running v0.4.$ntime from branch master hosted at https://sdrausty.github.io/TermuxArch"
 echo "printf \"$msg\""
 ms="		printf \"$msg\""
 

@@ -41,11 +41,11 @@ rmarch ()
 {
 	while true; do
 	printf "\n\033[1;31m"
-	read -p "Uninstall Arch Linux? [y|n]  " uanswer
+	read -p "Uninstall Arch Linux? [y|n]" uanswer
 	if [[ $uanswer = [Ee]* ]] || [[ $uanswer = [Nn]* ]] || [[ $uanswer = [Qq]* ]];then
 		break
 	elif [[ $uanswer = [Yy]* ]];then
-	printf "\nUninstalling Arch Linux...  \033[1;32m\n"
+	printf "\n\033[1;32mUninstalling Arch Linux...\n"
 	if [ -e $PREFIX/bin/$bin ] ;then
 	       	rm $PREFIX/bin/$bin 
 	else 
@@ -60,7 +60,7 @@ rmarch ()
 	else 
 		printf "Uninstalling Arch Linux, nothing to do for $HOME/arch.\n"
 	fi
-	printf "Uninstalling Arch Linux done.  \n"
+	printf "Uninstalling Arch Linux done.\n"
 	printtail
 	else
 		printf "\nYou answered \033[33;1m$uanswer\033[1;31m.\n\nAnswer \033[32mYes\033[1;31m or No. [\033[32my\033[1;31m|n]\n"
