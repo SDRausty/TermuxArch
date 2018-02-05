@@ -5,6 +5,12 @@
 # https://sdrausty.github.io/TermuxArch/NOTICE has info about this project. 
 ################################################################################
 
+bin=startarch
+#dfl="/gen"
+dgfl0="2>/dev/null"
+dgfl1="||:"
+dm=curl
+
 chk ()
 {
 	if md5sum -c termuxarchchecksum.md5 ; then
@@ -51,7 +57,7 @@ depends ()
 		printf "\n\n\033[0m"
 		exit
 	fi
-		printf "\n 🕧 \033[1;36m< 🕛 \033[1;34mPrerequisite packages: \033[36;1mOK  \n\n"
+	printf "\n 🕧 \033[1;36m< 🕛 \033[1;34mPrerequisite packages: \033[36;1mOK  \n\n"
 	dwnl
 	chkdwn
 	chk
@@ -114,12 +120,6 @@ rmds ()
 	rm setupTermuxArch.md5
 	rm setupTermuxArch.tar.gz
 }
-
-bin=startarch
-#dfl="/gen"
-dgfl0="2>/dev/null"
-dgfl1="||:"
-dm=curl
 
 if [[ $1 = [Cc][Pp]* ]] || [[ $1 = -[Cc][Pp]* ]] || [[ $1 = --[Cc][Pp]* ]] || [[ $1 = [Cc][Uu]* ]] || [[ $1 = -[Cc][Uu]* ]] || [[ $1 = --[Cc][Uu]* ]];then
 	depends
