@@ -5,6 +5,7 @@
 # https://sdrausty.github.io/TermuxArch/README has information about this project. 
 ################################################################################
 
+args=$@
 bin=startarch
 dfl="/gen"
 dgfl0="2>/dev/null"
@@ -56,7 +57,7 @@ chkself ()
 		echo $pvr 
 		echo $pvrd 
 		sleep 2
-		. setupTermuxArch.sh
+		. setupTermuxArch.sh $args
 		echo did something
 	fi
 }
@@ -165,4 +166,4 @@ elif [[ $1 = "" ]] || [[ $1 = [Ii]* ]] || [[ $1 = -[Ii]* ]] || [[ $1 = --[Ii]* ]
 else
 	printusage
 fi
-echo TermuxArch v0.4.471363033
+echo TermuxArch v0.4.278961652
