@@ -1,17 +1,27 @@
 #!/bin/bash -e
 # Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
-# Website hosting https://sdrausty.github.io/TermuxArch is courtesy of GitHub.  
-# https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help!  
-# https://sdrausty.github.io/TermuxArch/NOTICE has info about this project. 
+# Hosting https://sdrausty.github.io/TermuxArch courtesy https://pages.github.com
+# https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.  
+# https://sdrausty.github.io/TermuxArch/README has information about this project. 
 ################################################################################
+
+bin=startarch
+dfl="/gen"
+dgfl0="2>/dev/null"
+dgfl1="||:"
+dm=curl
+pvr=$(du -b setupTermuxArch.sh)
 
 chk ()
 {
 	if md5sum -c termuxarchchecksum.md5 ; then
+		chkself 
 		. archsystemconfigs.sh
+		. getimagefunctions.sh
 		. knownconfigurations.sh
 		. necessaryfunctions.sh
 		. printoutstatements.sh
+		. systemmaintenance.sh
 		rmdsc 
 		printf "\n\033[36;1m 🕜 < 🕛 \033[1;34mTermuxArch integrity: \033[36;1mOK  \n\033[0m"
 	else
@@ -29,6 +39,15 @@ chkdwn ()
 	else
 		rmds 
 		printmd5syschker
+	fi
+}
+
+chkself ()
+{
+	if [ $pvr = $(du -b setupTermuxArch.sh) ];then
+		:
+	else
+		. setupTermuxArch.sh
 	fi
 }
 
@@ -50,10 +69,10 @@ depends ()
 		printf "\n\n\033[0m"
 		exit
 	fi
-		printf "\n 🕧 \033[1;36m< 🕛 \033[1;34mPrerequisite packages: \033[36;1mOK  \n\n"
-		dwnl
-		chkdwn
-		chk
+	printf "\n 🕧 \033[1;36m< 🕛 \033[1;34mPrerequisite packages: \033[36;1mOK  \n\n"
+	dwnl
+	chkdwn
+	chk
 }
 
 dwnl ()
@@ -72,11 +91,11 @@ mainblock ()
 { 
 	depends
 	callsystem 
-	$HOME/arch/root/bin/setupbin.sh ||: 
+	$HOME/arch/root/bin/setupbin.sh $dgfl1
 	termux-wake-unlock
 	rm $HOME/arch/root/bin/setupbin.sh
 	printfooter
-	$HOME/arch/$bin ||: 
+	$HOME/arch/$bin $dgfl1
 	printtail
 }
 
@@ -101,9 +120,11 @@ printusage ()
 rmdsc ()
 {
 	rm archsystemconfigs.sh
+	rm getimagefunctions.sh
 	rm knownconfigurations.sh
 	rm necessaryfunctions.sh
 	rm printoutstatements.sh
+	rm systemmaintenance.sh
 	rm termuxarchchecksum.md5
 }
 
@@ -112,10 +133,6 @@ rmds ()
 	rm setupTermuxArch.md5
 	rm setupTermuxArch.tar.gz
 }
-
-bin=startarch
-dfl="/gen/nnulll"
-dm=curl
 
 if [[ $1 = [Cc][Pp]* ]] || [[ $1 = -[Cc][Pp]* ]] || [[ $1 = --[Cc][Pp]* ]] || [[ $1 = [Cc][Uu]* ]] || [[ $1 = -[Cc][Uu]* ]] || [[ $1 = --[Cc][Uu]* ]];then
 	depends

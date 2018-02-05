@@ -1,7 +1,8 @@
 #!/bin/bash -e
-# Copyright 2017-2018 by SDRausty. All rights reserved.
-# Website for this project at https://sdrausty.github.io/TermuxArch
-# See https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank You 
+# Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
+# Hosting https://sdrausty.github.io/TermuxArch courtesy https://pages.github.com
+# https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.  
+# https://sdrausty.github.io/TermuxArch/README has information about this project. 
 ################################################################################
 
 addbash_profile ()
@@ -14,7 +15,7 @@ addbash_profile ()
 	if [ ! -e $HOME/.bash_profile ] ; then
 		:
 	else
-		grep proxy $HOME/.bash_profile |grep "export" >>  root/.bash_profile
+		grep proxy $HOME/.bash_profile |grep "export" >>  root/.bash_profile 2>/dev/null||:
 	fi
 }
 
@@ -44,7 +45,7 @@ addbashrc ()
 	if [ ! -e $HOME/.bashrc ] ; then
 		:
 	else
-		grep proxy $HOME/.bashrc |grep "export" >>  root/.bashrc 
+		grep proxy $HOME/.bashrc |grep "export" >>  root/.bashrc 2>/dev/null||:
 	fi
 }
 
@@ -62,7 +63,7 @@ addprofile ()
 	if [ ! -e $HOME/.profile ] ; then
 		:
 	else
-		grep "proxy" $HOME/.profile |grep "export" >>  root/.profile 
+		grep "proxy" $HOME/.profile |grep "export" >>  root/.profile 2>/dev/null||:
 	fi
 }
 
@@ -165,7 +166,7 @@ adtauser ()
 
 addresolvconf ()
 {
-	rm etc/resolv* ||:
+	rm etc/resolv* 2>/dev/null||:
 	cat > etc/resolv.conf <<- EOM
 	nameserver 8.8.8.8
 	nameserver 8.8.4.4
@@ -217,17 +218,17 @@ makefinishsetup ()
 	#!/bin/bash -e
 	EOM
 	if [ -e $HOME/.bash_profile ]; then
-	grep "proxy" $HOME/.bash_profile | grep "export" >>  root/bin/$binfs
+	grep "proxy" $HOME/.bash_profile | grep "export" >>  root/bin/$binfs 2>/dev/null ||:
 	else
 		:
 	fi
 	if [ -e $HOME/.bashrc ]; then
-	grep "proxy" $HOME/.bashrc  | grep "export" >>  root/bin/$binfs
+	grep "proxy" $HOME/.bashrc  | grep "export" >>  root/bin/$binfs 2>/dev/null ||:
 	else
 		:
 	fi
 	if [ -e $HOME/.profile ]; then
-	grep "proxy" $HOME/.profile | grep "export" >>  root/bin/$binfs
+	grep "proxy" $HOME/.profile | grep "export" >>  root/bin/$binfs 2>/dev/null ||:
 	else
 		:
 	fi
@@ -235,7 +236,7 @@ makefinishsetup ()
 	pacman -Syu sed nano vim --noconfirm ||:
 	locale-gen
 	printf '\033]2; 🕙 < 🕛 Arch Linux in Termux is installed and configured.  📲  \007'
-	rm \$HOME/bin/finishsetup.sh
+	rm \$HOME/bin/finishsetup.sh 2>/dev/null ||:
 	EOM
 	chmod 770 root/bin/finishsetup.sh 
 }

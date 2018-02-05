@@ -1,7 +1,8 @@
 #!/bin/bash -e
-# Copyright 2017-2018 by SDRausty. All rights reserved.
-# Website for this project at https://sdrausty.github.io/TermuxArch 
-# See https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank You! 
+# Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
+# Hosting https://sdrausty.github.io/TermuxArch courtesy https://pages.github.com
+# https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.  
+# https://sdrausty.github.io/TermuxArch/README has information about this project. 
 # 🕧🕐🕜🕑🕝🕒🕞🕓🕟🕔🕠🕕🕡🕖🕢🕗🕣🕘🕤🕙🕥🕚🕦🕛
 # Printout statement subroutines for `setupTermuxArch.sh`.
 ################################################################################
@@ -15,7 +16,7 @@ printdetectedsystem ()
 
 printdownloading ()
 {
-	printf "\n\033[36;1m 🕝 < 🕛 \033[1;34mActivating termux-wake-lock.  Downloading \033[36;1m$file \033[1;34mand the corresponding checksum.  \033[37;1mThis may take a long time pending Internet connection.  \n\n\033[36;1m"'\033]2;  🕝 < 🕛 Downloading the system image file and the corresponding checksum.  \007'
+	printf "\n\033[36;1m 🕝 < 🕛 \033[1;34mActivating termux-wake-lock.  Downloading \033[36;1m$file \033[1;34mand the corresponding checksum.  \033[37;1mPending Internet connection, this might take a long while.  \n\n\033[36;1m"'\033]2;  🕝 < 🕛 Downloading the system image file and the corresponding checksum.  \007'
 }
 
 printconfigq ()
@@ -36,7 +37,7 @@ printmd5error ()
 
 printmd5success ()
 {
-	printf '\033]2;  🕡 < 🕛 Uncompressing the system image file.  This will take a long time.  Be patient.  \007'"\n\033[36;1m 🕕 < 🕛 \033[1;34mDownload integrity: \033[36;1mOK  \n\n\033[36;1m 🕡 < 🕛 \033[1;34mUncompressing \033[36;1m$file\033[37;1m.  This will take a long time.  Be patient.  \n\033[0m"
+	printf '\033]2;  🕡 < 🕛 Uncompressing system image file.  This will take a long time; Be patient.  \007'"\n\033[36;1m 🕕 < 🕛 \033[1;34mDownload integrity: \033[36;1mOK  \n\n\033[36;1m 🕡 < 🕛 \033[1;34mUncompressing \033[36;1m$file\033[37;1m.  This will take a long time.  Be patient.  \n\033[0m"
 }
 
 printmismatch ()

@@ -6,14 +6,16 @@
 ################################################################################
 
 bin=startarch
-#dfl="/gen"
+dfl="/gen"
 dgfl0="2>/dev/null"
 dgfl1="||:"
 dm=curl
+pvr=$(du -b setupTermuxArch.sh)
 
 chk ()
 {
 	if md5sum -c termuxarchchecksum.md5 ; then
+		chkself 
 		. archsystemconfigs.sh
 		. getimagefunctions.sh
 		. knownconfigurations.sh
@@ -37,6 +39,15 @@ chkdwn ()
 	else
 		rmds 
 		printmd5syschker
+	fi
+}
+
+chkself ()
+{
+	if [ $pvr = $(du -b setupTermuxArch.sh) ];then
+		:
+	else
+		. setupTermuxArch.sh
 	fi
 }
 
@@ -144,4 +155,4 @@ elif [[ $1 = "" ]] || [[ $1 = [Ii]* ]] || [[ $1 = -[Ii]* ]] || [[ $1 = --[Ii]* ]
 else
 	printusage
 fi
-echo TermuxArch v0.4.897113346
+echo TermuxArch v0.4.424147393
