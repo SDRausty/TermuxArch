@@ -13,6 +13,9 @@ pwd
 ls -al se*
 printf "\n"
 cp setupTermuxArch.sh ..
+echo "echo $(date +%N)" >> ../setupTermuxArch.sh 
+ntime=`date +%N`
+echo "$(date +%N)" 
 md5sum *sh > termuxarchchecksum.md5 
 cd ..
 bsdtar -czv -f setupTermuxArch.tar.gz --strip-components 1 $cdir/*
