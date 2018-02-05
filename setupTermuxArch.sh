@@ -41,7 +41,7 @@ chkself ()
 	if [[ $pvsz = $crsz ]] ;then
 		:
 	else
-		printf "\n\033[36;1m 🕜 < 🕛 \`setupTermuxArch.sh\` \033[1;34mupdated; Will restart Arch Linux Termux PRoot setup: \033[33;1mWARNING  \n\033[0m"
+		printf "\n\033[36;1m 🕜 < 🕛 \`setupTermuxArch.sh\` \033[1;34mupdated; Arch Linux Termux PRoot setup restarted: \033[33;1mWARNING  \n\033[0m"
 		. setupTermuxArch.sh $args
 	fi
 }
