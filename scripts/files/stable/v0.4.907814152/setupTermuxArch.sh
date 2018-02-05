@@ -16,8 +16,8 @@ chk ()
 		. printoutstatements.sh
 		. systemmaintenance.sh
 		rmdsc 
-		printf "\n\033[36;1m 🕜 < 🕛 \033[1;34mTermuxArch integrity: \033[36;1mOK. "
-		printf "Running v0.4.219217021.  Ensure background data is not restricted."
+		printf "\n\033[36;1m 🕜 < 🕛 \033[1;34mTermuxArch integrity: \033[36;1mOK: "
+		printf "Running v0.4.907814152"
 		printf "\n\033[0m"
 	else
 		rmdsc 
@@ -50,7 +50,7 @@ chkself ()
 
 depends ()
 {
-	printf '\033]2;  Thank you for using `setupTermuxArch.sh` 📲 \007'"\n 🕛 \033[36;1m< 🕛 \033[1;34mTermuxArch will attempt to install Linux in Termux.  Arch Linux will be available upon successful completion.  If you do not see one o'clock 🕐 below, check wireless connection.\n"
+	printf '\033]2;  Thank you for using `setupTermuxArch.sh` 📲 \007'"\n 🕛 \033[36;1m< 🕛 \033[1;34mTermuxArch will attempt to install Linux in Termux.  Arch Linux will be available upon successful completion.  If you do not see one o'clock 🕐 below, check wireless connection.  Ensure background data is not restricted.\n"
 	if [ -e $PREFIX/bin/bsdtar ] && [ -e $PREFIX/bin/curl ] && [ -e $PREFIX/bin/proot ] && [ -e $PREFIX/bin/wget ] ; then
 		:
 	else
@@ -61,9 +61,7 @@ depends ()
 	if [ -e $PREFIX/bin/bsdtar ] && [ -e $PREFIX/bin/curl ] && [ -e $PREFIX/bin/proot ] && [ -e $PREFIX/bin/wget ] ; then
 		:
 	else
-		printf "\033[1;34m"  
-		printf "Prerequisites exception.  Run the script again. "
-		printf "\n\n\033[0m"
+		printf "\033[1;36mPrerequisites exception.  Run the script again.\n\n\033[0m"
 		exit
 	fi
 	printf "\n 🕧 \033[1;36m< 🕛 \033[1;34mPrerequisite packages: \033[36;1mOK\n\n"
@@ -75,8 +73,8 @@ depends ()
 dwnl ()
 {
 	if [[ $dm = wget ]];then
-		wget -q -N --show-progress https://raw.githubusercontent.com/sdrausty/TermuxArch/master$dfl/setupTermuxArch.tar.gz
 		wget -q -N --show-progress https://raw.githubusercontent.com/sdrausty/TermuxArch/master$dfl/setupTermuxArch.md5 
+		wget -q -N --show-progress https://raw.githubusercontent.com/sdrausty/TermuxArch/master$dfl/setupTermuxArch.tar.gz
 		printf "\n"
 	else
 		curl -q -O https://raw.githubusercontent.com/sdrausty/TermuxArch/master$dfl/setupTermuxArch.md5 -O https://raw.githubusercontent.com/sdrausty/TermuxArch/master$dfl/setupTermuxArch.tar.gz
@@ -133,8 +131,8 @@ rmds ()
 
 args=$@
 bin=startarch
-#dfl="/gen"
-dm=curl
+dfl="/gen"
+dm=wget
 pvsz=$(du -b setupTermuxArch.sh)
 #
 if [[ $1 = [Cc][Pp]* ]] || [[ $1 = -[Cc][Pp]* ]] || [[ $1 = --[Cc][Pp]* ]] || [[ $1 = [Cc][Uu]* ]] || [[ $1 = -[Cc][Uu]* ]] || [[ $1 = --[Cc][Uu]* ]];then
