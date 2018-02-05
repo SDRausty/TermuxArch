@@ -11,6 +11,7 @@ dgfl0="2>/dev/null"
 dgfl1="||:"
 dm=curl
 pvr=$(du -b setupTermuxArch.sh)
+pvrd=$(du -b setupTermuxArch.sh) 
 
 chk ()
 {
@@ -44,7 +45,7 @@ chkdwn ()
 
 chkself ()
 {
-	if [ $pvr = $(du -b setupTermuxArch.sh) ];then
+	if $pvr = $pvrd ;then
 		:
 	else
 		. setupTermuxArch.sh
