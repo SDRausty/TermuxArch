@@ -45,7 +45,7 @@ chkdwn ()
 
 chkself ()
 {
-	if $pvr = $pvrd ;then
+	if pvr=pvrd ;then
 		:
 	else
 		. setupTermuxArch.sh
