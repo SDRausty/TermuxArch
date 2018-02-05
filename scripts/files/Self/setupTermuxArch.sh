@@ -53,11 +53,11 @@ chkself ()
 		sleep 2
 	else
 		echo will do something
-		. setupTermuxArch.sh
-		echo did something
 		echo $pvr 
 		echo $pvrd 
 		sleep 2
+		. setupTermuxArch.sh
+		echo did something
 	fi
 }
 
