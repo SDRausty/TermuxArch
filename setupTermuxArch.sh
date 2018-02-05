@@ -17,7 +17,7 @@ chk ()
 		. systemmaintenance.sh
 		rmdsc 
 		printf "\n\033[36;1m 🕜 < 🕛 \033[1;34mTermuxArch integrity: \033[36;1mOK. "
-		printf "Running v0.4.494039256"
+		printf "Running v0.4.313636512"
 		printf "\n\033[0m"
 	else
 		rmdsc 
@@ -61,9 +61,7 @@ depends ()
 	if [ -e $PREFIX/bin/bsdtar ] && [ -e $PREFIX/bin/curl ] && [ -e $PREFIX/bin/proot ] && [ -e $PREFIX/bin/wget ] ; then
 		:
 	else
-		printf "\033[1;34m"  
-		printf "Prerequisites exception.  Run the script again. "
-		printf "\n\n\033[0m"
+		printf "\033[1;36mPrerequisites exception.  Run the script again.\n\n\033[0m"
 		exit
 	fi
 	printf "\n 🕧 \033[1;36m< 🕛 \033[1;34mPrerequisite packages: \033[36;1mOK\n\n"
