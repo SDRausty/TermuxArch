@@ -17,7 +17,9 @@ chk ()
 		. systemmaintenance.sh
 		rmdsc 
 		printf "\n\033[36;1m 🕜 < 🕛 \033[1;34mTermuxArch integrity: \033[36;1mOK  \n\033[0m"
-		printf "Running version v0.4.314291873 from branch master created on 201802."
+		printf "\n\033[36;1m 🕜 < 🕛 \033[36;1m"
+		printf "Using v0.4.579005639 from branch master created in 201802."
+		printf "\n\033[0m"
 	else
 		rmdsc 
 		printmd5syschker
