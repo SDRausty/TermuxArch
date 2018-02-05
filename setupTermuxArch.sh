@@ -5,15 +5,10 @@
 # https://sdrausty.github.io/TermuxArch/README has information about this project. 
 ################################################################################
 
-bin=startarch
-#dfl="/gen"
-dgfl0="2>/dev/null"
-dgfl1="||:"
-dm=curl
-
 chk ()
 {
 	if md5sum -c termuxarchchecksum.md5 ; then
+		chkself 
 		. archsystemconfigs.sh
 		. getimagefunctions.sh
 		. knownconfigurations.sh
@@ -37,6 +32,17 @@ chkdwn ()
 	else
 		rmds 
 		printmd5syschker
+	fi
+}
+
+chkself ()
+{
+	crsz=$(du -b setupTermuxArch.sh) 
+	if [[ $pvsz = $crsz ]] ;then
+		:
+	else
+		echo updated will restart
+		. setupTermuxArch.sh $args
 	fi
 }
 
@@ -122,6 +128,14 @@ rmds ()
 	rm setupTermuxArch.md5
 	rm setupTermuxArch.tar.gz
 }
+
+args=$@
+bin=startarch
+#dfl="/gen"
+dgfl0="2>/dev/null"
+dgfl1="||:"
+dm=curl
+pvsz=$(du -b setupTermuxArch.sh)
 
 if [[ $1 = [Cc][Pp]* ]] || [[ $1 = -[Cc][Pp]* ]] || [[ $1 = --[Cc][Pp]* ]] || [[ $1 = [Cc][Uu]* ]] || [[ $1 = -[Cc][Uu]* ]] || [[ $1 = --[Cc][Uu]* ]];then
 	depends
