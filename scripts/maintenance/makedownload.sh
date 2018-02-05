@@ -13,7 +13,6 @@ utime=`date +%s`
 ymnth=`date +%Y%m`
 msg="Using v0.4.$ntime from branch master created in $ymnth."
 echo "printf \"$msg\""
-echo "printf \"$msg\""
 ms="		printf \"$msg\""
 
 sed -i "/Running/c\\$ms" setupTermuxArch.sh 
