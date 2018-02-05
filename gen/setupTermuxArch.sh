@@ -41,14 +41,14 @@ chkself ()
 	if [[ $pvsz = $crsz ]] ;then
 		:
 	else
-		printf "\n\033[36;1m 🕜 < 🕛 \033[1;34mTermuxArch updated will restart: \033[36;1mOK  \n\033[0m"
+		printf "\n\033[36;1m 🕜 < 🕛 \`setupTermuxArch.sh\` \033[1;34mupdated; Will restart Arch Linux Termux PRoot setup: \033[33;1mWARNING  \n\033[0m"
 		. setupTermuxArch.sh $args
 	fi
 }
 
 depends ()
 {
-	printf '\033]2;  Thank you for using `setupTermuxArch.sh` 📲 \007'"\n 🕛 \033[36;1m< 🕛 \033[1;34mTermuxArch will attempt to install Linux in Termux.  Arch Linux will be available upon successful completion.  Check the Internet connection if you do not see one o'clock 🕐 below.  \n"
+	printf '\033]2;  Thank you for using `setupTermuxArch.sh` 📲 \007'"\n 🕛 \033[36;1m< 🕛 \033[1;34mTermuxArch will attempt to install Linux in Termux.  Arch Linux will be available upon successful completion.  If you do not see one o'clock 🕐 below, check wireless connection.  \n"
 	if [ -e $PREFIX/bin/bsdtar ] && [ -e $PREFIX/bin/curl ] && [ -e $PREFIX/bin/proot ] && [ -e $PREFIX/bin/wget ] ; then
 		:
 	else
@@ -132,8 +132,8 @@ rmds ()
 args=$@
 bin=startarch
 #dfl="/gen"
-dgfl0="2>/dev/null"
-dgfl1="||:"
+dgfl0='2>/dev/null'
+dgfl1='||:'
 dm=curl
 pvsz=$(du -b setupTermuxArch.sh)
 
@@ -158,4 +158,4 @@ elif [[ $1 = "" ]] || [[ $1 = [Ii]* ]] || [[ $1 = -[Ii]* ]] || [[ $1 = --[Ii]* ]
 else
 	printusage
 fi
-echo TermuxArch v0.4.945194461
+echo TermuxArch v0.4.866545135

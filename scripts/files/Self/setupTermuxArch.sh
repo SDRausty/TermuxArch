@@ -5,14 +5,6 @@
 # https://sdrausty.github.io/TermuxArch/README has information about this project. 
 ################################################################################
 
-args=$@
-bin=startarch
-dfl="/gen"
-dgfl0="2>/dev/null"
-dgfl1="||:"
-dm=curl
-pvr=$(du -b setupTermuxArch.sh)
-
 chk ()
 {
 	if md5sum -c termuxarchchecksum.md5 ; then
@@ -45,26 +37,18 @@ chkdwn ()
 
 chkself ()
 {
-	pvrd=$(du -b setupTermuxArch.sh) 
-	if [[ $pvr = $pvrd ]] ;then
+	crsz=$(du -b setupTermuxArch.sh) 
+	if [[ $pvsz = $crsz ]] ;then
 		:
-		echo did nothing
-		echo $pvr 
-		echo $pvrd 
-		sleep 2
 	else
-		echo will do something
-		echo $pvr 
-		echo $pvrd 
-		sleep 2
+		printf "\n\033[36;1m 🕜 < 🕛 \`setupTermuxArch.sh\` \033[1;34mupdated; Will restart Arch Linux Termux PRoot setup: \033[33;1mWARNING  \n\033[0m"
 		. setupTermuxArch.sh $args
-		echo did something
 	fi
 }
 
 depends ()
 {
-	printf '\033]2;  Thank you for using `setupTermuxArch.sh` 📲 \007'"\n 🕛 \033[36;1m< 🕛 \033[1;34mTermuxArch will attempt to install Linux in Termux.  Arch Linux will be available upon successful completion.  Check the Internet connection if you do not see one o'clock 🕐 below.  \n"
+	printf '\033]2;  Thank you for using `setupTermuxArch.sh` 📲 \007'"\n 🕛 \033[36;1m< 🕛 \033[1;34mTermuxArch will attempt to install Linux in Termux.  Arch Linux will be available upon successful completion.  If you do not see one o'clock 🕐 below, check wireless connection.  \n"
 	if [ -e $PREFIX/bin/bsdtar ] && [ -e $PREFIX/bin/curl ] && [ -e $PREFIX/bin/proot ] && [ -e $PREFIX/bin/wget ] ; then
 		:
 	else
@@ -144,6 +128,14 @@ rmds ()
 	rm setupTermuxArch.md5
 	rm setupTermuxArch.tar.gz
 }
+
+args=$@
+bin=startarch
+dfl="/gen"
+dgfl0='2>/dev/null'
+dgfl1='||:'
+dm=curl
+pvsz=$(du -b setupTermuxArch.sh)
 
 if [[ $1 = [Cc][Pp]* ]] || [[ $1 = -[Cc][Pp]* ]] || [[ $1 = --[Cc][Pp]* ]] || [[ $1 = [Cc][Uu]* ]] || [[ $1 = -[Cc][Uu]* ]] || [[ $1 = --[Cc][Uu]* ]];then
 	depends

@@ -132,7 +132,7 @@ rmds ()
 args=$@
 bin=startarch
 #dfl="/gen"
-dgfl0='2>/dev/null'
+#dgfl0='2>/dev/null'
 dgfl1='||:'
 dm=curl
 pvsz=$(du -b setupTermuxArch.sh)
