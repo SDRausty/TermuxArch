@@ -54,7 +54,7 @@ rmarch ()
 	if [ -d $HOME/arch ] ;then
 		cd $HOME/arch
 		rm -rf * $dgfl0 $dgfl1
-		find -type d -exec chmod 700 {} \; $dgfl0 $dgfl1
+		find -type d -exec chmod 700 {} \; ${dgfl0} $dgfl1
 		cd ..
 		rm -rf $HOME/arch
 	else 
