@@ -17,7 +17,7 @@ chk ()
 		. systemmaintenance.sh
 		rmdsc 
 		printf "\n\033[36;1m 🕜 < 🕛 \033[1;34mTermuxArch integrity: \033[36;1mOK.  "
-		printf "Using v0.4.657924515 from branch master created in 201802."
+		printf "Using v0.4.584277212 from branch master created in 201802."
 		printf "\n\033[0m"
 	else
 		rmdsc 
@@ -75,8 +75,8 @@ depends ()
 dwnl ()
 {
 	if [[ $dm = wget ]];then
-		wget -q -N --show-progress https://raw.githubusercontent.com/sdrausty/TermuxArch/master$flag/setupTermuxArch.tar.gz
-		wget -q -N --show-progress https://raw.githubusercontent.com/sdrausty/TermuxArch/master$flag/setupTermuxArch.md5 
+		wget -q -N --show-progress https://raw.githubusercontent.com/sdrausty/TermuxArch/master$dfl/setupTermuxArch.tar.gz
+		wget -q -N --show-progress https://raw.githubusercontent.com/sdrausty/TermuxArch/master$dfl/setupTermuxArch.md5 
 		printf "\n"
 	else
 		curl -q -O https://raw.githubusercontent.com/sdrausty/TermuxArch/master$dfl/setupTermuxArch.md5 -O https://raw.githubusercontent.com/sdrausty/TermuxArch/master$dfl/setupTermuxArch.tar.gz
@@ -134,11 +134,9 @@ rmds ()
 args=$@
 bin=startarch
 #dfl="/gen"
-#dgfl0='2>/dev/null'
-dgfl1="||:"
 dm=curl
 pvsz=$(du -b setupTermuxArch.sh)
-
+#
 if [[ $1 = [Cc][Pp]* ]] || [[ $1 = -[Cc][Pp]* ]] || [[ $1 = --[Cc][Pp]* ]] || [[ $1 = [Cc][Uu]* ]] || [[ $1 = -[Cc][Uu]* ]] || [[ $1 = --[Cc][Uu]* ]];then
 	depends
 	rmarch
