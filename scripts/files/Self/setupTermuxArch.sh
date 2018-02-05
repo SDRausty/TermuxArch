@@ -45,7 +45,7 @@ chkdwn ()
 chkself ()
 {
 	pvrd=$(du -b setupTermuxArch.sh) 
-	if [ $pvr = $pvrd ] ;then
+	if [[ $pvr = $pvrd ]] ;then
 		:
 		echo did nothing
 		echo $pvr 
@@ -55,6 +55,8 @@ chkself ()
 		echo will do something
 		. setupTermuxArch.sh
 		echo did something
+		echo $pvr 
+		echo $pvrd 
 		sleep 2
 	fi
 }
