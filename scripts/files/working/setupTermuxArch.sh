@@ -17,7 +17,7 @@ chk ()
 		. systemmaintenance.sh
 		rmdsc 
 		printf "\n\033[36;1m 🕜 < 🕛 \033[1;34mTermuxArch integrity: \033[36;1mOK: "
-		printf "Running v0.4.287205584"
+		printf "Running v0.4.491523917"
 		printf "\n\033[0m"
 	else
 		rmdsc 
@@ -55,7 +55,7 @@ depends ()
 	dwnl
 	chkdwn
 	chk
-	ldconf
+	#ldconf
 }
 
 dwnl ()
