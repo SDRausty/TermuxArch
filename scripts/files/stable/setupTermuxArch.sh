@@ -17,7 +17,7 @@ chk ()
 		. systemmaintenance.sh
 		rmdsc 
 		printf "\n\033[36;1m 🕜 < 🕛 \033[1;34mTermuxArch integrity: \033[36;1mOK.  "
-		printf "Using v0.4.564305714 from branch master created in 201802."
+		printf "Using v0.4.536079044 from branch master created in 201802."
 		printf "\n\033[0m"
 	else
 		rmdsc 
@@ -104,7 +104,7 @@ printmd5syschker ()
 
 printtail ()
 {
-	printf "\n\033[0mThank you for using \033[1;32m\`setupTermuxArch.sh\`\033[0m 🏁  \n\n\033[0m"'\033]2;  Thank you for using `setupTermuxArch.sh`  🏁 \007'
+	printf "\n\033[0mThank you for using \033[1;32msetupTermuxArch.sh\033[0m 🏁  \n\n\033[0m"'\033]2;  Thank you for using setupTermuxArch.sh  🏁 \007'
 	exit
 }
 
