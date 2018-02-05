@@ -156,4 +156,3 @@ elif [[ $1 = "" ]] || [[ $1 = [Ii]* ]] || [[ $1 = -[Ii]* ]] || [[ $1 = --[Ii]* ]
 else
 	printusage
 fi
-echo TermuxArch v0.4.916213920

@@ -4,8 +4,8 @@
 # See https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank You 
 #############################################################################
 
-#cdir=${PWD##*/}        
-cdir=${pwd |sed 's!.*/!!'}
+cdir=${PWD##*/}        
+#cdir=${pwd |sed 's!.*/!!'}
 date=`date +%Y%m%d`
 time=`date +%H:%M:%S`
 utime=`date +%s`
