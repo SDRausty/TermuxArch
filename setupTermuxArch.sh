@@ -17,7 +17,7 @@ chk ()
 		. systemmaintenance.sh
 		rmdsc 
 		printf "\n\033[36;1m 🕜 < 🕛 \033[1;34mTermuxArch integrity: \033[36;1mOK: "
-		printf "Running v0.5.300033177"
+		printf "Running v0.5.781990806"
 		printf "\n\033[0m"
 	else
 		rmdsc 
@@ -73,6 +73,7 @@ ldconf ()
 {
 	if [ -f "myTermuxArchConfigs.sh" ];then
 		. myTermuxArchConfigs.sh
+		printf "\n 🕐 \033[36;1m< 🕛 \033[1;34mmyTermuxArchConfigs.sh loaded: \033[36;1mOK  \n\n\033[36;1m"
 	else
 		. knownconfigurations.sh
 	fi
