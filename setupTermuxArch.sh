@@ -17,7 +17,7 @@ chk ()
 		. systemmaintenance.sh
 		rmdsc 
 		printf "\n\033[36;1m 🕜 < 🕛 \033[1;34mTermuxArch integrity: \033[36;1mOK. "
-		printf "Running v0.4.682350953"
+		printf "Running v0.4.494039256"
 		printf "\n\033[0m"
 	else
 		rmdsc 
@@ -75,8 +75,8 @@ depends ()
 dwnl ()
 {
 	if [[ $dm = wget ]];then
-		wget -q -N --show-progress https://raw.githubusercontent.com/sdrausty/TermuxArch/master$dfl/setupTermuxArch.tar.gz
 		wget -q -N --show-progress https://raw.githubusercontent.com/sdrausty/TermuxArch/master$dfl/setupTermuxArch.md5 
+		wget -q -N --show-progress https://raw.githubusercontent.com/sdrausty/TermuxArch/master$dfl/setupTermuxArch.tar.gz
 		printf "\n"
 	else
 		curl -q -O https://raw.githubusercontent.com/sdrausty/TermuxArch/master$dfl/setupTermuxArch.md5 -O https://raw.githubusercontent.com/sdrausty/TermuxArch/master$dfl/setupTermuxArch.tar.gz
