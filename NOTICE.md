@@ -12,7 +12,7 @@
 
 ##### -rw-rw-rw- [setupTermuxArch.tar.gz](https://raw.githubusercontent.com/sdrausty/TermuxArch/master/setupTermuxArch.tar.gz)
 
-##### -rw-rw-rw- [systemmaintenance.sh](https://raw.githubusercontent.com/sdrausty/TermuxArch/master/systemmaintenance.sh)
+##### -rw-rw-rw- [systemmaintenance.sh](https://raw.githubusercontent.com/sdrausty/TermuxArch/master/scripts/files/stable/systemmaintenance.sh)
 
 ## Contributions have helped in the successful development of this script and project immensely.  This is a Notice to Contributors  📲 __Thank you for contributing and collaborating!__  
 
