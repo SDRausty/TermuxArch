@@ -9,7 +9,7 @@ chk ()
 {
 	if md5sum -c termuxarchchecksum.md5 ; then
 		chkself 
-		. archsystemconfigs.sh
+		ldconf
 		. getimagefunctions.sh
 		. knownconfigurations.sh
 		. necessaryfunctions.sh
@@ -55,7 +55,6 @@ depends ()
 	dwnl
 	chkdwn
 	chk
-	ldconf
 }
 
 dwnl ()
@@ -74,6 +73,8 @@ ldconf ()
 {
 	if [ -f "myTermuxArchConfigs.sh" ];then
 		. myTermuxArchConfigs.sh
+	else
+		. archsystemconfigs.sh
 	fi
 }
 
