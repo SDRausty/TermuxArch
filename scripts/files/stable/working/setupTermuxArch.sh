@@ -17,7 +17,7 @@ chk ()
 		. systemmaintenance.sh
 		rmdsc 
 		printf "\n\033[36;1m 🕜 < 🕛 \033[1;34mTermuxArch integrity: \033[36;1mOK. "
-		printf "Running v0.4.656439536.  Ensure background data is not restricted."
+		printf "Running v0.4.219217021.  Ensure background data is not restricted."
 		printf "\n\033[0m"
 	else
 		rmdsc 
