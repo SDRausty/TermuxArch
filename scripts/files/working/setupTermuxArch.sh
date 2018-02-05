@@ -10,14 +10,14 @@ chk ()
 	if md5sum -c termuxarchchecksum.md5 ; then
 		chkself 
 		ldconf
+		. archsystemconfigs.sh
 		. getimagefunctions.sh
-		. knownconfigurations.sh
 		. necessaryfunctions.sh
 		. printoutstatements.sh
 		. systemmaintenance.sh
 		rmdsc 
 		printf "\n\033[36;1m 🕜 < 🕛 \033[1;34mTermuxArch integrity: \033[36;1mOK: "
-		printf "Running v0.5.088978361"
+		printf "Running v0.5.300033177"
 		printf "\n\033[0m"
 	else
 		rmdsc 
@@ -72,11 +72,9 @@ dwnl ()
 ldconf ()
 {
 	if [ -f "myTermuxArchConfigs.sh" ];then
-		echo 0
 		. myTermuxArchConfigs.sh
 	else
-		echo 1
-		. archsystemconfigs.sh
+		. knownconfigurations.sh
 	fi
 }
 
