@@ -1,7 +1,8 @@
 #!/bin/bash -e
-# Copyright 2017-2018 by SDRausty. All rights reserved.
-# Website for this project at https://sdrausty.github.io/TermuxArch
-# See https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank You 
+# Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
+# Hosting https://sdrausty.github.io/TermuxArch courtesy https://pages.github.com
+# https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.  
+# https://sdrausty.github.io/TermuxArch/README has information about this project. 
 # Detected configurations. Change mirror to your desired geographic location.
 # Please add configurations to this list if you find one that is not listed.
 ################################################################################
