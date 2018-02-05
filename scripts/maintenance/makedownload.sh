@@ -4,7 +4,9 @@
 # See https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank You 
 #############################################################################
 
-cdir=${PWD##*/}        
+#cdir=${PWD##*/}        
+cdir=${pwd |sed 's!.*/!!'}
+
 cp setupTermuxArch.sh ../../..
 ls -al setupTermuxArch.sh 
 pwd

@@ -4,7 +4,9 @@
 # See https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank You 
 #############################################################################
 
-cdir=${PWD##*/}        
+#cdir=${PWD##*/}        
+cdir=${pwd |sed 's!.*/!!'}
+
 printf "This script will generate a checksum and tar.gz files in \$PROJECT/gen.\n\n"
 if [ ! -d "../../../gen" ] ; then
 mkdir -p ../../../gen
