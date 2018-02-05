@@ -17,7 +17,7 @@ chk ()
 		. systemmaintenance.sh
 		rmdsc 
 		printf "\n\033[36;1m 🕜 < 🕛 \033[1;34mTermuxArch integrity: \033[36;1mOK.  "
-		printf "Using v0.4.724139187 from branch master created in 201802."
+		printf "Using v0.4.657924515 from branch master created in 201802."
 		printf "\n\033[0m"
 	else
 		rmdsc 
@@ -88,11 +88,11 @@ mainblock ()
 { 
 	depends
 	callsystem 
-	$HOME/arch/root/bin/setupbin.sh $dgfl1
+	$HOME/arch/root/bin/setupbin.sh 
 	termux-wake-unlock
 	rm $HOME/arch/root/bin/setupbin.sh
 	printfooter
-	$HOME/arch/$bin $dgfl1
+	$HOME/arch/$bin 
 	printtail
 }
 
