@@ -50,10 +50,12 @@ chkself ()
 		echo did nothing
 		echo $pvr 
 		echo $pvrd 
+		sleep 2
 	else
 		echo will do something
 		. setupTermuxArch.sh
 		echo did something
+		sleep 2
 	fi
 }
 
@@ -161,4 +163,4 @@ elif [[ $1 = "" ]] || [[ $1 = [Ii]* ]] || [[ $1 = -[Ii]* ]] || [[ $1 = --[Ii]* ]
 else
 	printusage
 fi
-echo TermuxArch v0.4.029029103
+echo TermuxArch v0.4.379275193

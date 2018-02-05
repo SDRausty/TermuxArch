@@ -50,10 +50,12 @@ chkself ()
 		echo did nothing
 		echo $pvr 
 		echo $pvrd 
+		sleep 2
 	else
 		echo will do something
 		. setupTermuxArch.sh
 		echo did something
+		sleep 2
 	fi
 }
 
