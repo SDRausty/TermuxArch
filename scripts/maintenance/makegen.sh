@@ -6,6 +6,11 @@
 
 #cdir=${PWD##*/}        
 cdir=${pwd |sed 's!.*/!!'}
+date=`date +%Y%m%d`
+time=`date +%H:%M:%S`
+utime=`date +%s`
+ntime=`date +%N`
+echo Running on $date branch master $ntime. 
 
 printf "This script will generate a checksum and tar.gz files in \$PROJECT/gen.\n\n"
 if [ ! -d "../../../gen" ] ; then
