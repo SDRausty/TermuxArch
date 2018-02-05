@@ -55,14 +55,3 @@ x86_64 ()
 	path=/archlinux/iso/latest/
 	makesystem 
 }
-
-uImage ()
-{
-	# default image download configuration data set function
-	file=imageFile.tar.gz
-	mirror=mirror.server.org
-	path=/os/
-	makesystem 
-}
-
-
