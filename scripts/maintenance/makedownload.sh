@@ -15,7 +15,7 @@ msg="Using v0.4.$ntime from branch master created in $ymnth."
 echo "printf \"$msg\""
 ms="		printf \"$msg\""
 
-sed -i "/Running/c\\$ms" setupTermuxArch.sh 
+sed -i "/Using/c\\$ms" setupTermuxArch.sh 
 
 cp setupTermuxArch.sh ../../..
 ls -al setupTermuxArch.sh 
