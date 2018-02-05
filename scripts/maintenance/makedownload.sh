@@ -11,7 +11,7 @@ ntime=`date +%N`
 time=`date +%H:%M:%S`
 utime=`date +%s`
 ymnth=`date +%Y%m`
-msg="Running version v0.4.$ntime from branch master created on $ymnth.\n\n"
+msg="Running version v0.4.$ntime from branch master created on $ymnth."
 echo "printf \"$msg\""
 echo "printf \"$msg\""
 ms="		printf \"$msg\""
