@@ -17,7 +17,7 @@ chk ()
 		. systemmaintenance.sh
 		rmdsc 
 		printf "\n\033[36;1m 🕜 < 🕛 \033[1;34mTermuxArch integrity: \033[36;1mOK: "
-		printf "Running v0.4.545099196"
+		printf "Running v0.4.234393023"
 		printf "\n\033[0m"
 	else
 		rmdsc 
