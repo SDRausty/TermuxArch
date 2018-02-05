@@ -11,7 +11,6 @@ dgfl0="2>/dev/null"
 dgfl1="||:"
 dm=curl
 pvr=$(du -b setupTermuxArch.sh)
-pvrd=$(du -b setupTermuxArch.sh) 
 
 chk ()
 {
@@ -45,7 +44,8 @@ chkdwn ()
 
 chkself ()
 {
-	if [[ $pvr = $pvrd ]] ;then
+	pvrd=$(du -b setupTermuxArch.sh) 
+	if [ $pvr = $pvrd ] ;then
 		:
 		echo did nothing
 		echo $pvr 
@@ -163,4 +163,4 @@ elif [[ $1 = "" ]] || [[ $1 = [Ii]* ]] || [[ $1 = -[Ii]* ]] || [[ $1 = --[Ii]* ]
 else
 	printusage
 fi
-echo TermuxArch v0.4.971720599
+echo TermuxArch v0.4.594508289
