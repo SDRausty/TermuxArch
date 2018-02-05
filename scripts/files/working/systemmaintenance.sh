@@ -41,7 +41,7 @@ rmarch ()
 {
 	while true; do
 	printf "\n\033[1;31m"
-	read -p "Uninstall Arch Linux? [y|n]" uanswer
+	read -p "Uninstall Arch Linux? [y|n]  " uanswer
 	if [[ $uanswer = [Ee]* ]] || [[ $uanswer = [Nn]* ]] || [[ $uanswer = [Qq]* ]];then
 		break
 	elif [[ $uanswer = [Yy]* ]];then
