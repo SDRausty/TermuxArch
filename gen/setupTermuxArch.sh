@@ -45,10 +45,12 @@ chkdwn ()
 
 chkself ()
 {
-	if pvr=pvrd ;then
+	if [ pvr=pvrd ] ;then
 		:
+		echo did nothing
 	else
 		. setupTermuxArch.sh
+		echo did something
 	fi
 }
 
@@ -156,4 +158,4 @@ elif [[ $1 = "" ]] || [[ $1 = [Ii]* ]] || [[ $1 = -[Ii]* ]] || [[ $1 = --[Ii]* ]
 else
 	printusage
 fi
-echo TermuxArch v0.4.704974685
+echo TermuxArch v0.4.988471810

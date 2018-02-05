@@ -45,10 +45,12 @@ chkdwn ()
 
 chkself ()
 {
-	if pvr=pvrd ;then
+	if [ pvr=pvrd ] ;then
 		:
+		echo did nothing
 	else
 		. setupTermuxArch.sh
+		echo did something
 	fi
 }
 
