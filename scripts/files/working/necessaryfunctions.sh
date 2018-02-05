@@ -81,26 +81,6 @@ ftchstnd ()
 		fi
 }
 
-getimage ()
-{
-	if [ $(getprop ro.product.cpu.abi) = x86_64 ];then
-		if [[ $dm = wget ]];then 
-			# Get latest image for x86_64 via `wget` wants refinement.  Continue is not implemented. 
-			wget -A tar.gz -m -nd -np http://$mirror$path
-		else
-			# The `curl` self-updating code is unknown at present.
-			printf "\nDefaulting to `wget` for x86_64 system image download.  \n"
-			wget -A tar.gz -m -nd -np http://$mirror$path
-		fi
-	else
-		if [[ $dm = wget ]];then 
-			wget -q -c --show-progress http://$mirror$path$file 
-		else
-			curl -q -C - --fail --retry 4 -O -L http://$mirror$path$file
-		fi
-	fi
-}
-
 makebin ()
 {
 	makestartbin 

@@ -62,17 +62,6 @@ detectsystem2p ()
 	fi
 }
 
-ftchstnd ()
-{
-		if [[ $dm = wget ]];then 
-		#	wget -N --show-progress http://$mirror$path$file.md5 
-			wget -N http://$mirror$path$file.md5 
-			wget -q -c --show-progress http://$mirror$path$file 
-		else
-			curl -q -L --fail --retry 4 -O http://$mirror$path$file.md5 -O http://$mirror$path$file
-		fi
-}
-
 getimage ()
 {
 	if [ $(getprop ro.product.cpu.abi) = x86_64 ];then
@@ -81,12 +70,12 @@ getimage ()
 			wget -A tar.gz -m -nd -np http://$mirror$path
 		else
 			# The `curl` self-updating code is unknown at present.
-			printf "\nDefaulting to `wget` for x86_64 system image download.  \n"
+			printf "\nDefaulting to \`wget\` for x86_64 system image download.  \n"
 			wget -A tar.gz -m -nd -np http://$mirror$path
 		fi
 	else
 		if [[ $dm = wget ]];then 
-			wget -q -c --show-progress http://$mirror$path$file 
+			wget -c --show-progress http://$mirror$path$file 
 		else
 			curl -q -C - --fail --retry 4 -O -L http://$mirror$path$file
 		fi
@@ -97,12 +86,8 @@ makesystem ()
 {
 	printdownloading 
 	termux-wake-lock 
-	if [[ $(getprop ro.product.cpu.abi) -ne x86_64 ]] || [[ $(getprop ro.product.cpu.abi) -ne x86 ]];then
-		ftchstnd
-	else
-		adjustmd5file
-		getimage
-	fi
+	adjustmd5file
+	getimage
 	printmd5check
 	if md5sum -c $file.md5 ; then
 		printmd5success
@@ -121,7 +106,7 @@ preproot ()
 		if [ $(getprop ro.product.cpu.abi) = x86_64 ] || [ $(getprop ro.product.cpu.abi) = x86 ];then
 			proot --link2symlink -0 bsdtar -xpf $file --strip-components 1 2>/dev/null||:
 		else
-			proot --link2symlink -0 bsdtar -xpf $file 2>/dev/null||:
+			proot --link2symlink -0 bsdtar -xpf $file ||:
 		fi
 	else
 		printf "\n\nDownload Exception!  Exiting!\n\n"

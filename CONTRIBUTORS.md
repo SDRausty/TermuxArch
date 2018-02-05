@@ -1,3 +1,7 @@
+##### -r--r--r-- [archsystemconfigs.sh](https://raw.githubusercontent.com/sdrausty/TermuxArch/master/scripts/files/stable/archsystemconfigs.sh)
+
+##### -r--r--r-- [getimagefunctions.sh](https://raw.githubusercontent.com/sdrausty/TermuxArch/master/scripts/files/stable/getimagefunctions.sh)
+
 ##### -r--r--r-- [knownconfigurations.sh](https://raw.githubusercontent.com/sdrausty/TermuxArch/master/scripts/files/stable/knownconfigurations.sh)
 
 ##### -r--r--r-- [necessaryfunctions.sh](https://raw.githubusercontent.com/sdrausty/TermuxArch/master/scripts/files/stable/necessaryfunctions.sh)
@@ -8,7 +12,7 @@
 
 ##### -rw-rw-rw- [setupTermuxArch.tar.gz](https://raw.githubusercontent.com/sdrausty/TermuxArch/master/setupTermuxArch.tar.gz)
 
-##### -r--r--r-- [archsystemconfigs.sh](https://raw.githubusercontent.com/sdrausty/TermuxArch/master/scripts/files/stable/archsystemconfigs.sh)
+##### -rw-rw-rw- [systemmaintenance.sh](https://raw.githubusercontent.com/sdrausty/TermuxArch/master/systemmaintenance.sh)
 
 ## Contributions have helped in the successful development of this script and project immensely.  The following contributors have helped to refine [setupTermuxArch.sh](https://raw.githubusercontent.com/sdrausty/TermuxArch/master/setupTermuxArch.tar.gz) 📲 __Thank you for contributing and collaborating!__  
 
