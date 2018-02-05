@@ -15,6 +15,7 @@ chk ()
 {
 	if md5sum -c termuxarchchecksum.md5 ; then
 		. archsystemconfigs.sh
+		. getimagefunctions.sh
 		. knownconfigurations.sh
 		. necessaryfunctions.sh
 		. printoutstatements.sh
@@ -108,11 +109,12 @@ printusage ()
 rmdsc ()
 {
 	rm archsystemconfigs.sh
+	rm getimagefunctions.sh
 	rm knownconfigurations.sh
 	rm necessaryfunctions.sh
 	rm printoutstatements.sh
-	rm termuxarchchecksum.md5
 	rm systemmaintenance.sh
+	rm termuxarchchecksum.md5
 }
 
 rmds ()

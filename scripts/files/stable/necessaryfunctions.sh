@@ -4,26 +4,6 @@
 # See https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank You 
 ################################################################################
 
-adjustmd5file ()
-{
-	if [ $(getprop ro.product.cpu.abi) = x86_64 ] || [ $(getprop ro.product.cpu.abi) = x86 ];then
-		if [[ $dm = wget ]];then 
-			wget -q -N --show-progress http://$mirror${path}md5sums.txt
-		else
-			curl -q --fail --retry 4 -O -L http://$mirror${path}md5sums.txt
-		fi
-		filename=$(ls *tar.gz)
-		sed '2q;d' md5sums.txt > $filename.md5
-		rm md5sums.txt
-	else
-		if [[ $dm = wget ]];then 
-			wget -q -N --show-progress http://$mirror$path$file.md5 
-		else
-			curl -q --fail --retry 4 -O -L http://$mirror$path$file.md5
-		fi
-	fi
-}
-
 callsystem ()
 {
 	mkdir -p $HOME/arch
@@ -145,53 +125,6 @@ makestartbin ()
 	exec proot --link2symlink -0 -r $HOME/arch/ -b /dev/ -b /sys/ -b /proc/ -b /storage/ -b $HOME -w $HOME /bin/env -i HOME=/root TERM="$TERM" PS1='[termux@arch \W]\$ ' LANG=$LANG PATH=/bin:/usr/bin:/sbin:/usr/sbin /bin/bash --login
 	EOM
 	chmod 700 $bin
-}
-
-makesystem ()
-{
-	printdownloading 
-	termux-wake-lock 
-	if [[ $(getprop ro.product.cpu.abi) -ne x86_64 ]] || [[ $(getprop ro.product.cpu.abi) -ne x86 ]];then
-		ftchstnd
-	else
-		adjustmd5file
-		getimage
-	fi
-	printmd5check
-	if md5sum -c $file.md5 ; then
-		printmd5success
-		preproot 
-	else
-		rm -rf $HOME/arch
-		printmd5error
-	fi
-	rm *.tar.gz *.tar.gz.md5
-	makebin 
-}
-
-preproot ()
-{
-	if [ $(du ~/arch/*z | awk {'print $1}') -gt 112233 ];then
-		if [ $(getprop ro.product.cpu.abi) = x86_64 ] || [ $(getprop ro.product.cpu.abi) = x86 ];then
-			proot --link2symlink -0 bsdtar -xpf $file --strip-components 1 2>/dev/null||:
-		else
-			proot --link2symlink -0 bsdtar -xpf $file 2>/dev/null||:
-		fi
-	else
-		printf "\n\nDownload Exception!  Exiting!\n\n"
-		exit
-	fi
-}
-
-setlocalegen()
-{
-	if [ -e etc/locale.gen ]; then
-		sed -i '/\#en_US.UTF-8 UTF-8/{s/#//g;s/@/-at-/g;}' etc/locale.gen 
-	else
-		cat >  etc/locale.gen <<- EOM
-		en_US.UTF-8 UTF-8 
-		EOM
-	fi
 }
 
 spaceinfo ()
