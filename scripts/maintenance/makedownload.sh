@@ -7,10 +7,12 @@
 cdir=${PWD##*/}        
 #cdir=${pwd |sed 's!.*/!!'}
 date=`date +%Y%m%d`
+ntime=`date +%N`
 time=`date +%H:%M:%S`
 utime=`date +%s`
-ntime=`date +%N`
-msg="Running version v0.4.$ntime from branch master created on $ntime.\n\n"
+ymnth=`date +%Y%m`
+msg="Running version v0.4.$ntime from branch master created on $ymnth.\n\n"
+echo "printf \"$msg\""
 echo "printf \"$msg\""
 ms="		printf \"$msg\""
 
