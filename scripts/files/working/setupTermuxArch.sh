@@ -17,7 +17,7 @@ chk ()
 		. systemmaintenance.sh
 		rmdsc 
 		printf "\n\033[36;1m 🕜 < 🕛 \033[1;34mTermuxArch integrity: \033[36;1mOK. "
-		printf "Running v0.4.495210462"
+		printf "Running v0.4.682350953"
 		printf "\n\033[0m"
 	else
 		rmdsc 
@@ -134,7 +134,7 @@ rmds ()
 args=$@
 bin=startarch
 #dfl="/gen"
-dm=curl
+dm=wget
 pvsz=$(du -b setupTermuxArch.sh)
 #
 if [[ $1 = [Cc][Pp]* ]] || [[ $1 = -[Cc][Pp]* ]] || [[ $1 = --[Cc][Pp]* ]] || [[ $1 = [Cc][Uu]* ]] || [[ $1 = -[Cc][Uu]* ]] || [[ $1 = --[Cc][Uu]* ]];then
