@@ -41,7 +41,7 @@ chkself ()
 	if [[ $pvsz = $crsz ]] ;then
 		:
 	else
-		echo updated will restart
+		printf "\n\033[36;1m 🕜 < 🕛 \033[1;34mTermuxArch updated will restart: \033[36;1mOK  \n\033[0m"
 		. setupTermuxArch.sh $args
 	fi
 }

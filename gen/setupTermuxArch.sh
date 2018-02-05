@@ -5,14 +5,6 @@
 # https://sdrausty.github.io/TermuxArch/README has information about this project. 
 ################################################################################
 
-args=$@
-bin=startarch
-dfl="/gen"
-dgfl0="2>/dev/null"
-dgfl1="||:"
-dm=curl
-pvr=$(du -b setupTermuxArch.sh)
-
 chk ()
 {
 	if md5sum -c termuxarchchecksum.md5 ; then
@@ -45,20 +37,12 @@ chkdwn ()
 
 chkself ()
 {
-	pvrd=$(du -b setupTermuxArch.sh) 
-	if [[ $pvr = $pvrd ]] ;then
+	crsz=$(du -b setupTermuxArch.sh) 
+	if [[ $pvsz = $crsz ]] ;then
 		:
-		echo did nothing
-		echo $pvr 
-		echo $pvrd 
-		sleep 2
 	else
-		echo will do something
-		echo $pvr 
-		echo $pvrd 
-		sleep 2
+		printf "\n\033[36;1m 🕜 < 🕛 \033[1;34mTermuxArch updated will restart: \033[36;1mOK  \n\033[0m"
 		. setupTermuxArch.sh $args
-		echo did something
 	fi
 }
 
@@ -145,6 +129,14 @@ rmds ()
 	rm setupTermuxArch.tar.gz
 }
 
+args=$@
+bin=startarch
+#dfl="/gen"
+dgfl0="2>/dev/null"
+dgfl1="||:"
+dm=curl
+pvsz=$(du -b setupTermuxArch.sh)
+
 if [[ $1 = [Cc][Pp]* ]] || [[ $1 = -[Cc][Pp]* ]] || [[ $1 = --[Cc][Pp]* ]] || [[ $1 = [Cc][Uu]* ]] || [[ $1 = -[Cc][Uu]* ]] || [[ $1 = --[Cc][Uu]* ]];then
 	depends
 	rmarch
@@ -166,4 +158,4 @@ elif [[ $1 = "" ]] || [[ $1 = [Ii]* ]] || [[ $1 = -[Ii]* ]] || [[ $1 = --[Ii]* ]
 else
 	printusage
 fi
-echo TermuxArch v0.4.534058332
+echo TermuxArch v0.4.945194461
