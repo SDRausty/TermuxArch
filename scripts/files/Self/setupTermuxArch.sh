@@ -48,6 +48,8 @@ chkself ()
 	if [ $pvr=$pvrd ] ;then
 		:
 		echo did nothing
+		echo $pvr 
+		echo $pvrd 
 	else
 		. setupTermuxArch.sh
 		echo did something
