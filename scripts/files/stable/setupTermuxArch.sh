@@ -1,8 +1,8 @@
 #!/bin/bash -e
 # Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
-# Website hosting https://sdrausty.github.io/TermuxArch is courtesy of GitHub.  
-# https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help!  
-# https://sdrausty.github.io/TermuxArch/NOTICE has info about this project. 
+# Hosting https://sdrausty.github.io/TermuxArch courtesy https://pages.github.com
+# https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.  
+# https://sdrausty.github.io/TermuxArch/README has information about this project. 
 ################################################################################
 
 bin=startarch
