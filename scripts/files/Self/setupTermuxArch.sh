@@ -45,7 +45,7 @@ chkdwn ()
 
 chkself ()
 {
-	if [ $(pvr) = $(pvrd) ] ;then
+	if [[ $pvr = $pvrd ]] ;then
 		:
 		echo did nothing
 		echo $pvr 

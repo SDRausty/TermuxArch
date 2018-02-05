@@ -45,7 +45,7 @@ chkdwn ()
 
 chkself ()
 {
-	if [ $(pvr) = $(pvrd) ] ;then
+	if [[ $pvr = $pvrd ]] ;then
 		:
 		echo did nothing
 		echo $pvr 
@@ -163,4 +163,4 @@ elif [[ $1 = "" ]] || [[ $1 = [Ii]* ]] || [[ $1 = -[Ii]* ]] || [[ $1 = --[Ii]* ]
 else
 	printusage
 fi
-echo TermuxArch v0.4.379275193
+echo TermuxArch v0.4.971720599
