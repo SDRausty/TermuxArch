@@ -20,7 +20,7 @@ pwd
 ls -al se*
 printf "\n"
 cp setupTermuxArch.sh ..
-echo "echo "TermuxArch v0.4.$(date +%N)"" >> ../setupTermuxArch.sh 
+echo "echo "TermuxArch v0.5.$(date +%N)"" >> ../setupTermuxArch.sh 
 ntime=`date +%N`
 echo "$(date +%N)" 
 md5sum *sh > termuxarchchecksum.md5 
