@@ -17,7 +17,7 @@ chk ()
 		. systemmaintenance.sh
 		rmdsc 
 		printf "\n\033[36;1m 🕜 < 🕛 \033[1;34mTermuxArch integrity: \033[36;1mOK.  "
-		printf "Using v0.4.628119366 from branch master created in 201802."
+		printf "Using v0.4.657924515 from branch master created in 201802."
 		printf "\n\033[0m"
 	else
 		rmdsc 
@@ -134,12 +134,11 @@ rmds ()
 args=$@
 bin=startarch
 #dfl="/gen"
-dgfl='2>/dev/null ||:'
 #dgfl0='2>/dev/null'
 dgfl1="||:"
 dm=curl
 pvsz=$(du -b setupTermuxArch.sh)
-#
+
 if [[ $1 = [Cc][Pp]* ]] || [[ $1 = -[Cc][Pp]* ]] || [[ $1 = --[Cc][Pp]* ]] || [[ $1 = [Cc][Uu]* ]] || [[ $1 = -[Cc][Uu]* ]] || [[ $1 = --[Cc][Uu]* ]];then
 	depends
 	rmarch
