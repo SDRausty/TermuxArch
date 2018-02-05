@@ -17,7 +17,7 @@ chk ()
 		. systemmaintenance.sh
 		rmdsc 
 		printf "\n\033[36;1m 🕜 < 🕛 \033[1;34mTermuxArch integrity: \033[36;1mOK: "
-		printf "Running v0.4.234393023"
+		printf "Running v0.5.634369739"
 		printf "\n\033[0m"
 	else
 		rmdsc 
@@ -51,23 +51,11 @@ chkself ()
 depends ()
 {
 	printf '\033]2;  Thank you for using `setupTermuxArch.sh` 📲 \007'"\n 🕛 \033[36;1m< 🕛 \033[1;34mTermuxArch will attempt to install Linux in Termux.  Arch Linux will be available upon successful completion.  If you do not see one o'clock 🕐 below, check wireless connection.  Ensure background data is not restricted.\n"
-	if [ -e $PREFIX/bin/bsdtar ] && [ -e $PREFIX/bin/curl ] && [ -e $PREFIX/bin/proot ] && [ -e $PREFIX/bin/wget ] ; then
-		:
-	else
-		printf "\n\n\033[36;1m"
-		apt-get -qq update && apt-get -qq upgrade -y
-		apt-get -qq install bsdtar curl proot wget --yes 
-	fi
-	if [ -e $PREFIX/bin/bsdtar ] && [ -e $PREFIX/bin/curl ] && [ -e $PREFIX/bin/proot ] && [ -e $PREFIX/bin/wget ] ; then
-		:
-	else
-		printf "\033[1;36mPrerequisites exception.  Run the script again.\n\n\033[0m"
-		exit
-	fi
-	printf "\n 🕧 \033[1;36m< 🕛 \033[1;34mPrerequisite packages: \033[36;1mOK\n\n"
+	predepends 
 	dwnl
 	chkdwn
 	chk
+	ldconf
 }
 
 dwnl ()
@@ -82,6 +70,13 @@ dwnl ()
 	fi
 }
 
+ldconf ()
+{
+	if [ -f "myTermuxArchConfigs.sh" ];then
+		. myTermuxArchConfigs.sh
+	fi
+}
+
 mainblock ()
 { 
 	depends
@@ -92,6 +87,24 @@ mainblock ()
 	printfooter
 	$HOME/arch/$bin 
 	printtail
+}
+
+predepends ()
+{
+	if [ -e $PREFIX/bin/bsdtar ] && [ -e $PREFIX/bin/curl ] && [ -e $PREFIX/bin/proot ] && [ -e $PREFIX/bin/wget ] ; then
+		:
+	else
+		printf "\n\n\033[36;1m"
+		apt-get -qq update && apt-get -qq upgrade -y
+		apt-get -qq install bsdtar curl proot wget --yes 
+	fi
+	if [ -e $PREFIX/bin/bsdtar ] && [ -e $PREFIX/bin/curl ] && [ -e $PREFIX/bin/proot ] && [ -e $PREFIX/bin/wget ] ; then
+		:
+	else
+		printf "\033[1;36mPrerequisites exception.  Run the script again.\n\n\033[0m"
+		exit
+	fi
+	printf "\n 🕧 \033[1;36m< 🕛 \033[1;34mPrerequisite packages: \033[36;1mOK\n\n"
 }
 
 printmd5syschker ()
