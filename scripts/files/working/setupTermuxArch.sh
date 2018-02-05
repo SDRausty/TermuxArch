@@ -55,7 +55,7 @@ depends ()
 	dwnl
 	chkdwn
 	chk
-	#ldconf
+	ldconf
 }
 
 dwnl ()
@@ -72,7 +72,7 @@ dwnl ()
 
 ldconf ()
 {
-	if [ ! -f "myTermuxArchConfigs.sh" ] ; then
+	if [ -f "myTermuxArchConfigs.sh" ];then
 		. myTermuxArchConfigs.sh
 	fi
 }
