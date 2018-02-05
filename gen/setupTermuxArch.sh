@@ -131,7 +131,7 @@ rmds ()
 
 args=$@
 bin=startarch
-#dfl="/gen"
+dfl="/gen"
 dm=wget
 pvsz=$(du -b setupTermuxArch.sh)
 #
@@ -156,4 +156,4 @@ elif [[ $1 = "" ]] || [[ $1 = [Ii]* ]] || [[ $1 = -[Ii]* ]] || [[ $1 = --[Ii]* ]
 else
 	printusage
 fi
-echo TermuxArch v0.4.916213920
+echo TermuxArch v0.4.349712048

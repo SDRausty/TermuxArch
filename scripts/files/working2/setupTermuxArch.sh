@@ -131,7 +131,7 @@ rmds ()
 
 args=$@
 bin=startarch
-#dfl="/gen"
+dfl="/gen"
 dm=wget
 pvsz=$(du -b setupTermuxArch.sh)
 #
