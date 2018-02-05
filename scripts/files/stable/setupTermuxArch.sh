@@ -17,7 +17,7 @@ chk ()
 		. systemmaintenance.sh
 		rmdsc 
 		printf "\n\033[36;1m 🕜 < 🕛 \033[1;34mTermuxArch integrity: \033[36;1mOK.  "
-		printf "Using v0.4.891801027 from branch master created in 201802."
+		printf "Using v0.4.032647562 from branch master created in 201802."
 		printf "\n\033[0m"
 	else
 		rmdsc 
@@ -43,7 +43,8 @@ chkself ()
 	if [[ $pvsz = $crsz ]] ;then
 		:
 	else
-		printf "\n\033[36;1m 🕜 < 🕛 TermuxArch: WARNING: \`setupTermuxArch.sh\` updated; Arch Linux Termux PRoot setup restarted.\n\n\033[0m"
+#		printf "\n\033[36;1m 🕜 < 🕛 TermuxArch: WARNING: \`setupTermuxArch.sh\` RESTARTED.\n\n\033[0m"
+		printf "\n\`setupTermuxArch.sh\` RESTARTED.\nTermuxArch: WARNING:\n\033[0m"
 		. setupTermuxArch.sh $args
 	fi
 }
