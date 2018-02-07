@@ -10,14 +10,14 @@ chk ()
 	if md5sum -c termuxarchchecksum.md5 ; then
 		chkself 
 		ldconf
+		. archsystemconfigs.sh
 		. getimagefunctions.sh
-		. knownconfigurations.sh
 		. necessaryfunctions.sh
 		. printoutstatements.sh
 		. systemmaintenance.sh
 		rmdsc 
-		printf "\n\033[36;1m 🕜 < 🕛 \033[1;34mTermuxArch integrity: \033[36;1mOK: "
-		printf "Running v0.5.634369749"
+		printf "\n\033[36;1m 🕑 < 🕛 \033[1;34mTermuxArch integrity: \033[36;1mOK: "
+		printf "Running v0.5.559408569"
 		printf "\n\033[0m"
 	else
 		rmdsc 
@@ -39,8 +39,8 @@ chkdwn ()
 
 chkself ()
 {
-	crsz=$(du -b setupTermuxArch.sh) 
-	if [[ $pvsz = $crsz ]] ;then
+	crs=$(<setupTermuxArch.sh) 
+	if [[ $pvs = $crs ]] ;then
 		:
 	else
 		printf "\nsetupTermuxArch.sh: UPDATED\nTermuxArch: RESTARTED\n\033[0m"
@@ -73,8 +73,9 @@ ldconf ()
 {
 	if [ -f "myTermuxArchConfigs.sh" ];then
 		. myTermuxArchConfigs.sh
+		printf "\n 🕜 \033[36;1m< 🕛 \033[1;34mmyTermuxArchConfigs.sh loaded: \033[36;1mOK  \n\033[36;1m"
 	else
-		. archsystemconfigs.sh
+		. knownconfigurations.sh
 	fi
 }
 
@@ -145,17 +146,20 @@ rmds ()
 
 args=$@
 bin=startarch
-#dfl="/gen"
+dfl="/gen"
 dm=wget
-pvsz=$(du -b setupTermuxArch.sh)
-#
+pvs=$(<setupTermuxArch.sh)
+
 if [[ $1 = [Cc][Pp]* ]] || [[ $1 = -[Cc][Pp]* ]] || [[ $1 = --[Cc][Pp]* ]] || [[ $1 = [Cc][Uu]* ]] || [[ $1 = -[Cc][Uu]* ]] || [[ $1 = --[Cc][Uu]* ]];then
+	dm=curl
 	depends
 	rmarch
 elif [[ $1 = [Cc][Dd]* ]] || [[ $1 = -[Cc][Dd]* ]] || [[ $1 = --[Cc][Dd]* ]] || [[ $1 = [Cc][Ss]* ]] || [[ $1 = -[Cc][Ss]* ]] || [[ $1 = --[Cc][Ss]* ]];then
+	dm=curl
 	depends
 	sysinfo 
 elif [[ $1 = [Cc]* ]] || [[ $1 = -[Cc]* ]] || [[ $1 = --[Cc]* ]] || [[ $1 = [Cc][Ii]* ]] || [[ $1 = -[Cc][Ii]* ]] || [[ $1 = --[Cc][Ii]* ]];then
+	dm=curl
 	mainblock
 elif [[ $1 = [Dd]* ]] || [[ $1 = -[Dd]* ]] || [[ $1 = --[Dd]* ]] || [[ $1 = [Ss]* ]] || [[ $1 = -[Ss]* ]] || [[ $1 = --[Ss]* ]];then
 	depends
@@ -170,4 +174,4 @@ elif [[ $1 = "" ]] || [[ $1 = [Ii]* ]] || [[ $1 = -[Ii]* ]] || [[ $1 = --[Ii]* ]
 else
 	printusage
 fi
-echo TermuxArch v0.5.989592968
+echo TermuxArch v0.5.924829552

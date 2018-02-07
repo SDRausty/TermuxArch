@@ -39,8 +39,8 @@ chkdwn ()
 
 chkself ()
 {
-	crsz=$(du -b setupTermuxArch.sh) 
-	if [[ $pvsz = $crsz ]] ;then
+	crs=$(<setupTermuxArch.sh) 
+	if [[ $pvs = $crs ]] ;then
 		:
 	else
 		printf "\nsetupTermuxArch.sh: UPDATED\nTermuxArch: RESTARTED\n\033[0m"
@@ -146,10 +146,10 @@ rmds ()
 
 args=$@
 bin=startarch
-#dfl="/gen"
+dfl="/gen"
 dm=wget
-pvsz=$(du -b setupTermuxArch.sh)
-#
+pvs=$(<setupTermuxArch.sh)
+
 if [[ $1 = [Cc][Pp]* ]] || [[ $1 = -[Cc][Pp]* ]] || [[ $1 = --[Cc][Pp]* ]] || [[ $1 = [Cc][Uu]* ]] || [[ $1 = -[Cc][Uu]* ]] || [[ $1 = --[Cc][Uu]* ]];then
 	dm=curl
 	depends
