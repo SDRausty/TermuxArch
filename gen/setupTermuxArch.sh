@@ -39,7 +39,6 @@ chkdwn ()
 
 chkself ()
 {
-	crs=$(<setupTermuxArch.sh) 
 	if ! diff -q setupTermuxArch.sh setupTermuxArch.tmp; then
 		echo did nothing
 		echo did nothing
@@ -145,7 +144,6 @@ args=$@
 bin=startarch
 dfl="/gen"
 dm=wget
-pvs=$(<setupTermuxArch.sh)
 
 if [[ $1 = [Cc][Pp]* ]] || [[ $1 = -[Cc][Pp]* ]] || [[ $1 = --[Cc][Pp]* ]] || [[ $1 = [Cc][Uu]* ]] || [[ $1 = -[Cc][Uu]* ]] || [[ $1 = --[Cc][Uu]* ]];then
 	dm=curl
@@ -173,4 +171,4 @@ elif [[ $1 = "" ]] || [[ $1 = [Ii]* ]] || [[ $1 = -[Ii]* ]] || [[ $1 = --[Ii]* ]
 else
 	printusage
 fi
-echo TermuxArch v0.5.894185102
+echo TermuxArch v0.5.633012320
