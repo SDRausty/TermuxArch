@@ -43,7 +43,7 @@ chkself ()
 	if [ $(diff -q $pvs $crs) ] ;then
 		:
 	else
-		printf "\nsetupTermuxArch.sh: UPDATED\nTermuxArch: RESTARTED\n\033[0m"
+		printf "\nsetupTermuxArch.sh: UPDATED\nTermuxArch: 1RESTARTED\n\033[0m"
 		. setupTermuxArch.sh $args
 	fi
 }

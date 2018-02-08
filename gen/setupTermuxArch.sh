@@ -43,7 +43,7 @@ chkself ()
 	if [ $(diff -q $pvs $crs) ] ;then
 		:
 	else
-		printf "\nsetupTermuxArch.sh: UPDATED\nTermuxArch: RESTARTED\n\033[0m"
+		printf "\nsetupTermuxArch.sh: UPDATED\nTermuxArch: 1RESTARTED\n\033[0m"
 		. setupTermuxArch.sh $args
 	fi
 }
@@ -174,4 +174,4 @@ elif [[ $1 = "" ]] || [[ $1 = [Ii]* ]] || [[ $1 = -[Ii]* ]] || [[ $1 = --[Ii]* ]
 else
 	printusage
 fi
-echo TermuxArch v0.5.296514161
+echo TermuxArch v0.5.074219852
