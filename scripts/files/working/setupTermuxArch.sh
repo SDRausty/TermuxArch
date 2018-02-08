@@ -40,7 +40,7 @@ chkdwn ()
 chkself ()
 {
 	crs=$(<setupTermuxArch.sh) 
-	if ! diff -q pvs crs &>/dev/null ; then
+	if ! diff -q setupTermuxArch.sh setupTermuxArch.tmp; then
 		echo did nothing
 		echo did nothing
 		echo did nothing
@@ -57,6 +57,9 @@ depends ()
 	printf "Running v0.5 id149408578"
 	printf "\n"
 	predepends 
+	if [ -f "setupTermuxArch.sh" ];then
+	cp setupTermuxArch.sh setupTermuxArch.tmp
+	fi
 	dwnl
 	chkdwn
 	chk
@@ -127,6 +130,7 @@ rmdsc ()
 	rm knownconfigurations.sh
 	rm necessaryfunctions.sh
 	rm printoutstatements.sh
+	rm setupTermuxArch.tmp
 	rm systemmaintenance.sh
 	rm termuxarchchecksum.md5
 }
