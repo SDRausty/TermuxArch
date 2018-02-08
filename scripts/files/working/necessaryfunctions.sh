@@ -133,7 +133,7 @@ usrspace=`df /data | awk '{print $4}' | sed '2q;d'`
 if [[ $usrspace = *G ]] || [[ $usrspace = *T ]];then
 	spaceMessage=""
 else
-	spaceMessage="WARNING!  Start thinking about cleaning out some stuff.  The user space on this device is just $usrspace.  This is below the recommended amount of free space to install Arch Linux in Termux PRoot."
+	spaceMessage="WARNING!  Start thinking about cleaning out some stuff.  The user space on this device has just $usrspace.  This is below the recommended minimum amount of free space to install Arch Linux in Termux PRoot."
 fi
 }
 
