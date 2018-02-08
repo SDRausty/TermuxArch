@@ -40,7 +40,7 @@ chkdwn ()
 chkself ()
 {
 	crs=$(<setupTermuxArch.sh) 
-	if ! diff -q $pvs $crs &>/dev/null; then
+	if diff -q $pvs $crs &>/dev/null; then
 		:
 	else
 		printf "\nsetupTermuxArch.sh: UPDATED\nTermuxArch: RESTARTED\n\033[0m"
