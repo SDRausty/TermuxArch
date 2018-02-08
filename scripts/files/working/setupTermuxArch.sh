@@ -40,10 +40,7 @@ chkdwn ()
 chkself ()
 {
 	if [[ "$(<setupTermuxArch.sh)" = "$(<setupTermuxArch.tmp)" ]]; then
-		echo did nothing
-		echo did nothing
-		echo did nothing
-		echo did nothing
+		:
 	else
 		printf "\nsetupTermuxArch.sh: UPDATED\nTermuxArch: RESTARTED\n\033[0m"
 		. setupTermuxArch.sh $args
