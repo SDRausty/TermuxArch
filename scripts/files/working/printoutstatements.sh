@@ -16,7 +16,7 @@ printdetectedsystem ()
 
 printdownloading ()
 {
-	printf "\n\033[36;1m 🕒 < 🕛 \033[1;34mActivated termux-wake-lock.  Downloading \033[36;1m$file \033[1;34mand the corresponding checksum.  \033[37;1mPending Internet connection, this might take a long while.  For 404 error see \`setupTermuxArch.sh --help\`.\n\n\033[36;1m"'\033]2;  🕒 < 🕛 Downloading the system image file and the corresponding checksum.  \007'
+	printf "\n\033[36;1m 🕒 < 🕛 \033[1;34mActivated termux-wake-lock.  Downloading \033[36;1m$file \033[1;34mand the corresponding checksum.  \033[37;1mPending Internet connection, this might take a long while.  \033[36;1mFor 404 error see \`setupTermuxArch.sh --help\`.\n\n"'\033]2;  🕒 < 🕛 Downloading the system image file and the corresponding checksum.  \007'
 }
 
 printconfigq ()
@@ -26,7 +26,7 @@ printconfigq ()
 
 printmd5check ()
 {
-	printf "\n\033[36;1m 🕠 < 🕛 \033[1;34mChecking download integrity with md5sum.  \033[37;1mThis may take a little while.  For md5sum error see \`setupTermuxArch.sh --help\`.\n\n\033[36;1m"
+	printf "\n\033[36;1m 🕠 < 🕛 \033[1;34mChecking download integrity with md5sum.  \033[37;1mThis may take a little while.  \033[36;1mFor md5sum error see \`setupTermuxArch.sh --help\`.\n\n"
 }
 
 printmd5error ()
