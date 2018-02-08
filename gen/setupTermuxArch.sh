@@ -28,7 +28,7 @@ chk ()
 chkdwn ()
 {
 	if md5sum -c setupTermuxArch.md5 ; then
-		printf "\n 🕐 \033[36;1m< 🕛 \033[1;34mTermuxArch downloaded: \033[36;1mOK  \n\n\033[36;1m"
+		printf "\n 🕐 \033[36;1m< 🕛 \033[1;34mTermuxArch downloaded: \033[36;1mOK1\n\n\033[36;1m"
 		bsdtar -xf setupTermuxArch.tar.gz
 		rmds 
 	else
@@ -43,7 +43,7 @@ chkself ()
 	if ! diff -q pvs crs &>/dev/null; then
 		:
 	else
-		printf "\nsetupTermuxArch.sh: UPDATED\nTermuxArch: 1RESTARTED\n\033[0m"
+		printf "\nsetupTermuxArch.sh: UPDATED\nTermuxArch: RESTARTED\n\033[0m"
 		. setupTermuxArch.sh $args
 	fi
 }
@@ -174,4 +174,4 @@ elif [[ $1 = "" ]] || [[ $1 = [Ii]* ]] || [[ $1 = -[Ii]* ]] || [[ $1 = --[Ii]* ]
 else
 	printusage
 fi
-echo TermuxArch v0.5.462202753
+echo TermuxArch v0.5.305650651
