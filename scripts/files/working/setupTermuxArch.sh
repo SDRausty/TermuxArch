@@ -39,7 +39,7 @@ chkdwn ()
 
 chkself ()
 {
-	if ! diff setupTermuxArch.sh setupTermuxArch.tmp; then
+	if diff setupTermuxArch.sh setupTermuxArch.tmp; then
 		echo did nothing
 		echo did nothing
 		echo did nothing
