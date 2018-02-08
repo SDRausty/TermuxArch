@@ -41,7 +41,7 @@ chkself ()
 {
 	crs=$(<setupTermuxArch.sh) 
 	if diff -q $pvs $crs &>/dev/null; then
-		echo did nada
+		echo did nothing
 	else
 		printf "\nsetupTermuxArch.sh: UPDATED\nTermuxArch: RESTARTED\n\033[0m"
 		. setupTermuxArch.sh $args
@@ -50,7 +50,7 @@ chkself ()
 
 depends ()
 {
-	printf '\033]2;  Thank you for using `setupTermuxArch.sh` 📲 \007'"\n 🕛 \033[36;1m< 🕛 \033[1;34mTermuxArch will attempt to install Linux in Termux.  Arch Linux will be available upon successful completion.  If you do not see one o'clock 🕐 below, check wireless connection.  Ensure background data is not restricted.\n"
+	printf '\033]2;  Thank you for using `setupTermuxArch.sh` 📲 \007'"\n 🕛 \033[36;1m< 🕛 \033[1;34mTermuxArch will attempt to install Linux in Termux.  Arch Linux will be available upon successful completion.  If you do not see one o'clock 🕐 below, check wireless connection.  Ensure background data is not restricted. 101\n"
 	predepends 
 	dwnl
 	chkdwn
