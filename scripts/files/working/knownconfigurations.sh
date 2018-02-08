@@ -5,8 +5,8 @@
 # https://sdrausty.github.io/TermuxArch/README has information about this project. 
 # Detected configurations. 
 # Add configurations to this list if you find one that is not listed.
-# Copy this file to `~/myTermuxArchConfigs.sh` with prefered parameters.  
-# Run `bash ~/setupTermuxArch.sh` and `~/myTermuxArchConfigs.sh` loads automaticaly.
+# Copy this file to `~/TermuxArchConfigs.sh` with prefered parameters.  
+# Run `bash ~/setupTermuxArch.sh` and `~/TermuxArchConfigs.sh` loads automaticaly.
 # Change mirror to your desired geographic location for 404 and md5sum errors.
 # Please add configurations to this list if you find one that is not listed.
 ################################################################################

@@ -77,9 +77,9 @@ dwnl ()
 
 ldconf ()
 {
-	if [ -f "myTermuxArchConfigs.sh" ];then
-		. myTermuxArchConfigs.sh
-		printf "\n 🕜 \033[36;1m< 🕛 \033[1;34mmyTermuxArchConfigs.sh loaded: \033[36;1mOK  \n\033[36;1m"
+	if [ -f "TermuxArchConfigs.sh" ];then
+		. TermuxArchConfigs.sh
+		printf "\n 🕜 \033[36;1m< 🕛 \033[1;34mTermuxArchConfigs.sh loaded: \033[36;1mOK  \n\033[36;1m"
 	else
 		. knownconfigurations.sh
 	fi
@@ -170,4 +170,4 @@ elif [[ $1 = "" ]] || [[ $1 = [Ii]* ]] || [[ $1 = -[Ii]* ]] || [[ $1 = --[Ii]* ]
 else
 	printusage
 fi
-echo TermuxArch v0.5.001633219
+echo TermuxArch v0.5.884560628
