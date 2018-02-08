@@ -39,7 +39,7 @@ chkdwn ()
 
 chkself ()
 {
-	if [ $(<setupTermuxArch.sh) = $(<setupTermuxArch.tmp) ]; then
+	if [[ "$(<setupTermuxArch.sh)" = "$(<setupTermuxArch.tmp)" ]]; then
 		echo did nothing
 		echo did nothing
 		echo did nothing
@@ -171,4 +171,4 @@ elif [[ $1 = "" ]] || [[ $1 = [Ii]* ]] || [[ $1 = -[Ii]* ]] || [[ $1 = --[Ii]* ]
 else
 	printusage
 fi
-echo TermuxArch v0.5.406981291
+echo TermuxArch v0.5.890191145
