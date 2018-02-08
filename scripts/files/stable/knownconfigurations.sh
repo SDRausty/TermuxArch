@@ -3,8 +3,10 @@
 # Hosting https://sdrausty.github.io/TermuxArch courtesy https://pages.github.com
 # https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.  
 # https://sdrausty.github.io/TermuxArch/README has information about this project. 
-# Detected configurations. Change mirror to your desired geographic location.
 # Please add configurations to this list if you find one that is not listed.
+# Copy this file to `~/TermuxArchConfigs.sh` with prefered parameters.  
+# Run `bash ~/setupTermuxArch.sh` and `~/TermuxArchConfigs.sh` loads automaticaly.
+# Change mirror to desired geographic location to resolve 404 and md5sum errors.
 ################################################################################
 
 aarch64 ()

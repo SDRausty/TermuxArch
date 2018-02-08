@@ -25,43 +25,6 @@ adjustmd5file ()
 	fi
 }
 
-detectsystem ()
-{
-	spaceinfo
-	printdetectedsystem
-	if [ $(getprop ro.product.cpu.abi) = armeabi ];then
-		armv5l
-	elif [ $(getprop ro.product.cpu.abi) = armeabi-v7a ];then
-		detectsystem2 
-	elif [ $(getprop ro.product.cpu.abi) = arm64-v8a ];then
-		aarch64
-	elif [ $(getprop ro.product.cpu.abi) = x86 ];then
-		i686 
-	elif [ $(getprop ro.product.cpu.abi) = x86_64 ];then
-		x86_64
-	else
-		printmismatch 
-	fi
-}
-
-detectsystem2 ()
-{
-	if [[ $(getprop ro.product.device) == *_cheets ]];then
-		armv7lChrome 
-	else
-		armv7lAndroid  
-	fi
-}
-
-detectsystem2p ()
-{
-	if [[ $(getprop ro.product.device) == *_cheets ]];then
-	printf "Chromebook.  "
-	else
-	printf "$(uname -o) operating system.  "
-	fi
-}
-
 getimage ()
 {
 	if [ $(getprop ro.product.cpu.abi) = x86_64 ];then
@@ -80,31 +43,13 @@ getimage ()
 	fi
 }
 
-makesystem ()
-{
-	printdownloading 
-	termux-wake-lock 
-	adjustmd5file
-	getimage
-	printmd5check
-	if md5sum -c $file.md5 ; then
-		printmd5success
-		preproot 
-	else
-		rm -rf $HOME/arch
-		printmd5error
-	fi
-	rm *.tar.gz *.tar.gz.md5
-	makebin 
-}
-
 preproot ()
 {
 	if [ $(du ~/arch/*z | awk {'print $1}') -gt 112233 ];then
 		if [ $(getprop ro.product.cpu.abi) = x86_64 ] || [ $(getprop ro.product.cpu.abi) = x86 ];then
-			proot --link2symlink -0 bsdtar -xpf $file --strip-components 1 ||:
+			proot --link2symlink -0 bsdtar -xpf $file --strip-components 1 
 		else
-			proot --link2symlink -0 bsdtar -xpf $file ||:
+			proot --link2symlink -0 bsdtar -xpf $file 
 		fi
 	else
 		printf "\n\nDownload Exception!  Exiting!\n\n"

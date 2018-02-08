@@ -17,7 +17,7 @@ chk ()
 		. systemmaintenance.sh
 		rmdsc 
 		printf "\n\033[36;1m 🕑 < 🕛 \033[1;34mTermuxArch integrity: \033[36;1mOK: "
-		printf "Running v0.5.559408569"
+		printf "Running v0.6.1 id019122175"
 		printf "\n\033[0m"
 	else
 		rmdsc 
@@ -28,7 +28,7 @@ chk ()
 chkdwn ()
 {
 	if md5sum -c setupTermuxArch.md5 ; then
-		printf "\n 🕐 \033[36;1m< 🕛 \033[1;34mTermuxArch downloaded: \033[36;1mOK  \n\n\033[36;1m"
+		printf "\n 🕐 \033[36;1m< 🕛 \033[1;34mTermuxArch downloaded: \033[36;1mOK\n\n\033[36;1m"
 		bsdtar -xf setupTermuxArch.tar.gz
 		rmds 
 	else
@@ -39,19 +39,25 @@ chkdwn ()
 
 chkself ()
 {
-	crsz=$(du -b setupTermuxArch.sh) 
-	if [[ $pvsz = $crsz ]] ;then
-		:
-	else
-		printf "\nsetupTermuxArch.sh: UPDATED\nTermuxArch: RESTARTED\n\033[0m"
-		. setupTermuxArch.sh $args
+	if [ -f "setupTermuxArch.tmp" ];then
+		if [[ "$(<setupTermuxArch.sh)" = "$(<setupTermuxArch.tmp)" ]]; then
+			:
+		else
+			printf "\nsetupTermuxArch.sh: UPDATED\nTermuxArch: RESTARTED\n\033[0m"
+			. setupTermuxArch.sh $args
+		fi
 	fi
 }
 
 depends ()
 {
-	printf '\033]2;  Thank you for using `setupTermuxArch.sh` 📲 \007'"\n 🕛 \033[36;1m< 🕛 \033[1;34mTermuxArch will attempt to install Linux in Termux.  Arch Linux will be available upon successful completion.  If you do not see one o'clock 🕐 below, check wireless connection.  Ensure background data is not restricted.\n"
+	printf '\033]2;  Thank you for using `setupTermuxArch.sh` 📲 \007'"\n 🕛 \033[36;1m< 🕛 \033[1;34mTermuxArch will attempt to install Linux in Termux.  Arch Linux will be available upon successful completion.  If you do not see one o'clock 🕐 below, check wireless connection.  Ensure background data is not restricted.  "
+		printf "Running v0.6.1 id019122175"
+	printf "\n"
 	predepends 
+	if [ -f "setupTermuxArch.sh" ];then
+	cp setupTermuxArch.sh setupTermuxArch.tmp
+	fi
 	dwnl
 	chkdwn
 	chk
@@ -71,24 +77,12 @@ dwnl ()
 
 ldconf ()
 {
-	if [ -f "myTermuxArchConfigs.sh" ];then
-		. myTermuxArchConfigs.sh
-		printf "\n 🕜 \033[36;1m< 🕛 \033[1;34mmyTermuxArchConfigs.sh loaded: \033[36;1mOK  \n\033[36;1m"
+	if [ -f "TermuxArchConfigs.sh" ];then
+		. TermuxArchConfigs.sh
+		printf "\n 🕜 \033[36;1m< 🕛 \033[1;34mTermuxArchConfigs.sh loaded: \033[36;1mOK  \n\033[36;1m"
 	else
 		. knownconfigurations.sh
 	fi
-}
-
-mainblock ()
-{ 
-	depends
-	callsystem 
-	$HOME/arch/root/bin/setupbin.sh 
-	termux-wake-unlock
-	rm $HOME/arch/root/bin/setupbin.sh
-	printfooter
-	$HOME/arch/$bin 
-	printtail
 }
 
 predepends ()
@@ -123,7 +117,8 @@ printtail ()
 
 printusage ()
 {
-	printf "\n\n\033[1;34mUsage information for \033[1;32m\`setupTermuxArch.sh\`\033[1;34m.  You can abbreviate the argument to one letter:\n\n\033[1;33mDEBUG\033[1;34m    Use \033[1;32m\`setupTermuxArch.sh --sysinfo\` \033[1;34mto create \033[1;32m\`setupTermuxArchdebug.log\`\033[1;34m and populate it with debug information.  Post this information along with detailed information about your issue at https://github.com/sdrausty/TermuxArch/issues.  If you think screenshots will help in resolving the issue better, include them in a post along with this log file.\n\n\033[1;33mHELP\033[1;34m     Use \033[1;32m\`setupTermuxArch.sh --help\` \033[1;34mto output this help screen.\n\n\033[1;33mINSTALL\033[1;34m  Run \033[1;32m\`setupTermuxArch.sh\`\033[1;34m without arguments in a bash shell to install Arch Linux in Termux.\n\n\033[1;33mPURGE\033[1;34m    Use \033[1;32m\`setupTermuxArch.sh --uninstall\` \033[1;34mto uninstall an Arch Linux installation from Termux.\n"
+	printf "\n\n\033[1;34mUsage information for \033[1;32msetupTermuxArch.sh\033[1;34m.  You can abbreviate the argument to one letter:\n\n\033[1;33mDEBUG\033[1;34m    Use \033[1;32msetupTermuxArch.sh --sysinfo \033[1;34mto create \033[1;32msetupTermuxArchdebug.log\033[1;34m and populate it with debug information.  Post this information along with detailed information about your issue at https://github.com/sdrausty/TermuxArch/issues.  If you think screenshots will help in resolving the issue better, include them in a post along with this log file.\n\n\033[1;33mHELP\033[1;34m     Use \033[1;32msetupTermuxArch.sh --help \033[1;34mto output this help screen.\n\n\033[1;33mINSTALL\033[1;34m  Run \033[1;32msetupTermuxArch.sh\033[1;34m without arguments in a bash shell to install Arch Linux in Termux.  Use \033[1;32msetupTermuxArch.sh --curl \033[1;34mto envoke \033[1;32mcurl\033[1;34m as the download manager.  Copy \033[1;32mknownconfigurations.sh\033[1;34m to \033[1;32m~/TermuxArchConfigs.sh\033[1;34m with prefered parameters.  Run \033[1;32mbash ~/setupTermuxArch.sh\033[1;34m and \033[1;32m~/TermuxArchConfigs.sh\033[1;34m loads automaticaly.  Change mirror to desired geographic location to resolve 404 and md5sum errors.\n\n\033[1;33mPURGE\033[1;34m    Use \033[1;32msetupTermuxArch.sh --uninstall\033[1;34m \033[1;34mto uninstall Arch Linux from Termux.\n"
+# Copy this file to `~/TermuxArchConfigs.sh` with prefered parameters.  Run `bash ~/setupTermuxArch.sh` and `~/TermuxArchConfigs.sh` loads automaticaly.  Change mirror to your desired geographic location for 404 and md5sum errors.
 	printtail
 }
 
@@ -134,6 +129,7 @@ rmdsc ()
 	rm knownconfigurations.sh
 	rm necessaryfunctions.sh
 	rm printoutstatements.sh
+	rm setupTermuxArch.tmp
 	rm systemmaintenance.sh
 	rm termuxarchchecksum.md5
 }
@@ -148,8 +144,7 @@ args=$@
 bin=startarch
 #dfl="/gen"
 dm=wget
-pvsz=$(du -b setupTermuxArch.sh)
-#
+
 if [[ $1 = [Cc][Pp]* ]] || [[ $1 = -[Cc][Pp]* ]] || [[ $1 = --[Cc][Pp]* ]] || [[ $1 = [Cc][Uu]* ]] || [[ $1 = -[Cc][Uu]* ]] || [[ $1 = --[Cc][Uu]* ]];then
 	dm=curl
 	depends
@@ -160,6 +155,7 @@ elif [[ $1 = [Cc][Dd]* ]] || [[ $1 = -[Cc][Dd]* ]] || [[ $1 = --[Cc][Dd]* ]] || 
 	sysinfo 
 elif [[ $1 = [Cc]* ]] || [[ $1 = -[Cc]* ]] || [[ $1 = --[Cc]* ]] || [[ $1 = [Cc][Ii]* ]] || [[ $1 = -[Cc][Ii]* ]] || [[ $1 = --[Cc][Ii]* ]];then
 	dm=curl
+	depends
 	mainblock
 elif [[ $1 = [Dd]* ]] || [[ $1 = -[Dd]* ]] || [[ $1 = --[Dd]* ]] || [[ $1 = [Ss]* ]] || [[ $1 = -[Ss]* ]] || [[ $1 = --[Ss]* ]];then
 	depends
@@ -170,6 +166,7 @@ elif [[ $1 = [Pp]* ]] || [[ $1 = -[Pp]* ]] || [[ $1 = --[Pp]* ]] || [[ $1 = [Uu]
 	depends
 	rmarch
 elif [[ $1 = "" ]] || [[ $1 = [Ii]* ]] || [[ $1 = -[Ii]* ]] || [[ $1 = --[Ii]* ]];then
+	depends
 	mainblock
 else
 	printusage

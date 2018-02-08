@@ -71,14 +71,15 @@ detectsystem2p ()
 	fi
 }
 
-ftchstnd ()
-{
-		if [[ $dm = wget ]];then 
-			wget -q -N --show-progress http://$mirror$path$file.md5 
-			wget -q -c --show-progress http://$mirror$path$file 
-		else
-			curl -q -L --fail --retry 4 -O http://$mirror$path$file.md5 -O http://$mirror$path$file
-		fi
+mainblock ()
+{ 
+	callsystem 
+	$HOME/arch/root/bin/setupbin.sh 
+	termux-wake-unlock
+	rm $HOME/arch/root/bin/setupbin.sh
+	printfooter
+	$HOME/arch/$bin 
+	printtail
 }
 
 makebin ()
@@ -108,9 +109,27 @@ makestartbin ()
 	chmod 700 $bin
 }
 
+makesystem ()
+{
+	printdownloading 
+	termux-wake-lock 
+	adjustmd5file
+	getimage
+	printmd5check
+	if md5sum -c $file.md5 ; then
+		printmd5success
+		preproot 
+	else
+		rm -rf $HOME/arch
+		printmd5error
+	fi
+	rm *.tar.gz *.tar.gz.md5
+	makebin 
+}
+
 spaceinfo ()
 {
-mntspace=`df /storage/emulated/0 | awk '{print $4}' | sed '2q;d'`
+mntspace=`df /data | awk '{print $4}' | sed '2q;d'`
 if [[ $mntspace = *G ]] || [[ $mntspace = *T ]];then
 	spaceMessage=""
 else
