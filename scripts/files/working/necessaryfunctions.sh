@@ -120,7 +120,11 @@ makesystem ()
 		printmd5success
 		preproot 
 	else
-		rm -rf $HOME/arch
+		cd $HOME/arch
+		rm -rf * 2>/dev/null ||:
+		find -type d -exec chmod 700 {} \; 2>/dev/null ||:
+		cd ..
+		rm -rf $HOME/arch 2>/dev/null ||:
 		printmd5error
 	fi
 	rm *.tar.gz *.tar.gz.md5

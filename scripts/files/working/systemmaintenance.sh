@@ -56,7 +56,7 @@ rmarch ()
 		rm -rf * 2>/dev/null ||:
 		find -type d -exec chmod 700 {} \; 2>/dev/null ||:
 		cd ..
-		rm -rf $HOME/arch
+		rm -rf $HOME/arch 2>/dev/null ||:
 	else 
 		printf "Uninstalling Arch Linux, nothing to do for $HOME/arch.\n"
 	fi
