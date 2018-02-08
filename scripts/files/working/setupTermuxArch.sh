@@ -17,7 +17,7 @@ chk ()
 		. systemmaintenance.sh
 		rmdsc 
 		printf "\n\033[36;1m 🕑 < 🕛 \033[1;34mTermuxArch integrity: \033[36;1mOK: "
-		printf "Running v0.5.5 id149408578"
+		printf "Running v0.5 id932535305"
 		printf "\n\033[0m"
 	else
 		rmdsc 
@@ -52,7 +52,7 @@ chkself ()
 depends ()
 {
 	printf '\033]2;  Thank you for using `setupTermuxArch.sh` 📲 \007'"\n 🕛 \033[36;1m< 🕛 \033[1;34mTermuxArch will attempt to install Linux in Termux.  Arch Linux will be available upon successful completion.  If you do not see one o'clock 🕐 below, check wireless connection.  Ensure background data is not restricted.  "
-	printf "Running v0.5 id149408578"
+		printf "Running v0.5 id932535305"
 	printf "\n"
 	predepends 
 	if [ -f "setupTermuxArch.sh" ];then
@@ -141,7 +141,7 @@ rmds ()
 
 args=$@
 bin=startarch
-dfl="/gen"
+#dfl="/gen"
 dm=wget
 
 if [[ $1 = [Cc][Pp]* ]] || [[ $1 = -[Cc][Pp]* ]] || [[ $1 = --[Cc][Pp]* ]] || [[ $1 = [Cc][Uu]* ]] || [[ $1 = -[Cc][Uu]* ]] || [[ $1 = --[Cc][Uu]* ]];then

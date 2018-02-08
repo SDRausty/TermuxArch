@@ -17,7 +17,7 @@ chk ()
 		. systemmaintenance.sh
 		rmdsc 
 		printf "\n\033[36;1m 🕑 < 🕛 \033[1;34mTermuxArch integrity: \033[36;1mOK: "
-		printf "Running v0.5.547688407"
+		printf "Running v0.5 id932535305"
 		printf "\n\033[0m"
 	else
 		rmdsc 
@@ -28,7 +28,7 @@ chk ()
 chkdwn ()
 {
 	if md5sum -c setupTermuxArch.md5 ; then
-		printf "\n 🕐 \033[36;1m< 🕛 \033[1;34mTermuxArch downloaded: \033[36;1mOK  \n\n\033[36;1m"
+		printf "\n 🕐 \033[36;1m< 🕛 \033[1;34mTermuxArch downloaded: \033[36;1mOK\n\n\033[36;1m"
 		bsdtar -xf setupTermuxArch.tar.gz
 		rmds 
 	else
@@ -39,19 +39,25 @@ chkdwn ()
 
 chkself ()
 {
-	crsz=$(du -b setupTermuxArch.sh) 
-	if [[ $pvsz = $crsz ]] ;then
-		:
-	else
-		printf "\nsetupTermuxArch.sh: UPDATED\nTermuxArch: RESTARTED\n\033[0m"
-		. setupTermuxArch.sh $args
+	if [ -f "setupTermuxArch.tmp" ];then
+		if [[ "$(<setupTermuxArch.sh)" = "$(<setupTermuxArch.tmp)" ]]; then
+			:
+		else
+			printf "\nsetupTermuxArch.sh: UPDATED\nTermuxArch: RESTARTED\n\033[0m"
+			. setupTermuxArch.sh $args
+		fi
 	fi
 }
 
 depends ()
 {
-	printf '\033]2;  Thank you for using `setupTermuxArch.sh` 📲 \007'"\n 🕛 \033[36;1m< 🕛 \033[1;34mTermuxArch will attempt to install Linux in Termux.  Arch Linux will be available upon successful completion.  If you do not see one o'clock 🕐 below, check wireless connection.  Ensure background data is not restricted.\n"
+	printf '\033]2;  Thank you for using `setupTermuxArch.sh` 📲 \007'"\n 🕛 \033[36;1m< 🕛 \033[1;34mTermuxArch will attempt to install Linux in Termux.  Arch Linux will be available upon successful completion.  If you do not see one o'clock 🕐 below, check wireless connection.  Ensure background data is not restricted.  "
+		printf "Running v0.5 id932535305"
+	printf "\n"
 	predepends 
+	if [ -f "setupTermuxArch.sh" ];then
+	cp setupTermuxArch.sh setupTermuxArch.tmp
+	fi
 	dwnl
 	chkdwn
 	chk
@@ -71,24 +77,12 @@ dwnl ()
 
 ldconf ()
 {
-	if [ -f "myTermuxArchConfigs.sh" ];then
-		. myTermuxArchConfigs.sh
-		printf "\n 🕜 \033[36;1m< 🕛 \033[1;34mmyTermuxArchConfigs.sh loaded: \033[36;1mOK  \n\033[36;1m"
+	if [ -f "TermuxArchConfigs.sh" ];then
+		. TermuxArchConfigs.sh
+		printf "\n 🕜 \033[36;1m< 🕛 \033[1;34mTermuxArchConfigs.sh loaded: \033[36;1mOK  \n\033[36;1m"
 	else
 		. knownconfigurations.sh
 	fi
-}
-
-mainblock ()
-{ 
-	depends
-	callsystem 
-	$HOME/arch/root/bin/setupbin.sh 
-	termux-wake-unlock
-	rm $HOME/arch/root/bin/setupbin.sh
-	printfooter
-	$HOME/arch/$bin 
-	printtail
 }
 
 predepends ()
@@ -134,6 +128,7 @@ rmdsc ()
 	rm knownconfigurations.sh
 	rm necessaryfunctions.sh
 	rm printoutstatements.sh
+	rm setupTermuxArch.tmp
 	rm systemmaintenance.sh
 	rm termuxarchchecksum.md5
 }
@@ -148,8 +143,7 @@ args=$@
 bin=startarch
 #dfl="/gen"
 dm=wget
-pvsz=$(du -b setupTermuxArch.sh)
-#
+
 if [[ $1 = [Cc][Pp]* ]] || [[ $1 = -[Cc][Pp]* ]] || [[ $1 = --[Cc][Pp]* ]] || [[ $1 = [Cc][Uu]* ]] || [[ $1 = -[Cc][Uu]* ]] || [[ $1 = --[Cc][Uu]* ]];then
 	dm=curl
 	depends
@@ -160,6 +154,7 @@ elif [[ $1 = [Cc][Dd]* ]] || [[ $1 = -[Cc][Dd]* ]] || [[ $1 = --[Cc][Dd]* ]] || 
 	sysinfo 
 elif [[ $1 = [Cc]* ]] || [[ $1 = -[Cc]* ]] || [[ $1 = --[Cc]* ]] || [[ $1 = [Cc][Ii]* ]] || [[ $1 = -[Cc][Ii]* ]] || [[ $1 = --[Cc][Ii]* ]];then
 	dm=curl
+	depends
 	mainblock
 elif [[ $1 = [Dd]* ]] || [[ $1 = -[Dd]* ]] || [[ $1 = --[Dd]* ]] || [[ $1 = [Ss]* ]] || [[ $1 = -[Ss]* ]] || [[ $1 = --[Ss]* ]];then
 	depends
@@ -170,6 +165,7 @@ elif [[ $1 = [Pp]* ]] || [[ $1 = -[Pp]* ]] || [[ $1 = --[Pp]* ]] || [[ $1 = [Uu]
 	depends
 	rmarch
 elif [[ $1 = "" ]] || [[ $1 = [Ii]* ]] || [[ $1 = -[Ii]* ]] || [[ $1 = --[Ii]* ]];then
+	depends
 	mainblock
 else
 	printusage
