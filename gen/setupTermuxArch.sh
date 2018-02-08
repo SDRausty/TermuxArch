@@ -40,7 +40,7 @@ chkdwn ()
 chkself ()
 {
 	crs=$(<setupTermuxArch.sh) 
-	if diff $pvs $crs ;then
+	if [ diff $pvs $crs ];then
 		:
 	else
 		printf "\nsetupTermuxArch.sh: UPDATED\nTermuxArch: RESTARTED\n\033[0m"
@@ -174,4 +174,4 @@ elif [[ $1 = "" ]] || [[ $1 = [Ii]* ]] || [[ $1 = -[Ii]* ]] || [[ $1 = --[Ii]* ]
 else
 	printusage
 fi
-echo TermuxArch v0.5.760704300
+echo TermuxArch v0.5.259788337
