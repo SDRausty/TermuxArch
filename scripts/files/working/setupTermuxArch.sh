@@ -17,7 +17,7 @@ chk ()
 		. systemmaintenance.sh
 		rmdsc 
 		printf "\n\033[36;1m 🕑 < 🕛 \033[1;34mTermuxArch integrity: \033[36;1mOK: "
-		printf "Running v0.5.559408570"
+		printf "Running v0.5.559408572"
 		printf "\n\033[0m"
 	else
 		rmdsc 
@@ -40,7 +40,7 @@ chkdwn ()
 chkself ()
 {
 	crs=$(<setupTermuxArch.sh) 
-	if [ diff -q $pvs $crs ];then
+	if [ diff -q $pvs $crs ] ;then
 		:
 	else
 		printf "\nsetupTermuxArch.sh: UPDATED\nTermuxArch: RESTARTED\n\033[0m"
