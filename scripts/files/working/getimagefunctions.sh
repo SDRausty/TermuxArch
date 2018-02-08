@@ -25,43 +25,6 @@ adjustmd5file ()
 	fi
 }
 
-detectsystem ()
-{
-	spaceinfo
-	printdetectedsystem
-	if [ $(getprop ro.product.cpu.abi) = armeabi ];then
-		armv5l
-	elif [ $(getprop ro.product.cpu.abi) = armeabi-v7a ];then
-		detectsystem2 
-	elif [ $(getprop ro.product.cpu.abi) = arm64-v8a ];then
-		aarch64
-	elif [ $(getprop ro.product.cpu.abi) = x86 ];then
-		i686 
-	elif [ $(getprop ro.product.cpu.abi) = x86_64 ];then
-		x86_64
-	else
-		printmismatch 
-	fi
-}
-
-detectsystem2 ()
-{
-	if [[ $(getprop ro.product.device) == *_cheets ]];then
-		armv7lChrome 
-	else
-		armv7lAndroid  
-	fi
-}
-
-detectsystem2p ()
-{
-	if [[ $(getprop ro.product.device) == *_cheets ]];then
-	printf "Chromebook.  "
-	else
-	printf "$(uname -o) operating system.  "
-	fi
-}
-
 getimage ()
 {
 	if [ $(getprop ro.product.cpu.abi) = x86_64 ];then
