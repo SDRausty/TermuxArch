@@ -40,7 +40,7 @@ chkdwn ()
 chkself ()
 {
 	crs=$(<setupTermuxArch.sh) 
-	if ! diff -q ${pvs} ${crs} &>/dev/null; then
+	if ! diff -q $pvs $crs &>/dev/null; then
 		echo did nothing
 		echo did nothing
 		echo did nothing
@@ -169,4 +169,4 @@ elif [[ $1 = "" ]] || [[ $1 = [Ii]* ]] || [[ $1 = -[Ii]* ]] || [[ $1 = --[Ii]* ]
 else
 	printusage
 fi
-echo TermuxArch v0.5.596792320
+echo TermuxArch v0.5.154642271

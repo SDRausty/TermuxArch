@@ -40,7 +40,7 @@ chkdwn ()
 chkself ()
 {
 	crs=$(<setupTermuxArch.sh) 
-	if ! diff -q ${pvs} ${crs} &>/dev/null; then
+	if ! diff -q $pvs $crs &>/dev/null; then
 		echo did nothing
 		echo did nothing
 		echo did nothing
