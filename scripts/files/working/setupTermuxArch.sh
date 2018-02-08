@@ -17,7 +17,7 @@ chk ()
 		. systemmaintenance.sh
 		rmdsc 
 		printf "\n\033[36;1m 🕑 < 🕛 \033[1;34mTermuxArch integrity: \033[36;1mOK: "
-		printf "Running v0.5.559408576"
+		printf "Running v0.5.559408577"
 		printf "\n\033[0m"
 	else
 		rmdsc 
@@ -40,7 +40,8 @@ chkdwn ()
 chkself ()
 {
 	crs=$(<setupTermuxArch.sh) 
-	if diff -q $pvs $crs &>/dev/null; then
+	if diff -q $pvs $crs &>/dev/null ; then
+		echo did nada
 		:
 	else
 		printf "\nsetupTermuxArch.sh: UPDATED\nTermuxArch: RESTARTED\n\033[0m"
@@ -77,18 +78,6 @@ ldconf ()
 	else
 		. knownconfigurations.sh
 	fi
-}
-
-mainblock ()
-{ 
-	depends
-	callsystem 
-	$HOME/arch/root/bin/setupbin.sh 
-	termux-wake-unlock
-	rm $HOME/arch/root/bin/setupbin.sh
-	printfooter
-	$HOME/arch/$bin 
-	printtail
 }
 
 predepends ()
@@ -160,6 +149,7 @@ elif [[ $1 = [Cc][Dd]* ]] || [[ $1 = -[Cc][Dd]* ]] || [[ $1 = --[Cc][Dd]* ]] || 
 	sysinfo 
 elif [[ $1 = [Cc]* ]] || [[ $1 = -[Cc]* ]] || [[ $1 = --[Cc]* ]] || [[ $1 = [Cc][Ii]* ]] || [[ $1 = -[Cc][Ii]* ]] || [[ $1 = --[Cc][Ii]* ]];then
 	dm=curl
+	depends
 	mainblock
 elif [[ $1 = [Dd]* ]] || [[ $1 = -[Dd]* ]] || [[ $1 = --[Dd]* ]] || [[ $1 = [Ss]* ]] || [[ $1 = -[Ss]* ]] || [[ $1 = --[Ss]* ]];then
 	depends
@@ -170,6 +160,7 @@ elif [[ $1 = [Pp]* ]] || [[ $1 = -[Pp]* ]] || [[ $1 = --[Pp]* ]] || [[ $1 = [Uu]
 	depends
 	rmarch
 elif [[ $1 = "" ]] || [[ $1 = [Ii]* ]] || [[ $1 = -[Ii]* ]] || [[ $1 = --[Ii]* ]];then
+	depends
 	mainblock
 else
 	printusage
