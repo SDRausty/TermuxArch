@@ -43,24 +43,6 @@ getimage ()
 	fi
 }
 
-makesystem ()
-{
-	printdownloading 
-	termux-wake-lock 
-	adjustmd5file
-	getimage
-	printmd5check
-	if md5sum -c $file.md5 ; then
-		printmd5success
-		preproot 
-	else
-		rm -rf $HOME/arch
-		printmd5error
-	fi
-	rm *.tar.gz *.tar.gz.md5
-	makebin 
-}
-
 preproot ()
 {
 	if [ $(du ~/arch/*z | awk {'print $1}') -gt 112233 ];then

@@ -39,11 +39,13 @@ chkdwn ()
 
 chkself ()
 {
-	if [[ "$(<setupTermuxArch.sh)" = "$(<setupTermuxArch.tmp)" ]]; then
-		:
-	else
-		printf "\nsetupTermuxArch.sh: UPDATED\nTermuxArch: RESTARTED\n\033[0m"
-		. setupTermuxArch.sh $args
+	if [ -f "setupTermuxArch.tmp" ];then
+		if [[ "$(<setupTermuxArch.sh)" = "$(<setupTermuxArch.tmp)" ]]; then
+			:
+		else
+			printf "\nsetupTermuxArch.sh: UPDATED\nTermuxArch: RESTARTED\n\033[0m"
+			. setupTermuxArch.sh $args
+		fi
 	fi
 }
 
@@ -168,4 +170,4 @@ elif [[ $1 = "" ]] || [[ $1 = [Ii]* ]] || [[ $1 = -[Ii]* ]] || [[ $1 = --[Ii]* ]
 else
 	printusage
 fi
-echo TermuxArch v0.5.138476184
+echo TermuxArch v0.5.013825064
