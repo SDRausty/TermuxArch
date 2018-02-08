@@ -129,11 +129,11 @@ makesystem ()
 
 spaceinfo ()
 {
-mntspace=`df /data | awk '{print $4}' | sed '2q;d'`
-if [[ $mntspace = *G ]] || [[ $mntspace = *T ]];then
+usrspace=`df /data | awk '{print $4}' | sed '2q;d'`
+if [[ $usrspace = *G ]] || [[ $usrspace = *T ]];then
 	spaceMessage=""
 else
-	spaceMessage="Warning!  Start thinking about cleaning out some stuff.  The user space on this device is just $mntspace.  This is below the recommended amount of free space to install Arch Linux in Termux PRoot."
+	spaceMessage="WARNING!  Start thinking about cleaning out some stuff.  The user space on this device is just $usrspace.  This is below the recommended amount of free space to install Arch Linux in Termux PRoot."
 fi
 }
 
