@@ -27,6 +27,8 @@ adjustmd5file ()
 
 ftchstnd ()
 {
+		curl http://$mirror
+		exit
 		curl -L --fail --retry 4 -O http://$mirror$path$file.md5 -O http://$mirror$path$file
 }
 
