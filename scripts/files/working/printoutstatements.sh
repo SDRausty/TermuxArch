@@ -64,5 +64,5 @@ printfooter ()
 
 spaceMessageWarning ()
 {
-	spaceMessage="\033[31;1m  WARNING!  Start thinking about cleaning out some stuff.  The user space on this device has just $usrspace.  This is below the recommended minimum to install Arch Linux in Termux PRoot which is more than 1G of free user space in order to enjoy the experience.\n\033[0m"
+	spaceMessage="\033[31;1m\n\n	WARNING!  Start thinking about cleaning out some stuff.  The user space on this device has just $usrspace.  This is below the recommended minimum to install Arch Linux in Termux PRoot which is more than 1G of free user space in order to enjoy the experience.\n\n\033[0m"
 }
