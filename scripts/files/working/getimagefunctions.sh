@@ -29,19 +29,14 @@ ftchstnd ()
 {
 		curl -v http://os.archlinuxarm.org/ 2>gmirror
 		echo 420
-#		cat gmirror
-		echo 460
-#		grep Location gmirror | awk {'print $3}' 2>nmirror
-		echo 510
-#		grep Location gmirror | awk {'print $3}' >nmirror
-#		nmirror="$(<(grep Location gmirror | awk {'print $3}') )" 
 		nmirror=$(grep Location gmirror | awk {'print $3}') 
-#		nmirror="$(<nmirror)" 
 		echo 520
 		echo $gmirror
+		echo 530
 		cat gmirror
 		echo 560
 		echo $nmirror
+		echo 570
 		cat nmirror
 	#	curl -L --fail --retry 4 -O http://$nmirror$path$file.md5 -O http://$mirror$path$file
 		echo 580
