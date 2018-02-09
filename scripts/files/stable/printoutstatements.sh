@@ -10,9 +10,9 @@
 detectsystem2p ()
 {
 	if [[ $(getprop ro.product.device) == *_cheets ]];then
-	printf "Chromebook: \033[36;1mOK\033[0m"
+	printf "Chromebook: \033[36;1mOK\n\033[0m"
 	else
-	printf "$(uname -o) operating system: \033[36;1mOK\033[0m"
+	printf "$(uname -o) operating system: \033[36;1mOK\n\033[0m"
 	fi
 }
 
@@ -20,12 +20,12 @@ printdetectedsystem ()
 {
 	printf "\n\033[36;1m 🕝 < 🕛 \033[1;34mDetected $(uname -m) " 
 	detectsystem2p 
-	printf "\033[31;1m$spaceMessage  \n\033[0m"
+	printf "$spaceMessage"
 }
 
 printdownloading ()
 {
-	printf "\n\033[36;1m 🕒 < 🕛 \033[1;34mActivated termux-wake-lock.  Downloading \033[36;1m$file \033[1;34mand checksum.  \033[37;1mPending Internet connection, this may take a long time.  \033[36;1m\033[34mbash ~/setupTermuxArch.sh --help \033[36;1mhas important information.\n\n"'\033]2;  🕒 < 🕛 Downloading the system image file and checksum.  \007'
+	printf "\n\033[36;1m 🕒 < 🕛 \033[1;34mActivated termux-wake-lock.  Downloading \033[36;1m$file \033[1;34mand checksum.  \033[37;1mThis may take a long time pending Internet connection.\n\n"'\033]2;  🕒 < 🕛 Downloading the system image file and checksum.  \007'
 }
 
 printconfigq ()
@@ -62,3 +62,7 @@ printfooter ()
 	printf "\033[1;32m 🕛 = 🕛 \033[1;34mTermux-wake-lock released.  Arch Linux in Termux is installed.  \033[32;1m\`tzselect\`\033[1;34m assits in setting the local time zone.  https://github.com/sdrausty/TermuxArch/issues/25 \"Starting Arch Linux from Termux?\" has more information.  \n\n\033[0m"
 }
 
+spaceMessageWarning ()
+{
+	spaceMessage="\033[31;1m\n\n	WARNING!  Start thinking about cleaning out some stuff.  The user space on this device has just $usrspace.  This is below the recommended minimum to install Arch Linux in Termux PRoot which is more than 1G of free user space in order to enjoy the experience.\n\n\033[0m"
+}
