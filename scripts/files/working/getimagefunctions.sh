@@ -33,8 +33,9 @@ ftchstnd ()
 		echo 460
 		grep Location gmirror | awk {'print $3}' 2>nmirror
 		echo 510
-		grep Location gmirror | awk {'print $3}' >nmirror
+#		grep Location gmirror | awk {'print $3}' >nmirror
 #		nmirror="$(<(grep Location gmirror | awk {'print $3}') )" 
+		nmirror=$(grep Location gmirror | awk {'print $3}') 
 #		nmirror="$(<nmirror)" 
 		echo 520
 		echo $gmirror
@@ -43,6 +44,7 @@ ftchstnd ()
 		echo $nmirror
 		cat nmirror
 		exit
+	#	curl -L --fail --retry 4 -O http://$nmirror$path$file.md5 -O http://$mirror$path$file
 		curl -L --fail --retry 4 -O http://$nmirror$path$file.md5 -O http://$mirror$path$file
 }
 
