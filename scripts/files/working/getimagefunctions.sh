@@ -29,9 +29,9 @@ ftchstnd ()
 {
 		curl -v http://os.archlinuxarm.org/ 2>gmirror
 		echo 420
-		cat gmirror
+#		cat gmirror
 		echo 460
-		grep Location gmirror | awk {'print $3}' 2>nmirror
+#		grep Location gmirror | awk {'print $3}' 2>nmirror
 		echo 510
 #		grep Location gmirror | awk {'print $3}' >nmirror
 #		nmirror="$(<(grep Location gmirror | awk {'print $3}') )" 
@@ -44,7 +44,8 @@ ftchstnd ()
 		echo $nmirror
 		cat nmirror
 	#	curl -L --fail --retry 4 -O http://$nmirror$path$file.md5 -O http://$mirror$path$file
-		curl -v -L --fail --retry 4 -O http://$nmirror$path$file.md5 -O http://$mirror$path$file
+		echo 580
+		curl -v --fail --retry 4 -O $nmirror$path$file.md5 -O $nmirror$path$file
 }
 
 getimage ()
