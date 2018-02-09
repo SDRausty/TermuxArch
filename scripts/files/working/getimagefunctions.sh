@@ -27,7 +27,7 @@ adjustmd5file ()
 
 ftchstnd ()
 {
-		curl -q -L --fail --retry 4 -O http://$mirror$path$file.md5 -O http://$mirror$path$file
+		curl --verbose -L --fail --retry 4 -O http://$mirror$path$file.md5 -O http://$mirror$path$file
 }
 
 getimage ()
