@@ -19,8 +19,12 @@ fi
 pwd
 ls -al se*
 printf "\n"
+msg="v0.6.1 id$ntime"
+echo "printf \"$msg\""
+ms="		printf \"$msg\""
+sed -i "/v0.6.1/c\\$ms" setupTermuxArch.sh 
 cp setupTermuxArch.sh ..
-echo "echo "TermuxArch v0.5.$(date +%N)"" >> ../setupTermuxArch.sh 
+#echo "echo "TermuxArch v0.5.$(date +%N)"" >> ../setupTermuxArch.sh 
 ntime=`date +%N`
 echo "$(date +%N)" 
 md5sum *sh > termuxarchchecksum.md5 

@@ -113,8 +113,12 @@ makesystem ()
 {
 	printdownloading 
 	termux-wake-lock 
-	adjustmd5file
-	getimage
+	if [ "$mirror"="os.archlinuxarm.org" ] ; then 
+		ftchstnd 
+	else
+		adjustmd5file
+		getimage
+	fi
 	printmd5check
 	if md5sum -c $file.md5 ; then
 		printmd5success
