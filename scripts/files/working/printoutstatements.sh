@@ -20,7 +20,7 @@ printdetectedsystem ()
 {
 	printf "\n\033[36;1m 🕝 < 🕛 \033[1;34mDetected $(uname -m) " 
 	detectsystem2p 
-	printf "\033[31;1m$spaceMessage  \n\033[0m"
+	printf "$spaceMessage"
 }
 
 printdownloading ()
@@ -62,3 +62,7 @@ printfooter ()
 	printf "\033[1;32m 🕛 = 🕛 \033[1;34mTermux-wake-lock released.  Arch Linux in Termux is installed.  \033[32;1m\`tzselect\`\033[1;34m assits in setting the local time zone.  https://github.com/sdrausty/TermuxArch/issues/25 \"Starting Arch Linux from Termux?\" has more information.  \n\n\033[0m"
 }
 
+spaceMessageWarning ()
+{
+	spaceMessage="\033[31;1m  WARNING!  Start thinking about cleaning out some stuff.  The user space on this device has just $usrspace.  This is below the recommended minimum to install Arch Linux in Termux PRoot which is more than 1G of free user space in order to enjoy the experience.\n\033[0m"
+}
