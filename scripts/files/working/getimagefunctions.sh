@@ -32,7 +32,8 @@ ftchstnd ()
 		cat gmirror
 		echo 460
 		grep Location gmirror | awk {'print $3}'
-		nmirror="$(<grep Location gmirror | awk {'print $3}' )" 
+		echo 510
+		nmirror="$(<(grep Location gmirror | awk {'print $3}') )" 
 		echo 520
 		echo $nmirror
 		cat gmirror
