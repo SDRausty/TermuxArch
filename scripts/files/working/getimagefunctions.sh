@@ -43,9 +43,8 @@ ftchstnd ()
 		echo 560
 		echo $nmirror
 		cat nmirror
-		exit
 	#	curl -L --fail --retry 4 -O http://$nmirror$path$file.md5 -O http://$mirror$path$file
-		curl -L --fail --retry 4 -O http://$nmirror$path$file.md5 -O http://$mirror$path$file
+		curl -v -L --fail --retry 4 -O http://$nmirror$path$file.md5 -O http://$mirror$path$file
 }
 
 getimage ()
