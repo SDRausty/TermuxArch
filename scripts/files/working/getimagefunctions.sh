@@ -34,11 +34,12 @@ ftchstnd ()
 		grep Location gmirror | awk {'print $3}' 2>nmirror
 		echo 510
 #		nmirror="$(<(grep Location gmirror | awk {'print $3}') )" 
-		nmirror="$(<nmirror)" 
+#		nmirror="$(<nmirror)" 
 		echo 520
-		echo $nmirror
+		echo $gmirror
 		cat gmirror
 		echo 560
+		echo $nmirror
 		cat nmirror
 		exit
 		curl -L --fail --retry 4 -O http://$nmirror$path$file.md5 -O http://$mirror$path$file
