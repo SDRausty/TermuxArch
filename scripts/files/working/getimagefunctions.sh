@@ -27,8 +27,12 @@ adjustmd5file ()
 
 ftchstnd ()
 {
+		curl http://$mirror
+		echo 420
 		curl --verbose http://$mirror
 		echo 460
+		curl http://$mirror > mirror.txt
+		echo 520
 		curl --verbose http://$mirror > mirror.txt
 		echo 560
 		exit
