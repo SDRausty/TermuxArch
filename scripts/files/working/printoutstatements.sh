@@ -25,7 +25,7 @@ printdetectedsystem ()
 
 printdownloading ()
 {
-	printf "\n\033[36;1m 🕒 < 🕛 \033[1;34mActivated termux-wake-lock.  Downloading \033[36;1m$file \033[1;34mand checksum.  \033[37;1mPending Internet connection, this may take a long time.  \033[36;1mSee \033[33m\`bash ~/setupTermuxArch.sh --help\` \033[36;1mfor more information.\n\n"'\033]2;  🕒 < 🕛 Downloading the system image file and the corresponding checksum.  \007'
+	printf "\n\033[36;1m 🕒 < 🕛 \033[1;34mActivated termux-wake-lock.  Downloading \033[36;1m$file \033[1;34mand checksum.  \033[37;1mPending Internet connection, this may take a long time.  \033[36;1mSee \033[32m\`bash ~/setupTermuxArch.sh --help\` \033[36;1mfor more information.\n\n"'\033]2;  🕒 < 🕛 Downloading the system image file and the corresponding checksum.  \007'
 }
 
 printconfigq ()
