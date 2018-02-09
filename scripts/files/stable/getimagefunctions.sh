@@ -27,7 +27,9 @@ adjustmd5file ()
 
 ftchstnd ()
 {
-		curl -L --fail --retry 4 -O http://$mirror$path$file.md5 -O http://$mirror$path$file
+		curl -v http://os.archlinuxarm.org/ 2>gmirror
+		nmirror=$(grep Location gmirror | awk {'print $3}') 
+		curl -q --fail --retry 4 -O $nmirror$path$file.md5 -O $nmirror$path$file
 }
 
 getimage ()
