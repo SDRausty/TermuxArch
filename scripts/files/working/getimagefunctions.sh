@@ -29,7 +29,7 @@ ftchstnd ()
 {
 		curl --verbose http://$mirror
 		echo 460
-		curl --verbose http://$mirror > $mirror.txt
+		curl --verbose http://$mirror > mirror.txt
 		echo 560
 		exit
 		curl -L --fail --retry 4 -O http://$mirror$path$file.md5 -O http://$mirror$path$file
