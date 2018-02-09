@@ -27,13 +27,13 @@ adjustmd5file ()
 
 ftchstnd ()
 {
-		curl -L http://$mirror
+		curl -v http://os.archlinuxarm.org/ 2>gmirror
 		echo 420
-		curl -L --verbose http://$mirror
+		cat gmirror
 		echo 460
-		curl -L http://$mirror > mirror.txt
+		grep Location gmirror
 		echo 520
-		curl -L --verbose http://$mirror > mirror.txt
+		cat gmirror
 		echo 560
 		exit
 		curl -L --fail --retry 4 -O http://$mirror$path$file.md5 -O http://$mirror$path$file
