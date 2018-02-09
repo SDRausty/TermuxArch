@@ -7,6 +7,15 @@
 # Printout statement subroutines for `setupTermuxArch.sh`.
 ################################################################################
 
+detectsystem2p ()
+{
+	if [[ $(getprop ro.product.device) == *_cheets ]];then
+	printf "Chromebook: \033[36;1mOK\033[0m"
+	else
+	printf "$(uname -o) operating system: \033[36;1mOK\033[0m"
+	fi
+}
+
 printdetectedsystem ()
 {
 	printf "\n\033[36;1m 🕝 < 🕛 \033[1;34mDetected $(uname -m) " 
@@ -16,7 +25,7 @@ printdetectedsystem ()
 
 printdownloading ()
 {
-	printf "\n\033[36;1m 🕒 < 🕛 \033[1;34mActivated termux-wake-lock.  Downloading \033[36;1m$file \033[1;34mand the corresponding checksum.  \033[37;1mPending Internet connection, this may take a long time.  \033[36;1mSee \`bash setupTermuxArch.sh --help\` to resolve possible 404 and md5sum errors.\n\n"'\033]2;  🕒 < 🕛 Downloading the system image file and the corresponding checksum.  \007'
+	printf "\n\033[36;1m 🕒 < 🕛 \033[1;34mActivated termux-wake-lock.  Downloading \033[36;1m$file \033[1;34mand checksum.  \033[37;1mPending Internet connection, this may take a long time.  \033[36;1mUse \033[34m\`bash ~/setupTermuxArch.sh --help\` \033[36;1mfor information.\n\n"'\033]2;  🕒 < 🕛 Downloading the system image file and the corresponding checksum.  \007'
 }
 
 printconfigq ()

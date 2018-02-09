@@ -16,7 +16,7 @@ copybin2path ()
 {
 	printf " 🕚 \033[36;1m<\033[0m 🕛 "
 	while true; do
-	read -p "Copy $bin to your \$PATH? [y|n]  " answer
+	read -p "Copy $bin to your \$PATH? [y|n] " answer
 	if [[ $answer = [Yy]* ]];then
 		cp $HOME/arch/$bin $PREFIX/bin
 		printf "\n 🕦 \033[36;1m<\033[0m 🕛 Copied \033[32;1m$bin\033[0m to \033[1;34m$PREFIX/bin\033[0m.\n\n"
@@ -62,15 +62,6 @@ detectsystem2 ()
 	fi
 }
 
-detectsystem2p ()
-{
-	if [[ $(getprop ro.product.device) == *_cheets ]];then
-	printf "Chromebook.  "
-	else
-	printf "$(uname -o) operating system.  "
-	fi
-}
-
 mainblock ()
 { 
 	callsystem 
@@ -113,8 +104,12 @@ makesystem ()
 {
 	printdownloading 
 	termux-wake-lock 
-	adjustmd5file
-	getimage
+	if [ "$mirror"="os.archlinuxarm.org" ] ; then 
+		ftchstnd 
+	else
+		adjustmd5file
+		getimage
+	fi
 	printmd5check
 	if md5sum -c $file.md5 ; then
 		printmd5success
@@ -172,7 +167,7 @@ touchupsys ()
 	setlocalegen
 	printf "\n\033[32;1m"
 	while true; do
-	read -p "Do you want to use \`nano\` or \`vi\` to edit your Arch Linux configuration files [n|v]?  "  nv
+	read -p "Do you want to use \`nano\` or \`vi\` to edit your Arch Linux configuration files [n|v]? "  nv
 	if [[ $nv = [Nn]* ]];then
 		ed=nano
 		apt-get -qq install nano --yes 
@@ -188,7 +183,7 @@ touchupsys ()
 	done	
 	printf "\n"
 	while true; do
-	read -p "Would you like to run \`locale-gen\` to generate the en_US.UTF-8 locale or do you want to edit /etc/locale.gen specifying your preferred language before running \`locale-gen\`?  Answer run or edit [r|e].  " ye
+		read -p "Would you like to run \`locale-gen\` to generate the en_US.UTF-8 locale, or would you like to edit \`/etc/locale.gen\` specifying your preferred language\(s\) before running \`locale-gen\`?  Answer run or edit [r|e]. " ye
 	if [[ $ye = [Rr]* ]];then
 		break
 	elif [[ $ye = [Ee]* ]];then

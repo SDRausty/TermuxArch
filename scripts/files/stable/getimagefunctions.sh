@@ -25,6 +25,11 @@ adjustmd5file ()
 	fi
 }
 
+ftchstnd ()
+{
+		curl -q -L --fail --retry 4 -O http://$mirror$path$file.md5 -O http://$mirror$path$file
+}
+
 getimage ()
 {
 	if [ $(getprop ro.product.cpu.abi) = x86_64 ];then
