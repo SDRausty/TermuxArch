@@ -39,7 +39,7 @@ sysinfo ()
 rmarch ()
 {
 	while true; do
-	printf "\n\033[1;31m"
+	printf "\n\033[30m"
 	read -p "Uninstall Arch Linux? [y|n] " uanswer
 	if [[ $uanswer = [Ee]* ]] || [[ $uanswer = [Nn]* ]] || [[ $uanswer = [Qq]* ]];then
 		break
