@@ -44,11 +44,12 @@ ftchit ()
 ftchstnd ()
 {
 	if [[ $dm = wget ]];then 
+		printf "Contacted mirror.  "
 		curl -v http://os.archlinuxarm.org/ 2>gmirror
 		nmirror=$(grep Location gmirror | awk {'print $3}') 
 		printdownloadingftch 
-		wget -N --show-progress $nmirror$path$file.md5 
-		wget -c --show-progress $nmirror$path$file 
+		wget -q -N --show-progress $nmirror$path$file.md5 
+		wget -q --show-progress $nmirror$path$file 
 	else
 		curl -v http://os.archlinuxarm.org/ 2>gmirror
 		nmirror=$(grep Location gmirror | awk {'print $3}') 
