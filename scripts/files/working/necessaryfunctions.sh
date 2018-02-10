@@ -65,7 +65,7 @@ detectsystem2 ()
 mainblock ()
 { 
 	if [ -d $HOME/arch ] ;then
-		printf "\n\033[33;1m$HOME/arch/ \033[0;33;1mdirectory detected.  \033[36;1mTermux Arch installation will continue.  It is recommended to install into a clean directory.  "
+		printf "\n\033[33;1m$HOME/arch/ \033[0;33;1mdirectory detected.  \033[36;1mTermux Arch installation will continue.  It is recommended to install into a clean directory.  Uninstalling before installing is suggested.\n"
 		rmarch
 	fi
 	callsystem 
