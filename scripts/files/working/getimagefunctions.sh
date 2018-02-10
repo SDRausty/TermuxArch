@@ -29,8 +29,7 @@ adjustmd5file ()
 	fi
 }
 
-ftchit
-()
+ftchit ()
 {
 	echo exit
 	exit
