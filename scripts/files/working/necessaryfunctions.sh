@@ -74,7 +74,6 @@ mainblock ()
 	rm $HOME/arch/root/bin/setupbin.sh
 	printfooter
 	$HOME/arch/$bin 
-	printtail
 }
 
 makebin ()
