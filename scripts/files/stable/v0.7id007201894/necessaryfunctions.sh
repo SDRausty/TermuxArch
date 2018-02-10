@@ -104,15 +104,14 @@ makesystem ()
 {
 	printdownloading 
 	termux-wake-lock 
-	if [ $(getprop ro.product.cpu.abi) != x86_64 ] || [ $(getprop ro.product.cpu.abi) != x86 ];then
-		if [ "$mirror" = "os.archlinuxarm.org" ] || [ "$mirror" = "mirror.archlinuxarm.org" ]; then
-			ftchstnd 
-		else
+	if [ "$mirror" = "os.archlinuxarm.org" ] || [ "$mirror" = "mirror.archlinuxarm.org" ]; then
+		ftchstnd 
+	else 
+		if [ $(getprop ro.product.cpu.abi) != x86_64 ] || [ $(getprop ro.product.cpu.abi) != x86 ];then
 			ftchit
+		else
+			:
 		fi
-		:
-	fi
-	if [ $(getprop ro.product.cpu.abi) = x86_64 ] || [ $(getprop ro.product.cpu.abi) = x86 ];then
 		adjustmd5file
 		getimage
 	fi
