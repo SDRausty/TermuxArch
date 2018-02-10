@@ -33,7 +33,7 @@ ftchstnd ()
 			nmirror=$(grep Location gmirror | awk {'print $3}') 
 			curl -v --fail --retry 4 -O $nmirror$path$file.md5 -O $nmirror$path$file
 		else
-			curl -v http://os.archlinuxarm.org/ 2>gmirror
+			curl -v http://$mirror 2>gmirror
 			nmirror=$(grep Location gmirror | awk {'print $3}') 
 			curl -v --fail --retry 4 -O $nmirror$path$file.md5 -O $nmirror$path$file
 		fi
