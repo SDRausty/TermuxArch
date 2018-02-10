@@ -25,17 +25,17 @@ printdetectedsystem ()
 
 printdownloading ()
 {
-	printf "\n\033[36;1m 🕒 < 🕛 \033[1;34mActivated termux-wake-lock.  "'\033]2;  🕒 < 🕛 Downloading the checksum and system image file.  \007'
+	printf "\n\033[36;1m 🕒 < 🕛 \033[1;34mActivated termux-wake-lock.  "'\033]2;  🕒 < 🕛 Downloading checksum and the system image file.  \007'
 }
 
 printdownloading2 ()
 {
-	printf "\033[36;1mDownloading $file and the corresponding checksum from http://$mirror.  \033[37;1mThis may take a long time pending Internet connection.\n\n\033[36;1m"
+	printf "\033[36;1mDownloading $file and the corresponding checksum from http://$mirror.  \033[37;1mThis may take a long time pending the Internet connection.\n\n\033[36;1m"
 }
 
 printdownloadingftch ()
 {
-	printf "\033[36;1mDownloading $file and the corresponding checksum from $nmirror.  \033[37;1mThis may take a long time pending Internet connection.\n\n\033[36;1m"
+	printf "\033[36;1mDownloading $file and the corresponding checksum from $nmirror.  \033[37;1mThis may take a long time pending the Internet connection.\n\n\033[36;1m"
 }
 
 printconfigq ()
