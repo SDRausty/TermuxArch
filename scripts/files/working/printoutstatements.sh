@@ -38,6 +38,11 @@ printdownloadingftch ()
 	printf "\033[36;1mDownloading $file and the corresponding checksum from $nmirror.  \033[37;1mThis may take a long time pending the Internet connection.\n\n\033[36;1m"
 }
 
+printdownloadingftchit ()
+{
+	printf "\033[36;1mDownloading $file and the corresponding checksum from $mirror.  \033[37;1mThis may take a long time pending the Internet connection.\n\n\033[36;1m"
+}
+
 printconfigq ()
 {
 	printf "\n\033[36;1m 🕙 < 🕛 \033[1;34mArch Linux in Termux is installed.  Answer the following questions to complete the Arch Linux configuration.\n\n\033[0m"'\033]2; 🕙 < 🕛 Arch Linux in Termux is installed!  Complete the Arch Linux configuration.  📲 \007'

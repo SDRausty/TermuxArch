@@ -33,11 +33,11 @@ ftchit ()
 {
 	if [[ $dm = wget ]];then 
 		printf "Defaulting to \`curl\` for system image download.  "
-		printdownloadingftch 
-		curl -q --fail --retry 4 -O http://$nmirror$path$file.md5 -O http://$nmirror$path$file
+		printdownloadingftchit 
+		curl -q --fail --retry 4 -O http://$mirror$path$file.md5 -O http://$nmirror$path$file
 	else
-		printdownloadingftch 
-		curl -q --fail --retry 4 -O http://$nmirror$path$file.md5 -O http://$nmirror$path$file
+		printdownloadingftchit 
+		curl -q --fail --retry 4 -O http://$mirror$path$file.md5 -O http://$nmirror$path$file
 	fi
 }
 
