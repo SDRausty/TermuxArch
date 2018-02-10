@@ -66,5 +66,4 @@ rmarch ()
 		printf "\nYou answered \033[33;1m$uanswer\033[1;31m.\n\nAnswer \033[32mYes\033[1;31m or No. [\033[32my\033[1;31m|n]\n"
 	fi
 	done
-	printtail
 }
