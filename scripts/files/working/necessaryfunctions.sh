@@ -105,7 +105,8 @@ makesystem ()
 	printdownloading 
 	termux-wake-lock 
 	echo -n $mirror
-	if [ "$mirror"="os.archlinuxarm.org" ] ; then 
+	if [ $mirror="os.archlinuxarm.org" ] ; then 
+		echo 100
 		ftchstnd 
 	else
 		adjustmd5file
