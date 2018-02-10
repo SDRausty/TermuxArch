@@ -32,9 +32,9 @@ adjustmd5file ()
 ftchit ()
 {
 	if [[ $dm = wget ]];then 
-		printf "Defaulting to \`curl\` for system image download.  "
 		printdownloadingftchit 
-		curl -C - -q --fail --retry 4 -O http://$mirror$path$file.md5 -O http://$mirror$path$file
+		wget -q -N --show-progress http://$mirror$path$file.md5 
+		wget -q -c --show-progress http://$mirror$path$file 
 	else
 		printdownloadingftchit 
 		curl -C - -q --fail --retry 4 -O http://$mirror$path$file.md5 -O http://$mirror$path$file
@@ -43,18 +43,18 @@ ftchit ()
 
 ftchstnd ()
 {
-		if [[ $dm = wget ]];then 
-			curl -v http://os.archlinuxarm.org/ 2>gmirror
-			nmirror=$(grep Location gmirror | awk {'print $3}') 
-			printf "Defaulting to \`curl\` for system image download.  "
-			printdownloadingftch 
-			curl -q --fail --retry 4 -O $nmirror$path$file.md5 -O $nmirror$path$file
-		else
-			curl -v http://os.archlinuxarm.org/ 2>gmirror
-			nmirror=$(grep Location gmirror | awk {'print $3}') 
-			printdownloadingftch 
-			curl -q --fail --retry 4 -O $nmirror$path$file.md5 -O $nmirror$path$file
-		fi
+	if [[ $dm = wget ]];then 
+		curl -v http://os.archlinuxarm.org/ 2>gmirror
+		nmirror=$(grep Location gmirror | awk {'print $3}') 
+		printdownloadingftch 
+		wget -q -N --show-progress http://$nmirror$path$file.md5 
+		wget -q -c --show-progress http://$nmirror$path$file 
+	else
+		curl -v http://os.archlinuxarm.org/ 2>gmirror
+		nmirror=$(grep Location gmirror | awk {'print $3}') 
+		printdownloadingftch 
+		curl -q --fail --retry 4 -O $nmirror$path$file.md5 -O $nmirror$path$file
+	fi
 }
 
 getimage ()
