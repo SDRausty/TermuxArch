@@ -9,10 +9,10 @@ adjustmd5file ()
 {
 	if [ $(getprop ro.product.cpu.abi) = x86_64 ] || [ $(getprop ro.product.cpu.abi) = x86 ];then
 		if [[ $dm = wget ]];then 
-			printf "Downloading from http://$mirror\n\n"
+			printf "Downloading \033[36;1m$file\033[1;34m and the corresponding checksum from http://$mirror.  \033[37;1mThis may take a long time pending Internet connection.\n\n\033[36;1m"
 			wget -N --show-progress http://$mirror${path}md5sums.txt
 		else
-			printf "Downloading from http://$mirror\n\n"
+			printf "Downloading \033[36;1m$file\033[1;34m and the corresponding checksum from http://$mirror.  \033[37;1mThis may take a long time pending Internet connection.\n\n\033[36;1m"
 			curl -q --fail --retry 4 -O -L http://$mirror${path}md5sums.txt
 		fi
 		filename=$(ls *tar.gz)
@@ -20,10 +20,10 @@ adjustmd5file ()
 		rm md5sums.txt
 	else
 		if [[ $dm = wget ]];then 
-			printf "Downloading from http://$mirror\n\n"
+			printf "Downloading \033[36;1m$file\033[1;34m and the corresponding checksum from http://$mirror.  \033[37;1mThis may take a long time pending Internet connection.\n\n\033[36;1m"
 			wget -N --show-progress http://$mirror$path$file.md5 
 		else
-			printf "Downloading from http://$mirror\n\n"
+			printf "Downloading \033[36;1m$file\033[1;34m and the corresponding checksum from http://$mirror.  \033[37;1mThis may take a long time pending Internet connection.\n\n\033[36;1m"
 			curl -q --fail --retry 4 -O -L http://$mirror$path$file.md5
 		fi
 	fi
@@ -34,12 +34,12 @@ ftchstnd ()
 		if [[ $dm = wget ]];then 
 			curl -v http://os.archlinuxarm.org/ 2>gmirror
 			nmirror=$(grep Location gmirror | awk {'print $3}') 
-			printf "Defaulting to \`curl\` for system image download.  Downloading from $nmirror\n\n"
+			printf "Defaulting to \`curl\` for system image download.  Downloading \033[36;1m$file\033[1;34m and the corresponding checksum from $nmirror.  \033[37;1mThis may take a long time pending Internet connection.\n\n\033[36;1m"
 			curl -q --fail --retry 4 -O $nmirror$path$file.md5 -O $nmirror$path$file
 		else
 			curl -v http://os.archlinuxarm.org/ 2>gmirror
 			nmirror=$(grep Location gmirror | awk {'print $3}') 
-			printf "Downloading from $nmirror\n\n"
+			printf "Downloading \033[36;1m$file\033[1;34m and the corresponding checksum from $nmirror.  \033[37;1mThis may take a long time pending Internet connection.\n\n\033[36;1m"
 			curl -q --fail --retry 4 -O $nmirror$path$file.md5 -O $nmirror$path$file
 		fi
 }
