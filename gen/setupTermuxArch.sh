@@ -17,7 +17,7 @@ chk ()
 		. systemmaintenance.sh
 		rmdsc 
 		printf "\n\033[36;1m 🕑 < 🕛 \033[1;34mTermuxArch "
-		printf "gen.v0.7 id320808775"
+		printf "gen.v0.7 id557540679"
 		printf " integrity: \033[36;1mOK\n\033[0m"
 	else
 		rmdsc 
@@ -116,7 +116,7 @@ printtail ()
 printusage ()
 {
 	printf "\n\n\033[1;34mUsage information for \033[1;32msetupTermuxArch.sh \033[1;34m"
-		printf "gen.v0.7 id320808775"
+		printf "gen.v0.7 id557540679"
 	printf ".  Arguments can abbreviated to one letter:\n\n\033[1;33mDEBUG\033[1;34m    Use \033[1;32msetupTermuxArch.sh --sysinfo \033[1;34mto create \033[1;32msetupTermuxArchdebug.log\033[1;34m and populate it with debug information.  Post this information along with detailed information about the issue at https://github.com/sdrausty/TermuxArch/issues.  If screenshots will help in resolving the issue better, include them in a post along with information from the debug log file.\n\n\033[1;33mHELP\033[1;34m     Use \033[1;32msetupTermuxArch.sh --help \033[1;34mto output this help screen.\n\n\033[1;33mINSTALL\033[1;34m  Run \033[1;32m./setupTermuxArch.sh\033[1;34m without arguments in a bash shell to install Arch Linux in Termux.  Use \033[1;32mbash setupTermuxArch.sh --curl \033[1;34mto envoke \033[1;32mcurl\033[1;34m as the download manager.  Copy \033[1;32mknownconfigurations.sh\033[1;34m to \033[1;32m~/setupTermuxArchConfigs.sh\033[1;34m with prefered parameters.  Run \033[1;32mbash ~/setupTermuxArch.sh\033[1;34m and \033[1;32m~/setupTermuxArchConfigs.sh\033[1;34m loads automaticaly.  Change mirror to desired geographic location to resolve 404 and md5sum errors.\n\n\033[1;33mPURGE\033[1;34m    Use \033[1;32msetupTermuxArch.sh --uninstall\033[1;34m \033[1;34mto uninstall Arch Linux from Termux.\n"
 	printtail
 }
