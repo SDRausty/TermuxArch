@@ -29,6 +29,13 @@ adjustmd5file ()
 	fi
 }
 
+ftchit
+()
+{
+	echo exit
+	exit
+}
+
 ftchstnd ()
 {
 		if [[ $dm = wget ]];then 
