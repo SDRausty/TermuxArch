@@ -61,6 +61,7 @@ rmarch ()
 		printf "Uninstalling Arch Linux, nothing to do for $HOME/arch.\n"
 	fi
 	printf "Uninstalling Arch Linux done.\n"
+	exit
 	else
 		printf "\nYou answered \033[33;1m$uanswer\033[1;31m.\n\nAnswer \033[32mYes\033[1;31m or No. [\033[32my\033[1;31m|n]\n"
 	fi
