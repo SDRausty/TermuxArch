@@ -45,6 +45,7 @@ ftchstnd ()
 {
 	if [[ $dm = wget ]];then 
 		printf "Contacting mirror http://mirror.archlinuxarm.org/.  "
+		curl -v http://mirror.archlinuxarm.org/ 
 		curl -v http://mirror.archlinuxarm.org/ 2>gmirror
 		nmirror=$(grep Location gmirror | awk {'print $3}') 
 		echo nmirror
