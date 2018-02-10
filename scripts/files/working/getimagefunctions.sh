@@ -31,13 +31,15 @@ ftchstnd ()
 			printf "Defaulting to \`wget\` for http://os.archlinuxarm.org/ system image download.\n\n"
 			curl -v http://os.archlinuxarm.org/ 2>gmirror
 			nmirror=$(grep Location gmirror | awk {'print $3}') 
+			echo -n $mirror
+			echo -n $nmirror
 			curl -v --fail --retry 4 -O $nmirror$path$file.md5 -O $nmirror$path$file
 		else
 			echo 102
 			curl -v http://os.archlinuxarm.org/ 2>gmirror
 			nmirror=$(grep Location gmirror | awk {'print $3}') 
+			echo -n $mirror
 			echo -n $nmirror
-			exit
 			curl -v --fail --retry 4 -O $nmirror$path$file.md5 -O $nmirror$path$file
 			echo 202
 		fi
