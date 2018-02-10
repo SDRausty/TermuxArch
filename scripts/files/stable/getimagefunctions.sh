@@ -10,7 +10,7 @@ adjustmd5file ()
 	if [ $(getprop ro.product.cpu.abi) = x86_64 ] || [ $(getprop ro.product.cpu.abi) = x86 ];then
 		if [[ $dm = wget ]];then 
 			printf "\033[36;1mDownloading $file and the corresponding checksum from http://$mirror.  \033[37;1mThis may take a long time pending Internet connection.\n\n\033[36;1m"
-			wget -N --show-progress http://$mirror${path}md5sums.txt
+			wget -q -N --show-progress http://$mirror${path}md5sums.txt
 		else
 			printf "\033[36;1mDownloading $file and the corresponding checksum from http://$mirror.  \033[37;1mThis may take a long time pending Internet connection.\n\n\033[36;1m"
 			curl -q --fail --retry 4 -O -L http://$mirror${path}md5sums.txt
@@ -21,7 +21,7 @@ adjustmd5file ()
 	else
 		if [[ $dm = wget ]];then 
 			printf "\033[36;1mDownloading $file and the corresponding checksum from http://$mirror.  \033[37;1mThis may take a long time pending Internet connection.\n\n\033[36;1m"
-			wget -N --show-progress http://$mirror$path$file.md5 
+			wget -q -N --show-progress http://$mirror$path$file.md5 
 		else
 			printf "\033[36;1mDownloading $file and the corresponding checksum from http://$mirror.  \033[37;1mThis may take a long time pending Internet connection.\n\n\033[36;1m"
 			curl -q --fail --retry 4 -O -L http://$mirror$path$file.md5
@@ -56,7 +56,7 @@ getimage ()
 		fi
 	else
 		if [[ $dm = wget ]];then 
-			wget -c --show-progress http://$mirror$path$file 
+			wget -q -c --show-progress http://$mirror$path$file 
 		else
 			curl -q -C - --fail --retry 4 -O -L http://$mirror$path$file
 		fi
