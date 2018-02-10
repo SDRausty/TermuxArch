@@ -104,6 +104,7 @@ makesystem ()
 {
 	printdownloading 
 	termux-wake-lock 
+	echo -n $mirror
 	if [ "$mirror"="os.archlinuxarm.org" ] ; then 
 		ftchstnd 
 	else
