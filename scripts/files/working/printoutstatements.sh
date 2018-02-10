@@ -55,7 +55,7 @@ printmd5check ()
 
 printmd5error ()
 {
-	printf "\n\033[07;1m\033[31;1m 🔆 ERROR md5sum mismatch! The download failed and was removed!\033[36;1m  Run \`bash setupTermuxArch.sh\` again.  See \`bash setupTermuxArch.sh --help\` to resolve md5sum errors.  This kind of error can go away, like magic.  Waiting before executing again is recommended.  There are many reasons for checksum errors.  Proxies are one reason.  Mirroring and mirrors are another explaination for md5sum errors.  If this keeps repeating, copy \`knownconfigurations.sh\` to \`~/setupTermuxArchConfigs.sh\` with prefered parameters.  Run \`bash ~/setupTermuxArch.sh\` and \`~/setupTermuxArchConfigs.sh\` loads automaticaly.  Change mirror to desired geographic location to resolve md5sum errors.\n\n	Run \`bash setupTermuxArch.sh\` again.  \033[31;1mExiting...\n\033[0m"
+	printf "\n\033[07;1m\033[31;1m 🔆 ERROR md5sum mismatch! The download failed and was removed!\033[36;1m  Run \`bash setupTermuxArch.sh\` again.  See \`bash setupTermuxArch.sh --help\` to resolve md5sum errors.  This kind of error can go away, like magic.  Waiting before executing again is recommended.  There are many reasons for checksum errors.  Proxies are one reason.  Mirroring and mirrors are another explaination for md5sum errors.  If this keeps repeating, copy \`knownconfigurations.sh\` to \`~/setupTermuxArchConfigs.sh\` with prefered mirror.  After editing \033[1;32m~/setupTermuxArchConfigs.sh\033[1;34m, run \`bash ~/setupTermuxArch.sh\` and \`~/setupTermuxArchConfigs.sh\` loads automaticaly.  Change mirror to desired geographic location to resolve md5sum errors.\n\n	Run \`bash setupTermuxArch.sh\` again.  \033[31;1mExiting...\n\033[0m"
 	exit 
 }
 
