@@ -33,11 +33,11 @@ ftchit ()
 {
 	if [[ $dm = wget ]];then 
 		printdownloadingftchit 
-		wget -q -N --show-progress http://$mirror$path$file.md5 
-		wget -q -c --show-progress http://$mirror$path$file 
+		wget $dmverbose -N --show-progress http://$mirror$path$file.md5 
+		wget $dmverbose -q --show-progress http://$mirror$path$file 
 	else
 		printdownloadingftchit 
-		curl -C - -q --fail --retry 4 -O http://$mirror$path$file.md5 -O http://$mirror$path$file
+		curl $dmverbose -C - --fail --retry 4 -O http://$mirror$path$file.md5 -O http://$mirror$path$file
 	fi
 }
 
@@ -45,8 +45,6 @@ ftchstnd ()
 {
 	#cmirror="http://mirror.archlinuxarm.org/"
 	cmirror="http://os.archlinuxarm.org/"
-	#dmverbose="-q"
-	dmverbose="-v"
 	if [[ $dm = wget ]];then 
 		printf "Contacting mirror $cmirror.  "
 		curl -v $cmirror 2>gmirror
