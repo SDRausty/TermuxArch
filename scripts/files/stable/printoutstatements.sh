@@ -28,6 +28,16 @@ printdownloading ()
 	printf "\n\033[36;1m 🕒 < 🕛 \033[1;34mActivated termux-wake-lock.  "'\033]2;  🕒 < 🕛 Downloading the checksum and system image file.  \007'
 }
 
+printdownloading2 ()
+{
+	printf "\033[36;1mDownloading $file and the corresponding checksum from http://$mirror.  \033[37;1mThis may take a long time pending Internet connection.\n\n\033[36;1m"
+}
+
+printdownloadingftch ()
+{
+	printf "\033[36;1mDownloading $file and the corresponding checksum from $nmirror.  \033[37;1mThis may take a long time pending Internet connection.\n\n\033[36;1m"
+}
+
 printconfigq ()
 {
 	printf "\n\033[36;1m 🕙 < 🕛 \033[1;34mArch Linux in Termux is installed.  Answer the following questions to complete the Arch Linux configuration.\n\n\033[0m"'\033]2; 🕙 < 🕛 Arch Linux in Termux is installed!  Complete the Arch Linux configuration.  📲 \007'
