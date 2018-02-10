@@ -36,13 +36,13 @@ ftchit ()
 		printdownloadingftchit 
 		echo $mirror
 		echo $path
-		curl -q --fail --retry 4 -O -L http://$mirror$path$file.md5 -O http://$nmirror$path$file
+		curl -q --fail --retry 4 -O http://$mirror$path$file.md5 -O http://$mirror$path$file
+		curl -q --fail --retry 4 -O -L http://$mirror$path$file.md5 -O http://$mirror$path$file
 		echo 104
-		curl -q --fail --retry 4 -O http://$mirror$path$file.md5 -O http://$nmirror$path$file
-
+		curl -q --fail --retry 4 -O -L http://$mirror$path$file.md5 -O http://$mirror$path$file
 	else
 		printdownloadingftchit 
-		curl -q --fail --retry 4 -O -L http://$mirror$path$file.md5 -O http://$nmirror$path$file
+		curl -q --fail --retry 4 -O http://$mirror$path$file.md5 -O http://$mirror$path$file
 	fi
 }
 
