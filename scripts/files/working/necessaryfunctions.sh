@@ -64,6 +64,10 @@ detectsystem2 ()
 
 mainblock ()
 { 
+	if [ -d $HOME/arch ] ;then
+		printf "\n\033[33;1m$HOME/arch/ \033[33;0mdirectory detected.  "
+		rmarch
+	fi
 	callsystem 
 	$HOME/arch/root/bin/setupbin.sh 
 	termux-wake-unlock
