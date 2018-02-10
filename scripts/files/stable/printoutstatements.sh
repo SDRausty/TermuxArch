@@ -25,7 +25,7 @@ printdetectedsystem ()
 
 printdownloading ()
 {
-	printf "\n\033[36;1m 🕒 < 🕛 \033[1;34mActivated termux-wake-lock.  \033[36;1m"'\033]2;  🕒 < 🕛 Downloading the checksum and system image file.  \007'
+	printf "\n\033[36;1m 🕒 < 🕛 \033[1;34mActivated termux-wake-lock.  "'\033]2;  🕒 < 🕛 Downloading the checksum and system image file.  \007'
 }
 
 printconfigq ()
