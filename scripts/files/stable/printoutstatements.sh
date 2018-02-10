@@ -25,7 +25,7 @@ printdetectedsystem ()
 
 printdownloading ()
 {
-	printf "\n\033[36;1m 🕒 < 🕛 \033[1;34mActivated termux-wake-lock.  Downloading checksum and \033[36;1m$file\033[1;34m.  \033[37;1mThis may take a long time pending Internet connection.\n\n\033[36;1m"'\033]2;  🕒 < 🕛 Downloading the checksum and system image file.  \007'
+	printf "\n\033[36;1m 🕒 < 🕛 \033[1;34mActivated termux-wake-lock.  Downloading checksum and \033[36;1m$file \033[1;34m.  \033[37;1mThis may take a long time pending Internet connection.\n\n\033[36;1m"'\033]2;  🕒 < 🕛 Downloading the checksum and system image file.  \007'
 }
 
 printconfigq ()
@@ -64,5 +64,5 @@ printfooter ()
 
 spaceMessageWarning ()
 {
-	spaceMessage="\033[1;31m\nTermuxArch: WARNING!  \033[36mStart thinking about cleaning out some stuff.  The user space on this device has just $usrspace.  This is less than the recommended minimum to install Arch Linux in Termux PRoot.  \033[34mMore than 1G of free user space in \033[36m\$HOME\033[34m is suggested.\n\033[0m"
+	spaceMessage="\033[1;33m\nTermuxArch: WARNING!  \033[36mStart thinking about cleaning out some stuff.  The user space on \033[1;33mthis device has just $usrspace free space.  \033[36mThis is less than the recommended minimum to install Arch Linux in Termux PRoot.  \033[34mMore than 1G of free user space in \033[36m\$HOME\033[34m is suggested.\n\033[0m"
 }
