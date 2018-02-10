@@ -47,6 +47,7 @@ ftchstnd ()
 		printf "Contacted mirror.  "
 		curl -v http://os.archlinuxarm.org/ 2>gmirror
 		nmirror=$(grep Location gmirror | awk {'print $3}') 
+		rm gmirror
 		printdownloadingftch 
 		wget -q -N --show-progress $nmirror$path$file.md5 
 		wget -q --show-progress $nmirror$path$file 
