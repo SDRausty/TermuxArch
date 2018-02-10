@@ -44,7 +44,7 @@ rmarch ()
 	if [[ $uanswer = [Ee]* ]] || [[ $uanswer = [Nn]* ]] || [[ $uanswer = [Qq]* ]];then
 		break
 	elif [[ $uanswer = [Yy]* ]];then
-	printf "\n\033[1;32mUninstalling Arch Linux...\n"
+	printf "\n\033[30mUninstalling Arch Linux...\n"
 	if [ -e $PREFIX/bin/$bin ] ;then
 	       	rm $PREFIX/bin/$bin 
 	else 
