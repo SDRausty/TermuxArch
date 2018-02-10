@@ -33,11 +33,11 @@ ftchstnd ()
 			nmirror=$(grep Location gmirror | awk {'print $3}') 
 			curl -v --fail --retry 4 -O $nmirror$path$file.md5 -O $nmirror$path$file
 		else
-			echo 101
-			curl -v http://$mirror 2>gmirror
+			echo 102
+			curl -v http://$mirror/ 2>gmirror
 			nmirror=$(grep Location gmirror | awk {'print $3}') 
 			curl -v --fail --retry 4 -O $nmirror$path$file.md5 -O $nmirror$path$file
-			echo 201
+			echo 202
 		fi
 }
 
