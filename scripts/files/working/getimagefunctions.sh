@@ -31,12 +31,12 @@ ftchstnd ()
 			printf "Defaulting to \`wget\` for http://os.archlinuxarm.org/ system image download.\n\n"
 			curl -v http://os.archlinuxarm.org/ 2>gmirror
 			nmirror=$(grep Location gmirror | awk {'print $3}') 
-			printf "Downloading from $nmirror\n\n"
+			printf "Downloading from $nmirror via ftchstnd.\n\n"
 			curl -q --fail --retry 4 -O $nmirror$path$file.md5 -O $nmirror$path$file
 		else
 			curl -v http://os.archlinuxarm.org/ 2>gmirror
 			nmirror=$(grep Location gmirror | awk {'print $3}') 
-			printf "Downloading from $nmirror\n\n"
+			printf "Downloading from $nmirror via ftchstnd.\n\n"
 			curl -q --fail --retry 4 -O $nmirror$path$file.md5 -O $nmirror$path$file
 		fi
 }
@@ -45,15 +45,19 @@ getimage ()
 {
 	if [ $(getprop ro.product.cpu.abi) = x86_64 ];then
 		if [[ $dm = wget ]];then 
+			printf "Downloading from $mirror via getimage.\n\n"
 			wget -A tar.gz -m -nd -np http://$mirror$path
 		else
+			printf "Downloading from $mirror via getimage.  "
 			printf "Defaulting to \`wget\` for x86_64 system image download.\n\n"
 			wget -A tar.gz -m -nd -np http://$mirror$path
 		fi
 	else
 		if [[ $dm = wget ]];then 
+			printf "Downloading from $mirror via getimage.\n\n"
 			wget -c --show-progress http://$mirror$path$file 
 		else
+			printf "Downloading from $mirror via getimage.\n\n"
 			curl -q -C - --fail --retry 4 -O -L http://$mirror$path$file
 		fi
 	fi
