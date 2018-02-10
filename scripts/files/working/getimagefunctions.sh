@@ -32,10 +32,9 @@ adjustmd5file ()
 ftchstnd ()
 {
 		if [[ $dm = wget ]];then 
-			printf "Defaulting to \`wget\` for http://os.archlinuxarm.org/ system image download.  "
 			curl -v http://os.archlinuxarm.org/ 2>gmirror
 			nmirror=$(grep Location gmirror | awk {'print $3}') 
-			printf "Downloading from $nmirror\n\n"
+			printf "Defaulting to \`curl\` for system image download.  Downloading from $nmirror\n\n"
 			curl -q --fail --retry 4 -O $nmirror$path$file.md5 -O $nmirror$path$file
 		else
 			curl -v http://os.archlinuxarm.org/ 2>gmirror
