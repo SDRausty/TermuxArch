@@ -7,7 +7,7 @@
 
 chk ()
 {
-	if md5sum -c termuxarchchecksum.md5 ; then
+	if md5sum -c termuxarchchecksum.md5 2>/dev/null ; then
 		chkself 
 		ldconf
 		. archsystemconfigs.sh
@@ -142,7 +142,7 @@ rmds ()
 
 args=$@
 bin=startarch
-#dfl="/gen"
+dfl="/gen"
 dm=wget
 
 if [[ $1 = [Cc][Pp]* ]] || [[ $1 = -[Cc][Pp]* ]] || [[ $1 = --[Cc][Pp]* ]] || [[ $1 = [Cc][Uu]* ]] || [[ $1 = -[Cc][Uu]* ]] || [[ $1 = --[Cc][Uu]* ]];then
