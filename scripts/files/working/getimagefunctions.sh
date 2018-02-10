@@ -9,8 +9,10 @@ adjustmd5file ()
 {
 	if [ $(getprop ro.product.cpu.abi) = x86_64 ] || [ $(getprop ro.product.cpu.abi) = x86 ];then
 		if [[ $dm = wget ]];then 
+			printf "Downloading from http://$mirror\n\n"
 			wget -N --show-progress http://$mirror${path}md5sums.txt
 		else
+			printf "Downloading from http://$mirror\n\n"
 			curl -q --fail --retry 4 -O -L http://$mirror${path}md5sums.txt
 		fi
 		filename=$(ls *tar.gz)
@@ -18,8 +20,10 @@ adjustmd5file ()
 		rm md5sums.txt
 	else
 		if [[ $dm = wget ]];then 
+			printf "Downloading from http://$mirror\n\n"
 			wget -N --show-progress http://$mirror$path$file.md5 
 		else
+			printf "Downloading from http://$mirror\n\n"
 			curl -q --fail --retry 4 -O -L http://$mirror$path$file.md5
 		fi
 	fi
@@ -28,15 +32,15 @@ adjustmd5file ()
 ftchstnd ()
 {
 		if [[ $dm = wget ]];then 
-			printf "Defaulting to \`wget\` for http://os.archlinuxarm.org/ system image download.\n\n"
+			printf "Defaulting to \`wget\` for http://os.archlinuxarm.org/ system image download.  "
 			curl -v http://os.archlinuxarm.org/ 2>gmirror
 			nmirror=$(grep Location gmirror | awk {'print $3}') 
-			printf "Downloading from $nmirror via ftchstnd.\n\n"
+			printf "Downloading from $nmirror\n\n"
 			curl -q --fail --retry 4 -O $nmirror$path$file.md5 -O $nmirror$path$file
 		else
 			curl -v http://os.archlinuxarm.org/ 2>gmirror
 			nmirror=$(grep Location gmirror | awk {'print $3}') 
-			printf "Downloading from $nmirror via ftchstnd.\n\n"
+			printf "Downloading from $nmirror\n\n"
 			curl -q --fail --retry 4 -O $nmirror$path$file.md5 -O $nmirror$path$file
 		fi
 }
@@ -45,19 +49,15 @@ getimage ()
 {
 	if [ $(getprop ro.product.cpu.abi) = x86_64 ];then
 		if [[ $dm = wget ]];then 
-			printf "Downloading from $mirror via getimage.\n\n"
 			wget -A tar.gz -m -nd -np http://$mirror$path
 		else
-			printf "Downloading from $mirror via getimage.  "
 			printf "Defaulting to \`wget\` for x86_64 system image download.\n\n"
 			wget -A tar.gz -m -nd -np http://$mirror$path
 		fi
 	else
 		if [[ $dm = wget ]];then 
-			printf "Downloading from $mirror via getimage.\n\n"
 			wget -c --show-progress http://$mirror$path$file 
 		else
-			printf "Downloading from $mirror via getimage.\n\n"
 			curl -q -C - --fail --retry 4 -O -L http://$mirror$path$file
 		fi
 	fi
