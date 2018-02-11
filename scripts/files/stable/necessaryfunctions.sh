@@ -36,8 +36,8 @@ copybin2path ()
 
 detectsystem ()
 {
-	spaceinfo
 	printdetectedsystem
+	spaceinfo
 	if [ $(getprop ro.product.cpu.abi) = armeabi ];then
 		armv5l
 	elif [ $(getprop ro.product.cpu.abi) = armeabi-v7a ];then
