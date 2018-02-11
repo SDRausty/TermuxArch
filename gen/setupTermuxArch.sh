@@ -17,7 +17,7 @@ chk ()
 		. systemmaintenance.sh
 		rmdsc 
 		printf "\n\033[36;1m 🕑 < 🕛 \033[1;34mTermuxArch "
-		printf "gen.v0.8 id201054517"
+		printf "gen.v0.8 id575165824"
 		printf " integrity: \033[36;1mOK\n\033[1;30m"
 	else
 		rmdsc 
@@ -49,7 +49,7 @@ chkself ()
 
 intro ()
 {
-	printf '\033]2;  Thank you for using `bash ~/setupTermuxArch.sh` 📲 \007'"\n 🕛 \033[36;1m< 🕛 \033[1;34mTermuxArch will attempt to install Linux in Termux.  Arch Linux will be available upon successful completion.  If you do not see one o'clock 🕐 below, check the wireless connection.  Ensure background data is not restricted.  Run \033[36mbash setupTermuxArch.sh --help \033[34;1mfor additional information.\n"
+	printf '\033]2;  Thank you for using `bash ~/setupTermuxArch.sh` 📲 \007'"\n 🕛 \033[36;1m< 🕛 \033[1;34mTermuxArch will attempt to install Linux in Termux.  Arch Linux will be available upon successful completion.  If you do not see one o'clock 🕐 below, check the wireless connection.  Ensure background data is not restricted.  Run \033[36mbash setupTermuxArch.sh --help \033[34;1mfor additional information.  Checking prerequisites.\n"
 	depends 
 	dwnl
 	if [ -f "setupTermuxArch.sh" ];then
@@ -83,12 +83,12 @@ ldconf ()
 
 depends ()
 {
-	if [ ! -e $PREFIX/bin/bsdtar ] && [ ! -e $PREFIX/bin/curl ] && [ ! -e $PREFIX/bin/proot ] && [ ! -e $PREFIX/bin/wget ] ; then
+	if [ ! -e $PREFIX/bin/bsdtar ] || [ ! -e $PREFIX/bin/curl ] || [ ! -e $PREFIX/bin/proot ] || [ ! -e $PREFIX/bin/wget ] ; then
 		printf "\n\n\033[36;1m"
 		apt-get -qq update && apt-get -qq upgrade -y
 		apt-get -qq install bsdtar curl proot wget --yes 
 	fi
-	if [ ! -e $PREFIX/bin/bsdtar ] && [ ! -e $PREFIX/bin/curl ] && [ ! -e $PREFIX/bin/proot ] && [ ! -e $PREFIX/bin/wget ] ; then
+	if [ ! -e $PREFIX/bin/bsdtar ] || [ ! -e $PREFIX/bin/curl ] || [ ! -e $PREFIX/bin/proot ] || [ ! -e $PREFIX/bin/wget ] ; then
 		printf "\033[1;36mPrerequisites exception.  Run the script again.\n\n\033[0m"
 		exit
 	fi
@@ -110,7 +110,7 @@ printtail ()
 printusage ()
 {
 	printf "\n\n\033[1;34mUsage information for \033[1;32msetupTermuxArch.sh \033[1;34m"
-		printf "gen.v0.8 id201054517"
+		printf "gen.v0.8 id575165824"
 	printf ".  Arguments can abbreviated to one letter; Two letter arguments are acceptable.\n\n\033[1;33mDEBUG\033[1;34m    Use \033[1;32msetupTermuxArch.sh --sysinfo \033[1;34mto create \033[1;32msetupTermuxArchdebug.log\033[1;34m and populate it with debug information.  Post this information along with detailed information about the issue at https://github.com/sdrausty/TermuxArch/issues.  If screenshots will help in resolving the issue better, include them in a post along with information from the debug log file.\n\n\033[1;33mHELP\033[1;34m     Use \033[1;32msetupTermuxArch.sh --help \033[1;34mto output this help screen.\n\n\033[1;33mINSTALL\033[1;34m  Run \033[1;32m./setupTermuxArch.sh\033[1;34m without arguments in a bash shell to install Arch Linux in Termux.  Use \033[1;32mbash setupTermuxArch.sh --wget \033[1;34mto envoke \033[1;32mwget\033[1;34m as the download manager.  Copy \033[1;32mknownconfigurations.sh\033[1;34m to \033[1;32msetupTermuxArchConfigs.sh\033[1;34m with prefered mirror.  After editing \033[1;32msetupTermuxArchConfigs.sh\033[1;34m, run \033[1;32mbash setupTermuxArch.sh\033[1;34m and \033[1;32msetupTermuxArchConfigs.sh\033[1;34m loads automaticaly from the same directory.  Change mirror to desired geographic location to resolve download errors.\n\n\033[1;33mPURGE\033[1;34m    Use \033[1;32msetupTermuxArch.sh --uninstall\033[1;34m \033[1;34mto uninstall Arch Linux from Termux.\n"
 }
 
