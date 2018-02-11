@@ -135,6 +135,21 @@ makesystem ()
 	makebin 
 }
 
+preproot ()
+{
+	spaceinfo
+	if [ $(du ~/arch/*z | awk {'print $1}') -gt 112233 ];then
+		if [ $(getprop ro.product.cpu.abi) = x86_64 ] || [ $(getprop ro.product.cpu.abi) = x86 ];then
+			proot --link2symlink -0 bsdtar -xpf $file --strip-components 1 
+		else
+			proot --link2symlink -0 bsdtar -xpf $file 
+		fi
+	else
+		printf "\n\n\033[31;1mDownload Exception!  Exiting...\n"
+		exit
+	fi
+	spaceinfo
+}
 setlocalegen()
 {
 	if [ -e etc/locale.gen ]; then
