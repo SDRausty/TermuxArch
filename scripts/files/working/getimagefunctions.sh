@@ -37,7 +37,7 @@ ftchit ()
 		wget $dmverbose -c --show-progress http://$mirror$path$file 
 	else
 		printdownloadingftchit 
-		curl $dmverbose -C - --fail --retry 4 -O http://$mirror$path$file.md5 -O http://$mirror$path$file
+		curl $dmverbose -C - --retry 4 -O http://$mirror$path$file.md5 -O http://$mirror$path$file
 	fi
 }
 
