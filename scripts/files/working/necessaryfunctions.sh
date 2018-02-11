@@ -135,16 +135,6 @@ makesystem ()
 	makebin 
 }
 
-spaceinfo ()
-{
-usrspace=`df /data | awk '{print $4}' | sed '2q;d'`
-if [[ $usrspace = *G ]] || [[ $usrspace = *T ]];then
-	spaceMessage=""
-else
-	spaceMessageWarning 
-fi
-}
-
 setlocalegen()
 {
 	if [ -e etc/locale.gen ]; then
