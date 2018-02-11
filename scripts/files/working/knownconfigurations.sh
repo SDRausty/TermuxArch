@@ -9,6 +9,11 @@
 # Change mirror to desired geographic location to resolve 404 and md5sum errors.
 ################################################################################
 
+#dm=curl
+#dm=wget
+#dmverbose="-q"
+#dmverbose="-v"
+
 aarch64 ()
 {
 	file=ArchLinuxARM-aarch64-latest.tar.gz
