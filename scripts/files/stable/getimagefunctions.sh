@@ -33,29 +33,33 @@ ftchit ()
 {
 	if [[ $dm = wget ]];then 
 		printdownloadingftchit 
-		wget -q -N --show-progress http://$mirror$path$file.md5 
-		wget -q -c --show-progress http://$mirror$path$file 
+		wget $dmverbose -N --show-progress http://$mirror$path$file.md5 
+		wget $dmverbose -c --show-progress http://$mirror$path$file 
 	else
 		printdownloadingftchit 
-		curl -C - -q --fail --retry 4 -O http://$mirror$path$file.md5 -O http://$mirror$path$file
+		curl $dmverbose -C - --fail --retry 4 -O http://$mirror$path$file.md5 -O http://$mirror$path$file
 	fi
 }
 
 ftchstnd ()
 {
+	#cmirror="http://mirror.archlinuxarm.org/"
+	cmirror="http://os.archlinuxarm.org/"
 	if [[ $dm = wget ]];then 
-		printf "Contacted mirror.  "
-		curl -v http://os.archlinuxarm.org/ 2>gmirror
+		printf "Contacting mirror $cmirror.  "
+		curl -v $cmirror 2>gmirror
 		nmirror=$(grep Location gmirror | awk {'print $3}') 
 		rm gmirror
 		printdownloadingftch 
-		wget -q -N --show-progress $nmirror$path$file.md5 
-		wget -q --show-progress $nmirror$path$file 
+		wget $dmverbose -N --show-progress $nmirror$path$file.md5 
+		wget $dmverbose -N --show-progress $nmirror$path$file 
 	else
-		curl -v http://os.archlinuxarm.org/ 2>gmirror
+		printf "Contacting mirror $cmirror.  "
+		curl -v $cmirror 2>gmirror
 		nmirror=$(grep Location gmirror | awk {'print $3}') 
+		rm gmirror
 		printdownloadingftch 
-		curl -q --fail --retry 4 -O $nmirror$path$file.md5 -O $nmirror$path$file
+		curl $dmverbose --fail --retry 4 -O $nmirror$path$file.md5 -O $nmirror$path$file
 	fi
 }
 

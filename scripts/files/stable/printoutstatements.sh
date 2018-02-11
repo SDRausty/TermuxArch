@@ -55,7 +55,7 @@ printmd5check ()
 
 printmd5error ()
 {
-	printf "\n\033[07;1m\033[31;1m 🔆 ERROR md5sum mismatch! The download failed and was removed!\033[36;1m  Run \`bash setupTermuxArch.sh\` again.  See \`bash setupTermuxArch.sh --help\` to resolve md5sum errors.  This kind of error can go away, like magic.  Waiting before executing again is recommended.  There are many reasons for checksum errors.  Proxies are one reason.  Mirroring and mirrors are another explaination for md5sum errors.  If this keeps repeating, copy \`knownconfigurations.sh\` to \`~/setupTermuxArchConfigs.sh\` with prefered parameters.  Run \`bash ~/setupTermuxArch.sh\` and \`~/setupTermuxArchConfigs.sh\` loads automaticaly.  Change mirror to desired geographic location to resolve md5sum errors.\n\n	Run \`bash setupTermuxArch.sh\` again.  \033[31;1mExiting...\n\033[0m"
+	printf "\n\033[07;1m\033[31;1m 🔆 ERROR md5sum mismatch! The download failed and was removed!\033[36;1m  Run \`bash setupTermuxArch.sh\` again.  See \`bash setupTermuxArch.sh --help\` to resolve md5sum errors.  This kind of error can go away, like magic.  Waiting before executing again is recommended.  There are many reasons for checksum errors.  Proxies are one explaination.  Mirroring and mirrors are another explaination for md5sum errors.  Interrupted download is one more reason.  If this keeps repeating, copy \`knownconfigurations.sh\` to \`setupTermuxArchConfigs.sh\` with preferred mirror.  After editing \033[1;32msetupTermuxArchConfigs.sh\033[1;34m, run \`bash setupTermuxArch.sh\` and \`setupTermuxArchConfigs.sh\` loads automaticaly from the same directory.  Change mirror to desired geographic location to resolve md5sum errors.\n\n	Run \`bash setupTermuxArch.sh\` again.  \033[31;1mExiting...\n\033[0m"
 	exit 
 }
 
@@ -79,5 +79,5 @@ printfooter ()
 
 spaceMessageWarning ()
 {
-	spaceMessage="\033[1;33m\nTermuxArch: WARNING!  \033[36mStart thinking about cleaning out some stuff.  The user space on \033[1;33mthis device has just $usrspace free space.  \033[36mThe recommended minimum to install Arch Linux in Termux PRoot is more than 1G of free user space in \033[33m\$HOME\033[36m.\n\033[0m"
+	spaceMessage="\033[1;33m\nTermuxArch: WARNING!  \033[36mStart thinking about cleaning out some stuff.  \033[1;33mThe user space on this device is less than $usrspace free space.  \033[1;36mThe recommended minimum to install Arch Linux in Termux PRoot is more than 1G of free user space.\n\033[0m"
 }
