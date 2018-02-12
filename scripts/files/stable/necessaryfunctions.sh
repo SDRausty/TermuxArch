@@ -37,7 +37,6 @@ copybin2path ()
 detectsystem ()
 {
 	printdetectedsystem
-	spaceinfo
 	if [ $(getprop ro.product.cpu.abi) = armeabi ];then
 		armv5l
 	elif [ $(getprop ro.product.cpu.abi) = armeabi-v7a ];then
@@ -121,7 +120,6 @@ makesystem ()
 	fi
 	printmd5check
 	if md5sum -c $file.md5 ; then
-		spaceinfo
 		printmd5success
 		preproot 
 	else
@@ -148,8 +146,8 @@ preproot ()
 		printf "\n\n\033[31;1mDownload Exception!  Exiting...\n"
 		exit
 	fi
-	spaceinfo
 }
+
 setlocalegen()
 {
 	if [ -e etc/locale.gen ]; then
