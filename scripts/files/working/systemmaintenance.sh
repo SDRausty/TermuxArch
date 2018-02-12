@@ -66,3 +66,15 @@ rmarch ()
 	fi
 	done
 }
+
+spaceinfo ()
+{
+	usrspace=`df /data | awk '{print $4}' | sed '2q;d'`
+	if [[ $usrspace = *G ]] || [[ $usrspace = *T ]];then
+		spaceMessage=""
+	else
+		spaceMessage="\n\033[1;33mTermuxArch: FREE SPACE WARNING!  \033[36mStart thinking about cleaning out some stuff.  \033[1;33mThe user space on this device is less than $usrspace free space.  \033[1;36mThe recommended minimum to install Arch Linux in Termux PRoot is more than 1G of free user space.\n\033[0m"
+	fi
+	printf "$spaceMessage"
+}
+
