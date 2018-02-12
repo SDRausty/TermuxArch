@@ -8,7 +8,7 @@
 # Run `bash setupTermuxArch.sh` and `setupTermuxArchConfigs.sh` loads automaticaly.
 # Change mirror to desired geographic location to resolve 404 and md5sum errors.
 # User configurable variables are in `setupTermuxArchConfigs.sh`. 
-# Create this file from `kownconfigurations.sh` in the same directory.  
+# Create this file from `kownconfigurations.sh` in the working directory.  
 ################################################################################
 
 #dm=curl
