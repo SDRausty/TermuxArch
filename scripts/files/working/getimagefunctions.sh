@@ -7,26 +7,16 @@
 
 adjustmd5file ()
 {
-	if [ $(getprop ro.product.cpu.abi) = x86_64 ] || [ $(getprop ro.product.cpu.abi) = x86 ];then
-		if [[ $dm = wget ]];then 
-			printdownloading2 
-			wget $dmverbose -N --show-progress http://$mirror${path}md5sums.txt
-		else
-			printdownloading2 
-			curl $dmverbose --fail --retry 4 -O -L http://$mirror${path}md5sums.txt
-		fi
-		filename=$(ls *tar.gz)
-		sed '2q;d' md5sums.txt > $filename.md5
-		rm md5sums.txt
+	if [[ $dm = wget ]];then 
+		printdownloading2 
+		wget $dmverbose -N --show-progress http://$mirror${path}md5sums.txt
 	else
-		if [[ $dm = wget ]];then 
-			printdownloading2 
-			wget $dmverbose -N --show-progress http://$mirror$path$file.md5 
-		else
-			printdownloading2 
-			curl $dmverbose --fail --retry 4 -O -L http://$mirror$path$file.md5
-		fi
+		printdownloading2 
+		curl $dmverbose --fail --retry 4 -O -L http://$mirror${path}md5sums.txt
 	fi
+	filename=$(ls *tar.gz)
+	sed '2q;d' md5sums.txt > $filename.md5
+	rm md5sums.txt
 }
 
 ftchit ()
@@ -76,7 +66,7 @@ getimage ()
 		if [[ $dm = wget ]];then 
 			wget $dmverbose -c --show-progress http://$mirror$path$file 
 		else
-			curl $dmverbose -C - --fail --retry 4 -O -L  http://$mirror$path$file ||:
+			curl $dmverbose -C - --fail --retry 4 -O -L  http://$mirror$path$file 
 		fi
 	fi
 }
