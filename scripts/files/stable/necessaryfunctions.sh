@@ -64,6 +64,7 @@ detectsystem2 ()
 mainblock ()
 { 
 	rmarchq
+	spaceinfoq
 	callsystem 
 	$HOME/arch/root/bin/setupbin.sh 
 	termux-wake-unlock
