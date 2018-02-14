@@ -36,33 +36,3 @@ sysinfo ()
 	printf "\n\033[0mSubmit this information if you plan to open up an issue at https://github.com/sdrausty/TermuxArch/issues to improve this installation script along with a screenshot of your topic.  Include information about input and output.  \n"
 }
 
-rmarch ()
-{
-	while true; do
-	printf "\n\033[30m"
-	read -p "Uninstall Arch Linux? [y|n] " uanswer
-	if [[ $uanswer = [Ee]* ]] || [[ $uanswer = [Nn]* ]] || [[ $uanswer = [Qq]* ]];then
-		break
-	elif [[ $uanswer = [Yy]* ]];then
-	printf "\033[30mUninstalling Arch Linux...\n"
-	if [ -e $PREFIX/bin/$bin ] ;then
-	       	rm $PREFIX/bin/$bin 
-	else 
-		printf "Uninstalling Arch Linux, nothing to do for $PREFIX/bin/$bin.\n"
-       	fi
-	if [ -d $HOME/arch ] ;then
-		cd $HOME/arch
-		rm -rf * 2>/dev/null ||:
-		find -type d -exec chmod 700 {} \; 2>/dev/null ||:
-		cd ..
-		rm -rf $HOME/arch 2>/dev/null ||:
-	else 
-		printf "Uninstalling Arch Linux, nothing to do for $HOME/arch.\n"
-	fi
-	printf "Uninstalling Arch Linux done.\n"
-	break
-	else
-		printf "\nYou answered \033[33;1m$uanswer\033[30m.\n\nAnswer \033[32mYes\033[30m or \033[1;31mNo\033[30m. [\033[32my\033[30m|\033[1;31mn\033[30m]\n"
-	fi
-	done
-}

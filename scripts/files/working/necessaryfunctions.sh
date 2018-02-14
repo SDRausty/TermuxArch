@@ -63,10 +63,6 @@ detectsystem2 ()
 
 mainblock ()
 { 
-	if [ -d $HOME/arch ] ;then
-		printf "\n\033[33;1mTermuxArch: DIRECTORY WARNING!  \`$HOME/arch/\` directory detected.  \033[36;1mTermux Arch installation will continue.  \033[33;1mInstalling into a clean directory is recommended.  \033[36;1mUninstalling before continuing is suggested.\n"
-		rmarch
-	fi
 	callsystem 
 	$HOME/arch/root/bin/setupbin.sh 
 	termux-wake-unlock
