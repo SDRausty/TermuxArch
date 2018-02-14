@@ -186,7 +186,6 @@ obloomdependsblock ()
 	printf "\n"
 	pwd
 	omanual 
-	ldconf
 	. archsystemconfigs.sh
 	. getimagefunctions.sh
 	. necessaryfunctions.sh
@@ -382,7 +381,7 @@ bin=startarch
 dm=wget
 dmverbose="-q"
 #dmverbose="-v"
-versionid="v0.8 id349411327"
+versionid="v0.8 id962266800"
 
 
 if [[ $1 = [Cc][Dd]* ]] || [[ $1 = -[Cc][Dd]* ]] || [[ $1 = --[Cc][Dd]* ]] || [[ $1 = [Cc][Ss]* ]] || [[ $1 = -[Cc][Ss]* ]] || [[ $1 = --[Cc][Ss]* ]];then
