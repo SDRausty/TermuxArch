@@ -14,8 +14,8 @@ adjustmd5file ()
 		printdownloading2 
 		curl $dmverbose --fail --retry 4 -O -L http://$mirror${path}md5sums.txt
 	fi
-	filename=$(ls *tar.gz)
-	sed '2q;d' md5sums.txt > $filename.md5
+	file=$(ls *tar.gz)
+	sed '2q;d' md5sums.txt > $file.md5
 	rm md5sums.txt
 }
 
