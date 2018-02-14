@@ -175,22 +175,9 @@ touchupsys ()
 	addv 
 	setlocalegen
 	printf "\n\033[32;1m"
-	while true; do
-	read -p "Do you want to use \`nano\` or \`vi\` to edit your Arch Linux configuration files [n|v]? "  nv
-	if [[ $nv = [Nn]* ]];then
-		ed=nano
-		apt-get -qq install nano --yes 
-		break
-	elif [[ $nv = [Vv]* ]];then
-		ed=vi
-		break
-	else
-		printf "\nYou answered \033[36;1m$nv\033[32;1m.\n"
-		printf "\nAnswer nano or vi (n|v).  \n\n"
+	if [[ $ed = "" ]];then
+		edq
 	fi
-		printf "\nYou answered \033[36;1m$nv\033[32;1m.\n"
-	done	
-	printf "\n"
 	while true; do
 		read -p "Would you like to run \`locale-gen\` to generate the en_US.UTF-8 locale, or would you like to edit \`/etc/locale.gen\` specifying your preferred language\(s\) before running \`locale-gen\`?  Answer run or edit [r|e]. " ye
 	if [[ $ye = [Rr]* ]];then

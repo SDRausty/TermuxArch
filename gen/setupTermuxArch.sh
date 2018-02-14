@@ -22,7 +22,7 @@ chk ()
 		. systemmaintenance.sh
 		rmdsc 
 		printf "\n\033[36;1m 🕑 < 🕛 \033[1;34mTermuxArch "
-		printf "gen.v0.8 id207732109"
+		printf "gen.v0.8 id203336443"
 		printf " integrity: \033[36;1mOK\n\033[1;30m"
 	else
 		rmdsc 
@@ -91,6 +91,27 @@ dwnl ()
 	fi
 }
 
+edq ()
+{
+	printf "\n\033[32;1m"
+	while true; do
+	read -p "Do you want to use \`nano\` or \`vi\` to edit your Arch Linux configuration files [n|v]? "  nv
+	if [[ $nv = [Nn]* ]];then
+		ed=nano
+		apt-get -qq install nano --yes 
+		break
+	elif [[ $nv = [Vv]* ]];then
+		ed=vi
+		break
+	else
+		printf "\nYou answered \033[36;1m$nv\033[32;1m.\n"
+		printf "\nAnswer nano or vi (n|v).  \n\n"
+	fi
+		printf "\nYou answered \033[36;1m$nv\033[32;1m.\n"
+	done	
+	printf "\n"
+}
+
 intro ()
 {
 	printf '\033]2;  Thank you for using `bash setupTermuxArch.sh` 📲 \007'
@@ -112,6 +133,7 @@ ldconf ()
 
 manual ()
 {
+	edq
 	if [ -f "setupTermuxArchConfigs.sh" ];then
 		$ed setupTermuxArchConfigs.sh
 		. setupTermuxArchConfigs.sh
@@ -139,7 +161,7 @@ printtail ()
 printusage ()
 {
 	printf "\n\n\033[1;34mUsage information for \033[1;32msetupTermuxArch.sh \033[1;34m"
-		printf "gen.v0.8 id207732109"
+		printf "gen.v0.8 id203336443"
 	printf ".  Arguments can abbreviated to one letter; Two letter arguments are acceptable.  For example, \033[1;32mbash setupTermuxArch.sh cs\033[1;34m will use \033[1;32mcurl\033[1;34m to download TermuxArch and produce the \033[1;32msetupTermuxArchdebug.log\033[1;34m file.\n\n\033[1;33mDEBUG\033[1;34m    Use \033[1;32msetupTermuxArch.sh --sysinfo \033[1;34mto create \033[1;32msetupTermuxArchdebug.log\033[1;34m and populate it with debug information.  Post this information along with detailed information about the issue at https://github.com/sdrausty/TermuxArch/issues.  If screenshots will help in resolving the issue better, include them in a post along with information from the debug log file.\n\n\033[1;33mHELP\033[1;34m     Use \033[1;32msetupTermuxArch.sh --help \033[1;34mto output this help screen.\n\n\033[1;33mINSTALL\033[1;34m  Run \033[1;32m./setupTermuxArch.sh\033[1;34m without arguments in a bash shell to install Arch Linux in Termux.  Use \033[1;32mbash setupTermuxArch.sh --curl \033[1;34mto envoke \033[1;32mcurl\033[1;34m as the download manager.  Copy \033[1;32mknownconfigurations.sh\033[1;34m to \033[1;32msetupTermuxArchConfigs.sh\033[1;34m with preferred mirror.  After editing \033[1;32msetupTermuxArchConfigs.sh\033[1;34m, run \033[1;32mbash setupTermuxArch.sh\033[1;34m and \033[1;32msetupTermuxArchConfigs.sh\033[1;34m loads automatically from the same directory.  Change mirror to desired geographic location to resolve download errors.\n\n\033[1;33mPURGE\033[1;34m    Use \033[1;32msetupTermuxArch.sh --uninstall\033[1;34m \033[1;34mto uninstall Arch Linux from Termux.\n"
 }
 
