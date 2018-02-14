@@ -13,7 +13,7 @@
 
 #dm=curl
 #dm=wget
-#dmverbose="-q"
+dmverbose="-q"
 #dmverbose="-v"
 
 aarch64 ()

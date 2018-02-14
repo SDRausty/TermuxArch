@@ -97,7 +97,7 @@ dwnl ()
 
 edq ()
 {
-	printf "\n\033[0;32m"
+	printf "\n\033[1;30m"
 	while true; do
 		if [[ $opt = bloom ]];then
 	read -p "Do you want to use \`nano\` or \`vi\` to edit [n|v]? "  nv
@@ -381,7 +381,7 @@ bin=startarch
 dm=wget
 dmverbose="-q"
 #dmverbose="-v"
-versionid="v0.8 id939002676"
+versionid="v0.8 id398882548"
 
 
 if [[ $1 = [Cc][Dd]* ]] || [[ $1 = -[Cc][Dd]* ]] || [[ $1 = --[Cc][Dd]* ]] || [[ $1 = [Cc][Ss]* ]] || [[ $1 = -[Cc][Ss]* ]] || [[ $1 = --[Cc][Ss]* ]];then
