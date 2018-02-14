@@ -20,7 +20,7 @@
 
 [@brysgo](https://github.com/brysgo) helped debug Chromebook.  Result: setupTermuxArch.sh improved!
 
-[@Codimiracle](https://github.com/Codimiracle) submitted and discussed issue https://github.com/sdrausty/TermuxArch/issues/46 "TermuxArch setup scripts has some error in Android x86_64(RemixOS 2.0.513) in Termux".  Result: setupTermuxArch.sh improved! 
+[@Codimiracle](https://github.com/Codimiracle) submitted, discussed issue https://github.com/sdrausty/TermuxArch/issues/46 "TermuxArch setup scripts has some error in Android x86_64(RemixOS 2.0.513) in Termux" and suggested solutions, thereby resolving the matter.  Result: setupTermuxArch.sh improved! 
 
 [@developer787](https://github.com/developer787) submitted an issue.  Result: setupTermuxArch.sh improved! 
 
