@@ -10,7 +10,7 @@ adjustmd5file ()
 	if [[ $dm = wget ]];then 
 		wget $dmverbose -N --show-progress http://$mirror${path}md5sums.txt
 	else
-		curl $dmverbose --fail --retry 4 -O -L http://$mirror${path}md5sums.txt
+		curl $dmverbose --fail --retry 4 -O http://$mirror${path}md5sums.txt
 	fi
 	file=$(ls *tar.gz)
 	sed '2q;d' md5sums.txt > $file.md5
