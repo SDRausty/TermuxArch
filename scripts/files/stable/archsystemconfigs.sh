@@ -12,8 +12,10 @@ addbash_profile ()
 	. \$HOME/.bashrc
 	PS1="[\A\[\033[0;32m\] \W \[\033[0m\]]\\$ "
 	EOM
-	if [ -e $HOME/.bash_profile ] ; then
-		grep proxy $HOME/.bash_profile |grep "export" >>  root/.bash_profile 
+	if [ ! -e $HOME/.bash_profile ] ; then
+		:
+	else
+		grep proxy $HOME/.bash_profile |grep "export" >>  root/.bash_profile 2>/dev/null||:
 	fi
 }
 
@@ -40,8 +42,10 @@ addbashrc ()
 	alias rf='rm -rf'
 	. /etc/motd
 	EOM
-	if [ -e $HOME/.bashrc ] ; then
-		grep proxy $HOME/.bashrc |grep "export" >>  root/.bashrc
+	if [ ! -e $HOME/.bashrc ] ; then
+		:
+	else
+		grep proxy $HOME/.bashrc |grep "export" >>  root/.bashrc 2>/dev/null||:
 	fi
 }
 
@@ -56,8 +60,10 @@ addprofile ()
 	cat > root/.profile <<- EOM
 	. \$HOME/.bash_profile
 	EOM
-	if [ -e $HOME/.profile ] ; then
-		grep "proxy" $HOME/.profile |grep "export" >>  root/.profile 
+	if [ ! -e $HOME/.profile ] ; then
+		:
+	else
+		grep "proxy" $HOME/.profile |grep "export" >>  root/.profile 2>/dev/null||:
 	fi
 }
 
@@ -212,13 +218,19 @@ makefinishsetup ()
 	#!/bin/bash -e
 	EOM
 	if [ -e $HOME/.bash_profile ]; then
-	grep "proxy" $HOME/.bash_profile | grep "export" >>  root/bin/$binfs 
+	grep "proxy" $HOME/.bash_profile | grep "export" >>  root/bin/$binfs 2>/dev/null ||:
+	else
+		:
 	fi
 	if [ -e $HOME/.bashrc ]; then
-	grep "proxy" $HOME/.bashrc  | grep "export" >>  root/bin/$binfs 
+	grep "proxy" $HOME/.bashrc  | grep "export" >>  root/bin/$binfs 2>/dev/null ||:
+	else
+		:
 	fi
 	if [ -e $HOME/.profile ]; then
-	grep "proxy" $HOME/.profile | grep "export" >>  root/bin/$binfs 
+	grep "proxy" $HOME/.profile | grep "export" >>  root/bin/$binfs 2>/dev/null ||:
+	else
+		:
 	fi
 	cat >> root/bin/$binfs <<- EOM
 	pacman -Syu sed nano vim --noconfirm ||:
