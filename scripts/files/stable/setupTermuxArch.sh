@@ -5,11 +5,20 @@
 # https://sdrausty.github.io/TermuxArch/README has information about this project. 
 ################################################################################
 
+bloom ()
+{
+	:
+}
+
 chk ()
 {
 	if md5sum -c termuxarchchecksum.md5 1>/dev/null ; then
 		chkself 
-		ldconf
+		if [[ $opt = manual ]];then
+			manual
+		else 
+			ldconf
+		fi
 		. archsystemconfigs.sh
 		. getimagefunctions.sh
 		. necessaryfunctions.sh
@@ -17,7 +26,7 @@ chk ()
 		. systemmaintenance.sh
 		rmdsc 
 		printf "\n\033[36;1m 🕑 < 🕛 \033[1;34mTermuxArch "
-		printf "v0.8 id558937627"
+		printf "v0.8 id243891638"
 		printf " integrity: \033[36;1mOK\n\033[1;30m"
 	else
 		rmdsc 
@@ -42,6 +51,7 @@ chkself ()
 	if [ -f "setupTermuxArch.tmp" ];then
 		if [[ "$(<setupTermuxArch.sh)" != "$(<setupTermuxArch.tmp)" ]]; then
 			printf "\n\033[32;1msetupTermuxArch.sh: UPDATED\nTermuxArch: RESTARTED\n\033[0m"
+			rm setupTermuxArch.tmp
 			. setupTermuxArch.sh $args
 		fi
 	fi
@@ -62,6 +72,17 @@ depends ()
 	printf "\n\n\033[1;36m 🕧 < 🕛 \033[1;34mPrerequisite packages: \033[36;1mOK\n\n"
 }
 
+dependsblock ()
+{
+	depends 
+	dwnl
+	if [ -f "setupTermuxArch.sh" ];then
+	cp setupTermuxArch.sh setupTermuxArch.tmp
+	fi
+	chkdwn
+	chk
+}
+
 dwnl ()
 {
 	if [[ $dm = wget ]];then
@@ -74,18 +95,42 @@ dwnl ()
 	fi
 }
 
+edq ()
+{
+	printf "\n\033[32;1m"
+	while true; do
+	read -p "Do you want to use \`nano\` or \`vi\` to edit your Arch Linux configuration files [n|v]? "  nv
+	if [[ $nv = [Nn]* ]];then
+		ed=nano
+		apt-get -qq install nano --yes 
+		break
+	elif [[ $nv = [Vv]* ]];then
+		ed=vi
+		break
+	else
+		printf "\nYou answered \033[36;1m$nv\033[32;1m.\n"
+		printf "\nAnswer nano or vi (n|v).  \n\n"
+	fi
+		printf "\nYou answered \033[36;1m$nv\033[32;1m.\n"
+	done	
+	printf "\n"
+}
+
 intro ()
 {
 	printf '\033]2;  Thank you for using `bash setupTermuxArch.sh` 📲 \007'
-	spaceinfo 
+	rmarchq
+	spaceinfoq
 	printf "\n\033[36;1m 🕛 < 🕛 \033[1;34mTermuxArch will attempt to install Linux in Termux.  Arch Linux will be available upon successful completion.  Ensure background data is not restricted.  If you do not see one o'clock 🕐 below, check the wireless connection.  Run \033[36mbash setupTermuxArch.sh --help \033[34;1mfor additional information.  "
-	depends 
-	dwnl
-	if [ -f "setupTermuxArch.sh" ];then
-	cp setupTermuxArch.sh setupTermuxArch.tmp
-	fi
-	chkdwn
-	chk
+	dependsblock 
+}
+
+introdebug ()
+{
+	printf '\033]2;  Thank you for using `bash setupTermuxArch.sh` 📲 \007'
+	spaceinfo
+	printf "\n\033[36;1m 🕛 < 🕛 \033[1;34mTermuxArch will create a system information file.  Ensure background data is not restricted.  If you do not see one o'clock 🕐 below, check the wireless connection.  Run \033[36mbash setupTermuxArch.sh --help \033[34;1mfor additional information.  "
+	dependsblock 
 }
 
 ldconf ()
@@ -95,6 +140,21 @@ ldconf ()
 		printf "\n 🕜 \033[36;1m< 🕛 \033[1;32msetupTermuxArchConfigs.sh \033[1;34mloaded: \033[36;1mOK  \n\033[36;1m"
 	else
 		. knownconfigurations.sh
+	fi
+}
+
+manual ()
+{
+	edq
+	if [ -f "setupTermuxArchConfigs.sh" ];then
+		$ed setupTermuxArchConfigs.sh
+		. setupTermuxArchConfigs.sh
+		printf "\n 🕜 \033[36;1m< 🕛 \033[1;32msetupTermuxArchConfigs.sh \033[1;34mloaded: \033[36;1mOK  \n\033[36;1m"
+	else
+		cp knownconfigurations.sh setupTermuxArchConfigs.sh
+		$ed setupTermuxArchConfigs.sh
+		. setupTermuxArchConfigs.sh
+		printf "\n 🕜 \033[36;1m< 🕛 \033[1;32msetupTermuxArchConfigs.sh \033[1;34mloaded: \033[36;1mOK  \n\033[36;1m"
 	fi
 }
 
@@ -113,8 +173,52 @@ printtail ()
 printusage ()
 {
 	printf "\n\n\033[1;34mUsage information for \033[1;32msetupTermuxArch.sh \033[1;34m"
-		printf "v0.8 id558937627"
+		printf "v0.8 id243891638"
 	printf ".  Arguments can abbreviated to one letter; Two letter arguments are acceptable.  For example, \033[1;32mbash setupTermuxArch.sh cs\033[1;34m will use \033[1;32mcurl\033[1;34m to download TermuxArch and produce the \033[1;32msetupTermuxArchdebug.log\033[1;34m file.\n\n\033[1;33mDEBUG\033[1;34m    Use \033[1;32msetupTermuxArch.sh --sysinfo \033[1;34mto create \033[1;32msetupTermuxArchdebug.log\033[1;34m and populate it with debug information.  Post this information along with detailed information about the issue at https://github.com/sdrausty/TermuxArch/issues.  If screenshots will help in resolving the issue better, include them in a post along with information from the debug log file.\n\n\033[1;33mHELP\033[1;34m     Use \033[1;32msetupTermuxArch.sh --help \033[1;34mto output this help screen.\n\n\033[1;33mINSTALL\033[1;34m  Run \033[1;32m./setupTermuxArch.sh\033[1;34m without arguments in a bash shell to install Arch Linux in Termux.  Use \033[1;32mbash setupTermuxArch.sh --curl \033[1;34mto envoke \033[1;32mcurl\033[1;34m as the download manager.  Copy \033[1;32mknownconfigurations.sh\033[1;34m to \033[1;32msetupTermuxArchConfigs.sh\033[1;34m with preferred mirror.  After editing \033[1;32msetupTermuxArchConfigs.sh\033[1;34m, run \033[1;32mbash setupTermuxArch.sh\033[1;34m and \033[1;32msetupTermuxArchConfigs.sh\033[1;34m loads automatically from the same directory.  Change mirror to desired geographic location to resolve download errors.\n\n\033[1;33mPURGE\033[1;34m    Use \033[1;32msetupTermuxArch.sh --uninstall\033[1;34m \033[1;34mto uninstall Arch Linux from Termux.\n"
+}
+
+rmarch ()
+{
+	while true; do
+	printf "\n\033[1;30m"
+	read -p "Uninstall Arch Linux? [y|n] " uanswer
+	if [[ $uanswer = [Ee]* ]] || [[ $uanswer = [Nn]* ]] || [[ $uanswer = [Qq]* ]];then
+		break
+	elif [[ $uanswer = [Yy]* ]];then
+	printf "\033[30mUninstalling Arch Linux...\n"
+	if [ -e $PREFIX/bin/$bin ] ;then
+	       	rm $PREFIX/bin/$bin 
+	else 
+		printf "Uninstalling Arch Linux, nothing to do for $PREFIX/bin/$bin.\n"
+       	fi
+	if [ -d $HOME/arch ] ;then
+		rmarchc 
+	else 
+		printf "Uninstalling Arch Linux, nothing to do for $HOME/arch.\n"
+	fi
+	printf "Uninstalling Arch Linux done.\n"
+	break
+	else
+		printf "\nYou answered \033[33;1m$uanswer\033[30m.\n\nAnswer \033[32mYes\033[30m or \033[1;31mNo\033[30m. [\033[32my\033[30m|\033[1;31mn\033[30m]\n"
+	fi
+	done
+}
+
+rmarchc ()
+{
+	cd $HOME/arch
+	rm -rf * 2>/dev/null ||:
+	find -type d -exec chmod 700 {} \; 2>/dev/null ||:
+	cd ..
+	rm -rf $HOME/arch 2>/dev/null ||:
+}
+
+rmarchq ()
+{
+	if [ -d $HOME/arch ] ;then
+		printf "\n\033[33;1mTermuxArch: DIRECTORY WARNING!  \`$HOME/arch/\` directory detected.  \033[36;1mTermux Arch installation will continue.  \033[33;1mInstalling into a clean directory is recommended.  \033[36;1mUninstalling before continuing is suggested.\n"
+		rmarch
+	fi
 }
 
 rmdsc ()
@@ -124,7 +228,9 @@ rmdsc ()
 	rm knownconfigurations.sh
 	rm necessaryfunctions.sh
 	rm printoutstatements.sh
-	rm setupTermuxArch.tmp
+	if [ -f "setupTermuxArch.tmp" ];then
+		rm setupTermuxArch.tmp
+	fi
 	rm systemmaintenance.sh
 	rm termuxarchchecksum.md5
 }
@@ -159,6 +265,11 @@ spaceinfo ()
 		spaceMessage="\n\033[1;33mTermuxArch: FREE SPACE WARNING!  \033[36mStart thinking about cleaning out some stuff.  \033[1;33m$usrspace of free user space is available on this device.  \033[1;36mThe recommended minimum to install Arch Linux in Termux PRoot is more than 1.5G for aarch64, more than 1.25G for armv7 and more than 1G of free user space for all other architectures.\n\033[0m"
 	fi
 	printf "$spaceMessage"
+}
+
+spaceinfoq ()
+{
+	spaceinfo
 	if [ -n "$spaceMessage" ];then
 	while true; do
 	printf "\n\033[1;30m"
@@ -186,37 +297,34 @@ dmverbose="-q"
 #dmverbose="-v"
 
 
-if [[ $1 = [Cc][Pp]* ]] || [[ $1 = -[Cc][Pp]* ]] || [[ $1 = --[Cc][Pp]* ]] || [[ $1 = [Cc][Uu]* ]] || [[ $1 = -[Cc][Uu]* ]] || [[ $1 = --[Cc][Uu]* ]];then
+if [[ $1 = [Cc][Dd]* ]] || [[ $1 = -[Cc][Dd]* ]] || [[ $1 = --[Cc][Dd]* ]] || [[ $1 = [Cc][Ss]* ]] || [[ $1 = -[Cc][Ss]* ]] || [[ $1 = --[Cc][Ss]* ]];then
 	dm=curl
-	intro 
-	rmarch
-elif [[ $1 = [Cc][Dd]* ]] || [[ $1 = -[Cc][Dd]* ]] || [[ $1 = --[Cc][Dd]* ]] || [[ $1 = [Cc][Ss]* ]] || [[ $1 = -[Cc][Ss]* ]] || [[ $1 = --[Cc][Ss]* ]];then
-	dm=curl
-	intro 
+	introdebug 
 	sysinfo 
 elif [[ $1 = [Cc]* ]] || [[ $1 = -[Cc]* ]] || [[ $1 = --[Cc]* ]] || [[ $1 = [Cc][Ii]* ]] || [[ $1 = -[Cc][Ii]* ]] || [[ $1 = --[Cc][Ii]* ]];then
 	dm=curl
 	intro 
 	mainblock
-elif [[ $1 = [Ww][Pp]* ]] || [[ $1 = -[Ww][Pp]* ]] || [[ $1 = --[Ww][Pp]* ]] || [[ $1 = [Ww][Uu]* ]] || [[ $1 = -[Ww][Uu]* ]] || [[ $1 = --[Ww][Uu]* ]];then
-	dm=wget
-	intro 
-	rmarch
 elif [[ $1 = [Ww][Dd]* ]] || [[ $1 = -[Ww][Dd]* ]] || [[ $1 = --[Ww][Dd]* ]] || [[ $1 = [Ww][Ss]* ]] || [[ $1 = -[Ww][Ss]* ]] || [[ $1 = --[Ww][Ss]* ]];then
 	dm=wget
-	intro 
+	introdebug 
 	sysinfo 
 elif [[ $1 = [Ww]* ]] || [[ $1 = -[Ww]* ]] || [[ $1 = --[Ww]* ]] || [[ $1 = [Ww][Ii]* ]] || [[ $1 = -[Ww][Ii]* ]] || [[ $1 = --[Ww][Ii]* ]];then
 	dm=wget
 	intro 
 	mainblock
+elif [[ $1 = [Bb]* ]] || [[ $1 = -[Bb]* ]] || [[ $1 = --[Bb]* ]] ;then
+	bloom
 elif [[ $1 = [Dd]* ]] || [[ $1 = -[Dd]* ]] || [[ $1 = --[Dd]* ]] || [[ $1 = [Ss]* ]] || [[ $1 = -[Ss]* ]] || [[ $1 = --[Ss]* ]];then
-	intro 
+	introdebug 
 	sysinfo 
 elif [[ $1 = [Hh]* ]] || [[ $1 = -[Hh]* ]] || [[ $1 = --[Hh]* ]]  || [[ $1 = [?]* ]] || [[ $1 = -[?]* ]] || [[ $1 = --[?]* ]];then
 	printusage
-elif [[ $1 = [Pp]* ]] || [[ $1 = -[Pp]* ]] || [[ $1 = --[Pp]* ]] || [[ $1 = [Uu]* ]] || [[ $1 = -[Uu]* ]] || [[ $1 = --[Uu]* ]];then
+elif [[ $1 = [Mm]* ]] || [[ $1 = -[Mm]* ]] || [[ $1 = --[Mm]* ]] ;then
+	opt=manual
 	intro 
+	mainblock
+elif [[ $1 = [Pp]* ]] || [[ $1 = -[Pp]* ]] || [[ $1 = --[Pp]* ]] || [[ $1 = [Uu]* ]] || [[ $1 = -[Uu]* ]] || [[ $1 = --[Uu]* ]];then
 	rmarch
 elif [[ $1 = "" ]] || [[ $1 = [Ii]* ]] || [[ $1 = -[Ii]* ]] || [[ $1 = --[Ii]* ]];then
 	intro 

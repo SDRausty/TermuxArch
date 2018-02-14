@@ -63,10 +63,7 @@ detectsystem2 ()
 
 mainblock ()
 { 
-	if [ -d $HOME/arch ] ;then
-		printf "\n\033[33;1mTermuxArch: DIRECTORY WARNING!  \`$HOME/arch/\` directory detected.  \033[36;1mTermux Arch installation will continue.  \033[33;1mInstalling into a clean directory is recommended.  \033[36;1mUninstalling before continuing is suggested.\n"
-		rmarch
-	fi
+	rmarchq
 	callsystem 
 	$HOME/arch/root/bin/setupbin.sh 
 	termux-wake-unlock
@@ -106,28 +103,21 @@ makesystem ()
 {
 	printdownloading 
 	termux-wake-lock 
-	if [ $(getprop ro.product.cpu.abi) != x86_64 ] || [ $(getprop ro.product.cpu.abi) != x86 ];then
-		if [ "$mirror" = "os.archlinuxarm.org" ] || [ "$mirror" = "mirror.archlinuxarm.org" ]; then
-			ftchstnd 
-		else
-			ftchit
-		fi
-		:
-	fi
 	if [ $(getprop ro.product.cpu.abi) = x86_64 ] || [ $(getprop ro.product.cpu.abi) = x86 ];then
-		adjustmd5file
 		getimage
+		adjustmd5file
+	fi
+	if [ "$mirror" = "os.archlinuxarm.org" ] || [ "$mirror" = "mirror.archlinuxarm.org" ]; then
+		ftchstnd 
+	else
+		ftchit
 	fi
 	printmd5check
 	if md5sum -c $file.md5 ; then
 		printmd5success
 		preproot 
 	else
-		cd $HOME/arch
-		rm -rf * 2>/dev/null ||:
-		find -type d -exec chmod 700 {} \; 2>/dev/null ||:
-		cd ..
-		rm -rf $HOME/arch 2>/dev/null ||:
+		rmarchc 
 		printmd5error
 	fi
 	rm *.tar.gz *.tar.gz.md5
@@ -138,7 +128,8 @@ preproot ()
 {
 	if [ $(du ~/arch/*z | awk {'print $1'}) -gt 112233 ];then
 		if [ $(getprop ro.product.cpu.abi) = x86_64 ] || [ $(getprop ro.product.cpu.abi) = x86 ];then
-			proot --link2symlink -0 bsdtar -xpf $file --strip-components 1 
+			proot --link2symlink bsdtar -xpf $file --strip-components 1 2>/dev/null ||:
+
 		else
 			proot --link2symlink -0 bsdtar -xpf $file 
 		fi
@@ -178,22 +169,9 @@ touchupsys ()
 	addv 
 	setlocalegen
 	printf "\n\033[32;1m"
-	while true; do
-	read -p "Do you want to use \`nano\` or \`vi\` to edit your Arch Linux configuration files [n|v]? "  nv
-	if [[ $nv = [Nn]* ]];then
-		ed=nano
-		apt-get -qq install nano --yes 
-		break
-	elif [[ $nv = [Vv]* ]];then
-		ed=vi
-		break
-	else
-		printf "\nYou answered \033[36;1m$nv\033[32;1m.\n"
-		printf "\nAnswer nano or vi (n|v).  \n\n"
+	if [[ $ed = "" ]];then
+		edq
 	fi
-		printf "\nYou answered \033[36;1m$nv\033[32;1m.\n"
-	done	
-	printf "\n"
 	while true; do
 		read -p "Would you like to run \`locale-gen\` to generate the en_US.UTF-8 locale, or would you like to edit \`/etc/locale.gen\` specifying your preferred language\(s\) before running \`locale-gen\`?  Answer run or edit [r|e]. " ye
 	if [[ $ye = [Rr]* ]];then
