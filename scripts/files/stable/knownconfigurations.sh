@@ -59,7 +59,7 @@ i686 ()
 
 x86_64 ()
 {
-	# x86_64 downloads the latest file automatically.  $file is unnecessary for download.
+	file=archlinux-bootstrap-2018.02.01-x86_64.tar.gz
 	mirror=mirror.rackspace.com
 	path=/archlinux/iso/latest/
 	makesystem 

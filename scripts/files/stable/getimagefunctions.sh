@@ -8,11 +8,12 @@
 adjustmd5file ()
 {
 	if [[ $dm = wget ]];then 
+		printdownloadingx86 
 		wget $dmverbose -N --show-progress http://$mirror${path}md5sums.txt
 	else
+		printdownloadingx86 
 		curl $dmverbose --fail --retry 4 -O http://$mirror${path}md5sums.txt
 	fi
-	file=$(ls *tar.gz)
 	sed '2q;d' md5sums.txt > $file.md5
 	rm md5sums.txt
 }
@@ -55,19 +56,8 @@ getimage ()
 {
 	if [ $(getprop ro.product.cpu.abi) = x86_64 ];then
 		if [[ $dm = wget ]];then 
-			printdownloadingx86 
-			wget -A tar.gz -m -nd -np http://$mirror$path
-		else
-			printdownloadingx86 
-			printf "Defaulting to \`wget\` for x86_64 system image download.\n\n"
-			wget -A tar.gz -m -nd -np http://$mirror$path
-		fi
-	else
-		if [[ $dm = wget ]];then 
-			printdownloadingx86 
 			wget $dmverbose -c --show-progress http://$mirror$path$file 
 		else
-			printdownloadingx86 
 			curl $dmverbose -C - --fail --retry 4 -O http://$mirror$path$file 
 		fi
 	fi
