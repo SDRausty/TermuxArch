@@ -381,7 +381,7 @@ bin=startarch
 dm=wget
 dmverbose="-q"
 #dmverbose="-v"
-versionid="v0.8 id193611462"
+versionid="v0.8 id796646116"
 
 
 if [[ $1 = [Cc][Dd]* ]] || [[ $1 = -[Cc][Dd]* ]] || [[ $1 = --[Cc][Dd]* ]] || [[ $1 = [Cc][Ss]* ]] || [[ $1 = -[Cc][Ss]* ]] || [[ $1 = --[Cc][Ss]* ]];then
