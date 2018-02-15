@@ -35,7 +35,7 @@ ftchstnd ()
 	#cmirror="http://mirror.archlinuxarm.org/"
 	cmirror="http://os.archlinuxarm.org/"
 	if [[ $dm = wget ]];then 
-		printf "Contacting mirror $cmirror.  "
+		printf "\033[0;32mContacting mirror $cmirror.  "
 		curl -v $cmirror 2>gmirror
 		nmirror=$(grep Location gmirror | awk {'print $3}') 
 		rm gmirror
@@ -43,7 +43,7 @@ ftchstnd ()
 		wget $dmverbose -N --show-progress $nmirror$path$file.md5 
 		wget $dmverbose -N --show-progress $nmirror$path$file 
 	else
-		printf "Contacting mirror $cmirror.  "
+		printf "\033[0;32mContacting mirror $cmirror.  "
 		curl -v $cmirror 2>gmirror
 		nmirror=$(grep Location gmirror | awk {'print $3}') 
 		rm gmirror

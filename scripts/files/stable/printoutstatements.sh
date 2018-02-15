@@ -24,17 +24,17 @@ printdownloading ()
 
 printdownloadingx86 ()
 {
-	printf "\033[32;1mDownloading \033[0;32m$file \033[32;1mand the corresponding checksum from \033[0;32mhttp://$mirror\033[32;1m.  \033[37;1mThis may take a long time pending Internet connection.\n\n\033[36;1m"
+	printf "\033[32;1mDownloading \033[0;32m$file \033[32;1mand the corresponding checksum from \033[0;32mhttp://$mirror\033[32;1m.  \033[37;1mThis may take a long time pending Internet connection.\n\n\033[32;1m"
 }
 
 printdownloadingftch ()
 {
-	printf "\033[36;1mDownloading \033[0;32m$file \033[32;1mand the corresponding checksum from \033[0;32m$nmirror\033[32;1m.  \033[37;1mThis may take a long time pending the Internet connection.\n\n\033[36;1m"
+	printf "\033[32;1mDownloading \033[0;32m$file \033[32;1mand the corresponding checksum from \033[0;32m$nmirror\033[32;1m.  \033[37;1mThis may take a long time pending the Internet connection.\n\n\033[32;1m"
 }
 
 printdownloadingftchit ()
 {
-	printf "\033[36;1mDownloading \033[0;32m$file \033[32;1mand the corresponding checksum from \033[0;32mhttp://$mirror\033[32;1m.  \033[37;1mThis may take a long time pending connection.\n\n\033[36;1m"
+	printf "\033[32;1mDownloading \033[0;32m$file \033[32;1mand the corresponding checksum from \033[0;32mhttp://$mirror\033[32;1m.  \033[37;1mThis may take a long time pending connection.\n\n\033[32;1m"
 }
 
 printconfigq ()
