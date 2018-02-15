@@ -54,12 +54,10 @@ ftchstnd ()
 
 getimage ()
 {
-	if [ $(getprop ro.product.cpu.abi) = x86_64 ];then
-		if [[ $dm = wget ]];then 
-			wget $dmverbose -c --show-progress http://$mirror$path$file 
-		else
-			curl $dmverbose -C - --fail --retry 4 -O http://$mirror$path$file 
-		fi
+	if [[ $dm = wget ]];then 
+		wget $dmverbose -c --show-progress http://$mirror$path$file 
+	else
+		curl $dmverbose -C - --fail --retry 4 -O http://$mirror$path$file 
 	fi
 }
 
