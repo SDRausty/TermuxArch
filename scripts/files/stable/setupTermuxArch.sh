@@ -27,7 +27,7 @@ chk ()
 		if [ -f "setupTermuxArch.tmp" ];then
 			rm setupTermuxArch.tmp
 		fi
-		printf "\n\033[36;1m 🕑 < 🕛 \033[1;34mTermuxArch $versionid integrity: \033[36;1mOK\n\033[1;30m"
+		printf "\n\033[36;1m 🕑 < 🕛 \033[1;34mTermuxArch $versionid integrity: \033[32;1mOK\n\033[1;30m"
 	else
 		rmdsc 
 		printmd5syschker
@@ -37,7 +37,7 @@ chk ()
 chkdwn ()
 {
 	if md5sum -c setupTermuxArch.md5 1>/dev/null ; then
-		printf "\033[36;1m 🕐 < 🕛 \033[1;34mTermuxArch $versionid downloaded: \033[36;1mOK\n\033[36;1m"
+		printf "\033[36;1m 🕐 < 🕛 \033[1;34mTermuxArch $versionid downloaded: \033[32;1mOK\n\033[36;1m"
 		bsdtar -xf setupTermuxArch.tar.gz
 		rmds 
 	else
@@ -69,7 +69,7 @@ depends ()
 		printf "\n\033[1;36mPrerequisites exception.  Run the script again.\n\n\033[0m"
 		exit
 	fi
-	printf "\n\n\033[1;36m 🕧 < 🕛 \033[1;34mPrerequisite packages: \033[36;1mOK\n\n"
+	printf "\n\n\033[1;36m 🕧 < 🕛 \033[1;34mPrerequisite packages: \033[32;1mOK\n\n"
 }
 
 dependsblock ()
@@ -148,7 +148,7 @@ ldconf ()
 {
 	if [ -f "setupTermuxArchConfigs.sh" ];then
 		. setupTermuxArchConfigs.sh
-		printf "\n 🕜 \033[36;1m< 🕛 \033[1;32m$(pwd)/setupTermuxArchConfigs.sh \033[1;34mloaded: \033[36;1mOK  \n\033[36;1m"
+		printf "\n 🕜 \033[36;1m< 🕛 \033[1;32m$(pwd)/setupTermuxArchConfigs.sh \033[1;34mloaded: \033[32;1mOK  \n\033[36;1m"
 	else
 		. knownconfigurations.sh
 	fi
@@ -168,7 +168,7 @@ obloomdependsblock ()
 	. necessaryfunctions.sh
 	. printoutstatements.sh
 	. systemmaintenance.sh
-	printf "\n\033[36;1m 🕑 < 🕛 \033[1;34mTermuxArch $versionid integrity: \033[36;1mOK\n\033[1;30m"
+	printf "\n\033[36;1m 🕑 < 🕛 \033[1;34mTermuxArch $versionid integrity: \033[32;1mOK\n\033[1;30m"
 	mainblock
 }
 
@@ -178,12 +178,12 @@ omanual ()
 	if [ -f "setupTermuxArchConfigs.sh" ];then
 		$ed setupTermuxArchConfigs.sh
 		. setupTermuxArchConfigs.sh
-		printf "\n 🕜 \033[36;1m< 🕛 \033[1;32m$(pwd)/setupTermuxArchConfigs.sh \033[1;34mloaded: \033[36;1mOK  \n\033[36;1m"
+		printf "\n 🕜 \033[36;1m< 🕛 \033[1;32m$(pwd)/setupTermuxArchConfigs.sh \033[1;34mloaded: \033[32;1mOK  \n\033[36;1m"
 	else
 		cp knownconfigurations.sh setupTermuxArchConfigs.sh
 		$ed setupTermuxArchConfigs.sh
 		. setupTermuxArchConfigs.sh
-		printf "\n 🕜 \033[36;1m< 🕛 \033[1;32m$(pwd)/setupTermuxArchConfigs.sh \033[1;34mloaded: \033[36;1mOK  \n\033[36;1m"
+		printf "\n 🕜 \033[36;1m< 🕛 \033[1;32m$(pwd)/setupTermuxArchConfigs.sh \033[1;34mloaded: \033[32;1mOK  \n\033[36;1m"
 	fi
 }
 
@@ -360,7 +360,7 @@ dm=curl
 dmverbose="-q"
 #dmverbose="-v"
 ntime=`date +%N`
-versionid="v0.8 id195417665"
+versionid="v0.8 id623773339"
 
 
 if [[ $1 = [Cc][Dd]* ]] || [[ $1 = -[Cc][Dd]* ]] || [[ $1 = --[Cc][Dd]* ]] || [[ $1 = [Cc][Ss]* ]] || [[ $1 = -[Cc][Ss]* ]] || [[ $1 = --[Cc][Ss]* ]];then

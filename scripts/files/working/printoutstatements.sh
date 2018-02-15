@@ -11,9 +11,9 @@ printdetectedsystem ()
 {
 	printf "\n\033[36;1m 🕝 < 🕛 \033[1;34mDetected $(uname -m) " 
 	if [[ $(getprop ro.product.device) == *_cheets ]];then
-		printf "Chromebook: \033[36;1mOK\n\033[0m"
+		printf "Chromebook: \033[32;1mOK\n\033[0m"
 	else
-		printf "$(uname -o) operating system: \033[36;1mOK\n\033[0m"
+		printf "$(uname -o) operating system: \033[32;1mOK\n\033[0m"
 	fi
 }
 
@@ -55,7 +55,7 @@ printmd5error ()
 
 printmd5success ()
 {
-	printf '\033]2;  🕡 < 🕛 Uncompressing Arch Linux system image file.  This will take a long time; Be patient.\007'"\n\033[36;1m 🕕 < 🕛 \033[1;34mSystem image file download integrity: \033[36;1mOK\n\n\033[36;1m 🕡 < 🕛 \033[1;34mUncompressing \033[36;1m$file\033[37;1m.  This will take a long time.  Be patient.\n\033[0m"
+	printf '\033]2;  🕡 < 🕛 Uncompressing Arch Linux system image file.  This will take a long time; Be patient.\007'"\n\033[36;1m 🕕 < 🕛 \033[1;34mSystem image file download integrity: \033[32;1mOK\n\n\033[36;1m 🕡 < 🕛 \033[1;34mUncompressing \033[36;1m$file\033[37;1m.  This will take a long time.  Be patient.\n\033[0m"
 }
 
 printmismatch ()
