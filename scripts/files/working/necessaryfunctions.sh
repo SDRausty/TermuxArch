@@ -61,26 +61,6 @@ detectsystem2 ()
 	fi
 }
 
-obloom ()
-{
-	opt=bloom 
-	introbloom 
-	if [ -d $HOME/TermuxArchBloom ];then 
-		rmbloomq 
-	fi
-	if [ ! -d $HOME/TermuxArchBloom ];then 
-		mkdir $HOME/TermuxArchBloom
-	fi
-	cd $HOME/TermuxArchBloom
-	printf "\033[1;34mTermuxArch Bloom option via \033[1;32msetupTermuxArch.sh --bloom\033[0m  📲 \n\n\033[0m"'\033]2;  Thank you for using TermuxArch Bloom option via `setupTermuxArch.sh --bloom` 📲 \007'
-	ls -al
-	printf "\n"
-	pwd
-	dependsblock 
-	ls -al
-	printf "\n\033[1;34mUse \033[1;32mcd ~/TermuxArchBloom\033[0m to continue.\n\n\033[0m"'\033]2;  Thank you for using TermuxArch Bloom option via `setupTermuxArch.sh --bloom` 📲 \007'
-}
-
 mainblock ()
 { 
 	rmarchq
