@@ -37,7 +37,7 @@ chk ()
 chkdwn ()
 {
 	if md5sum -c setupTermuxArch.md5 1>/dev/null ; then
-		printf "\033[36;1m 🕐 < 🕛 \033[1;34mTermuxArch downloaded: \033[36;1mOK\n\033[36;1m"
+		printf "\033[36;1m 🕐 < 🕛 \033[1;34mTermuxArch $versionid downloaded: \033[36;1mOK\n\033[36;1m"
 		bsdtar -xf setupTermuxArch.tar.gz
 		rmds 
 	else
@@ -125,7 +125,7 @@ intro ()
 	printf '\033]2;  Thank you for using `bash setupTermuxArch.sh` 📲 \007'
 	rmarchq
 	spaceinfoq
-	printf "\n\033[36;1m 🕛 < 🕛 \033[1;34mTermuxArch $versionid will attempt to install Linux in Termux.  Arch Linux will be available upon successful completion.  Ensure background data is not restricted.  Run \033[36mbash setupTermuxArch.sh --help \033[34;1mfor additional information.  Check the wireless connection if you do not see one o'clock 🕐 below.  "
+	printf "\n\033[36;1m 🕛 < 🕛 \033[1;34mTermuxArch $versionid will attempt to install Linux in Termux.  Arch Linux will be available upon successful completion.  Ensure background data is not restricted.  Run \033[0;32mbash setupTermuxArch.sh --help \033[34;1mfor additional information.  Check the wireless connection if you do not see one o'clock 🕐 below.  "
 	dependsblock 
 }
 
@@ -148,7 +148,7 @@ ldconf ()
 {
 	if [ -f "setupTermuxArchConfigs.sh" ];then
 		. setupTermuxArchConfigs.sh
-		printf "\n 🕜 \033[36;1m< 🕛 \033[1;32msetupTermuxArchConfigs.sh \033[1;34mloaded: \033[36;1mOK  \n\033[36;1m"
+		printf "\n 🕜 \033[36;1m< 🕛 \033[1;32m$pwd setupTermuxArchConfigs.sh \033[1;34mloaded: \033[36;1mOK  \n\033[36;1m"
 	else
 		. knownconfigurations.sh
 	fi
@@ -178,12 +178,12 @@ omanual ()
 	if [ -f "setupTermuxArchConfigs.sh" ];then
 		$ed setupTermuxArchConfigs.sh
 		. setupTermuxArchConfigs.sh
-		printf "\n 🕜 \033[36;1m< 🕛 \033[1;32msetupTermuxArchConfigs.sh \033[1;34mloaded: \033[36;1mOK  \n\033[36;1m"
+		printf "\n 🕜 \033[36;1m< 🕛 \033[1;32m$pwd setupTermuxArchConfigs.sh \033[1;34mloaded: \033[36;1mOK  \n\033[36;1m"
 	else
 		cp knownconfigurations.sh setupTermuxArchConfigs.sh
 		$ed setupTermuxArchConfigs.sh
 		. setupTermuxArchConfigs.sh
-		printf "\n 🕜 \033[36;1m< 🕛 \033[1;32msetupTermuxArchConfigs.sh \033[1;34mloaded: \033[36;1mOK  \n\033[36;1m"
+		printf "\n 🕜 \033[36;1m< 🕛 \033[1;32m$pwd setupTermuxArchConfigs.sh \033[1;34mloaded: \033[36;1mOK  \n\033[36;1m"
 	fi
 }
 
@@ -360,7 +360,7 @@ dm=wget
 dmverbose="-q"
 #dmverbose="-v"
 ntime=`date +%N`
-versionid="v0.8 id853936100"
+versionid="v0.8 id853522331"
 
 
 if [[ $1 = [Cc][Dd]* ]] || [[ $1 = -[Cc][Dd]* ]] || [[ $1 = --[Cc][Dd]* ]] || [[ $1 = [Cc][Ss]* ]] || [[ $1 = -[Cc][Ss]* ]] || [[ $1 = --[Cc][Ss]* ]];then
