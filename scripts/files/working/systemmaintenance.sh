@@ -7,7 +7,6 @@
 
 sysinfo ()
 {
-	ntime=`date +%N`
 	spaceinfo
 	printf "\n\033[1;32m"
 	printf "Begin setupTermuxArch debug information.\n" > setupTermuxArchdebug$ntime.log
