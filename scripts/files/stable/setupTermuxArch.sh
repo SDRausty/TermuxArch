@@ -69,7 +69,7 @@ depends ()
 		printf "\n\033[1;36mPrerequisites exception.  Run the script again.\n\n\033[0m"
 		exit
 	fi
-	printf "\n\n\033[1;36m 🕧 < 🕛 \033[1;34mPrerequisite packages: \033[32;1mOK\n\n"
+	printf "\n\n\033[1;36m 🕧 < 🕛 \033[1;34mPrerequisite packages: \033[32;1mOK\n\n\033[0;32m"
 }
 
 dependsblock ()
@@ -380,7 +380,7 @@ dm=curl
 dmverbose="-q"
 #dmverbose="-v"
 ntime=`date +%N`
-versionid="v0.8 id287835564"
+versionid="v0.8 id217904684"
 
 
 if [[ $1 = [Cc][Dd]* ]] || [[ $1 = -[Cc][Dd]* ]] || [[ $1 = --[Cc][Dd]* ]] || [[ $1 = [Cc][Ss]* ]] || [[ $1 = -[Cc][Ss]* ]] || [[ $1 = --[Cc][Ss]* ]];then
