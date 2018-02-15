@@ -1,14 +1,14 @@
 #!/bin/bash -e
 # Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
 # Hosting https://sdrausty.github.io/TermuxArch courtesy https://pages.github.com
-# https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.  
-# https://sdrausty.github.io/TermuxArch/README has information about this project. 
+# https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.
+# https://sdrausty.github.io/TermuxArch/README has information about this project.
 # Please add configurations to this list if you find one that is not listed.
-# Copy this file to `setupTermuxArchConfigs.sh` with prefered parameters.  
+# Copy this file to `setupTermuxArchConfigs.sh` with prefered parameters.
 # Run `bash setupTermuxArch.sh` and `setupTermuxArchConfigs.sh` loads automaticaly.
 # Change mirror to desired geographic location to resolve 404 and md5sum errors.
-# User configurable variables are in `setupTermuxArchConfigs.sh`. 
-# Create this file from `kownconfigurations.sh` in the working directory.  
+# User configurable variables are in `setupTermuxArchConfigs.sh`.
+# Create this file from `kownconfigurations.sh` in the working directory.
 ################################################################################
 
 #dm=curl
