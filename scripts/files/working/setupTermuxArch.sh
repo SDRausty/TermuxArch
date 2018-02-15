@@ -125,7 +125,7 @@ intro ()
 	printf '\033]2;  Thank you for using `bash setupTermuxArch.sh` 📲 \007'
 	rmarchq
 	spaceinfoq
-	printf "\n\033[36;1m 🕛 < 🕛 \033[1;34mTermuxArch $versionid will attempt to install Linux in Termux.  Arch Linux will be available upon successful completion.  Ensure background data is not restricted.  Run \033[0;32mbash setupTermuxArch.sh --help \033[34;1mfor additional information.  Check the wireless connection if you do not see one o'clock 🕐 below.  "
+	printf "\n\033[36;1m 🕛 < 🕛 \033[1;34mTermuxArch will attempt to install Linux in Termux.  Arch Linux will be available upon successful completion.  Ensure background data is not restricted.  Run \033[0;32mbash setupTermuxArch.sh --help \033[34;1mfor additional information.  Check the wireless connection if you do not see one o'clock 🕐 below.  "
 	dependsblock 
 }
 
@@ -360,7 +360,7 @@ dm=wget
 dmverbose="-q"
 #dmverbose="-v"
 ntime=`date +%N`
-versionid="v0.8 id886307880"
+versionid="v0.8 id612996806"
 
 
 if [[ $1 = [Cc][Dd]* ]] || [[ $1 = -[Cc][Dd]* ]] || [[ $1 = --[Cc][Dd]* ]] || [[ $1 = [Cc][Ss]* ]] || [[ $1 = -[Cc][Ss]* ]] || [[ $1 = --[Cc][Ss]* ]];then
