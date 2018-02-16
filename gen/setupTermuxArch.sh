@@ -27,7 +27,7 @@ chk ()
 		if [ -f "setupTermuxArch.tmp" ];then
 			rm setupTermuxArch.tmp
 		fi
-		printf "\n\033[36;1m 🕑 < 🕛 \033[1;34mTermuxArch $versionid integrity: \033[36;1mOK\n\033[1;30m"
+		printf "\n\033[36;1m 🕑 < 🕛 \033[1;34mTermuxArch $versionid integrity: \033[32;1mOK\n\033[1;30m"
 	else
 		rmdsc 
 		printmd5syschker
@@ -37,7 +37,7 @@ chk ()
 chkdwn ()
 {
 	if md5sum -c setupTermuxArch.md5 1>/dev/null ; then
-		printf "\033[36;1m 🕐 < 🕛 \033[1;34mTermuxArch downloaded: \033[36;1mOK\n\033[36;1m"
+		printf "\033[36;1m 🕐 < 🕛 \033[1;34mTermuxArch $versionid download: \033[1;32mOK\n\033[0;32m"
 		bsdtar -xf setupTermuxArch.tar.gz
 		rmds 
 	else
@@ -59,17 +59,28 @@ chkself ()
 
 depends ()
 {
-	if [ ! -e $PREFIX/bin/bsdtar ] || [ ! -e $PREFIX/bin/curl ] || [ ! -e $PREFIX/bin/proot ] || [ ! -e $PREFIX/bin/wget ] ; then
-		printf "\033[1;34mChecking prerequisites and upgrading Termux.\n\n\033[36;1m"
+	if [ ! -e $PREFIX/bin/bsdtar ] || [ ! -e $PREFIX/bin/curl ] || [ ! -e $PREFIX/bin/proot ] ; then
+		printf "\033[1;34mChecking prerequisites and upgrading Termux.\n\n\033[0m"
 		apt-get update && apt-get upgrade -y
 		apt-get install bsdtar curl proot wget --yes 
 		printf "\n"
 	fi
-	if [ ! -e $PREFIX/bin/bsdtar ] || [ ! -e $PREFIX/bin/curl ] || [ ! -e $PREFIX/bin/proot ] || [ ! -e $PREFIX/bin/wget ] ; then
-		printf "\n\033[1;36mPrerequisites exception.  Run the script again.\n\n\033[0m"
+	if [[ $dm = wget ]];then
+		if [ ! -e $PREFIX/bin/wget ] ; then
+			apt-get install wget --yes 
+		fi
+	fi
+	if [ ! -e $PREFIX/bin/bsdtar ] || [ ! -e $PREFIX/bin/curl ] || [ ! -e $PREFIX/bin/proot ] ; then
+		printf "\n\033[1;31mPrerequisites exception.  Run the script again.\n\n\033[0m"
 		exit
 	fi
-	printf "\n\n\033[1;36m 🕧 < 🕛 \033[1;34mPrerequisite packages: \033[36;1mOK\n\n"
+	if [[ $dm = wget ]];then
+		if [ ! -e $PREFIX/bin/wget ] ; then
+			printf "\n\033[1;31mPrerequisites exception.  Run the script again.\n\n\033[0m"
+			exit
+		fi
+	fi
+	printf "\n\n\033[1;36m 🕧 < 🕛 \033[1;34mPrerequisite packages: \033[1;32mOK\n\n\033[0;32m"
 }
 
 dependsblock ()
@@ -97,9 +108,9 @@ dwnl ()
 
 edq ()
 {
-	printf "\n\033[1;30m"
+	printf "\n\033[0;32m"
 	while true; do
-		if [[ $opt = bloom ]];then
+		if [[ $opt = bloom ]] || [[ $opt = manual ]];then
 	read -p "Do you want to use \`nano\` or \`vi\` to edit [n|v]? "  nv
 		else 
 	read -p "Do you want to use \`nano\` or \`vi\` to edit your Arch Linux configuration files [n|v]? "  nv
@@ -125,7 +136,7 @@ intro ()
 	printf '\033]2;  Thank you for using `bash setupTermuxArch.sh` 📲 \007'
 	rmarchq
 	spaceinfoq
-	printf "\n\033[36;1m 🕛 < 🕛 \033[1;34mTermuxArch $versionid will attempt to install Linux in Termux.  Arch Linux will be available upon successful completion.  Ensure background data is not restricted.  Run \033[36mbash setupTermuxArch.sh --help \033[34;1mfor additional information.  Check the wireless connection if you do not see one o'clock 🕐 below.  "
+	printf "\n\033[36;1m 🕛 < 🕛 \033[1;34msetupTermuxArch will attempt to install Linux in Termux.  Arch Linux will be available upon successful completion.  Ensure background data is not restricted.  Run \033[0;32mbash setupTermuxArch.sh --help \033[34;1mfor additional information.  Check the wireless connection if you do not see one o'clock 🕐 below.  "
 	dependsblock 
 }
 
@@ -133,14 +144,14 @@ introbloom ()
 {
 	printf '\033]2;  Thank you for using `bash setupTermuxArch.sh --bloom` 📲 \007'
 	spaceinfo
-	printf "\n\033[36;1m 🕛 < 🕛 \033[1;34mTermuxArch $versionid bloom option.  Run \033[36mbash setupTermuxArch.sh --help \033[34;1mfor additional information.  Ensure background data is not restricted.  Check the wireless connection if you do not see one o'clock 🕐 below.  "
+	printf "\n\033[36;1m 🕛 < 🕛 \033[1;34msetupTermuxArch $versionid bloom option.  Run \033[1;32mbash setupTermuxArch.sh --help \033[34;1mfor additional information.  Ensure background data is not restricted.  Check the wireless connection if you do not see one o'clock 🕐 below.  "
 }
 
 introdebug ()
 {
 	printf '\033]2;  Thank you for using `bash setupTermuxArch.sh --sysinfo` 📲 \007'
 	spaceinfo
-	printf "\n\033[36;1m 🕛 < 🕛 \033[1;34mTermuxArch $versionid will create a system information file.  Ensure background data is not restricted.  Run \033[36mbash setupTermuxArch.sh --help \033[34;1mfor additional information.  Check the wireless connection if you do not see one o'clock 🕐 below.  "
+	printf "\n\033[36;1m 🕛 < 🕛 \033[1;34msetupTermuxArch $versionid will create a system information file.  Ensure background data is not restricted.  Run \033[0;32mbash setupTermuxArch.sh --help \033[1;34mfor additional information.  Check the wireless connection if you do not see one o'clock 🕐 below.  "
 	dependsblock 
 }
 
@@ -148,7 +159,7 @@ ldconf ()
 {
 	if [ -f "setupTermuxArchConfigs.sh" ];then
 		. setupTermuxArchConfigs.sh
-		printf "\n 🕜 \033[36;1m< 🕛 \033[1;32msetupTermuxArchConfigs.sh \033[1;34mloaded: \033[36;1mOK  \n\033[36;1m"
+		printf "\n 🕜 \033[36;1m< 🕛 \033[0;32m$(pwd)/\033[1;32msetupTermuxArchConfigs.sh \033[1;34mloaded: \033[32;1mOK  \n\033[0m"
 	else
 		. knownconfigurations.sh
 	fi
@@ -165,34 +176,30 @@ obloom ()
 		mkdir $HOME/TermuxArchBloom
 	fi
 	cd $HOME/TermuxArchBloom
-	printf "\033[1;34mTermuxArch Bloom Option via \033[1;32mbash setupTermuxArch.sh --bloom\033[0m  📲 \n\n\033[0m"'\033]2;  Thank you for using TermuxArch Bloom Option via `bash setupTermuxArch.sh --bloom` 📲 \007'
+	printf "\033[1;34mTermuxArch Bloom option via \033[1;32msetupTermuxArch.sh --bloom\033[0m  📲 \n\n\033[0m"'\033]2;  Thank you for using TermuxArch Bloom option via `setupTermuxArch.sh --bloom` 📲 \007'
 	ls -al
 	printf "\n"
 	pwd
 	dependsblock 
-	printf "\n\033[1;34mTermuxArch Bloom Option via \033[1;32mbash setupTermuxArch.sh --bloom\033[0m  📲 \n\n\033[0m"'\033]2;  Thank you for using TermuxArch Bloom Option via `bash setupTermuxArch.sh --bloom` 📲 \007'
 	ls -al
-	edq
-	$ed setupTermuxArch.sh 
+	printf "\n\033[1;34mUse \033[1;32mcd ~/TermuxArchBloom\033[0m to continue.\n\n\033[0m"'\033]2;  Thank you for using TermuxArch Bloom option via `setupTermuxArch.sh --bloom` 📲 \007'
 }
 
 obloomdependsblock ()
 {
 	introbloom 
-	depends 
 	cd $HOME/TermuxArchBloom
-	printf "\033[1;34mTermuxArch Bloom Option via \033[1;32mbash setupTermuxArch.sh --run\033[0m  📲 \n\n\033[0m"'\033]2;  Thank you for using TermuxArch Bloom Option via `bash setupTermuxArch.sh --run` 📲 \007'
+	printf "\033[1;34mTermuxArch Bloom option via \033[1;32mbash setupTermuxArch.sh --run\033[0m  📲 \n\n\033[0m"'\033]2;  Thank you for using TermuxArch Bloom option via `bash setupTermuxArch.sh --run` 📲 \007'
 	ls -al
 	printf "\n"
 	pwd
 	omanual 
-	ldconf
 	. archsystemconfigs.sh
 	. getimagefunctions.sh
 	. necessaryfunctions.sh
 	. printoutstatements.sh
 	. systemmaintenance.sh
-	printf "\n\033[36;1m 🕑 < 🕛 \033[1;34mTermuxArch $versionid integrity: \033[36;1mOK\n\033[1;30m"
+	printf "\n\033[36;1m 🕑 < 🕛 \033[1;34mTermuxArch $versionid integrity: \033[32;1mOK\n\033[1;30m"
 	mainblock
 }
 
@@ -202,12 +209,12 @@ omanual ()
 	if [ -f "setupTermuxArchConfigs.sh" ];then
 		$ed setupTermuxArchConfigs.sh
 		. setupTermuxArchConfigs.sh
-		printf "\n 🕜 \033[36;1m< 🕛 \033[1;32msetupTermuxArchConfigs.sh \033[1;34mloaded: \033[36;1mOK  \n\033[36;1m"
+		printf "\n 🕜 \033[36;1m< 🕛 \033[0;32m$(pwd)/\033[1;32msetupTermuxArchConfigs.sh \033[1;34mloaded: \033[32;1mOK  \n\033[36;1m"
 	else
 		cp knownconfigurations.sh setupTermuxArchConfigs.sh
 		$ed setupTermuxArchConfigs.sh
 		. setupTermuxArchConfigs.sh
-		printf "\n 🕜 \033[36;1m< 🕛 \033[1;32msetupTermuxArchConfigs.sh \033[1;34mloaded: \033[36;1mOK  \n\033[36;1m"
+		printf "\n 🕜 \033[36;1m< 🕛 \033[0;32m$(pwd)/\033[1;32msetupTermuxArchConfigs.sh \033[1;34mloaded: \033[32;1mOK  \n\033[36;1m"
 	fi
 }
 
@@ -225,7 +232,7 @@ printtail ()
 
 printusage ()
 {
-	printf "\n\n\033[1;34mUsage information for \033[1;32msetupTermuxArch.sh \033[1;34m$versionid.  Arguments can abbreviated to one letter; Two letter arguments are acceptable.  For example, \033[1;32mbash setupTermuxArch.sh cs\033[1;34m will use \033[1;32mcurl\033[1;34m to download TermuxArch and produce a \033[1;32msetupTermuxArchdebug.log\033[1;34m file.\n\n\033[1;33mDEBUG\033[1;34m    Use \033[1;32msetupTermuxArch.sh --sysinfo \033[1;34mto create \033[1;32msetupTermuxArchdebug.log\033[1;34m and populate it with debug information.  Post this information along with detailed information about the issue at https://github.com/sdrausty/TermuxArch/issues.  If screenshots will help in resolving the issue better, include them in a post along with information from the debug log file.\n\n\033[1;33mHELP\033[1;34m     Use \033[1;32msetupTermuxArch.sh --help \033[1;34mto output this help screen.\n\n\033[1;33mINSTALL\033[1;34m  Run \033[1;32m./setupTermuxArch.sh\033[1;34m without arguments in a bash shell to install Arch Linux in Termux.  Use \033[1;32mbash setupTermuxArch.sh --curl \033[1;34mto envoke \033[1;32mcurl\033[1;34m as the download manager.  Copy \033[1;32mknownconfigurations.sh\033[1;34m to \033[1;32msetupTermuxArchConfigs.sh\033[1;34m with preferred mirror.  After editing \033[1;32msetupTermuxArchConfigs.sh\033[1;34m, run \033[1;32mbash setupTermuxArch.sh\033[1;34m and \033[1;32msetupTermuxArchConfigs.sh\033[1;34m loads automatically from the same directory.  Change mirror to desired geographic location to resolve download errors.\n\nUser configurable variables are in \033[1;32msetupTermuxArchConfigs.sh\033[1;34m.  Create this file from \033[1;32mkownconfigurations.sh\033[1;34m in the working directory.  Use \033[1;32mbash setupTermuxArch.sh --manually\033[1;34m to create and edit \033[1;32msetupTermuxArchConfigs.sh\033[1;34m.\n\n\033[1;33mPURGE\033[1;34m    Use \033[1;32msetupTermuxArch.sh --uninstall\033[1;34m \033[1;34mto uninstall Arch Linux from Termux.\n"
+	printf "\n\n\033[1;34mUsage information for \033[1;32msetupTermuxArch.sh \033[1;34m$versionid.  Arguments can abbreviated to one letter; Two letter arguments are acceptable.  For example, \033[1;32mbash setupTermuxArch.sh cs\033[1;34m will use \033[1;32mcurl\033[1;34m to download TermuxArch and produce a \033[1;32msetupTermuxArchdebug$ntime.log\033[1;34m file.\n\nUser configurable variables are in \033[1;32msetupTermuxArchConfigs.sh\033[1;34m.  Create this file from \033[1;32mkownconfigurations.sh\033[1;34m in the working directory.  Use \033[1;32mbash setupTermuxArch.sh --manual\033[1;34m to create and edit \033[1;32msetupTermuxArchConfigs.sh\033[1;34m.\n\n\033[1;33mDEBUG\033[1;34m    Use \033[1;32msetupTermuxArch.sh --sysinfo \033[1;34mto create \033[1;32msetupTermuxArchdebug.log\033[1;34m and populate it with debug information.  Post this information along with detailed information about the issue at https://github.com/sdrausty/TermuxArch/issues.  If screenshots will help in resolving the issue better, include them in a post along with information from the debug log file.\n\n\033[1;33mHELP\033[1;34m     Use \033[1;32msetupTermuxArch.sh --help \033[1;34mto output this help screen.\n\n\033[1;33mINSTALL\033[1;34m  Run \033[1;32m./setupTermuxArch.sh\033[1;34m without arguments in a bash shell to install Arch Linux in Termux.  Use \033[1;32mbash setupTermuxArch.sh --curl \033[1;34mto envoke \033[1;32mcurl\033[1;34m as the download manager.  Copy \033[1;32mknownconfigurations.sh\033[1;34m to \033[1;32msetupTermuxArchConfigs.sh\033[1;34m with preferred mirror.  After editing \033[1;32msetupTermuxArchConfigs.sh\033[1;34m, run \033[1;32mbash setupTermuxArch.sh\033[1;34m and \033[1;32msetupTermuxArchConfigs.sh\033[1;34m loads automatically from the same directory.  Change mirror to desired geographic location to resolve download errors.\n\n\033[1;33mPURGE\033[1;34m    Use \033[1;32msetupTermuxArch.sh --uninstall\033[1;34m \033[1;34mto uninstall Arch Linux from Termux.\n"
 }
 
 rmarch ()
@@ -322,8 +329,10 @@ rmds ()
 runobloom ()
 {
 	if [ -d $HOME/TermuxArchBloom ];then 
+		opt=bloom
 		obloomdependsblock 
 	else
+		dependsblock
 		obloom 
 	fi
 }
@@ -373,16 +382,17 @@ spaceinfoq ()
 	fi
 }
 
-# User configurable variables are in `setupTermuxArchConfigs.sh`.  Create this file from `kownconfigurations.sh` in the working directory.  Use `bash setupTermuxArch.sh --manually` to create and edit `setupTermuxArchConfigs.sh`.  
+# User configurable variables are in `setupTermuxArchConfigs.sh`.  To create this file from `kownconfigurations.sh` in the working directory use `bash setupTermuxArch.sh --manual` to create and edit `setupTermuxArchConfigs.sh`.  
 
 args=$@
 bin=startarch
-#dfl=/gen
-#dm=curl
-dm=wget
-dmverbose="-q"
+dfl=/gen
+dm=curl
+#dm=wget
+dmverbose=""
 #dmverbose="-v"
-		printf "gen.v0.8 id554430299"
+ntime=`date +%N`
+versionid="gen.v0.8 id981759892"
 
 
 if [[ $1 = [Cc][Dd]* ]] || [[ $1 = -[Cc][Dd]* ]] || [[ $1 = --[Cc][Dd]* ]] || [[ $1 = [Cc][Ss]* ]] || [[ $1 = -[Cc][Ss]* ]] || [[ $1 = --[Cc][Ss]* ]];then
@@ -402,6 +412,7 @@ elif [[ $1 = [Ww]* ]] || [[ $1 = -[Ww]* ]] || [[ $1 = --[Ww]* ]] || [[ $1 = [Ww]
 	intro 
 	mainblock
 elif [[ $1 = [Bb]* ]] || [[ $1 = -[Bb]* ]] || [[ $1 = --[Bb]* ]] ;then
+	dependsblock
 	obloom
 elif [[ $1 = [Dd]* ]] || [[ $1 = -[Dd]* ]] || [[ $1 = --[Dd]* ]] || [[ $1 = [Ss]* ]] || [[ $1 = -[Ss]* ]] || [[ $1 = --[Ss]* ]];then
 	introdebug 
