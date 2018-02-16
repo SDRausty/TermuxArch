@@ -169,7 +169,7 @@ touchupsys ()
 	addyt 
 	addv 
 	setlocalegen
-	printf "\n\033[32;1m"
+	printf "\n\033[0;32m"
 	if [[ $ed = "" ]];then
 		edq
 	fi
