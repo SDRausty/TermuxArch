@@ -37,7 +37,7 @@ chk ()
 chkdwn ()
 {
 	if md5sum -c setupTermuxArch.md5 1>/dev/null ; then
-		printf "\033[36;1m 🕐 < 🕛 \033[1;34mTermuxArch $versionid downloaded: \033[32;1mOK\n\033[36;1m"
+		printf "\033[36;1m 🕐 < 🕛 \033[1;34mTermuxArch $versionid downloaded: \033[1;32mOK\n\033[0;32m"
 		bsdtar -xf setupTermuxArch.tar.gz
 		rmds 
 	else
@@ -60,16 +60,16 @@ chkself ()
 depends ()
 {
 	if [ ! -e $PREFIX/bin/bsdtar ] || [ ! -e $PREFIX/bin/curl ] || [ ! -e $PREFIX/bin/proot ] || [ ! -e $PREFIX/bin/wget ] ; then
-		printf "\033[1;34mChecking prerequisites and upgrading Termux.\n\n\033[36;1m"
+		printf "\033[1;34mChecking prerequisites and upgrading Termux.\n\n\033[0m"
 		apt-get update && apt-get upgrade -y
 		apt-get install bsdtar curl proot wget --yes 
 		printf "\n"
 	fi
 	if [ ! -e $PREFIX/bin/bsdtar ] || [ ! -e $PREFIX/bin/curl ] || [ ! -e $PREFIX/bin/proot ] || [ ! -e $PREFIX/bin/wget ] ; then
-		printf "\n\033[1;36mPrerequisites exception.  Run the script again.\n\n\033[0m"
+		printf "\n\033[1;31mPrerequisites exception.  Run the script again.\n\n\033[0m"
 		exit
 	fi
-	printf "\n\n\033[1;36m 🕧 < 🕛 \033[1;34mPrerequisite packages: \033[32;1mOK\n\n\033[0;32m"
+	printf "\n\n\033[1;36m 🕧 < 🕛 \033[1;34mPrerequisite packages: \033[32;1mOK\n\n\033[0m"
 }
 
 dependsblock ()
@@ -133,14 +133,14 @@ introbloom ()
 {
 	printf '\033]2;  Thank you for using `bash setupTermuxArch.sh --bloom` 📲 \007'
 	spaceinfo
-	printf "\n\033[36;1m 🕛 < 🕛 \033[1;34mTermuxArch $versionid bloom option.  Run \033[36mbash setupTermuxArch.sh --help \033[34;1mfor additional information.  Ensure background data is not restricted.  Check the wireless connection if you do not see one o'clock 🕐 below.  "
+	printf "\n\033[36;1m 🕛 < 🕛 \033[1;34mTermuxArch $versionid bloom option.  Run \033[1;32mbash setupTermuxArch.sh --help \033[34;1mfor additional information.  Ensure background data is not restricted.  Check the wireless connection if you do not see one o'clock 🕐 below.  "
 }
 
 introdebug ()
 {
 	printf '\033]2;  Thank you for using `bash setupTermuxArch.sh --sysinfo` 📲 \007'
 	spaceinfo
-	printf "\n\033[36;1m 🕛 < 🕛 \033[1;34mTermuxArch $versionid will create a system information file.  Ensure background data is not restricted.  Run \033[36mbash setupTermuxArch.sh --help \033[34;1mfor additional information.  Check the wireless connection if you do not see one o'clock 🕐 below.  "
+	printf "\n\033[36;1m 🕛 < 🕛 \033[1;34mTermuxArch $versionid will create a system information file.  Ensure background data is not restricted.  Run \033[1;32mbash setupTermuxArch.sh --help \033[34;1mfor additional information.  Check the wireless connection if you do not see one o'clock 🕐 below.  "
 	dependsblock 
 }
 
@@ -148,7 +148,7 @@ ldconf ()
 {
 	if [ -f "setupTermuxArchConfigs.sh" ];then
 		. setupTermuxArchConfigs.sh
-		printf "\n 🕜 \033[36;1m< 🕛 \033[1;32m$(pwd)/setupTermuxArchConfigs.sh \033[1;34mloaded: \033[32;1mOK  \n\033[36;1m"
+		printf "\n 🕜 \033[36;1m< 🕛 \033[1;32m$(pwd)/setupTermuxArchConfigs.sh \033[1;34mloaded: \033[32;1mOK  \n\033[0m"
 	else
 		. knownconfigurations.sh
 	fi
@@ -381,7 +381,7 @@ dm=curl
 dmverbose="-q"
 #dmverbose="-v"
 ntime=`date +%N`
-versionid="v0.8 id846431079"
+versionid="v0.8 id204044165"
 
 
 if [[ $1 = [Cc][Dd]* ]] || [[ $1 = -[Cc][Dd]* ]] || [[ $1 = --[Cc][Dd]* ]] || [[ $1 = [Cc][Ss]* ]] || [[ $1 = -[Cc][Ss]* ]] || [[ $1 = --[Cc][Ss]* ]];then
