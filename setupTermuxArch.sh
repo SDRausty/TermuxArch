@@ -339,7 +339,7 @@ runobloom ()
 
 spaceinfo ()
 {
-	usrspace=`df /data | awk '{print $4}' | sed '2q;d'`
+	usrspace=`df /data | awk '{print $4'} | sed '2q;d'`
 	if [[ $usrspace = *G ]];then
 		usspace="${usrspace: : -1}"
 		if [ $(getprop ro.product.cpu.abi) = arm64-v8a ];then
@@ -392,7 +392,7 @@ dm=curl
 dmverbose=""
 #dmverbose="-v"
 ntime=`date +%N`
-versionid="v0.8 id763309643"
+versionid="v0.8 id450353535"
 
 if [[ $1 = [Cc][Dd]* ]] || [[ $1 = -[Cc][Dd]* ]] || [[ $1 = --[Cc][Dd]* ]] || [[ $1 = [Cc][Ss]* ]] || [[ $1 = -[Cc][Ss]* ]] || [[ $1 = --[Cc][Ss]* ]];then
 	dm=curl
