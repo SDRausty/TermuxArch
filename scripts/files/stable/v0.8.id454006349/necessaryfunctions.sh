@@ -104,8 +104,7 @@ makesystem ()
 {
 	printdownloading 
 	termux-wake-lock 
-	if [ $(getprop ro.product.cpu.abi) = x86_64 ] || [ $(getprop ro.product.cpu.abi) = x86 ];then
-		adjustmd5file
+	if [ $(getprop ro.product.cpu.abi) = x86 ] || [ $(getprop ro.product.cpu.abi) = x86_64 ];then
 		getimage
 	fi
 	if [ "$mirror" = "os.archlinuxarm.org" ] || [ "$mirror" = "mirror.archlinuxarm.org" ]; then
@@ -128,14 +127,14 @@ makesystem ()
 preproot ()
 {
 	if [ $(du ~/arch/*z | awk {'print $1'}) -gt 112233 ];then
-		if [ $(getprop ro.product.cpu.abi) = x86_64 ] || [ $(getprop ro.product.cpu.abi) = x86 ];then
+		if [ $(getprop ro.product.cpu.abi) = x86 ] || [ $(getprop ro.product.cpu.abi) = x86_64 ];then
 			proot --link2symlink -0 bsdtar -xpf $file --strip-components 1 
 
 		else
 			proot --link2symlink -0 bsdtar -xpf $file 
 		fi
 	else
-		printf "\n\n\033[31;1mDownload Exception!  Exiting...\n"
+		printf "\n\n\033[1;31mDownload Exception!  Exiting...\n"
 		exit
 	fi
 }

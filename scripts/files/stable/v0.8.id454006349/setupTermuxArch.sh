@@ -37,7 +37,7 @@ chk ()
 chkdwn ()
 {
 	if md5sum -c setupTermuxArch.md5 1>/dev/null ; then
-		printf "\033[36;1m 🕐 < 🕛 \033[1;34mTermuxArch $versionid downloaded: \033[1;32mOK\n\033[0;32m"
+		printf "\033[36;1m 🕐 < 🕛 \033[1;34mTermuxArch $versionid download: \033[1;32mOK\n\033[0;32m"
 		bsdtar -xf setupTermuxArch.tar.gz
 		rmds 
 	else
@@ -59,17 +59,28 @@ chkself ()
 
 depends ()
 {
-	if [ ! -e $PREFIX/bin/bsdtar ] || [ ! -e $PREFIX/bin/curl ] || [ ! -e $PREFIX/bin/proot ] || [ ! -e $PREFIX/bin/wget ] ; then
+	if [ ! -e $PREFIX/bin/bsdtar ] || [ ! -e $PREFIX/bin/curl ] || [ ! -e $PREFIX/bin/proot ] ; then
 		printf "\033[1;34mChecking prerequisites and upgrading Termux.\n\n\033[0m"
 		apt-get update && apt-get upgrade -y
 		apt-get install bsdtar curl proot wget --yes 
 		printf "\n"
 	fi
-	if [ ! -e $PREFIX/bin/bsdtar ] || [ ! -e $PREFIX/bin/curl ] || [ ! -e $PREFIX/bin/proot ] || [ ! -e $PREFIX/bin/wget ] ; then
+	if [[ $dm = wget ]];then
+		if [ ! -e $PREFIX/bin/wget ] ; then
+			apt-get install wget --yes 
+		fi
+	fi
+	if [ ! -e $PREFIX/bin/bsdtar ] || [ ! -e $PREFIX/bin/curl ] || [ ! -e $PREFIX/bin/proot ] ; then
 		printf "\n\033[1;31mPrerequisites exception.  Run the script again.\n\n\033[0m"
 		exit
 	fi
-	printf "\n\n\033[1;36m 🕧 < 🕛 \033[1;34mPrerequisite packages: \033[32;1mOK\n\n\033[0m"
+	if [[ $dm = wget ]];then
+		if [ ! -e $PREFIX/bin/wget ] ; then
+			printf "\n\033[1;31mPrerequisites exception.  Run the script again.\n\n\033[0m"
+			exit
+		fi
+	fi
+	printf "\n\n\033[1;36m 🕧 < 🕛 \033[1;34mPrerequisite packages: \033[1;32mOK\n\n\033[0;32m"
 }
 
 dependsblock ()
@@ -148,7 +159,7 @@ ldconf ()
 {
 	if [ -f "setupTermuxArchConfigs.sh" ];then
 		. setupTermuxArchConfigs.sh
-		printf "\n 🕜 \033[36;1m< 🕛 \033[1;32m$(pwd)/setupTermuxArchConfigs.sh \033[1;34mloaded: \033[32;1mOK  \n\033[0m"
+		printf "\n 🕜 \033[36;1m< 🕛 \033[0;34mTermuxArch configuration \033[0;32m$(pwd)/\033[1;32msetupTermuxArchConfigs.sh \033[1;34mloaded: \033[32;1mOK  \n\033[0m"
 	else
 		. knownconfigurations.sh
 	fi
@@ -198,12 +209,12 @@ omanual ()
 	if [ -f "setupTermuxArchConfigs.sh" ];then
 		$ed setupTermuxArchConfigs.sh
 		. setupTermuxArchConfigs.sh
-		printf "\n 🕜 \033[36;1m< 🕛 \033[0;32m$(pwd)/\033[1;32msetupTermuxArchConfigs.sh \033[1;34mloaded: \033[32;1mOK  \n\033[36;1m"
+		printf "\n 🕜 \033[36;1m< 🕛 \033[0;34mTermuxArch configuration \033[0;32m$(pwd)/\033[1;32msetupTermuxArchConfigs.sh \033[1;34mloaded: \033[32;1mOK  \n\033[36;1m"
 	else
 		cp knownconfigurations.sh setupTermuxArchConfigs.sh
 		$ed setupTermuxArchConfigs.sh
 		. setupTermuxArchConfigs.sh
-		printf "\n 🕜 \033[36;1m< 🕛 \033[0;32m$(pwd)/\033[1;32msetupTermuxArchConfigs.sh \033[1;34mloaded: \033[32;1mOK  \n\033[36;1m"
+		printf "\n 🕜 \033[36;1m< 🕛 \033[0;34mTermuxArch configuration \033[0;32m$(pwd)/\033[1;32msetupTermuxArchConfigs.sh \033[1;34mloaded: \033[32;1mOK  \n\033[36;1m"
 	fi
 }
 
@@ -371,18 +382,17 @@ spaceinfoq ()
 	fi
 }
 
-# User configurable variables are in `setupTermuxArchConfigs.sh`.  To create this file from `kownconfigurations.sh` in the working directory use `bash setupTermuxArch.sh --manual` to create and edit `setupTermuxArchConfigs.sh`.  
+# User configurable variables are in `setupTermuxArchConfigs.sh`.  To create this file from `kownconfigurations.sh` in the working directory use `bash setupTermuxArch.sh --manual` to create and edit `setupTermuxArchConfigs.sh`.  See `bash setupTermuxArch.sh --help` for more information. 
 
 args=$@
 bin=startarch
 #dfl=/gen
 dm=curl
 #dm=wget
-dmverbose="-q"
+dmverbose=""
 #dmverbose="-v"
 ntime=`date +%N`
-versionid="v0.8 id485002623"
-
+versionid="v0.8 id454006349"
 
 if [[ $1 = [Cc][Dd]* ]] || [[ $1 = -[Cc][Dd]* ]] || [[ $1 = --[Cc][Dd]* ]] || [[ $1 = [Cc][Ss]* ]] || [[ $1 = -[Cc][Ss]* ]] || [[ $1 = --[Cc][Ss]* ]];then
 	dm=curl
