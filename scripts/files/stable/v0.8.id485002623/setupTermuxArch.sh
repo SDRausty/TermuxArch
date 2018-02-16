@@ -148,7 +148,7 @@ ldconf ()
 {
 	if [ -f "setupTermuxArchConfigs.sh" ];then
 		. setupTermuxArchConfigs.sh
-		printf "\n 🕜 \033[36;1m< 🕛 \033[0;32m$(pwd)/\033[1;32msetupTermuxArchConfigs.sh \033[1;34mloaded: \033[32;1mOK  \n\033[0m"
+		printf "\n 🕜 \033[36;1m< 🕛 \033[1;32m$(pwd)/setupTermuxArchConfigs.sh \033[1;34mloaded: \033[32;1mOK  \n\033[0m"
 	else
 		. knownconfigurations.sh
 	fi
@@ -381,7 +381,7 @@ dm=curl
 dmverbose="-q"
 #dmverbose="-v"
 ntime=`date +%N`
-versionid="v0.8 id355565942"
+versionid="v0.8 id485002623"
 
 
 if [[ $1 = [Cc][Dd]* ]] || [[ $1 = -[Cc][Dd]* ]] || [[ $1 = --[Cc][Dd]* ]] || [[ $1 = [Cc][Ss]* ]] || [[ $1 = -[Cc][Ss]* ]] || [[ $1 = --[Cc][Ss]* ]];then
