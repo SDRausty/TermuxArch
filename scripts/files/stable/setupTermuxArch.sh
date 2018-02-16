@@ -193,9 +193,9 @@ obloomdependsblock ()
 	ls -al
 	printf "\n"
 	pwd
-	omanual 
 	. archsystemconfigs.sh
 	. getimagefunctions.sh
+	. knownconfigurations.sh
 	. necessaryfunctions.sh
 	. printoutstatements.sh
 	. systemmaintenance.sh
@@ -392,7 +392,7 @@ dm=curl
 dmverbose=""
 #dmverbose="-v"
 ntime=`date +%N`
-versionid="v0.8 id916383642"
+versionid="v0.8 id763309643"
 
 if [[ $1 = [Cc][Dd]* ]] || [[ $1 = -[Cc][Dd]* ]] || [[ $1 = --[Cc][Dd]* ]] || [[ $1 = [Cc][Ss]* ]] || [[ $1 = -[Cc][Ss]* ]] || [[ $1 = --[Cc][Ss]* ]];then
 	dm=curl
