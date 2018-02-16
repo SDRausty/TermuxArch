@@ -318,6 +318,7 @@ rmds ()
 runobloom ()
 {
 	if [ -d $HOME/TermuxArchBloom ];then 
+		opt=bloom
 		obloomdependsblock 
 	else
 		dependsblock
@@ -380,7 +381,7 @@ dm=curl
 dmverbose="-q"
 #dmverbose="-v"
 ntime=`date +%N`
-versionid="v0.8 id993498003"
+versionid="v0.8 id846431079"
 
 
 if [[ $1 = [Cc][Dd]* ]] || [[ $1 = -[Cc][Dd]* ]] || [[ $1 = --[Cc][Dd]* ]] || [[ $1 = [Cc][Ss]* ]] || [[ $1 = -[Cc][Ss]* ]] || [[ $1 = --[Cc][Ss]* ]];then
