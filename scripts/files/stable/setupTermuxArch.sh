@@ -382,7 +382,7 @@ spaceinfoq ()
 	fi
 }
 
-# User configurable variables are in `setupTermuxArchConfigs.sh`.  To create this file from `kownconfigurations.sh` in the working directory use `bash setupTermuxArch.sh --manual` to create and edit `setupTermuxArchConfigs.sh`.  
+# User configurable variables are in `setupTermuxArchConfigs.sh`.  To create this file from `kownconfigurations.sh` in the working directory use `bash setupTermuxArch.sh --manual` to create and edit `setupTermuxArchConfigs.sh`.  See `bash setupTermuxArch.sh --help` for more information. 
 
 args=$@
 bin=startarch
@@ -392,8 +392,7 @@ dm=curl
 dmverbose=""
 #dmverbose="-v"
 ntime=`date +%N`
-versionid="v0.8 id138467223"
-
+versionid="v0.8 id947260008"
 
 if [[ $1 = [Cc][Dd]* ]] || [[ $1 = -[Cc][Dd]* ]] || [[ $1 = --[Cc][Dd]* ]] || [[ $1 = [Cc][Ss]* ]] || [[ $1 = -[Cc][Ss]* ]] || [[ $1 = --[Cc][Ss]* ]];then
 	dm=curl
