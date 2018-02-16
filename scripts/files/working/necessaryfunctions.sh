@@ -106,8 +106,7 @@ makesystem ()
 	termux-wake-lock 
 	if [ $(getprop ro.product.cpu.abi) = x86 ] || [ $(getprop ro.product.cpu.abi) = x86_64 ];then
 		getimage
-	fi
-	if [ $(getprop ro.product.cpu.abi) != x86 ] || [ $(getprop ro.product.cpu.abi) != x86_64 ];then
+	else
 		if [ "$mirror" = "os.archlinuxarm.org" ] || [ "$mirror" = "mirror.archlinuxarm.org" ]; then
 			ftchstnd 
 		else
