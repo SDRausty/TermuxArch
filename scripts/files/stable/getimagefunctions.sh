@@ -47,6 +47,7 @@ getimage ()
 		file=$(grep boot md5sums.txt | awk {'print $2'})
 		sed '2q;d' md5sums.txt > $file.md5
 		rm md5sums.txt
+		printdownloadingx86two 
 		wget $dmverbose -c --show-progress http://$mirror$path$file 
 	else
 		printdownloadingx86 
@@ -54,6 +55,7 @@ getimage ()
 		file=$(grep boot md5sums.txt | awk {'print $2'})
 		sed '2q;d' md5sums.txt > $file.md5
 		rm md5sums.txt
+		printdownloadingx86two 
 		curl $dmverbose -C - --fail --retry 4 -O http://$mirror$path$file 
 	fi
 }
