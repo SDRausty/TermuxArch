@@ -107,10 +107,12 @@ makesystem ()
 	if [ $(getprop ro.product.cpu.abi) = x86 ] || [ $(getprop ro.product.cpu.abi) = x86_64 ];then
 		getimage
 	fi
-	if [ "$mirror" = "os.archlinuxarm.org" ] || [ "$mirror" = "mirror.archlinuxarm.org" ]; then
-		ftchstnd 
-	else
-		ftchit
+	if [ $(getprop ro.product.cpu.abi) != x86 ] || [ $(getprop ro.product.cpu.abi) != x86_64 ];then
+		if [ "$mirror" = "os.archlinuxarm.org" ] || [ "$mirror" = "mirror.archlinuxarm.org" ]; then
+			ftchstnd 
+		else
+			ftchit
+		fi
 	fi
 	printmd5check
 	if md5sum -c $file.md5 ; then
