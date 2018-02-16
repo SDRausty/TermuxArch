@@ -5,14 +5,15 @@
 # https://sdrausty.github.io/TermuxArch/README has information about this project. 
 ################################################################################
 
-adjustmd5file ()
+getimage ()
 {
 	if [[ $dm = wget ]];then 
 		printdownloadingx86 
 		wget $dmverbose -N --show-progress http://$mirror${path}md5sums.txt
+		wget $dmverbose -c --show-progress http://$mirror$path$file 
 	else
 		printdownloadingx86 
-		curl $dmverbose --fail --retry 4 -O http://$mirror${path}md5sums.txt
+		curl $dmverbose --fail --retry 4 -O http://$mirror${path}md5sums.txt -O http://$mirror$path$file 
 	fi
 	sed '2q;d' md5sums.txt > $file.md5
 	rm md5sums.txt
@@ -49,15 +50,6 @@ ftchstnd ()
 		rm gmirror
 		printdownloadingftch 
 		curl $dmverbose --fail --retry 4 -O $nmirror$path$file.md5 -O $nmirror$path$file
-	fi
-}
-
-getimage ()
-{
-	if [[ $dm = wget ]];then 
-		wget $dmverbose -c --show-progress http://$mirror$path$file 
-	else
-		curl $dmverbose -C - --fail --retry 4 -O http://$mirror$path$file 
 	fi
 }
 
