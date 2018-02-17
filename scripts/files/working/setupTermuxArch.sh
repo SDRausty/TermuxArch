@@ -7,7 +7,7 @@
 
 chk ()
 {
-	if md5sum -c termuxarchchecksum.md5 1>/dev/null ; then
+	if sha512sum -c termuxarchchecksum.sha512 1>/dev/null ; then
 		chkself 
 		if [[ $opt = manual ]];then
 			omanual
@@ -20,7 +20,7 @@ chk ()
 		. printoutstatements.sh
 		. systemmaintenance.sh
 		if [[ $opt = bloom ]];then
-			rm termuxarchchecksum.md5
+			rm termuxarchchecksum.sha512 
 		else 
 			rmdsc 
 		fi
@@ -36,7 +36,7 @@ chk ()
 
 chkdwn ()
 {
-	if md5sum -c setupTermuxArch.md5 1>/dev/null ; then
+	if sha512sum -c setupTermuxArch.sha512 1>/dev/null ; then
 		printf "\033[36;1m 🕐 < 🕛 \033[1;34mTermuxArch $versionid download: \033[1;32mOK\n\033[0;32m"
 		bsdtar -xf setupTermuxArch.tar.gz
 		rmds 
@@ -97,11 +97,11 @@ dependsblock ()
 dwnl ()
 {
 	if [[ $dm = wget ]];then
-		wget -q -N --show-progress https://raw.githubusercontent.com/sdrausty/TermuxArch/master$dfl/setupTermuxArch.md5 
+		wget -q -N --show-progress https://raw.githubusercontent.com/sdrausty/TermuxArch/master$dfl/setupTermuxArch.sha512 
 		wget -q -N --show-progress https://raw.githubusercontent.com/sdrausty/TermuxArch/master$dfl/setupTermuxArch.tar.gz
 		printf "\n"
 	else
-		curl -q -O https://raw.githubusercontent.com/sdrausty/TermuxArch/master$dfl/setupTermuxArch.md5 -O https://raw.githubusercontent.com/sdrausty/TermuxArch/master$dfl/setupTermuxArch.tar.gz
+		curl -q -O https://raw.githubusercontent.com/sdrausty/TermuxArch/master$dfl/setupTermuxArch.sha512 -O https://raw.githubusercontent.com/sdrausty/TermuxArch/master$dfl/setupTermuxArch.tar.gz
 		printf "\n"
 	fi
 }
@@ -317,12 +317,12 @@ rmdsc ()
 	rm necessaryfunctions.sh
 	rm printoutstatements.sh
 	rm systemmaintenance.sh
-	rm termuxarchchecksum.md5
+	rm termuxarchchecksum.sha512 
 }
 
 rmds ()
 {
-	rm setupTermuxArch.md5
+	rm setupTermuxArch.sha512 
 	rm setupTermuxArch.tar.gz
 }
 
@@ -386,13 +386,13 @@ spaceinfoq ()
 
 args=$@
 bin=startarch
-#dfl=/gen
+dfl=/gen
 dm=curl
 #dm=wget
 dmverbose=""
 #dmverbose="-v"
 ntime=`date +%N`
-versionid="v0.8.1 id999660882"
+versionid="gen.v0.8.1 id112607989"
 
 if [[ $1 = [Cc][Dd]* ]] || [[ $1 = -[Cc][Dd]* ]] || [[ $1 = --[Cc][Dd]* ]] || [[ $1 = [Cc][Ss]* ]] || [[ $1 = -[Cc][Ss]* ]] || [[ $1 = --[Cc][Ss]* ]];then
 	dm=curl
