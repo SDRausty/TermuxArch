@@ -340,7 +340,7 @@ runobloom ()
 spaceinfo ()
 {
 	units=`df 2>/dev/null | awk 'FNR == 1 {print $2}'`
-	usrspace=`df 2>/dev/null | awk 'FNR == 2 {print $4}'`
+	usrspace=`df /data 2>/dev/null | awk 'FNR == 2 {print $4}'`
 	if [[ $units = Size ]];then
 		if [[ $usrspace = *G ]];then
 			usspace="${usrspace: : -1}"
@@ -397,7 +397,7 @@ dm=curl
 dmverbose=""
 #dmverbose="-v"
 ntime=`date +%N`
-versionid="v0.8.2 id147147849"
+versionid="v0.8.2 id637411455"
 
 if [[ $1 = [Cc][Dd]* ]] || [[ $1 = -[Cc][Dd]* ]] || [[ $1 = --[Cc][Dd]* ]] || [[ $1 = [Cc][Ss]* ]] || [[ $1 = -[Cc][Ss]* ]] || [[ $1 = --[Cc][Ss]* ]];then
 	dm=curl
