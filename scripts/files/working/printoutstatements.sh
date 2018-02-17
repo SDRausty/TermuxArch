@@ -44,7 +44,7 @@ printdownloadingftchit ()
 
 printconfigq ()
 {
-	printf "\n\033[36;1m 🕙 < 🕛 \033[1;34mArch Linux in Termux is installed.  Answer the following questions to complete the Arch Linux configuration.\n\n\033[0m"'\033]2; 🕙 < 🕛 Arch Linux in Termux is installed!  Complete the Arch Linux configuration.  📲 \007'
+	printf "\n\033[36;1m 🕙 < 🕛 \033[1;34mArch Linux in Termux is installed.  Answer the following questions to complete the Arch Linux configuration.\n\033[0m"'\033]2; 🕙 < 🕛 Arch Linux in Termux is installed!  Complete the Arch Linux configuration.  📲 \007'
 }
 
 printmd5check ()
@@ -60,7 +60,7 @@ printmd5error ()
 
 printmd5success ()
 {
-	printf '\033]2;  🕡 < 🕛 Uncompressing Arch Linux system image file.  This will take a long time; Be patient.\007'"\n\033[36;1m 🕕 < 🕛 \033[1;34mSystem image file download integrity: \033[32;1mOK\n\n\033[36;1m 🕡 < 🕛 \033[1;34mUncompressing \033[32;1m$file\033[37;1m.  This will take a long time; Be patient.\n\033[0m"
+	printf '\033]2;  🕡 < 🕛 Uncompressing the image file.  This will take a long time; Be patient.\007'"\n\033[36;1m 🕕 < 🕛 \033[1;34mSystem image file download integrity: \033[32;1mOK\n\n\033[36;1m 🕡 < 🕛 \033[1;34mUncompressing \033[32;1m$file\033[37;1m.  This will take a long time; Be patient.\n\033[0m"
 }
 
 printmismatch ()
