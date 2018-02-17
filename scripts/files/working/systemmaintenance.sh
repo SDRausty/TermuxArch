@@ -28,6 +28,10 @@ sysinfo ()
 	ls -al ~/downloads 2>>setupTermuxArchdebug$ntime.log  >> setupTermuxArchdebug$ntime.log 2>/dev/null ||:
 	if [ -d /sdcard/Download ]; then echo "/sdcard/Download exists"; else echo "/sdcard/Download not found"; fi >> setupTermuxArchdebug$ntime.log 
 	if [ -d /storage/emulated/0/Download ]; then echo "/storage/emulated/0/Download exists"; else echo "/storage/emulated/0/Download not found"; fi >> setupTermuxArchdebug$ntime.log
+	printf "\ndu -hs $HOME/arch results:\n\n" >> setupTermuxArchdebug$ntime.log
+	du -hs $HOME/arch >> setupTermuxArchdebug$ntime.log
+	printf "\nls -al $HOME/arch results:\n\n" >> setupTermuxArchdebug$ntime.log
+	ls -al $HOME/arch >> setupTermuxArchdebug$ntime.log
 	printf "\nuname -a results:\n\n" >> setupTermuxArchdebug$ntime.log
 	uname -a >> setupTermuxArchdebug$ntime.log
 	printf "\nEnd \`setupTermuxArch.sh\` debug information.\n\nPost this information along with information regarding your issue at https://github.com/sdrausty/TermuxArch/issues.  Include information about input and output.  This debugging information is found in $(pwd)/$(ls setupTermuxArchdebug$ntime.log).  If you think screenshots will help in resolving this matter better, include them in your post please.  \n" >> setupTermuxArchdebug$ntime.log
