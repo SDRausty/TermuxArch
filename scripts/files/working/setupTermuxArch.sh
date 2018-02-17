@@ -61,16 +61,16 @@ depends ()
 {
 	if [ $(getprop ro.product.cpu.abi) = x86 ] || [ $(getprop ro.product.cpu.abi) = x86_64 ];then
 		if [ ! -e $PREFIX/bin/bsdtar ] || [ ! -e $PREFIX/bin/curl ] || [ ! -e $PREFIX/bin/proot ] ; then
-			printf "\033[1;34mChecking prerequisites and upgrading Termux.\n\n\033[0;32m"
+			printf "\033[1;34mChecking prerequisites and upgrading Termux.\n\n\033[1;32m"
 			pkg install bsdtar curl proot -y 
 		fi
 	elif [ ! -e $PREFIX/bin/curl ] || [ ! -e $PREFIX/bin/proot ] ; then
-		printf "\033[1;34mChecking prerequisites and upgrading Termux.\n\n\033[0;32m"
+		printf "\033[1;34mChecking prerequisites and upgrading Termux.\n\n\033[1;32m"
 		pkg install curl proot -y
 	fi
 	if [[ $dm = wget ]];then
 		if [ ! -e $PREFIX/bin/wget ] ; then
-			printf "\033[1;34mChecking prerequisites and upgrading Termux.\n\n\[0;32m"
+			printf "\033[1;34mInstalling wget.\n\n\[1;32m"
 			pkg install wget -y 
 		fi
 	fi
@@ -406,7 +406,7 @@ dm=curl
 dmverbose=""
 #dmverbose="-v"
 ntime=`date +%N`
-versionid="gen.v0.8.2 id054559530"
+versionid="gen.v0.8.2 id487119710"
 
 if [[ $1 = [Cc][Dd]* ]] || [[ $1 = -[Cc][Dd]* ]] || [[ $1 = --[Cc][Dd]* ]] || [[ $1 = [Cc][Ss]* ]] || [[ $1 = -[Cc][Ss]* ]] || [[ $1 = --[Cc][Ss]* ]];then
 	dm=curl
