@@ -38,7 +38,7 @@ chkdwn ()
 {
 	if sha512sum -c setupTermuxArch.sha512 1>/dev/null ; then
 		printf "\033[36;1m 🕐 < 🕛 \033[1;34mTermuxArch $versionid download: \033[1;32mOK\n\033[0;32m"
-		bsdtar -xf setupTermuxArch.tar.gz
+		$PREFIX/bin/applets/tar	xf setupTermuxArch.tar.gz
 		rmds 
 	else
 		rmds 
@@ -59,10 +59,10 @@ chkself ()
 
 depends ()
 {
-	if [ ! -e $PREFIX/bin/bsdtar ] || [ ! -e $PREFIX/bin/curl ] || [ ! -e $PREFIX/bin/proot ] ; then
+	if [ ! -e $PREFIX/bin/curl ] || [ ! -e $PREFIX/bin/proot ] ; then
 		printf "\033[1;34mChecking prerequisites and upgrading Termux.\n\n\033[0m"
-		apt-get update && apt-get upgrade -y
-		apt-get install bsdtar curl proot wget --yes 
+		apt-get update && apt-get upgrade --yes
+		apt-get install curl proot --yes
 		printf "\n"
 	fi
 	if [[ $dm = wget ]];then
@@ -70,7 +70,7 @@ depends ()
 			apt-get install wget --yes 
 		fi
 	fi
-	if [ ! -e $PREFIX/bin/bsdtar ] || [ ! -e $PREFIX/bin/curl ] || [ ! -e $PREFIX/bin/proot ] ; then
+	if [ ! -e $PREFIX/bin/curl ] || [ ! -e $PREFIX/bin/proot ] ; then
 		printf "\n\033[1;31mPrerequisites exception.  Run the script again.\n\n\033[0m"
 		exit
 	fi
@@ -339,28 +339,33 @@ runobloom ()
 
 spaceinfo ()
 {
-	usrspace=`df /data | awk {'print $4'} | sed '2q;d'`
-	if [[ $usrspace = *G ]];then
-		usspace="${usrspace: : -1}"
-		if [ $(getprop ro.product.cpu.abi) = arm64-v8a ];then
-			if [[ "$usspace" < "1.5" ]];then
-				spaceMessage="\n\033[0;33mTermuxArch: \033[1;33mFREE SPACE WARNING!  \033[1;30mStart thinking about cleaning out some stuff.  \033[33m$usrspace of free user space is available on this device.  \033[1;30mThe recommended minimum to install Arch Linux in Termux PRoot for aarch64 is 1.5G of free user space.\n\033[0m"
+	units=`df 2>/dev/null | awk 'FNR == 1 {print $2}'`
+	usrspace=`df /data 2>/dev/null | awk 'FNR == 2 {print $4}'`
+	if [[ $units = Size ]];then
+		if [[ $usrspace = *G ]];then
+			usspace="${usrspace: : -1}"
+			if [ $(getprop ro.product.cpu.abi) = arm64-v8a ];then
+				if [[ "$usspace" < "1.5" ]];then
+					spaceMessage="\n\033[0;33mTermuxArch: \033[1;33mFREE SPACE WARNING!  \033[1;30mStart thinking about cleaning out some stuff.  \033[33m$usrspace of free user space is available on this device.  \033[1;30mThe recommended minimum to install Arch Linux in Termux PRoot for aarch64 is 1.5G of free user space.\n\033[0m"
+				else
+					spaceMessage=""
+				fi
+			elif [ $(getprop ro.product.cpu.abi) = armeabi-v7a ];then
+				if [[ "$usspace" < "1.25" ]];then
+					spaceMessage="\n\033[0;33mTermuxArch: \033[1;33mFREE SPACE WARNING!  \033[1;30mStart thinking about cleaning out some stuff.  \033[33m$usrspace of free user space is available on this device.  \033[1;30mThe recommended minimum to install Arch Linux in Termux PRoot for armv7 is 1.25G of free user space.\n\033[0m"
+				else
+					spaceMessage=""
+				fi
 			else
-				spaceMessage=""
-			fi
-		elif [ $(getprop ro.product.cpu.abi) = armeabi-v7a ];then
-			if [[ "$usspace" < "1.25" ]];then
-				spaceMessage="\n\033[0;33mTermuxArch: \033[1;33mFREE SPACE WARNING!  \033[1;30mStart thinking about cleaning out some stuff.  \033[33m$usrspace of free user space is available on this device.  \033[1;30mThe recommended minimum to install Arch Linux in Termux PRoot for armv7 is 1.25G of free user space.\n\033[0m"
-			else
-				spaceMessage=""
+			spaceMessage=""
 			fi
 		else
-		spaceMessage=""
+			spaceMessage="\n\033[0;33mTermuxArch: \033[1;33mFREE SPACE WARNING!  \033[1;30mStart thinking about cleaning out some stuff.  \033[33m$usrspace of free user space is available on this device.  \033[1;30mThe recommended minimum to install Arch Linux in Termux PRoot is more than 1.5G for aarch64, more than 1.25G for armv7 and about 1G of free user space for all other architectures.\n\033[0m"
 		fi
+		printf "$spaceMessage"
 	else
-		spaceMessage="\n\033[0;33mTermuxArch: \033[1;33mFREE SPACE WARNING!  \033[1;30mStart thinking about cleaning out some stuff.  \033[33m$usrspace of free user space is available on this device.  \033[1;30mThe recommended minimum to install Arch Linux in Termux PRoot is more than 1.5G for aarch64, more than 1.25G for armv7 and more than 1G of free user space for all other architectures.\n\033[0m"
+		:
 	fi
-	printf "$spaceMessage"
 }
 
 spaceinfoq ()
@@ -392,7 +397,7 @@ dm=curl
 dmverbose=""
 #dmverbose="-v"
 ntime=`date +%N`
-versionid="gen.v0.8.2 id498540527"
+versionid="gen.v0.8.2 id162270196"
 
 if [[ $1 = [Cc][Dd]* ]] || [[ $1 = -[Cc][Dd]* ]] || [[ $1 = --[Cc][Dd]* ]] || [[ $1 = [Cc][Ss]* ]] || [[ $1 = -[Cc][Ss]* ]] || [[ $1 = --[Cc][Ss]* ]];then
 	dm=curl

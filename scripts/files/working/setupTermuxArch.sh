@@ -38,7 +38,7 @@ chkdwn ()
 {
 	if sha512sum -c setupTermuxArch.sha512 1>/dev/null ; then
 		printf "\033[36;1m 🕐 < 🕛 \033[1;34mTermuxArch $versionid download: \033[1;32mOK\n\033[0;32m"
-		bsdtar -xf setupTermuxArch.tar.gz
+		$PREFIX/bin/applets/tar	xf setupTermuxArch.tar.gz
 		rmds 
 	else
 		rmds 
@@ -59,10 +59,10 @@ chkself ()
 
 depends ()
 {
-	if [ ! -e $PREFIX/bin/bsdtar ] || [ ! -e $PREFIX/bin/curl ] || [ ! -e $PREFIX/bin/proot ] ; then
+	if [ ! -e $PREFIX/bin/curl ] || [ ! -e $PREFIX/bin/proot ] ; then
 		printf "\033[1;34mChecking prerequisites and upgrading Termux.\n\n\033[0m"
-		apt-get update && apt-get upgrade -y
-		apt-get install bsdtar curl proot wget --yes 
+		apt-get update && apt-get upgrade --yes
+		apt-get install curl proot --yes
 		printf "\n"
 	fi
 	if [[ $dm = wget ]];then
@@ -70,7 +70,7 @@ depends ()
 			apt-get install wget --yes 
 		fi
 	fi
-	if [ ! -e $PREFIX/bin/bsdtar ] || [ ! -e $PREFIX/bin/curl ] || [ ! -e $PREFIX/bin/proot ] ; then
+	if [ ! -e $PREFIX/bin/curl ] || [ ! -e $PREFIX/bin/proot ] ; then
 		printf "\n\033[1;31mPrerequisites exception.  Run the script again.\n\n\033[0m"
 		exit
 	fi
@@ -391,13 +391,13 @@ spaceinfoq ()
 
 args=$@
 bin=startarch
-#dfl=/gen
+dfl=/gen
 dm=curl
 #dm=wget
 dmverbose=""
 #dmverbose="-v"
 ntime=`date +%N`
-versionid="v0.8.2 id293464488"
+versionid="gen.v0.8.2 id162270196"
 
 if [[ $1 = [Cc][Dd]* ]] || [[ $1 = -[Cc][Dd]* ]] || [[ $1 = --[Cc][Dd]* ]] || [[ $1 = [Cc][Ss]* ]] || [[ $1 = -[Cc][Ss]* ]] || [[ $1 = --[Cc][Ss]* ]];then
 	dm=curl
