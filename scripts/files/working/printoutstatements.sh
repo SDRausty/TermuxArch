@@ -24,7 +24,7 @@ printdownloading ()
 
 printdownloadingx86 ()
 {
-	printf "\033[0;34mDownloading from \033[1;32mhttp://$mirror\033[0;32m.\n\n\033[0;32m"
+	printf "\033[0;34mDownloading checksum from \033[1;32mhttp://$mirror\033[0;32m.\n\n\033[0;32m"
 }
 
 printdownloadingx86two ()
@@ -39,7 +39,7 @@ printdownloadingftch ()
 
 printdownloadingftchit ()
 {
-	printf "\033[0;34mDownloading \033[1;32m$file \033[0;34mand the corresponding checksum from \033[1;32mhttp://$mirror\033[0;32m.  \033[37;1mThis may take a long time pending connection.\n\n\033[0;32m"
+	printf "\033[0;34mDownloading checksum and \033[1;32m$file \033[0;34mfrom \033[1;32mhttp://$mirror\033[0;32m.  \033[37;1mThis may take a long time pending connection.\n\n\033[0;32m"
 }
 
 printconfigq ()
@@ -60,7 +60,7 @@ printmd5error ()
 
 printmd5success ()
 {
-	printf '\033]2;  🕡 < 🕛 Uncompressing Arch Linux system image file.  This will take a long time; Be patient.\007'"\n\033[36;1m 🕕 < 🕛 \033[1;34mSystem image file download integrity: \033[32;1mOK\n\n\033[36;1m 🕡 < 🕛 \033[1;34mUncompressing \033[32;1m$file\033[37;1m.  This will take a long time.  Be patient.\n\033[0m"
+	printf '\033]2;  🕡 < 🕛 Uncompressing Arch Linux system image file.  This will take a long time; Be patient.\007'"\n\033[36;1m 🕕 < 🕛 \033[1;34mSystem image file download integrity: \033[32;1mOK\n\n\033[36;1m 🕡 < 🕛 \033[1;34mUncompressing \033[32;1m$file\033[37;1m.  This will take a long time; Be patient.\n\033[0m"
 }
 
 printmismatch ()
