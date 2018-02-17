@@ -19,13 +19,13 @@ chk ()
 		. necessaryfunctions.sh
 		. printoutstatements.sh
 		. systemmaintenance.sh
+		if [ -f "setupTermuxArch.tmp" ];then
+			rm setupTermuxArch.tmp
+		fi
 		if [[ $opt = bloom ]];then
 			rm termuxarchchecksum.sha512 
 		else 
 			rmdsc 
-		fi
-		if [ -f "setupTermuxArch.tmp" ];then
-			rm setupTermuxArch.tmp
 		fi
 		printf "\n\033[36;1m 🕑 < 🕛 \033[1;34mTermuxArch $versionid integrity: \033[32;1mOK\n\033[1;30m"
 	else
@@ -392,7 +392,7 @@ dm=curl
 dmverbose=""
 #dmverbose="-v"
 ntime=`date +%N`
-versionid="gen.v0.8.1 id690816748"
+versionid="gen.v0.8.1 id998153376"
 
 if [[ $1 = [Cc][Dd]* ]] || [[ $1 = -[Cc][Dd]* ]] || [[ $1 = --[Cc][Dd]* ]] || [[ $1 = [Cc][Ss]* ]] || [[ $1 = -[Cc][Ss]* ]] || [[ $1 = --[Cc][Ss]* ]];then
 	dm=curl
