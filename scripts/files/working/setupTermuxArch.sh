@@ -61,13 +61,14 @@ depends ()
 {
 	if [ ! -e $PREFIX/bin/bsdtar ] || [ ! -e $PREFIX/bin/curl ] || [ ! -e $PREFIX/bin/proot ] ; then
 		printf "\033[1;34mChecking prerequisites and upgrading Termux.\n\n\033[0m"
-		apt-get update && apt-get upgrade --yes
-		apt-get install bsdtar curl proot --yes 
+		pkg install bsdtar curl proot 
 		printf "\n"
 	fi
 	if [[ $dm = wget ]];then
 		if [ ! -e $PREFIX/bin/wget ] ; then
-			apt-get install wget --yes 
+			printf "\033[1;34mChecking prerequisites and upgrading Termux.\n\n\033[0m"
+			pkg install wget 
+			printf "\n"
 		fi
 	fi
 	if [ ! -e $PREFIX/bin/bsdtar ] || [ ! -e $PREFIX/bin/curl ] || [ ! -e $PREFIX/bin/proot ] ; then
@@ -391,13 +392,13 @@ spaceinfoq ()
 
 args=$@
 bin=startarch
-#dfl=/gen
+dfl=/gen
 dm=curl
 #dm=wget
 dmverbose=""
 #dmverbose="-v"
 ntime=`date +%N`
-versionid="v0.8.2 id368655042"
+versionid="gen.v0.8.2 id037382979"
 
 if [[ $1 = [Cc][Dd]* ]] || [[ $1 = -[Cc][Dd]* ]] || [[ $1 = --[Cc][Dd]* ]] || [[ $1 = [Cc][Ss]* ]] || [[ $1 = -[Cc][Ss]* ]] || [[ $1 = --[Cc][Ss]* ]];then
 	dm=curl
