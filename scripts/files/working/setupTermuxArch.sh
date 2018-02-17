@@ -386,13 +386,13 @@ spaceinfoq ()
 
 args=$@
 bin=startarch
-dfl=/gen
+#dfl=/gen
 dm=curl
 #dm=wget
 dmverbose=""
 #dmverbose="-v"
 ntime=`date +%N`
-versionid="gen.v0.8.1 id214694836"
+versionid="v0.8.2 id760111554"
 
 if [[ $1 = [Cc][Dd]* ]] || [[ $1 = -[Cc][Dd]* ]] || [[ $1 = --[Cc][Dd]* ]] || [[ $1 = [Cc][Ss]* ]] || [[ $1 = -[Cc][Ss]* ]] || [[ $1 = --[Cc][Ss]* ]];then
 	dm=curl

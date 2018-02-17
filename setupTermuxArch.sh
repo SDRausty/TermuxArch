@@ -7,7 +7,7 @@
 
 chk ()
 {
-	if md5sum -c termuxarchchecksum.md5 1>/dev/null ; then
+	if sha512sum -c termuxarchchecksum.sha512 1>/dev/null ; then
 		chkself 
 		if [[ $opt = manual ]];then
 			omanual
@@ -19,30 +19,30 @@ chk ()
 		. necessaryfunctions.sh
 		. printoutstatements.sh
 		. systemmaintenance.sh
-		if [[ $opt = bloom ]];then
-			rm termuxarchchecksum.md5
-		else 
-			rmdsc 
-		fi
 		if [ -f "setupTermuxArch.tmp" ];then
 			rm setupTermuxArch.tmp
+		fi
+		if [[ $opt = bloom ]];then
+			rm termuxarchchecksum.sha512 
+		else 
+			rmdsc 
 		fi
 		printf "\n\033[36;1m 🕑 < 🕛 \033[1;34mTermuxArch $versionid integrity: \033[32;1mOK\n\033[1;30m"
 	else
 		rmdsc 
-		printmd5syschker
+		printsha512syschker
 	fi
 }
 
 chkdwn ()
 {
-	if md5sum -c setupTermuxArch.md5 1>/dev/null ; then
+	if sha512sum -c setupTermuxArch.sha512 1>/dev/null ; then
 		printf "\033[36;1m 🕐 < 🕛 \033[1;34mTermuxArch $versionid download: \033[1;32mOK\n\033[0;32m"
 		bsdtar -xf setupTermuxArch.tar.gz
 		rmds 
 	else
 		rmds 
-		printmd5syschker
+		printsha512syschker
 	fi
 }
 
@@ -97,11 +97,11 @@ dependsblock ()
 dwnl ()
 {
 	if [[ $dm = wget ]];then
-		wget -q -N --show-progress https://raw.githubusercontent.com/sdrausty/TermuxArch/master$dfl/setupTermuxArch.md5 
+		wget -q -N --show-progress https://raw.githubusercontent.com/sdrausty/TermuxArch/master$dfl/setupTermuxArch.sha512 
 		wget -q -N --show-progress https://raw.githubusercontent.com/sdrausty/TermuxArch/master$dfl/setupTermuxArch.tar.gz
 		printf "\n"
 	else
-		curl -q -O https://raw.githubusercontent.com/sdrausty/TermuxArch/master$dfl/setupTermuxArch.md5 -O https://raw.githubusercontent.com/sdrausty/TermuxArch/master$dfl/setupTermuxArch.tar.gz
+		curl -q -O https://raw.githubusercontent.com/sdrausty/TermuxArch/master$dfl/setupTermuxArch.sha512 -O https://raw.githubusercontent.com/sdrausty/TermuxArch/master$dfl/setupTermuxArch.tar.gz
 		printf "\n"
 	fi
 }
@@ -218,9 +218,9 @@ omanual ()
 	fi
 }
 
-printmd5syschker ()
+printsha512syschker ()
 {
-	printf "\033[07;1m\033[31;1m\n 🔆 ERROR md5sum mismatch!  Setup initialization mismatch!\033[36;1m  Update this copy of \`setupTermuxArch.sh\`.  If it is updated, this kind of error can go away, like magic.  Wait before executing again, especially if using a fresh copy from https://raw.githubusercontent.com/sdrausty/TermuxArch/master/setupTermuxArch.sh on this system.  There are many reasons for checksum errors.  Proxies are one reason.  Mirroring and mirrors are another explanation for md5sum errors.   \"Try again, initialization was not successful this time.\"  For more md5sum error information see \`bash setupTermuxArch.sh --help\`.\n\n	Execute \`bash setupTermuxArch.sh\` again. \033[31;1mExiting...\n\033[0m"'\033]2;  Thank you for using setupTermuxArch.sh.  Execute `bash setupTermuxArch.sh` again.\007'
+	printf "\033[07;1m\033[31;1m\n 🔆 ERROR sha512sum mismatch!  Setup initialization mismatch!\033[36;1m  Update this copy of \`setupTermuxArch.sh\`.  If it is updated, this kind of error can go away, like magic.  Wait before executing again, especially if using a fresh copy from https://raw.githubusercontent.com/sdrausty/TermuxArch/master/setupTermuxArch.sh on this system.  There are many reasons for checksum errors.  Proxies are one reason.  Mirroring and mirrors are another explanation for sha512sum errors.   \"Try again, initialization was not successful this time.\"  For more sha512sum error information see \`bash setupTermuxArch.sh --help\`.\n\n	Execute \`bash setupTermuxArch.sh\` again. \033[31;1mExiting...\n\033[0m"'\033]2;  Thank you for using setupTermuxArch.sh.  Execute `bash setupTermuxArch.sh` again.\007'
 	exit 
 }
 
@@ -317,12 +317,12 @@ rmdsc ()
 	rm necessaryfunctions.sh
 	rm printoutstatements.sh
 	rm systemmaintenance.sh
-	rm termuxarchchecksum.md5
+	rm termuxarchchecksum.sha512 
 }
 
 rmds ()
 {
-	rm setupTermuxArch.md5
+	rm setupTermuxArch.sha512 
 	rm setupTermuxArch.tar.gz
 }
 
@@ -392,7 +392,7 @@ dm=curl
 dmverbose=""
 #dmverbose="-v"
 ntime=`date +%N`
-versionid="v0.8.1 id999660882"
+versionid="v0.8.2 id760111554"
 
 if [[ $1 = [Cc][Dd]* ]] || [[ $1 = -[Cc][Dd]* ]] || [[ $1 = --[Cc][Dd]* ]] || [[ $1 = [Cc][Ss]* ]] || [[ $1 = -[Cc][Ss]* ]] || [[ $1 = --[Cc][Ss]* ]];then
 	dm=curl
