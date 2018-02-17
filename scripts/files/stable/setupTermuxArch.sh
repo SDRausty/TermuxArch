@@ -37,7 +37,7 @@ chk ()
 chkdwn ()
 {
 	if sha512sum -c setupTermuxArch.sha512 1>/dev/null ; then
-		printf "\033[36;1m 🕐 < 🕛 \033[1;34mTermuxArch $versionid download: \033[1;32mOK\n\033[0;32m"
+		printf "\033[36;1m 🕐 < 🕛 \033[1;34mTermuxArch download: \033[1;32mOK\n\033[0;32m"
 		bsdtar -xf setupTermuxArch.tar.gz
 		rmds 
 	else
@@ -136,7 +136,7 @@ intro ()
 	printf '\033]2;  Thank you for using `bash setupTermuxArch.sh` 📲 \007'
 	rmarchq
 	spaceinfoq
-	printf "\n\033[36;1m 🕛 < 🕛 \033[1;34msetupTermuxArch will attempt to install Linux in Termux.  Arch Linux will be available upon successful completion.  Ensure background data is not restricted.  Run \033[0;32mbash setupTermuxArch.sh --help \033[34;1mfor additional information.  Check the wireless connection if you do not see one o'clock 🕐 below.  "
+	printf "\n\033[36;1m 🕛 < 🕛 \033[1;34msetupTermuxArch $versionid will attempt to install Linux in Termux.  Arch Linux will be available upon successful completion.  Ensure background data is not restricted.  Run \033[0;32mbash setupTermuxArch.sh --help \033[34;1mfor additional information.  Check the wireless connection if you do not see one o'clock 🕐 below.  "
 	dependsblock 
 }
 
@@ -397,7 +397,7 @@ dm=curl
 dmverbose=""
 #dmverbose="-v"
 ntime=`date +%N`
-versionid="v0.8.2 id548009839"
+versionid="v0.8.2 id368655042"
 
 if [[ $1 = [Cc][Dd]* ]] || [[ $1 = -[Cc][Dd]* ]] || [[ $1 = --[Cc][Dd]* ]] || [[ $1 = [Cc][Ss]* ]] || [[ $1 = -[Cc][Ss]* ]] || [[ $1 = --[Cc][Ss]* ]];then
 	dm=curl
