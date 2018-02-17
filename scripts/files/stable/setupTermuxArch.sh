@@ -27,7 +27,7 @@ chk ()
 		else 
 			rmdsc 
 		fi
-		printf "\n\033[36;1m 🕑 < 🕛 \033[1;34mTermuxArch $versionid integrity: \033[32;1mOK\n\033[1;30m"
+		printf "\n\033[36;1m 🕑 < 🕛 \033[1;34mTermuxArch $versionid integrity: \033[1;32mOK\n\033[1;30m"
 	else
 		rmdsc 
 		printsha512syschker
@@ -159,7 +159,7 @@ ldconf ()
 {
 	if [ -f "setupTermuxArchConfigs.sh" ];then
 		. setupTermuxArchConfigs.sh
-		printf "\n 🕜 \033[36;1m< 🕛 \033[0;34mTermuxArch configuration \033[0;32m$(pwd)/\033[1;32msetupTermuxArchConfigs.sh \033[1;34mloaded: \033[32;1mOK  \n\033[0m"
+		printf "\n 🕜 \033[36;1m< 🕛 \033[0;34mTermuxArch configuration \033[0;32m$(pwd)/\033[1;32msetupTermuxArchConfigs.sh \033[0;34mloaded: \033[1;32mOK  \n\033[0m"
 	else
 		. knownconfigurations.sh
 	fi
@@ -199,7 +199,7 @@ obloomdependsblock ()
 	. necessaryfunctions.sh
 	. printoutstatements.sh
 	. systemmaintenance.sh
-	printf "\n\033[36;1m 🕑 < 🕛 \033[1;34mTermuxArch $versionid integrity: \033[32;1mOK\n\033[1;30m"
+	printf "\n\033[36;1m 🕑 < 🕛 \033[1;34mTermuxArch $versionid integrity: \033[1;32mOK\n\033[1;30m"
 	mainblock
 }
 
@@ -209,12 +209,12 @@ omanual ()
 	if [ -f "setupTermuxArchConfigs.sh" ];then
 		$ed setupTermuxArchConfigs.sh
 		. setupTermuxArchConfigs.sh
-		printf "\n 🕜 \033[36;1m< 🕛 \033[0;34mTermuxArch configuration \033[0;32m$(pwd)/\033[1;32msetupTermuxArchConfigs.sh \033[1;34mloaded: \033[32;1mOK  \n\033[36;1m"
+		printf "\n 🕜 \033[36;1m< 🕛 \033[0;34mTermuxArch configuration \033[0;32m$(pwd)/\033[1;32msetupTermuxArchConfigs.sh \033[1;34mloaded: \033[1;32mOK  \n\033[36;1m"
 	else
 		cp knownconfigurations.sh setupTermuxArchConfigs.sh
 		$ed setupTermuxArchConfigs.sh
 		. setupTermuxArchConfigs.sh
-		printf "\n 🕜 \033[36;1m< 🕛 \033[0;34mTermuxArch configuration \033[0;32m$(pwd)/\033[1;32msetupTermuxArchConfigs.sh \033[1;34mloaded: \033[32;1mOK  \n\033[36;1m"
+		printf "\n 🕜 \033[36;1m< 🕛 \033[0;34mTermuxArch configuration \033[0;32m$(pwd)/\033[1;32msetupTermuxArchConfigs.sh \033[1;34mloaded: \033[1;32mOK  \n\033[36;1m"
 	fi
 }
 
@@ -392,7 +392,7 @@ dm=curl
 dmverbose=""
 #dmverbose="-v"
 ntime=`date +%N`
-versionid="v0.8.2 id981013195"
+versionid="v0.8.2 id667936276"
 
 if [[ $1 = [Cc][Dd]* ]] || [[ $1 = -[Cc][Dd]* ]] || [[ $1 = --[Cc][Dd]* ]] || [[ $1 = [Cc][Ss]* ]] || [[ $1 = -[Cc][Ss]* ]] || [[ $1 = --[Cc][Ss]* ]];then
 	dm=curl
