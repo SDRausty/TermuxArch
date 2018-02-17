@@ -70,7 +70,7 @@ depends ()
 	fi
 	if [[ $dm = wget ]];then
 		if [ ! -e $PREFIX/bin/wget ] ; then
-			printf "\033[1;34mInstalling wget.\n\n\[1;32m"
+			printf "\n\n\033[1;34mInstalling wget.\n\n\[1;32m"
 			pkg install wget -y 
 		fi
 	fi
@@ -406,7 +406,7 @@ dm=curl
 dmverbose=""
 #dmverbose="-v"
 ntime=`date +%N`
-versionid="gen.v0.8.2 id487119710"
+versionid="gen.v0.8.2 id064331807"
 
 if [[ $1 = [Cc][Dd]* ]] || [[ $1 = -[Cc][Dd]* ]] || [[ $1 = --[Cc][Dd]* ]] || [[ $1 = [Cc][Ss]* ]] || [[ $1 = -[Cc][Ss]* ]] || [[ $1 = --[Cc][Ss]* ]];then
 	dm=curl
