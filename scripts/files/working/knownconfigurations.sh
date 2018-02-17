@@ -50,7 +50,8 @@ armv7lChrome ()
 
 i686 ()
 {
-	# i686 is frozen at release 2017.03.01-i686. See https://www.archlinux.org/news/phasing-out-i686-support/ for more information.  Inquire at https://archlinux32.org/ for updates.   
+	# Information at https://www.archlinux.org/news/phasing-out-i686-support/ and https://archlinux32.org/ why i686 is currently frozen at release 2017.03.01-i686
+	# $file is read from md5sums.txt
 	mirror=archive.archlinux.org
 	path=/iso/2017.03.01/
 	makesystem 
@@ -58,6 +59,7 @@ i686 ()
 
 x86_64 ()
 {
+	# $file is read from md5sums.txt
 	mirror=mirror.rackspace.com
 	path=/archlinux/iso/latest/
 	makesystem 
