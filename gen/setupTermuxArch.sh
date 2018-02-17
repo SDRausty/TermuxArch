@@ -66,7 +66,7 @@ depends ()
 		fi
 	elif [ ! -e $PREFIX/bin/curl ] || [ ! -e $PREFIX/bin/proot ] ; then
 		printf "\033[1;34mChecking prerequisites and upgrading Termux.\n\n\033[0;32m"
-		pkg install bsdtar curl -y
+		pkg install curl proot -y
 	fi
 	if [[ $dm = wget ]];then
 		if [ ! -e $PREFIX/bin/wget ] ; then
@@ -406,7 +406,7 @@ dm=curl
 dmverbose=""
 #dmverbose="-v"
 ntime=`date +%N`
-versionid="gen.v0.8.2 id226956310"
+versionid="gen.v0.8.2 id054559530"
 
 if [[ $1 = [Cc][Dd]* ]] || [[ $1 = -[Cc][Dd]* ]] || [[ $1 = --[Cc][Dd]* ]] || [[ $1 = [Cc][Ss]* ]] || [[ $1 = -[Cc][Ss]* ]] || [[ $1 = --[Cc][Ss]* ]];then
 	dm=curl
