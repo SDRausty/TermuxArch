@@ -131,7 +131,7 @@ preproot ()
 		if [ $(getprop ro.product.cpu.abi) = x86 ] || [ $(getprop ro.product.cpu.abi) = x86_64 ];then
 			proot --link2symlink -0 bsdtar -xpf $file --strip-components 1 
 		else
-			proot --link2symlink -0 bsdtar -xpf $file 
+			proot --link2symlink -0 $PREFIX/bin/applets/tar xf $file 
 		fi
 	else
 		printf "\n\n\033[1;31mDownload Exception!  Exiting...\n"

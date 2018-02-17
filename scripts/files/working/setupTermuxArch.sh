@@ -38,7 +38,7 @@ chkdwn ()
 {
 	if sha512sum -c setupTermuxArch.sha512 1>/dev/null ; then
 		printf "\033[36;1m 🕐 < 🕛 \033[1;34mTermuxArch download: \033[1;32mOK\n\033[0;32m"
-		bsdtar -xf setupTermuxArch.tar.gz
+		$PREFIX/bin/applets/tar	xf setupTermuxArch.tar.gz
 		rmds 
 	else
 		rmds 
@@ -59,19 +59,27 @@ chkself ()
 
 depends ()
 {
-	if [ ! -e $PREFIX/bin/bsdtar ] || [ ! -e $PREFIX/bin/curl ] || [ ! -e $PREFIX/bin/proot ] ; then
-		printf "\033[1;34mChecking prerequisites and upgrading Termux.\n\n\033[0m"
-		pkg install bsdtar curl proot 
-		printf "\n"
+	if [ $(getprop ro.product.cpu.abi) = x86 ] || [ $(getprop ro.product.cpu.abi) = x86_64 ];then
+		if [ ! -e $PREFIX/bin/bsdtar ] || [ ! -e $PREFIX/bin/curl ] || [ ! -e $PREFIX/bin/proot ] ; then
+			printf "\033[1;34mChecking prerequisites and upgrading Termux.\n\n\033[0;32m"
+			pkg install bsdtar curl proot -y 
+		fi
+	elif [ ! -e $PREFIX/bin/curl ] || [ ! -e $PREFIX/bin/proot ] ; then
+		printf "\033[1;34mChecking prerequisites and upgrading Termux.\n\n\033[0;32m"
+		pkg install bsdtar curl -y
 	fi
 	if [[ $dm = wget ]];then
 		if [ ! -e $PREFIX/bin/wget ] ; then
-			printf "\033[1;34mChecking prerequisites and upgrading Termux.\n\n\033[0m"
-			pkg install wget 
-			printf "\n"
+			printf "\033[1;34mChecking prerequisites and upgrading Termux.\n\n\[0;32m"
+			pkg install wget -y 
 		fi
 	fi
-	if [ ! -e $PREFIX/bin/bsdtar ] || [ ! -e $PREFIX/bin/curl ] || [ ! -e $PREFIX/bin/proot ] ; then
+	if [ $(getprop ro.product.cpu.abi) = x86 ] || [ $(getprop ro.product.cpu.abi) = x86_64 ];then
+		if [ ! -e $PREFIX/bin/bsdtar ] || [ ! -e $PREFIX/bin/curl ] || [ ! -e $PREFIX/bin/proot ] ; then
+			printf "\n\033[1;31mPrerequisites exception.  Run the script again.\n\n\033[0m"
+			exit
+		fi
+	elif [ ! -e $PREFIX/bin/curl ] || [ ! -e $PREFIX/bin/proot ] ; then
 		printf "\n\033[1;31mPrerequisites exception.  Run the script again.\n\n\033[0m"
 		exit
 	fi
@@ -398,7 +406,7 @@ dm=curl
 dmverbose=""
 #dmverbose="-v"
 ntime=`date +%N`
-versionid="gen.v0.8.2 id037382979"
+versionid="gen.v0.8.2 id226956310"
 
 if [[ $1 = [Cc][Dd]* ]] || [[ $1 = -[Cc][Dd]* ]] || [[ $1 = --[Cc][Dd]* ]] || [[ $1 = [Cc][Ss]* ]] || [[ $1 = -[Cc][Ss]* ]] || [[ $1 = --[Cc][Ss]* ]];then
 	dm=curl
