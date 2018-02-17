@@ -29,7 +29,7 @@ printdownloadingx86 ()
 
 printdownloadingx86two ()
 {
-	printf "\n\n\033[0;34mDownloading \033[1;32m$file \033[0;34mand the corresponding checksum from \033[1;32mhttp://$mirror\033[0;32m.  \033[37;1mThis may take a long time pending connection.\n\n\033[0;32m"
+	printf "\n\n\033[0;34mDownloading \033[1;32m$file \033[0;34mfrom \033[1;32mhttp://$mirror\033[0;32m.  \033[37;1mThis may take a long time pending connection.\n\n\033[0;32m"
 }
 
 printdownloadingftch ()
