@@ -89,7 +89,7 @@ depends ()
 			exit
 		fi
 	fi
-	printf "\n\n\033[1;34m 🕛 > 🕧 \033[1;34mPrerequisite packages: \033[1;32mOK\n\n\033[0;32m"
+	printf "\n\n\033[1;34m 🕛 > 🕧 \033[1;34mPrerequisites: \033[1;32mOK\n\n\033[0;32m"
 }
 
 dependsblock ()
