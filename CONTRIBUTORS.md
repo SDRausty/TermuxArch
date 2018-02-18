@@ -16,6 +16,8 @@
 
 ## Contributions have helped in the successful development of this script and project immensely.  The following contributors have helped to refine [setupTermuxArch.sh](https://raw.githubusercontent.com/sdrausty/TermuxArch/master/setupTermuxArch.tar.gz) 📲 __Thank you for contributing and collaborating!__  
 
+[AccountsDept](https://github.com/accountsdept) submitted an issue, "Every Mirror Returning 404".  Result: setupTermuxArch.sh improved!
+
 [@BearChavez](https://github.com/BearChavez) submitted an issue.  Result: setupTermuxArch.sh improved!
 
 [@brysgo](https://github.com/brysgo) helped debug Chromebook.  Result: setupTermuxArch.sh improved!
