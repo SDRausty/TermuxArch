@@ -9,7 +9,7 @@
 
 printdetectedsystem ()
 {
-	printf "\n\033[36;1m 🕛 > 🕝 \033[1;34mDetected $(uname -m) " 
+	printf "\n\033[1;34m 🕛 > 🕝 \033[1;34mDetected $(uname -m) " 
 	if [[ $(getprop ro.product.device) == *_cheets ]];then
 		printf "Chromebook: \033[32;1mOK\n\033[0m"
 	else
@@ -19,7 +19,7 @@ printdetectedsystem ()
 
 printdownloading ()
 {
-	printf "\n\033[36;1m 🕛 > 🕒 \033[1;34mActivated termux-wake-lock.  "'\033]2; 🕛 > 🕒 Downloading checksum and the Arch Linux system image file.  \007'
+	printf "\n\033[1;34m 🕛 > 🕒 \033[1;34mActivated termux-wake-lock.  "'\033]2; 🕛 > 🕒 Downloading checksum and the Arch Linux system image file.  \007'
 }
 
 printdownloadingx86 ()
@@ -44,12 +44,12 @@ printdownloadingftchit ()
 
 printconfigq ()
 {
-	printf "\n\033[36;1m 🕛 > 🕙 \033[1;34mArch Linux in Termux is installed.  Answer the following questions to complete the Arch Linux configuration.\n\033[0m"'\033]2; 🕛 > 🕙 Arch Linux in Termux is installed!  Complete the configuration.  📲 \007'
+	printf "\n\033[1;34m 🕛 > 🕙 \033[1;34mArch Linux in Termux is installed.  Answer the following questions to complete the Arch Linux configuration.\n\033[0m"'\033]2; 🕛 > 🕙 Arch Linux in Termux is installed!  Complete the configuration.  📲 \007'
 }
 
 printmd5check ()
 {
-	printf "\n\033[36;1m 🕛 > 🕠 \033[1;34mChecking download integrity with md5sum.  \033[37;1mThis may take a little while.\n\n\033[1;32m"
+	printf "\n\033[1;34m 🕛 > 🕠 \033[1;34mChecking download integrity with md5sum.  \033[37;1mThis may take a little while.\n\n\033[1;32m"
 }
 
 printmd5error ()
@@ -60,7 +60,7 @@ printmd5error ()
 
 printmd5success ()
 {
-	printf '\033]2;  🕛 > 🕡 Uncompressing the image file.  This will take a long time; Be patient.\007'"\n\033[1;36m 🕛 > 🕕 \033[1;34mSystem image file download integrity: \033[32;1mOK\n\n\033[1;36m 🕛 > 🕡 \033[1;34mUncompressing \033[32;1m$file\033[1;34m.  \033[1;37mThis will take a long time; Be patient.\n\033[0m"
+	printf '\033]2;  🕛 > 🕡 Uncompressing the image file.  This will take a long time; Be patient.\007'"\n\033[1;34m 🕛 > 🕕 \033[1;34mSystem image file download integrity: \033[32;1mOK\n\n\033[1;34m 🕛 > 🕡 \033[1;34mUncompressing \033[32;1m$file\033[1;34m.  \033[1;37mThis will take a long time; Be patient.\n\033[0m"
 }
 
 printmismatch ()
@@ -71,7 +71,7 @@ printmismatch ()
 
 printfooter ()
 {
-	printf "\n\033[1;36m 🕛 > 🕥 \033[1;34mUse \033[1;32m./arch/$bin\033[1;34m from the \033[1;32m\$HOME\033[1;34m directory to launch Arch Linux in Termux for future sessions.   Alternatively copy \033[1;32m$bin\033[1;34m to the \033[32m\$PATH\033[1;34m which is, \033[37m\"$PATH\"\033[0m.\n\n"'\033]2;  Thank you for using `setupTermuxArch.sh` to install Arch Linux in Termux 📲  \007'
+	printf "\n\033[1;34m 🕛 > 🕥 \033[1;34mUse \033[1;32m./arch/$bin\033[1;34m from the \033[1;32m\$HOME\033[1;34m directory to launch Arch Linux in Termux for future sessions.   Alternatively copy \033[1;32m$bin\033[1;34m to the \033[32m\$PATH\033[1;34m which is, \033[37m\"$PATH\"\033[0m.\n\n"'\033]2;  Thank you for using `setupTermuxArch.sh` to install Arch Linux in Termux 📲  \007'
 	copybin2path
 	printf "\033[1;32m 🕛 = 🕛 \033[1;34mTermux-wake-lock released.  Arch Linux in Termux is installed.  \033[1;32m\`tzselect\`\033[1;34m assits in setting the local time zone.  https://github.com/sdrausty/TermuxArch/issues/25 \"Starting Arch Linux from Termux?\" has more information.  \n\n\033[0m"
 }
