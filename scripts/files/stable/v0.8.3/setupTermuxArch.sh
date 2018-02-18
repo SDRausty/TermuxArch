@@ -424,7 +424,7 @@ dm=curl
 dmverbose=""
 #dmverbose="-v"
 stime=`date +%s|grep -o '....$'`
-versionid="v0.8.4"
+versionid="v0.8.3"
 
 if [[ $1 = [Cc][Dd]* ]] || [[ $1 = -[Cc][Dd]* ]] || [[ $1 = --[Cc][Dd]* ]] || [[ $1 = [Cc][Ss]* ]] || [[ $1 = -[Cc][Ss]* ]] || [[ $1 = --[Cc][Ss]* ]];then
 	dm=curl
