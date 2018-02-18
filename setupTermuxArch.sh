@@ -121,7 +121,7 @@ edq ()
 		if [[ $opt = bloom ]] || [[ $opt = manual ]];then
 	read -p "Do you want to use \`nano\` or \`vi\` to edit [n|v]? "  nv
 		else 
-	read -p "Enable only one mirror that is the closest to you geographically. Choose a nearby mirror in the mirrors file. Do you want to use \`nano\` or \`vi\` to edit your Arch Linux configuration files [n|v]? "  nv
+	read -p "Change the worldwide mirror to a mirror that is geographically nearby.  Only choose one mirror in the mirrors file you are about to edit.  Do you want to use \`nano\` or \`vi\` to edit the Arch Linux configuration files [n|v]? "  nv
 		fi
 	if [[ $nv = [Nn]* ]];then
 		ed=nano
