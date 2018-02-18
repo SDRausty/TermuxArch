@@ -19,9 +19,6 @@ chk ()
 		. necessaryfunctions.sh
 		. printoutstatements.sh
 		. systemmaintenance.sh
-		if [ -f "setupTermuxArch.tmp" ];then
-			rm setupTermuxArch.tmp
-		fi
 		if [[ $opt = bloom ]];then
 			rm termuxarchchecksum.sha512 
 		else 
@@ -41,6 +38,7 @@ chkdwn ()
 		$PREFIX/bin/applets/tar	xf setupTermuxArch.tar.gz
 		rmds 
 	else
+		rm setupTermuxArch.tmp
 		rmds 
 		printsha512syschker
 	fi
@@ -54,6 +52,7 @@ chkself ()
 			rm setupTermuxArch.tmp
 			. setupTermuxArch.sh $args
 		fi
+		rm setupTermuxArch.tmp
 	fi
 }
 
