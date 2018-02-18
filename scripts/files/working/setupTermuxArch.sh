@@ -402,14 +402,14 @@ spaceinfoq ()
 	fi
 }
 
-# User configurable variables are in `setupTermuxArchConfigs.sh`.  To create this file from `kownconfigurations.sh` in the working directory use `bash setupTermuxArch.sh --manual` to create and edit `setupTermuxArchConfigs.sh`.  See `bash setupTermuxArch.sh --help` for more information. 
+# User configurable variables are in `setupTermuxArchConfigs.sh`.  Create this file from `kownconfigurations.sh` in the working directory by using `bash setupTermuxArch.sh --manual` to create and edit `setupTermuxArchConfigs.sh`.  See `bash setupTermuxArch.sh --help` for more information. 
 
 args=$@
 bin=startarch
 #dfl=/gen
-#dm=curl
-dm=wget
-dmverbose="-q"
+dm=curl
+#dm=wget
+dmverbose=""
 #dmverbose="-v"
 stime=`date +%s|grep -o '....$'`
 versionid="v0.8.3"
