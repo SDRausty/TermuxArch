@@ -45,8 +45,7 @@ armv7lChrome ()
 
 i686 ()
 {
-	# Information at https://www.archlinux.org/news/phasing-out-i686-support/ and at https://archlinux32.org/ as to why i686 is currently frozen at release 2017.03.01-i686.
-	# $file is read from md5sums.txt
+	# Information at https://www.archlinux.org/news/phasing-out-i686-support/ and https://archlinux32.org/ regarding why i686 is currently frozen at release 2017.03.01-i686.  $file is read from md5sums.txt
 	mirror=archive.archlinux.org
 	path=/iso/2017.03.01/
 	makesystem 
