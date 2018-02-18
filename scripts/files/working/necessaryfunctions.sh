@@ -14,12 +14,12 @@ callsystem ()
 
 copybin2path ()
 {
-	printf "\033[1;36m 🕛 > 🕚 \033[0m"
+	printf "\033[1;34m 🕛 > 🕚 \033[0m"
 	while true; do
 	read -p "Copy $bin to your \$PATH? [y|n] " answer
 	if [[ $answer = [Yy]* ]];then
 		cp $HOME/arch/$bin $PREFIX/bin
-		printf "\n\033[1;36m 🕛 > 🕦 \033[0mCopied \033[32;1m$bin\033[0m to \033[1;34m$PREFIX/bin\033[0m.\n\n"
+		printf "\n\033[1;34m 🕛 > 🕦 \033[0mCopied \033[32;1m$bin\033[0m to \033[1;34m$PREFIX/bin\033[0m.\n\n"
 		break
 	elif [[ $answer = [Nn]* ]];then
 		printf "\n"
@@ -28,8 +28,8 @@ copybin2path ()
 		printf "\n"
 		break
 	else
-		printf "\n\033[1;36m 🕛 > 🕚 \033[0mYou answered \033[33;1m$answer\033[0m.\n"
-		printf "\n\033[1;36m 🕛 > 🕚 \033[0mAnswer Yes or No (y|n).\n\n"
+		printf "\n\033[1;34m 🕛 > 🕚 \033[0mYou answered \033[33;1m$answer\033[0m.\n"
+		printf "\n\033[1;34m 🕛 > 🕚 \033[0mAnswer Yes or No (y|n).\n\n"
 	fi
 	done
 }
