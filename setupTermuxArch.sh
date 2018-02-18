@@ -97,7 +97,7 @@ dependsblock ()
 	depends 
 	dwnl
 	if [ -f "setupTermuxArch.sh" ];then
-	cp setupTermuxArch.sh setupTermuxArch.tmp
+		cp setupTermuxArch.sh setupTermuxArch.tmp
 	fi
 	chkdwn
 	chk
@@ -259,7 +259,7 @@ rmarch ()
 		printf "Uninstalling Arch Linux, nothing to do for $PREFIX/bin/$bin.\n"
        	fi
 	if [ -d $HOME/arch ] ;then
-		rmarchc 
+		rmarchrm 
 	else 
 		printf "Uninstalling Arch Linux, nothing to do for $HOME/arch.\n"
 	fi
@@ -271,7 +271,7 @@ rmarch ()
 	done
 }
 
-rmarchc ()
+rmarchrm ()
 {
 	cd $HOME/arch
 	rm -rf * 2>/dev/null ||:

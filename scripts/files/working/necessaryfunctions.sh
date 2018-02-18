@@ -118,7 +118,7 @@ makesystem ()
 		printmd5success
 		preproot 
 	else
-		rmarchc 
+		rmarchrm 
 		printmd5error
 	fi
 	rm *.tar.gz *.tar.gz.md5
