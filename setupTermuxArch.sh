@@ -351,7 +351,16 @@ spaceinfo ()
 	units=`df 2>/dev/null | awk 'FNR == 1 {print $2}'`
 	usrspace=`df /data 2>/dev/null | awk 'FNR == 2 {print $4}'`
 	if [[ $units = Size ]];then
-		if [[ $usrspace = *G ]];then
+		if [ $(getprop ro.product.cpu.abi) = x86 ] || [ $(getprop ro.product.cpu.abi) = x86_64 ];then
+			if [[ $usrspace = *G ]];then 
+				:
+			elif [[ $usrspace = *M ]];then
+				usspace="${usrspace: : -1}"
+				if [[ "$usspace" < "550" ]];then
+					spaceMessage="\n\033[0;33mTermuxArch: \033[1;33mFREE SPACE WARNING!  \033[1;30mStart thinking about cleaning out some stuff.  \033[33m$usrspace of free user space is available on this device.  \033[1;30mThe recommended minimum to install Arch Linux in Termux PRoot for x86 and x86_64 is 550M of free user space.\n\033[0m"
+				fi
+			fi
+		elif [[ $usrspace = *G ]];then
 			usspace="${usrspace: : -1}"
 			if [ $(getprop ro.product.cpu.abi) = arm64-v8a ];then
 				if [[ "$usspace" < "1.5" ]];then
@@ -372,8 +381,6 @@ spaceinfo ()
 			spaceMessage="\n\033[0;33mTermuxArch: \033[1;33mFREE SPACE WARNING!  \033[1;30mStart thinking about cleaning out some stuff.  \033[33m$usrspace of free user space is available on this device.  \033[1;30mThe recommended minimum to install Arch Linux in Termux PRoot is more than 1.5G for aarch64, more than 1.25G for armv7 and about 550M of free user space for x86 architectures.\n\033[0m"
 		fi
 		printf "$spaceMessage"
-	else
-		:
 	fi
 }
 
@@ -406,7 +413,7 @@ dm=curl
 dmverbose=""
 #dmverbose="-v"
 ntime=`date +%N`
-versionid="v0.8.3 id183109271"
+versionid="v0.8.3 id857207009"
 
 if [[ $1 = [Cc][Dd]* ]] || [[ $1 = -[Cc][Dd]* ]] || [[ $1 = --[Cc][Dd]* ]] || [[ $1 = [Cc][Ss]* ]] || [[ $1 = -[Cc][Ss]* ]] || [[ $1 = --[Cc][Ss]* ]];then
 	dm=curl
