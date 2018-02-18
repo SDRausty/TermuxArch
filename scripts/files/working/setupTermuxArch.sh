@@ -245,29 +245,33 @@ printusage ()
 
 rmarch ()
 {
-	while true; do
-	printf "\n\033[1;30m"
-	read -p "Uninstall Arch Linux? [y|n] " uanswer
-	if [[ $uanswer = [Ee]* ]] || [[ $uanswer = [Nn]* ]] || [[ $uanswer = [Qq]* ]];then
-		break
-	elif [[ $uanswer = [Yy]* ]];then
-	printf "\033[30mUninstalling Arch Linux...\n"
-	if [ -e $PREFIX/bin/$bin ];then
-	       	rm $PREFIX/bin/$bin 
-	else 
-		printf "Uninstalling Arch Linux, nothing to do for $PREFIX/bin/$bin.\n"
-       	fi
-	if [ -d $HOME/arch ];then
-		rmarchrm 
-	else 
-		printf "Uninstalling Arch Linux, nothing to do for $HOME/arch.\n"
-	fi
-	printf "Uninstalling Arch Linux done.\n"
-	break
+	if [[ $ruanswer = [Ee]* ]] || [[ $ruanswer = [Nn]* ]] || [[ $ruanswer = [Qq]* ]];then
+		:
 	else
-		printf "\nYou answered \033[33;1m$uanswer\033[30m.\n\nAnswer \033[32mYes\033[30m or \033[1;31mNo\033[30m. [\033[32my\033[30m|\033[1;31mn\033[30m]\n"
+		while true; do
+		printf "\n\033[1;30m"
+		read -p "Uninstall Arch Linux? [y|n] " ruanswer
+		if [[ $ruanswer = [Ee]* ]] || [[ $ruanswer = [Nn]* ]] || [[ $ruanswer = [Qq]* ]];then
+			break
+		elif [[ $ruanswer = [Yy]* ]];then
+		printf "\033[30mUninstalling Arch Linux...\n"
+		if [ -e $PREFIX/bin/$bin ];then
+		       	rm $PREFIX/bin/$bin 
+		else 
+			printf "Uninstalling Arch Linux, nothing to do for $PREFIX/bin/$bin.\n"
+	       	fi
+		if [ -d $HOME/arch ];then
+			rmarchrm 
+		else 
+			printf "Uninstalling Arch Linux, nothing to do for $HOME/arch.\n"
+		fi
+		printf "Uninstalling Arch Linux done.\n"
+		break
+		else
+			printf "\nYou answered \033[33;1m$ruanswer\033[30m.\n\nAnswer \033[32mYes\033[30m or \033[1;31mNo\033[30m. [\033[32my\033[30m|\033[1;31mn\033[30m]\n"
+		fi
+		done
 	fi
-	done
 }
 
 rmarchrm ()
@@ -289,24 +293,28 @@ rmarchq ()
 
 rmbloom ()
 {
-	while true; do
-	printf "\n\033[1;30m"
-	read -p "Uninstall $HOME/TermuxArchBloom? [y|n] " uanswer
-	if [[ $uanswer = [Ee]* ]] || [[ $uanswer = [Nn]* ]] || [[ $uanswer = [Qq]* ]];then
-		break
-	elif [[ $uanswer = [Yy]* ]];then
-	printf "\033[30mUninstalling $HOME/TermuxArchBloom...\n"
-	if [ -d $HOME/TermuxArchBloom ];then
-		rm -rf $HOME/TermuxArchBloom 
-	else 
-		printf "Uninstalling $HOME/TermuxArchBloom, nothing to do for $HOME/arch.\n"
-	fi
-	printf "Uninstalling $HOME/TermuxArchBloom done.\n"
-	break
+	if [[ $rbuanswer = [Ee]* ]] || [[ $rbuanswer = [Nn]* ]] || [[ $rbuanswer = [Qq]* ]];then
+		:
 	else
-		printf "\nYou answered \033[33;1m$uanswer\033[30m.\n\nAnswer \033[32mYes\033[30m or \033[1;31mNo\033[30m. [\033[32my\033[30m|\033[1;31mn\033[30m]\n"
+		while true; do
+		printf "\n\033[1;30m"
+		read -p "Uninstall $HOME/TermuxArchBloom? [y|n] " rbuanswer
+		if [[ $rbuanswer = [Ee]* ]] || [[ $rbuanswer = [Nn]* ]] || [[ $rbuanswer = [Qq]* ]];then
+			break
+		elif [[ $rbuanswer = [Yy]* ]];then
+		printf "\033[30mUninstalling $HOME/TermuxArchBloom...\n"
+		if [ -d $HOME/TermuxArchBloom ];then
+			rm -rf $HOME/TermuxArchBloom 
+		else 
+			printf "Uninstalling $HOME/TermuxArchBloom, nothing to do for $HOME/arch.\n"
+		fi
+		printf "Uninstalling $HOME/TermuxArchBloom done.\n"
+		break
+		else
+			printf "\nYou answered \033[33;1m$rbuanswer\033[30m.\n\nAnswer \033[32mYes\033[30m or \033[1;31mNo\033[30m. [\033[32my\033[30m|\033[1;31mn\033[30m]\n"
+		fi
+		done
 	fi
-	done
 }
 
 rmbloomq ()
@@ -385,20 +393,24 @@ spaceinfo ()
 
 spaceinfoq ()
 {
-	spaceinfo
-	if [ -n "$spaceMessage" ];then
-	while true; do
-	printf "\n\033[1;30m"
-	read -p "Continue with setupTermuxArch.sh? [y|n] " uanswer
-	if [[ $uanswer = [Ee]* ]] || [[ $uanswer = [Nn]* ]] || [[ $uanswer = [Qq]* ]];then
-		printtail
-	elif [[ $uanswer = [Yy]* ]];then
-	printf "Continuing with setupTermuxArch.sh.\n"
-		break
+	if [[ $suanswer = [Ee]* ]] || [[ $suanswer = [Nn]* ]] || [[ $suanswer = [Qq]* ]];then
+		:
 	else
-		printf "\nYou answered \033[33;1m$uanswer\033[30m.\n\nAnswer \033[32mYes\033[30m or \033[1;31mNo\033[30m. [\033[32my\033[30m|\033[1;31mn\033[30m]\n"
-	fi
-	done
+		spaceinfo
+		if [ -n "$spaceMessage" ];then
+		while true; do
+		printf "\n\033[1;30m"
+		read -p "Continue with setupTermuxArch.sh? [y|n] " suanswer
+		if [[ $suanswer = [Ee]* ]] || [[ $suanswer = [Nn]* ]] || [[ $suanswer = [Qq]* ]];then
+			printtail
+		elif [[ $suanswer = [Yy]* ]];then
+		printf "Continuing with setupTermuxArch.sh.\n"
+			break
+		else
+			printf "\nYou answered \033[33;1m$suanswer\033[30m.\n\nAnswer \033[32mYes\033[30m or \033[1;31mNo\033[30m. [\033[32my\033[30m|\033[1;31mn\033[30m]\n"
+		fi
+		done
+		fi
 	fi
 }
 
