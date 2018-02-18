@@ -7,7 +7,7 @@
 
 chk ()
 {
-	if sha512sum -c termuxarchchecksum.sha512 1>/dev/null ; then
+	if sha512sum -c termuxarchchecksum.sha512 1>/dev/null ;then
 		chkself 
 		if [[ $opt = manual ]];then
 			omanual
@@ -36,7 +36,7 @@ chk ()
 
 chkdwn ()
 {
-	if sha512sum -c setupTermuxArch.sha512 1>/dev/null ; then
+	if sha512sum -c setupTermuxArch.sha512 1>/dev/null ;then
 		printf "\033[36;1m 🕐 < 🕛 \033[1;34mTermuxArch download: \033[1;32mOK\n\033[0;32m"
 		$PREFIX/bin/applets/tar	xf setupTermuxArch.tar.gz
 		rmds 
@@ -49,7 +49,7 @@ chkdwn ()
 chkself ()
 {
 	if [ -f "setupTermuxArch.tmp" ];then
-		if [[ "$(<setupTermuxArch.sh)" != "$(<setupTermuxArch.tmp)" ]]; then
+		if [[ "$(<setupTermuxArch.sh)" != "$(<setupTermuxArch.tmp)" ]];then
 			printf "\n\033[0;32msetupTermuxArch.sh: \033[1;32mUPDATED\n\033[0;32mTermuxArch: \033[1;32mRESTARTED\n\033[0m"
 			rm setupTermuxArch.tmp
 			. setupTermuxArch.sh $args
@@ -60,31 +60,31 @@ chkself ()
 depends ()
 {
 	if [ $(getprop ro.product.cpu.abi) = x86 ] || [ $(getprop ro.product.cpu.abi) = x86_64 ];then
-		if [ ! -e $PREFIX/bin/bsdtar ] || [ ! -e $PREFIX/bin/curl ] || [ ! -e $PREFIX/bin/proot ] ; then
+		if [ ! -e $PREFIX/bin/bsdtar ] || [ ! -e $PREFIX/bin/curl ] || [ ! -e $PREFIX/bin/proot ];then
 			printf "\033[1;34mChecking prerequisites and upgrading Termux.\n\n\033[1;32m"
 			pkg install bsdtar curl proot -y 
 		fi
-	elif [ ! -e $PREFIX/bin/curl ] || [ ! -e $PREFIX/bin/proot ] ; then
+	elif [ ! -e $PREFIX/bin/curl ] || [ ! -e $PREFIX/bin/proot ];then
 		printf "\033[1;34mChecking prerequisites and upgrading Termux.\n\n\033[1;32m"
 		pkg install curl proot -y
 	fi
 	if [[ $dm = wget ]];then
-		if [ ! -e $PREFIX/bin/wget ] ; then
+		if [ ! -e $PREFIX/bin/wget ];then
 			printf "\n\n\033[1;34mInstalling wget.\n\n\[1;32m"
 			pkg install wget -y 
 		fi
 	fi
 	if [ $(getprop ro.product.cpu.abi) = x86 ] || [ $(getprop ro.product.cpu.abi) = x86_64 ];then
-		if [ ! -e $PREFIX/bin/bsdtar ] || [ ! -e $PREFIX/bin/curl ] || [ ! -e $PREFIX/bin/proot ] ; then
+		if [ ! -e $PREFIX/bin/bsdtar ] || [ ! -e $PREFIX/bin/curl ] || [ ! -e $PREFIX/bin/proot ];then
 			printf "\n\033[1;31mPrerequisites exception.  Run the script again.\n\n\033[0m"
 			exit
 		fi
-	elif [ ! -e $PREFIX/bin/curl ] || [ ! -e $PREFIX/bin/proot ] ; then
+	elif [ ! -e $PREFIX/bin/curl ] || [ ! -e $PREFIX/bin/proot ];then
 		printf "\n\033[1;31mPrerequisites exception.  Run the script again.\n\n\033[0m"
 		exit
 	fi
 	if [[ $dm = wget ]];then
-		if [ ! -e $PREFIX/bin/wget ] ; then
+		if [ ! -e $PREFIX/bin/wget ];then
 			printf "\n\033[1;31mPrerequisites exception.  Run the script again.\n\n\033[0m"
 			exit
 		fi
@@ -253,12 +253,12 @@ rmarch ()
 		break
 	elif [[ $uanswer = [Yy]* ]];then
 	printf "\033[30mUninstalling Arch Linux...\n"
-	if [ -e $PREFIX/bin/$bin ] ;then
+	if [ -e $PREFIX/bin/$bin ];then
 	       	rm $PREFIX/bin/$bin 
 	else 
 		printf "Uninstalling Arch Linux, nothing to do for $PREFIX/bin/$bin.\n"
        	fi
-	if [ -d $HOME/arch ] ;then
+	if [ -d $HOME/arch ];then
 		rmarchrm 
 	else 
 		printf "Uninstalling Arch Linux, nothing to do for $HOME/arch.\n"
@@ -282,7 +282,7 @@ rmarchrm ()
 
 rmarchq ()
 {
-	if [ -d $HOME/arch ] ;then
+	if [ -d $HOME/arch ];then
 		printf "\n\033[0;33mTermuxArch: \033[1;33mDIRECTORY WARNING!  $HOME/arch/ \033[0;33mdirectory detected.  \033[1;30mTermux Arch installation will continue.  \033[0;33mInstalling into a clean directory is recommended.  \033[1;30mUninstalling before continuing is suggested.\n"
 		rmarch
 	fi
@@ -297,7 +297,7 @@ rmbloom ()
 		break
 	elif [[ $uanswer = [Yy]* ]];then
 	printf "\033[30mUninstalling $HOME/TermuxArchBloom...\n"
-	if [ -d $HOME/TermuxArchBloom ] ;then
+	if [ -d $HOME/TermuxArchBloom ];then
 		rm -rf $HOME/TermuxArchBloom 
 	else 
 		printf "Uninstalling $HOME/TermuxArchBloom, nothing to do for $HOME/arch.\n"
@@ -312,7 +312,7 @@ rmbloom ()
 
 rmbloomq ()
 {
-	if [ -d $HOME/TermuxArchBloom ] ;then
+	if [ -d $HOME/TermuxArchBloom ];then
 		printf "\n\n\033[0;33mTermuxArch: \033[1;33mDIRECTORY WARNING!  $HOME/TermuxArchBloom/ \033[0;33mdirectory detected.  \033[1;30mTermux Arch will continue.\n"
 		rmbloom
 	fi
@@ -431,7 +431,7 @@ elif [[ $1 = [Ww]* ]] || [[ $1 = -[Ww]* ]] || [[ $1 = --[Ww]* ]] || [[ $1 = [Ww]
 	dm=wget
 	intro 
 	mainblock
-elif [[ $1 = [Bb]* ]] || [[ $1 = -[Bb]* ]] || [[ $1 = --[Bb]* ]] ;then
+elif [[ $1 = [Bb]* ]] || [[ $1 = -[Bb]* ]] || [[ $1 = --[Bb]* ]];then
 	dependsblock
 	obloom
 elif [[ $1 = [Dd]* ]] || [[ $1 = -[Dd]* ]] || [[ $1 = --[Dd]* ]] || [[ $1 = [Ss]* ]] || [[ $1 = -[Ss]* ]] || [[ $1 = --[Ss]* ]];then
@@ -439,13 +439,13 @@ elif [[ $1 = [Dd]* ]] || [[ $1 = -[Dd]* ]] || [[ $1 = --[Dd]* ]] || [[ $1 = [Ss]
 	sysinfo 
 elif [[ $1 = [Hh]* ]] || [[ $1 = -[Hh]* ]] || [[ $1 = --[Hh]* ]]  || [[ $1 = [?]* ]] || [[ $1 = -[?]* ]] || [[ $1 = --[?]* ]];then
 	printusage
-elif [[ $1 = [Mm]* ]] || [[ $1 = -[Mm]* ]] || [[ $1 = --[Mm]* ]] ;then
+elif [[ $1 = [Mm]* ]] || [[ $1 = -[Mm]* ]] || [[ $1 = --[Mm]* ]];then
 	opt=manual
 	intro 
 	mainblock
 elif [[ $1 = [Pp]* ]] || [[ $1 = -[Pp]* ]] || [[ $1 = --[Pp]* ]] || [[ $1 = [Uu]* ]] || [[ $1 = -[Uu]* ]] || [[ $1 = --[Uu]* ]];then
 	rmarch
-elif [[ $1 = [Rr]* ]] || [[ $1 = -[Rr]* ]] || [[ $1 = --[Rr]* ]] ;then
+elif [[ $1 = [Rr]* ]] || [[ $1 = -[Rr]* ]] || [[ $1 = --[Rr]* ]];then
 	runobloom 
 elif [[ $1 = "" ]] || [[ $1 = [Ii]* ]] || [[ $1 = -[Ii]* ]] || [[ $1 = --[Ii]* ]];then
 	intro 
