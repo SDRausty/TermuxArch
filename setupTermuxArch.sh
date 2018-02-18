@@ -245,9 +245,6 @@ printusage ()
 
 rmarch ()
 {
-	if [[ $ruanswer = [Ee]* ]] || [[ $ruanswer = [Nn]* ]] || [[ $ruanswer = [Qq]* ]];then
-		:
-	else
 		while true; do
 		printf "\n\033[1;30m"
 		read -p "Uninstall Arch Linux? [y|n] " ruanswer
@@ -271,7 +268,6 @@ rmarch ()
 			printf "\nYou answered \033[33;1m$ruanswer\033[30m.\n\nAnswer \033[32mYes\033[30m or \033[1;31mNo\033[30m. [\033[32my\033[30m|\033[1;31mn\033[30m]\n"
 		fi
 		done
-	fi
 }
 
 rmarchrm ()
@@ -285,9 +281,13 @@ rmarchrm ()
 
 rmarchq ()
 {
+	if [[ $ruanswer = [Ee]* ]] || [[ $ruanswer = [Nn]* ]] || [[ $ruanswer = [Qq]* ]];then
+		:
+	else
 	if [ -d $HOME/arch ];then
 		printf "\n\033[0;33mTermuxArch: \033[1;33mDIRECTORY WARNING!  $HOME/arch/ \033[0;33mdirectory detected.  \033[1;30mTermux Arch installation will continue.  \033[0;33mInstalling into a clean directory is recommended.  \033[1;30mUninstalling before continuing is suggested.\n"
 		rmarch
+	fi
 	fi
 }
 
@@ -393,7 +393,7 @@ spaceinfo ()
 
 spaceinfoq ()
 {
-	if [[ $suanswer = [Ee]* ]] || [[ $suanswer = [Nn]* ]] || [[ $suanswer = [Qq]* ]];then
+	if [[ $suanswer = [Yy]* ]];then
 		:
 	else
 		spaceinfo
