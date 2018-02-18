@@ -413,7 +413,7 @@ dm=curl
 dmverbose="-q"
 #dmverbose="-v"
 ntime=`date +%N`
-versionid="gen.v0.8.3 id283620518"
+versionid="v0.8.3"
 
 if [[ $1 = [Cc][Dd]* ]] || [[ $1 = -[Cc][Dd]* ]] || [[ $1 = --[Cc][Dd]* ]] || [[ $1 = [Cc][Ss]* ]] || [[ $1 = -[Cc][Ss]* ]] || [[ $1 = --[Cc][Ss]* ]];then
 	dm=curl
