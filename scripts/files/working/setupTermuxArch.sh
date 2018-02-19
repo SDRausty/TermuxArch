@@ -336,7 +336,7 @@ rmarchq ()
 		:
 	else
 		if [ -d $HOME/arch ];then
-			printf "\n\033[0;33mTermuxArch: \033[1;33mDIRECTORY WARNING!  $HOME/arch/ \033[0;33mdirectory detected.  \033[1;30mTermux Arch installation will continue.  \033[0;33mInstalling into a clean directory is recommended if using the worldwide geographic mirror.  \033[1;30mUnless continuing download from a local mirror via \033[0;32msetupTermuxArchConfigs.sh\033[1;30m, uninstalling before continuing is suggested.\n"
+			printf "\n\033[0;33mTermuxArch: \033[1;33mDIRECTORY WARNING!  $HOME/arch/ \033[0;33mdirectory detected.  \033[1;30mTermux Arch installation will continue.  \033[0;32mInstalling into a clean directory is recommended if using the worldwide geographic mirror.  \033[1;30mUnless continuing download from a local mirror via \033[0;32msetupTermuxArchConfigs.sh\033[1;30m, uninstalling before continuing is suggested.\n"
 			rmarch
 		fi
 	fi
