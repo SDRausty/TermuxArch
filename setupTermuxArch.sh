@@ -156,10 +156,8 @@ edq ()
 			ed=vi
 			break
 		else
-			printf "\nYou answered \033[36;1m$nv\033[32;1m.\n"
-			printf "\nAnswer nano or vi [n|v].  \n\n"
+			printf "\nYou answered \033[36;1m$nv\033[1;32m.\n\nAnswer nano or vi [n|v].  \n\n"
 		fi
-		printf "\nYou answered \033[36;1m$nv\033[1;32m.\n"
 	done	
 	printf "\n"
 }
