@@ -119,21 +119,21 @@ edq ()
 	printf "\n\033[0;32m"
 	while true; do
 		if [[ $opt = bloom ]] || [[ $opt = manual ]];then
-	read -p "Do you want to use \`nano\` or \`vi\` to edit [n|v]? "  nv
+			read -p "Do you want to use \`nano\` or \`vi\` to edit [n|v]? "  nv
 		else 
-	read -p "Change the worldwide mirror to a mirror that is geographically nearby.  Only choose one mirror in the mirrors file you are about to edit.  Do you want to use \`nano\` or \`vi\` to edit the Arch Linux configuration files [n|v]? "  nv
+			read -p "Change the worldwide mirror to a mirror that is geographically nearby.  Only choose one mirror in the mirrors file you are about to edit.  Do you want to use \`nano\` or \`vi\` to edit the Arch Linux configuration files [n|v]? "  nv
 		fi
-	if [[ $nv = [Nn]* ]];then
-		ed=nano
-		apt-get -qq install nano --yes 
-		break
-	elif [[ $nv = [Vv]* ]];then
-		ed=vi
-		break
-	else
-		printf "\nYou answered \033[36;1m$nv\033[32;1m.\n"
-		printf "\nAnswer nano or vi (n|v).  \n\n"
-	fi
+		if [[ $nv = [Nn]* ]];then
+			ed=nano
+			apt-get -qq install nano --yes 
+			break
+		elif [[ $nv = [Vv]* ]];then
+			ed=vi
+			break
+		else
+			printf "\nYou answered \033[36;1m$nv\033[32;1m.\n"
+			printf "\nAnswer nano or vi (n|v).  \n\n"
+		fi
 		printf "\nYou answered \033[36;1m$nv\033[32;1m.\n"
 	done	
 	printf "\n"
@@ -245,29 +245,29 @@ printusage ()
 
 rmarch ()
 {
-		while true; do
+	while true; do
 		printf "\n\033[1;30m"
 		read -p "Uninstall Arch Linux? [y|n] " ruanswer
 		if [[ $ruanswer = [Ee]* ]] || [[ $ruanswer = [Nn]* ]] || [[ $ruanswer = [Qq]* ]];then
 			break
 		elif [[ $ruanswer = [Yy]* ]];then
-		printf "\033[30mUninstalling Arch Linux...\n"
-		if [ -e $PREFIX/bin/$bin ];then
-		       	rm $PREFIX/bin/$bin 
-		else 
-			printf "Uninstalling Arch Linux, nothing to do for $PREFIX/bin/$bin.\n"
-	       	fi
-		if [ -d $HOME/arch ];then
-			rmarchrm 
-		else 
-			printf "Uninstalling Arch Linux, nothing to do for $HOME/arch.\n"
-		fi
-		printf "Uninstalling Arch Linux done.\n"
-		break
+			printf "\033[30mUninstalling Arch Linux...\n"
+			if [ -e $PREFIX/bin/$bin ];then
+				rm $PREFIX/bin/$bin 
+			else 
+				printf "Uninstalling Arch Linux, nothing to do for $PREFIX/bin/$bin.\n"
+			fi
+			if [ -d $HOME/arch ];then
+				rmarchrm 
+			else 
+				printf "Uninstalling Arch Linux, nothing to do for $HOME/arch.\n"
+			fi
+			printf "Uninstalling Arch Linux done.\n"
+			break
 		else
 			printf "\nYou answered \033[33;1m$ruanswer\033[30m.\n\nAnswer \033[32mYes\033[30m or \033[1;31mNo\033[30m. [\033[32my\033[30m|\033[1;31mn\033[30m]\n"
 		fi
-		done
+	done
 }
 
 rmarchrm ()
@@ -284,10 +284,10 @@ rmarchq ()
 	if [[ $ruanswer = [Ee]* ]] || [[ $ruanswer = [Nn]* ]] || [[ $ruanswer = [Qq]* ]];then
 		:
 	else
-	if [ -d $HOME/arch ];then
-		printf "\n\033[0;33mTermuxArch: \033[1;33mDIRECTORY WARNING!  $HOME/arch/ \033[0;33mdirectory detected.  \033[1;30mTermux Arch installation will continue.  \033[0;33mInstalling into a clean directory is recommended.  \033[1;30mUninstalling before continuing is suggested.\n"
-		rmarch
-	fi
+		if [ -d $HOME/arch ];then
+			printf "\n\033[0;33mTermuxArch: \033[1;33mDIRECTORY WARNING!  $HOME/arch/ \033[0;33mdirectory detected.  \033[1;30mTermux Arch installation will continue.  \033[0;33mInstalling into a clean directory is recommended.  \033[1;30mUninstalling before continuing is suggested.\n"
+			rmarch
+		fi
 	fi
 }
 
@@ -297,22 +297,22 @@ rmbloom ()
 		:
 	else
 		while true; do
-		printf "\n\033[1;30m"
-		read -p "Uninstall $HOME/TermuxArchBloom? [y|n] " rbuanswer
-		if [[ $rbuanswer = [Ee]* ]] || [[ $rbuanswer = [Nn]* ]] || [[ $rbuanswer = [Qq]* ]];then
-			break
-		elif [[ $rbuanswer = [Yy]* ]];then
-		printf "\033[30mUninstalling $HOME/TermuxArchBloom...\n"
-		if [ -d $HOME/TermuxArchBloom ];then
-			rm -rf $HOME/TermuxArchBloom 
-		else 
-			printf "Uninstalling $HOME/TermuxArchBloom, nothing to do for $HOME/arch.\n"
-		fi
-		printf "Uninstalling $HOME/TermuxArchBloom done.\n"
-		break
-		else
-			printf "\nYou answered \033[33;1m$rbuanswer\033[30m.\n\nAnswer \033[32mYes\033[30m or \033[1;31mNo\033[30m. [\033[32my\033[30m|\033[1;31mn\033[30m]\n"
-		fi
+			printf "\n\033[1;30m"
+			read -p "Uninstall $HOME/TermuxArchBloom? [y|n] " rbuanswer
+			if [[ $rbuanswer = [Ee]* ]] || [[ $rbuanswer = [Nn]* ]] || [[ $rbuanswer = [Qq]* ]];then
+				break
+			elif [[ $rbuanswer = [Yy]* ]];then
+				printf "\033[30mUninstalling $HOME/TermuxArchBloom...\n"
+				if [ -d $HOME/TermuxArchBloom ];then
+					rm -rf $HOME/TermuxArchBloom 
+				else 
+					printf "Uninstalling $HOME/TermuxArchBloom, nothing to do for $HOME/arch.\n"
+				fi
+				printf "Uninstalling $HOME/TermuxArchBloom done.\n"
+				break
+			else
+				printf "\nYou answered \033[33;1m$rbuanswer\033[30m.\n\nAnswer \033[32mYes\033[30m or \033[1;31mNo\033[30m. [\033[32my\033[30m|\033[1;31mn\033[30m]\n"
+			fi
 		done
 	fi
 }
@@ -382,7 +382,7 @@ spaceinfo ()
 					spaceMessage=""
 				fi
 			else
-			spaceMessage=""
+				spaceMessage=""
 			fi
 		else
 			spaceMessage="\n\033[0;33mTermuxArch: \033[1;33mFREE SPACE WARNING!  \033[1;30mStart thinking about cleaning out some stuff.  \033[33m$usrspace of free user space is available on this device.  \033[1;30mThe recommended minimum to install Arch Linux in Termux PRoot is more than 1.5G for aarch64, more than 1.25G for armv7 and about 800M of free user space for x86 and x86_64 architectures.\n\033[0m"
@@ -398,18 +398,18 @@ spaceinfoq ()
 	else
 		spaceinfo
 		if [ -n "$spaceMessage" ];then
-		while true; do
-		printf "\n\033[1;30m"
-		read -p "Continue with setupTermuxArch.sh? [y|n] " suanswer
-		if [[ $suanswer = [Ee]* ]] || [[ $suanswer = [Nn]* ]] || [[ $suanswer = [Qq]* ]];then
-			printtail
-		elif [[ $suanswer = [Yy]* ]];then
-		printf "Continuing with setupTermuxArch.sh.\n"
-			break
-		else
-			printf "\nYou answered \033[33;1m$suanswer\033[30m.\n\nAnswer \033[32mYes\033[30m or \033[1;31mNo\033[30m. [\033[32my\033[30m|\033[1;31mn\033[30m]\n"
-		fi
-		done
+			while true; do
+				printf "\n\033[1;30m"
+				read -p "Continue with setupTermuxArch.sh? [y|n] " suanswer
+				if [[ $suanswer = [Ee]* ]] || [[ $suanswer = [Nn]* ]] || [[ $suanswer = [Qq]* ]];then
+					printtail
+				elif [[ $suanswer = [Yy]* ]];then
+					printf "Continuing with setupTermuxArch.sh.\n"
+					break
+				else
+					printf "\nYou answered \033[33;1m$suanswer\033[30m.\n\nAnswer \033[32mYes\033[30m or \033[1;31mNo\033[30m. [\033[32my\033[30m|\033[1;31mn\033[30m]\n"
+				fi
+			done
 		fi
 	fi
 }
