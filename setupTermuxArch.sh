@@ -66,17 +66,17 @@ depends ()
 		ifgetwget 
 	elif [ -e $PREFIX/bin/curl ] || [ -e $PREFIX/bin/wget ];then
 		if [ -e $PREFIX/bin/curl ];then
-			$dm = curl 
+			dm=curl 
 		fi
 		if [ -e $PREFIX/bin/wget ];then
-			$dm = wget 
+			dm=wget 
 		fi
 	fi
 	if [[ $dm = "" ]];then
 		if [ ! -e $PREFIX/bin/curl ];then
 			printf "\n\033[1;34mInstalling \033[1;32mcurl\033[1;34m.\n\n\[1;32m"
 			pkg install curl -y
-			$dm = curl 
+			dm=curl 
 		fi
 		if [ ! -e $PREFIX/bin/curl ];then
 			printf "\n\033[1;31mPrerequisites exception.  Run the script again.\n\n\033[0m"
