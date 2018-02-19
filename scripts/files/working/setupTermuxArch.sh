@@ -70,7 +70,6 @@ depends ()
 		fi
 		if [ -e $PREFIX/bin/wget ];then
 			dm=wget 
-			ifcurl
 		fi
 	fi
 	if [[ $dm = "" ]];then
@@ -188,7 +187,6 @@ ifgetwget ()
 {
 	if [[ $dm = wget ]];then
 		ifwget
-		ifcurl 
 	fi
 }
 

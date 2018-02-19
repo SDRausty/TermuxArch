@@ -21,8 +21,8 @@ ftchstnd ()
 {
 	printf "\033[0;34mContacting mirror \033[0;32m$cmirror\033[0;34m.  "
 	if [[ $dm = wget ]];then 
-		curl -v $cmirror 2>gmirror
-		nmirror=$(grep Location gmirror | awk {'print $3'}) 
+		wget -v -O/dev/null $cmirror 2>gmirror
+		nmirror=$(grep Location gmirror | awk {'print $2'}) 
 		rm gmirror
 		printdownloadingftch 
 		wget $dmverbose -N --show-progress $nmirror$path$file.md5 
