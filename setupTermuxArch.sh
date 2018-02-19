@@ -281,7 +281,9 @@ rmarchrm ()
 
 rmarchq ()
 {
-	if [[ $ruanswer != [Ee]* ]] || [[ $ruanswer != [Nn]* ]] || [[ $ruanswer != [Qq]* ]];then
+	if [[ $ruanswer = [Ee]* ]] || [[ $ruanswer = [Nn]* ]] || [[ $ruanswer = [Qq]* ]];then
+		:
+	else
 		if [ -d $HOME/arch ];then
 			printf "\n\033[0;33mTermuxArch: \033[1;33mDIRECTORY WARNING!  $HOME/arch/ \033[0;33mdirectory detected.  \033[1;30mTermux Arch installation will continue.  \033[0;33mInstalling into a clean directory is recommended.  \033[1;30mUninstalling before continuing is suggested.\n"
 			rmarch
@@ -291,7 +293,9 @@ rmarchq ()
 
 rmbloom ()
 {
-	if [[ $rbuanswer != [Ee]* ]] || [[ $rbuanswer != [Nn]* ]] || [[ $rbuanswer != [Qq]* ]];then
+	if [[ $rbuanswer = [Ee]* ]] || [[ $rbuanswer = [Nn]* ]] || [[ $rbuanswer = [Qq]* ]];then
+		:
+	else
 		while true; do
 			printf "\n\033[1;30m"
 			read -p "Refresh $HOME/TermuxArchBloom? [y|n] " rbuanswer
