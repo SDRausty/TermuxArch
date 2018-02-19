@@ -469,10 +469,10 @@ spaceinfoq ()
 		if [ -n "$spaceMessage" ];then
 			while true; do
 				printf "\n\033[1;30m"
-				read -p "Continue with setupTermuxArch.sh? [y|n] " suanswer
+				read -p "Continue with setupTermuxArch.sh? [Y|n] " suanswer
 				if [[ $suanswer = [Ee]* ]] || [[ $suanswer = [Nn]* ]] || [[ $suanswer = [Qq]* ]];then
 					printtail
-				elif [[ $suanswer = [Yy]* ]];then
+				elif [[ $suanswer = [Yy]* ]] || [[ $suanswer = "" ]];then
 					printf "Continuing with setupTermuxArch.sh.\n"
 					break
 				else
