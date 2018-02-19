@@ -230,7 +230,7 @@ ldconf ()
 {
 	if [ -f "setupTermuxArchConfigs.sh" ];then
 		. setupTermuxArchConfigs.sh
-		printf "\n\033[1;34m 🕛 > 🕜 \033[0;34mTermuxArch configuration \033[0;32m$(pwd)/\033[1;32msetupTermuxArchConfigs.sh \033[0;34mloaded: \033[1;32mOK  \n\033[0m"
+		printf "\033[1;34m 🕛 > 🕜 \033[0;34mTermuxArch configuration \033[0;32m$(pwd)/\033[1;32msetupTermuxArchConfigs.sh \033[0;34mloaded: \033[1;32mOK  \n\n\033[0m"
 	else
 		. knownconfigurations.sh
 	fi
@@ -320,10 +320,10 @@ rmarch ()
 			else 
 				printf "Uninstalling Arch Linux, nothing to do for $PREFIX/bin/$bin.\n"
 			fi
-			if [ -d $HOME/arch ];then
+			if [ -d $HOME$rootdir ];then
 				rmarchrm 
 			else 
-				printf "Uninstalling Arch Linux, nothing to do for $HOME/arch.\n"
+				printf "Uninstalling Arch Linux, nothing to do for $HOME$rootdir.\n"
 			fi
 			printf "Uninstalling Arch Linux done.\n"
 			break
@@ -335,11 +335,11 @@ rmarch ()
 
 rmarchrm ()
 {
-	cd $HOME/arch
+	cd $HOME$rootdir
 	rm -rf * 2>/dev/null ||:
 	find -type d -exec chmod 700 {} \; 2>/dev/null ||:
 	cd ..
-	rm -rf $HOME/arch 2>/dev/null ||:
+	rm -rf $HOME$rootdir 2>/dev/null ||:
 }
 
 rmarchq ()
@@ -347,8 +347,8 @@ rmarchq ()
 	if [[ $ruanswer = [Ee]* ]] || [[ $ruanswer = [Nn]* ]] || [[ $ruanswer = [Qq]* ]];then
 		:
 	else
-		if [ -d $HOME/arch ];then
-			printf "\n\033[0;33mTermuxArch: \033[1;33mDIRECTORY WARNING!  $HOME/arch/ \033[0;33mdirectory detected.  \033[1;30mTermux Arch installation will continue.  \033[0;32mInstalling into a clean directory is recommended when using the worldwide mirror.  \033[1;30mUnless continuing download from a geographically local mirror via \033[0;32msetupTermuxArchConfigs.sh\033[1;30m, uninstalling before continuing is suggested.  If in doubt, answer yes.\n"
+		if [ -d $HOME$rootdir ];then
+			printf "\n\033[0;33mTermuxArch: \033[1;33mDIRECTORY WARNING!  $HOME$rootdir/ \033[0;33mdirectory detected.  \033[1;30mTermux Arch installation will continue.  \033[0;32mInstalling into a clean directory is recommended when using the worldwide mirror.  \033[1;30mUnless continuing download from a geographically local mirror via \033[0;32msetupTermuxArchConfigs.sh\033[1;30m, uninstalling before continuing is suggested.  If in doubt, answer yes.\n"
 			rmarch
 		fi
 	fi
@@ -369,7 +369,7 @@ rmbloom ()
 				if [ -d $HOME/TermuxArchBloom ];then
 					rm -rf $HOME/TermuxArchBloom 
 				else 
-					printf "Uninstalling $HOME/TermuxArchBloom, nothing to do for $HOME/arch.\n"
+					printf "Uninstalling $HOME/TermuxArchBloom, nothing to do for $HOME$rootdir.\n"
 				fi
 				printf "Uninstalling $HOME/TermuxArchBloom done.\n"
 				break
@@ -473,6 +473,7 @@ spaceinfoq ()
 				if [[ $suanswer = [Ee]* ]] || [[ $suanswer = [Nn]* ]] || [[ $suanswer = [Qq]* ]];then
 					printtail
 				elif [[ $suanswer = [Yy]* ]] || [[ $suanswer = "" ]];then
+					suanswer=yes
 					printf "Continuing with setupTermuxArch.sh.\n"
 					break
 				else
@@ -516,8 +517,9 @@ dfl=/gen
 #dm=wget
 dmverbose="-q"
 #dmverbose="-v"
+rootdir=/arch
 stime=`date +%s|grep -o '....$'`
-versionid="gen.v0.8.6 id825260865"
+versionid="gen.v0.8.6 id160495371"
 
 if [[ $1 = [Cc][Dd]* ]] || [[ $1 = -[Cc][Dd]* ]] || [[ $1 = --[Cc][Dd]* ]] || [[ $1 = [Cc][Ss]* ]] || [[ $1 = -[Cc][Ss]* ]] || [[ $1 = --[Cc][Ss]* ]];then
 	dm=curl
