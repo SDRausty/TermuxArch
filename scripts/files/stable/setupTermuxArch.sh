@@ -424,6 +424,7 @@ spaceinfoq ()
 
 spaceinfoksize ()
 {
+	usrspace=`df 2>/dev/null | grep "/data" | awk {'print $4'}`
 	:
 }
 
