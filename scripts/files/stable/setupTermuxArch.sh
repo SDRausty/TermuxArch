@@ -74,7 +74,7 @@ depends ()
 	fi
 	if [[ $dm = "" ]];then
 		if [ ! -e $PREFIX/bin/curl ];then
-			printf "\n\033[1;34mInstalling \033[1;32mcurl\033[1;34m.\n\n\[1;32m"
+			printf "\033[1;34mInstalling \033[1;32mcurl\033[1;34m.\n\n\[1;32m"
 			pkg install curl -y
 			dm=curl 
 		fi
@@ -83,14 +83,14 @@ depends ()
 			exit
 		fi
 	fi
-	printf "\n\033[1;34m 🕛 > 🕧 \033[1;34mPrerequisites: \033[1;32mOK\n\n\033[0;32m"
+	printf "\033[1;34m 🕛 > 🕧 \033[1;34mPrerequisites: \033[1;32mOK\n\n\033[0;32m"
 }
 
 ifgetcurl ()
 {
 	if [[ $dm = curl ]];then
 		if [ ! -e $PREFIX/bin/curl ];then
-			printf "\n\033[1;34mInstalling \033[1;32mcurl\033[1;34m.\n\n\[1;32m"
+			printf "\033[1;34mInstalling \033[1;32mcurl\033[1;34m.\n\n\[1;32m"
 			pkg install curl -y 
 		fi
 		if [ ! -e $PREFIX/bin/curl ];then
@@ -104,7 +104,7 @@ ifgetwget ()
 {
 	if [[ $dm = wget ]];then
 		if [ ! -e $PREFIX/bin/wget ];then
-			printf "\n\033[1;34mInstalling \033[1;32mwget\033[1;34m.\n\n\[1;32m"
+			printf "\033[1;34mInstalling \033[1;32mwget\033[1;34m.\n\n\[1;32m"
 			pkg install wget -y 
 		fi
 		if [ ! -e $PREFIX/bin/wget ];then
@@ -336,7 +336,7 @@ rmarchq ()
 		:
 	else
 		if [ -d $HOME/arch ];then
-			printf "\n\033[0;33mTermuxArch: \033[1;33mDIRECTORY WARNING!  $HOME/arch/ \033[0;33mdirectory detected.  \033[1;30mTermux Arch installation will continue.  \033[0;33mInstalling into a clean directory is recommended.  \033[1;30mUninstalling before continuing is suggested.\n"
+			printf "\n\033[0;33mTermuxArch: \033[1;33mDIRECTORY WARNING!  $HOME/arch/ \033[0;33mdirectory detected.  \033[1;30mTermux Arch installation will continue.  \033[0;33mInstalling into a clean directory is recommended if using the worldwide geographic mirror.  \033[1;30mUnless continuing work with a local mirror, uninstalling before continuing is suggested.\n"
 			rmarch
 		fi
 	fi
