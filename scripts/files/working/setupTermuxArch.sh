@@ -517,9 +517,10 @@ dfl=/gen
 #dm=wget
 dmverbose="-q"
 #dmverbose="-v"
+#rootdir=/root.i686
 rootdir=/arch
 stime=`date +%s|grep -o '....$'`
-versionid="gen.v0.8.6 id160495371"
+versionid="gen.v0.8.6 id074679782"
 
 if [[ $1 = [Cc][Dd]* ]] || [[ $1 = -[Cc][Dd]* ]] || [[ $1 = --[Cc][Dd]* ]] || [[ $1 = [Cc][Ss]* ]] || [[ $1 = -[Cc][Ss]* ]] || [[ $1 = --[Cc][Ss]* ]];then
 	dm=curl
