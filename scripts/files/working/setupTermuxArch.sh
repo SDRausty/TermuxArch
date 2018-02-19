@@ -416,6 +416,18 @@ runobloom ()
 	fi
 }
 
+
+setrootdir ()
+{
+	if [ $(getprop ro.product.cpu.abi) = x86 ];then 
+		rootdir=/root.i686
+	elif [ $(getprop ro.product.cpu.abi) = x86_64 ];then 
+		rootdir=/root.x86_64
+	else
+		rootdir=/arch
+	fi
+}
+
 spaceinfo ()
 {
 	units=`df 2>/dev/null | awk 'FNR == 1 {print $2}'`
@@ -517,10 +529,10 @@ dfl=/gen
 #dm=wget
 dmverbose="-q"
 #dmverbose="-v"
-#rootdir=/root.i686
-rootdir=/arch
 stime=`date +%s|grep -o '....$'`
-versionid="gen.v0.8.6 id074679782"
+versionid="gen.v0.8.6 id754870306"
+
+setrootdir 
 
 if [[ $1 = [Cc][Dd]* ]] || [[ $1 = -[Cc][Dd]* ]] || [[ $1 = --[Cc][Dd]* ]] || [[ $1 = [Cc][Ss]* ]] || [[ $1 = -[Cc][Ss]* ]] || [[ $1 = --[Cc][Ss]* ]];then
 	dm=curl

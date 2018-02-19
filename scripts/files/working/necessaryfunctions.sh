@@ -126,7 +126,9 @@ preproot ()
 {
 	if [ $(du $HOME$rootdir/*z | awk {'print $1'}) -gt 112233 ];then
 		if [ $(getprop ro.product.cpu.abi) = x86 ] || [ $(getprop ro.product.cpu.abi) = x86_64 ];then
-			proot --link2symlink -0 bsdtar -xpf $file --strip-components 1 
+			cd $HOME
+			proot --link2symlink -0 $PREFIX/bin/applets/tar xf $HOME$rootdir$file 
+			cd $HOME$rootdir
 		else
 			proot --link2symlink -0 $PREFIX/bin/applets/tar xf $file 
 		fi
