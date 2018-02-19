@@ -473,6 +473,7 @@ spaceinfoq ()
 				if [[ $suanswer = [Ee]* ]] || [[ $suanswer = [Nn]* ]] || [[ $suanswer = [Qq]* ]];then
 					printtail
 				elif [[ $suanswer = [Yy]* ]] || [[ $suanswer = "" ]];then
+					suanswer=yes
 					printf "Continuing with setupTermuxArch.sh.\n"
 					break
 				else
