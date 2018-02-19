@@ -421,9 +421,11 @@ runobloom ()
 setrootdir ()
 {
 	if [ $(getprop ro.product.cpu.abi) = x86 ];then 
-		rootdir=/root.i686
+	#	rootdir=/root.i686
+		rootdir=/arch
 	elif [ $(getprop ro.product.cpu.abi) = x86_64 ];then 
-		rootdir=/root.x86_64
+	#	rootdir=/root.x86_64
+		rootdir=/arch
 	else
 		rootdir=/arch
 	fi
@@ -531,7 +533,7 @@ dfl=/gen
 dmverbose="-q"
 #dmverbose="-v"
 stime=`date +%s|grep -o '....$'`
-versionid="gen.v0.8.6 id038826072"
+versionid="gen.v0.8.6 id649057400"
 
 setrootdir 
 echo $rootdir 
