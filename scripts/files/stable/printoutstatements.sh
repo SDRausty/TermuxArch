@@ -19,7 +19,7 @@ printdetectedsystem ()
 
 printdownloading ()
 {
-	printf "\n\033[1;34m 🕛 > 🕒 \033[1;34mActivated termux-wake-lock.  "'\033]2; 🕛 > 🕒 Downloading checksum and the Arch Linux system image file.  \007'
+	printf "\n\033[1;34m 🕛 > 🕒 \033[1;34mActivated termux-wake-lock.  "'\033]2; 🕛 > 🕒 Downloading the Arch Linux system image file with checksum.  \007'
 }
 
 printdownloadingx86 ()
