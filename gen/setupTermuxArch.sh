@@ -276,6 +276,7 @@ obloomdependsblock ()
 
 omanual ()
 {
+	printf '\033]2;  Thank you for using `bash setupTermuxArch.sh --manual` 📲 \007'
 	edq
 	if [ -f "setupTermuxArchConfigs.sh" ];then
 		$ed setupTermuxArchConfigs.sh
@@ -530,7 +531,7 @@ dfl=/gen
 dmverbose="-q"
 #dmverbose="-v"
 stime=`date +%s|grep -o '....$'`
-versionid="gen.v0.8.6 id091351756"
+versionid="gen.v0.8.6 id483329671"
 
 setrootdir 
 echo $rootdir 
