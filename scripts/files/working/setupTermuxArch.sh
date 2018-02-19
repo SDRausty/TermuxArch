@@ -144,9 +144,9 @@ edq ()
 	printf "\n\033[0;32m"
 	while true; do
 		if [[ $opt = bloom ]] || [[ $opt = manual ]];then
-			read -p "Do you want to use \`nano\` or \`vi\` to edit \`setupTermuxArchConfigs.sh\` [n|v]? "  nv
+			read -p "Would you like to use \`nano\` or \`vi\` to edit \`setupTermuxArchConfigs.sh\` [n|v]? "  nv
 		else 
-			read -p "Change the worldwide mirror to a mirror that is geographically nearby.  Choose only ONE mirror in the mirrors file that you are about to edit.  Do you want to use \`nano\` or \`vi\` to edit Arch Linux configuration files [n|v]? "  nv
+			read -p "Change the worldwide mirror to a mirror that is geographically nearby.  Choose only ONE active mirror in the mirrors file that you are about to edit.  Would you like to use \`nano\` or \`vi\` to edit the Arch Linux configuration files [n|v]? "  nv
 		fi
 		if [[ $nv = [Nn]* ]];then
 			ed=nano
@@ -206,7 +206,7 @@ intro ()
 {
 	rmarchq
 	spaceinfoq
-printf "\n	Arch Linux will be installed in $HOME$rootdir\n" 
+	printf "\nArch Linux will be installed in $HOME$rootdir\n" 
 	printf "\n\033[1;34m 🕛 > 🕛 \033[1;34msetupTermuxArch $versionid will attempt to install Linux in $HOME$rootdir.  Arch Linux will be available upon successful completion.  Ensure background data is not restricted.  Run \033[0;32mbash setupTermuxArch.sh --help \033[34;1mfor additional information.  Check the wireless connection if you do not see one o'clock 🕐 below.  "
 	dependsblock 
 }
