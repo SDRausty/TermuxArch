@@ -565,10 +565,13 @@ elif [[ $1 = [Mm]* ]] || [[ $1 = -[Mm]* ]] || [[ $1 = --[Mm]* ]];then
 	mainblock
 elif [[ $1 = [Pp]* ]] || [[ $1 = -[Pp]* ]] || [[ $1 = --[Pp]* ]] || [[ $1 = [Uu]* ]] || [[ $1 = -[Uu]* ]] || [[ $1 = --[Uu]* ]];then
 	rmarch
-elif [[ $1 = [Rr]* ]] || [[ $1 = -[Rr]* ]] || [[ $1 = --[Rr]* ]] || [[ $1 = [Rr][Uu]* ]] || [[ $1 = -[Rr][Uu]* ]] || [[ $1 = --[Rr][Uu]* ]];then
-	runobloom 
 elif [[ $1 = [Rr][Oo]* ]] || [[ $1 = -[Rr][Oo]* ]] || [[ $1 = --[Rr][Oo]* ]];then
 	rootdir=/$2 
+	echo $2
+	intro 
+	mainblock
+elif [[ $1 = [Rr]* ]] || [[ $1 = -[Rr]* ]] || [[ $1 = --[Rr]* ]] || [[ $1 = [Rr][Uu]* ]] || [[ $1 = -[Rr][Uu]* ]] || [[ $1 = --[Rr][Uu]* ]];then
+	runobloom 
 elif [[ $1 = "" ]] || [[ $1 = [Ii]* ]] || [[ $1 = -[Ii]* ]] || [[ $1 = --[Ii]* ]];then
 	intro 
 	mainblock
