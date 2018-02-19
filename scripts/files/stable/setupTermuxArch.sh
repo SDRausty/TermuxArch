@@ -74,7 +74,7 @@ depends ()
 	fi
 	if [[ $dm = "" ]];then
 		if [ ! -e $PREFIX/bin/curl ];then
-			printf "\033[1;34mInstalling \033[1;32mcurl\033[1;34m.\n\n\[1;32m"
+			printf "\n\033[1;34mInstalling \033[1;32mcurl\033[1;34m.\n\n\[1;32m"
 			pkg install curl -y
 			dm=curl 
 		fi
@@ -101,10 +101,12 @@ dependsa ()
 {
 	if [ $(getprop ro.product.cpu.abi) = x86 ] || [ $(getprop ro.product.cpu.abi) = x86_64 ];then
 		if [ ! -e $PREFIX/bin/bsdtar ]  || [ ! -e $PREFIX/bin/proot ];then
+			printf "\n"
 			pkg install bsdtar proot -y 
 		fi
 	else
 		if [ ! -e $PREFIX/bin/proot ];then
+			printf "\n"
 			pkg install proot -y 
 		fi
 	fi
@@ -166,7 +168,7 @@ ifgetcurl ()
 {
 	if [[ $dm = curl ]];then
 		if [ ! -e $PREFIX/bin/curl ];then
-			printf "\033[1;34mInstalling \033[1;32mcurl\033[1;34m.\n\n\[1;32m"
+			printf "\n\033[1;34mInstalling \033[1;32mcurl\033[1;34m.\n\n\[1;32m"
 			pkg install curl -y 
 		fi
 		if [ ! -e $PREFIX/bin/curl ];then
@@ -180,7 +182,7 @@ ifgetwget ()
 {
 	if [[ $dm = wget ]];then
 		if [ ! -e $PREFIX/bin/wget ];then
-			printf "\033[1;34mInstalling \033[1;32mwget\033[1;34m.\n\n\[1;32m"
+			printf "\n\033[1;34mInstalling \033[1;32mwget\033[1;34m.\n\n\[1;32m"
 			pkg install wget -y 
 		fi
 		if [ ! -e $PREFIX/bin/wget ];then
@@ -336,7 +338,7 @@ rmarchq ()
 		:
 	else
 		if [ -d $HOME/arch ];then
-			printf "\n\033[0;33mTermuxArch: \033[1;33mDIRECTORY WARNING!  $HOME/arch/ \033[0;33mdirectory detected.  \033[1;30mTermux Arch installation will continue.  \033[0;32mInstalling into a clean directory is recommended if using the worldwide geographic mirror.  \033[1;30mUnless continuing download from a local mirror via \033[0;32msetupTermuxArchConfigs.sh\033[1;30m, uninstalling before continuing is suggested.  \033[1;30mIf in doubt, answer yes.\n"
+			printf "\n\033[0;33mTermuxArch: \033[1;33mDIRECTORY WARNING!  $HOME/arch/ \033[0;33mdirectory detected.  \033[1;30mTermux Arch installation will continue.  \033[0;32mInstalling into a clean directory is recommended when using the worldwide mirror.  \033[1;30mUnless continuing download from a geographically local mirror via \033[0;32msetupTermuxArchConfigs.sh\033[1;30m, uninstalling before continuing is suggested.  If in doubt, answer yes.\n"
 			rmarch
 		fi
 	fi
