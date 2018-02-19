@@ -69,12 +69,13 @@ depends ()
 			dm=curl 
 		fi
 		if [ -e $PREFIX/bin/wget ];then
+			dm=wget 
 			ifcurl
 		fi
 	fi
 	if [[ $dm = "" ]];then
 		if [ ! -e $PREFIX/bin/curl ];then
-			printf "\n\033[1;34mInstalling \033[1;32mcurl\033[1;34m.\n\n\[1;32m"
+			printf "\n\033[1;34mInstalling \033[1;32mcurl\033[1;34m...\n\n\[1;32m"
 			pkg install curl -y
 			dm=curl 
 		fi
@@ -101,12 +102,12 @@ dependsa ()
 {
 	if [ $(getprop ro.product.cpu.abi) = x86 ] || [ $(getprop ro.product.cpu.abi) = x86_64 ];then
 		if [ ! -e $PREFIX/bin/bsdtar ]  || [ ! -e $PREFIX/bin/proot ];then
-			printf "\n\033[1;34mInstalling \033[1;32mbsdtar \033[1;34mand \033[1;32mproot \033[1;34m.\n\n\[1;32m"
+			printf "\n\033[1;34mInstalling \033[1;32mbsdtar \033[1;34mand \033[1;32mproot \033[1;34m...\n\n\[1;32m"
 			pkg install bsdtar proot -y 
 		fi
 	else
 		if [ ! -e $PREFIX/bin/proot ];then
-			printf "\n\033[1;34mInstalling \033[1;32mproot \033[1;34m.\n\n\[1;32m"
+			printf "\n\033[1;34mInstalling \033[1;32mproot \033[1;34m...\n\n\[1;32m"
 			pkg install proot -y 
 		fi
 	fi
@@ -167,7 +168,7 @@ edq ()
 ifcurl ()
 {
 	if [ ! -e $PREFIX/bin/curl ];then
-		printf "\n\033[1;34mInstalling \033[1;32mcurl\033[1;34m.\n\n\[1;32m"
+		printf "\n\033[1;34mInstalling \033[1;32mcurl\033[1;34m...\n\n\[1;32m"
 		pkg install curl -y 
 	fi
 	if [ ! -e $PREFIX/bin/curl ];then
@@ -194,7 +195,7 @@ ifgetwget ()
 ifwget ()
 {
 	if [ ! -e $PREFIX/bin/wget ];then
-		printf "\n\033[1;34mInstalling \033[1;32mwget\033[1;34m.\n\n\[1;32m"
+		printf "\n\033[1;34mInstalling \033[1;32mwget\033[1;34m...\n\n\[1;32m"
 		pkg install wget -y 
 	fi
 	if [ ! -e $PREFIX/bin/wget ];then
