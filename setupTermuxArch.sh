@@ -83,7 +83,7 @@ depends ()
 			exit
 		fi
 	fi
-	printf "\033[1;34m 🕛 > 🕧 \033[1;34mPrerequisites: \033[1;32mOK\n\n\033[0;32m"
+	printf "\n\033[1;34m 🕛 > 🕧 \033[1;34mPrerequisites: \033[1;32mOK\n\n\033[0;32m"
 }
 
 ifgetcurl ()
