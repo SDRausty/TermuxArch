@@ -144,9 +144,9 @@ edq ()
 	printf "\n\033[0;32m"
 	while true; do
 		if [[ $opt = bloom ]] || [[ $opt = manual ]];then
-			read -p "Do you want to use \`nano\` or \`vi\` to edit [n|v]? "  nv
+			read -p "Do you want to use \`nano\` or \`vi\` to edit \`setupTermuxArchConfigs.sh\` [n|v]? "  nv
 		else 
-			read -p "Change the worldwide mirror to a mirror that is geographically nearby.  Only choose one mirror in the mirrors file you are about to edit.  Do you want to use \`nano\` or \`vi\` to edit the Arch Linux configuration files [n|v]? "  nv
+			read -p "Change the worldwide mirror to a mirror that is geographically nearby.  Choose only ONE mirror in the mirrors file that you are about to edit.  Do you want to use \`nano\` or \`vi\` to edit Arch Linux configuration files [n|v]? "  nv
 		fi
 		if [[ $nv = [Nn]* ]];then
 			ed=nano
@@ -348,7 +348,7 @@ rmarchq ()
 		:
 	else
 		if [ -d $HOME$rootdir ];then
-			printf "\n\033[0;33mTermuxArch: \033[1;33mDIRECTORY WARNING!  $HOME$rootdir/ \033[0;33mdirectory detected.  \033[1;30mTermux Arch installation will continue.  \033[0;32mInstalling into a clean directory is recommended when using the worldwide mirror.  \033[1;30mUnless continuing download from a geographically local mirror via \033[0;32msetupTermuxArchConfigs.sh\033[1;30m, uninstalling before continuing is suggested.  If in doubt, answer yes.\n"
+			printf "\n\033[0;33mTermuxArch: \033[1;33mDIRECTORY WARNING!  $HOME$rootdir/ \033[0;33mdirectory detected.  \033[1;30mTermux Arch installation shall continue.  \033[0;32mInstalling into a clean directory is recommended when using the worldwide mirror.  \033[1;30mUnless continuing download from a geographically local mirror via \033[0;32msetupTermuxArchConfigs.sh\033[1;30m, uninstalling before continuing is suggested.  If in doubt, answer yes.\n"
 			rmarch
 		fi
 	fi
@@ -530,7 +530,7 @@ dfl=/gen
 dmverbose="-q"
 #dmverbose="-v"
 stime=`date +%s|grep -o '....$'`
-versionid="gen.v0.8.6 id943757045"
+versionid="gen.v0.8.6 id091351756"
 
 setrootdir 
 echo $rootdir 
