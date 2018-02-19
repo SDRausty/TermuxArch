@@ -73,7 +73,7 @@ depends ()
 	if [[ $dm = "" ]];then
 		if [ ! -e $PREFIX/bin/curl ];then
 			printf "\n\033[1;34mInstalling \033[0;32mcurl\033[1;34m…\n\n\[1;32m"
-			pkg install curl -y
+			pkg install curl --yes
 			dm=curl 
 		fi
 		if [ ! -e $PREFIX/bin/curl ];then
@@ -102,12 +102,12 @@ dependsa ()
 	if [ $(getprop ro.product.cpu.abi) = x86 ] || [ $(getprop ro.product.cpu.abi) = x86_64 ];then
 		if [ ! -e $PREFIX/bin/bsdtar ]  || [ ! -e $PREFIX/bin/proot ];then
 			printf "\n\033[1;34mInstalling \033[0;32mbsdtar \033[1;34mand \033[0;32mproot\033[1;34m…\n\n\[1;32m"
-			pkg install bsdtar proot -y 
+			pkg install bsdtar proot --yes
 		fi
 	else
 		if [ ! -e $PREFIX/bin/proot ];then
 			printf "\n\033[1;34mInstalling \033[0;32mproot\033[1;34m…\n\n\[1;32m"
-			pkg install proot -y 
+			pkg install proot --yes
 		fi
 	fi
 }
@@ -141,7 +141,7 @@ dwnl ()
 
 edq ()
 {
-	printf "\n\033[0;32m"
+	printf "\033[0;32m"
 	while true; do
 		if [[ $opt = bloom ]] || [[ $opt = manual ]];then
 			read -p "Would you like to use \`nano\` or \`vi\` to edit \`setupTermuxArchConfigs.sh\` [n|v]? "  nv
@@ -150,16 +150,16 @@ edq ()
 		fi
 		if [[ $nv = [Nn]* ]];then
 			ed=nano
-			apt-get -qq install nano --yes 
+			pkg install nano --yes 
 			break
 		elif [[ $nv = [Vv]* ]];then
 			ed=vi
 			break
 		else
 			printf "\nYou answered \033[36;1m$nv\033[32;1m.\n"
-			printf "\nAnswer nano or vi (n|v).  \n\n"
+			printf "\nAnswer nano or vi [n|v].  \n\n"
 		fi
-		printf "\nYou answered \033[36;1m$nv\033[32;1m.\n"
+		printf "\nYou answered \033[36;1m$nv\033[1;32m.\n"
 	done	
 	printf "\n"
 }
@@ -168,7 +168,7 @@ ifcurl ()
 {
 	if [ ! -e $PREFIX/bin/curl ];then
 		printf "\n\033[1;34mInstalling \033[0;32mcurl\033[1;34m…\n\n\[1;32m"
-		pkg install curl -y 
+		pkg install curl  --yes 
 	fi
 	if [ ! -e $PREFIX/bin/curl ];then
 		printf "\n\033[1;31mPrerequisites exception.  Run the script again.\n\n\033[0m"'\033]2;  Thank you for using setupTermuxArch.sh.  Run `bash setupTermuxArch.sh` again.\007'
@@ -194,7 +194,7 @@ ifwget ()
 {
 	if [ ! -e $PREFIX/bin/wget ];then
 		printf "\n\033[1;34mInstalling \033[0;32mwget\033[1;34m…\n\n\[1;32m"
-		pkg install wget -y 
+		pkg install wget --yes 
 	fi
 	if [ ! -e $PREFIX/bin/wget ];then
 		printf "\n\033[1;31mPrerequisites exception.  Run the script again.\n\n\033[0m"'\033]2;  Thank you for using setupTermuxArch.sh.  Run `bash setupTermuxArch.sh` again.\007'

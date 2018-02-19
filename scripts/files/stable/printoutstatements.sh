@@ -44,7 +44,7 @@ printdownloadingftchit ()
 
 printconfigq ()
 {
-	printf "\n\033[1;34m 🕛 > 🕙 \033[1;34mArch Linux in Termux is installed.  Answer the following questions to complete the Arch Linux configuration.\n\033[0m"'\033]2; 🕛 > 🕙 Arch Linux in Termux is installed!  Complete the configuration.  📲 \007'
+	printf "\n\033[1;34m 🕛 > 🕙 \033[1;34mArch Linux in Termux is installed.  Answer the following questions to complete the Arch Linux configuration:\n\033[0m"'\033]2; 🕛 > 🕙 Arch Linux in Termux is installed!  Complete the configuration.  📲 \007'
 }
 
 printmd5check ()
