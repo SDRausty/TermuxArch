@@ -111,7 +111,7 @@ makesystem ()
 		fi
 	fi
 	printmd5check
-	if md5sum -c $file.md5 ; then
+	if md5sum -c $file.md5 1>/dev/null ; then
 		printmd5success
 		preproot 
 	else
