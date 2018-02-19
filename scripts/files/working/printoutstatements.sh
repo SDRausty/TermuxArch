@@ -34,7 +34,7 @@ printdownloadingx86two ()
 
 printdownloadingftch ()
 {
-	printf "\033[0;34mDownloading \033[0;32m$file \033[0;34mfrom geographically nearby \033[0;32m$nmirror\033[0;34m.  \033[1;37mThis may take a long time pending Internet connection.\n\n\033[0;32m"
+	printf "\033[0;34mDownloading \033[0;32m$file \033[0;34mfrom geographically nearby mirror \033[0;32m$nmirror\033[0;34m.  \033[1;37mThis may take a long time pending Internet connection.\n\n\033[0;32m"
 }
 
 printdownloadingftchit ()
