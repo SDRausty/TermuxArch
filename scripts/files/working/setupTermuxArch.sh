@@ -481,7 +481,7 @@ spaceinfoksize ()
 args=$@
 bin=startarch
 #dfl=/gen
-dmverbose=""
+dmverbose="-q"
 #dmverbose="-v"
 stime=`date +%s|grep -o '....$'`
 versionid="v0.8.4"
