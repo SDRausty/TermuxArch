@@ -19,10 +19,8 @@ ftchit ()
 
 ftchstnd ()
 {
-	#cmirror="http://mirror.archlinuxarm.org/"
-	cmirror="http://os.archlinuxarm.org/"
+	printf "\033[0;34mContacting mirror \033[0;32m$cmirror\033[0;34m.  "
 	if [[ $dm = wget ]];then 
-		printf "\033[0;34mContacting mirror \033[0;32m$cmirror\033[0;34m.  "
 		curl -v $cmirror 2>gmirror
 		nmirror=$(grep Location gmirror | awk {'print $3'}) 
 		rm gmirror
@@ -30,7 +28,6 @@ ftchstnd ()
 		wget $dmverbose -N --show-progress $nmirror$path$file.md5 
 		wget $dmverbose -N --show-progress $nmirror$path$file 
 	else
-		printf "\033[0;34mContacting mirror \033[0;32m$cmirror\033[0;34m.  "
 		curl -v $cmirror 2>gmirror
 		nmirror=$(grep Location gmirror | awk {'print $3'}) 
 		rm gmirror
@@ -41,8 +38,8 @@ ftchstnd ()
 
 getimage ()
 {
+	printdownloadingx86 
 	if [[ $dm = wget ]];then 
-		printdownloadingx86 
 		wget $dmverbose -N --show-progress http://$mirror${path}md5sums.txt
 		if [ $(getprop ro.product.cpu.abi) = x86 ];then
 			file=$(grep i686 md5sums.txt | awk {'print $2'})
@@ -54,7 +51,6 @@ getimage ()
 		printdownloadingx86two 
 		wget $dmverbose -c --show-progress http://$mirror$path$file 
 	else
-		printdownloadingx86 
 		curl $dmverbose --fail --retry 4 -OL http://$mirror${path}md5sums.txt
 		if [ $(getprop ro.product.cpu.abi) = x86 ];then
 			file=$(grep i686 md5sums.txt | awk {'print $2'})
