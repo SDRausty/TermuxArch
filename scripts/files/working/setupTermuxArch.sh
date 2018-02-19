@@ -281,9 +281,7 @@ rmarchrm ()
 
 rmarchq ()
 {
-	if [[ $ruanswer = [Ee]* ]] || [[ $ruanswer = [Nn]* ]] || [[ $ruanswer = [Qq]* ]];then
-		:
-	else
+	if [[ $ruanswer != [Ee]* ]] || [[ $ruanswer != [Nn]* ]] || [[ $ruanswer != [Qq]* ]];then
 		if [ -d $HOME/arch ];then
 			printf "\n\033[0;33mTermuxArch: \033[1;33mDIRECTORY WARNING!  $HOME/arch/ \033[0;33mdirectory detected.  \033[1;30mTermux Arch installation will continue.  \033[0;33mInstalling into a clean directory is recommended.  \033[1;30mUninstalling before continuing is suggested.\n"
 			rmarch
@@ -293,9 +291,7 @@ rmarchq ()
 
 rmbloom ()
 {
-	if [[ $rbuanswer = [Ee]* ]] || [[ $rbuanswer = [Nn]* ]] || [[ $rbuanswer = [Qq]* ]];then
-		:
-	else
+	if [[ $rbuanswer != [Ee]* ]] || [[ $rbuanswer != [Nn]* ]] || [[ $rbuanswer != [Qq]* ]];then
 		while true; do
 			printf "\n\033[1;30m"
 			read -p "Refresh $HOME/TermuxArchBloom? [y|n] " rbuanswer
@@ -401,9 +397,7 @@ spaceinfogsize ()
 
 spaceinfoq ()
 {
-	if [[ $suanswer = [Yy]* ]];then
-		:
-	else
+	if [[ $suanswer != [Yy]* ]];then
 		spaceinfo
 		if [ -n "$spaceMessage" ];then
 			while true; do
@@ -425,7 +419,6 @@ spaceinfoq ()
 spaceinfoksize ()
 {
 	usrspace=`df 2>/dev/null | grep "/data" | awk {'print $4'}`
-	:
 }
 
 # User configurable variables are in `setupTermuxArchConfigs.sh`.  Create this file from `kownconfigurations.sh` in the working directory by using `bash setupTermuxArch.sh --manual` to create and edit `setupTermuxArchConfigs.sh`.  See `bash setupTermuxArch.sh --help` for more information. 
