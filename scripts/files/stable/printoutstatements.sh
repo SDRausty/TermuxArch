@@ -19,7 +19,7 @@ printdetectedsystem ()
 
 printdownloading ()
 {
-	printf "\n\033[1;34m 🕛 > 🕒 \033[1;34mActivated termux-wake-lock.  "'\033]2; 🕛 > 🕒 Downloading the Arch Linux system image file with checksum.  \007'
+	printf "\n\033[1;34m 🕛 > 🕒 \033[1;34mActivated termux-wake-lock.  "'\033]2; 🕛 > 🕒 Downloading the Arch Linux system image file and checksum.  \007'
 }
 
 printdownloadingx86 ()
@@ -39,7 +39,7 @@ printdownloadingftch ()
 
 printdownloadingftchit ()
 {
-	printf "\033[0;34mDownloading \033[0;32m$file \033[0;34mwith checksum from \033[0;32mhttp://$mirror\033[0;34m.  \033[1;37mThis may take a long time pending connection.\n\n\033[0;32m"
+	printf "\033[0;34mDownloading \033[0;32m$file \033[0;34mand checksum from \033[0;32mhttp://$mirror\033[0;34m.  \033[1;37mThis may take a long time pending connection.\n\n\033[0;32m"
 }
 
 printconfigq ()
