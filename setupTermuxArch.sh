@@ -298,7 +298,7 @@ rmbloom ()
 	else
 		while true; do
 			printf "\n\033[1;30m"
-			read -p "Uninstall $HOME/TermuxArchBloom? [y|n] " rbuanswer
+			read -p "Refresh $HOME/TermuxArchBloom? [y|n] " rbuanswer
 			if [[ $rbuanswer = [Ee]* ]] || [[ $rbuanswer = [Nn]* ]] || [[ $rbuanswer = [Qq]* ]];then
 				break
 			elif [[ $rbuanswer = [Yy]* ]];then
