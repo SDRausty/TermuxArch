@@ -144,9 +144,9 @@ edq ()
 	printf "\n\033[0;32m"
 	while true; do
 		if [[ $opt = bloom ]] || [[ $opt = manual ]];then
-			read -p "Do you want to use \`nano\` or \`vi\` to edit [n|v]? "  nv
+			read -p "Do you want to use \`nano\` or \`vi\` to edit \`setupTermuxArchConfigs.sh\` [n|v]? "  nv
 		else 
-			read -p "Change the worldwide mirror to a mirror that is geographically nearby.  Only choose one mirror in the mirrors file you are about to edit.  Do you want to use \`nano\` or \`vi\` to edit the Arch Linux configuration files [n|v]? "  nv
+			read -p "Change the worldwide mirror to a mirror that is geographically nearby.  Choose only ONE mirror in the mirrors file that you are about to edit.  Do you want to use \`nano\` or \`vi\` to edit Arch Linux configuration files [n|v]? "  nv
 		fi
 		if [[ $nv = [Nn]* ]];then
 			ed=nano
@@ -230,7 +230,7 @@ ldconf ()
 {
 	if [ -f "setupTermuxArchConfigs.sh" ];then
 		. setupTermuxArchConfigs.sh
-		printf "\033[1;34m 🕛 > 🕜 \033[0;34mTermuxArch configuration \033[0;32m$(pwd)/\033[1;32msetupTermuxArchConfigs.sh \033[0;34mloaded: \033[1;32mOK  \n\n\033[0m"
+		printf "\033[1;34m 🕛 > 🕜 \033[0;34mTermuxArch configuration \033[0;32m$(pwd)/\033[1;32msetupTermuxArchConfigs.sh \033[0;34mloaded: \033[1;32mOK\n\n\033[0m"
 	else
 		. knownconfigurations.sh
 	fi
@@ -276,6 +276,7 @@ obloomdependsblock ()
 
 omanual ()
 {
+	printf '\033]2;  Thank you for using `bash setupTermuxArch.sh --manual` 📲 \007'
 	edq
 	if [ -f "setupTermuxArchConfigs.sh" ];then
 		$ed setupTermuxArchConfigs.sh
@@ -320,12 +321,12 @@ rmarch ()
 			else 
 				printf "Uninstalling Arch Linux, nothing to do for $PREFIX/bin/$bin.\n"
 			fi
-			if [ -d $HOME/arch ];then
+			if [ -d $HOME$rootdir ];then
 				rmarchrm 
 			else 
-				printf "Uninstalling Arch Linux, nothing to do for $HOME/arch.\n"
+				printf "Uninstalling Arch Linux, nothing to do for $HOME$rootdir.\n"
 			fi
-			printf "Uninstalling Arch Linux done.\n"
+			printf "Uninstalling Arch Linux: \033[0;32mDone\n\033[30m"
 			break
 		else
 			printf "\nYou answered \033[33;1m$ruanswer\033[30m.\n\nAnswer \033[32mYes\033[30m or \033[1;31mNo\033[30m. [\033[32my\033[30m|\033[1;31mn\033[30m]\n"
@@ -335,11 +336,11 @@ rmarch ()
 
 rmarchrm ()
 {
-	cd $HOME/arch
+	cd $HOME$rootdir
 	rm -rf * 2>/dev/null ||:
 	find -type d -exec chmod 700 {} \; 2>/dev/null ||:
 	cd ..
-	rm -rf $HOME/arch 2>/dev/null ||:
+	rm -rf $HOME$rootdir 2>/dev/null ||:
 }
 
 rmarchq ()
@@ -347,8 +348,8 @@ rmarchq ()
 	if [[ $ruanswer = [Ee]* ]] || [[ $ruanswer = [Nn]* ]] || [[ $ruanswer = [Qq]* ]];then
 		:
 	else
-		if [ -d $HOME/arch ];then
-			printf "\n\033[0;33mTermuxArch: \033[1;33mDIRECTORY WARNING!  $HOME/arch/ \033[0;33mdirectory detected.  \033[1;30mTermux Arch installation will continue.  \033[0;32mInstalling into a clean directory is recommended when using the worldwide mirror.  \033[1;30mUnless continuing download from a geographically local mirror via \033[0;32msetupTermuxArchConfigs.sh\033[1;30m, uninstalling before continuing is suggested.  If in doubt, answer yes.\n"
+		if [ -d $HOME$rootdir ];then
+			printf "\n\033[0;33mTermuxArch: \033[1;33mDIRECTORY WARNING!  $HOME$rootdir/ \033[0;33mdirectory detected.  \033[1;30mTermux Arch installation shall continue.  \033[0;32mInstalling into a clean directory is recommended when using the worldwide mirror.  \033[1;30mUnless continuing download from a geographically local mirror via \033[0;32msetupTermuxArchConfigs.sh\033[1;30m, uninstalling before continuing is suggested.  If in doubt, answer yes.\n"
 			rmarch
 		fi
 	fi
@@ -369,7 +370,7 @@ rmbloom ()
 				if [ -d $HOME/TermuxArchBloom ];then
 					rm -rf $HOME/TermuxArchBloom 
 				else 
-					printf "Uninstalling $HOME/TermuxArchBloom, nothing to do for $HOME/arch.\n"
+					printf "Uninstalling $HOME/TermuxArchBloom, nothing to do for $HOME$rootdir.\n"
 				fi
 				printf "Uninstalling $HOME/TermuxArchBloom done.\n"
 				break
@@ -413,6 +414,20 @@ runobloom ()
 	else
 		dependsblock
 		obloom 
+	fi
+}
+
+
+setrootdir ()
+{
+	if [ $(getprop ro.product.cpu.abi) = x86 ];then 
+	#	rootdir=/root.i686
+		rootdir=/arch
+	elif [ $(getprop ro.product.cpu.abi) = x86_64 ];then 
+	#	rootdir=/root.x86_64
+		rootdir=/arch
+	else
+		rootdir=/arch
 	fi
 }
 
@@ -512,13 +527,16 @@ spaceinfoksize ()
 # TermuxArch Variables
 args=$@
 bin=startarch
-#dfl=/gen
+dfl=/gen
 #dm=curl
 #dm=wget
 dmverbose="-q"
 #dmverbose="-v"
 stime=`date +%s|grep -o '....$'`
 versionid="v0.8.6"
+
+setrootdir 
+echo $rootdir 
 
 if [[ $1 = [Cc][Dd]* ]] || [[ $1 = -[Cc][Dd]* ]] || [[ $1 = --[Cc][Dd]* ]] || [[ $1 = [Cc][Ss]* ]] || [[ $1 = -[Cc][Ss]* ]] || [[ $1 = --[Cc][Ss]* ]];then
 	dm=curl

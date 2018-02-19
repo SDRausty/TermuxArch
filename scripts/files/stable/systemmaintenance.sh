@@ -28,10 +28,10 @@ sysinfo ()
 	ls -al ~/downloads 2>>setupTermuxArchDebug$stime.log  >> setupTermuxArchDebug$stime.log 2>/dev/null ||:
 	if [ -d /sdcard/Download ]; then echo "/sdcard/Download exists"; else echo "/sdcard/Download not found"; fi >> setupTermuxArchDebug$stime.log 
 	if [ -d /storage/emulated/0/Download ]; then echo "/storage/emulated/0/Download exists"; else echo "/storage/emulated/0/Download not found"; fi >> setupTermuxArchDebug$stime.log
-	printf "\ndu -hs $HOME/arch results:\n\n" >> setupTermuxArchDebug$stime.log
-	du -hs $HOME/arch >> setupTermuxArchDebug$stime.log 2>/dev/null ||:
-	printf "\nls -al $HOME/arch results:\n\n" >> setupTermuxArchDebug$stime.log
-	ls -al $HOME/arch >> setupTermuxArchDebug$stime.log 2>/dev/null ||:
+	printf "\ndu -hs $HOME$rootdir results:\n\n" >> setupTermuxArchDebug$stime.log
+	du -hs $HOME$rootdir >> setupTermuxArchDebug$stime.log 2>/dev/null ||:
+	printf "\nls -al $HOME$rootdir results:\n\n" >> setupTermuxArchDebug$stime.log
+	ls -al $HOME$rootdir >> setupTermuxArchDebug$stime.log 2>/dev/null ||:
 	printf "\nuname -a results:\n\n" >> setupTermuxArchDebug$stime.log
 	uname -a >> setupTermuxArchDebug$stime.log
 	printf "\nEnd \`setupTermuxArchDebug$stime.log\` debug information.\n\nPost this information along with information regarding your issue at https://github.com/sdrausty/TermuxArch/issues.  Include information about input and output.  This debugging information is found in $(pwd)/$(ls setupTermuxArchDebug$stime.log).  If you think screenshots will help in resolving this matter better, include them in your post as well.  \n" >> setupTermuxArchDebug$stime.log
