@@ -69,7 +69,7 @@ depends ()
 			dm=curl 
 		fi
 		if [ -e $PREFIX/bin/wget ];then
-			dm=wget 
+			ifcurl
 		fi
 	fi
 	if [[ $dm = "" ]];then
@@ -164,31 +164,41 @@ edq ()
 	printf "\n"
 }
 
+ifcurl ()
+{
+	if [ ! -e $PREFIX/bin/curl ];then
+		printf "\n\033[1;34mInstalling \033[1;32mcurl\033[1;34m.\n\n\[1;32m"
+		pkg install curl -y 
+	fi
+	if [ ! -e $PREFIX/bin/curl ];then
+		printf "\n\033[1;31mPrerequisites exception.  Run the script again.\n\n\033[0m"
+		exit
+	fi
+}
+
 ifgetcurl ()
 {
 	if [[ $dm = curl ]];then
-		if [ ! -e $PREFIX/bin/curl ];then
-			printf "\n\033[1;34mInstalling \033[1;32mcurl\033[1;34m.\n\n\[1;32m"
-			pkg install curl -y 
-		fi
-		if [ ! -e $PREFIX/bin/curl ];then
-			printf "\n\033[1;31mPrerequisites exception.  Run the script again.\n\n\033[0m"
-			exit
-		fi
+		ifcurl
 	fi
 }
 
 ifgetwget ()
 {
 	if [[ $dm = wget ]];then
-		if [ ! -e $PREFIX/bin/wget ];then
-			printf "\n\033[1;34mInstalling \033[1;32mwget\033[1;34m.\n\n\[1;32m"
-			pkg install wget -y 
-		fi
-		if [ ! -e $PREFIX/bin/wget ];then
-			printf "\n\033[1;31mPrerequisites exception.  Run the script again.\n\n\033[0m"
-			exit
-		fi
+		ifwget 
+	fi
+}
+
+ifwget ()
+{
+	if [ ! -e $PREFIX/bin/wget ];then
+		printf "\n\033[1;34mInstalling \033[1;32mwget\033[1;34m.\n\n\[1;32m"
+		pkg install wget -y 
+	fi
+	if [ ! -e $PREFIX/bin/wget ];then
+		printf "\n\033[1;31mPrerequisites exception.  Run the script again.\n\n\033[0m"
+		exit
 	fi
 }
 
