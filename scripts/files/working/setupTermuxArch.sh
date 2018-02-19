@@ -326,7 +326,7 @@ rmarch ()
 			else 
 				printf "Uninstalling Arch Linux, nothing to do for $HOME$rootdir.\n"
 			fi
-			printf "Uninstalling Arch Linux done.\n"
+			printf "Uninstalling Arch Linux: \033[0;32mDone\n\033[30m"
 			break
 		else
 			printf "\nYou answered \033[33;1m$ruanswer\033[30m.\n\nAnswer \033[32mYes\033[30m or \033[1;31mNo\033[30m. [\033[32my\033[30m|\033[1;31mn\033[30m]\n"
@@ -531,7 +531,7 @@ dfl=/gen
 dmverbose="-q"
 #dmverbose="-v"
 stime=`date +%s|grep -o '....$'`
-versionid="gen.v0.8.6 id483329671"
+versionid="gen.v0.8.6 id038826072"
 
 setrootdir 
 echo $rootdir 
