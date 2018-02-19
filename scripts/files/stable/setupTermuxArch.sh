@@ -287,7 +287,7 @@ printsha512syschker ()
 
 printtail ()
 {
-	printf "\n\033[0mThank you for using \033[1;32msetupTermuxArch.sh $versionid\033[0m 🏁  \n\n\033[0m"'\033]2;  Thank you for using setupTermuxArch.sh  🏁 \007'
+	printf "\n\033[0mThank you for using \033[1;32msetupTermuxArch.sh \033[0m$versionid 🏁  \n\n\033[0m"'\033]2;  Thank you for using setupTermuxArch.sh  🏁 \007'
 	exit
 }
 

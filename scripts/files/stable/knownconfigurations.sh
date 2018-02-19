@@ -13,7 +13,7 @@
 cmirror="http://os.archlinuxarm.org/"
 #dm=curl
 #dm=wget
-#dmverbose=""
+#dmverbose="-q"
 #dmverbose="-v"
 
 aarch64 ()
