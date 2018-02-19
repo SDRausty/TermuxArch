@@ -433,7 +433,7 @@ spaceinfogsize ()
 	usrspace=`df /data 2>/dev/null | awk 'FNR == 2 {print $4}'`
 	if [ $(getprop ro.product.cpu.abi) = x86 ] || [ $(getprop ro.product.cpu.abi) = x86_64 ];then
 		if [[ $usrspace = *G ]];then 
-			:
+			spaceMessage=""
 		elif [[ $usrspace = *M ]];then
 			usspace="${usrspace: : -1}"
 			if [[ "$usspace" < "800" ]];then
@@ -486,6 +486,27 @@ spaceinfoq ()
 spaceinfoksize ()
 {
 	usrspace=`df 2>/dev/null | grep "/data" | awk {'print $4'}`
+	if [ $(getprop ro.product.cpu.abi) = x86 ] || [ $(getprop ro.product.cpu.abi) = x86_64 ];then
+		if [[ "$usrpace" < "500000" ]];then
+			spaceMessage="\n\033[0;33mTermuxArch: \033[1;33mFREE SPACE WARNING!  \033[1;30mStart thinking about cleaning out some stuff.  \033[33m$usrspace $units of free user space is available on this device.  \033[1;30mThe recommended minimum to install Arch Linux in Termux PRoot for x86 and x86_64 is 800M of free user space.\n\033[0m"
+		else
+			spaceMessage=""
+		fi
+	elif [ $(getprop ro.product.cpu.abi) = arm64-v8a ];then
+		if [[ "$usrpace" < "1250000" ]];then
+			spaceMessage="\n\033[0;33mTermuxArch: \033[1;33mFREE SPACE WARNING!  \033[1;30mStart thinking about cleaning out some stuff.  \033[33m$usrspace $units of free user space is available on this device.  \033[1;30mThe recommended minimum to install Arch Linux in Termux PRoot for aarch64 is 1.5G of free user space.\n\033[0m"
+		else
+			spaceMessage=""
+		fi
+	elif [ $(getprop ro.product.cpu.abi) = armeabi-v7a ];then
+		if [[ "$usspace" < "950000" ]];then
+			spaceMessage="\n\033[0;33mTermuxArch: \033[1;33mFREE SPACE WARNING!  \033[1;30mStart thinking about cleaning out some stuff.  \033[33m$usrspace $units of free user space is available on this device.  \033[1;30mThe recommended minimum to install Arch Linux in Termux PRoot for armv7 is 1.25G of free user space.\n\033[0m"
+		else
+			spaceMessage=""
+		fi
+	else
+		spaceMessage=""
+	fi
 }
 
 # User configurable variables are in `setupTermuxArchConfigs.sh`.  Create this file from `kownconfigurations.sh` in the working directory by using `bash setupTermuxArch.sh --manual` to create and edit `setupTermuxArchConfigs.sh`.  See `bash setupTermuxArch.sh --help` for more information. 
