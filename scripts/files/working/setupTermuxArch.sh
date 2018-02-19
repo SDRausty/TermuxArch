@@ -186,7 +186,8 @@ ifgetcurl ()
 ifgetwget ()
 {
 	if [[ $dm = wget ]];then
-		ifwget 
+		ifwget
+		ifcurl 
 	fi
 }
 
@@ -310,10 +311,10 @@ rmarch ()
 {
 	while true; do
 		printf "\n\033[1;30m"
-		read -p "Uninstall Arch Linux? [y|n] " ruanswer
+		read -p "Uninstall Arch Linux? [Y|n] " ruanswer
 		if [[ $ruanswer = [Ee]* ]] || [[ $ruanswer = [Nn]* ]] || [[ $ruanswer = [Qq]* ]];then
 			break
-		elif [[ $ruanswer = [Yy]* ]];then
+		elif [[ $ruanswer = [Yy]* ]] || [[ $ruanswer = "" ]];then
 			printf "\033[30mUninstalling Arch Linux...\n"
 			if [ -e $PREFIX/bin/$bin ];then
 				rm $PREFIX/bin/$bin 
