@@ -77,7 +77,7 @@ depends ()
 			dm=curl 
 		fi
 		if [ ! -e $PREFIX/bin/curl ];then
-			printf "\n\033[1;31mPrerequisites exception.  Run the script again.\n\n\033[0m"'\033]2;  Thank you for using setupTermuxArch.sh.  Execute `bash setupTermuxArch.sh` again.\007'
+			printf "\n\033[1;31mPrerequisites exception.  Run the script again.\n\n\033[0m"'\033]2;  Thank you for using setupTermuxArch.sh.  Run `bash setupTermuxArch.sh` again.\007'
 			exit
 		fi
 	fi
@@ -116,12 +116,12 @@ dependsax ()
 {
 	if [ $(getprop ro.product.cpu.abi) = x86 ] || [ $(getprop ro.product.cpu.abi) = x86_64 ];then
 		if [ ! -e $PREFIX/bin/bsdtar ]  || [ ! -e $PREFIX/bin/proot ];then
-			printf "\n\033[1;31mPrerequisites exception.  Run the script again.\n\n\033[0m"'\033]2;  Thank you for using setupTermuxArch.sh.  Execute `bash setupTermuxArch.sh` again.\007'
+			printf "\n\033[1;31mPrerequisites exception.  Run the script again.\n\n\033[0m"'\033]2;  Thank you for using setupTermuxArch.sh.  Run `bash setupTermuxArch.sh` again.\007'
 			exit
 		fi
 	else
 		if [ ! -e $PREFIX/bin/proot ];then
-			printf "\n\033[1;31mPrerequisites exception.  Run the script again.\n\n\033[0m"'\033]2;  Thank you for using setupTermuxArch.sh.  Execute `bash setupTermuxArch.sh` again.\007'
+			printf "\n\033[1;31mPrerequisites exception.  Run the script again.\n\n\033[0m"'\033]2;  Thank you for using setupTermuxArch.sh.  Run `bash setupTermuxArch.sh` again.\007'
 			exit
 		fi
 	fi
@@ -171,7 +171,7 @@ ifcurl ()
 		pkg install curl -y 
 	fi
 	if [ ! -e $PREFIX/bin/curl ];then
-		printf "\n\033[1;31mPrerequisites exception.  Run the script again.\n\n\033[0m"'\033]2;  Thank you for using setupTermuxArch.sh.  Execute `bash setupTermuxArch.sh` again.\007'
+		printf "\n\033[1;31mPrerequisites exception.  Run the script again.\n\n\033[0m"'\033]2;  Thank you for using setupTermuxArch.sh.  Run `bash setupTermuxArch.sh` again.\007'
 		exit
 	fi
 }
@@ -197,7 +197,7 @@ ifwget ()
 		pkg install wget -y 
 	fi
 	if [ ! -e $PREFIX/bin/wget ];then
-		printf "\n\033[1;31mPrerequisites exception.  Run the script again.\n\n\033[0m"'\033]2;  Thank you for using setupTermuxArch.sh.  Execute `bash setupTermuxArch.sh` again.\007'
+		printf "\n\033[1;31mPrerequisites exception.  Run the script again.\n\n\033[0m"'\033]2;  Thank you for using setupTermuxArch.sh.  Run `bash setupTermuxArch.sh` again.\007'
 		exit
 	fi
 }
@@ -291,7 +291,7 @@ omanual ()
 
 printsha512syschker ()
 {
-	printf "\033[07;1m\033[31;1m\n 🔆 ERROR sha512sum mismatch!  Setup initialization mismatch!\033[36;1m  Update this copy of \`setupTermuxArch.sh\`.  If it is updated, this kind of error can go away, like magic.  Wait before executing again, especially if using a fresh copy from https://raw.githubusercontent.com/sdrausty/TermuxArch/master/setupTermuxArch.sh on this system.  There are many reasons for checksum errors.  Proxies are one reason.  Mirroring and mirrors are another explanation for sha512sum errors.   \"Try again, initialization was not successful this time.\"  For more sha512sum error information see \`bash setupTermuxArch.sh --help\`.\n\n	Execute \`bash setupTermuxArch.sh\` again. \033[31;1mExiting…\n\032[0m"'\033]2;  Thank you for using setupTermuxArch.sh.  Execute `bash setupTermuxArch.sh` again.\007'
+	printf "\033[07;1m\033[31;1m\n 🔆 ERROR sha512sum mismatch!  Setup initialization mismatch!\033[36;1m  Update this copy of \`setupTermuxArch.sh\`.  If it is updated, this kind of error can go away, like magic.  Wait before executing again, especially if using a fresh copy from https://raw.githubusercontent.com/sdrausty/TermuxArch/master/setupTermuxArch.sh on this system.  There are many reasons for checksum errors.  Proxies are one reason.  Mirroring and mirrors are another explanation for sha512sum errors.   \"Try again, initialization was not successful this time.\"  For more sha512sum error information see \`bash setupTermuxArch.sh --help\`.\n\n	Run \`bash setupTermuxArch.sh\` again…\n\032[0m"'\033]2;  Thank you for using setupTermuxArch.sh.  Run `bash setupTermuxArch.sh` again…\007'
 	exit 
 }
 
