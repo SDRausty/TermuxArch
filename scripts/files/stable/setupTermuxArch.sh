@@ -58,7 +58,7 @@ chkself ()
 
 depends ()
 {
-	printf "\033[1;34mChecking prerequisites and upgrading Termux.\n\n\033[1;32m"
+	printf "\033[1;34mChecking prerequisites...\n\033[1;32m"
 	dependsa 
 	dependsax 
 	if [[ $dm = curl ]] || [[ $dm = wget ]];then
@@ -84,34 +84,6 @@ depends ()
 		fi
 	fi
 	printf "\n\033[1;34m 🕛 > 🕧 \033[1;34mPrerequisites: \033[1;32mOK\n\n\033[0;32m"
-}
-
-ifgetcurl ()
-{
-	if [[ $dm = curl ]];then
-		if [ ! -e $PREFIX/bin/curl ];then
-			printf "\033[1;34mInstalling \033[1;32mcurl\033[1;34m.\n\n\[1;32m"
-			pkg install curl -y 
-		fi
-		if [ ! -e $PREFIX/bin/curl ];then
-			printf "\n\033[1;31mPrerequisites exception.  Run the script again.\n\n\033[0m"
-			exit
-		fi
-	fi
-}
-
-ifgetwget ()
-{
-	if [[ $dm = wget ]];then
-		if [ ! -e $PREFIX/bin/wget ];then
-			printf "\033[1;34mInstalling \033[1;32mwget\033[1;34m.\n\n\[1;32m"
-			pkg install wget -y 
-		fi
-		if [ ! -e $PREFIX/bin/wget ];then
-			printf "\n\033[1;31mPrerequisites exception.  Run the script again.\n\n\033[0m"
-			exit
-		fi
-	fi
 }
 
 dependsblock ()
@@ -188,6 +160,34 @@ edq ()
 		printf "\nYou answered \033[36;1m$nv\033[32;1m.\n"
 	done	
 	printf "\n"
+}
+
+ifgetcurl ()
+{
+	if [[ $dm = curl ]];then
+		if [ ! -e $PREFIX/bin/curl ];then
+			printf "\033[1;34mInstalling \033[1;32mcurl\033[1;34m.\n\n\[1;32m"
+			pkg install curl -y 
+		fi
+		if [ ! -e $PREFIX/bin/curl ];then
+			printf "\n\033[1;31mPrerequisites exception.  Run the script again.\n\n\033[0m"
+			exit
+		fi
+	fi
+}
+
+ifgetwget ()
+{
+	if [[ $dm = wget ]];then
+		if [ ! -e $PREFIX/bin/wget ];then
+			printf "\033[1;34mInstalling \033[1;32mwget\033[1;34m.\n\n\[1;32m"
+			pkg install wget -y 
+		fi
+		if [ ! -e $PREFIX/bin/wget ];then
+			printf "\n\033[1;31mPrerequisites exception.  Run the script again.\n\n\033[0m"
+			exit
+		fi
+	fi
 }
 
 intro ()
