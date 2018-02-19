@@ -55,7 +55,7 @@ adddfa ()
 	#!/bin/bash -e
 	units=\`df 2>/dev/null | awk 'FNR == 1 {print $2}'\`
 	usrspace=\`df 2>/dev/null | grep "/data" | awk {'print $4'}\`
-	printf "\n\033[0;33m$usrspace $units of free user space is available on this device.\n\033[0m"
+	printf "\n\033[0;33m\$usrspace \$units of free user space is available on this device.\n\033[0m"
 	EOM
 	chmod 770 root/bin/dfa 
 }
@@ -196,7 +196,12 @@ addv ()
 {
 	cat > root/bin/v  <<- EOM
 	#!/bin/bash -e
-	vim \$@
+	if [ ! -e /usr/bin/vim ] ; then
+		pacman -Syu vim --noconfirm
+		vim \$@
+	else
+		vim \$@
+	fi
 	EOM
 	chmod 770 root/bin/v 
 }
