@@ -512,6 +512,8 @@ spaceinfoksize ()
 args=$@
 bin=startarch
 #dfl=/gen
+#dm=curl
+#dm=wget
 dmverbose="-q"
 #dmverbose="-v"
 stime=`date +%s|grep -o '....$'`
