@@ -129,12 +129,10 @@ dependsa ()
 {
 	if [ $(getprop ro.product.cpu.abi) = x86 ] || [ $(getprop ro.product.cpu.abi) = x86_64 ];then
 		if [ ! -e $PREFIX/bin/bsdtar ]  || [ ! -e $PREFIX/bin/proot ];then
-			printf "\033[1;34mChecking prerequisites and upgrading Termux.\n\033[1;32m"
 			pkg install bsdtar proot -y 
 		fi
 	else
 		if [ ! -e $PREFIX/bin/proot ];then
-			printf "\033[1;34mChecking prerequisites and upgrading Termux.\n\033[1;32m"
 			pkg install proot -y 
 		fi
 	fi
