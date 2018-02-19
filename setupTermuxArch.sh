@@ -429,7 +429,7 @@ spaceinfoksize ()
 }
 
 # User configurable variables are in `setupTermuxArchConfigs.sh`.  Create this file from `kownconfigurations.sh` in the working directory by using `bash setupTermuxArch.sh --manual` to create and edit `setupTermuxArchConfigs.sh`.  See `bash setupTermuxArch.sh --help` for more information. 
-# TermuxArch Script Variables
+# TermuxArch Variables
 args=$@
 bin=startarch
 #dfl=/gen
