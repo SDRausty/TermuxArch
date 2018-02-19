@@ -58,37 +58,59 @@ chkself ()
 
 depends ()
 {
-	if [ $(getprop ro.product.cpu.abi) = x86 ] || [ $(getprop ro.product.cpu.abi) = x86_64 ];then
-		if [ ! -e $PREFIX/bin/bsdtar ] || [ ! -e $PREFIX/bin/curl ] || [ ! -e $PREFIX/bin/proot ];then
-			printf "\033[1;34mChecking prerequisites and upgrading Termux.\n\n\033[1;32m"
-			pkg install bsdtar curl proot -y 
+	printf "\033[1;34mChecking prerequisites and upgrading Termux.\n\n\033[1;32m"
+	dependsa 
+	dependsax 
+	if [[ $dm = curl ]] || [[ $dm = wget ]];then
+		ifgetcurl 
+		ifgetwget 
+	elif [ -e $PREFIX/bin/curl ] || [ -e $PREFIX/bin/wget ];then
+		if [ -e $PREFIX/bin/curl ];then
+			$dm = curl 
 		fi
-	elif [ ! -e $PREFIX/bin/curl ] || [ ! -e $PREFIX/bin/proot ];then
-		printf "\033[1;34mChecking prerequisites and upgrading Termux.\n\n\033[1;32m"
-		pkg install curl proot -y
-	fi
-	if [[ $dm = wget ]];then
-		if [ ! -e $PREFIX/bin/wget ];then
-			printf "\n\n\033[1;34mInstalling wget.\n\n\[1;32m"
-			pkg install wget -y 
+		if [ -e $PREFIX/bin/wget ];then
+			$dm = wget 
 		fi
 	fi
-	if [ $(getprop ro.product.cpu.abi) = x86 ] || [ $(getprop ro.product.cpu.abi) = x86_64 ];then
-		if [ ! -e $PREFIX/bin/bsdtar ] || [ ! -e $PREFIX/bin/curl ] || [ ! -e $PREFIX/bin/proot ];then
-			printf "\n\033[1;31mPrerequisites exception.  Run the script again.\n\n\033[0m"
-			exit
+	if [[ $dm = "" ]];then
+		if [ ! -e $PREFIX/bin/curl ];then
+			pkg install curl -y
+			$dm = curl 
 		fi
-	elif [ ! -e $PREFIX/bin/curl ] || [ ! -e $PREFIX/bin/proot ];then
-		printf "\n\033[1;31mPrerequisites exception.  Run the script again.\n\n\033[0m"
-		exit
-	fi
-	if [[ $dm = wget ]];then
-		if [ ! -e $PREFIX/bin/wget ];then
+		if [ ! -e $PREFIX/bin/curl ];then
 			printf "\n\033[1;31mPrerequisites exception.  Run the script again.\n\n\033[0m"
 			exit
 		fi
 	fi
 	printf "\n\n\033[1;34m 🕛 > 🕧 \033[1;34mPrerequisites: \033[1;32mOK\n\n\033[0;32m"
+}
+
+ifgetcurl ()
+{
+	if [[ $dm = curl ]];then
+		if [ ! -e $PREFIX/bin/curl ];then
+			printf "\n\n\033[1;34mInstalling \033[1;32mcurl\033[1;34m.\n\n\[1;32m"
+			pkg install curl -y 
+		fi
+		if [ ! -e $PREFIX/bin/curl ];then
+			printf "\n\033[1;31mPrerequisites exception.  Run the script again.\n\n\033[0m"
+			exit
+		fi
+	fi
+}
+
+ifgetwget ()
+{
+	if [[ $dm = wget ]];then
+		if [ ! -e $PREFIX/bin/wget ];then
+			printf "\n\n\033[1;34mInstalling \033[1;32mwget\033[1;34m.\n\n\[1;32m"
+			pkg install wget -y 
+		fi
+		if [ ! -e $PREFIX/bin/wget ];then
+			printf "\n\033[1;31mPrerequisites exception.  Run the script again.\n\n\033[0m"
+			exit
+		fi
+	fi
 }
 
 dependsblock ()
@@ -100,6 +122,36 @@ dependsblock ()
 	fi
 	chkdwn
 	chk
+}
+
+dependsa ()
+{
+	if [ $(getprop ro.product.cpu.abi) = x86 ] || [ $(getprop ro.product.cpu.abi) = x86_64 ];then
+		if [ ! -e $PREFIX/bin/bsdtar ]  || [ ! -e $PREFIX/bin/proot ];then
+			printf "\033[1;34mChecking prerequisites and upgrading Termux.\n\n\033[1;32m"
+			pkg install bsdtar proot -y 
+		fi
+	else
+		if [ ! -e $PREFIX/bin/proot ];then
+			printf "\033[1;34mChecking prerequisites and upgrading Termux.\n\n\033[1;32m"
+			pkg install proot -y 
+		fi
+	fi
+}
+
+dependsax ()
+{
+	if [ $(getprop ro.product.cpu.abi) = x86 ] || [ $(getprop ro.product.cpu.abi) = x86_64 ];then
+		if [ ! -e $PREFIX/bin/bsdtar ]  || [ ! -e $PREFIX/bin/proot ];then
+			printf "\n\033[1;31mPrerequisites exception.  Run the script again.\n\n\033[0m"
+			exit
+		fi
+	else
+		if [ ! -e $PREFIX/bin/proot ];then
+			printf "\n\033[1;31mPrerequisites exception.  Run the script again.\n\n\033[0m"
+			exit
+		fi
+	fi
 }
 
 dwnl ()
@@ -240,7 +292,7 @@ printtail ()
 
 printusage ()
 {
-	printf "\n\n\033[1;34mUsage information for \033[1;32msetupTermuxArch.sh \033[1;34m$versionid.  Arguments can abbreviated to one letter; Two letter arguments are acceptable.  For example, \033[1;32mbash setupTermuxArch.sh cs\033[1;34m will use \033[1;32mcurl\033[1;34m to download TermuxArch and produce a \033[1;32msetupTermuxArchDebug$stime.log\033[1;34m file.\n\nUser configurable variables are in \033[1;32msetupTermuxArchConfigs.sh\033[1;34m.  Create this file from \033[1;32mkownconfigurations.sh\033[1;34m in the working directory.  Use \033[1;32mbash setupTermuxArch.sh --manual\033[1;34m to create and edit \033[1;32msetupTermuxArchConfigs.sh\033[1;34m.\n\n\033[1;33mDEBUG\033[1;34m    Use \033[1;32msetupTermuxArch.sh --sysinfo \033[1;34mto create \033[1;32msetupTermuxArchDebug.log\033[1;34m and populate it with debug information.  Post this information along with detailed information about the issue at https://github.com/sdrausty/TermuxArch/issues.  If screenshots will help in resolving the issue better, include them in a post along with information from the debug log file.\n\n\033[1;33mHELP\033[1;34m     Use \033[1;32msetupTermuxArch.sh --help \033[1;34mto output this help screen.\n\n\033[1;33mINSTALL\033[1;34m  Run \033[1;32m./setupTermuxArch.sh\033[1;34m without arguments in a bash shell to install Arch Linux in Termux.  Use \033[1;32mbash setupTermuxArch.sh --curl \033[1;34mto envoke \033[1;32mcurl\033[1;34m as the download manager.  Copy \033[1;32mknownconfigurations.sh\033[1;34m to \033[1;32msetupTermuxArchConfigs.sh\033[1;34m with preferred mirror.  After editing \033[1;32msetupTermuxArchConfigs.sh\033[1;34m, run \033[1;32mbash setupTermuxArch.sh\033[1;34m and \033[1;32msetupTermuxArchConfigs.sh\033[1;34m loads automatically from the same directory.  Change mirror to desired geographic location to resolve download errors.\n\n\033[1;33mPURGE\033[1;34m    Use \033[1;32msetupTermuxArch.sh --uninstall\033[1;34m \033[1;34mto uninstall Arch Linux from Termux.\n"
+	printf "\n\n\033[1;34mUsage information for \033[1;32msetupTermuxArch.sh \033[1;34m$versionid.  Arguments can abbreviated to one letter; Two letter arguments are acceptable.  For example, \033[1;32mbash setupTermuxArch.sh cs\033[1;34m will use \033[1;32mcurl\033[1;34m to download TermuxArch and produce a \033[1;32msetupTermuxArchDebug$stime.log\033[1;34m file.\n\nUser configurable variables are in \033[1;32msetupTermuxArchConfigs.sh\033[1;34m.  Create this file from \033[1;32mkownconfigurations.sh\033[1;34m in the working directory.  Use \033[1;32mbash setupTermuxArch.sh --manual\033[1;34m to create and edit \033[1;32msetupTermuxArchConfigs.sh\033[1;34m.\n\n\033[1;33mDEBUG\033[1;34m    Use \033[1;32msetupTermuxArch.sh --sysinfo \033[1;34mto create a \033[1;32msetupTermuxArchDebug$stime.log\033[1;34m and populate it with system information.  Post this along with detailed information about the issue at https://github.com/sdrausty/TermuxArch/issues.  If screenshots will help in resolving the issue better, include them in a post along with information from the debug log file.\n\n\033[1;33mHELP\033[1;34m     Use \033[1;32msetupTermuxArch.sh --help \033[1;34mto output this help screen.\n\n\033[1;33mINSTALL\033[1;34m  Run \033[1;32m./setupTermuxArch.sh\033[1;34m without arguments in a bash shell to install Arch Linux in Termux.  Use \033[1;32mbash setupTermuxArch.sh --curl \033[1;34mto envoke \033[1;32mcurl\033[1;34m as the download manager.  Copy \033[1;32mknownconfigurations.sh\033[1;34m to \033[1;32msetupTermuxArchConfigs.sh\033[1;34m with preferred mirror.  After editing \033[1;32msetupTermuxArchConfigs.sh\033[1;34m, run \033[1;32mbash setupTermuxArch.sh\033[1;34m and \033[1;32msetupTermuxArchConfigs.sh\033[1;34m loads automatically from the same directory.  Change mirror to desired geographic location to resolve download errors.\n\n\033[1;33mPURGE\033[1;34m    Use \033[1;32msetupTermuxArch.sh --uninstall\033[1;34m \033[1;34mto uninstall Arch Linux from Termux.\n"
 }
 
 rmarch ()
