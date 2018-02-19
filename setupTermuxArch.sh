@@ -116,12 +116,12 @@ dependsax ()
 {
 	if [ $(getprop ro.product.cpu.abi) = x86 ] || [ $(getprop ro.product.cpu.abi) = x86_64 ];then
 		if [ ! -e $PREFIX/bin/bsdtar ]  || [ ! -e $PREFIX/bin/proot ];then
-			printf "\n\033[1;31mPrerequisites exception.  Run the script again.\n\n\033[0m"'\033]2;  Thank you for using setupTermuxArch.sh.  Run `bash setupTermuxArch.sh` again.\007'
+			printf "\n\033[1;31mPrerequisites exception.  Run the script again.\n\n\033[0m"'\033]2;  Thank you for using setupTermuxArch.sh.  Run setupTermuxArch.sh again.\007'
 			exit
 		fi
 	else
 		if [ ! -e $PREFIX/bin/proot ];then
-			printf "\n\033[1;31mPrerequisites exception.  Run the script again.\n\n\033[0m"'\033]2;  Thank you for using setupTermuxArch.sh.  Run `bash setupTermuxArch.sh` again.\007'
+			printf "\n\033[1;31mPrerequisites exception.  Run the script again.\n\n\033[0m"'\033]2;  Thank you for using setupTermuxArch.sh.  Run setupTermuxArch.sh again.\007'
 			exit
 		fi
 	fi
