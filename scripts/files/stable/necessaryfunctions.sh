@@ -175,15 +175,15 @@ touchupsys ()
 		printf "Change the worldwide mirror to a mirror that is geographically nearby.  Choose only ONE mirror in the mirrors file.  "
 	fi
 	while true; do
-		read -p "Would you like to run \`locale-gen\` to generate the en_US.UTF-8 locale, or would you like to edit \`/etc/locale.gen\` specifying your preferred language(s) before running \`locale-gen\`?  Answer run or edit [r|e]. " ye
-	if [[ $ye = [Rr]* ]];then
+		read -p "Would you like to run \`locale-gen\` to generate the en_US.UTF-8 locale, or would you like to edit \`/etc/locale.gen\` specifying your preferred language(s) before running \`locale-gen\`?  Answer run or edit [R|e]. " ye
+	if [[ $ye = [Rr]* ]] || [[ $ye = "" ]];then
 		break
 	elif [[ $ye = [Ee]* ]];then
 		$ed $HOME$rootdir/etc/locale.gen
 		break
 	else
 		printf "\nYou answered \033[36;1m$ye\033[32;1m.\n"
-		printf "\nAnswer run or edit (Rr|Ee).  \n\n"
+		printf "\nAnswer run or edit [R|e].  \n\n"
 	fi
 	done
 	$ed $HOME$rootdir/etc/pacman.d/mirrorlist
