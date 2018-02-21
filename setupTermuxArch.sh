@@ -521,10 +521,12 @@ spaceinfoksize ()
 	fi
 }
 
-# User configurable variables such as mirrors are in `setupTermuxArchConfigs.sh`.  To create this file from `kownconfigurations.sh` in the working directory, use `bash setupTermuxArch.sh --manual` to create and edit `setupTermuxArchConfigs.sh`.  See `bash setupTermuxArch.sh --help` for more information. 
+# User configurable variables such as mirrors are in `setupTermuxArchConfigs.sh`.  Creating this file from `kownconfigurations.sh` in the working directory is simple, use `bash setupTermuxArch.sh --manual` to create, edit and run `setupTermuxArchConfigs.sh`; `bash setupTermuxArch.sh --help` has more information. 
 
 args=$@
 bin=startarch
+#cmirror="http://mirror.archlinuxarm.org/"
+cmirror="http://os.archlinuxarm.org/"
 #dfl=/gen
 #dm=curl
 #dm=wget
