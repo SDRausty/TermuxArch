@@ -525,13 +525,13 @@ spaceinfoksize ()
 
 args=$@
 bin=startarch
-#dfl=/gen
+dfl=/gen
 #dm=curl
 #dm=wget
 dmverbose="-q"
 #dmverbose="-v"
 stime=`date +%s|grep -o '....$'`
-versionid="gen.v0.8.7 id241062197"
+versionid="gen.v0.8.7 id417243997"
 
 setrootdir 
 
