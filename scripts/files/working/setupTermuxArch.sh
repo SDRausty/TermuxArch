@@ -461,8 +461,8 @@ spaceinfogsize ()
 				spaceMessage=""
 			fi
 		elif [ $(getprop ro.product.cpu.abi) = armeabi-v7a ];then
-			if [[ "$usspace" < "1.25" ]];then
-				spaceMessage="\n\033[0;33mTermuxArch: \033[1;33mFREE SPACE WARNING!  \033[1;30mStart thinking about cleaning out some stuff.  \033[33m$usrspace of free user space is available on this device.  \033[1;30mThe recommended minimum to install Arch Linux in Termux PRoot for armv7 is 1.25G of free user space.\n\033[0m"
+			if [[ "$usspace" < "1.23" ]];then
+				spaceMessage="\n\033[0;33mTermuxArch: \033[1;33mFREE SPACE WARNING!  \033[1;30mStart thinking about cleaning out some stuff.  \033[33m$usrspace of free user space is available on this device.  \033[1;30mThe recommended minimum to install Arch Linux in Termux PRoot for armv7 is 1.23G of free user space.\n\033[0m"
 			else
 				spaceMessage=""
 			fi
