@@ -19,7 +19,7 @@ ftchit ()
 
 ftchstnd ()
 {
-	printf "\033[1;34mContacting worldwide mirror \033[0;32m$cmirror\033[1;34m.  "
+	printf "\033[1;34mContacting worldwide mirror \033[0;32m$cmirror\033[1;34m…  "
 	if [[ $dm = wget ]];then 
 		wget -v -O/dev/null $cmirror 2>gmirror
 		nmirror=$(grep Location gmirror | awk {'print $2'}) 
