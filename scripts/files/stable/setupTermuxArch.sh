@@ -24,7 +24,7 @@ chk ()
 		else 
 			rmdsc 
 		fi
-		printf "\033[1;34m 🕛 > 🕑 \033[1;34mTermuxArch $versionid integrity: \033[1;32mOK\n\033[1;30m"
+		printf "\033[1;34m 🕛 > 🕑 \033[1;34mTermuxArch $versionid integrity: \033[1;32mOK\n"
 	else
 		rmdsc 
 		printsha512syschker
@@ -34,7 +34,7 @@ chk ()
 chkdwn ()
 {
 	if sha512sum -c setupTermuxArch.sha512 1>/dev/null ;then
-		printf "\033[1;34m 🕛 > 🕐 \033[1;34mTermuxArch download: \033[1;32mOK\n\n\033[1;33m"
+		printf "\033[1;34m 🕛 > 🕐 \033[1;34mTermuxArch download: \033[1;32mOK\n\n"
 		$PREFIX/bin/applets/tar	xf setupTermuxArch.tar.gz
 		rmds 
 	else
@@ -234,7 +234,7 @@ ldconf ()
 {
 	if [ -f "setupTermuxArchConfigs.sh" ];then
 		. setupTermuxArchConfigs.sh
-		printf "\033[1;34m 🕛 > 🕜 \033[0;34mTermuxArch configuration \033[0;32m$(pwd)/\033[1;32msetupTermuxArchConfigs.sh \033[0;34mloaded: \033[1;32mOK\n\n\033[0m"
+		printf "\033[1;34m 🕛 > 🕜 \033[0;34mTermuxArch configuration \033[0;32m$(pwd)/\033[1;32msetupTermuxArchConfigs.sh \033[0;34mloaded: \033[1;32mOK\n\n"
 	else
 		. knownconfigurations.sh
 	fi
@@ -274,7 +274,7 @@ obloomdependsblock ()
 	. necessaryfunctions.sh
 	. printoutstatements.sh
 	. systemmaintenance.sh
-	printf "\n\033[1;34m 🕛 > 🕑 \033[1;34mTermuxArch $versionid integrity: \033[1;32mOK\n\033[1;30m"
+	printf "\n\033[1;34m 🕛 > 🕑 \033[1;34mTermuxArch $versionid integrity: \033[1;32mOK\n"
 	mainblock
 }
 
@@ -285,12 +285,12 @@ omanual ()
 	if [ -f "setupTermuxArchConfigs.sh" ];then
 		$ed setupTermuxArchConfigs.sh
 		. setupTermuxArchConfigs.sh
-		printf "\n\033[1;34m 🕛 > 🕜 \033[0;34mTermuxArch configuration \033[0;32m$(pwd)/\033[1;32msetupTermuxArchConfigs.sh \033[1;34mloaded: \033[1;32mOK  \n\033[0m"
+		printf "\n\033[1;34m 🕛 > 🕜 \033[0;34mTermuxArch configuration \033[0;32m$(pwd)/\033[1;32msetupTermuxArchConfigs.sh \033[1;34mloaded: \033[1;32mOK\n\n"
 	else
 		cp knownconfigurations.sh setupTermuxArchConfigs.sh
 		$ed setupTermuxArchConfigs.sh
 		. setupTermuxArchConfigs.sh
-		printf "\n\033[1;34m 🕛 > 🕜 \033[0;34mTermuxArch configuration \033[0;32m$(pwd)/\033[1;32msetupTermuxArchConfigs.sh \033[1;34mloaded: \033[1;32mOK  \n\033[0m"
+		printf "\n\033[1;34m 🕛 > 🕜 \033[0;34mTermuxArch configuration \033[0;32m$(pwd)/\033[1;32msetupTermuxArchConfigs.sh \033[1;34mloaded: \033[1;32mOK\n\n"
 	fi
 }
 
