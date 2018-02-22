@@ -49,7 +49,7 @@ printconfigq ()
 
 printmd5check ()
 {
-	printf "\n\033[1;34m 🕛 > 🕠 \033[1;34mChecking download integrity with md5sum.  \033[37;1mThis may take a little while.\n\n\033[1;33m"
+	printf "\n\033[1;34m 🕛 > 🕠 \033[1;34mChecking download integrity with md5sum…  \033[37;1mThis may take a little while.\n\n\033[1;33m"
 }
 
 printmd5error ()
