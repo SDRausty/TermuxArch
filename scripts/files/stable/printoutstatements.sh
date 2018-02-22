@@ -19,17 +19,17 @@ printdetectedsystem ()
 
 printdownloading ()
 {
-	printf "\n\033[1;34m 🕛 > 🕒 \033[1;34mActivating termux-wake-lock…  "'\033]2; 🕛 > 🕒 Downloading the Arch Linux system image file and checksum.  \007'
+	printf "\n\033[1;34m 🕛 > 🕒 \033[1;34mActivating termux-wake-lock…  "'\033]2; 🕛 > 🕒 Downloading the Arch Linux system image file and checksum…  \007'
 }
 
 printdownloadingx86 ()
 {
-	printf "\033[0;34mDownloading checksum from \033[0;32mhttp://$mirror\033[0;34m.\n\n\033[0;32m"
+	printf "\033[0;34mDownloading checksum from \033[0;32mhttp://$mirror\033[0;34m…\n\n\033[0;32m"
 }
 
 printdownloadingx86two ()
 {
-	printf "\n\n\033[0;34mDownloading \033[0;32m$file \033[0;34mfrom \033[0;32mhttp://$mirror\033[0;34m.  \033[1;37mThis may take a long time pending connection.\n\n\033[0;32m"
+	printf "\n\n\033[0;34mDownloading \033[0;32m$file \033[0;34mfrom \033[0;32mhttp://$mirror\033[0;34m…  \033[1;37mThis may take a long time pending connection.\n\n\033[0;32m"
 }
 
 printdownloadingftch ()
@@ -39,7 +39,7 @@ printdownloadingftch ()
 
 printdownloadingftchit ()
 {
-	printf "\033[0;34mDownloading \033[0;32m$file \033[0;34mand checksum from \033[0;32mhttp://$mirror\033[0;34m.  \033[1;37mThis may take a long time pending connection.\n\n\033[0;32m"
+	printf "\033[0;34mDownloading \033[0;32m$file \033[0;34mand checksum from \033[0;32mhttp://$mirror\033[0;34m…  \033[1;37mThis may take a long time pending connection.\n\n\033[0;32m"
 }
 
 printconfigq ()
@@ -60,7 +60,7 @@ printmd5error ()
 
 printmd5success ()
 {
-	printf '\033]2;  🕛 > 🕡 Uncompressing the image file.  This will take a long time; Be patient.\007'"\033[1;34m 🕛 > 🕕 \033[1;34mSystem image file download integrity: \033[32;1mOK\n\n\033[1;34m 🕛 > 🕡 \033[1;34mUncompressing \033[32;1m$file\033[1;34m.  \033[1;37mThis will take a long time; Be patient.\n\033[0m"
+	printf '\033]2;  🕛 > 🕡 Uncompressing the image file…  This will take a long time; Be patient.\007'"\033[1;34m 🕛 > 🕕 \033[1;34mSystem image file download integrity: \033[32;1mOK\n\n\033[1;34m 🕛 > 🕡 \033[1;34mUncompressing \033[32;1m$file\033[1;34m…  \033[1;37mThis will take a long time; Be patient.\n\033[0m"
 }
 
 printmismatch ()
