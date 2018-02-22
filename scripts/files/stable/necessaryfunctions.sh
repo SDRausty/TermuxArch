@@ -176,6 +176,7 @@ touchupsys ()
 		printf "Change the worldwide mirror to a mirror that is geographically nearby.  Choose only ONE mirror in the mirrors file.  "
 	fi
 	while true; do
+		printf "\033[0;32m"
 		read -p "Would you like to run \`locale-gen\` to generate the en_US.UTF-8 locale, or would you like to edit \`/etc/locale.gen\` specifying your preferred language(s) before running \`locale-gen\`?  Answer run or edit [R|e]. " ye
 	if [[ $ye = [Rr]* ]] || [[ $ye = "" ]];then
 		break
