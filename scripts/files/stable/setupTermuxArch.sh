@@ -204,7 +204,6 @@ intro ()
 {
 	rmarchq
 	spaceinfoq
-	printf "\nArch Linux shall be installed in $HOME$rootdir\n" 
 	printf "\n\033[1;34m 🕛 > 🕛 \033[1;34msetupTermuxArch $versionid will attempt to install Linux in $HOME$rootdir.  Arch Linux will be available upon successful completion.  Ensure background data is not restricted.  Run \033[0;32mbash setupTermuxArch.sh --help \033[1;34mfor additional information.  Check the wireless connection if you do not see one o'clock 🕐 below.  "
 	dependsblock 
 }
