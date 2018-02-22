@@ -531,8 +531,8 @@ spaceinfoksize ()
 
 args=$@
 bin=startarch
-cmirror="http://mirror.archlinuxarm.org/"
-#cmirror="http://os.archlinuxarm.org/"
+#cmirror="http://mirror.archlinuxarm.org/"
+cmirror="http://os.archlinuxarm.org/"
 dfl=/gen
 #dm=curl
 #dm=wget
