@@ -24,7 +24,7 @@ chk ()
 		else 
 			rmdsc 
 		fi
-		printf "\033[1;34m 🕛 > 🕑 \033[1;34mTermuxArch $versionid integrity: \033[1;32mOK\n\033[1;30m"
+		printf "\033[1;34m 🕛 > 🕑 \033[1;34mTermuxArch $versionid integrity: \033[1;32mOK\n"
 	else
 		rmdsc 
 		printsha512syschker
@@ -34,7 +34,7 @@ chk ()
 chkdwn ()
 {
 	if sha512sum -c setupTermuxArch.sha512 1>/dev/null ;then
-		printf "\033[1;34m 🕛 > 🕐 \033[1;34mTermuxArch download: \033[1;32mOK\n\n\033[1;33m"
+		printf "\033[1;34m 🕛 > 🕐 \033[1;34mTermuxArch download: \033[1;32mOK\n\n"
 		$PREFIX/bin/applets/tar	xf setupTermuxArch.tar.gz
 		rmds 
 	else
@@ -234,7 +234,7 @@ ldconf ()
 {
 	if [ -f "setupTermuxArchConfigs.sh" ];then
 		. setupTermuxArchConfigs.sh
-		printf "\033[1;34m 🕛 > 🕜 \033[0;34mTermuxArch configuration \033[0;32m$(pwd)/\033[1;32msetupTermuxArchConfigs.sh \033[0;34mloaded: \033[1;32mOK\n\n\033[0m"
+		printf "\033[1;34m 🕛 > 🕜 \033[1;34mTermuxArch configuration \033[0;32m$(pwd)/\033[1;32msetupTermuxArchConfigs.sh \033[1;34mloaded: \033[1;32mOK\n\n"
 	else
 		. knownconfigurations.sh
 	fi
@@ -274,7 +274,7 @@ obloomdependsblock ()
 	. necessaryfunctions.sh
 	. printoutstatements.sh
 	. systemmaintenance.sh
-	printf "\n\033[1;34m 🕛 > 🕑 \033[1;34mTermuxArch $versionid integrity: \033[1;32mOK\n\033[1;30m"
+	printf "\n\033[1;34m 🕛 > 🕑 \033[1;34mTermuxArch $versionid integrity: \033[1;32mOK\n"
 	mainblock
 }
 
@@ -285,12 +285,12 @@ omanual ()
 	if [ -f "setupTermuxArchConfigs.sh" ];then
 		$ed setupTermuxArchConfigs.sh
 		. setupTermuxArchConfigs.sh
-		printf "\n\033[1;34m 🕛 > 🕜 \033[0;34mTermuxArch configuration \033[0;32m$(pwd)/\033[1;32msetupTermuxArchConfigs.sh \033[1;34mloaded: \033[1;32mOK  \n\033[0m"
+		printf "\n\033[1;34m 🕛 > 🕜 \033[1;34mTermuxArch configuration \033[0;32m$(pwd)/\033[1;32msetupTermuxArchConfigs.sh \033[1;34mloaded: \033[1;32mOK\n\n"
 	else
 		cp knownconfigurations.sh setupTermuxArchConfigs.sh
 		$ed setupTermuxArchConfigs.sh
 		. setupTermuxArchConfigs.sh
-		printf "\n\033[1;34m 🕛 > 🕜 \033[0;34mTermuxArch configuration \033[0;32m$(pwd)/\033[1;32msetupTermuxArchConfigs.sh \033[1;34mloaded: \033[1;32mOK  \n\033[0m"
+		printf "\n\033[1;34m 🕛 > 🕜 \033[1;34mTermuxArch configuration \033[0;32m$(pwd)/\033[1;32msetupTermuxArchConfigs.sh \033[1;34mloaded: \033[1;32mOK\n\n"
 	fi
 }
 
@@ -315,22 +315,22 @@ rmarch ()
 {
 	while true; do
 		printf "\n\033[1;30m"
-		read -p "Uninstall Arch Linux? [Y|n] " ruanswer
+		read -p "Remove $HOME$rootdir? [Y|n] " ruanswer
 		if [[ $ruanswer = [Ee]* ]] || [[ $ruanswer = [Nn]* ]] || [[ $ruanswer = [Qq]* ]];then
 			break
 		elif [[ $ruanswer = [Yy]* ]] || [[ $ruanswer = "" ]];then
-			printf "\033[30mUninstalling Arch Linux…\n"
+			printf "\033[30mRemoving $HOME$rootdir…\n"
 			if [ -e $PREFIX/bin/$bin ];then
 				rm $PREFIX/bin/$bin 
 			else 
-				printf "Uninstalling Arch Linux, nothing to do for $PREFIX/bin/$bin.\n"
+				printf "Removing $PREFIX/bin/$bin, nothing to do for $PREFIX/bin/$bin.\n"
 			fi
 			if [ -d $HOME$rootdir ];then
 				rmarchrm 
 			else 
-				printf "Uninstalling Arch Linux, nothing to do for $HOME$rootdir.\n"
+				printf "Removing $HOME$rootdir, nothing to do for $HOME$rootdir.\n"
 			fi
-			printf "Uninstalling Arch Linux: \033[0;32mDone\n\033[30m"
+			printf "Removing $HOME$rootdir: \033[0;32mDone\n\033[30m"
 			break
 		else
 			printf "\nYou answered \033[33;1m$ruanswer\033[30m.\n\nAnswer \033[32mYes\033[30m or \033[1;31mNo\033[30m. [\033[32my\033[30m|\033[1;31mn\033[30m]\n"
@@ -353,7 +353,7 @@ rmarchq ()
 		:
 	else
 		if [ -d $HOME$rootdir ];then
-			printf "\n\033[0;33mTermuxArch: \033[1;33mDIRECTORY WARNING!  $HOME$rootdir/ \033[0;33mdirectory detected.  \033[1;30mTermux Arch installation shall continue.  \033[0;32mInstalling into a clean directory is recommended when using the worldwide mirror.  \033[1;30mUnless continuing download from a geographically local mirror via \033[0;32msetupTermuxArchConfigs.sh\033[1;30m, uninstalling before continuing is suggested.  If in doubt, answer yes.\n"
+			printf "\n\033[0;33mTermuxArch: \033[1;33mDIRECTORY WARNING!  $HOME$rootdir/ \033[0;33mdirectory detected.  \033[1;30mTermux Arch installation shall continue.  \033[0;32mInstalling into a clean directory is recommended when using the worldwide mirror.  \033[1;30mUnless continuing from a geographically local mirror or x86/x86_64 download, removing $HOME$rootdir before continuing is suggested.  If in doubt, answer yes.\n"
 			rmarch
 		fi
 	fi
@@ -531,15 +531,15 @@ spaceinfoksize ()
 
 args=$@
 bin=startarch
-cmirror="http://mirror.archlinuxarm.org/"
-#cmirror="http://os.archlinuxarm.org/"
+#cmirror="http://mirror.archlinuxarm.org/"
+cmirror="http://os.archlinuxarm.org/"
 dfl=/gen
 #dm=curl
 #dm=wget
 dmverbose="-q"
 #dmverbose="-v"
 stime=`date +%s|grep -o '....$'`
-versionid="gen.v0.8.8 id808997284"
+versionid="gen.v0.8.8 id598654662"
 
 setrootdir 
 
@@ -575,7 +575,6 @@ elif [[ $1 = [Pp]* ]] || [[ $1 = -[Pp]* ]] || [[ $1 = --[Pp]* ]] || [[ $1 = [Uu]
 	rmarch
 elif [[ $1 = [Rr][Oo]* ]] || [[ $1 = -[Rr][Oo]* ]] || [[ $1 = --[Rr][Oo]* ]];then
 	rootdir=/$2 
-	echo $2
 	intro 
 	mainblock
 elif [[ $1 = [Rr]* ]] || [[ $1 = -[Rr]* ]] || [[ $1 = --[Rr]* ]] || [[ $1 = [Rr][Uu]* ]] || [[ $1 = -[Rr][Uu]* ]] || [[ $1 = --[Rr][Uu]* ]];then
@@ -586,4 +585,5 @@ elif [[ $1 = "" ]] || [[ $1 = [Ii]* ]] || [[ $1 = -[Ii]* ]] || [[ $1 = --[Ii]* ]
 else
 	printusage
 fi
+echo $?
 printtail 
