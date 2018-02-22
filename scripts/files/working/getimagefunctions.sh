@@ -24,6 +24,7 @@ ftchstnd ()
 		wget -v -O/dev/null $cmirror 2>gmirror
 		nmirror=$(grep Location gmirror | awk {'print $2'}) 
 		rm gmirror
+		printf "\033[0;32mDONE  \033[0m"
 		printdownloadingftch 
 		wget $dmverbose -N --show-progress $nmirror$path$file.md5 
 		wget $dmverbose -N --show-progress $nmirror$path$file 
@@ -31,6 +32,7 @@ ftchstnd ()
 		curl -v $cmirror 2>gmirror
 		nmirror=$(grep Location gmirror | awk {'print $3'}) 
 		rm gmirror
+		printf "\033[0;32mDONE  \033[0m"
 		printdownloadingftch 
 		curl $dmverbose --fail --retry 4 -O $nmirror$path$file.md5 -O $nmirror$path$file
 	fi

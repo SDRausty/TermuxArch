@@ -72,8 +72,9 @@ depends ()
 	fi
 	if [[ $dm = "" ]];then
 		if [ ! -e $PREFIX/bin/curl ];then
-			printf "\n\033[1;34mInstalling \033[0;32mcurl\033[1;34m…\n\n\[1;32m"
+			printf "\n\033[1;34mInstalling \033[0;32mcurl\033[1;34m…\n\n\033[1;32m"
 			pkg install curl --yes
+			printf "\n\033[0;32mDONE\n\n\033[0m"
 			dm=curl 
 		fi
 		if [ ! -e $PREFIX/bin/curl ];then
@@ -101,13 +102,15 @@ dependsa ()
 {
 	if [ $(getprop ro.product.cpu.abi) = x86 ] || [ $(getprop ro.product.cpu.abi) = x86_64 ];then
 		if [ ! -e $PREFIX/bin/bsdtar ]  || [ ! -e $PREFIX/bin/proot ];then
-			printf "\n\033[1;34mInstalling \033[0;32mbsdtar \033[1;34mand \033[0;32mproot\033[1;34m…\n\n\[1;32m"
+			printf "\n\033[1;34mInstalling \033[0;32mbsdtar \033[1;34mand \033[0;32mproot\033[1;34m…\n\n\033[1;32m"
 			pkg install bsdtar proot --yes
+			printf "\n\033[0;32mDONE\n\n\033[0m"
 		fi
 	else
 		if [ ! -e $PREFIX/bin/proot ];then
-			printf "\n\033[1;34mInstalling \033[0;32mproot\033[1;34m…\n\n\[1;32m"
+			printf "\n\033[1;34mInstalling \033[0;32mproot\033[1;34m…\n\n\033[1;32m"
 			pkg install proot --yes
+			printf "\n\033[0;32mDONE\n\n\033[0m"
 		fi
 	fi
 }
@@ -144,15 +147,17 @@ edq ()
 	printf "\033[0;32m"
 	while true; do
 		if [[ $opt = bloom ]] || [[ $opt = manual ]];then
-			read -p "Would you like to use \`nano\` or \`vi\` to edit \`setupTermuxArchConfigs.sh\` [n|v]? "  nv
+			read -p "Would you like to use \`nano\` or \`vi\` to edit \`setupTermuxArchConfigs.sh\` [n|V]? "  nv
 		else 
 			read -p "Change the worldwide mirror to a mirror that is geographically nearby.  Choose only ONE active mirror in the mirrors file that you are about to edit.  Would you like to use \`nano\` or \`vi\` to edit the Arch Linux configuration files [n|v]? "  nv
 		fi
 		if [[ $nv = [Nn]* ]];then
 			ed=nano
+			printf "\n\033[1;34mInstalling \033[0;32mnano\033[1;34m…\n\n\033[1;32m"
 			pkg install nano --yes 
+			printf "\n\033[0;32mDONE\n\n\033[0m"
 			break
-		elif [[ $nv = [Vv]* ]];then
+		elif [[ $nv = [Vv]* ]] || [[ $nv = "" ]];then
 			ed=vi
 			break
 		else
@@ -165,8 +170,9 @@ edq ()
 ifcurl ()
 {
 	if [ ! -e $PREFIX/bin/curl ];then
-		printf "\n\033[1;34mInstalling \033[0;32mcurl\033[1;34m…\n\n\[1;32m"
+		printf "\n\033[1;34mInstalling \033[0;32mcurl\033[1;34m…\n\n\033[1;32m"
 		pkg install curl  --yes 
+		printf "\n\033[0;32mDONE\n\n\033[0m"
 	fi
 	if [ ! -e $PREFIX/bin/curl ];then
 		printf "\n\033[1;31mPrerequisites exception.  Run the script again.\n\n\033[0m"'\033]2;  Thank you for using setupTermuxArch.sh.  Run `bash setupTermuxArch.sh` again.\007'
@@ -191,8 +197,9 @@ ifgetwget ()
 ifwget ()
 {
 	if [ ! -e $PREFIX/bin/wget ];then
-		printf "\n\033[1;34mInstalling \033[0;32mwget\033[1;34m…\n\n\[1;32m"
-		pkg install wget --yes 
+		printf "\n\033[1;34mInstalling \033[0;32mwget\033[1;34m…\n\n\033[1;32m"
+		pkg install wget --yes 	
+		printf "\n\033[0;32mDONE\n\n\033[0m"
 	fi
 	if [ ! -e $PREFIX/bin/wget ];then
 		printf "\n\033[1;31mPrerequisites exception.  Run the script again.\n\n\033[0m"'\033]2;  Thank you for using setupTermuxArch.sh.  Run `bash setupTermuxArch.sh` again.\007'
