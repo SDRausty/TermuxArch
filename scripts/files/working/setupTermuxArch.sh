@@ -296,7 +296,7 @@ omanual ()
 
 printsha512syschker ()
 {
-	printf "\033[07;1m\033[31;1m\n 🔆 WARNING sha512sum mismatch!  Setup initialization mismatch!\033[34;1m\033[30;1m  Try again, initialization was not successful this time.  Run \`bash setupTermuxArch.sh\` again…\n\033[0;0m\n"'\033]2;  Thank you for using setupTermuxArch.sh.  Run `bash setupTermuxArch.sh` again…\007'
+	printf "\033[07;1m\033[31;1m\n 🔆 WARNING sha512sum mismatch!  Setup initialization mismatch!\033[34;1m\033[30;1m  Try again, initialization was not successful this time.  Wait a little while.  Then run \`bash setupTermuxArch.sh\` again…\n\033[0;0m\n"'\033]2;  Thank you for using setupTermuxArch.sh.  Run `bash setupTermuxArch.sh` again…\007'
 	exit 
 }
 
