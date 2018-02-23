@@ -78,7 +78,7 @@ depends ()
 			dm=curl 
 		fi
 		if [ ! -e $PREFIX/bin/curl ];then
-			printf "\n\033[1;31mPrerequisites exception.  Run the script again.\n\n\033[0m"'\033]2;  Thank you for using setupTermuxArch.sh.  Run `bash setupTermuxArch.sh` again.\007'
+			printf "\n\033[1;31mPrerequisites exception.  Run the script again…\n\n\033[0m"'\033]2;  Thank you for using setupTermuxArch.sh.  Run `bash setupTermuxArch.sh` again…\007'
 			exit
 		fi
 	fi
@@ -119,12 +119,12 @@ dependsax ()
 {
 	if [ $(getprop ro.product.cpu.abi) = x86 ] || [ $(getprop ro.product.cpu.abi) = x86_64 ];then
 		if [ ! -e $PREFIX/bin/bsdtar ]  || [ ! -e $PREFIX/bin/proot ];then
-			printf "\n\033[1;31mPrerequisites exception.  Run the script again.\n\n\033[0m"'\033]2;  Thank you for using setupTermuxArch.sh.  Run setupTermuxArch.sh again.\007'
+			printf "\n\033[1;31mPrerequisites exception.  Run the script again…\n\n\033[0m"'\033]2;  Thank you for using setupTermuxArch.sh.  Run setupTermuxArch.sh again…\007'
 			exit
 		fi
 	else
 		if [ ! -e $PREFIX/bin/proot ];then
-			printf "\n\033[1;31mPrerequisites exception.  Run the script again.\n\n\033[0m"'\033]2;  Thank you for using setupTermuxArch.sh.  Run setupTermuxArch.sh again.\007'
+			printf "\n\033[1;31mPrerequisites exception.  Run the script again…\n\n\033[0m"'\033]2;  Thank you for using setupTermuxArch.sh.  Run setupTermuxArch.sh again…\007'
 			exit
 		fi
 	fi
@@ -175,7 +175,7 @@ ifcurl ()
 		printf "\n\033[0;32mDONE\n\033[0m"
 	fi
 	if [ ! -e $PREFIX/bin/curl ];then
-		printf "\n\033[1;31mPrerequisites exception.  Run the script again.\n\n\033[0m"'\033]2;  Thank you for using setupTermuxArch.sh.  Run `bash setupTermuxArch.sh` again.\007'
+		printf "\n\033[1;31mPrerequisites exception.  Run the script again…\n\n\033[0m"'\033]2;  Thank you for using setupTermuxArch.sh.  Run `bash setupTermuxArch.sh` again…\007'
 		exit
 	fi
 }
@@ -202,7 +202,7 @@ ifwget ()
 		printf "\n\033[0;32mDONE\n\033[0m"
 	fi
 	if [ ! -e $PREFIX/bin/wget ];then
-		printf "\n\033[1;31mPrerequisites exception.  Run the script again.\n\n\033[0m"'\033]2;  Thank you for using setupTermuxArch.sh.  Run `bash setupTermuxArch.sh` again.\007'
+		printf "\n\033[1;31mPrerequisites exception.  Run the script again…\n\n\033[0m"'\033]2;  Thank you for using setupTermuxArch.sh.  Run `bash setupTermuxArch.sh` again…\007'
 		exit
 	fi
 }
@@ -302,13 +302,13 @@ printsha512syschker ()
 
 printtail ()
 {
-	printf "\n\033[0mThank you for using \033[1;32msetupTermuxArch.sh \033[0m$versionid 🏁  \n\n\033[0m"'\033]2;  Thank you for using setupTermuxArch.sh  🏁 \007'
+	printf "\n\033[0mThank you for using \033[0;32msetupTermuxArch.sh \033[0m$versionid 🏁  \n\n\033[0m"'\033]2;  Thank you for using setupTermuxArch.sh  🏁 \007'
 	exit
 }
 
 printusage ()
 {
-	printf "\n\n\033[1;34mUsage information for \033[1;32msetupTermuxArch.sh \033[1;34m$versionid.  Arguments can abbreviated to one letter; Two letter arguments are acceptable.  For example, \033[1;32mbash setupTermuxArch.sh cs\033[1;34m will use \033[1;32mcurl\033[1;34m to download TermuxArch and produce a \033[1;32msetupTermuxArchDebug$stime.log\033[1;34m file.\n\nUser configurable variables are in \033[1;32msetupTermuxArchConfigs.sh\033[1;34m.  Create this file from \033[1;32mkownconfigurations.sh\033[1;34m in the working directory.  Use \033[1;32mbash setupTermuxArch.sh --manual\033[1;34m to create and edit \033[1;32msetupTermuxArchConfigs.sh\033[1;34m.\n\n\033[1;33mDEBUG\033[1;34m    Use \033[1;32msetupTermuxArch.sh --sysinfo \033[1;34mto create a \033[1;32msetupTermuxArchDebug$stime.log\033[1;34m and populate it with system information.  Post this along with detailed information about the issue at https://github.com/sdrausty/TermuxArch/issues.  If screenshots will help in resolving the issue better, include them in a post along with information from the debug log file.\n\n\033[1;33mHELP\033[1;34m     Use \033[1;32msetupTermuxArch.sh --help \033[1;34mto output this help screen.\n\n\033[1;33mINSTALL\033[1;34m  Run \033[1;32m./setupTermuxArch.sh\033[1;34m without arguments in a bash shell to install Arch Linux in Termux.  Use \033[1;32mbash setupTermuxArch.sh --curl \033[1;34mto envoke \033[1;32mcurl\033[1;34m as the download manager.  Copy \033[1;32mknownconfigurations.sh\033[1;34m to \033[1;32msetupTermuxArchConfigs.sh\033[1;34m with preferred mirror.  After editing \033[1;32msetupTermuxArchConfigs.sh\033[1;34m, run \033[1;32mbash setupTermuxArch.sh\033[1;34m and \033[1;32msetupTermuxArchConfigs.sh\033[1;34m loads automatically from the same directory.  Change mirror to desired geographic location to resolve download errors.\n\n\033[1;33mPURGE\033[1;34m    Use \033[1;32msetupTermuxArch.sh --uninstall\033[1;34m \033[1;34mto uninstall Arch Linux from Termux.\n"
+	printf "\n\n\033[1;34mUsage information for \033[0;32msetupTermuxArch.sh \033[1;34m$versionid.  Arguments can abbreviated to one letter; Two letter arguments are acceptable.  For example, \033[0;32mbash setupTermuxArch.sh cs\033[1;34m will use \033[0;32mcurl\033[1;34m to download TermuxArch and produce a \033[0;32msetupTermuxArchDebug$stime.log\033[1;34m file.\n\nUser configurable variables are in \033[0;32msetupTermuxArchConfigs.sh\033[1;34m.  Create this file from \033[0;32mkownconfigurations.sh\033[1;34m in the working directory.  Use \033[0;32mbash setupTermuxArch.sh --manual\033[1;34m to create and edit \033[0;32msetupTermuxArchConfigs.sh\033[1;34m.\n\n\033[1;33mDEBUG\033[1;34m    Use \033[0;32msetupTermuxArch.sh --sysinfo \033[1;34mto create a \033[0;32msetupTermuxArchDebug$stime.log\033[1;34m and populate it with system information.  Post this along with detailed information about the issue at https://github.com/sdrausty/TermuxArch/issues.  If screenshots will help in resolving the issue better, include them in a post along with information from the debug log file.\n\n\033[1;33mHELP\033[1;34m     Use \033[0;32msetupTermuxArch.sh --help \033[1;34mto output this help screen.\n\n\033[1;33mINSTALL\033[1;34m  Run \033[0;32m./setupTermuxArch.sh\033[1;34m without arguments in a bash shell to install Arch Linux in Termux.  Use \033[0;32mbash setupTermuxArch.sh --curl \033[1;34mto envoke \033[0;32mcurl\033[1;34m as the download manager.  Copy \033[0;32mknownconfigurations.sh\033[1;34m to \033[0;32msetupTermuxArchConfigs.sh\033[1;34m with preferred mirror.  After editing \033[0;32msetupTermuxArchConfigs.sh\033[1;34m, run \033[0;32mbash setupTermuxArch.sh\033[1;34m and \033[0;32msetupTermuxArchConfigs.sh\033[1;34m loads automatically from the same directory.  Change mirror to desired geographic location to resolve download errors.\n\n\033[1;33mPURGE\033[1;34m    Use \033[0;32msetupTermuxArch.sh --uninstall\033[1;34m \033[1;34mto uninstall Arch Linux from Termux.\n"
 }
 
 rmarch ()
@@ -539,51 +539,68 @@ dfl=/gen
 dmverbose="-q"
 #dmverbose="-v"
 stime=`date +%s|grep -o '....$'`
-versionid="gen.v0.8.8 id598654662"
+versionid="gen.v0.8.8 id582019702"
 
 setrootdir 
 
+# `setupTermuxArch.sh --options` 
+# [curl debug|curl sysinfo] Get device system information using `curl`.
 if [[ $1 = [Cc][Dd]* ]] || [[ $1 = -[Cc][Dd]* ]] || [[ $1 = --[Cc][Dd]* ]] || [[ $1 = [Cc][Ss]* ]] || [[ $1 = -[Cc][Ss]* ]] || [[ $1 = --[Cc][Ss]* ]];then
 	dm=curl
 	introdebug 
 	sysinfo 
+# [curl|curl install] Install Arch Linux using `curl`.
 elif [[ $1 = [Cc]* ]] || [[ $1 = -[Cc]* ]] || [[ $1 = --[Cc]* ]] || [[ $1 = [Cc][Ii]* ]] || [[ $1 = -[Cc][Ii]* ]] || [[ $1 = --[Cc][Ii]* ]];then
 	dm=curl
 	intro 
 	mainblock
+# [wget debug|wget sysinfo] Get device system information using `wget`.
 elif [[ $1 = [Ww][Dd]* ]] || [[ $1 = -[Ww][Dd]* ]] || [[ $1 = --[Ww][Dd]* ]] || [[ $1 = [Ww][Ss]* ]] || [[ $1 = -[Ww][Ss]* ]] || [[ $1 = --[Ww][Ss]* ]];then
 	dm=wget
 	introdebug 
 	sysinfo 
+# [wget|wget install] Install Arch Linux using `wget`.
 elif [[ $1 = [Ww]* ]] || [[ $1 = -[Ww]* ]] || [[ $1 = --[Ww]* ]] || [[ $1 = [Ww][Ii]* ]] || [[ $1 = -[Ww][Ii]* ]] || [[ $1 = --[Ww][Ii]* ]];then
 	dm=wget
 	intro 
 	mainblock
+# [bloom] Create local copy of TermuxArch in TermuxArchBloom.  Useful for hacking and modifying TermuxArch.  
 elif [[ $1 = [Bb]* ]] || [[ $1 = -[Bb]* ]] || [[ $1 = --[Bb]* ]];then
 	dependsblock
 	obloom
+# [debug|sysinfo] Get system information.
 elif [[ $1 = [Dd]* ]] || [[ $1 = -[Dd]* ]] || [[ $1 = --[Dd]* ]] || [[ $1 = [Ss]* ]] || [[ $1 = -[Ss]* ]] || [[ $1 = --[Ss]* ]];then
 	introdebug 
 	sysinfo 
+# [help|?] Display built-in help.
 elif [[ $1 = [Hh]* ]] || [[ $1 = -[Hh]* ]] || [[ $1 = --[Hh]* ]]  || [[ $1 = [?]* ]] || [[ $1 = -[?]* ]] || [[ $1 = --[?]* ]];then
 	printusage
+# [manual] Manual Arch Linux install, useful for resolving download issues.
 elif [[ $1 = [Mm]* ]] || [[ $1 = -[Mm]* ]] || [[ $1 = --[Mm]* ]];then
 	opt=manual
 	intro 
 	mainblock
+# [purge |uninstall] Remove Arch Linux.
 elif [[ $1 = [Pp]* ]] || [[ $1 = -[Pp]* ]] || [[ $1 = --[Pp]* ]] || [[ $1 = [Uu]* ]] || [[ $1 = -[Uu]* ]] || [[ $1 = --[Uu]* ]];then
 	rmarch
+# [rootdir installdir] Install Arch Linux into custom directory.  Instructions: Install in userspace. $HOME is appended. 
 elif [[ $1 = [Rr][Oo]* ]] || [[ $1 = -[Rr][Oo]* ]] || [[ $1 = --[Rr][Oo]* ]];then
-	rootdir=/$2 
+	rootdir=$2 
 	intro 
 	mainblock
-elif [[ $1 = [Rr]* ]] || [[ $1 = -[Rr]* ]] || [[ $1 = --[Rr]* ]] || [[ $1 = [Rr][Uu]* ]] || [[ $1 = -[Rr][Uu]* ]] || [[ $1 = --[Rr][Uu]* ]];then
+# [run] Run local copy of TermuxArch from TermuxArchBloom.  Useful for running modifications after modifying TermuxArch locally.  
+elif [[ $1 = [Rr]* ]] || [[ $1 = -[Rr]* ]] || [[ $1 = --[Rr]* ]];then
 	runobloom 
-elif [[ $1 = "" ]] || [[ $1 = [Ii]* ]] || [[ $1 = -[Ii]* ]] || [[ $1 = --[Ii]* ]];then
+# [install installdir] Run default Arch Linux install.  Instructions: Install in userspace. $HOME is appended to installation directory. To install Arch Linux in $HOME/installdir/arch use `bash setupTermuxArch.sh --install /installdir/arch`. In bash shell use `./setupTermuxArch.sh --install /installdir`.  All options can be abbreviated to one or two letters.  So `./setupTermuxArch.sh --install /installdir/arch` can be run as `./setupTermuxArch.sh i /installdir/arch` in BASH.
+elif [[ $1 = [Ii]* ]] || [[ $1 = -[Ii]* ]] || [[ $1 = --[Ii]* ]];then
+	rootdir=$2 
+	intro 
+	mainblock
+# [] Run default Arch Linux install.
+elif [[ $1 = "" ]] ;then
 	intro 
 	mainblock
 else
 	printusage
 fi
-echo $?
 printtail 
