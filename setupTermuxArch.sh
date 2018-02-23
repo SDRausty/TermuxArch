@@ -570,9 +570,11 @@ elif [[ $1 = [Ww]* ]] || [[ $1 = -[Ww]* ]] || [[ $1 = --[Ww]* ]] || [[ $1 = [Ww]
 	dm=wget
 	if [[ $2 = [install] ]] ;then
 		rootdir=/$3 
+	echo $3 
 	else
 		rootdir=/$2 
 	fi
+	echo $3 
 	intro 
 	mainblock
 # [bloom] Create local copy of TermuxArch in TermuxArchBloom.  Useful for hacking and modifying TermuxArch.  
