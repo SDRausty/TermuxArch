@@ -543,6 +543,7 @@ versionid="v0.8.8"
 
 setrootdir 
 
+# `setupTermuxArch.sh --options` 
 # [curl debug|curl sysinfo] Get device system information using `curl`.
 if [[ $1 = [Cc][Dd]* ]] || [[ $1 = -[Cc][Dd]* ]] || [[ $1 = --[Cc][Dd]* ]] || [[ $1 = [Cc][Ss]* ]] || [[ $1 = -[Cc][Ss]* ]] || [[ $1 = --[Cc][Ss]* ]];then
 	dm=curl
@@ -591,7 +592,7 @@ elif [[ $1 = [Rr][Oo]* ]] || [[ $1 = -[Rr][Oo]* ]] || [[ $1 = --[Rr][Oo]* ]];the
 # [run] Run local copy of TermuxArch from TermuxArchBloom.  Useful for running modifications after modifying TermuxArch locally.  
 elif [[ $1 = [Rr]* ]] || [[ $1 = -[Rr]* ]] || [[ $1 = --[Rr]* ]];then
 	runobloom 
-# [install installdir] Run default Arch Linux install.  Instructions: Install in userspace. $HOME/ is appended to installation directory. To install Arch Linux in $HOME/installdir/arch use `bash setupTermuxArch.sh --install installdir/arch`. In bash shell use `./setupTermuxArch.sh --install installdir`.  All option can be abbreviated to one or two letters.  So `./setupTermuxArch.sh --install installdir/arch` can be run as `./setupTermuxArch.sh i installdir/arch` in the bash shell.
+# [install installdir] Run default Arch Linux install.  Instructions: Install in userspace. $HOME/ is appended to installation directory. To install Arch Linux in $HOME/installdir/arch use `bash setupTermuxArch.sh --install installdir/arch`. In bash shell use `./setupTermuxArch.sh --install installdir`.  All option can be abbreviated to one or two letters.  So `./setupTermuxArch.sh --install installdir/arch` can be run as `./setupTermuxArch.sh i installdir/arch` in bash.
 elif [[ $1 = [Ii]* ]] || [[ $1 = -[Ii]* ]] || [[ $1 = --[Ii]* ]];then
 	rootdir=/$2 
 	intro 
