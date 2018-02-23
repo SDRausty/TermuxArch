@@ -580,11 +580,10 @@ elif [[ $1 = [Mm]* ]] || [[ $1 = -[Mm]* ]] || [[ $1 = --[Mm]* ]];then
 	opt=manual
 	intro 
 	mainblock
-# [purge installdir|uninstall installdir] Remove Arch Linux.
+# [purge |uninstall] Remove Arch Linux.
 elif [[ $1 = [Pp]* ]] || [[ $1 = -[Pp]* ]] || [[ $1 = --[Pp]* ]] || [[ $1 = [Uu]* ]] || [[ $1 = -[Uu]* ]] || [[ $1 = --[Uu]* ]];then
-	rootdir=$2 
 	rmarch
-# [rootdir directory] Install Arch Linux into custom directory.  Instructions: Install in userspace. $HOME is appended. 
+# [rootdir installdir] Install Arch Linux into custom directory.  Instructions: Install in userspace. $HOME is appended. 
 elif [[ $1 = [Rr][Oo]* ]] || [[ $1 = -[Rr][Oo]* ]] || [[ $1 = --[Rr][Oo]* ]];then
 	rootdir=$2 
 	intro 
