@@ -19,7 +19,7 @@ printdetectedsystem ()
 
 printdownloading ()
 {
-	printf "\n\033[1;34m 🕛 > 🕒 \033[1;34mActivating termux-wake-lock…  "'\033]2; 🕛 > 🕒 Downloading the Arch Linux system image file and checksum…  \007'
+	printf "\n\033[0;34m 🕛 > 🕒 \033[1;34mActivating termux-wake-lock…  "'\033]2; 🕛 > 🕒 Downloading the Arch Linux system image file and checksum…  \007'
 }
 
 printdownloadingx86 ()
@@ -34,7 +34,7 @@ printdownloadingx86two ()
 
 printdownloadingftch ()
 {
-	printf "\033[1;34mDownloading \033[0;32m$file \033[1;34mfrom geographically nearby mirror \033[0;32m$nmirror\033[1;34m…  \033[1;37mThis may take a long time pending Internet connection.  \033[1;34mIf the geographically nearby mirror is unresponsive, run \033[0;32mbash setupTermuxArch.sh\033[1;34m again.  Should the worldwide mirror not hand off a new geographically nearby server after subsequent attempts, use \033[0;32mbash setupTermuxArch.sh --manual\033[1;34m; See \033[0;32mbash setupTermuxArch.sh --help \033[1;34mfor additional information.\n\n\033[0;32m"
+	printf "\n\n\033[0;34m 🕛 > 🕓 \033[1;34mDownloading \033[0;32m$file \033[1;34mfrom geographically nearby mirror \033[0;32m$nmirror\033[1;34m…  \033[1;37mThis may take a long time pending Internet connection.  \033[1;34mIf the geographically nearby mirror is unresponsive, run \033[0;32mbash setupTermuxArch.sh\033[1;34m again.  Should the worldwide mirror not hand off a new geographically nearby server after subsequent attempts, use \033[0;32mbash setupTermuxArch.sh --manual\033[1;34m; See \033[0;32mbash setupTermuxArch.sh --help \033[1;34mfor additional information.\n\n\033[0;32m"
 }
 
 printdownloadingftchit ()
