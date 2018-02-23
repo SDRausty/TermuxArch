@@ -568,7 +568,7 @@ elif [[ $1 = [Ww][Dd]* ]] || [[ $1 = -[Ww][Dd]* ]] || [[ $1 = --[Ww][Dd]* ]] || 
 elif [[ $1 = [Ww]* ]] || [[ $1 = -[Ww]* ]] || [[ $1 = --[Ww]* ]] || [[ $1 = [Ww][Ii]* ]] || [[ $1 = -[Ww][Ii]* ]] || [[ $1 = --[Ww][Ii]* ]];then
 	echo $1 $2 $3 $4 
 	dm=wget
-	if [[ $2 = [install] ]] ;then
+	if [[ $2 = "install" ]] ;then
 		rootdir=/$3 
 	echo $3 
 	else
