@@ -24,7 +24,8 @@ printdetectedsystem ()
 
 printdone ()
 {
-	printf "\033[1;32mDONE  \033[0m\n\n\"
+#	printf "\033[1;32mDONE  \033[0m\n\n\"
+:
 }
 
 printdownloading ()
