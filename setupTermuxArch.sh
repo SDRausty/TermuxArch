@@ -579,15 +579,16 @@ elif [[ $1 = [Mm]* ]] || [[ $1 = -[Mm]* ]] || [[ $1 = --[Mm]* ]];then
 	opt=manual
 	intro 
 	mainblock
-# [purge|uninstall] Remove Arch Linux.
+# [purge installdir|uninstall installdir] Remove Arch Linux.
 elif [[ $1 = [Pp]* ]] || [[ $1 = -[Pp]* ]] || [[ $1 = --[Pp]* ]] || [[ $1 = [Uu]* ]] || [[ $1 = -[Uu]* ]] || [[ $1 = --[Uu]* ]];then
+	rootdir=/$2 
 	rmarch
 # [rootdir directory] Install Arch Linux into custom directory.  Instructions: Install in userspace.  
 elif [[ $1 = [Rr][Oo]* ]] || [[ $1 = -[Rr][Oo]* ]] || [[ $1 = --[Rr][Oo]* ]];then
 	rootdir=/$2 
 	intro 
 	mainblock
-# [run] Run local copy of TermuxArch from TermuxArchBloom.  Useful for running modifications after hacking TermuxArch.  
+# [run] Run local copy of TermuxArch from TermuxArchBloom.  Useful for running modifications after modifying TermuxArch.  
 elif [[ $1 = [Rr]* ]] || [[ $1 = -[Rr]* ]] || [[ $1 = --[Rr]* ]];then
 	runobloom 
 # [|install] Run default Arch Linux install.
