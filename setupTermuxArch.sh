@@ -414,9 +414,8 @@ rmds ()
 
 rootdirexception ()
 {
-	echo $HOME$rootdir
 	if [[ $HOME$rootdir = $HOME ]] || [[ $HOME$rootdir = $HOME/ ]];then
-		echo rootdir exception
+		printf "\n\033[1;31mRootdir exception.  Run the script again with different options…\n\n\033[0m"'\033]2;Rootdir exception.  Run `bash setupTermuxArch.sh` again with different options…\007'
 		exit
 	fi
 }
@@ -629,7 +628,11 @@ elif [[ $1 = [Rr]* ]] || [[ $1 = -[Rr]* ]] || [[ $1 = --[Rr]* ]];then
 	runobloom 
 # [install installdir] Run default Arch Linux install.  Instructions: Install in userspace. $HOME is appended to installation directory. To install Arch Linux in $HOME/installdir/arch use `bash setupTermuxArch.sh --install installdir/arch`. In bash shell use `./setupTermuxArch.sh --install installdir`.  All options can be abbreviated to one or two letters.  So `./setupTermuxArch.sh --install installdir/arch` can be run as `./setupTermuxArch.sh i installdir/arch` in BASH.
 elif [[ $1 = [Ii]* ]] || [[ $1 = -[Ii]* ]] || [[ $1 = --[Ii]* ]];then
-	rootdir=/$2 
+	if [[ $2 = "" ]] ;then
+		rootdir=/arch
+	else
+		rootdir=/$2
+	fi
 	intro 
 	mainblock
 # [] Run default Arch Linux install.
