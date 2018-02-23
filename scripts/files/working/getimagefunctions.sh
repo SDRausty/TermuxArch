@@ -19,12 +19,12 @@ ftchit ()
 
 ftchstnd ()
 {
-	printf "\n\n\033[0;34m 🕛 > 🕞 \033[1;34mContacting worldwide mirror \033[0;32m$cmirror\033[1;34m…  "
+#	printf "\n\n\033[0;34m 🕛 > 🕞 \033[1;34mContacting worldwide mirror \033[0;32m$cmirror\033[1;34m…  "
 	if [[ $dm = wget ]];then 
 		wget -v -O/dev/null $cmirror 2>gmirror
 		nmirror=$(grep Location gmirror | awk {'print $2'}) 
 		rm gmirror
-		printf "\033[0;32mDONE  \033[0m\n\n\"
+	#	printf "\033[0;32mDONE  \033[0m\n\n\"
 		printdownloadingftch 
 		wget $dmverbose -N --show-progress $nmirror$path$file.md5 
 		wget $dmverbose -N --show-progress $nmirror$path$file 
@@ -32,7 +32,7 @@ ftchstnd ()
 		curl -v $cmirror 2>gmirror
 		nmirror=$(grep Location gmirror | awk {'print $3'}) 
 		rm gmirror
-		printf "\033[0;32mDONE  \033[0m\n\n\"
+	#	printf "\033[0;32mDONE  \033[0m\n\n\"
 		printdownloadingftch 
 		curl $dmverbose --fail --retry 4 -O $nmirror$path$file.md5 -O $nmirror$path$file
 	fi
