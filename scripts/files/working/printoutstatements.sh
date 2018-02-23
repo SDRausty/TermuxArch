@@ -9,7 +9,7 @@
 
 printcontacting ()
 {
-	printf "\n\n\033[0;34m 🕛 > 🕞 \033[1;34mContacting worldwide mirror \033[0;32m$cmirror\033[1;34m…"
+	printf "\033[0;34m 🕛 > 🕞 \033[1;34mContacting worldwide mirror \033[0;32m$cmirror\033[1;34m: "
 }
 
 printdetectedsystem ()
@@ -29,7 +29,7 @@ printdone ()
 
 printdownloading ()
 {
-	printf "\n\033[0;34m 🕛 > 🕒 \033[1;34mActivating termux-wake-lock:  "'\033]2; 🕛 > 🕒 Downloading the Arch Linux system image file and checksum…  \007'
+	printf "\033[0;34m 🕛 > 🕒 \033[1;34mActivating termux-wake-lock:  "'\033]2; 🕛 > 🕒 Downloading the Arch Linux system image file and checksum…  \007'
 }
 
 printdownloadingx86 ()

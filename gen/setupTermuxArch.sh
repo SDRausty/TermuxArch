@@ -539,7 +539,7 @@ dfl=/gen
 dmverbose="-q"
 #dmverbose="-v"
 stime=`date +%s|grep -o '....$'`
-versionid="gen.v0.8.8 id064078476"
+versionid="gen.v0.8.8 id250531598"
 
 setrootdir 
 
