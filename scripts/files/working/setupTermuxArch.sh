@@ -74,7 +74,7 @@ depends ()
 		if [ ! -e $PREFIX/bin/curl ];then
 			printf "\n\033[1;34mInstalling \033[0;32mcurl\033[1;34m…\n\n\033[1;32m"
 			pkg install curl --yes
-			printf "\n\033[0;32mDONE\n\033[0m"
+			printf "\n\033[1;34mInstalling \033[0;32mcurl\033[1;34m: \033[0;32mDONE\n\033[0m"
 			dm=curl 
 		fi
 		if [ ! -e $PREFIX/bin/curl ];then
@@ -104,13 +104,13 @@ dependsa ()
 		if [ ! -e $PREFIX/bin/bsdtar ]  || [ ! -e $PREFIX/bin/proot ];then
 			printf "\n\033[1;34mInstalling \033[0;32mbsdtar \033[1;34mand \033[0;32mproot\033[1;34m…\n\n\033[1;32m"
 			pkg install bsdtar proot --yes
-			printf "\n\033[0;32mDONE\n\033[0m"
+			printf "\n\033[1;34mInstalling \033[0;32mbsdtar \033[1;34mand \033[0;32mproot\033[1;34m: \033[0;32mDONE\n\033[0m"
 		fi
 	else
 		if [ ! -e $PREFIX/bin/proot ];then
 			printf "\n\033[1;34mInstalling \033[0;32mproot\033[1;34m…\n\n\033[1;32m"
 			pkg install proot --yes
-			printf "\n\033[0;32mDONE\n\033[0m"
+			printf "\n\033[1;34mInstalling \033[0;32mproot\033[1;34m: \033[0;32mDONE\n\033[0m"
 		fi
 	fi
 }
@@ -155,7 +155,7 @@ edq ()
 			ed=nano
 			printf "\n\033[1;34mInstalling \033[0;32mnano\033[1;34m…\n\n\033[1;32m"
 			pkg install nano --yes 
-			printf "\n\033[0;32mDONE\n\033[0m"
+			printf "\n\033[1;34mInstalling \033[0;32mnano\033[1;34m: \033[0;32mDONE\n\033[0m"
 			break
 		elif [[ $nv = [Vv]* ]] || [[ $nv = "" ]];then
 			ed=vi
@@ -172,7 +172,7 @@ ifcurl ()
 	if [ ! -e $PREFIX/bin/curl ];then
 		printf "\n\033[1;34mInstalling \033[0;32mcurl\033[1;34m…\n\n\033[1;32m"
 		pkg install curl  --yes 
-		printf "\n\033[0;32mDONE\n\033[0m"
+		printf "\n\033[1;34mInstalling \033[0;32mcurl\033[1;34m: \033[0;32mDONE\n\033[0m"
 	fi
 	if [ ! -e $PREFIX/bin/curl ];then
 		printf "\n\033[1;31mPrerequisites exception.  Run the script again…\n\n\033[0m"'\033]2;  Thank you for using setupTermuxArch.sh.  Run `bash setupTermuxArch.sh` again…\007'
@@ -199,7 +199,7 @@ ifwget ()
 	if [ ! -e $PREFIX/bin/wget ];then
 		printf "\n\033[1;34mInstalling \033[0;32mwget\033[1;34m…\n\n\033[1;32m"
 		pkg install wget --yes 	
-		printf "\n\033[0;32mDONE\n\033[0m"
+		printf "\n\033[1;34mInstalling \033[0;32mwget\033[1;34m: \033[0;32mDONE\n\033[0m"
 	fi
 	if [ ! -e $PREFIX/bin/wget ];then
 		printf "\n\033[1;31mPrerequisites exception.  Run the script again…\n\n\033[0m"'\033]2;  Thank you for using setupTermuxArch.sh.  Run `bash setupTermuxArch.sh` again…\007'
