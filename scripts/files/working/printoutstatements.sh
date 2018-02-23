@@ -29,7 +29,7 @@ printdone ()
 
 printdownloading ()
 {
-	printf "\033[0;34m 🕛 > 🕒 \033[1;34mActivating termux-wake-lock: "'\033]2; 🕛 > 🕒 Downloading the Arch Linux system image file and checksum…  \007'
+	printf "\033[0;34m 🕛 > 🕒 \033[1;34mActivating termux-wake-lock: "'\033]2; 🕛 > 🕒 Downloading the checksum and Arch Linux system image file…  \007'
 }
 
 printdownloadingx86 ()
