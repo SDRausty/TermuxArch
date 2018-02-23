@@ -552,7 +552,7 @@ if [[ $1 = [Cc][Dd]* ]] || [[ $1 = -[Cc][Dd]* ]] || [[ $1 = --[Cc][Dd]* ]] || [[
 # [curl installdir|curl install installdir] Install Arch Linux using `curl`.
 elif [[ $1 = [Cc]* ]] || [[ $1 = -[Cc]* ]] || [[ $1 = --[Cc]* ]] || [[ $1 = [Cc][Ii]* ]] || [[ $1 = -[Cc][Ii]* ]] || [[ $1 = --[Cc][Ii]* ]];then
 	dm=curl
-	if [[ $2 = [install] ]] ;then
+	if [[ $2 = "Install" || "install"  ]] ;then
 		rootdir=/$3 
 	else
 		rootdir=/$2 
@@ -568,7 +568,7 @@ elif [[ $1 = [Ww][Dd]* ]] || [[ $1 = -[Ww][Dd]* ]] || [[ $1 = --[Ww][Dd]* ]] || 
 elif [[ $1 = [Ww]* ]] || [[ $1 = -[Ww]* ]] || [[ $1 = --[Ww]* ]] || [[ $1 = [Ww][Ii]* ]] || [[ $1 = -[Ww][Ii]* ]] || [[ $1 = --[Ww][Ii]* ]];then
 	echo $1 $2 $3 $4 
 	dm=wget
-	if [[ $2 = "install" || "Install" ]] ;then
+	if [[ $2 = "Install" || "install" ]] ;then
 		rootdir=/$3 
 	echo $3 
 	else
