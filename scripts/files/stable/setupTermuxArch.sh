@@ -569,6 +569,7 @@ elif [[ $1 = [Ww]* ]] || [[ $1 = -[Ww]* ]] || [[ $1 = --[Ww]* ]] || [[ $1 = [Ww]
 	dm=wget
 	if [[ $2 = [install] ]] ;then
 		rootdir=/$3 
+		echo $1 $2 $3 $4 
 	else
 		rootdir=/$2 
 	fi
