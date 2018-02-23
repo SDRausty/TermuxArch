@@ -24,7 +24,7 @@ chk ()
 		else 
 			rmdsc 
 		fi
-		printf "\033[1;34m 🕛 > 🕑 \033[1;34mTermuxArch $versionid integrity: \033[1;32mOK\n"
+		printf "\033[0;34m 🕛 > 🕑 \033[1;34mTermuxArch $versionid integrity: \033[1;32mOK\n"
 	else
 		rmdsc 
 		printsha512syschker
@@ -34,7 +34,7 @@ chk ()
 chkdwn ()
 {
 	if sha512sum -c setupTermuxArch.sha512 1>/dev/null ;then
-		printf "\033[1;34m 🕛 > 🕐 \033[1;34mTermuxArch download: \033[1;32mOK\n\n"
+		printf "\033[0;34m 🕛 > 🕐 \033[1;34mTermuxArch download: \033[1;32mOK\n\n"
 		$PREFIX/bin/applets/tar	xf setupTermuxArch.tar.gz
 		rmds 
 	else
@@ -84,7 +84,7 @@ depends ()
 	fi
 	dependsa 
 	dependsax 
-	printf "\n\033[1;34m 🕛 > 🕧 \033[1;34mPrerequisites: \033[1;32mOK\n\n\033[0;32m"
+	printf "\n\033[0;34m 🕛 > 🕧 \033[1;34mPrerequisites: \033[1;32mOK\n\n\033[0;32m"
 }
 
 dependsblock ()
@@ -211,7 +211,7 @@ intro ()
 {
 	rmarchq
 	spaceinfoq
-	printf "\n\033[1;34m 🕛 > 🕛 \033[1;34msetupTermuxArch $versionid will attempt to install Linux in $HOME$rootdir.  Arch Linux will be available upon successful completion.  Ensure background data is not restricted.  Check the wireless connection if you do not see one o'clock 🕐 below.  "
+	printf "\n\033[0;34m 🕛 > 🕛 \033[1;34msetupTermuxArch $versionid will attempt to install Linux in $HOME$rootdir.  Arch Linux will be available upon successful completion.  Ensure background data is not restricted.  Check the wireless connection if you do not see one o'clock 🕐 below.  "
 	dependsblock 
 }
 
@@ -219,14 +219,14 @@ introbloom ()
 {
 	printf '\033]2;  Thank you for using `bash setupTermuxArch.sh --bloom` 📲 \007'
 	spaceinfo
-	printf "\n\033[1;34m 🕛 > 🕛 \033[1;34msetupTermuxArch $versionid bloom option.  Run \033[1;32mbash setupTermuxArch.sh --help \033[1;34mfor additional information.  Ensure background data is not restricted.  Check the wireless connection if you do not see one o'clock 🕐 below.  "
+	printf "\n\033[0;34m 🕛 > 🕛 \033[1;34msetupTermuxArch $versionid bloom option.  Run \033[1;32mbash setupTermuxArch.sh --help \033[1;34mfor additional information.  Ensure background data is not restricted.  Check the wireless connection if you do not see one o'clock 🕐 below.  "
 }
 
 introdebug ()
 {
 	printf '\033]2;  Thank you for using `bash setupTermuxArch.sh --sysinfo` 📲 \007'
 	spaceinfo
-	printf "\n\033[1;34m 🕛 > 🕛 \033[1;34msetupTermuxArch $versionid will create a system information file.  Ensure background data is not restricted.  Run \033[0;32mbash setupTermuxArch.sh --help \033[1;34mfor additional information.  Check the wireless connection if you do not see one o'clock 🕐 below.  "
+	printf "\n\033[0;34m 🕛 > 🕛 \033[1;34msetupTermuxArch $versionid will create a system information file.  Ensure background data is not restricted.  Run \033[0;32mbash setupTermuxArch.sh --help \033[1;34mfor additional information.  Check the wireless connection if you do not see one o'clock 🕐 below.  "
 	dependsblock 
 }
 
@@ -234,7 +234,7 @@ ldconf ()
 {
 	if [ -f "setupTermuxArchConfigs.sh" ];then
 		. setupTermuxArchConfigs.sh
-		printf "\033[1;34m 🕛 > 🕜 \033[1;34mTermuxArch configuration \033[0;32m$(pwd)/\033[1;32msetupTermuxArchConfigs.sh \033[1;34mloaded: \033[1;32mOK\n\n"
+		printf "\033[0;34m 🕛 > 🕜 \033[1;34mTermuxArch configuration \033[0;32m$(pwd)/\033[1;32msetupTermuxArchConfigs.sh \033[1;34mloaded: \033[1;32mOK\n\n"
 	else
 		. knownconfigurations.sh
 	fi
@@ -274,7 +274,7 @@ obloomdependsblock ()
 	. necessaryfunctions.sh
 	. printoutstatements.sh
 	. systemmaintenance.sh
-	printf "\n\033[1;34m 🕛 > 🕑 \033[1;34mTermuxArch $versionid integrity: \033[1;32mOK\n"
+	printf "\n\033[0;34m 🕛 > 🕑 \033[1;34mTermuxArch $versionid integrity: \033[1;32mOK\n"
 	mainblock
 }
 
@@ -285,12 +285,12 @@ omanual ()
 	if [ -f "setupTermuxArchConfigs.sh" ];then
 		$ed setupTermuxArchConfigs.sh
 		. setupTermuxArchConfigs.sh
-		printf "\n\033[1;34m 🕛 > 🕜 \033[1;34mTermuxArch configuration \033[0;32m$(pwd)/\033[1;32msetupTermuxArchConfigs.sh \033[1;34mloaded: \033[1;32mOK\n\n"
+		printf "\n\033[0;34m 🕛 > 🕜 \033[1;34mTermuxArch configuration \033[0;32m$(pwd)/\033[1;32msetupTermuxArchConfigs.sh \033[1;34mloaded: \033[1;32mOK\n\n"
 	else
 		cp knownconfigurations.sh setupTermuxArchConfigs.sh
 		$ed setupTermuxArchConfigs.sh
 		. setupTermuxArchConfigs.sh
-		printf "\n\033[1;34m 🕛 > 🕜 \033[1;34mTermuxArch configuration \033[0;32m$(pwd)/\033[1;32msetupTermuxArchConfigs.sh \033[1;34mloaded: \033[1;32mOK\n\n"
+		printf "\n\033[0;34m 🕛 > 🕜 \033[1;34mTermuxArch configuration \033[0;32m$(pwd)/\033[1;32msetupTermuxArchConfigs.sh \033[1;34mloaded: \033[1;32mOK\n\n"
 	fi
 }
 
@@ -533,13 +533,13 @@ args=$@
 bin=startarch
 #cmirror="http://mirror.archlinuxarm.org/"
 cmirror="http://os.archlinuxarm.org/"
-dfl=/gen
+#dfl=/gen
 #dm=curl
 #dm=wget
 dmverbose="-q"
 #dmverbose="-v"
 stime=`date +%s|grep -o '....$'`
-versionid="gen.v0.8.8 id101929902"
+versionid="v0.8.8"
 
 setrootdir 
 
