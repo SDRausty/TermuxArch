@@ -48,7 +48,7 @@ chkself ()
 {
 	if [ -f "setupTermuxArch.tmp" ];then
 		if [[ "$(<setupTermuxArch.sh)" != "$(<setupTermuxArch.tmp)" ]];then
-			printf "\n\033[0;32msetupTermuxArch.sh: \033[1;32mUPDATED\n\033[0;32mTermuxArch: \033[1;32mRESTARTED\n\033[0m"
+			printf "\033[0;32msetupTermuxArch.sh: \033[1;32mUPDATED\n\033[0;32mTermuxArch: \033[1;32mRESTARTED\n\033[0m"
 			rm setupTermuxArch.tmp
 			. setupTermuxArch.sh $args
 		fi
