@@ -7,29 +7,19 @@
 # Printout statement subroutines for `setupTermuxArch.sh`.
 ################################################################################
 
-printcontacting ()
-{
-	printf "\033[0;34m 🕛 > 🕞 \033[1;34mContacting worldwide mirror \033[0;32m$cmirror\033[1;34m: "
-}
-
 printdetectedsystem ()
 {
 	printf "\n\033[1;34m 🕛 > 🕝 \033[1;34mDetected $(uname -m) " 
 	if [[ $(getprop ro.product.device) == *_cheets ]];then
-		printf "Chromebook: \033[32;1mOK\n\n\033[0m"
+		printf "Chromebook: \033[32;1mOK\n\033[0m"
 	else
-		printf "$(uname -o) operating system: \033[32;1mOK\n\n\033[0m"
+		printf "$(uname -o) operating system: \033[32;1mOK\n\033[0m"
 	fi
-}
-
-printdone ()
-{
-	printf "\033[1;32mDONE  \033[0m\n\n"
 }
 
 printdownloading ()
 {
-	printf "\033[0;34m 🕛 > 🕒 \033[1;34mActivating termux-wake-lock: "'\033]2; 🕛 > 🕒 Downloading the Arch Linux system image file and checksum…  \007'
+	printf "\n\033[0;34m 🕛 > 🕒 \033[1;34mActivating termux-wake-lock…  "'\033]2; 🕛 > 🕒 Downloading the Arch Linux system image file and checksum…  \007'
 }
 
 printdownloadingx86 ()
@@ -39,12 +29,12 @@ printdownloadingx86 ()
 
 printdownloadingx86two ()
 {
-	printf "\033[0;34mDownloading \033[0;32m$file \033[0;34mfrom \033[0;32mhttp://$mirror\033[0;34m…  \033[1;37mThis may take a long time pending connection.\n\n\033[0;32m"
+	printf "\n\n\033[0;34mDownloading \033[0;32m$file \033[0;34mfrom \033[0;32mhttp://$mirror\033[0;34m…  \033[1;37mThis may take a long time pending connection.\n\n\033[0;32m"
 }
 
 printdownloadingftch ()
 {
-	printf "\033[0;34m 🕛 > 🕓 \033[1;34mDownloading \033[0;32m$file \033[1;34mfrom geographically nearby mirror \033[0;32m$nmirror\033[1;34m…  \033[1;37mThis may take a long time pending Internet connection.  \033[1;34mIf the geographically nearby mirror is unresponsive, run \033[0;32mbash setupTermuxArch.sh\033[1;34m again.  Should the worldwide mirror not hand off a new geographically nearby server after subsequent attempts, use \033[0;32mbash setupTermuxArch.sh --manual\033[1;34m; See \033[0;32mbash setupTermuxArch.sh --help \033[1;34mfor additional information.\n\n\033[0;32m"
+	printf "\n\n\033[0;34m 🕛 > 🕞 \033[1;34mDownloading \033[0;32m$file \033[1;34mfrom geographically nearby mirror \033[0;32m$nmirror\033[1;34m…  \033[1;37mThis may take a long time pending Internet connection.  \033[1;34mIf the geographically nearby mirror is unresponsive, run \033[0;32mbash setupTermuxArch.sh\033[1;34m again.  Should the worldwide mirror not hand off a new geographically nearby server after subsequent attempts, use \033[0;32mbash setupTermuxArch.sh --manual\033[1;34m; See \033[0;32mbash setupTermuxArch.sh --help \033[1;34mfor additional information.\n\n\033[0;32m"
 }
 
 printdownloadingftchit ()
