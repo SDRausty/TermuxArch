@@ -434,7 +434,7 @@ rmds ()
 
 rootdirexception ()
 {
-	if [[ $HOME$rootdir = $HOME ]] || [[ $HOME$rootdir = $HOME/ ]] || [[ $HOME$rootdir = $HOME/.. ]] || [[ $HOME$rootdir = $HOME/../ ]];then
+	if [[ $HOME$rootdir = $HOME ]] || [[ $HOME$rootdir = $HOME/ ]] || [[ $HOME$rootdir = $HOME/.. ]] || [[ $HOME$rootdir = $HOME/../ ]] || [[ $HOME$rootdir = $HOME/../.. ]] || [[ $HOME$rootdir = $HOME/../../ ]];then
 		printf "\n\033[1;31mRootdir exception.  Run the script again with different options…\n\n\033[0m"'\033]2;Rootdir exception.  Run `bash setupTermuxArch.sh` again with different options…\007'
 		exit
 	fi
