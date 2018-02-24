@@ -201,7 +201,7 @@ ifdmcurl ()
 	fi
 }
 
-ifdmget ()
+ifdmwget ()
 {
 	if [[ $dm = wget ]];then
 		ifwget
