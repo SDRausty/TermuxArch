@@ -213,7 +213,7 @@ ifnano ()
 	if [ ! -e $PREFIX/bin/nano ];then
 		printf "\n\033[1;34mInstalling \033[0;32mnano\033[1;34m…\n\n\033[1;32m"
 		pkg install nano --yes 
-		printf "\n\033[1;34mInstalling \033[0;32mnano\033[1;34m: \033[1;32mDONE\n\033[0m"
+		printf "\n\033[1;34mInstalling \033[0;32mnano\033[1;34m: \033[1;32mDONE\n\n\033[0m"
 	fi
 	if [ ! -e $PREFIX/bin/nano ];then
 		pe
