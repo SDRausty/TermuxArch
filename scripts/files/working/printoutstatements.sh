@@ -27,19 +27,19 @@ printdone ()
 	printf "\033[1;32mDONE  \033[0m\n\n"
 }
 
-printdownloading ()
+printwla ()
 {
 	printf "\033[0;34m 🕛 > 🕒 \033[1;34mActivating termux-wake-lock: "'\033]2; 🕛 > 🕒 Activating termux-wake-lock: OK\007'
 }
 
 printdownloadingx86 ()
 {
-	printf "\033[0;34mDownloading checksum from \033[0;32mhttp://$mirror\033[0;34m…\n\n\033[0;32m"'\033]2; 🕛 > 🕓 Downloading the checksum and Arch Linux system image file…  \007'
+	printf "\033[0;34m 🕛 > 🕞 \033[0;34mDownloading checksum from \033[0;32mhttp://$mirror\033[0;34m…\n\n\033[0;32m"'\033]2; 🕛 > 🕞 Downloading the Arch Linux system image checksum…  \007'
 }
 
 printdownloadingx86two ()
 {
-	printf "\033[0;34mDownloading \033[0;32m$file \033[0;34mfrom \033[0;32mhttp://$mirror\033[0;34m…  \033[1;37mThis may take a long time pending connection.\n\n\033[0;32m"
+	printf "\033[0;34m 🕛 > 🕓 \033[0;34mDownloading \033[0;32m$file \033[0;34mfrom \033[0;32mhttp://$mirror\033[0;34m…  \033[1;37mThis may take a long time pending connection.\n\n\033[0;32m"'\033]2; 🕛 > 🕓 Downloading the Arch Linux system image file…  \007'
 }
 
 printdownloadingftch ()
@@ -49,7 +49,7 @@ printdownloadingftch ()
 
 printdownloadingftchit ()
 {
-	printf "\033[0;34mDownloading \033[0;32m$file \033[0;34mand checksum from \033[0;32mhttp://$mirror\033[0;34m…  \033[1;37mThis may take a long time pending connection.\n\n\033[0;32m"'\033]2; 🕛 > 🕓 Downloading the checksum and Arch Linux system image file…  \007'
+	printf "\033[0;34m 🕛 > 🕓 \033[0;34mDownloading \033[0;32m$file \033[0;34mand checksum from \033[0;32mhttp://$mirror\033[0;34m…  \033[1;37mThis may take a long time pending connection.\n\n\033[0;32m"'\033]2; 🕛 > 🕓 Downloading the checksum and Arch Linux system image file…  \007'
 }
 
 printconfigq ()

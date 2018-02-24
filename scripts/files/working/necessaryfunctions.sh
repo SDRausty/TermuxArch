@@ -99,7 +99,7 @@ makestartbin ()
 
 makesystem ()
 {
-	printdownloading 
+	printwla 
 	termux-wake-lock 
 	printdone 
 	if [ $(getprop ro.product.cpu.abi) = x86 ] || [ $(getprop ro.product.cpu.abi) = x86_64 ];then
