@@ -317,7 +317,14 @@ omanual ()
 
 opt2 ()
 {
-	:
+	if [[ $2 = [Db]* ]] || [[ $2 = [Ss]* ]] ;then
+		introdebug 
+		sysinfo 
+	elif [[ $2 = [Ii]* ]] ;then
+		ee3
+	else
+		ee2
+	fi
 }
 
 printsha512syschker ()
@@ -581,26 +588,10 @@ setrootdir
 # `bash setupTermuxArch.sh --options` 
 if [[ $1 = [Cc][url] ]] || [[ $1 = -[Cc][url] ]] || [[ $1 = --[Cc][url] ]];then
 	dm=curl
-	opt2
-	if [[ $2 = [Db]* ]] || [[ $2 = [Ss]* ]] ;then
-		introdebug 
-		sysinfo 
-	elif [[ $2 = [Ii]* ]] ;then
-		ee3
-	else
-		ee2
-	fi
+	opt2 $args 
 elif [[ $1 = [Ww][get] ]] || [[ $1 = -[Ww][get] ]] || [[ $1 = --[Ww][get] ]];then
 	dm=wget
-	opt2
-	if [[ $2 = [Db]* ]] || [[ $2 = [Ss]* ]] ;then
-		introdebug 
-		sysinfo 
-	elif [[ $2 = [Ii]* ]] ;then
-		ee3
-	else
-		ee2
-	fi
+	opt2 $args 
 	# [curl debug|curl sysinfo] Get device system information using `curl`.
 elif [[ $1 = [Cc][Dd]* ]] || [[ $1 = -[Cc][Dd]* ]] || [[ $1 = --[Cc][Dd]* ]] || [[ $1 = [Cc][Ss]* ]] || [[ $1 = -[Cc][Ss]* ]] || [[ $1 = --[Cc][Ss]* ]];then
 	dm=curl
@@ -609,15 +600,7 @@ elif [[ $1 = [Cc][Dd]* ]] || [[ $1 = -[Cc][Dd]* ]] || [[ $1 = --[Cc][Dd]* ]] || 
 	# [curl installdir|curl install installdir] Install Arch Linux using `curl`.
 elif [[ $1 = [Cc]* ]] || [[ $1 = -[Cc]* ]] || [[ $1 = --[Cc]* ]] || [[ $1 = [Cc][Ii]* ]] || [[ $1 = -[Cc][Ii]* ]] || [[ $1 = --[Cc][Ii]* ]];then
 	dm=curl
-	opt2
-	if [[ $2 = [Db]* ]] || [[ $2 = [Ss]* ]] ;then
-		introdebug 
-		sysinfo 
-	elif [[ $2 = [Ii]* ]] ;then
-		ee3
-	else
-		ee2
-	fi
+	opt2 $args 
 	intro 
 	mainblock
 	# [wget debug|wget sysinfo] Get device system information using `wget`.
@@ -628,15 +611,7 @@ elif [[ $1 = [Ww][Dd]* ]] || [[ $1 = -[Ww][Dd]* ]] || [[ $1 = --[Ww][Dd]* ]] || 
 # [wget installdir|wget install installdir] Install Arch Linux using `wget`.
 elif [[ $1 = [Ww]* ]] || [[ $1 = -[Ww]* ]] || [[ $1 = --[Ww]* ]] || [[ $1 = [Ww][Ii]* ]] || [[ $1 = -[Ww][Ii]* ]] || [[ $1 = --[Ww][Ii]* ]];then
 	dm=wget
-	opt2
-	if [[ $2 = [Db]* ]] || [[ $2 = [Ss]* ]] ;then
-		introdebug 
-		sysinfo 
-	elif [[ $2 = [Ii]* ]] ;then
-		ee3
-	else
-		ee2
-	fi
+	opt2 $args 
 	intro 
 	mainblock
 # [bloom] Create local copy of TermuxArch in TermuxArchBloom.  Useful for hacking and modifying TermuxArch.  
