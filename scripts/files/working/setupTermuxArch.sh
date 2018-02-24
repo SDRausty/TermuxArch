@@ -167,6 +167,26 @@ edq ()
 	printf "\n"
 }
 
+ee2 ()
+{
+	arg2=$(echo $args | awk '{print $2}')
+	if [[ $arg2 = "" ]] ;then
+		rootdir=/arch
+	else
+		rootdir=/$arg2 
+	fi
+}
+
+ee3 ()
+{
+	arg3=$(echo $args | awk '{print $3}')
+	if [[ $arg3 = "" ]] ;then
+		rootdir=/arch
+	else
+		rootdir=/$arg3
+	fi
+}
+
 ifcurl ()
 {
 	if [ ! -e $PREFIX/bin/curl ];then
@@ -568,9 +588,9 @@ if [[ $1 = [Cc][Dd]* ]] || [[ $1 = -[Cc][Dd]* ]] || [[ $1 = --[Cc][Dd]* ]] || [[
 elif [[ $1 = [Cc]* ]] || [[ $1 = -[Cc]* ]] || [[ $1 = --[Cc]* ]] || [[ $1 = [Cc][Ii]* ]] || [[ $1 = -[Cc][Ii]* ]] || [[ $1 = --[Cc][Ii]* ]];then
 	dm=curl
 	if [[ $2 = "Install" || "install"  ]] ;then
-		rootdir=/$3 
+		ee3
 	else
-		rootdir=/$2 
+		ee2
 	fi
 	intro 
 	mainblock
@@ -588,9 +608,9 @@ elif [[ $1 = [Ww][Dd]* ]] || [[ $1 = -[Ww][Dd]* ]] || [[ $1 = --[Ww][Dd]* ]] || 
 elif [[ $1 = [Ww]* ]] || [[ $1 = -[Ww]* ]] || [[ $1 = --[Ww]* ]] || [[ $1 = [Ww][Ii]* ]] || [[ $1 = -[Ww][Ii]* ]] || [[ $1 = --[Ww][Ii]* ]];then
 	dm=wget
 	if [[ $2 = "Install" || "install" ]] ;then
-		rootdir=/$3 
+		ee3
 	else
-		rootdir=/$2 
+		ee2
 	fi
 	intro 
 	mainblock
@@ -612,15 +632,11 @@ elif [[ $1 = [Mm]* ]] || [[ $1 = -[Mm]* ]] || [[ $1 = --[Mm]* ]];then
 	mainblock
 # [purge |uninstall] Remove Arch Linux.
 elif [[ $1 = [Pp]* ]] || [[ $1 = -[Pp]* ]] || [[ $1 = --[Pp]* ]] || [[ $1 = [Uu]* ]] || [[ $1 = -[Uu]* ]] || [[ $1 = --[Uu]* ]];then
-	if [[ $2 = "" ]] ;then
-		rootdir=/arch
-	else
-		rootdir=/$2
-	fi
+	ee2
 	rmarch
 # [rootdir installdir] Install Arch Linux into custom directory.  Instructions: Install in userspace. $HOME is appended. 
 elif [[ $1 = [Rr][Oo]* ]] || [[ $1 = -[Rr][Oo]* ]] || [[ $1 = --[Rr][Oo]* ]];then
-	rootdir=/$2 
+	ee2
 	intro 
 	mainblock
 # [run] Run local copy of TermuxArch from TermuxArchBloom.  Useful for running modifications after modifying TermuxArch locally.  
@@ -628,11 +644,7 @@ elif [[ $1 = [Rr]* ]] || [[ $1 = -[Rr]* ]] || [[ $1 = --[Rr]* ]];then
 	runobloom 
 # [install installdir] Run default Arch Linux install.  Instructions: Install in userspace. $HOME is appended to installation directory. To install Arch Linux in $HOME/installdir/arch use `bash setupTermuxArch.sh --install installdir/arch`. In bash shell use `./setupTermuxArch.sh --install installdir`.  All options can be abbreviated to one or two letters.  So `./setupTermuxArch.sh --install installdir/arch` can be run as `./setupTermuxArch.sh i installdir/arch` in BASH.
 elif [[ $1 = [Ii]* ]] || [[ $1 = -[Ii]* ]] || [[ $1 = --[Ii]* ]];then
-	if [[ $2 = "" ]] ;then
-		rootdir=/arch
-	else
-		rootdir=/$2
-	fi
+	ee2
 	intro 
 	mainblock
 # [] Run default Arch Linux install.
