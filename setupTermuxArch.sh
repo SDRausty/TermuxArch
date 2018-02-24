@@ -60,8 +60,8 @@ depends ()
 {
 	printf "\033[1;34mChecking prerequisites…\n\033[1;32m"
 	if [[ $dm = curl ]] || [[ $dm = wget ]];then
-		ifgetcurl 
-		ifgetwget 
+		ifdmcurl 
+		ifdmwget 
 	elif [ -e $PREFIX/bin/curl ] || [ -e $PREFIX/bin/wget ];then
 		if [ -e $PREFIX/bin/curl ];then
 			dm=curl 
@@ -78,8 +78,7 @@ depends ()
 			dm=curl 
 		fi
 		if [ ! -e $PREFIX/bin/curl ];then
-			printf "\n\033[1;31mPrerequisites exception.  Run the script again…\n\n\033[0m"'\033]2;  Thank you for using setupTermuxArch.sh.  Run `bash setupTermuxArch.sh` again…\007'
-			exit
+			pe
 		fi
 	fi
 	dependsa 
@@ -119,13 +118,11 @@ dependsax ()
 {
 	if [ $(getprop ro.product.cpu.abi) = x86 ] || [ $(getprop ro.product.cpu.abi) = x86_64 ];then
 		if [ ! -e $PREFIX/bin/bsdtar ]  || [ ! -e $PREFIX/bin/proot ];then
-			printf "\n\033[1;31mPrerequisites exception.  Run the script again…\n\n\033[0m"'\033]2;  Thank you for using setupTermuxArch.sh.  Run setupTermuxArch.sh again…\007'
-			exit
+			pe
 		fi
 	else
 		if [ ! -e $PREFIX/bin/proot ];then
-			printf "\n\033[1;31mPrerequisites exception.  Run the script again…\n\n\033[0m"'\033]2;  Thank you for using setupTermuxArch.sh.  Run setupTermuxArch.sh again…\007'
-			exit
+			pe
 		fi
 	fi
 }
@@ -149,16 +146,15 @@ edq ()
 		if [[ $opt = bloom ]] || [[ $opt = manual ]];then
 			read -p "Would you like to use \`nano\` or \`vi\` to edit \`setupTermuxArchConfigs.sh\` [n|V]? "  nv
 		else 
-			read -p "Change the worldwide mirror to a mirror that is geographically nearby.  Choose only ONE active mirror in the mirrors file that you are about to edit.  Would you like to use \`nano\` or \`vi\` to edit the Arch Linux configuration files [n|v]? "  nv
+			read -p "Change the worldwide mirror to a mirror that is geographically nearby.  Choose only ONE active mirror in the mirrors file that you are about to edit.  Would you like to use \`nano\` or \`vi\` to edit the Arch Linux configuration files [n|V]? "  nv
 		fi
 		if [[ $nv = [Nn]* ]];then
 			ed=nano
-			printf "\n\033[1;34mInstalling \033[0;32mnano\033[1;34m…\n\n\033[1;32m"
-			pkg install nano --yes 
-			printf "\n\033[1;34mInstalling \033[0;32mnano\033[1;34m: \033[1;32mDONE\n\033[0m"
+			ifnano 
 			break
 		elif [[ $nv = [Vv]* ]] || [[ $nv = "" ]];then
 			ed=vi
+			printf "\n"
 			break
 		else
 			printf "\nYou answered \033[36;1m$nv\033[1;32m.\n\nAnswer nano or vi [n|v].  \n\n"
@@ -194,22 +190,33 @@ ifcurl ()
 		printf "\n\033[1;34mInstalling \033[0;32mcurl\033[1;34m: \033[1;32mDONE\n\033[0m"
 	fi
 	if [ ! -e $PREFIX/bin/curl ];then
-		printf "\n\033[1;31mPrerequisites exception.  Run the script again…\n\n\033[0m"'\033]2;  Thank you for using setupTermuxArch.sh.  Run `bash setupTermuxArch.sh` again…\007'
-		exit
+		pe
 	fi
 }
 
-ifgetcurl ()
+ifdmcurl ()
 {
 	if [[ $dm = curl ]];then
 		ifcurl
 	fi
 }
 
-ifgetwget ()
+ifdmget ()
 {
 	if [[ $dm = wget ]];then
 		ifwget
+	fi
+}
+
+ifnano ()
+{
+	if [ ! -e $PREFIX/bin/nano ];then
+		printf "\n\033[1;34mInstalling \033[0;32mnano\033[1;34m…\n\n\033[1;32m"
+		pkg install nano --yes 
+		printf "\n\033[1;34mInstalling \033[0;32mnano\033[1;34m: \033[1;32mDONE\n\033[0m"
+	fi
+	if [ ! -e $PREFIX/bin/nano ];then
+		pe
 	fi
 }
 
@@ -221,8 +228,7 @@ ifwget ()
 		printf "\n\033[1;34mInstalling \033[0;32mwget\033[1;34m: \033[1;32mDONE\n\033[0m"
 	fi
 	if [ ! -e $PREFIX/bin/wget ];then
-		printf "\n\033[1;31mPrerequisites exception.  Run the script again…\n\n\033[0m"'\033]2;  Thank you for using setupTermuxArch.sh.  Run `bash setupTermuxArch.sh` again…\007'
-		exit
+		pe
 	fi
 }
 
@@ -325,6 +331,12 @@ opt2 ()
 	else
 		ee2
 	fi
+}
+
+pe ()
+{
+	printf "\n\033[1;31mPrerequisites exception.  Run the script again…\n\n\033[0m"'\033]2;  Thank you for using setupTermuxArch.sh.  Run `bash setupTermuxArch.sh` again…\007'
+	exit
 }
 
 printsha512syschker ()
