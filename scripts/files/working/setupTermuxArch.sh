@@ -574,40 +574,50 @@ versionid="v0.8.8"
 setrootdir 
 
 # `bash setupTermuxArch.sh --options` 
-# [curl debug|curl sysinfo] Get device system information using `curl`.
-if [[ $1 = [Cc][Dd]* ]] || [[ $1 = -[Cc][Dd]* ]] || [[ $1 = --[Cc][Dd]* ]] || [[ $1 = [Cc][Ss]* ]] || [[ $1 = -[Cc][Ss]* ]] || [[ $1 = --[Cc][Ss]* ]];then
-	if [[ $2 = "Debug" || "debug" ||  "Sysinfo" || "sysinfo" ]] ;then
+if [[ $1 = [Cc][url] ]] || [[ $1 = -[Cc][url] ]] || [[ $1 = --[Cc][url] ]];then
+	if [[ $2 = [Db]* ]] || [[ $2 = [Ss]* ]] ;then
 		dm=curl
 		introdebug 
 		sysinfo 
+	elif [[ $2 = [Ii]* ]] ;then
+		ee3
+	else
+		ee2
 	fi
+elif [[ $1 = [Ww][get] ]] || [[ $1 = -[Ww][get] ]] || [[ $1 = --[Ww][get] ]];then
+	if [[ $2 = [Db]* ]] || [[ $2 = [Ss]* ]] ;then
+		dm=curl
+		introdebug 
+		sysinfo 
+	elif [[ $2 = [Ii]* ]] ;then
+		ee3
+	else
+		ee2
+	fi
+	# [curl debug|curl sysinfo] Get device system information using `curl`.
+elif [[ $1 = [Cc][Dd]* ]] || [[ $1 = -[Cc][Dd]* ]] || [[ $1 = --[Cc][Dd]* ]] || [[ $1 = [Cc][Ss]* ]] || [[ $1 = -[Cc][Ss]* ]] || [[ $1 = --[Cc][Ss]* ]];then
 	dm=curl
 	introdebug 
 	sysinfo 
-# [curl installdir|curl install installdir] Install Arch Linux using `curl`.
+	# [curl installdir|curl install installdir] Install Arch Linux using `curl`.
 elif [[ $1 = [Cc]* ]] || [[ $1 = -[Cc]* ]] || [[ $1 = --[Cc]* ]] || [[ $1 = [Cc][Ii]* ]] || [[ $1 = -[Cc][Ii]* ]] || [[ $1 = --[Cc][Ii]* ]];then
 	dm=curl
-	if [[ $2 = "Install" || "install"  ]] ;then
+	if [[ $2 = [Ii]* ]] ;then
 		ee3
 	else
 		ee2
 	fi
 	intro 
 	mainblock
-# [wget debug|wget sysinfo] Get device system information using `wget`.
+	# [wget debug|wget sysinfo] Get device system information using `wget`.
 elif [[ $1 = [Ww][Dd]* ]] || [[ $1 = -[Ww][Dd]* ]] || [[ $1 = --[Ww][Dd]* ]] || [[ $1 = [Ww][Ss]* ]] || [[ $1 = -[Ww][Ss]* ]] || [[ $1 = --[Ww][Ss]* ]];then
-	if [[ $2 = "Debug" || "debug" ||  "Sysinfo" || "sysinfo" ]] ;then
-		dm=wget
-		introdebug 
-		sysinfo 
-	fi
 	dm=wget
 	introdebug 
 	sysinfo 
 # [wget installdir|wget install installdir] Install Arch Linux using `wget`.
 elif [[ $1 = [Ww]* ]] || [[ $1 = -[Ww]* ]] || [[ $1 = --[Ww]* ]] || [[ $1 = [Ww][Ii]* ]] || [[ $1 = -[Ww][Ii]* ]] || [[ $1 = --[Ww][Ii]* ]];then
 	dm=wget
-	if [[ $2 = "Install" || "install" ]] ;then
+	if [[ $2 = [Ii]* ]] ;then
 		ee3
 	else
 		ee2
