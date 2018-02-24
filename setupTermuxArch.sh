@@ -587,14 +587,8 @@ versionid="v0.8.9"
 setrootdir 
 
 # `bash setupTermuxArch.sh --options` 
-if [[ $1 = [Cc][url] ]] || [[ $1 = -[Cc][url] ]] || [[ $1 = --[Cc][url] ]];then
-	dm=curl
-	opt2 $args 
-elif [[ $1 = [Ww][get] ]] || [[ $1 = -[Ww][get] ]] || [[ $1 = --[Ww][get] ]];then
-	dm=wget
-	opt2 $args 
-	# [curl debug|curl sysinfo] Get device system information using `curl`.
-elif [[ $1 = [Cc][Dd]* ]] || [[ $1 = -[Cc][Dd]* ]] || [[ $1 = --[Cc][Dd]* ]] || [[ $1 = [Cc][Ss]* ]] || [[ $1 = -[Cc][Ss]* ]] || [[ $1 = --[Cc][Ss]* ]];then
+# [curl debug|curl sysinfo] Get device system information using `curl`.
+if [[ $1 = [Cc][Dd]* ]] || [[ $1 = -[Cc][Dd]* ]] || [[ $1 = --[Cc][Dd]* ]] || [[ $1 = [Cc][Ss]* ]] || [[ $1 = -[Cc][Ss]* ]] || [[ $1 = --[Cc][Ss]* ]];then
 	dm=curl
 	introdebug 
 	sysinfo 
