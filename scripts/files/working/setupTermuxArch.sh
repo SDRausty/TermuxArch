@@ -582,7 +582,7 @@ cmirror="http://os.archlinuxarm.org/"
 dmverbose="-q"
 #dmverbose="-v"
 stime=`date +%s|grep -o '....$'`
-versionid="v0.8.8"
+versionid="v0.8.9"
 
 setrootdir 
 
