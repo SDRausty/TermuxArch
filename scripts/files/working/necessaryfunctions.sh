@@ -173,7 +173,7 @@ touchupsys ()
 	if [[ $ed = "" ]];then
 		edq
 	else
-		printf "Change the worldwide mirror to a mirror that is geographically nearby.  Choose only ONE mirror in the mirrors file.  "
+		printf "\nChange the worldwide mirror to a mirror that is geographically nearby.  Choose only ONE mirror in the mirrors file.  "
 	fi
 	while true; do
 		printf "\033[0;32m"
