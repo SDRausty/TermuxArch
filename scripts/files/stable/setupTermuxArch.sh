@@ -317,7 +317,7 @@ omanual ()
 
 opt2 ()
 {
-	if [[ $2 = [Db]* ]] || [[ $2 = [Ss]* ]] ;then
+	if [[ $2 = [Dd]* ]] || [[ $2 = [Ss]* ]] ;then
 		introdebug 
 		sysinfo 
 		printtail
