@@ -315,6 +315,11 @@ omanual ()
 	fi
 }
 
+opt2 ()
+{
+	:
+}
+
 printsha512syschker ()
 {
 	printf "\033[07;1m\033[31;1m\n 🔆 WARNING sha512sum mismatch!  Setup initialization mismatch!\033[34;1m\033[30;1m  Try again, initialization was not successful this time.  Wait a little while.  Then run \`bash setupTermuxArch.sh\` again…\n\033[0;0m\n"'\033]2;  Thank you for using setupTermuxArch.sh.  Run `bash setupTermuxArch.sh` again…\007'
@@ -575,8 +580,9 @@ setrootdir
 
 # `bash setupTermuxArch.sh --options` 
 if [[ $1 = [Cc][url] ]] || [[ $1 = -[Cc][url] ]] || [[ $1 = --[Cc][url] ]];then
+	dm=curl
+	opt2
 	if [[ $2 = [Db]* ]] || [[ $2 = [Ss]* ]] ;then
-		dm=curl
 		introdebug 
 		sysinfo 
 	elif [[ $2 = [Ii]* ]] ;then
@@ -585,8 +591,9 @@ if [[ $1 = [Cc][url] ]] || [[ $1 = -[Cc][url] ]] || [[ $1 = --[Cc][url] ]];then
 		ee2
 	fi
 elif [[ $1 = [Ww][get] ]] || [[ $1 = -[Ww][get] ]] || [[ $1 = --[Ww][get] ]];then
+	dm=wget
+	opt2
 	if [[ $2 = [Db]* ]] || [[ $2 = [Ss]* ]] ;then
-		dm=curl
 		introdebug 
 		sysinfo 
 	elif [[ $2 = [Ii]* ]] ;then
@@ -602,7 +609,11 @@ elif [[ $1 = [Cc][Dd]* ]] || [[ $1 = -[Cc][Dd]* ]] || [[ $1 = --[Cc][Dd]* ]] || 
 	# [curl installdir|curl install installdir] Install Arch Linux using `curl`.
 elif [[ $1 = [Cc]* ]] || [[ $1 = -[Cc]* ]] || [[ $1 = --[Cc]* ]] || [[ $1 = [Cc][Ii]* ]] || [[ $1 = -[Cc][Ii]* ]] || [[ $1 = --[Cc][Ii]* ]];then
 	dm=curl
-	if [[ $2 = [Ii]* ]] ;then
+	opt2
+	if [[ $2 = [Db]* ]] || [[ $2 = [Ss]* ]] ;then
+		introdebug 
+		sysinfo 
+	elif [[ $2 = [Ii]* ]] ;then
 		ee3
 	else
 		ee2
@@ -617,7 +628,11 @@ elif [[ $1 = [Ww][Dd]* ]] || [[ $1 = -[Ww][Dd]* ]] || [[ $1 = --[Ww][Dd]* ]] || 
 # [wget installdir|wget install installdir] Install Arch Linux using `wget`.
 elif [[ $1 = [Ww]* ]] || [[ $1 = -[Ww]* ]] || [[ $1 = --[Ww]* ]] || [[ $1 = [Ww][Ii]* ]] || [[ $1 = -[Ww][Ii]* ]] || [[ $1 = --[Ww][Ii]* ]];then
 	dm=wget
-	if [[ $2 = [Ii]* ]] ;then
+	opt2
+	if [[ $2 = [Db]* ]] || [[ $2 = [Ss]* ]] ;then
+		introdebug 
+		sysinfo 
+	elif [[ $2 = [Ii]* ]] ;then
 		ee3
 	else
 		ee2
