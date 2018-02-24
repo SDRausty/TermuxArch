@@ -9,6 +9,7 @@ chk ()
 {
 	if sha512sum -c termuxarchchecksum.sha512 1>/dev/null ;then
 		chkself 
+		printf "\033[0;34m 🕛 > 🕜 \033[1;34mTermuxArch $versionid integrity: \033[1;32mOK\n"
 		if [[ $opt = manual ]];then
 			omanual
 		else 
@@ -24,7 +25,6 @@ chk ()
 		else 
 			rmdsc 
 		fi
-		printf "\033[0;34m 🕛 > 🕑 \033[1;34mTermuxArch $versionid integrity: \033[1;32mOK\n"
 	else
 		rmdsc 
 		printsha512syschker
@@ -260,7 +260,7 @@ ldconf ()
 {
 	if [ -f "setupTermuxArchConfigs.sh" ];then
 		. setupTermuxArchConfigs.sh
-		printf "\033[0;34m 🕛 > 🕜 \033[1;34mTermuxArch configuration \033[0;32m$(pwd)/\033[1;32msetupTermuxArchConfigs.sh \033[1;34mloaded: \033[1;32mOK\n\n"
+		printconfloaded 
 	else
 		. knownconfigurations.sh
 	fi
@@ -311,12 +311,12 @@ omanual ()
 	if [ -f "setupTermuxArchConfigs.sh" ];then
 		$ed setupTermuxArchConfigs.sh
 		. setupTermuxArchConfigs.sh
-		printf "\n\033[0;34m 🕛 > 🕜 \033[1;34mTermuxArch configuration \033[0;32m$(pwd)/\033[1;32msetupTermuxArchConfigs.sh \033[1;34mloaded: \033[1;32mOK\n\n"
+		printconfloaded 
 	else
 		cp knownconfigurations.sh setupTermuxArchConfigs.sh
 		$ed setupTermuxArchConfigs.sh
 		. setupTermuxArchConfigs.sh
-		printf "\n\033[0;34m 🕛 > 🕜 \033[1;34mTermuxArch configuration \033[0;32m$(pwd)/\033[1;32msetupTermuxArchConfigs.sh \033[1;34mloaded: \033[1;32mOK\n\n"
+		printconfloaded 
 	fi
 }
 
@@ -337,6 +337,11 @@ pe ()
 {
 	printf "\n\033[1;31mPrerequisites exception.  Run the script again…\n\n\033[0m"'\033]2;  Thank you for using setupTermuxArch.sh.  Run `bash setupTermuxArch.sh` again…\007'
 	exit
+}
+
+printconfloaded ()
+{
+		printf "\n\033[0;34m 🕛 > 🕑 \033[1;34mTermuxArch configuration \033[0;32m$(pwd)/\033[1;32msetupTermuxArchConfigs.sh \033[1;34mloaded: \033[1;32mOK\n\n"
 }
 
 printsha512syschker ()
