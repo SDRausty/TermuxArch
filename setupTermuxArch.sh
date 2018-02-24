@@ -320,6 +320,7 @@ opt2 ()
 	if [[ $2 = [Db]* ]] || [[ $2 = [Ss]* ]] ;then
 		introdebug 
 		sysinfo 
+		printtail
 	elif [[ $2 = [Ii]* ]] ;then
 		ee3
 	else
