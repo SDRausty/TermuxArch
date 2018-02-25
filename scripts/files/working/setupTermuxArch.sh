@@ -161,7 +161,7 @@ edq ()
 	if [[ $ceds = "applets/vi" ]];then
 		edq2
 	else
-	printf "\033[0;32m"
+	printf "\n\033[0;32m"
 	while true; do
 		if [[ $opt = bloom ]] || [[ $opt = manual ]];then
 			read -p "Would you like to use \`${ceds[$i]}\` or \`vi\` to edit \`setupTermuxArchConfigs.sh\` [${ceds[$i]}|V]? "  nv
@@ -650,7 +650,7 @@ dfl=/gen
 dmverbose="-q"
 #dmverbose="-v"
 stime=`date +%s|grep -o '....$'`
-versionid="gen.v0.8.9 id208631774"
+versionid="gen.v0.8.9 id808472811"
 
 setrootdir 
 
