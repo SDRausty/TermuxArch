@@ -330,7 +330,7 @@ obloomdependsblock ()
 omanual ()
 {
 	printf '\033]2;  Thank you for using `bash setupTermuxArch.sh --manual` 📲 \007'
-	edq
+	editors
 	if [ -f "setupTermuxArchConfigs.sh" ];then
 		$ed setupTermuxArchConfigs.sh
 		. setupTermuxArchConfigs.sh
@@ -621,9 +621,8 @@ dfl=/gen
 dmverbose="-q"
 #dmverbose="-v"
 stime=`date +%s|grep -o '....$'`
-versionid="gen.v0.8.9 id402027970"
+versionid="gen.v0.8.9 id731321464"
 
-editors 
 setrootdir 
 
 # `bash setupTermuxArch.sh --options` 
