@@ -158,6 +158,7 @@ editors ()
 
 edq ()
 {
+	printf "\n\033[0;32m"
 	if [[ ${ceds[$i]} = "applets/vi" ]];then
 		edq2
 		ind=1
@@ -177,7 +178,6 @@ edq ()
 		ed=zile
 		ind=1
 	else
-		printf "\n\033[0;32m"
 		while true; do
 			if [[ $opt = bloom ]] || [[ $opt = manual ]];then
 				read -p "Would you like to use \`${ceds[$i]}\` or \`vi\` to edit \`setupTermuxArchConfigs.sh\` [${ceds[$i]}|V]? "  nv
@@ -201,7 +201,6 @@ edq ()
 
 edq2 ()
 {
-	printf "\033[0;32m"
 	while true; do
 		if [[ $opt = bloom ]] || [[ $opt = manual ]];then
 			read -p "Would you like to use \`nano\` or \`vi\` to edit \`setupTermuxArchConfigs.sh\` [n|V]? "  nv
@@ -666,7 +665,7 @@ cmirror="http://os.archlinuxarm.org/"
 dmverbose="-q"
 #dmverbose="-v"
 stime=`date +%s|grep -o '....$'`
-versionid="v0.8.9"
+versionid="gen.v0.8.9 id613728335"
 
 setrootdir 
 
