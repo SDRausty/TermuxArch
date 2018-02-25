@@ -9,6 +9,7 @@ chk ()
 {
 	if sha512sum -c termuxarchchecksum.sha512 1>/dev/null ;then
 		chkself 
+		printf "\033[0;34m 🕛 > 🕜 \033[1;34mTermuxArch $versionid integrity: \033[1;32mOK\n"
 		if [[ $opt = manual ]];then
 			omanual
 		else 
@@ -24,7 +25,6 @@ chk ()
 		else 
 			rmdsc 
 		fi
-		printf "\033[0;34m 🕛 > 🕑 \033[1;34mTermuxArch $versionid integrity: \033[1;32mOK\n"
 	else
 		rmdsc 
 		printsha512syschker
@@ -60,8 +60,8 @@ depends ()
 {
 	printf "\033[1;34mChecking prerequisites…\n\033[1;32m"
 	if [[ $dm = curl ]] || [[ $dm = wget ]];then
-		ifgetcurl 
-		ifgetwget 
+		ifdmcurl 
+		ifdmwget 
 	elif [ -e $PREFIX/bin/curl ] || [ -e $PREFIX/bin/wget ];then
 		if [ -e $PREFIX/bin/curl ];then
 			dm=curl 
@@ -78,8 +78,7 @@ depends ()
 			dm=curl 
 		fi
 		if [ ! -e $PREFIX/bin/curl ];then
-			printf "\n\033[1;31mPrerequisites exception.  Run the script again…\n\n\033[0m"'\033]2;  Thank you for using setupTermuxArch.sh.  Run `bash setupTermuxArch.sh` again…\007'
-			exit
+			pe
 		fi
 	fi
 	dependsa 
@@ -119,13 +118,11 @@ dependsax ()
 {
 	if [ $(getprop ro.product.cpu.abi) = x86 ] || [ $(getprop ro.product.cpu.abi) = x86_64 ];then
 		if [ ! -e $PREFIX/bin/bsdtar ]  || [ ! -e $PREFIX/bin/proot ];then
-			printf "\n\033[1;31mPrerequisites exception.  Run the script again…\n\n\033[0m"'\033]2;  Thank you for using setupTermuxArch.sh.  Run setupTermuxArch.sh again…\007'
-			exit
+			pe
 		fi
 	else
 		if [ ! -e $PREFIX/bin/proot ];then
-			printf "\n\033[1;31mPrerequisites exception.  Run the script again…\n\n\033[0m"'\033]2;  Thank you for using setupTermuxArch.sh.  Run setupTermuxArch.sh again…\007'
-			exit
+			pe
 		fi
 	fi
 }
@@ -142,29 +139,45 @@ dwnl ()
 	fi
 }
 
+editors ()
+{
+	aeds=("emacs" "joe" "jupp" "micro" "nano" "ne" "nvim" "vi" "zile")
+	ceds=()
+	for i in "${!aeds[@]}"; do
+		if [ -e $PREFIX/bin/${aeds[$i]} ];then
+			ceds+=("${aeds[$i]}")
+		fi
+	done
+	for i in "${!ceds[@]}"; do
+		edq 
+		if [[ $ind = 1 ]];then
+			break
+		fi
+	done
+}
+
 edq ()
 {
 	printf "\033[0;32m"
+	printf "%s\t%s\n" "$i" "${ceds[$i]}"
 	while true; do
 		if [[ $opt = bloom ]] || [[ $opt = manual ]];then
-			read -p "Would you like to use \`nano\` or \`vi\` to edit \`setupTermuxArchConfigs.sh\` [n|V]? "  nv
+			read -p "Would you like to use \`${ceds[$i]}\` or \`vi\` to edit \`setupTermuxArchConfigs.sh\` [${ceds[$i]}|V]? "  nv
 		else 
-			read -p "Change the worldwide mirror to a mirror that is geographically nearby.  Choose only ONE active mirror in the mirrors file that you are about to edit.  Would you like to use \`nano\` or \`vi\` to edit the Arch Linux configuration files [n|v]? "  nv
+			read -p "Change the worldwide mirror to a mirror that is geographically nearby.  Choose only ONE active mirror in the mirrors file that you are about to edit.  Would you like to use \`${ceds[$i]}\` or \`vi\` to edit the Arch Linux configuration files [${ceds[$i]}|V]? "  nv
 		fi
-		if [[ $nv = [Nn]* ]];then
-			ed=nano
-			printf "\n\033[1;34mInstalling \033[0;32mnano\033[1;34m…\n\n\033[1;32m"
-			pkg install nano --yes 
-			printf "\n\033[1;34mInstalling \033[0;32mnano\033[1;34m: \033[1;32mDONE\n\033[0m"
+		if [[ $nv = ${ceds[$i]} ]];then
+			ed=${ceds[$i]}
+			ind=1
 			break
 		elif [[ $nv = [Vv]* ]] || [[ $nv = "" ]];then
 			ed=vi
+			ind=1
 			break
 		else
-			printf "\nYou answered \033[36;1m$nv\033[1;32m.\n\nAnswer nano or vi [n|v].  \n\n"
+			printf "\nYou answered \033[36;1m$nv\033[1;32m.\n\nAnswer ${ceds[$i]} or vi [${ceds[$i]}|V].  \n\n"
 		fi
 	done	
-	printf "\n"
 }
 
 ee2 ()
@@ -187,30 +200,46 @@ ee3 ()
 	fi
 }
 
-ifcurl ()
+curlif ()
 {
 	if [ ! -e $PREFIX/bin/curl ];then
-		printf "\n\033[1;34mInstalling \033[0;32mcurl\033[1;34m…\n\n\033[1;32m"
-		pkg install curl  --yes 
-		printf "\n\033[1;34mInstalling \033[0;32mcurl\033[1;34m: \033[1;32mDONE\n\033[0m"
+		curldl
 	fi
 	if [ ! -e $PREFIX/bin/curl ];then
-		printf "\n\033[1;31mPrerequisites exception.  Run the script again…\n\n\033[0m"'\033]2;  Thank you for using setupTermuxArch.sh.  Run `bash setupTermuxArch.sh` again…\007'
-		exit
+		pe
 	fi
 }
 
-ifgetcurl ()
+curldl ()
+{
+	printf "\n\033[1;34mInstalling \033[0;32mcurl\033[1;34m…\n\n\033[1;32m"
+	pkg install curl  --yes 
+	printf "\n\033[1;34mInstalling \033[0;32mcurl\033[1;34m: \033[1;32mDONE\n\033[0m"
+}
+
+ifdmcurl ()
 {
 	if [[ $dm = curl ]];then
-		ifcurl
+		curlif 
 	fi
 }
 
-ifgetwget ()
+ifdmwget ()
 {
 	if [[ $dm = wget ]];then
 		ifwget
+	fi
+}
+
+ifnano ()
+{
+	if [ ! -e $PREFIX/bin/nano ];then
+		printf "\n\033[1;34mInstalling \033[0;32mnano\033[1;34m…\n\n\033[1;32m"
+		pkg install nano --yes 
+		printf "\n\033[1;34mInstalling \033[0;32mnano\033[1;34m: \033[1;32mDONE\n\n\033[0m"
+	fi
+	if [ ! -e $PREFIX/bin/nano ];then
+		pe
 	fi
 }
 
@@ -222,8 +251,7 @@ ifwget ()
 		printf "\n\033[1;34mInstalling \033[0;32mwget\033[1;34m: \033[1;32mDONE\n\033[0m"
 	fi
 	if [ ! -e $PREFIX/bin/wget ];then
-		printf "\n\033[1;31mPrerequisites exception.  Run the script again…\n\n\033[0m"'\033]2;  Thank you for using setupTermuxArch.sh.  Run `bash setupTermuxArch.sh` again…\007'
-		exit
+		pe
 	fi
 }
 
@@ -232,7 +260,7 @@ intro ()
 	rootdirexception 
 	rmarchq
 	spaceinfoq
-	printf "\n\033[0;34m 🕛 > 🕛 \033[1;34msetupTermuxArch $versionid will attempt to install Linux in $HOME$rootdir.  Arch Linux will be available upon successful completion.  Ensure background data is not restricted.  Check the wireless connection if you do not see one o'clock 🕐 below.  "
+	printf "\n\033[0;34m 🕛 > 🕛 \033[1;34msetupTermuxArch $versionid will attempt to install Linux in \033[0;32m$HOME$rootdir\033[1;34m.  Arch Linux will be available upon successful completion.  Ensure background data is not restricted.  Check the wireless connection if you do not see one o'clock 🕐 below.  "
 	dependsblock 
 }
 
@@ -255,7 +283,7 @@ ldconf ()
 {
 	if [ -f "setupTermuxArchConfigs.sh" ];then
 		. setupTermuxArchConfigs.sh
-		printf "\033[0;34m 🕛 > 🕜 \033[1;34mTermuxArch configuration \033[0;32m$(pwd)/\033[1;32msetupTermuxArchConfigs.sh \033[1;34mloaded: \033[1;32mOK\n\n"
+		printconfloaded 
 	else
 		. knownconfigurations.sh
 	fi
@@ -306,12 +334,12 @@ omanual ()
 	if [ -f "setupTermuxArchConfigs.sh" ];then
 		$ed setupTermuxArchConfigs.sh
 		. setupTermuxArchConfigs.sh
-		printf "\n\033[0;34m 🕛 > 🕜 \033[1;34mTermuxArch configuration \033[0;32m$(pwd)/\033[1;32msetupTermuxArchConfigs.sh \033[1;34mloaded: \033[1;32mOK\n\n"
+		printconfloaded 
 	else
 		cp knownconfigurations.sh setupTermuxArchConfigs.sh
 		$ed setupTermuxArchConfigs.sh
 		. setupTermuxArchConfigs.sh
-		printf "\n\033[0;34m 🕛 > 🕜 \033[1;34mTermuxArch configuration \033[0;32m$(pwd)/\033[1;32msetupTermuxArchConfigs.sh \033[1;34mloaded: \033[1;32mOK\n\n"
+		printconfloaded 
 	fi
 }
 
@@ -326,6 +354,17 @@ opt2 ()
 	else
 		ee2
 	fi
+}
+
+pe ()
+{
+	printf "\n\033[1;31mPrerequisites exception.  Run the script again…\n\n\033[0m"'\033]2;  Thank you for using setupTermuxArch.sh.  Run `bash setupTermuxArch.sh` again…\007'
+	exit
+}
+
+printconfloaded ()
+{
+		printf "\n\033[0;34m 🕛 > 🕑 \033[1;34mTermuxArch configuration \033[0;32m$(pwd)/\033[1;32msetupTermuxArchConfigs.sh \033[1;34mloaded: \033[1;32mOK\n\n"
 }
 
 printsha512syschker ()
@@ -576,25 +615,20 @@ args=$@
 bin=startarch
 #cmirror="http://mirror.archlinuxarm.org/"
 cmirror="http://os.archlinuxarm.org/"
-#dfl=/gen
+dfl=/gen
 #dm=curl
 #dm=wget
 dmverbose="-q"
 #dmverbose="-v"
 stime=`date +%s|grep -o '....$'`
-versionid="v0.8.9"
+versionid="gen.v0.8.9 id402027970"
 
+editors 
 setrootdir 
 
 # `bash setupTermuxArch.sh --options` 
-if [[ $1 = [Cc][url] ]] || [[ $1 = -[Cc][url] ]] || [[ $1 = --[Cc][url] ]];then
-	dm=curl
-	opt2 $args 
-elif [[ $1 = [Ww][get] ]] || [[ $1 = -[Ww][get] ]] || [[ $1 = --[Ww][get] ]];then
-	dm=wget
-	opt2 $args 
-	# [curl debug|curl sysinfo] Get device system information using `curl`.
-elif [[ $1 = [Cc][Dd]* ]] || [[ $1 = -[Cc][Dd]* ]] || [[ $1 = --[Cc][Dd]* ]] || [[ $1 = [Cc][Ss]* ]] || [[ $1 = -[Cc][Ss]* ]] || [[ $1 = --[Cc][Ss]* ]];then
+# [curl debug|curl sysinfo] Get device system information using `curl`.
+if [[ $1 = [Cc][Dd]* ]] || [[ $1 = -[Cc][Dd]* ]] || [[ $1 = --[Cc][Dd]* ]] || [[ $1 = [Cc][Ss]* ]] || [[ $1 = -[Cc][Ss]* ]] || [[ $1 = --[Cc][Ss]* ]];then
 	dm=curl
 	introdebug 
 	sysinfo 
@@ -635,19 +669,14 @@ elif [[ $1 = [Mm]* ]] || [[ $1 = -[Mm]* ]] || [[ $1 = --[Mm]* ]];then
 elif [[ $1 = [Pp]* ]] || [[ $1 = -[Pp]* ]] || [[ $1 = --[Pp]* ]] || [[ $1 = [Uu]* ]] || [[ $1 = -[Uu]* ]] || [[ $1 = --[Uu]* ]];then
 	ee2
 	rmarch
-# [rootdir installdir] Install Arch Linux into custom directory.  Instructions: Install in userspace. $HOME is appended. 
-elif [[ $1 = [Rr][Oo]* ]] || [[ $1 = -[Rr][Oo]* ]] || [[ $1 = --[Rr][Oo]* ]];then
+# [install installdir|rootdir installdir] Run default Arch Linux install.  Instructions: Install in userspace. $HOME is appended to installation directory. To install Arch Linux in $HOME/installdir use `bash setupTermuxArch.sh --install installdir`. In bash shell use `./setupTermuxArch.sh --install installdir`.  All options can be abbreviated to one or two letters.  Hence `./setupTermuxArch.sh --install installdir` can be run as `./setupTermuxArch.sh i installdir` in BASH.
+elif [[ $1 = [Ii]* ]] || [[ $1 = -[Ii]* ]] || [[ $1 = --[Ii]* ]] ||  [[ $1 = [Rr][Oo]* ]] || [[ $1 = -[Rr][Oo]* ]] || [[ $1 = --[Rr][Oo]* ]];then
 	ee2
 	intro 
 	mainblock
-# [run] Run local copy of TermuxArch from TermuxArchBloom.  Useful for running modifications after modifying TermuxArch locally.  
+# [run] Run local copy of TermuxArch from TermuxArchBloom.  Useful for running modified copy of TermuxArch locally.  
 elif [[ $1 = [Rr]* ]] || [[ $1 = -[Rr]* ]] || [[ $1 = --[Rr]* ]];then
 	runobloom 
-# [install installdir] Run default Arch Linux install.  Instructions: Install in userspace. $HOME is appended to installation directory. To install Arch Linux in $HOME/installdir/arch use `bash setupTermuxArch.sh --install installdir/arch`. In bash shell use `./setupTermuxArch.sh --install installdir`.  All options can be abbreviated to one or two letters.  So `./setupTermuxArch.sh --install installdir/arch` can be run as `./setupTermuxArch.sh i installdir/arch` in BASH.
-elif [[ $1 = [Ii]* ]] || [[ $1 = -[Ii]* ]] || [[ $1 = --[Ii]* ]];then
-	ee2
-	intro 
-	mainblock
 # [] Run default Arch Linux install.
 elif [[ $1 = "" ]] ;then
 	intro 
