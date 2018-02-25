@@ -158,6 +158,9 @@ editors ()
 
 edq ()
 {
+	if [[ $ceds = "applets/vi" ]];then
+		edq2
+	else
 	printf "\033[0;32m"
 	while true; do
 		if [[ $opt = bloom ]] || [[ $opt = manual ]];then
@@ -177,7 +180,34 @@ edq ()
 			printf "\nYou answered \033[36;1m$nv\033[1;32m.\n\nAnswer ${ceds[$i]} or vi [${ceds[$i]}|V].  \n\n"
 		fi
 	done	
+fi
 }
+
+edq2 ()
+{
+	printf "\033[0;32m"
+	while true; do
+		if [[ $opt = bloom ]] || [[ $opt = manual ]];then
+			read -p "Would you like to use \`nano\` or \`vi\` to edit \`setupTermuxArchConfigs.sh\` [n|V]? "  nv
+		else 
+			read -p "Change the worldwide mirror to a mirror that is geographically nearby.  Choose only ONE active mirror in the mirrors file that you are about to edit.  Would you like to use \`nano\` or \`vi\` to edit the Arch Linux configuration files [n|v]? "  nv
+		fi
+		if [[ $nv = [Nn]* ]];then
+			ed=nano
+			printf "\n\033[1;34mInstalling \033[0;32mnano\033[1;34m…\n\n\033[1;32m"
+			pkg install nano --yes 
+			printf "\n\033[1;34mInstalling \033[0;32mnano\033[1;34m: \033[1;32mDONE\n\033[0m"
+			break
+		elif [[ $nv = [Vv]* ]] || [[ $nv = "" ]];then
+			ed=vi
+			break
+		else
+			printf "\nYou answered \033[36;1m$nv\033[1;32m.\n\nAnswer nano or vi [n|v].  \n\n"
+		fi
+	done	
+	printf "\n"
+}
+
 
 ee2 ()
 {
@@ -620,7 +650,7 @@ dfl=/gen
 dmverbose="-q"
 #dmverbose="-v"
 stime=`date +%s|grep -o '....$'`
-versionid="gen.v0.8.9 id261412482"
+versionid="gen.v0.8.9 id208631774"
 
 setrootdir 
 
