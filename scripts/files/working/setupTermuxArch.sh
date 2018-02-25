@@ -162,8 +162,10 @@ edq ()
 	echo ${ceds[$0]}
 	if [[ ${ceds[$i]} = "vi" ]];then
 		ed=vi
+		ind=1
 	elif [[ ${ceds[0]} = "applets/vi" ]];then
 		edq2
+		ind=1
 	else
 		printf "\n\033[0;32m"
 		while true; do
@@ -654,7 +656,7 @@ dfl=/gen
 dmverbose="-q"
 #dmverbose="-v"
 stime=`date +%s|grep -o '....$'`
-versionid="gen.v0.8.9 id135338614"
+versionid="gen.v0.8.9 id911023649"
 
 setrootdir 
 
