@@ -158,7 +158,6 @@ editors ()
 
 edq ()
 {
-	echo ${ceds[$i]}
 	if [[ ${ceds[$i]} = "applets/vi" ]];then
 		edq2
 		ind=1
@@ -661,13 +660,13 @@ args=$@
 bin=startarch
 #cmirror="http://mirror.archlinuxarm.org/"
 cmirror="http://os.archlinuxarm.org/"
-dfl=/gen
+#dfl=/gen
 #dm=curl
 #dm=wget
 dmverbose="-q"
 #dmverbose="-v"
 stime=`date +%s|grep -o '....$'`
-versionid="gen.v0.8.9 id354492693"
+versionid="v0.8.9"
 
 setrootdir 
 

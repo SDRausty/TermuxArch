@@ -171,7 +171,7 @@ touchupsys ()
 	setlocalegen
 	printf "\n\033[0;32m"
 	if [[ $ed = "" ]];then
-		edq
+		editors 
 	else
 		printf "\nChange the worldwide mirror to a mirror that is geographically nearby.  Choose only ONE mirror in the mirrors file.  "
 	fi
