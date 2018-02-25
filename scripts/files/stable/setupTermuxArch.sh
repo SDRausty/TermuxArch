@@ -139,25 +139,55 @@ dwnl ()
 	fi
 }
 
+editors ()
+{
+	aeds=("emacs" "joe" "jupp" "micro" "nano" "ne" "nvim" "vi" "zile")
+	ceds=()
+	for i in "${!aeds[@]}"; do
+		if [ -e $PREFIX/bin/${aeds[$i]} ];then
+			ceds+=("${aeds[$i]}")
+		fi
+	done
+
+declare -p aeds
+declare -p ceds
+declare -i ind=0
+declare -p ind
+echo $aeds
+echo $ceds
+echo $ind
+
+
+for i in "${!ceds[@]}"; do
+	editorschoose 
+	if [[ $ind = 1 ]];then
+		break
+	fi
+done
+echo $ed
+}
+
 edq ()
 {
+	editors 
 	printf "\033[0;32m"
+	printf "%s\t%s\n" "$i" "${ceds[$i]}"
 	while true; do
 		if [[ $opt = bloom ]] || [[ $opt = manual ]];then
-			read -p "Would you like to use \`nano\` or \`vi\` to edit \`setupTermuxArchConfigs.sh\` [n|V]? "  nv
+			read -p "Would you like to use \`${ceds[$i]}\` or \`vi\` to edit \`setupTermuxArchConfigs.sh\` [${ceds[$i]}|V]? "  nv
 		else 
-			read -p "Change the worldwide mirror to a mirror that is geographically nearby.  Choose only ONE active mirror in the mirrors file that you are about to edit.  Would you like to use \`nano\` or \`vi\` to edit the Arch Linux configuration files [n|V]? "  nv
+			read -p "Change the worldwide mirror to a mirror that is geographically nearby.  Choose only ONE active mirror in the mirrors file that you are about to edit.  Would you like to use \`${ceds[$i]}\` or \`vi\` to edit the Arch Linux configuration files [${ceds[$i]}|V]? "  nv
 		fi
-		if [[ $nv = [Nn]* ]];then
-			ed=nano
-			ifnano 
+		if [[ $nv = ${ceds[$i]} ]];then
+			ed=${ceds[$i]}
+			ind=1
 			break
 		elif [[ $nv = [Vv]* ]] || [[ $nv = "" ]];then
 			ed=vi
-			printf "\n"
+			ind=1
 			break
 		else
-			printf "\nYou answered \033[36;1m$nv\033[1;32m.\n\nAnswer nano or vi [n|v].  \n\n"
+			printf "\nYou answered \033[36;1m$nv\033[1;32m.\n\nAnswer ${ceds[$i]} or vi [${ceds[$i]}|V].  \n\n"
 		fi
 	done	
 }
