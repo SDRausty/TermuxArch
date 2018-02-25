@@ -168,6 +168,9 @@ edq ()
 	elif [[ ${ceds[$i]} = "nvim" ]];then
 		ed=nvim
 		ind=1
+	elif [[ ${ceds[$i]} = "nano" ]];then
+		ed=nano
+		ind=1
 	elif [[ ${ceds[$i]} = "vi" ]];then
 		ed=vi
 		ind=1
@@ -661,7 +664,7 @@ dfl=/gen
 dmverbose="-q"
 #dmverbose="-v"
 stime=`date +%s|grep -o '....$'`
-versionid="gen.v0.8.9 id276326472"
+versionid="gen.v0.8.9 id741844545"
 
 setrootdir 
 
