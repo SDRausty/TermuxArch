@@ -650,7 +650,7 @@ elif [[ $1 = [Ii]* ]] || [[ $1 = -[Ii]* ]] || [[ $1 = --[Ii]* ]] ||  [[ $1 = [Rr
 	ee2
 	intro 
 	mainblock
-# [run] Run local copy of TermuxArch from TermuxArchBloom.  Useful for running modifications after modifying TermuxArch locally.  
+# [run] Run local copy of TermuxArch from TermuxArchBloom.  Useful for running modified copy of TermuxArch locally.  
 elif [[ $1 = [Rr]* ]] || [[ $1 = -[Rr]* ]] || [[ $1 = --[Rr]* ]];then
 	runobloom 
 # [] Run default Arch Linux install.

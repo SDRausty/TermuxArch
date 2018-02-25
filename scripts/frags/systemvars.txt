@@ -1,0 +1,15 @@
+These are some variables that the system sets:
+
+$0 - The name of the BASH script.
+$1 - $9 - The first 9 arguments to the BASH script. 
+$# - How many arguments were passed to the BASH script.
+$@ - All the arguments supplied to the BASH script.
+$? - The exit status of the most recently run process.
+$$ - The process ID of the current script.
+$USER - The username of the user running the script.
+$HOSTNAME - The hostname of the machine the script is running on.
+$SECONDS - The number of seconds since the script was started.
+$RANDOM - Returns a random number when called in the script.
+$LINENO - Returns the current line number in the BASH script.
+
+Reference: https://ryanstutorials.net/bash-scripting-tutorial/bash-variables.php retrieved 20180224.
