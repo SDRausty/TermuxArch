@@ -182,22 +182,27 @@ ee3 ()
 	fi
 }
 
-ifcurl ()
+curlif ()
 {
 	if [ ! -e $PREFIX/bin/curl ];then
-		printf "\n\033[1;34mInstalling \033[0;32mcurl\033[1;34m…\n\n\033[1;32m"
-		pkg install curl  --yes 
-		printf "\n\033[1;34mInstalling \033[0;32mcurl\033[1;34m: \033[1;32mDONE\n\033[0m"
+		curldl
 	fi
 	if [ ! -e $PREFIX/bin/curl ];then
 		pe
 	fi
 }
 
+curldl ()
+{
+	printf "\n\033[1;34mInstalling \033[0;32mcurl\033[1;34m…\n\n\033[1;32m"
+	pkg install curl  --yes 
+	printf "\n\033[1;34mInstalling \033[0;32mcurl\033[1;34m: \033[1;32mDONE\n\033[0m"
+}
+
 ifdmcurl ()
 {
 	if [[ $dm = curl ]];then
-		ifcurl
+		curlif 
 	fi
 }
 
@@ -237,7 +242,7 @@ intro ()
 	rootdirexception 
 	rmarchq
 	spaceinfoq
-	printf "\n\033[0;34m 🕛 > 🕛 \033[1;34msetupTermuxArch $versionid will attempt to install Linux in \033[1;32m$HOME$rootdir\033[1;34m.  Arch Linux will be available upon successful completion.  Ensure background data is not restricted.  Check the wireless connection if you do not see one o'clock 🕐 below.  "
+	printf "\n\033[0;34m 🕛 > 🕛 \033[1;34msetupTermuxArch $versionid will attempt to install Linux in \033[0;32m$HOME$rootdir\033[1;34m.  Arch Linux will be available upon successful completion.  Ensure background data is not restricted.  Check the wireless connection if you do not see one o'clock 🕐 below.  "
 	dependsblock 
 }
 
