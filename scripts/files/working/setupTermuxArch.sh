@@ -141,7 +141,7 @@ dwnl ()
 
 editors ()
 {
-	aeds=("emacs" "joe" "jupp" "micro" "nano" "ne" "nvim" "vi" "zile")
+	aeds=("emacs" "joe" "jupp" "micro" "nano" "ne" "nvim" "vi" "zile" "applets/vi")
 	ceds=()
 	for i in "${!aeds[@]}"; do
 		if [ -e $PREFIX/bin/${aeds[$i]} ];then
@@ -159,7 +159,6 @@ editors ()
 edq ()
 {
 	printf "\033[0;32m"
-	printf "%s\t%s\n" "$i" "${ceds[$i]}"
 	while true; do
 		if [[ $opt = bloom ]] || [[ $opt = manual ]];then
 			read -p "Would you like to use \`${ceds[$i]}\` or \`vi\` to edit \`setupTermuxArchConfigs.sh\` [${ceds[$i]}|V]? "  nv
@@ -621,7 +620,7 @@ dfl=/gen
 dmverbose="-q"
 #dmverbose="-v"
 stime=`date +%s|grep -o '....$'`
-versionid="gen.v0.8.9 id491495704"
+versionid="gen.v0.8.9 id261412482"
 
 setrootdir 
 
