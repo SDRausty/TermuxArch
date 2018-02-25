@@ -7,7 +7,7 @@
 
 editors ()
 {
-	declare -A ceds
+	ceds=()
 	if [ -e $PREFIX/bin/emacs ];then
 		ceds+="emacs "
 	fi
@@ -49,10 +49,11 @@ editors ()
 	do
 		echo $t[@]
 	done
-	for i in {0..$edcnt}; do
+		echo $t[@] 1
+	for i in $edcnt ; do
+		#for i in 3 ; do
 		#	for i in {0..5}; do
 		ceds[i]="ceds $i"  # dynamically create element with index $i
-		ceds[i]="$ceds[i]"  # dynamically create element with index $i
 	done
 	printf '%s\n' "${ceds[@]}"
 }
