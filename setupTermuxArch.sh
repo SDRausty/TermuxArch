@@ -645,19 +645,14 @@ elif [[ $1 = [Mm]* ]] || [[ $1 = -[Mm]* ]] || [[ $1 = --[Mm]* ]];then
 elif [[ $1 = [Pp]* ]] || [[ $1 = -[Pp]* ]] || [[ $1 = --[Pp]* ]] || [[ $1 = [Uu]* ]] || [[ $1 = -[Uu]* ]] || [[ $1 = --[Uu]* ]];then
 	ee2
 	rmarch
-# [rootdir installdir] Install Arch Linux into custom directory.  Instructions: Install in userspace. $HOME is appended. 
-elif [[ $1 = [Rr][Oo]* ]] || [[ $1 = -[Rr][Oo]* ]] || [[ $1 = --[Rr][Oo]* ]];then
+# [install installdir|rootdir installdir] Run default Arch Linux install.  Instructions: Install in userspace. $HOME is appended to installation directory. To install Arch Linux in $HOME/installdir use `bash setupTermuxArch.sh --install installdir`. In bash shell use `./setupTermuxArch.sh --install installdir`.  All options can be abbreviated to one or two letters.  Hence `./setupTermuxArch.sh --install installdir` can be run as `./setupTermuxArch.sh i installdir` in BASH.
+elif [[ $1 = [Ii]* ]] || [[ $1 = -[Ii]* ]] || [[ $1 = --[Ii]* ]] ||  [[ $1 = [Rr][Oo]* ]] || [[ $1 = -[Rr][Oo]* ]] || [[ $1 = --[Rr][Oo]* ]];then
 	ee2
 	intro 
 	mainblock
 # [run] Run local copy of TermuxArch from TermuxArchBloom.  Useful for running modifications after modifying TermuxArch locally.  
 elif [[ $1 = [Rr]* ]] || [[ $1 = -[Rr]* ]] || [[ $1 = --[Rr]* ]];then
 	runobloom 
-# [install installdir] Run default Arch Linux install.  Instructions: Install in userspace. $HOME is appended to installation directory. To install Arch Linux in $HOME/installdir/arch use `bash setupTermuxArch.sh --install installdir/arch`. In bash shell use `./setupTermuxArch.sh --install installdir`.  All options can be abbreviated to one or two letters.  So `./setupTermuxArch.sh --install installdir/arch` can be run as `./setupTermuxArch.sh i installdir/arch` in BASH.
-elif [[ $1 = [Ii]* ]] || [[ $1 = -[Ii]* ]] || [[ $1 = --[Ii]* ]];then
-	ee2
-	intro 
-	mainblock
 # [] Run default Arch Linux install.
 elif [[ $1 = "" ]] ;then
 	intro 
