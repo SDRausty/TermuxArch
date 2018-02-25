@@ -198,7 +198,7 @@ edq2 ()
 		if [[ $opt = bloom ]] || [[ $opt = manual ]];then
 			read -p "Would you like to use \`nano\` or \`vi\` to edit \`setupTermuxArchConfigs.sh\` [n|V]? "  nv
 		else 
-			read -p "Change the worldwide mirror to a mirror that is geographically nearby.  Choose only ONE active mirror in the mirrors file that you are about to edit.  Would you like to use \`nano\` or \`vi\` to edit the Arch Linux configuration files [n|v]? "  nv
+			read -p "Change the worldwide mirror to a mirror that is geographically nearby.  Choose only ONE active mirror in the mirrors file that you are about to edit.  Would you like to use \`nano\` or \`vi\` to edit the Arch Linux configuration files [n|V]? "  nv
 		fi
 		if [[ $nv = [Nn]* ]];then
 			ed=nano
