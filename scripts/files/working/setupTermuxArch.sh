@@ -160,7 +160,7 @@ edq ()
 {
 	if [[ ${ceds[$i]} = "vi" ]];then
 		ed=vi
-	elif [[ $ceds = "applets/vi" ]];then
+	elif [[ ${ceds[0]} = "applets/vi" ]];then
 		edq2
 	else
 		printf "\n\033[0;32m"
@@ -652,7 +652,7 @@ dfl=/gen
 dmverbose="-q"
 #dmverbose="-v"
 stime=`date +%s|grep -o '....$'`
-versionid="gen.v0.8.9 id588028027"
+versionid="gen.v0.8.9 id719838575"
 
 setrootdir 
 
