@@ -162,6 +162,9 @@ edq ()
 	if [[ ${ceds[$i]} = "applets/vi" ]];then
 		edq2
 		ind=1
+	elif [[ ${ceds[$i]} = "vi" ]];then
+		ed=vi
+		ind=1
 	elif [[ ${ceds[$i]} = "emacs" ]];then
 		ed=emacs
 		ind=1
@@ -170,9 +173,6 @@ edq ()
 		ind=1
 	elif [[ ${ceds[$i]} = "nano" ]];then
 		ed=nano
-		ind=1
-	elif [[ ${ceds[$i]} = "vi" ]];then
-		ed=vi
 		ind=1
 	else
 		printf "\n\033[0;32m"
@@ -664,7 +664,7 @@ dfl=/gen
 dmverbose="-q"
 #dmverbose="-v"
 stime=`date +%s|grep -o '....$'`
-versionid="gen.v0.8.9 id741844545"
+versionid="gen.v0.8.9 id858371497"
 
 setrootdir 
 
