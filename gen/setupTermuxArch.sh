@@ -159,11 +159,17 @@ editors ()
 edq ()
 {
 	echo ${ceds[$i]}
-	if [[ ${ceds[$i]} = "vi" ]];then
-		ed=vi
-		ind=1
-	elif [[ ${ceds[0]} = "applets/vi" ]];then
+	if [[ ${ceds[$i]} = "applets/vi" ]];then
 		edq2
+		ind=1
+	elif [[ ${ceds[$i]} = "emacs" ]];then
+		ed=emacs
+		ind=1
+	elif [[ ${ceds[$i]} = "nvim" ]];then
+		ed=nvim
+		ind=1
+	elif [[ ${ceds[$i]} = "vi" ]];then
+		ed=vi
 		ind=1
 	else
 		printf "\n\033[0;32m"
@@ -655,7 +661,7 @@ dfl=/gen
 dmverbose="-q"
 #dmverbose="-v"
 stime=`date +%s|grep -o '....$'`
-versionid="gen.v0.8.9 id987705140"
+versionid="gen.v0.8.9 id276326472"
 
 setrootdir 
 
