@@ -158,6 +158,8 @@ editors ()
 
 edq ()
 {
+	echo ${ceds[$i]}
+	echo ${ceds[$0]}
 	if [[ ${ceds[$i]} = "vi" ]];then
 		ed=vi
 	elif [[ ${ceds[0]} = "applets/vi" ]];then
@@ -652,7 +654,7 @@ dfl=/gen
 dmverbose="-q"
 #dmverbose="-v"
 stime=`date +%s|grep -o '....$'`
-versionid="gen.v0.8.9 id719838575"
+versionid="gen.v0.8.9 id135338614"
 
 setrootdir 
 
