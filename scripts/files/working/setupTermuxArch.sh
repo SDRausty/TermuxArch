@@ -165,11 +165,23 @@ edq ()
 	elif [[ ${ceds[$i]} = "emacs" ]];then
 		ed=emacs
 		ind=1
+	elif [[ ${ceds[$i]} = "joe" ]];then
+		ed=joe
+		ind=1
+	elif [[ ${ceds[$i]} = "jupp" ]];then
+		ed=jupp
+		ind=1
 	elif [[ ${ceds[$i]} = "nvim" ]];then
 		ed=nvim
 		ind=1
+	elif [[ ${ceds[$i]} = "micro" ]];then
+		ed=micro
+		ind=1
 	elif [[ ${ceds[$i]} = "nano" ]];then
 		ed=nano
+		ind=1
+	elif [[ ${ceds[$i]} = "ne" ]];then
+		ed=ne
 		ind=1
 	elif [[ ${ceds[$i]} = "vi" ]];then
 		ed=vi
@@ -177,25 +189,6 @@ edq ()
 	elif [[ ${ceds[$i]} = "zile" ]];then
 		ed=zile
 		ind=1
-	else
-		while true; do
-			if [[ $opt = bloom ]] || [[ $opt = manual ]];then
-				read -p "Would you like to use \`${ceds[$i]}\` or \`vi\` to edit \`setupTermuxArchConfigs.sh\` [${ceds[$i]}|V]? "  nv
-			else 
-				read -p "Change the worldwide mirror to a mirror that is geographically nearby.  Choose only ONE active mirror in the mirrors file that you are about to edit.  Would you like to use \`${ceds[$i]}\` or \`vi\` to edit the Arch Linux configuration files [${ceds[$i]}|V]? "  nv
-			fi
-			if [[ $nv = ${ceds[$i]} ]];then
-				ed=${ceds[$i]}
-				ind=1
-				break
-			elif [[ $nv = [Vv]* ]] || [[ $nv = "" ]];then
-				ed=vi
-				ind=1
-				break
-			else
-				printf "\nYou answered \033[36;1m$nv\033[1;32m.\n\nAnswer ${ceds[$i]} or vi [${ceds[$i]}|V].  \n\n"
-			fi
-		done	
 	fi
 }
 
