@@ -149,7 +149,7 @@ editors ()
 		fi
 	done
 	for i in "${!ceds[@]}"; do
-		editorschoose 
+		edq 
 		if [[ $ind = 1 ]];then
 			break
 		fi
