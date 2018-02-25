@@ -148,23 +148,12 @@ editors ()
 			ceds+=("${aeds[$i]}")
 		fi
 	done
-
-declare -p aeds
-declare -p ceds
-declare -i ind=0
-declare -p ind
-echo $aeds
-echo $ceds
-echo $ind
-
-
-for i in "${!ceds[@]}"; do
-	editorschoose 
-	if [[ $ind = 1 ]];then
-		break
-	fi
-done
-echo $ed
+	for i in "${!ceds[@]}"; do
+		editorschoose 
+		if [[ $ind = 1 ]];then
+			break
+		fi
+	done
 }
 
 edq ()
