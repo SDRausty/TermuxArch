@@ -24,6 +24,8 @@
 
 [@Codimiracle](https://github.com/Codimiracle) submitted, discussed issue https://github.com/sdrausty/TermuxArch/issues/46 "TermuxArch setup scripts has some error in Android x86_64(RemixOS 2.0.513) in Termux" and suggested solutions, thereby resolving the matter.  Result: setupTermuxArch.sh improved! 
 
+[cb125](https://github.com/cb125) commented and contributed: `watch cat /proc/sys/kernel/random/entropy_avail` to resolve `pacman-key --init` in issues #28, #33 and #46. 
+
 [@developer787](https://github.com/developer787) submitted an issue.  Result: setupTermuxArch.sh improved! 
 
 [@fornwall](https://github.com/fornwall) contributed: Created Termux...pushed wget v1.19.4 fixing wget v1.19.3 errors immediatly...  Result: setupTermuxArch.sh improved!
