@@ -166,13 +166,13 @@ edq ()
 		fi
 		while true; do
 			if [[ $opt = bloom ]] || [[ $opt = manual ]];then
-				printf "Would you like to use \`${!ceds[i]}\` to edit \`setupTermuxArchConfigs.sh\`?  "
+				printf "Would you like to use \`${ceds[$i]}\` to edit \`setupTermuxArchConfigs.sh\`?  "
 				read -p "Answer yes or no [Y|n]. "  yn
 			else 
-				printf "Change the worldwide mirror to a mirror that is geographically nearby.  Choose only ONE active mirror in the mirrors file that you are about to edit.  Would you like to use \`${!ceds[i]}\` to edit the Arch Linux configuration files?  "
+				printf "Change the worldwide mirror to a mirror that is geographically nearby.  Choose only ONE active mirror in the mirrors file that you are about to edit.  Would you like to use \`${ceds[$i]}\` to edit the Arch Linux configuration files?  "
 				read -p "Answer yes or no [Y|n]. "  yn
 				if [[ $yn = [Yy]* ]] || [[ $yn = "" ]];then
-					ed=${!ceds[i]}
+					ed=${ceds[$i]}
 					ind=1
 					break
 				elif [[ $yn = [Nn]* ]];then
@@ -652,7 +652,7 @@ dfl=/gen
 dmverbose="-q"
 #dmverbose="-v"
 stime=`date +%s|grep -o '....$'`
-versionid="gen.v0.8.10 id588198364"
+versionid="gen.v0.8.10 id158310296"
 
 setrootdir 
 
