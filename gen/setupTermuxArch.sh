@@ -166,27 +166,32 @@ edq ()
 			edq2
 			ind=1
 		fi
-		while true; do
-			if [[ $opt = bloom ]] || [[ $opt = manual ]];then
-				printf "Would you like to use \`${ceds[$i]}\` to edit \`setupTermuxArchConfigs.sh\`?  "
-				read -p "Answer yes or no [Y|n]. "  yn
-			else 
-				printf "Change the worldwide mirror to a mirror that is geographically nearby.  Choose only ONE active mirror in the mirrors file that you are about to edit.  Would you like to use \`${ceds[$i]}\` to edit the Arch Linux configuration files?  "
-			fi
-			read -p "Answer yes or no [Y|n]. "  yn
-			if [[ $yn = [Yy]* ]] || [[ $yn = "" ]];then
-				ed=${ceds[$i]}
-				ind=1
-				break
-			elif [[ $yn = [Nn]* ]];then
-				break
-			else
-				printf "\nYou answered \033[36;1m$yn\033[32;1m.\n"
-				printf "\nAnswer yes or no [Y|n].  \n\n"
-			fi
-		done
+		edqa $ceds 
 		if [[ $ind = 1 ]];then
 			break
+		fi
+	done
+}
+
+edqa ()
+{
+	while true; do
+		if [[ $opt = bloom ]] || [[ $opt = manual ]];then
+			printf "Would you like to use \`${ceds[$i]}\` to edit \`setupTermuxArchConfigs.sh\`?  "
+			read -p "Answer yes or no [Y|n]. "  yn
+		else 
+			printf "Change the worldwide mirror to a mirror that is geographically nearby.  Choose only ONE active mirror in the mirrors file that you are about to edit.  Would you like to use \`${ceds[$i]}\` to edit the Arch Linux configuration files?  "
+		fi
+		read -p "Answer yes or no [Y|n]. "  yn
+		if [[ $yn = [Yy]* ]] || [[ $yn = "" ]];then
+			ed=${ceds[$i]}
+			ind=1
+			break
+		elif [[ $yn = [Nn]* ]];then
+			break
+		else
+			printf "\nYou answered \033[1;36m$yn\033[1;32m.\n"
+			printf "\nAnswer yes or no [Y|n].  \n\n"
 		fi
 	done
 }
@@ -659,7 +664,7 @@ dfl=/gen
 dmverbose="-q"
 #dmverbose="-v"
 stime=`date +%s|grep -o '....$'`
-versionid="gen.v0.8.10 id669981760"
+versionid="gen.v0.8.10 id808621968"
 
 setrootdir 
 
