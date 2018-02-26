@@ -183,7 +183,6 @@ edqa ()
 		if [[ $opt = bloom ]] || [[ $opt = manual ]];then
 			printf "Would you like to use \`${ceds[$i]}\` to edit \`setupTermuxArchConfigs.sh\`?  "
 			read -p "Answer yes or no [Y|n]. "  yn
-			printf "\n"
 		else 
 			printf "Change the worldwide mirror to a mirror that is geographically nearby.  Choose only ONE active mirror in the mirrors file that you are about to edit.  Would you like to use \`${ceds[$i]}\` to edit the Arch Linux configuration files?  "
 			read -p "Answer yes or no [Y|n]. "  yn
@@ -196,7 +195,7 @@ edqa ()
 			break
 		else
 			printf "\nYou answered \033[1;36m$yn\033[1;32m.\n"
-			printf "\nAnswer yes or no [Y|n].  \n\n"
+			printf "\nAnswer yes or no [Y|n].  \n"
 		fi
 	done
 }
@@ -669,7 +668,7 @@ dfl=/gen
 dmverbose="-q"
 #dmverbose="-v"
 stime=`date +%s|grep -o '....$'`
-versionid="gen.v0.8.10 id836813958"
+versionid="gen.v0.8.10 id730188256"
 
 setrootdir 
 
