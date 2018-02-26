@@ -244,6 +244,7 @@ makefinishsetup ()
 	fi
 	cat >> root/bin/$binfs <<- EOM
 	pacman-key --init ||:
+	printf "\033[0;32m"
 	if [ $(getprop ro.product.cpu.abi) = x86 ] || [ $(getprop ro.product.cpu.abi) = x86_64 ];then
 		pacman -Syu sed --noconfirm ||:
 	else
