@@ -203,10 +203,12 @@ edq2 ()
 			ed=nano
 			printf "\n\033[1;34mInstalling \033[0;32mnano\033[1;34m…\n\n\033[1;32m"
 			pkg install nano --yes 
-			printf "\n\033[1;34mInstalling \033[0;32mnano\033[1;34m: \033[1;32mDONE\n\033[0m"
+			printf "\n\033[1;34mInstalling \033[0;32mnano\033[1;34m: \033[1;32mDONE\n\033[0m"	
+			ind=1
 			break
 		elif [[ $nv = [Vv]* ]] || [[ $nv = "" ]];then
 			ed=vi
+			ind=1
 			break
 		else
 			printf "\nYou answered \033[36;1m$nv\033[1;32m.\n\nAnswer nano or vi [n|v].  \n\n"
@@ -657,7 +659,7 @@ dfl=/gen
 dmverbose="-q"
 #dmverbose="-v"
 stime=`date +%s|grep -o '....$'`
-versionid="gen.v0.8.10 id519477723"
+versionid="gen.v0.8.10 id669981760"
 
 setrootdir 
 
