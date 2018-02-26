@@ -165,6 +165,7 @@ edq ()
 		if [[ ${ceds[$i]} = "applets/vi" ]];then
 			edq2
 			ind=1
+			break
 		fi
 		edqa $ceds 
 		if [[ $ind = 1 ]];then
@@ -213,7 +214,7 @@ edq2 ()
 			ind=1
 			break
 		elif [[ $nv = [Vv]* ]] || [[ $nv = "" ]];then
-			ed=vi
+			ed=$PREFIX/bin/applets/vi
 			ind=1
 			break
 		else
@@ -665,7 +666,7 @@ dfl=/gen
 dmverbose="-q"
 #dmverbose="-v"
 stime=`date +%s|grep -o '....$'`
-versionid="gen.v0.8.10 id673419338"
+versionid="gen.v0.8.10 id095825305"
 
 setrootdir 
 
