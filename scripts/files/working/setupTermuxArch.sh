@@ -9,7 +9,7 @@ chk ()
 {
 	if sha512sum -c termuxarchchecksum.sha512 1>/dev/null ;then
 		chkself 
-		printf "\033[0;34m 🕛 > 🕜 \033[1;34mTermuxArch $versionid integrity: \033[1;32mOK\n"
+		printf "\033[0;34m 🕛 > 🕜 \033[1;34mTermuxArch $versionid integrity: \033[1;32mOK\n\n"
 		if [[ $opt = manual ]];then
 			omanual
 		else 
@@ -162,7 +162,7 @@ editors ()
 
 edq ()
 {
-	printf "\n\033[0;32m"
+	printf "\033[0;32m"
 	for i in "${!ceds[@]}"; do
 		if [[ ${ceds[$i]} = "applets/vi" ]];then
 			edq2
@@ -413,7 +413,7 @@ pe ()
 
 printconfloaded ()
 {
-	printf "\n\033[0;34m 🕛 > 🕑 \033[1;34mTermuxArch configuration \033[0;32m$(pwd)/\033[1;32msetupTermuxArchConfigs.sh \033[1;34mloaded: \033[1;32mOK\n"
+	printf "\033[0;34m 🕛 > 🕑 \033[1;34mTermuxArch configuration \033[0;32m$(pwd)/\033[1;32msetupTermuxArchConfigs.sh \033[1;34mloaded: \033[1;32mOK\n"
 }
 
 printsha512syschker ()
