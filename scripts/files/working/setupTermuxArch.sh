@@ -151,7 +151,6 @@ editors ()
 		fi
 	done
 	for i in "${!ceds[@]}"; do
-	for i in "${!ceds[@]}"; do
 		cedst+=("${aeds[$i]} ")
 	done
 		edq 
@@ -671,7 +670,7 @@ dfl=/gen
 dmverbose="-q"
 #dmverbose="-v"
 stime=`date +%s|grep -o '....$'`
-versionid="gen.v0.8.10 id780960704"
+versionid="gen.v0.8.10 id237658690"
 
 setrootdir 
 
