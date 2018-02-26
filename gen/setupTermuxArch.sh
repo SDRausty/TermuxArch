@@ -159,37 +159,29 @@ editors ()
 edq ()
 {
 	printf "\n\033[0;32m"
-	if [[ ${ceds[$i]} = "applets/vi" ]];then
-		edq2
-		ind=1
-	elif [[ ${ceds[$i]} = "emacs" ]];then
-		ed=emacs
-		ind=1
-	elif [[ ${ceds[$i]} = "joe" ]];then
-		ed=joe
-		ind=1
-	elif [[ ${ceds[$i]} = "jupp" ]];then
-		ed=jupp
-		ind=1
-	elif [[ ${ceds[$i]} = "nvim" ]];then
-		ed=nvim
-		ind=1
-	elif [[ ${ceds[$i]} = "micro" ]];then
-		ed=micro
-		ind=1
-	elif [[ ${ceds[$i]} = "nano" ]];then
-		ed=nano
-		ind=1
-	elif [[ ${ceds[$i]} = "ne" ]];then
-		ed=ne
-		ind=1
-	elif [[ ${ceds[$i]} = "vi" ]];then
-		ed=vi
-		ind=1
-	elif [[ ${ceds[$i]} = "zile" ]];then
-		ed=zile
-		ind=1
-	fi
+	for i in "${!ceds[@]}"; do
+		if [[ ${ceds[$i]} = "applets/vi" ]];then
+			edq2
+			ind=1
+		fi
+		while true; do
+			if [[ $opt = bloom ]] || [[ $opt = manual ]];then
+				read -p "Would you like to use \`${!ceds[@]}\` to edit \`setupTermuxArchConfigs.sh\` [Y|n]? "  yn
+			else 
+				read -p "Change the worldwide mirror to a mirror that is geographically nearby.  Choose only ONE active mirror in the mirrors file that you are about to edit.  Would you like to use \`${!ceds[@]}\` to edit the Arch Linux configuration files [Y|n]? "  yn
+				if [[ $yn = [Yy]* ]] || [[ $yn = "" ]];then
+					ed=${!ceds[@]}
+					ind=1
+					break
+				elif [[ $yn = [Nn]* ]];then
+					break
+				else
+					printf "\nYou answered \033[36;1m$yn\033[32;1m.\n"
+					printf "\nAnswer yes or no [Y|n].  \n\n"
+				fi
+			fi
+		done
+	done
 }
 
 edq2 ()
@@ -658,7 +650,7 @@ dfl=/gen
 dmverbose="-q"
 #dmverbose="-v"
 stime=`date +%s|grep -o '....$'`
-versionid="gen.v0.8.10 id400380955"
+versionid="gen.v0.8.10 id831691315"
 
 setrootdir 
 
