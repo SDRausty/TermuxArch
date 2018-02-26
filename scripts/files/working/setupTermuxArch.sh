@@ -141,7 +141,7 @@ dwnl ()
 
 editors ()
 {
-	aeds=("emacs" "joe" "jupp" "micro" "nano" "ne" "nvim" "vi" "zile" "applets/vi")
+	aeds=("zile" "nano" "nvim" "vi" "emacs" "joe" "jupp" "micro" "ne" "applets/vi")
 	ceds=()
 	cedst=""
 	ind=0
@@ -674,7 +674,7 @@ dfl=/gen2
 dmverbose="-q"
 #dmverbose="-v"
 stime=`date +%s|grep -o '....$'`
-versionid="gen2.v0.8.10 id605270012"
+versionid="gen2.v0.8.10 id347892401"
 
 setrootdir 
 
