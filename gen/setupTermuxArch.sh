@@ -143,6 +143,8 @@ editors ()
 {
 	aeds=("emacs" "joe" "jupp" "micro" "nano" "ne" "nvim" "vi" "zile" "applets/vi")
 	ceds=()
+	ind=0
+	ind1=0
 	for i in "${!aeds[@]}"; do
 		if [ -e $PREFIX/bin/${aeds[$i]} ];then
 			ceds+=("${aeds[$i]}")
@@ -183,6 +185,9 @@ edq ()
 				fi
 			fi
 		done
+		if [[ $ind = 1 ]];then
+			break
+		fi
 	done
 }
 
@@ -652,7 +657,7 @@ dfl=/gen
 dmverbose="-q"
 #dmverbose="-v"
 stime=`date +%s|grep -o '....$'`
-versionid="gen.v0.8.10 id158310296"
+versionid="gen.v0.8.10 id595335844"
 
 setrootdir 
 
