@@ -395,13 +395,13 @@ opt2 ()
 
 pe ()
 {
-	printf "\n\033[1;31mPrerequisites exception.  Run the script again…\n\n\033[0m"'\033]2;  Thank you for using setupTermuxArch.sh.  Run `bash setupTermuxArch.sh` again…\007'
+	printf "\033[1;31mPrerequisites exception.  Run the script again…\n\n\033[0m"'\033]2;  Thank you for using setupTermuxArch.sh.  Run `bash setupTermuxArch.sh` again…\007'
 	exit
 }
 
 printconfloaded ()
 {
-		printf "\n\033[0;34m 🕛 > 🕑 \033[1;34mTermuxArch configuration \033[0;32m$(pwd)/\033[1;32msetupTermuxArchConfigs.sh \033[1;34mloaded: \033[1;32mOK\n"
+		printf "\033[0;34m 🕛 > 🕑 \033[1;34mTermuxArch configuration \033[0;32m$(pwd)/\033[1;32msetupTermuxArchConfigs.sh \033[1;34mloaded: \033[1;32mOK\n"
 }
 
 printsha512syschker ()
