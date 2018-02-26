@@ -181,11 +181,7 @@ edq ()
 edqa ()
 {
 	while true; do
-		declare -p ceds
-		declare -p cedst
-		echo $ceds
-		echo $cedst
-		printf "Found the following editors $cedst.  "
+		printf "\nFound the following editor(s) $cedst "
 		if [[ $opt = bloom ]] || [[ $opt = manual ]];then
 			printf "Would you like to use \`${ceds[$i]}\` to edit \`setupTermuxArchConfigs.sh\`?  "
 			read -p "Answer yes or no [Y|n]. "  yn
@@ -674,7 +670,7 @@ dfl=/gen2
 dmverbose="-q"
 #dmverbose="-v"
 stime=`date +%s|grep -o '....$'`
-versionid="gen2.v0.8.10 id319434154"
+versionid="gen2.v0.8.10 id374924166"
 
 setrootdir 
 
