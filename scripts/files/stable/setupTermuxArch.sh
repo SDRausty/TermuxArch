@@ -144,14 +144,13 @@ editors ()
 	aeds=("zile" "nano" "nvim" "vi" "emacs" "joe" "jupp" "micro" "ne" "applets/vi")
 	ceds=()
 	cedst=""
-	ind=0
 	for i in "${!aeds[@]}"; do
 		if [ -e $PREFIX/bin/${aeds[$i]} ];then
 			ceds+=("${aeds[$i]}")
 		fi
 	done
 	for i in "${!ceds[@]}"; do
-		cedst+="${aeds[$i]} "
+		cedst+="\`${ceds[$i]}\`, "
 	done
 	for i in "${!ceds[@]}"; do
 		edq 
@@ -180,13 +179,15 @@ edq ()
 edqa ()
 {
 	while true; do
-		printf "Found the following editor(s) $cedst\b on device.  "
+		printf "Found the following editor(s) $cedst\b\b on device.  "
 		if [[ $opt = bloom ]] || [[ $opt = manual ]];then
 			printf "Would you like to use \`${ceds[$i]}\` to edit \`setupTermuxArchConfigs.sh\`?  "
 			read -p "Answer yes or no [Y|n]. "  yn
+			printf "\n"
 		else 
 			printf "Change the worldwide mirror to a mirror that is geographically nearby.  Choose only ONE active mirror in the mirrors file that you are about to edit.  Would you like to use \`${ceds[$i]}\` to edit the Arch Linux configuration files?  "
-		read -p "Answer yes or no [Y|n]. "  yn
+			read -p "Answer yes or no [Y|n]. "  yn
+			printf "\n"
 		fi
 		if [[ $yn = [Yy]* ]] || [[ $yn = "" ]];then
 			ed=${ceds[$i]}
