@@ -151,6 +151,9 @@ editors ()
 		fi
 	done
 	for i in "${!ceds[@]}"; do
+	for i in "${!ceds[@]}"; do
+		cedst+=("${aeds[$i]} ")
+	done
 		edq 
 		if [[ $ind = 1 ]];then
 			break
@@ -178,6 +181,8 @@ edqa ()
 {
 	while true; do
 		declare -p ceds
+		echo $cedst
+		printf "Found the following editors $cedst.  "
 		if [[ $opt = bloom ]] || [[ $opt = manual ]];then
 			printf "Would you like to use \`${ceds[$i]}\` to edit \`setupTermuxArchConfigs.sh\`?  "
 			read -p "Answer yes or no [Y|n]. "  yn
@@ -666,7 +671,7 @@ dfl=/gen
 dmverbose="-q"
 #dmverbose="-v"
 stime=`date +%s|grep -o '....$'`
-versionid="gen.v0.8.10 id095825305"
+versionid="gen.v0.8.10 id780960704"
 
 setrootdir 
 
