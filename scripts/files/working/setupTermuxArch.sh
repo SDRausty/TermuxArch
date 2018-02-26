@@ -665,14 +665,14 @@ spaceinfoksize ()
 args=$@
 bin=startarch
 #cmirror="http://mirror.archlinuxarm.org/"
-cmirror="http://os.archlinuxarm.org/"
-dfl=/gen
+#cmirror="http://os.archlinuxarm.org/"
+#dfl=/gen
 #dm=curl
 #dm=wget
 dmverbose="-q"
 #dmverbose="-v"
 stime=`date +%s|grep -o '....$'`
-versionid="gen.v0.8.10 id239842100"
+versionid="v0.8.10"
 
 setrootdir 
 

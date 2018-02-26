@@ -141,18 +141,19 @@ dwnl ()
 
 editors ()
 {
-	aeds=("emacs" "joe" "jupp" "micro" "nano" "ne" "nvim" "vi" "zile" "applets/vi")
+	aeds=("zile" "nano" "nvim" "vi" "emacs" "joe" "jupp" "micro" "ne" "applets/vi")
 	ceds=()
 	cedst=""
 	ind=0
-	ind1=0
 	for i in "${!aeds[@]}"; do
 		if [ -e $PREFIX/bin/${aeds[$i]} ];then
 			ceds+=("${aeds[$i]}")
+			declare -a ceds
 		fi
 	done
 	for i in "${!ceds[@]}"; do
-		cedst+=("${aeds[$i]} ")
+		cedst+="${aeds[$i]} "
+		declare -a cedst
 	done
 	for i in "${!ceds[@]}"; do
 		edq 
@@ -160,6 +161,7 @@ editors ()
 			break
 		fi
 	done
+	declare -a ind
 }
 
 edq ()
@@ -181,11 +183,7 @@ edq ()
 edqa ()
 {
 	while true; do
-		declare -p ceds
-		declare -p cedst
-		echo $ceds
-		echo $cedst
-		printf "Found the following editors $cedst.  "
+		printf "Found the following editor(s) $cedst\b on device.  "
 		if [[ $opt = bloom ]] || [[ $opt = manual ]];then
 			printf "Would you like to use \`${ceds[$i]}\` to edit \`setupTermuxArchConfigs.sh\`?  "
 			read -p "Answer yes or no [Y|n]. "  yn
@@ -667,8 +665,8 @@ spaceinfoksize ()
 args=$@
 bin=startarch
 #cmirror="http://mirror.archlinuxarm.org/"
-cmirror="http://os.archlinuxarm.org/"
-dfl=/gen
+#cmirror="http://os.archlinuxarm.org/"
+#dfl=/gen
 #dm=curl
 #dm=wget
 dmverbose="-q"
