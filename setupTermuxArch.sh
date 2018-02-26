@@ -9,7 +9,7 @@ chk ()
 {
 	if sha512sum -c termuxarchchecksum.sha512 1>/dev/null ;then
 		chkself 
-		printf "\033[0;34m 🕛 > 🕜 \033[1;34mTermuxArch $versionid integrity: \033[1;32mOK\n\n"
+		printf "\033[0;34m 🕛 > 🕜 \033[1;34mTermuxArch $versionid integrity: \033[1;32mOK\n"
 		if [[ $opt = manual ]];then
 			omanual
 		else 
@@ -179,7 +179,7 @@ edq ()
 edqa ()
 {
 	while true; do
-		printf "Found the following editor(s) $cedst\b\b on device.  "
+		printf "\nFound the following editor(s) $cedst\b\b on device.  "
 		if [[ $opt = bloom ]] || [[ $opt = manual ]];then
 			printf "Would you like to use \`${ceds[$i]}\` to edit \`setupTermuxArchConfigs.sh\`?  "
 			read -p "Answer yes or no [Y|n]. "  yn
@@ -187,7 +187,6 @@ edqa ()
 		else 
 			printf "Change the worldwide mirror to a mirror that is geographically nearby.  Choose only ONE active mirror in the mirrors file that you are about to edit.  Would you like to use \`${ceds[$i]}\` to edit the Arch Linux configuration files?  "
 			read -p "Answer yes or no [Y|n]. "  yn
-			printf "\n"
 		fi
 		if [[ $yn = [Yy]* ]] || [[ $yn = "" ]];then
 			ed=${ceds[$i]}
@@ -413,7 +412,7 @@ pe ()
 
 printconfloaded ()
 {
-	printf "\033[0;34m 🕛 > 🕑 \033[1;34mTermuxArch configuration \033[0;32m$(pwd)/\033[1;32msetupTermuxArchConfigs.sh \033[1;34mloaded: \033[1;32mOK\n"
+	printf "\n\033[0;34m 🕛 > 🕑 \033[1;34mTermuxArch configuration \033[0;32m$(pwd)/\033[1;32msetupTermuxArchConfigs.sh \033[1;34mloaded: \033[1;32mOK\n"
 }
 
 printsha512syschker ()
