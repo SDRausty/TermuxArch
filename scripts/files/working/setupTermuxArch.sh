@@ -162,7 +162,7 @@ editors ()
 
 edq ()
 {
-	printf "\n\033[0;32m"
+	printf "\033[0;32m"
 	for i in "${!ceds[@]}"; do
 		if [[ ${ceds[$i]} = "applets/vi" ]];then
 			edq2
@@ -179,7 +179,7 @@ edq ()
 edqa ()
 {
 	while true; do
-		printf "Found the following editor(s) $cedst\b\b on device.  "
+		printf "\nFound the following editor(s) $cedst\b\b on device.  "
 		if [[ $opt = bloom ]] || [[ $opt = manual ]];then
 			printf "Would you like to use \`${ceds[$i]}\` to edit \`setupTermuxArchConfigs.sh\`?  "
 			read -p "Answer yes or no [Y|n]. "  yn
@@ -187,7 +187,6 @@ edqa ()
 		else 
 			printf "Change the worldwide mirror to a mirror that is geographically nearby.  Choose only ONE active mirror in the mirrors file that you are about to edit.  Would you like to use \`${ceds[$i]}\` to edit the Arch Linux configuration files?  "
 			read -p "Answer yes or no [Y|n]. "  yn
-			printf "\n"
 		fi
 		if [[ $yn = [Yy]* ]] || [[ $yn = "" ]];then
 			ed=${ceds[$i]}
@@ -670,7 +669,7 @@ dfl=/gen
 dmverbose="-q"
 #dmverbose="-v"
 stime=`date +%s|grep -o '....$'`
-versionid="gen.v0.8.10 id887091882"
+versionid="gen.v0.8.10 id836813958"
 
 setrootdir 
 
