@@ -145,7 +145,6 @@ editors ()
 	ceds=()
 	cedst=""
 	ind=0
-	ind1=0
 	for i in "${!aeds[@]}"; do
 		if [ -e $PREFIX/bin/${aeds[$i]} ];then
 			ceds+=("${aeds[$i]}")
@@ -160,6 +159,9 @@ editors ()
 			break
 		fi
 	done
+	declare -a ceds
+	declare -a cedst
+	declare -a ind
 }
 
 edq ()
@@ -670,7 +672,7 @@ dfl=/gen
 dmverbose="-q"
 #dmverbose="-v"
 stime=`date +%s|grep -o '....$'`
-versionid="gen.v0.8.10 id226120587"
+versionid="gen.v0.8.10 id234229921"
 
 setrootdir 
 
