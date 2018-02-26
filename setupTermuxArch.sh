@@ -143,10 +143,16 @@ editors ()
 {
 	aeds=("emacs" "joe" "jupp" "micro" "nano" "ne" "nvim" "vi" "zile" "applets/vi")
 	ceds=()
+	cedst=""
+	ind=0
+	ind1=0
 	for i in "${!aeds[@]}"; do
 		if [ -e $PREFIX/bin/${aeds[$i]} ];then
 			ceds+=("${aeds[$i]}")
 		fi
+	done
+	for i in "${!ceds[@]}"; do
+		cedst+=("${aeds[$i]} ")
 	done
 	for i in "${!ceds[@]}"; do
 		edq 
@@ -159,37 +165,45 @@ editors ()
 edq ()
 {
 	printf "\n\033[0;32m"
-	if [[ ${ceds[$i]} = "applets/vi" ]];then
-		edq2
-		ind=1
-	elif [[ ${ceds[$i]} = "emacs" ]];then
-		ed=emacs
-		ind=1
-	elif [[ ${ceds[$i]} = "joe" ]];then
-		ed=joe
-		ind=1
-	elif [[ ${ceds[$i]} = "jupp" ]];then
-		ed=jupp
-		ind=1
-	elif [[ ${ceds[$i]} = "nvim" ]];then
-		ed=nvim
-		ind=1
-	elif [[ ${ceds[$i]} = "micro" ]];then
-		ed=micro
-		ind=1
-	elif [[ ${ceds[$i]} = "nano" ]];then
-		ed=nano
-		ind=1
-	elif [[ ${ceds[$i]} = "ne" ]];then
-		ed=ne
-		ind=1
-	elif [[ ${ceds[$i]} = "vi" ]];then
-		ed=vi
-		ind=1
-	elif [[ ${ceds[$i]} = "zile" ]];then
-		ed=zile
-		ind=1
-	fi
+	for i in "${!ceds[@]}"; do
+		if [[ ${ceds[$i]} = "applets/vi" ]];then
+			edq2
+			ind=1
+			break
+		fi
+		edqa $ceds 
+		if [[ $ind = 1 ]];then
+			break
+		fi
+	done
+}
+
+edqa ()
+{
+	while true; do
+		declare -p ceds
+		declare -p cedst
+		echo $ceds
+		echo $cedst
+		printf "Found the following editors $cedst.  "
+		if [[ $opt = bloom ]] || [[ $opt = manual ]];then
+			printf "Would you like to use \`${ceds[$i]}\` to edit \`setupTermuxArchConfigs.sh\`?  "
+			read -p "Answer yes or no [Y|n]. "  yn
+		else 
+			printf "Change the worldwide mirror to a mirror that is geographically nearby.  Choose only ONE active mirror in the mirrors file that you are about to edit.  Would you like to use \`${ceds[$i]}\` to edit the Arch Linux configuration files?  "
+		read -p "Answer yes or no [Y|n]. "  yn
+		fi
+		if [[ $yn = [Yy]* ]] || [[ $yn = "" ]];then
+			ed=${ceds[$i]}
+			ind=1
+			break
+		elif [[ $yn = [Nn]* ]];then
+			break
+		else
+			printf "\nYou answered \033[1;36m$yn\033[1;32m.\n"
+			printf "\nAnswer yes or no [Y|n].  \n\n"
+		fi
+	done
 }
 
 edq2 ()
@@ -204,10 +218,12 @@ edq2 ()
 			ed=nano
 			printf "\n\033[1;34mInstalling \033[0;32mnano\033[1;34m…\n\n\033[1;32m"
 			pkg install nano --yes 
-			printf "\n\033[1;34mInstalling \033[0;32mnano\033[1;34m: \033[1;32mDONE\n\033[0m"
+			printf "\n\033[1;34mInstalling \033[0;32mnano\033[1;34m: \033[1;32mDONE\n\033[0m"	
+			ind=1
 			break
 		elif [[ $nv = [Vv]* ]] || [[ $nv = "" ]];then
-			ed=vi
+			ed=$PREFIX/bin/applets/vi
+			ind=1
 			break
 		else
 			printf "\nYou answered \033[36;1m$nv\033[1;32m.\n\nAnswer nano or vi [n|v].  \n\n"
@@ -395,18 +411,18 @@ opt2 ()
 
 pe ()
 {
-	printf "\033[1;31mPrerequisites exception.  Run the script again…\n\n\033[0m"'\033]2;  Thank you for using setupTermuxArch.sh.  Run `bash setupTermuxArch.sh` again…\007'
+	printf "\n\033[1;31mPrerequisites exception.  Run the script again…\n\n\033[0m"'\033]2;  Thank you for using setupTermuxArch.sh.  Run `bash setupTermuxArch.sh` again…\007'
 	exit
 }
 
 printconfloaded ()
 {
-		printf "\033[0;34m 🕛 > 🕑 \033[1;34mTermuxArch configuration \033[0;32m$(pwd)/\033[1;32msetupTermuxArchConfigs.sh \033[1;34mloaded: \033[1;32mOK\n"
+	printf "\n\033[0;34m 🕛 > 🕑 \033[1;34mTermuxArch configuration \033[0;32m$(pwd)/\033[1;32msetupTermuxArchConfigs.sh \033[1;34mloaded: \033[1;32mOK\n"
 }
 
 printsha512syschker ()
 {
-	printf "\033[07;1m\033[31;1m\n 🔆 WARNING sha512sum mismatch!  Setup initialization mismatch!\033[34;1m\033[30;1m  Try again, initialization was not successful this time.  Wait a little while.  Then run \`bash setupTermuxArch.sh\` again…\n\033[0;0m\n"'\033]2;  Thank you for using setupTermuxArch.sh.  Run `bash setupTermuxArch.sh` again…\007'
+	printf "\n\033[07;1m\033[31;1m\n 🔆 WARNING sha512sum mismatch!  Setup initialization mismatch!\033[34;1m\033[30;1m  Try again, initialization was not successful this time.  Wait a little while.  Then run \`bash setupTermuxArch.sh\` again…\n\033[0;0m\n"'\033]2;  Thank you for using setupTermuxArch.sh.  Run `bash setupTermuxArch.sh` again…\007'
 	exit 
 }
 
@@ -652,7 +668,7 @@ args=$@
 bin=startarch
 #cmirror="http://mirror.archlinuxarm.org/"
 cmirror="http://os.archlinuxarm.org/"
-#dfl=/gen
+dfl=/gen
 #dm=curl
 #dm=wget
 dmverbose="-q"

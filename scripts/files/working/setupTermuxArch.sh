@@ -143,6 +143,7 @@ editors ()
 {
 	aeds=("emacs" "joe" "jupp" "micro" "nano" "ne" "nvim" "vi" "zile" "applets/vi")
 	ceds=()
+	cedst=""
 	ind=0
 	ind1=0
 	for i in "${!aeds[@]}"; do
@@ -181,6 +182,8 @@ edqa ()
 {
 	while true; do
 		declare -p ceds
+		declare -p cedst
+		echo $ceds
 		echo $cedst
 		printf "Found the following editors $cedst.  "
 		if [[ $opt = bloom ]] || [[ $opt = manual ]];then
@@ -671,7 +674,7 @@ dfl=/gen
 dmverbose="-q"
 #dmverbose="-v"
 stime=`date +%s|grep -o '....$'`
-versionid="gen.v0.8.10 id567031571"
+versionid="v0.8.10"
 
 setrootdir 
 
