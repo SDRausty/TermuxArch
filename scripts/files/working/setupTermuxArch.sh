@@ -176,6 +176,7 @@ edq ()
 edqa ()
 {
 	while true; do
+		declare -p ceds
 		if [[ $opt = bloom ]] || [[ $opt = manual ]];then
 			printf "Would you like to use \`${ceds[$i]}\` to edit \`setupTermuxArchConfigs.sh\`?  "
 			read -p "Answer yes or no [Y|n]. "  yn
@@ -664,7 +665,7 @@ dfl=/gen
 dmverbose="-q"
 #dmverbose="-v"
 stime=`date +%s|grep -o '....$'`
-versionid="gen.v0.8.10 id542204741"
+versionid="gen.v0.8.10 id673419338"
 
 setrootdir 
 
