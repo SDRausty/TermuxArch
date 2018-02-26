@@ -664,13 +664,13 @@ args=$@
 bin=startarch
 #cmirror="http://mirror.archlinuxarm.org/"
 cmirror="http://os.archlinuxarm.org/"
-dfl=/gen2
+dfl=/gen
 #dm=curl
 #dm=wget
 dmverbose="-q"
 #dmverbose="-v"
 stime=`date +%s|grep -o '....$'`
-versionid="gen2.v0.8.10 id374924166"
+versionid="gen.v0.8.10 id095763588"
 
 setrootdir 
 

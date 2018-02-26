@@ -141,7 +141,7 @@ dwnl ()
 
 editors ()
 {
-	aeds=("emacs" "joe" "jupp" "micro" "nano" "ne" "nvim" "vi" "zile" "applets/vi")
+	aeds=("zile" "nano" "nvim" "vi" "emacs" "joe" "jupp" "micro" "ne" "applets/vi")
 	ceds=()
 	cedst=""
 	ind=0
@@ -152,7 +152,7 @@ editors ()
 		fi
 	done
 	for i in "${!ceds[@]}"; do
-		cedst+=("${aeds[$i]} ")
+		cedst+="${aeds[$i]} "
 	done
 	for i in "${!ceds[@]}"; do
 		edq 
@@ -181,11 +181,7 @@ edq ()
 edqa ()
 {
 	while true; do
-		declare -p ceds
-		declare -p cedst
-		echo $ceds
-		echo $cedst
-		printf "Found the following editors $cedst.  "
+		printf "\nFound the following editor(s) $cedst "
 		if [[ $opt = bloom ]] || [[ $opt = manual ]];then
 			printf "Would you like to use \`${ceds[$i]}\` to edit \`setupTermuxArchConfigs.sh\`?  "
 			read -p "Answer yes or no [Y|n]. "  yn
@@ -674,7 +670,7 @@ dfl=/gen
 dmverbose="-q"
 #dmverbose="-v"
 stime=`date +%s|grep -o '....$'`
-versionid="gen.v0.8.10 id483182042"
+versionid="gen.v0.8.10 id095763588"
 
 setrootdir 
 
