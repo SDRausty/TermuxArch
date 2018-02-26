@@ -151,8 +151,9 @@ editors ()
 		fi
 	done
 	for i in "${!ceds[@]}"; do
-		cedst+=("${aeds[$i]} ")
+		cedst+=("/`${aeds[$i]}/`, ")
 	done
+	for i in "${!ceds[@]}"; do
 		edq 
 		if [[ $ind = 1 ]];then
 			break
@@ -670,7 +671,7 @@ dfl=/gen
 dmverbose="-q"
 #dmverbose="-v"
 stime=`date +%s|grep -o '....$'`
-versionid="gen.v0.8.10 id237658690"
+versionid="gen.v0.8.10 id687332818"
 
 setrootdir 
 
