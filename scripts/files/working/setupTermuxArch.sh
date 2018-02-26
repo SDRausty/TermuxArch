@@ -148,12 +148,10 @@ editors ()
 	for i in "${!aeds[@]}"; do
 		if [ -e $PREFIX/bin/${aeds[$i]} ];then
 			ceds+=("${aeds[$i]}")
-			declare -a ceds
 		fi
 	done
 	for i in "${!ceds[@]}"; do
 		cedst+="${aeds[$i]} "
-		declare -a cedst
 	done
 	for i in "${!ceds[@]}"; do
 		edq 
@@ -161,7 +159,6 @@ editors ()
 			break
 		fi
 	done
-	declare -a ind
 }
 
 edq ()
@@ -173,7 +170,7 @@ edq ()
 			ind=1
 			break
 		fi
-		edqa $ceds 
+		edqa $ceds $cedst 
 		if [[ $ind = 1 ]];then
 			break
 		fi
@@ -666,7 +663,7 @@ args=$@
 bin=startarch
 #cmirror="http://mirror.archlinuxarm.org/"
 #cmirror="http://os.archlinuxarm.org/"
-#dfl=/gen
+dfl=/gen
 #dm=curl
 #dm=wget
 dmverbose="-q"
