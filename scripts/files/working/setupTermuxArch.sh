@@ -181,8 +181,8 @@ edqa ()
 			read -p "Answer yes or no [Y|n]. "  yn
 		else 
 			printf "Change the worldwide mirror to a mirror that is geographically nearby.  Choose only ONE active mirror in the mirrors file that you are about to edit.  Would you like to use \`${ceds[$i]}\` to edit the Arch Linux configuration files?  "
-		fi
 		read -p "Answer yes or no [Y|n]. "  yn
+		fi
 		if [[ $yn = [Yy]* ]] || [[ $yn = "" ]];then
 			ed=${ceds[$i]}
 			ind=1
@@ -664,7 +664,7 @@ dfl=/gen
 dmverbose="-q"
 #dmverbose="-v"
 stime=`date +%s|grep -o '....$'`
-versionid="gen.v0.8.10 id244879053"
+versionid="gen.v0.8.10 id542204741"
 
 setrootdir 
 
