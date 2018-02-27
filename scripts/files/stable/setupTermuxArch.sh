@@ -142,8 +142,6 @@ dwnl ()
 editors ()
 {
 	aeds=("zile" "nano" "nvim" "vi" "emacs" "joe" "jupp" "micro" "ne" "applets/vi")
-	ceds=()
-	cedst=""
 	for i in "${!aeds[@]}"; do
 		if [ -e $PREFIX/bin/${aeds[$i]} ];then
 			ceds+=("${aeds[$i]}")
@@ -571,7 +569,7 @@ spaceinfo ()
 		spaceinfogsize 
 		printf "$spaceMessage"
 	elif [[ $units = 1K-blocks ]];then
-		spaceinfoksize 
+		#spaceinfoksize 
 		printf "$spaceMessage"
 	fi
 }
