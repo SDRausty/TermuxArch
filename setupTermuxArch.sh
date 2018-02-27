@@ -230,13 +230,6 @@ ee3 ()
 	fi
 }
 
-curldl ()
-{
-	printf "\n\033[1;34mInstalling \033[0;32mcurl\033[1;34m…\n\n\033[1;32m"
-	pkg install curl  --yes 
-	printf "\n\033[1;34mInstalling \033[0;32mcurl\033[1;34m: \033[1;32mDONE\n\033[0m"
-}
-
 ifbsdtar ()
 {
 	if [ ! -e $PREFIX/bin/bsdtar ] ;then
@@ -249,7 +242,9 @@ ifbsdtar ()
 ifcurl ()
 {
 	if [ ! -e $PREFIX/bin/curl ];then
-		curldl
+		printf "\n\033[1;34mInstalling \033[0;32mcurl\033[1;34m…\n\n\033[1;32m"
+		pkg install curl  --yes 
+		printf "\n\033[1;34mInstalling \033[0;32mcurl\033[1;34m: \033[1;32mDONE\n\033[0m"
 	fi
 	if [ ! -e $PREFIX/bin/curl ];then
 		pe
