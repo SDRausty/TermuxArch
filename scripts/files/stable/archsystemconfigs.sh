@@ -248,6 +248,7 @@ makefinishsetup ()
 		printf '\033]2; 🕛 > 🕙 Arch Linux in Termux is installed.  📲  \007'
 	else
 		pacman -Syu --noconfirm ||:
+		printf "\n"
 		locale-gen ||:
 		printf '\033]2; 🕛 > 🕙 Arch Linux in Termux is installed and configured.  📲  \007'
 	fi

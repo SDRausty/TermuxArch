@@ -174,14 +174,14 @@ touchupsys ()
 	fi
 	while true; do
 		printf "\n\033[0;32m"
-		read -p "Would you like to run \`locale-gen\` to generate the en_US.UTF-8 locale, or would you like to edit \`/etc/locale.gen\` specifying your preferred language(s) before running \`locale-gen\`?  Answer run or edit [R|e]. " ye
+		read -p "Would you like to run \`\033[1;32mlocale-gen\033[0;32m\` to generate the en_US.UTF-8 locale, or would you like to edit \`\033[1;32m/etc/locale.gen\033[0;32m\` specifying your preferred language(s) before running \`\033[1;32mlocale-gen\033[0;32m\`?  Answer run or edit [R|e]. " ye
 	if [[ $ye = [Rr]* ]] || [[ $ye = "" ]];then
 		break
 	elif [[ $ye = [Ee]* ]];then
 		$ed $HOME$rootdir/etc/locale.gen
 		break
 	else
-		printf "\nYou answered \033[36;1m$ye\033[32;1m.\n"
+		printf "\nYou answered \033[1;36m$ye\033[1;32m.\n"
 		printf "\nAnswer run or edit [R|e].  \n\n"
 	fi
 	done
