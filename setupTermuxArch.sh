@@ -71,15 +71,8 @@ depends ()
 		fi
 	fi
 	if [[ $dm = "" ]];then
-		if [ ! -e $PREFIX/bin/curl ];then
-			printf "\n\033[1;34mInstalling \033[0;32mcurl\033[1;34m…\n\n\033[1;32m"
-			pkg install curl --yes
-			printf "\n\033[1;34mInstalling \033[0;32mcurl\033[1;34m: \033[1;32mDONE\n\033[0m"
-			dm=curl 
-		fi
-		if [ ! -e $PREFIX/bin/curl ];then
-			pe
-		fi
+		ifcurl 
+		dm=curl 
 	fi
 	dependsa 
 	printf "\n\033[0;34m 🕛 > 🕧 \033[1;34mPrerequisites: \033[1;32mOK  \033[1;34mDownloading TermuxArch…\n\n\033[0;32m"
@@ -246,7 +239,7 @@ ifcurl ()
 {
 	if [ ! -e $PREFIX/bin/curl ];then
 		printf "\n\033[1;34mInstalling \033[0;32mcurl\033[1;34m…\n\n\033[1;32m"
-		pkg install curl  --yes 
+		pkg install curl --yes 
 		printf "\n\033[1;34mInstalling \033[0;32mcurl\033[1;34m: \033[1;32mDONE\n\033[0m"
 	fi
 	if [ ! -e $PREFIX/bin/curl ];then
