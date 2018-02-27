@@ -167,7 +167,7 @@ edq ()
 			ind=1
 			break
 		fi
-		edqa $ceds $cedst 
+		edqa $ceds
 		if [[ $ind = 1 ]];then
 			break
 		fi
@@ -175,6 +175,13 @@ edq ()
 }
 
 edqa ()
+{
+	ed=${ceds[$i]}
+	ind=1
+	break
+}
+
+edqaquestion ()
 {
 	while true; do
 		printf "\n"
