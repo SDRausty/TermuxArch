@@ -148,7 +148,7 @@ editors ()
 		fi
 	done
 	for i in "${!ceds[@]}"; do
-		cedst+="\`${ceds[$i]}\`, "
+		cedst+="\`\033[1;32m${ceds[$i]}\033[0;32m\`, "
 	done
 	for i in "${!ceds[@]}"; do
 		edq 
@@ -177,12 +177,12 @@ edq ()
 edqa ()
 {
 	while true; do
-		printf "\nThe following editor(s) $cedst\b\b are present.  "
+		printf "\n"
 		if [[ $opt = bloom ]] || [[ $opt = manual ]];then
-			printf "Would you like to use \`\033[1;32m${ceds[$i]}\033[0;32m\` to edit \`\033[1;32msetupTermuxArchConfigs.sh\033[0;32m\`?  "
+			printf "The following editor(s) $cedst\b\b are present.  Would you like to use \`\033[1;32m${ceds[$i]}\033[0;32m\` to edit \`\033[1;32msetupTermuxArchConfigs.sh\033[0;32m\`?  "
 			read -p "Answer yes or no [Y|n]. "  yn
 		else 
-			printf "Change the worldwide mirror to a mirror that is geographically nearby.  Choose only ONE active mirror in the mirrors file that you are about to edit.  Would you like to use \`\033[1;32m${ceds[$i]}\033[0;32m\` to edit the Arch Linux configuration files?  "
+			printf "Change the worldwide mirror to a mirror that is geographically nearby.  Choose only ONE active mirror in the mirrors file that you are about to edit.  The following editor(s) $cedst\b\b are present.  Would you like to use \`\033[1;32m${ceds[$i]}\033[0;32m\` to edit the Arch Linux configuration files?  "
 			read -p "Answer yes or no [Y|n]. "  yn
 		fi
 		if [[ $yn = [Yy]* ]] || [[ $yn = "" ]];then
