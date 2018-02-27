@@ -181,10 +181,10 @@ edqa ()
 	while true; do
 		printf "\nThe following editor(s) $cedst\b\b are present.  "
 		if [[ $opt = bloom ]] || [[ $opt = manual ]];then
-			printf "Would you like to use \`${ceds[$i]}\` to edit \`setupTermuxArchConfigs.sh\`?  "
+			printf "Would you like to use \`\033[1;32m${ceds[$i]}\033[0;32m\` to edit \`\033[1;32msetupTermuxArchConfigs.sh\033[0;32m\`?  "
 			read -p "Answer yes or no [Y|n]. "  yn
 		else 
-			printf "Change the worldwide mirror to a mirror that is geographically nearby.  Choose only ONE active mirror in the mirrors file that you are about to edit.  Would you like to use \`${ceds[$i]}\` to edit the Arch Linux configuration files?  "
+			printf "Change the worldwide mirror to a mirror that is geographically nearby.  Choose only ONE active mirror in the mirrors file that you are about to edit.  Would you like to use \`\033[1;32m${ceds[$i]}\033[0;32m\` to edit the Arch Linux configuration files?  "
 			read -p "Answer yes or no [Y|n]. "  yn
 		fi
 		if [[ $yn = [Yy]* ]] || [[ $yn = "" ]];then
@@ -204,9 +204,9 @@ edq2 ()
 {
 	while true; do
 		if [[ $opt = bloom ]] || [[ $opt = manual ]];then
-			read -p "Would you like to use \`nano\` or \`vi\` to edit \`setupTermuxArchConfigs.sh\` [n|V]? "  nv
+			read -p "Would you like to use \`\033[1;32mnano\033[0;32m\` or \`\033[1;32mvi\033[0;32m\` to edit \`\033[1;32msetupTermuxArchConfigs.sh\033[0;32m\` [n|V]? "  nv
 		else 
-			read -p "Change the worldwide mirror to a mirror that is geographically nearby.  Choose only ONE active mirror in the mirrors file that you are about to edit.  Would you like to use \`nano\` or \`vi\` to edit the Arch Linux configuration files [n|V]? "  nv
+			read -p "Change the worldwide mirror to a mirror that is geographically nearby.  Choose only ONE active mirror in the mirrors file that you are about to edit.  Would you like to use \`\033[1;32mnano\033[0;32m\` or \`\033[1;32mvi\033[0;32m\` to edit the Arch Linux configuration files [n|V]? "  nv
 		fi
 		if [[ $nv = [Nn]* ]];then
 			ed=nano
