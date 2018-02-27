@@ -16,10 +16,11 @@ copybin2path ()
 {
 	printf "\033[0;34m 🕛 > 🕚 \033[0m"
 	while true; do
-	read -p "Copy $bin to your \$PATH? [Y|n] " answer
+	read -p "Copy \`\033[1m$bin\033[0m\` to your \`\033[1m$PREFIX/bin\033[0m\`?  " answer
+	read -p "Answer yes or no [Y|n]. " answer
 	if [[ $answer = [Yy]* ]] || [[ $answer = "" ]];then
 		cp $HOME$rootdir/$bin $PREFIX/bin
-		printf "\n\033[0;34m 🕛 > 🕦 \033[0mCopied \033[32;1m$bin\033[0m to \033[1;34m$PREFIX/bin\033[0m.\n\n"
+		printf "\n\033[0;34m 🕛 > 🕦 \033[0mCopied \`\033[1m$bin\033[0m\` to \`\033[1m$PREFIX/bin\033[0m\`.\n\n"
 		break
 	elif [[ $answer = [Nn]* ]] || [[ $answer = [Qq]* ]];then
 		printf "\n"
