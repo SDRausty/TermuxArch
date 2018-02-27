@@ -179,7 +179,7 @@ edq ()
 edqa ()
 {
 	while true; do
-		printf "\nFound the following editor(s) $cedst\b\b on device.  "
+		printf "\nThe following editor(s) $cedst\b\b are present.  "
 		if [[ $opt = bloom ]] || [[ $opt = manual ]];then
 			printf "Would you like to use \`${ceds[$i]}\` to edit \`setupTermuxArchConfigs.sh\`?  "
 			read -p "Answer yes or no [Y|n]. "  yn
