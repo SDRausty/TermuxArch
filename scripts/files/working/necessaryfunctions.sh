@@ -173,8 +173,8 @@ touchupsys ()
 		editors 
 	fi
 	while true; do
-		printf "\n\033[0;32m"
-		read -p "Would you like to run \`\033[1;32mlocale-gen\033[0;32m\` to generate the en_US.UTF-8 locale, or would you like to edit \`\033[1;32m/etc/locale.gen\033[0;32m\` specifying your preferred language(s) before running \`\033[1;32mlocale-gen\033[0;32m\`?  Answer run or edit [R|e]. " ye
+		printf "\n\033[0;32mWould you like to run \`\033[1;32mlocale-gen\033[0;32m\` to generate the en_US.UTF-8 locale, or would you like to edit \`\033[1;32m/etc/locale.gen\033[0;32m\` specifying your preferred language(s) before running \`\033[1;32mlocale-gen\033[0;32m\`?  "
+		read -p "Answer run or edit [R|e]. " ye
 	if [[ $ye = [Rr]* ]] || [[ $ye = "" ]];then
 		break
 	elif [[ $ye = [Ee]* ]];then
