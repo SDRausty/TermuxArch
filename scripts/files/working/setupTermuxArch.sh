@@ -157,7 +157,6 @@ edqa ()
 {
 	ed=${ceds[$i]}
 	ind=1
-	break
 }
 
 edqaquestion ()
@@ -665,13 +664,13 @@ spaceinfoksize ()
 
 args=$@
 bin=startarch
-dfl=/gen
+#dfl=/gen
 #dm=curl
 #dm=wget
 dmverbose="-q"
 #dmverbose="-v"
 stime=`date +%s|grep -o '....$'`
-versionid="gen.v0.8.10 id249224628"
+versionid="v0.8.10"
 
 setrootdir 
 
