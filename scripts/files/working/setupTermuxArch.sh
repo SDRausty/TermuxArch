@@ -237,6 +237,9 @@ ifbsdtar ()
 		pkg install bsdtar --yes
 		printf "\n\033[1;34mInstalling \033[0;32mbsdtar\033[1;34m: \033[1;32mDONE\n\n\033[0m"
 	fi
+	if [ ! -e $PREFIX/bin/bsdtar ];then
+		pe
+	fi
 }
 
 ifcurl ()
