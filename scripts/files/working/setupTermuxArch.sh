@@ -82,7 +82,6 @@ depends ()
 		fi
 	fi
 	dependsa 
-	dependsax 
 	printf "\n\033[0;34m 🕛 > 🕧 \033[1;34mPrerequisites: \033[1;32mOK  \033[1;34mDownloading TermuxArch…\n\n\033[0;32m"
 }
 
@@ -100,30 +99,10 @@ dependsblock ()
 dependsa ()
 {
 	if [ $(getprop ro.product.cpu.abi) = x86 ] || [ $(getprop ro.product.cpu.abi) = x86_64 ];then
-		if [ ! -e $PREFIX/bin/bsdtar ]  || [ ! -e $PREFIX/bin/proot ];then
-			printf "\n\033[1;34mInstalling \033[0;32mbsdtar \033[1;34mand \033[0;32mproot\033[1;34m…\n\n\033[1;32m"
-			pkg install bsdtar proot --yes
-			printf "\n\033[1;34mInstalling \033[0;32mbsdtar \033[1;34mand \033[0;32mproot\033[1;34m: \033[1;32mDONE\n\033[0m"
-		fi
+		ifbsdtar 
+		ifproot 
 	else
-		if [ ! -e $PREFIX/bin/proot ];then
-			printf "\n\033[1;34mInstalling \033[0;32mproot\033[1;34m…\n\n\033[1;32m"
-			pkg install proot --yes
-			printf "\n\033[1;34mInstalling \033[0;32mproot\033[1;34m: \033[1;32mDONE\n\033[0m"
-		fi
-	fi
-}
-
-dependsax ()
-{
-	if [ $(getprop ro.product.cpu.abi) = x86 ] || [ $(getprop ro.product.cpu.abi) = x86_64 ];then
-		if [ ! -e $PREFIX/bin/bsdtar ]  || [ ! -e $PREFIX/bin/proot ];then
-			pe
-		fi
-	else
-		if [ ! -e $PREFIX/bin/proot ];then
-			pe
-		fi
+		ifproot 
 	fi
 }
 
@@ -252,7 +231,23 @@ ee3 ()
 	fi
 }
 
-curlif ()
+curldl ()
+{
+	printf "\n\033[1;34mInstalling \033[0;32mcurl\033[1;34m…\n\n\033[1;32m"
+	pkg install curl  --yes 
+	printf "\n\033[1;34mInstalling \033[0;32mcurl\033[1;34m: \033[1;32mDONE\n\033[0m"
+}
+
+ifbsdtar ()
+{
+	if [ ! -e $PREFIX/bin/bsdtar ] ;then
+		printf "\n\033[1;34mInstalling \033[0;32mbsdtar\033[1;34m…\n\n\033[1;32m"
+		pkg install bsdtar --yes
+		printf "\n\033[1;34mInstalling \033[0;32mbsdtar\033[1;34m: \033[1;32mDONE\n\n\033[0m"
+	fi
+}
+
+ifcurl ()
 {
 	if [ ! -e $PREFIX/bin/curl ];then
 		curldl
@@ -262,17 +257,10 @@ curlif ()
 	fi
 }
 
-curldl ()
-{
-	printf "\n\033[1;34mInstalling \033[0;32mcurl\033[1;34m…\n\n\033[1;32m"
-	pkg install curl  --yes 
-	printf "\n\033[1;34mInstalling \033[0;32mcurl\033[1;34m: \033[1;32mDONE\n\033[0m"
-}
-
 ifdmcurl ()
 {
 	if [[ $dm = curl ]];then
-		curlif 
+		ifcurl 
 	fi
 }
 
@@ -291,6 +279,18 @@ ifnano ()
 		printf "\n\033[1;34mInstalling \033[0;32mnano\033[1;34m: \033[1;32mDONE\n\n\033[0m"
 	fi
 	if [ ! -e $PREFIX/bin/nano ];then
+		pe
+	fi
+}
+
+ifproot ()
+{
+	if [ ! -e $PREFIX/bin/proot ];then
+		printf "\n\033[1;34mInstalling \033[0;32mproot\033[1;34m…\n\n\033[1;32m"
+		pkg install proot --yes 
+		printf "\n\033[1;34mInstalling \033[0;32mproot\033[1;34m: \033[1;32mDONE\n\n\033[0m"
+	fi
+	if [ ! -e $PREFIX/bin/proot ];then
 		pe
 	fi
 }
@@ -665,13 +665,13 @@ spaceinfoksize ()
 
 args=$@
 bin=startarch
-#dfl=/gen
+dfl=/gen
 #dm=curl
 #dm=wget
 dmverbose="-q"
 #dmverbose="-v"
 stime=`date +%s|grep -o '....$'`
-versionid="v0.8.10"
+versionid="gen.v0.8.10 id249224628"
 
 setrootdir 
 

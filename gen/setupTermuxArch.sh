@@ -82,7 +82,6 @@ depends ()
 		fi
 	fi
 	dependsa 
-	dependsax 
 	printf "\n\033[0;34m 🕛 > 🕧 \033[1;34mPrerequisites: \033[1;32mOK  \033[1;34mDownloading TermuxArch…\n\n\033[0;32m"
 }
 
@@ -100,30 +99,10 @@ dependsblock ()
 dependsa ()
 {
 	if [ $(getprop ro.product.cpu.abi) = x86 ] || [ $(getprop ro.product.cpu.abi) = x86_64 ];then
-		if [ ! -e $PREFIX/bin/bsdtar ]  || [ ! -e $PREFIX/bin/proot ];then
-			printf "\n\033[1;34mInstalling \033[0;32mbsdtar \033[1;34mand \033[0;32mproot\033[1;34m…\n\n\033[1;32m"
-			pkg install bsdtar proot --yes
-			printf "\n\033[1;34mInstalling \033[0;32mbsdtar \033[1;34mand \033[0;32mproot\033[1;34m: \033[1;32mDONE\n\033[0m"
-		fi
+		ifbsdtar 
+		ifproot 
 	else
-		if [ ! -e $PREFIX/bin/proot ];then
-			printf "\n\033[1;34mInstalling \033[0;32mproot\033[1;34m…\n\n\033[1;32m"
-			pkg install proot --yes
-			printf "\n\033[1;34mInstalling \033[0;32mproot\033[1;34m: \033[1;32mDONE\n\033[0m"
-		fi
-	fi
-}
-
-dependsax ()
-{
-	if [ $(getprop ro.product.cpu.abi) = x86 ] || [ $(getprop ro.product.cpu.abi) = x86_64 ];then
-		if [ ! -e $PREFIX/bin/bsdtar ]  || [ ! -e $PREFIX/bin/proot ];then
-			pe
-		fi
-	else
-		if [ ! -e $PREFIX/bin/proot ];then
-			pe
-		fi
+		ifproot 
 	fi
 }
 
@@ -142,15 +121,13 @@ dwnl ()
 editors ()
 {
 	aeds=("zile" "nano" "nvim" "vi" "emacs" "joe" "jupp" "micro" "ne" "applets/vi")
-	ceds=()
-	cedst=""
 	for i in "${!aeds[@]}"; do
 		if [ -e $PREFIX/bin/${aeds[$i]} ];then
 			ceds+=("${aeds[$i]}")
 		fi
 	done
 	for i in "${!ceds[@]}"; do
-		cedst+="\`${ceds[$i]}\`, "
+		cedst+="\`\033[1;32m${ceds[$i]}\033[0;32m\`, "
 	done
 	for i in "${!ceds[@]}"; do
 		edq 
@@ -169,7 +146,7 @@ edq ()
 			ind=1
 			break
 		fi
-		edqa $ceds $cedst 
+		edqa $ceds
 		if [[ $ind = 1 ]];then
 			break
 		fi
@@ -178,13 +155,20 @@ edq ()
 
 edqa ()
 {
+	ed=${ceds[$i]}
+	ind=1
+	break
+}
+
+edqaquestion ()
+{
 	while true; do
-		printf "\nFound the following editor(s) $cedst\b\b on device.  "
+		printf "\n"
 		if [[ $opt = bloom ]] || [[ $opt = manual ]];then
-			printf "Would you like to use \`${ceds[$i]}\` to edit \`setupTermuxArchConfigs.sh\`?  "
+			printf "The following editor(s) $cedst\b\b are present.  Would you like to use \`\033[1;32m${ceds[$i]}\033[0;32m\` to edit \`\033[1;32msetupTermuxArchConfigs.sh\033[0;32m\`?  "
 			read -p "Answer yes or no [Y|n]. "  yn
 		else 
-			printf "Change the worldwide mirror to a mirror that is geographically nearby.  Choose only ONE active mirror in the mirrors file that you are about to edit.  Would you like to use \`${ceds[$i]}\` to edit the Arch Linux configuration files?  "
+			printf "Change the worldwide mirror to a mirror that is geographically nearby.  Choose only ONE active mirror in the mirrors file that you are about to edit.  The following editor(s) $cedst\b\b are present.  Would you like to use \`\033[1;32m${ceds[$i]}\033[0;32m\` to edit the Arch Linux configuration files?  "
 			read -p "Answer yes or no [Y|n]. "  yn
 		fi
 		if [[ $yn = [Yy]* ]] || [[ $yn = "" ]];then
@@ -204,9 +188,9 @@ edq2 ()
 {
 	while true; do
 		if [[ $opt = bloom ]] || [[ $opt = manual ]];then
-			read -p "Would you like to use \`nano\` or \`vi\` to edit \`setupTermuxArchConfigs.sh\` [n|V]? "  nv
+			read -p "Would you like to use \`\033[1;32mnano\033[0;32m\` or \`\033[1;32mvi\033[0;32m\` to edit \`\033[1;32msetupTermuxArchConfigs.sh\033[0;32m\` [n|V]? "  nv
 		else 
-			read -p "Change the worldwide mirror to a mirror that is geographically nearby.  Choose only ONE active mirror in the mirrors file that you are about to edit.  Would you like to use \`nano\` or \`vi\` to edit the Arch Linux configuration files [n|V]? "  nv
+			read -p "Change the worldwide mirror to a mirror that is geographically nearby.  Choose only ONE active mirror in the mirrors file that you are about to edit.  Would you like to use \`\033[1;32mnano\033[0;32m\` or \`\033[1;32mvi\033[0;32m\` to edit the Arch Linux configuration files [n|V]? "  nv
 		fi
 		if [[ $nv = [Nn]* ]];then
 			ed=nano
@@ -247,7 +231,23 @@ ee3 ()
 	fi
 }
 
-curlif ()
+curldl ()
+{
+	printf "\n\033[1;34mInstalling \033[0;32mcurl\033[1;34m…\n\n\033[1;32m"
+	pkg install curl  --yes 
+	printf "\n\033[1;34mInstalling \033[0;32mcurl\033[1;34m: \033[1;32mDONE\n\033[0m"
+}
+
+ifbsdtar ()
+{
+	if [ ! -e $PREFIX/bin/bsdtar ] ;then
+		printf "\n\033[1;34mInstalling \033[0;32mbsdtar\033[1;34m…\n\n\033[1;32m"
+		pkg install bsdtar --yes
+		printf "\n\033[1;34mInstalling \033[0;32mbsdtar\033[1;34m: \033[1;32mDONE\n\n\033[0m"
+	fi
+}
+
+ifcurl ()
 {
 	if [ ! -e $PREFIX/bin/curl ];then
 		curldl
@@ -257,17 +257,10 @@ curlif ()
 	fi
 }
 
-curldl ()
-{
-	printf "\n\033[1;34mInstalling \033[0;32mcurl\033[1;34m…\n\n\033[1;32m"
-	pkg install curl  --yes 
-	printf "\n\033[1;34mInstalling \033[0;32mcurl\033[1;34m: \033[1;32mDONE\n\033[0m"
-}
-
 ifdmcurl ()
 {
 	if [[ $dm = curl ]];then
-		curlif 
+		ifcurl 
 	fi
 }
 
@@ -286,6 +279,18 @@ ifnano ()
 		printf "\n\033[1;34mInstalling \033[0;32mnano\033[1;34m: \033[1;32mDONE\n\n\033[0m"
 	fi
 	if [ ! -e $PREFIX/bin/nano ];then
+		pe
+	fi
+}
+
+ifproot ()
+{
+	if [ ! -e $PREFIX/bin/proot ];then
+		printf "\n\033[1;34mInstalling \033[0;32mproot\033[1;34m…\n\n\033[1;32m"
+		pkg install proot --yes 
+		printf "\n\033[1;34mInstalling \033[0;32mproot\033[1;34m: \033[1;32mDONE\n\n\033[0m"
+	fi
+	if [ ! -e $PREFIX/bin/proot ];then
 		pe
 	fi
 }
@@ -571,7 +576,7 @@ spaceinfo ()
 		spaceinfogsize 
 		printf "$spaceMessage"
 	elif [[ $units = 1K-blocks ]];then
-		spaceinfoksize 
+		#spaceinfoksize 
 		printf "$spaceMessage"
 	fi
 }
@@ -660,15 +665,13 @@ spaceinfoksize ()
 
 args=$@
 bin=startarch
-#cmirror="http://mirror.archlinuxarm.org/"
-#cmirror="http://os.archlinuxarm.org/"
 dfl=/gen
 #dm=curl
 #dm=wget
 dmverbose="-q"
 #dmverbose="-v"
 stime=`date +%s|grep -o '....$'`
-versionid="gen.v0.8.10 id730188256"
+versionid="gen.v0.8.10 id249224628"
 
 setrootdir 
 
