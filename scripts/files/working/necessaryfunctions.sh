@@ -16,7 +16,7 @@ copybin2path ()
 {
 	printf "\033[0;34m 🕛 > 🕚 \033[0m"
 	while true; do
-	printf "Copy \`\033[1m$bin\033[0m\` to your \`\033[1m$PREFIX/bin\033[0m\`?  " 
+	printf "Copy \`\033[1m$bin\033[0m\` to \`\033[1m$PREFIX/bin\033[0m\`?  " 
 	read -p "Answer yes or no [Y|n]. " answer
 	if [[ $answer = [Yy]* ]] || [[ $answer = "" ]];then
 		cp $HOME$rootdir/$bin $PREFIX/bin
@@ -172,8 +172,9 @@ touchupsys ()
 	if [[ $ed = "" ]];then
 		editors 
 	fi
+	$ed $HOME$rootdir/etc/pacman.d/mirrorlist
 	while true; do
-		printf "\n\033[0;32mWould you like to run \`\033[1;32mlocale-gen\033[0;32m\` to generate the en_US.UTF-8 locale, or would you like to edit \`\033[1;32m/etc/locale.gen\033[0;32m\` specifying your preferred language(s) before running \`\033[1;32mlocale-gen\033[0;32m\`?  "
+		printf "\n\033[0;32mWould you like to run \033[1;32mlocale-gen\033[0;32m to generate the en_US.UTF-8 locale, or would you like to edit \033[1;32m/etc/locale.gen\033[0;32m specifying your preferred language(s) before running \033[1;32mlocale-gen\033[0;32m?  "
 		read -p "Answer run or edit [R|e]. " ye
 	if [[ $ye = [Rr]* ]] || [[ $ye = "" ]];then
 		break
@@ -185,7 +186,6 @@ touchupsys ()
 		printf "\nAnswer run or edit [R|e].  \n\n"
 	fi
 	done
-	$ed $HOME$rootdir/etc/pacman.d/mirrorlist
 	makefinishsetup
 	makesetupbin 
 }
