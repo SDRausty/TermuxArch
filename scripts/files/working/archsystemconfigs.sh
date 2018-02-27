@@ -243,13 +243,14 @@ makefinishsetup ()
 		:
 	fi
 	cat >> root/bin/$binfs <<- EOM
+	printf "\n"
 	if [ $(getprop ro.product.cpu.abi) = x86 ] || [ $(getprop ro.product.cpu.abi) = x86_64 ];then
-		pacman -Syu sed --noconfirm ||:
+		printf '\033]2; 🕛 > 🕙 Arch Linux in Termux is installed.  📲  \007'
 	else
 		pacman -Syu --noconfirm ||:
+		locale-gen ||:
+		printf '\033]2; 🕛 > 🕙 Arch Linux in Termux is installed and configured.  📲  \007'
 	fi
-	locale-gen ||:
-	printf '\033]2; 🕛 > 🕙 Arch Linux in Termux is installed and configured.  📲  \007'
 	EOM
 	chmod 770 root/bin/finishsetup.sh 
 	# rm \$HOME/bin/finishsetup.sh 2>/dev/null ||:
