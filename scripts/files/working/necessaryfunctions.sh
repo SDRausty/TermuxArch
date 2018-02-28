@@ -146,7 +146,7 @@ runfinishsetup ()
 	fi
 	$ed $HOME$rootdir/etc/pacman.d/mirrorlist
 	while true; do
-		printf "\n\033[0;32mWould you like to run \033[1;32mlocale-gen\033[0;32m to generate the en_US.UTF-8 locale, or would you like to edit \033[1;32m/etc/locale.gen\033[0;32m specifying your preferred language(s) before running \033[1;32mlocale-gen\033[0;32m?  "
+		printf "\n\033[0;32mWould you like to run \033[1;32mlocale-gen\033[0;32m to generate the en_US.UTF-8 locale, or edit \033[1;32m/etc/locale.gen\033[0;32m specifying your preferred language(s) before running \033[1;32mlocale-gen\033[0;32m?  "
 		read -p "Answer run or edit [R|e]. " ye
 	if [[ $ye = [Rr]* ]] || [[ $ye = "" ]];then
 		break
@@ -170,7 +170,7 @@ runfinishsetupq ()
 		$HOME$rootdir/root/bin/setupbin.sh 
 		break
 	elif [[ $nl = [Ll]* ]];then
-		printf "\n\033[0;32mUse \033[1;32m$HOME$rootdir/root/bin/setupbin.sh\033[0;32m in Termux to run \033[1;32mfinishsetup.sh\033[0;32m or simply \033[1;32mfinishsetup.sh\033[0;32m in Arch Linux Termux PRoot.  Set the geographically nearby mirror in \033[1;32m/etc/pacman.d/mirrorlist\033[0;32m.\n"
+		printf "\n\033[0;32mUse \033[1;32m$HOME$rootdir/root/bin/setupbin.sh\033[0;32m in Termux to run \033[1;32mfinishsetup.sh\033[0;32m or simply \033[1;32mfinishsetup.sh\033[0;32m in Arch Linux Termux PRoot.  Set the geographically nearby mirror in \033[1;32m/etc/pacman.d/mirrorlist\033[0;32m."
 		break
 	else
 		printf "\nYou answered \033[1;36m$nl\033[1;32m.\n"
