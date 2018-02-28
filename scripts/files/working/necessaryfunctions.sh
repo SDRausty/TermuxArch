@@ -163,7 +163,7 @@ runfinishsetup ()
 runfinishsetupq ()
 {
 	while true; do
-		printf "\n\033[0;32mWould you like to run \033[1;32mfinishsetup.sh\033[0;32m to complete the Arch Linux configuration now, or at a later time?  Now is recommended.  "
+		printf "\n\033[0;32mWould you like to run \033[1;32mfinishsetup.sh\033[0;32m to complete the Arch Linux configuration now, or at a later time?  Now is recommended; "
 		read -p "Answer now or later [N|l]. " nl
 	if [[ $nl = [Nn]* ]] || [[ $nl = "" ]];then
 		runfinishsetup 

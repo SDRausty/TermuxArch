@@ -63,7 +63,6 @@ mainblock ()
 	rmarchq
 	spaceinfoq
 	callsystem 
-	$HOME$rootdir/root/bin/setupbin.sh 
 	termux-wake-unlock
 #	rm $HOME$rootdir/root/bin/setupbin.sh
 	printfooter
@@ -164,10 +163,11 @@ runfinishsetup ()
 runfinishsetupq ()
 {
 	while true; do
-		printf "\n\033[0;32mWould you like to run \033[1;32mfinishsetup.sh\033[0;32m to complete the Arch Linux configuration now, or at a later time?  Now is recommended.  "
+		printf "\n\033[0;32mWould you like to run \033[1;32mfinishsetup.sh\033[0;32m to complete the Arch Linux configuration now, or at a later time?  Now is recommended; "
 		read -p "Answer now or later [N|l]. " nl
 	if [[ $nl = [Nn]* ]] || [[ $nl = "" ]];then
 		runfinishsetup 
+		$HOME$rootdir/root/bin/setupbin.sh 
 		break
 	elif [[ $nl = [Ll]* ]];then
 		printf "\n\033[0;32mUse \033[1;32m$HOME$rootdir/root/bin/setupbin.sh\033[0;32m in Termux to run \033[1;32mfinishsetup.sh\033[0;32m."
@@ -177,6 +177,7 @@ runfinishsetupq ()
 		printf "\nAnswer now or later [N|l].\n"
 	fi
 	done
+	printf "\n"
 }
 
 setlocalegen()
@@ -208,8 +209,8 @@ touchupsys ()
 	addyt 
 	addv 
 	setlocalegen
-	runfinishsetupq
 	makefinishsetup
 	makesetupbin 
+	runfinishsetupq
 }
 
