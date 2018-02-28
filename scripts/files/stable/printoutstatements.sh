@@ -44,7 +44,7 @@ printdownloadingx86two ()
 
 printdownloadingftch ()
 {
-	printf "\033[0;34m 🕛 > 🕓 \033[1;34mDownloading \033[0;32m$file \033[1;34mfrom geographically local mirror \033[0;32m$nmirror\033[1;34m…  \033[1;37mThis may take a long time pending Internet connection.  \033[1;34mIf the geographically local mirror is unresponsive, run \033[0;32mbash setupTermuxArch.sh\033[1;34m again.  Should the worldwide mirror not hand off a new geographically nearby server after subsequent attempts, use \033[0;32mbash setupTermuxArch.sh --manual\033[1;34m; See \033[0;32mbash setupTermuxArch.sh --help \033[1;34mfor additional information.\n\n\033[0;32m"'\033]2; 🕛 > 🕓 Downloading the checksum and Arch Linux system image file…  \007'
+	printf "\033[0;34m 🕛 > 🕓 \033[1;34mDownloading \033[0;32m$file \033[1;34mfrom geographically local mirror \033[0;32m$nmirror\033[1;34m.  \033[1;37mThis may take a long time pending Internet connection.  \033[1;34mIf the geographically local mirror is unresponsive, run \033[0;32mbash setupTermuxArch.sh\033[1;34m again.  Should the worldwide mirror not hand off a new geographically nearby server after subsequent attempts, use \033[0;32mbash setupTermuxArch.sh --manual\033[1;34m; See \033[0;32mbash setupTermuxArch.sh --help \033[1;34mfor additional information.\n\n\033[0;32m"'\033]2; 🕛 > 🕓 Downloading the checksum and Arch Linux system image file…  \007'
 }
 
 printdownloadingftchit ()
@@ -59,7 +59,7 @@ printconfigq ()
 
 printmd5check ()
 {
-	printf "\n\033[0;34m 🕛 > 🕠 \033[1;34mChecking download integrity with md5sum…  \033[37;1mThis may take a little while.\n\n\033[1;33m"
+	printf "\n\033[0;34m 🕛 > 🕠 \033[1;34mChecking download integrity with md5sum.  \033[37;1mThis may take a little while.\n\n\033[1;33m"
 }
 
 printmd5error ()
