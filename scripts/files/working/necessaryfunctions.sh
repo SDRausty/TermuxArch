@@ -195,6 +195,7 @@ touchupsys ()
 {
 	mkdir -p root/bin
 	addauser
+	addauserps
 	addbash_profile 
 	addbashrc 
 	adddfa
