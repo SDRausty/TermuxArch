@@ -230,7 +230,6 @@ edq2 ()
 			printf "\nYou answered \033[36;1m$nv\033[1;32m.\n\nAnswer nano or vi [n|v].  \n"
 		fi
 	done	
-	printf "\n"
 }
 
 arg2dir ()
@@ -660,7 +659,7 @@ dfl=/gen
 dmverbose="-q"
 #dmverbose="-v"
 stime=`date +%s|grep -o '....$'`
-versionid="gen.v0.8.10 id519997581"
+versionid="gen.v0.8.10 id619896707"
 
 setrootdir 
 

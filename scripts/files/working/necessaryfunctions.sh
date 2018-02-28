@@ -177,6 +177,7 @@ runfinishsetupq ()
 		printf "\nAnswer now or later [N|l].\n"
 	fi
 	done
+	printf "\n"
 }
 
 setlocalegen()
