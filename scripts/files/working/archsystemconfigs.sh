@@ -153,7 +153,7 @@ addmotd ()
 	EOM
 }
 
-adtauser ()
+addtauser ()
 {
 	# add default Arch Termux user 
 	cat > root/bin/adtauser <<- EOM

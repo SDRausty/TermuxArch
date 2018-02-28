@@ -206,6 +206,7 @@ touchupsys ()
 	addprofile 
 	addresolvconf 
 	addt 
+	addtauser 
 	addyt 
 	addv 
 	setlocalegen
