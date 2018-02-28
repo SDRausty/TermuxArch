@@ -208,8 +208,8 @@ touchupsys ()
 	addyt 
 	addv 
 	setlocalegen
-	runfinishsetupq
 	makefinishsetup
 	makesetupbin 
+	runfinishsetupq
 }
 
