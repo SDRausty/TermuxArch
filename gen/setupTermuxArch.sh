@@ -5,6 +5,18 @@
 # https://sdrausty.github.io/TermuxArch/README has information about this project. 
 ################################################################################
 
+bsdtarif ()
+{
+	if [ ! -e $PREFIX/bin/bsdtar ] ;then
+		printf "\n\033[1;34mInstalling \033[0;32mbsdtar\033[1;34m…\n\n\033[1;32m"
+		pkg install bsdtar --yes
+		printf "\n\033[1;34mInstalling \033[0;32mbsdtar\033[1;34m: \033[1;32mDONE\n\n\033[0m"
+	fi
+	if [ ! -e $PREFIX/bin/bsdtar ];then
+		pe
+	fi
+}
+
 chk ()
 {
 	if sha512sum -c termuxarchchecksum.sha512 1>/dev/null ;then
@@ -56,12 +68,31 @@ chkself ()
 	fi
 }
 
+curlif ()
+{
+	if [ ! -e $PREFIX/bin/curl ];then
+		printf "\n\033[1;34mInstalling \033[0;32mcurl\033[1;34m…\n\n\033[1;32m"
+		pkg install curl --yes 
+		printf "\n\033[1;34mInstalling \033[0;32mcurl\033[1;34m: \033[1;32mDONE\n\033[0m"
+	fi
+	if [ ! -e $PREFIX/bin/curl ];then
+		pe
+	fi
+}
+
+curlifdm ()
+{
+	if [[ $dm = curl ]];then
+		curlif 
+	fi
+}
+
 depends ()
 {
 	printf "\033[1;34mChecking prerequisites…\n\033[1;32m"
 	if [[ $dm = curl ]] || [[ $dm = wget ]];then
-		ifdmcurl 
-		ifdmwget 
+		curlifdm 
+		wgetifdm 
 	elif [ -e $PREFIX/bin/curl ] || [ -e $PREFIX/bin/wget ];then
 		if [ -e $PREFIX/bin/curl ];then
 			dm=curl 
@@ -71,15 +102,8 @@ depends ()
 		fi
 	fi
 	if [[ $dm = "" ]];then
-		if [ ! -e $PREFIX/bin/curl ];then
-			printf "\n\033[1;34mInstalling \033[0;32mcurl\033[1;34m…\n\n\033[1;32m"
-			pkg install curl --yes
-			printf "\n\033[1;34mInstalling \033[0;32mcurl\033[1;34m: \033[1;32mDONE\n\033[0m"
-			dm=curl 
-		fi
-		if [ ! -e $PREFIX/bin/curl ];then
-			pe
-		fi
+		curlif  
+		dm=curl 
 	fi
 	dependsa 
 	printf "\n\033[0;34m 🕛 > 🕧 \033[1;34mPrerequisites: \033[1;32mOK  \033[1;34mDownloading TermuxArch…\n\n\033[0;32m"
@@ -99,10 +123,10 @@ dependsblock ()
 dependsa ()
 {
 	if [ $(getprop ro.product.cpu.abi) = x86 ] || [ $(getprop ro.product.cpu.abi) = x86_64 ];then
-		ifbsdtar 
-		ifproot 
+		bsdtarif 
+		prootif 
 	else
-		ifproot 
+		prootif 
 	fi
 }
 
@@ -157,7 +181,6 @@ edqa ()
 {
 	ed=${ceds[$i]}
 	ind=1
-	break
 }
 
 edqaquestion ()
@@ -194,9 +217,7 @@ edq2 ()
 		fi
 		if [[ $nv = [Nn]* ]];then
 			ed=nano
-			printf "\n\033[1;34mInstalling \033[0;32mnano\033[1;34m…\n\n\033[1;32m"
-			pkg install nano --yes 
-			printf "\n\033[1;34mInstalling \033[0;32mnano\033[1;34m: \033[1;32mDONE\n\033[0m"	
+			nanoif
 			ind=1
 			break
 		elif [[ $nv = [Vv]* ]] || [[ $nv = "" ]];then
@@ -210,8 +231,7 @@ edq2 ()
 	printf "\n"
 }
 
-
-ee2 ()
+arg2dir ()
 {
 	arg2=$(echo $args | awk '{print $2}')
 	if [[ $arg2 = "" ]] ;then
@@ -221,89 +241,13 @@ ee2 ()
 	fi
 }
 
-ee3 ()
+arg3dir ()
 {
 	arg3=$(echo $args | awk '{print $3}')
 	if [[ $arg3 = "" ]] ;then
 		rootdir=/arch
 	else
 		rootdir=/$arg3
-	fi
-}
-
-curldl ()
-{
-	printf "\n\033[1;34mInstalling \033[0;32mcurl\033[1;34m…\n\n\033[1;32m"
-	pkg install curl  --yes 
-	printf "\n\033[1;34mInstalling \033[0;32mcurl\033[1;34m: \033[1;32mDONE\n\033[0m"
-}
-
-ifbsdtar ()
-{
-	if [ ! -e $PREFIX/bin/bsdtar ] ;then
-		printf "\n\033[1;34mInstalling \033[0;32mbsdtar\033[1;34m…\n\n\033[1;32m"
-		pkg install bsdtar --yes
-		printf "\n\033[1;34mInstalling \033[0;32mbsdtar\033[1;34m: \033[1;32mDONE\n\n\033[0m"
-	fi
-}
-
-ifcurl ()
-{
-	if [ ! -e $PREFIX/bin/curl ];then
-		curldl
-	fi
-	if [ ! -e $PREFIX/bin/curl ];then
-		pe
-	fi
-}
-
-ifdmcurl ()
-{
-	if [[ $dm = curl ]];then
-		ifcurl 
-	fi
-}
-
-ifdmwget ()
-{
-	if [[ $dm = wget ]];then
-		ifwget
-	fi
-}
-
-ifnano ()
-{
-	if [ ! -e $PREFIX/bin/nano ];then
-		printf "\n\033[1;34mInstalling \033[0;32mnano\033[1;34m…\n\n\033[1;32m"
-		pkg install nano --yes 
-		printf "\n\033[1;34mInstalling \033[0;32mnano\033[1;34m: \033[1;32mDONE\n\n\033[0m"
-	fi
-	if [ ! -e $PREFIX/bin/nano ];then
-		pe
-	fi
-}
-
-ifproot ()
-{
-	if [ ! -e $PREFIX/bin/proot ];then
-		printf "\n\033[1;34mInstalling \033[0;32mproot\033[1;34m…\n\n\033[1;32m"
-		pkg install proot --yes 
-		printf "\n\033[1;34mInstalling \033[0;32mproot\033[1;34m: \033[1;32mDONE\n\n\033[0m"
-	fi
-	if [ ! -e $PREFIX/bin/proot ];then
-		pe
-	fi
-}
-
-ifwget ()
-{
-	if [ ! -e $PREFIX/bin/wget ];then
-		printf "\n\033[1;34mInstalling \033[0;32mwget\033[1;34m…\n\n\033[1;32m"
-		pkg install wget --yes 	
-		printf "\n\033[1;34mInstalling \033[0;32mwget\033[1;34m: \033[1;32mDONE\n\033[0m"
-	fi
-	if [ ! -e $PREFIX/bin/wget ];then
-		pe
 	fi
 }
 
@@ -338,6 +282,18 @@ ldconf ()
 		printconfloaded 
 	else
 		. knownconfigurations.sh
+	fi
+}
+
+nanoif ()
+{
+	if [ ! -e $PREFIX/bin/nano ];then
+		printf "\n\033[1;34mInstalling \033[0;32mnano\033[1;34m…\n\n\033[1;32m"
+		pkg install nano --yes 
+		printf "\n\033[1;34mInstalling \033[0;32mnano\033[1;34m: \033[1;32mDONE\n\n\033[0m"
+	fi
+	if [ ! -e $PREFIX/bin/nano ];then
+		pe
 	fi
 }
 
@@ -402,9 +358,9 @@ opt2 ()
 		sysinfo 
 		printtail
 	elif [[ $2 = [Ii]* ]] ;then
-		ee3
+		arg3dir 
 	else
-		ee2
+		arg2dir 
 	fi
 }
 
@@ -434,6 +390,18 @@ printtail ()
 printusage ()
 {
 	printf "\n\n\033[1;34mUsage information for \033[0;32msetupTermuxArch.sh \033[1;34m$versionid.  Arguments can abbreviated to one letter; Two letter arguments are acceptable.  For example, \033[0;32mbash setupTermuxArch.sh cs\033[1;34m will use \033[0;32mcurl\033[1;34m to download TermuxArch and produce a \033[0;32msetupTermuxArchDebug$stime.log\033[1;34m file.\n\nUser configurable variables are in \033[0;32msetupTermuxArchConfigs.sh\033[1;34m.  Create this file from \033[0;32mkownconfigurations.sh\033[1;34m in the working directory.  Use \033[0;32mbash setupTermuxArch.sh --manual\033[1;34m to create and edit \033[0;32msetupTermuxArchConfigs.sh\033[1;34m.\n\n\033[1;33mDEBUG\033[1;34m    Use \033[0;32msetupTermuxArch.sh --sysinfo \033[1;34mto create a \033[0;32msetupTermuxArchDebug$stime.log\033[1;34m and populate it with system information.  Post this along with detailed information about the issue at https://github.com/sdrausty/TermuxArch/issues.  If screenshots will help in resolving the issue better, include them in a post along with information from the debug log file.\n\n\033[1;33mHELP\033[1;34m     Use \033[0;32msetupTermuxArch.sh --help \033[1;34mto output this help screen.\n\n\033[1;33mINSTALL\033[1;34m  Run \033[0;32m./setupTermuxArch.sh\033[1;34m without arguments in a bash shell to install Arch Linux in Termux.  Use \033[0;32mbash setupTermuxArch.sh --curl \033[1;34mto envoke \033[0;32mcurl\033[1;34m as the download manager.  Copy \033[0;32mknownconfigurations.sh\033[1;34m to \033[0;32msetupTermuxArchConfigs.sh\033[1;34m with preferred mirror.  After editing \033[0;32msetupTermuxArchConfigs.sh\033[1;34m, run \033[0;32mbash setupTermuxArch.sh\033[1;34m and \033[0;32msetupTermuxArchConfigs.sh\033[1;34m loads automatically from the same directory.  Change mirror to desired geographic location to resolve download errors.\n\n\033[1;33mPURGE\033[1;34m    Use \033[0;32msetupTermuxArch.sh --uninstall\033[1;34m \033[1;34mto uninstall Arch Linux from Termux.\n"
+}
+
+prootif ()
+{
+	if [ ! -e $PREFIX/bin/proot ];then
+		printf "\n\033[1;34mInstalling \033[0;32mproot\033[1;34m…\n\n\033[1;32m"
+		pkg install proot --yes 
+		printf "\n\033[1;34mInstalling \033[0;32mproot\033[1;34m: \033[1;32mDONE\n\n\033[0m"
+	fi
+	if [ ! -e $PREFIX/bin/proot ];then
+		pe
+	fi
 }
 
 rmarch ()
@@ -661,6 +629,25 @@ spaceinfoksize ()
 	fi
 }
 
+wgetifdm ()
+{
+	if [[ $dm = wget ]];then
+		wgetif 
+	fi
+}
+
+wgetif ()
+{
+	if [ ! -e $PREFIX/bin/wget ];then
+		printf "\n\033[1;34mInstalling \033[0;32mwget\033[1;34m…\n\n\033[1;32m"
+		pkg install wget --yes 	
+		printf "\n\033[1;34mInstalling \033[0;32mwget\033[1;34m: \033[1;32mDONE\n\033[0m"
+	fi
+	if [ ! -e $PREFIX/bin/wget ];then
+		pe
+	fi
+}
+
 # User configurable variables such as mirrors are in `setupTermuxArchConfigs.sh`.  Creating this file from `kownconfigurations.sh` in the working directory is simple, use `bash setupTermuxArch.sh --manual` to create, edit and run `setupTermuxArchConfigs.sh`; `bash setupTermuxArch.sh --help` has more information. 
 
 args=$@
@@ -671,7 +658,7 @@ dfl=/gen
 dmverbose="-q"
 #dmverbose="-v"
 stime=`date +%s|grep -o '....$'`
-versionid="gen.v0.8.10 id249224628"
+versionid="gen.v0.8.10 id902446716"
 
 setrootdir 
 
@@ -716,11 +703,11 @@ elif [[ $1 = [Mm]* ]] || [[ $1 = -[Mm]* ]] || [[ $1 = --[Mm]* ]];then
 	mainblock
 # [purge |uninstall] Remove Arch Linux.
 elif [[ $1 = [Pp]* ]] || [[ $1 = -[Pp]* ]] || [[ $1 = --[Pp]* ]] || [[ $1 = [Uu]* ]] || [[ $1 = -[Uu]* ]] || [[ $1 = --[Uu]* ]];then
-	ee2
+	arg2dir 
 	rmarch
 # [install installdir|rootdir installdir] Run default Arch Linux install.  Instructions: Install in userspace. $HOME is appended to installation directory. To install Arch Linux in $HOME/installdir use `bash setupTermuxArch.sh --install installdir`. In bash shell use `./setupTermuxArch.sh --install installdir`.  All options can be abbreviated to one or two letters.  Hence `./setupTermuxArch.sh --install installdir` can be run as `./setupTermuxArch.sh i installdir` in BASH.
 elif [[ $1 = [Ii]* ]] || [[ $1 = -[Ii]* ]] || [[ $1 = --[Ii]* ]] ||  [[ $1 = [Rr][Oo]* ]] || [[ $1 = -[Rr][Oo]* ]] || [[ $1 = --[Rr][Oo]* ]];then
-	ee2
+	arg2dir 
 	intro 
 	mainblock
 # [run] Run local copy of TermuxArch from TermuxArchBloom.  Useful for running modified copy of TermuxArch locally.  
