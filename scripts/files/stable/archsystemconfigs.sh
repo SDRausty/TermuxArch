@@ -5,6 +5,16 @@
 # https://sdrausty.github.io/TermuxArch/README has information about this project. 
 ################################################################################
 
+addauser ()
+{
+	# add default Arch Termux user 
+	cat > root/bin/adtauser <<- EOM
+	useradd $1
+	cp -r /root /home/$1
+	su - $1
+	EOM
+}
+
 addbash_profile ()
 {
 	cat > root/.bash_profile <<- EOM
@@ -150,16 +160,6 @@ addmotd ()
 	More  information: \033[0m\033[34mpacman [-D|F|Q|R|S|T|U] --help\033[0m\033[1;34m
 	Search   packages: \033[0m\033[34mpacman -Ss <query>\033[0m\033[1;34m
 	Upgrade  packages: \033[0m\033[34mpacman -Syu \n\033[0m"
-	EOM
-}
-
-addtauser ()
-{
-	# add default Arch Termux user 
-	cat > root/bin/adtauser <<- EOM
-	useradd user
-	cp -r /root /home/user
-	su - user
 	EOM
 }
 

@@ -194,6 +194,7 @@ setlocalegen()
 touchupsys ()
 {
 	mkdir -p root/bin
+	addauser
 	addbash_profile 
 	addbashrc 
 	adddfa
@@ -206,7 +207,6 @@ touchupsys ()
 	addprofile 
 	addresolvconf 
 	addt 
-	addtauser 
 	addyt 
 	addv 
 	setlocalegen
