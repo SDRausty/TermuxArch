@@ -170,7 +170,7 @@ runfinishsetupq ()
 		$HOME$rootdir/root/bin/setupbin.sh 
 		break
 	elif [[ $nl = [Ll]* ]];then
-		printf "\n\033[0;32mUse \033[1;32m$HOME$rootdir/root/bin/setupbin.sh\033[0;32m in Termux to run \033[1;32mfinishsetup.sh\033[0;32m."
+		printf "\n\033[0;32mUse \033[1;32m$HOME$rootdir/root/bin/setupbin.sh\033[0;32m in Termux to run \033[1;32mfinishsetup.sh\033[0;32m or just \033[1;32mfinishsetup.sh\033[0;32m in Arch Linux Termux PRoot.  \n"
 		break
 	else
 		printf "\nYou answered \033[1;36m$nl\033[1;32m.\n"
