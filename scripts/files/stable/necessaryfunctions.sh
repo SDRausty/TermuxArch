@@ -26,7 +26,7 @@ copybin2path ()
 		printf "\n"
 		break
 	else
-		printf "\n\033[0;34m 🕛 > 🕚 \033[0mYou answered \033[33;1m$answer\033[0m.\n\n\033[0;34m 🕛 > 🕚 \033[0mAnswer Yes or No (y|n).\n\n"
+		printf "\n\033[0;34m 🕛 > 🕚 \033[0mYou answered \033[33;1m$answer\033[0m.\n\n\033[0;34m 🕛 > 🕚 \033[0mAnswer Yes or No (y|n).\n"
 	fi
 	done
 }
@@ -156,7 +156,7 @@ runfinishsetup ()
 		break
 	else
 		printf "\nYou answered \033[1;36m$ye\033[1;32m.\n"
-		printf "\nAnswer run or edit [R|e].  \n\n"
+		printf "\nAnswer run or edit [R|e].  \n"
 	fi
 	done
 }
@@ -169,12 +169,12 @@ runfinishsetupq ()
 	if [[ $nl = [Nn]* ]] || [[ $nl = "" ]];then
 		runfinishsetup 
 		break
-	elif [[ $nlye = [Ll]* ]];then
+	elif [[ $nl = [Ll]* ]];then
 		printf "\n\033[0;32mUse \033[1;32m$HOME$rootdir/root/bin/setupbin.sh\033[0;32m in Termux to run \033[1;32mfinishsetup.sh\033[0;32m."
 		break
 	else
 		printf "\nYou answered \033[1;36m$nl\033[1;32m.\n"
-		printf "\nAnswer now or later [N|l].\n\n"
+		printf "\nAnswer now or later [N|l].\n"
 	fi
 	done
 }

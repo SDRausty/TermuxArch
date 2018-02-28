@@ -225,7 +225,7 @@ edq2 ()
 			ind=1
 			break
 		else
-			printf "\nYou answered \033[36;1m$nv\033[1;32m.\n\nAnswer nano or vi [n|v].  \n\n"
+			printf "\nYou answered \033[36;1m$nv\033[1;32m.\n\nAnswer nano or vi [n|v].  \n"
 		fi
 	done	
 	printf "\n"
@@ -652,7 +652,7 @@ wgetif ()
 
 args=$@
 bin=startarch
-dfl=/gen
+#dfl=/gen
 #dm=curl
 #dm=wget
 dmverbose="-q"
