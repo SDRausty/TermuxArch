@@ -225,7 +225,7 @@ edq2 ()
 			ind=1
 			break
 		else
-			printf "\nYou answered \033[36;1m$nv\033[1;32m.\n\nAnswer nano or vi [n|v].  \n\n"
+			printf "\nYou answered \033[36;1m$nv\033[1;32m.\n\nAnswer nano or vi [n|v].  \n"
 		fi
 	done	
 	printf "\n"
@@ -658,7 +658,7 @@ dfl=/gen
 dmverbose="-q"
 #dmverbose="-v"
 stime=`date +%s|grep -o '....$'`
-versionid="gen.v0.8.10 id902446716"
+versionid="gen.v0.8.10 id254434017"
 
 setrootdir 
 
