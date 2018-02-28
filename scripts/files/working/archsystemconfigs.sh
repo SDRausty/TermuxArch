@@ -229,29 +229,23 @@ makefinishsetup ()
 	EOM
 	if [ -e $HOME/.bash_profile ]; then
 	grep "proxy" $HOME/.bash_profile | grep "export" >>  root/bin/$binfs 2>/dev/null ||:
-	else
-		:
 	fi
 	if [ -e $HOME/.bashrc ]; then
 	grep "proxy" $HOME/.bashrc  | grep "export" >>  root/bin/$binfs 2>/dev/null ||:
-	else
-		:
 	fi
 	if [ -e $HOME/.profile ]; then
 	grep "proxy" $HOME/.profile | grep "export" >>  root/bin/$binfs 2>/dev/null ||:
-	else
-		:
 	fi
 	cat >> root/bin/$binfs <<- EOM
 	printf "\n"
 	if [ $(getprop ro.product.cpu.abi) = x86 ] || [ $(getprop ro.product.cpu.abi) = x86_64 ];then
-		printf '\033]2; 🕛 > 🕙 Arch Linux in Termux is installed.  📲  \007'
+		pacman -Syu sed --noconfirm ||:
 	else
 		pacman -Syu --noconfirm ||:
+	fi
 		printf "\n"
 		locale-gen ||:
 		printf '\033]2; 🕛 > 🕙 Arch Linux in Termux is installed and configured.  📲  \007'
-	fi
 	EOM
 	chmod 770 root/bin/finishsetup.sh 
 	# rm \$HOME/bin/finishsetup.sh 2>/dev/null ||:

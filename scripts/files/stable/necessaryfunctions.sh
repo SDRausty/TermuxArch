@@ -140,6 +140,44 @@ preproot ()
 	fi
 }
 
+runfinishsetup ()
+{
+	if [[ $ed = "" ]];then
+		editors 
+	fi
+	$ed $HOME$rootdir/etc/pacman.d/mirrorlist
+	while true; do
+		printf "\n\033[0;32mWould you like to run \033[1;32mlocale-gen\033[0;32m to generate the en_US.UTF-8 locale, or would you like to edit \033[1;32m/etc/locale.gen\033[0;32m specifying your preferred language(s) before running \033[1;32mlocale-gen\033[0;32m?  "
+		read -p "Answer run or edit [R|e]. " ye
+	if [[ $ye = [Rr]* ]] || [[ $ye = "" ]];then
+		break
+	elif [[ $ye = [Ee]* ]];then
+		$ed $HOME$rootdir/etc/locale.gen
+		break
+	else
+		printf "\nYou answered \033[1;36m$ye\033[1;32m.\n"
+		printf "\nAnswer run or edit [R|e].  \n\n"
+	fi
+	done
+}
+
+runfinishsetupq ()
+{
+	while true; do
+		printf "\n\033[0;32mWould you like to run \033[1;32mfinishsetup.sh\033[0;32m to complete the Arch Linux configuration now, or at a later time?  "
+		read -p "Answer now or later [N|l]. " nl
+	if [[ $nl = [Nn]* ]] || [[ $nl = "" ]];then
+		runfinishsetup 
+		break
+	elif [[ $nlye = [Ll]* ]];then
+		break
+	else
+		printf "\nYou answered \033[1;36m$nl\033[1;32m.\n"
+		printf "\nAnswer run or edit [R|e].  \n\n"
+	fi
+	done
+}
+
 setlocalegen()
 {
 	if [ -e etc/locale.gen ]; then
@@ -169,23 +207,7 @@ touchupsys ()
 	addyt 
 	addv 
 	setlocalegen
-	if [[ $ed = "" ]];then
-		editors 
-	fi
-	$ed $HOME$rootdir/etc/pacman.d/mirrorlist
-	while true; do
-		printf "\n\033[0;32mWould you like to run \033[1;32mlocale-gen\033[0;32m to generate the en_US.UTF-8 locale, or would you like to edit \033[1;32m/etc/locale.gen\033[0;32m specifying your preferred language(s) before running \033[1;32mlocale-gen\033[0;32m?  "
-		read -p "Answer run or edit [R|e]. " ye
-	if [[ $ye = [Rr]* ]] || [[ $ye = "" ]];then
-		break
-	elif [[ $ye = [Ee]* ]];then
-		$ed $HOME$rootdir/etc/locale.gen
-		break
-	else
-		printf "\nYou answered \033[1;36m$ye\033[1;32m.\n"
-		printf "\nAnswer run or edit [R|e].  \n\n"
-	fi
-	done
+	runfinishsetup 
 	makefinishsetup
 	makesetupbin 
 }
