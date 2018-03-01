@@ -20,7 +20,7 @@ addauserps ()
 {
 	# add default Arch Termux user 
 	cat > root/bin/addauserps <<- EOM
-	cat > $HOME/bin/startarch\$1 <<- EOM
+	\cat > $HOME/bin/startarch\$1 <<- EOM
 	#!/bin/bash -e
 	unset LD_PRELOAD
 	exec proot --link2symlink -0 -r $HOME$rootdir/ -b /dev/ -b /sys/ -b /proc/ -b /storage/ -b $HOME -w $HOME /bin/env -i HOME=/root TERM="$TERM" PS1='[termux@arch \W]\$ ' LANG=$LANG PATH=/bin:/usr/bin:/sbin:/usr/sbin /bin/su - \$1 --login
