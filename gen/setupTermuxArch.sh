@@ -94,10 +94,10 @@ depends ()
 		curlifdm 
 		wgetifdm 
 	elif [ -e $PREFIX/bin/curl ] || [ -e $PREFIX/bin/wget ];then
-		if [ -e $PREFIX/bin/curl ];then
+		if [ -x $PREFIX/bin/curl ];then
 			dm=curl 
 		fi
-		if [ -e $PREFIX/bin/wget ];then
+		if [ -x $PREFIX/bin/wget ];then
 			dm=wget 
 		fi
 	fi
@@ -659,7 +659,7 @@ dfl=/gen
 dmverbose="-q"
 #dmverbose="-v"
 stime=`date +%s|grep -o '....$'`
-versionid="gen.v0.8.10 id546144419"
+versionid="v0.9"
 
 setrootdir 
 
