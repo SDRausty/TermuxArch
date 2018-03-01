@@ -7,12 +7,12 @@
 
 bsdtarif ()
 {
-	if [ ! -e $PREFIX/bin/bsdtar ] ;then
+	if [ ! -x $PREFIX/bin/bsdtar ] ;then
 		printf "\n\033[1;34mInstalling \033[0;32mbsdtar\033[1;34m…\n\n\033[1;32m"
 		pkg install bsdtar --yes
 		printf "\n\033[1;34mInstalling \033[0;32mbsdtar\033[1;34m: \033[1;32mDONE\n\n\033[0m"
 	fi
-	if [ ! -e $PREFIX/bin/bsdtar ];then
+	if [ ! -x $PREFIX/bin/bsdtar ];then
 		pe
 	fi
 }
@@ -70,12 +70,12 @@ chkself ()
 
 curlif ()
 {
-	if [ ! -e $PREFIX/bin/curl ];then
+	if [ ! -x $PREFIX/bin/curl ];then
 		printf "\n\033[1;34mInstalling \033[0;32mcurl\033[1;34m…\n\n\033[1;32m"
 		pkg install curl --yes 
 		printf "\n\033[1;34mInstalling \033[0;32mcurl\033[1;34m: \033[1;32mDONE\n\033[0m"
 	fi
-	if [ ! -e $PREFIX/bin/curl ];then
+	if [ ! -x $PREFIX/bin/curl ];then
 		pe
 	fi
 }
@@ -288,12 +288,12 @@ ldconf ()
 
 nanoif ()
 {
-	if [ ! -e $PREFIX/bin/nano ];then
+	if [ ! -x $PREFIX/bin/nano ];then
 		printf "\n\033[1;34mInstalling \033[0;32mnano\033[1;34m…\n\n\033[1;32m"
 		pkg install nano --yes 
 		printf "\n\033[1;34mInstalling \033[0;32mnano\033[1;34m: \033[1;32mDONE\n\n\033[0m"
 	fi
-	if [ ! -e $PREFIX/bin/nano ];then
+	if [ ! -x $PREFIX/bin/nano ];then
 		pe
 	fi
 }
@@ -395,12 +395,12 @@ printusage ()
 
 prootif ()
 {
-	if [ ! -e $PREFIX/bin/proot ];then
+	if [ ! -x $PREFIX/bin/proot ];then
 		printf "\n\033[1;34mInstalling \033[0;32mproot\033[1;34m…\n\n\033[1;32m"
 		pkg install proot --yes 
 		printf "\n\033[1;34mInstalling \033[0;32mproot\033[1;34m: \033[1;32mDONE\n\n\033[0m"
 	fi
-	if [ ! -e $PREFIX/bin/proot ];then
+	if [ ! -x $PREFIX/bin/proot ];then
 		pe
 	fi
 }
@@ -639,12 +639,12 @@ wgetifdm ()
 
 wgetif ()
 {
-	if [ ! -e $PREFIX/bin/wget ];then
+	if [ ! -x $PREFIX/bin/wget ];then
 		printf "\n\033[1;34mInstalling \033[0;32mwget\033[1;34m…\n\n\033[1;32m"
 		pkg install wget --yes 	
 		printf "\n\033[1;34mInstalling \033[0;32mwget\033[1;34m: \033[1;32mDONE\n\033[0m"
 	fi
-	if [ ! -e $PREFIX/bin/wget ];then
+	if [ ! -x $PREFIX/bin/wget ];then
 		pe
 	fi
 }
@@ -659,7 +659,7 @@ dfl=/gen
 dmverbose="-q"
 #dmverbose="-v"
 stime=`date +%s|grep -o '....$'`
-versionid="gen.v0.8.10 id372116079"
+versionid="gen.v0.8.10 id503080696"
 
 setrootdir 
 
