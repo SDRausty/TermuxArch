@@ -79,7 +79,7 @@ makebin ()
 makesetupbin ()
 {
 	cat > root/bin/setupbin.sh <<- EOM
-	#!/bin/bash -e
+	#!$PREFIX/bin/bash -e
 	unset LD_PRELOAD
 	exec proot --link2symlink -0 -r $HOME$rootdir/ -b /dev/ -b /sys/ -b /proc/ -b /storage/ -b $HOME -w $HOME /bin/env -i HOME=/root TERM="$TERM" PS1='[termux@arch \W]\$ ' LANG=$LANG PATH=/bin:/usr/bin:/sbin:/usr/sbin $HOME$rootdir/root/bin/finishsetup.sh
 	EOM
@@ -89,7 +89,7 @@ makesetupbin ()
 makestartbin ()
 {
 	cat > $bin <<- EOM
-	#!/bin/bash -e
+	#!$PREFIX/bin/bash -e
 	unset LD_PRELOAD
 	exec proot --link2symlink -0 -r $HOME$rootdir/ -b /dev/ -b /sys/ -b /proc/ -b /storage/ -b $HOME -w $HOME /bin/env -i HOME=/root TERM="$TERM" PS1='[termux@arch \W]\$ ' LANG=$LANG PATH=/bin:/usr/bin:/sbin:/usr/sbin /bin/bash --login
 	EOM
@@ -158,6 +158,7 @@ runfinishsetup ()
 		printf "\nAnswer run or edit [R|e].  \n"
 	fi
 	done
+	$HOME$rootdir/root/bin/setupbin.sh 
 }
 
 runfinishsetupq ()
@@ -167,7 +168,6 @@ runfinishsetupq ()
 		read -p "Answer now or later [N|l]. " nl
 	if [[ $nl = [Nn]* ]] || [[ $nl = "" ]];then
 		runfinishsetup 
-		$HOME$rootdir/root/bin/setupbin.sh 
 		break
 	elif [[ $nl = [Ll]* ]];then
 		printf "\n\033[0;32mUse \033[1;32m$HOME$rootdir/root/bin/setupbin.sh\033[0;32m in Termux to run \033[1;32mfinishsetup.sh\033[0;32m or simply \033[1;32mfinishsetup.sh\033[0;32m in Arch Linux Termux PRoot.  Set the geographically nearby mirror in \033[1;32m/etc/pacman.d/mirrorlist\033[0;32m."
