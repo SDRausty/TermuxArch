@@ -25,7 +25,7 @@ addauserps ()
 	cp -r /root /home/\$1
 	su - \$1
 	EOM
-	echo "cat > $HOME/bin/startarch\$1 <<- EOM " >> root/bin/addauserps 
+	echo "cat > $HOME/bin/startarchuser\$1 <<- EOM " >> root/bin/addauserps 
 	cat >> root/bin/addauserps <<- EOM
 	#!/bin/bash -e
 	unset LD_PRELOAD
@@ -33,7 +33,7 @@ addauserps ()
 	EOM
 	echo EOM >> root/bin/addauserps 
 	cat >> root/bin/addauserps <<- EOM
-	chmod 770 $HOME/bin/startarch\$1
+	chmod 770 $HOME/bin/startarchuser\$1
 	EOM
 	chmod 770 root/bin/addauserps 
 }
