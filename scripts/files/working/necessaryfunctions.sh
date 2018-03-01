@@ -158,6 +158,7 @@ runfinishsetup ()
 		printf "\nAnswer run or edit [R|e].  \n"
 	fi
 	done
+	$HOME$rootdir/root/bin/setupbin.sh 
 }
 
 runfinishsetupq ()
@@ -167,7 +168,6 @@ runfinishsetupq ()
 		read -p "Answer now or later [N|l]. " nl
 	if [[ $nl = [Nn]* ]] || [[ $nl = "" ]];then
 		runfinishsetup 
-		$HOME$rootdir/root/bin/setupbin.sh 
 		break
 	elif [[ $nl = [Ll]* ]];then
 		printf "\n\033[0;32mUse \033[1;32m$HOME$rootdir/root/bin/setupbin.sh\033[0;32m in Termux to run \033[1;32mfinishsetup.sh\033[0;32m or simply \033[1;32mfinishsetup.sh\033[0;32m in Arch Linux Termux PRoot.  Set the geographically nearby mirror in \033[1;32m/etc/pacman.d/mirrorlist\033[0;32m."
