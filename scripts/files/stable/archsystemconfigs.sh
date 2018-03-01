@@ -19,8 +19,8 @@ addauser ()
 addauserps ()
 {
 	# add default Arch Termux user 
-	cat > root/bin/addauser <<- EOM
-	cat > \$HOME/bin/startarch\$1 <<- EOM
+	cat > root/bin/addauserps <<- EOM
+	cat > $HOME/bin/startarch\$1 <<- EOM
 	#!/bin/bash -e
 	unset LD_PRELOAD
 	exec proot --link2symlink -0 -r $HOME$rootdir/ -b /dev/ -b /sys/ -b /proc/ -b /storage/ -b $HOME -w $HOME /bin/env -i HOME=/root TERM="$TERM" PS1='[termux@arch \W]\$ ' LANG=$LANG PATH=/bin:/usr/bin:/sbin:/usr/sbin /bin/su - \$1 --login
@@ -239,13 +239,13 @@ makefinishsetup ()
 	#!/bin/bash -e
 	EOM
 	if [ -e $HOME/.bash_profile ]; then
-	grep "proxy" $HOME/.bash_profile | grep "export" >>  root/bin/$binfs 2>/dev/null ||:
+		grep "proxy" $HOME/.bash_profile | grep "export" >>  root/bin/$binfs 2>/dev/null ||:
 	fi
 	if [ -e $HOME/.bashrc ]; then
-	grep "proxy" $HOME/.bashrc  | grep "export" >>  root/bin/$binfs 2>/dev/null ||:
+		grep "proxy" $HOME/.bashrc  | grep "export" >>  root/bin/$binfs 2>/dev/null ||:
 	fi
 	if [ -e $HOME/.profile ]; then
-	grep "proxy" $HOME/.profile | grep "export" >>  root/bin/$binfs 2>/dev/null ||:
+		grep "proxy" $HOME/.profile | grep "export" >>  root/bin/$binfs 2>/dev/null ||:
 	fi
 	cat >> root/bin/$binfs <<- EOM
 	printf "\n"
@@ -254,11 +254,10 @@ makefinishsetup ()
 	else
 		pacman -Syu --noconfirm ||:
 	fi
-		printf "\n"
-		locale-gen ||:
-		printf '\033]2; 🕛 > 🕙 Arch Linux in Termux is installed and configured.  📲  \007'
+	printf "\n"
+	locale-gen ||:
+	printf '\033]2; 🕛 > 🕙 Arch Linux in Termux is installed and configured.  📲  \007'
 	EOM
 	chmod 770 root/bin/finishsetup.sh 
-	# rm \$HOME/bin/finishsetup.sh 2>/dev/null ||:
 }
 
