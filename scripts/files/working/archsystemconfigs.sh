@@ -7,7 +7,7 @@
 
 addauser ()
 {
-	# add default Arch Termux user 
+	# Add Arch Linux user.
 	cat > root/bin/addauser <<- EOM
 	useradd \$1
 	cp -r /root /home/\$1
@@ -18,7 +18,7 @@ addauser ()
 
 addauserps ()
 {
-	# add default Arch Termux user 
+	# Add Arch Linux user and create user login Termux startup script. 
 	cat > root/bin/addauserps <<- EOM
 	#!/bin/bash -e
 	useradd \$1
