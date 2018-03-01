@@ -94,10 +94,10 @@ depends ()
 		curlifdm 
 		wgetifdm 
 	elif [ -e $PREFIX/bin/curl ] || [ -e $PREFIX/bin/wget ];then
-		if [ -x $PREFIX/bin/curl ];then
+		if [ -e $PREFIX/bin/curl ];then
 			dm=curl 
 		fi
-		if [ -x $PREFIX/bin/wget ];then
+		if [ -e $PREFIX/bin/wget ];then
 			dm=wget 
 		fi
 	fi
