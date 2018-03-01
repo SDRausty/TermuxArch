@@ -28,6 +28,8 @@
 
 [@developer787](https://github.com/developer787) submitted an issue.  Result: setupTermuxArch.sh improved! 
 
+[EsdrasTarsis](https://github.com/EsdrasTarsis) contributed insightful comments regarding `pacman-key` https://github.com/sdrausty/TermuxArch/issues/28 Result: setupTermuxArch.sh improved!
+
 [@fornwall](https://github.com/fornwall) contributed: Created Termux...pushed wget v1.19.4 fixing wget v1.19.3 errors immediatly...  Result: setupTermuxArch.sh improved!
 
 [@Hax4us](https://github.com/Hax4us) provided insight regarding open issues. Submitted pull request.  Result: setupTermuxArch.sh improved! 
