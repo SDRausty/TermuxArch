@@ -10,7 +10,7 @@ bsdtarif ()
 	if [ ! -x $PREFIX/bin/bsdtar ] ;then
 		printf "\n\033[1;34mInstalling \033[0;32mbsdtar\033[1;34m…\n\n\033[1;32m"
 		pkg install bsdtar --yes
-		printf "\n\033[1;34mInstalling \033[0;32mbsdtar\033[1;34m: \033[1;32mDONE\n\n\033[0m"
+		printf "\n\033[1;34mInstalling \033[0;32mbsdtar\033[1;34m: \033[1;32mDONE\n\033[0m"
 	fi
 	if [ ! -x $PREFIX/bin/bsdtar ];then
 		pe
@@ -291,7 +291,7 @@ nanoif ()
 	if [ ! -x $PREFIX/bin/nano ];then
 		printf "\n\033[1;34mInstalling \033[0;32mnano\033[1;34m…\n\n\033[1;32m"
 		pkg install nano --yes 
-		printf "\n\033[1;34mInstalling \033[0;32mnano\033[1;34m: \033[1;32mDONE\n\n\033[0m"
+		printf "\n\033[1;34mInstalling \033[0;32mnano\033[1;34m: \033[1;32mDONE\n\033[0m"
 	fi
 	if [ ! -x $PREFIX/bin/nano ];then
 		pe
@@ -398,7 +398,7 @@ prootif ()
 	if [ ! -x $PREFIX/bin/proot ];then
 		printf "\n\033[1;34mInstalling \033[0;32mproot\033[1;34m…\n\n\033[1;32m"
 		pkg install proot --yes 
-		printf "\n\033[1;34mInstalling \033[0;32mproot\033[1;34m: \033[1;32mDONE\n\n\033[0m"
+		printf "\n\033[1;34mInstalling \033[0;32mproot\033[1;34m: \033[1;32mDONE\n\033[0m"
 	fi
 	if [ ! -x $PREFIX/bin/proot ];then
 		pe
@@ -659,7 +659,7 @@ dfl=/gen
 dmverbose="-q"
 #dmverbose="-v"
 stime=`date +%s|grep -o '....$'`
-versionid="gen.v0.9 id483874407"
+versionid="gen.v0.9 id560014478"
 
 setrootdir 
 
