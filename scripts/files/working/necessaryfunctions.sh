@@ -22,7 +22,7 @@ copybin2path ()
 	fi
 	while true; do
 	printf "Copy \033[1m$bin\033[0m to \033[1m$BPATH\033[0m?  " 
-	read -p "Answer yes or no [Y|n]. " answer
+	read -p "Answer yes or no [Y|n] " answer
 	if [[ $answer = [Yy]* ]] || [[ $answer = "" ]];then
 		cp $HOME$rootdir/$bin $BPATH
 		printf "\n\033[0;34m 🕛 > 🕦 \033[0mCopied \033[1m$bin\033[0m to \033[1m$PREFIX/bin\033[0m.\n\n"
@@ -31,7 +31,7 @@ copybin2path ()
 		printf "\n"
 		break
 	else
-		printf "\n\033[0;34m 🕛 > 🕚 \033[0mYou answered \033[33;1m$answer\033[0m.\n\n\033[0;34m 🕛 > 🕚 \033[0mAnswer Yes or No (y|n).\n"
+		printf "\n\033[0;34m 🕛 > 🕚 \033[0mYou answered \033[33;1m$answer\033[0m.\n\n\033[0;34m 🕛 > 🕚 \033[0mAnswer yes or no [y|n]\n"
 	fi
 	done
 }
@@ -181,11 +181,11 @@ runfinishsetup ()
 	if [[ $ed = "" ]];then
 		editors 
 	fi
-	sed -i '1i# TermuxArch vi instructions:  Use the hjkl keys to navigate. \n# Numbers are multipliers.  6j then dd will delete the worldwide mirror configuration.\n# Alternatively 6j then i will open insert mode in vi.  Use ESC to return to command mode.\n# After locating a local mirror, use x to delete # uncommenting the setting.\n# Choose only one mirror.  Use :x to save and finish after choosing one local mirror.\n# ' $HOME$rootdir/etc/pacman.d/mirrorlist
+	sed -i '1i# TermuxArch vi instructions:  Use the hjkl keys to navigate. \n# Numbers are multipliers.  12j then i will open insert mode in vi.  Enter # to comment out this line.\n# Use ESC to return to command mode.\n# After locating a local mirror, use x to delete # to uncomment the setting.\n# Choose only one mirror.  Use :x to save and finish your work after choosing only one local mirror.\n# ' $HOME$rootdir/etc/pacman.d/mirrorlist
 	$ed $HOME$rootdir/etc/pacman.d/mirrorlist
 	while true; do
 		printf "\n\033[0;32mWould you like to run \033[1;32mlocale-gen\033[0;32m to generate the en_US.UTF-8 locale, or edit \033[1;32m/etc/locale.gen\033[0;32m specifying your preferred language(s) before running \033[1;32mlocale-gen\033[0;32m?  "
-		read -p "Answer yes to run. [Y|e]. " ye
+		read -p "Answer yes to run [Y|e] " ye
 	if [[ $ye = [Yy]* ]] || [[ $ye = "" ]];then
 		break
 	elif [[ $ye = [Ee]* ]] || [[ $ye = [Nn]* ]];then
@@ -193,7 +193,7 @@ runfinishsetup ()
 		break
 	else
 		printf "\nYou answered \033[1;36m$ye\033[1;32m.\n"
-		printf "\nAnswer yes to run. [Y|e].\n"
+		printf "\nAnswer yes to run [Y|e]\n"
 	fi
 	done
 	$HOME$rootdir/root/bin/setupbin.sh 
@@ -203,7 +203,7 @@ runfinishsetupq ()
 {
 	while true; do
 		printf "\n\033[0;32mWould you like to run \033[1;32mfinishsetup.sh\033[0;32m to complete the Arch Linux configuration now, or at a later time?  \033[1;32mNow is recommended\033[0;32m; "
-		read -p "Answer yes for now [Y|n]. " nl
+		read -p "Answer yes for now [Y|n] " nl
 	if [[ $nl = [Yy]* ]] || [[ $nl = "" ]];then
 		runfinishsetup 
 		break
@@ -212,7 +212,7 @@ runfinishsetupq ()
 		break
 	else
 		printf "\nYou answered \033[1;36m$nl\033[1;32m.\n"
-		printf "\nAnswer yes for now. [Y|n].\n"
+		printf "\nAnswer yes for now [Y|n]\n"
 	fi
 	done
 	printf "\n"
