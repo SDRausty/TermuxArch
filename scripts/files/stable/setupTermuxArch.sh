@@ -668,13 +668,13 @@ if [[ $1 = [Cc][Dd]* ]] || [[ $1 = -[Cc][Dd]* ]] || [[ $1 = --[Cc][Dd]* ]] || [[
 	dm=curl
 	introdebug 
 	sysinfo 
-	# [curl installdir|curl install installdir] Install Arch Linux using `curl`.
+# [curl installdir|curl install installdir] Install Arch Linux using `curl`.
 elif [[ $1 = [Cc]* ]] || [[ $1 = -[Cc]* ]] || [[ $1 = --[Cc]* ]] || [[ $1 = [Cc][Ii]* ]] || [[ $1 = -[Cc][Ii]* ]] || [[ $1 = --[Cc][Ii]* ]];then
 	dm=curl
 	opt2 $args 
 	intro 
 	mainblock
-	# [wget debug|wget sysinfo] Get device system information using `wget`.
+# [wget debug|wget sysinfo] Get device system information using `wget`.
 elif [[ $1 = [Ww][Dd]* ]] || [[ $1 = -[Ww][Dd]* ]] || [[ $1 = --[Ww][Dd]* ]] || [[ $1 = [Ww][Ss]* ]] || [[ $1 = -[Ww][Ss]* ]] || [[ $1 = --[Ww][Ss]* ]];then
 	dm=wget
 	introdebug 
