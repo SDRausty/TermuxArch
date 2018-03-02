@@ -14,14 +14,13 @@ callsystem ()
 
 copybin2path ()
 {
-	printf "\033[0;34m 🕛 > 🕚 \033[0m"
 	if [[ ":$PATH:" == *":$HOME/bin:"* ]] && [ -d $HOME/bin ]; then
 		BPATH=$HOME/bin
 	else
 		BPATH=$PREFIX/bin
 	fi
 	while true; do
-	printf "Copy \033[1m$bin\033[0m to \033[1m$BPATH\033[0m?  " 
+	printf "\033[0;34m 🕛 > 🕚 \033[0mCopy \033[1m$bin\033[0m to \033[1m$BPATH\033[0m?  " 
 	read -p "Answer yes or no [Y|n] " answer
 	if [[ $answer = [Yy]* ]] || [[ $answer = "" ]];then
 		cp $HOME$rootdir/$bin $BPATH
@@ -31,7 +30,7 @@ copybin2path ()
 		printf "\n"
 		break
 	else
-		printf "\n\033[0;34m 🕛 > 🕚 \033[0mYou answered \033[33;1m$answer\033[0m.\n\n\033[0;34m 🕛 > 🕚 \033[0mAnswer yes or no [y|n]\n"
+		printf "\n\033[0;34m 🕛 > 🕚 \033[0mYou answered \033[33;1m$answer\033[0m.\n\n\033[0;34m 🕛 > 🕚 \033[0mAnswer yes or no [y|n]\n\n"
 	fi
 	done
 }
