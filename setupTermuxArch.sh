@@ -10,7 +10,7 @@ bsdtarif ()
 	if [ ! -x $PREFIX/bin/bsdtar ] ;then
 		printf "\n\033[1;34mInstalling \033[0;32mbsdtar\033[1;34m…\n\n\033[1;32m"
 		pkg install bsdtar --yes
-		printf "\n\033[1;34mInstalling \033[0;32mbsdtar\033[1;34m: \033[1;32mDONE\n\n\033[0m"
+		printf "\n\033[1;34mInstalling \033[0;32mbsdtar\033[1;34m: \033[1;32mDONE\n\033[0m"
 	fi
 	if [ ! -x $PREFIX/bin/bsdtar ];then
 		pe
@@ -93,7 +93,7 @@ depends ()
 	if [[ $dm = curl ]] || [[ $dm = wget ]];then
 		curlifdm 
 		wgetifdm 
-	elif [ -e $PREFIX/bin/curl ] || [ -e $PREFIX/bin/wget ];then
+	elif [ -x $PREFIX/bin/curl ] || [ -x $PREFIX/bin/wget ];then
 		if [ -x $PREFIX/bin/curl ];then
 			dm=curl 
 		fi
@@ -105,7 +105,7 @@ depends ()
 		curlif  
 		dm=curl 
 	fi
-	dependsa 
+	dependsx 
 	printf "\n\033[0;34m 🕛 > 🕧 \033[1;34mPrerequisites: \033[1;32mOK  \033[1;34mDownloading TermuxArch…\n\n\033[0;32m"
 }
 
@@ -120,7 +120,7 @@ dependsblock ()
 	chk
 }
 
-dependsa ()
+dependsx ()
 {
 	if [ $(getprop ro.product.cpu.abi) = x86 ] || [ $(getprop ro.product.cpu.abi) = x86_64 ];then
 		bsdtarif 
@@ -291,7 +291,7 @@ nanoif ()
 	if [ ! -x $PREFIX/bin/nano ];then
 		printf "\n\033[1;34mInstalling \033[0;32mnano\033[1;34m…\n\n\033[1;32m"
 		pkg install nano --yes 
-		printf "\n\033[1;34mInstalling \033[0;32mnano\033[1;34m: \033[1;32mDONE\n\n\033[0m"
+		printf "\n\033[1;34mInstalling \033[0;32mnano\033[1;34m: \033[1;32mDONE\n\033[0m"
 	fi
 	if [ ! -x $PREFIX/bin/nano ];then
 		pe
@@ -398,7 +398,7 @@ prootif ()
 	if [ ! -x $PREFIX/bin/proot ];then
 		printf "\n\033[1;34mInstalling \033[0;32mproot\033[1;34m…\n\n\033[1;32m"
 		pkg install proot --yes 
-		printf "\n\033[1;34mInstalling \033[0;32mproot\033[1;34m: \033[1;32mDONE\n\n\033[0m"
+		printf "\n\033[1;34mInstalling \033[0;32mproot\033[1;34m: \033[1;32mDONE\n\033[0m"
 	fi
 	if [ ! -x $PREFIX/bin/proot ];then
 		pe
@@ -706,12 +706,12 @@ elif [[ $1 = [Mm]* ]] || [[ $1 = -[Mm]* ]] || [[ $1 = --[Mm]* ]];then
 elif [[ $1 = [Pp]* ]] || [[ $1 = -[Pp]* ]] || [[ $1 = --[Pp]* ]] || [[ $1 = [Uu]* ]] || [[ $1 = -[Uu]* ]] || [[ $1 = --[Uu]* ]];then
 	arg2dir 
 	rmarch
-# [install installdir|rootdir installdir] Run default Arch Linux install.  Instructions: Install in userspace. $HOME is appended to installation directory. To install Arch Linux in $HOME/installdir use `bash setupTermuxArch.sh --install installdir`. In bash shell use `./setupTermuxArch.sh --install installdir`.  All options can be abbreviated to one or two letters.  Hence `./setupTermuxArch.sh --install installdir` can be run as `./setupTermuxArch.sh i installdir` in BASH.
+# [install installdir|rootdir installdir] Install Arch Linux in custom directory.  Instructions: Install in userspace. $HOME is appended to installation directory. To install Arch Linux in $HOME/installdir use `bash setupTermuxArch.sh --install installdir`. In bash shell use `./setupTermuxArch.sh --install installdir`.  All options can be abbreviated to one or two letters.  Hence `./setupTermuxArch.sh --install installdir` can be run as `./setupTermuxArch.sh i installdir` in BASH.
 elif [[ $1 = [Ii]* ]] || [[ $1 = -[Ii]* ]] || [[ $1 = --[Ii]* ]] ||  [[ $1 = [Rr][Oo]* ]] || [[ $1 = -[Rr][Oo]* ]] || [[ $1 = --[Rr][Oo]* ]];then
 	arg2dir 
 	intro 
 	mainblock
-# [run] Run local copy of TermuxArch from TermuxArchBloom.  Useful for running modified copy of TermuxArch locally.  
+# [run] Run local copy of TermuxArch from TermuxArchBloom.  Useful for running customized TermuxArch locally.  
 elif [[ $1 = [Rr]* ]] || [[ $1 = -[Rr]* ]] || [[ $1 = --[Rr]* ]];then
 	runobloom 
 # [] Run default Arch Linux install.

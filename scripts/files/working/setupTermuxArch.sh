@@ -653,13 +653,13 @@ wgetif ()
 
 args=$@
 bin=startarch
-dfl=/gen
+#dfl=/gen
 #dm=curl
 #dm=wget
 dmverbose="-q"
 #dmverbose="-v"
 stime=`date +%s|grep -o '....$'`
-versionid="gen.v0.9 id613843683"
+versionid="v0.9"
 
 setrootdir 
 
@@ -706,12 +706,12 @@ elif [[ $1 = [Mm]* ]] || [[ $1 = -[Mm]* ]] || [[ $1 = --[Mm]* ]];then
 elif [[ $1 = [Pp]* ]] || [[ $1 = -[Pp]* ]] || [[ $1 = --[Pp]* ]] || [[ $1 = [Uu]* ]] || [[ $1 = -[Uu]* ]] || [[ $1 = --[Uu]* ]];then
 	arg2dir 
 	rmarch
-# [install installdir|rootdir installdir] Run default Arch Linux install.  Instructions: Install in userspace. $HOME is appended to installation directory. To install Arch Linux in $HOME/installdir use `bash setupTermuxArch.sh --install installdir`. In bash shell use `./setupTermuxArch.sh --install installdir`.  All options can be abbreviated to one or two letters.  Hence `./setupTermuxArch.sh --install installdir` can be run as `./setupTermuxArch.sh i installdir` in BASH.
+# [install installdir|rootdir installdir] Install Arch Linux in custom directory.  Instructions: Install in userspace. $HOME is appended to installation directory. To install Arch Linux in $HOME/installdir use `bash setupTermuxArch.sh --install installdir`. In bash shell use `./setupTermuxArch.sh --install installdir`.  All options can be abbreviated to one or two letters.  Hence `./setupTermuxArch.sh --install installdir` can be run as `./setupTermuxArch.sh i installdir` in BASH.
 elif [[ $1 = [Ii]* ]] || [[ $1 = -[Ii]* ]] || [[ $1 = --[Ii]* ]] ||  [[ $1 = [Rr][Oo]* ]] || [[ $1 = -[Rr][Oo]* ]] || [[ $1 = --[Rr][Oo]* ]];then
 	arg2dir 
 	intro 
 	mainblock
-# [run] Run local copy of TermuxArch from TermuxArchBloom.  Useful for running modified copy of TermuxArch locally.  
+# [run] Run local copy of TermuxArch from TermuxArchBloom.  Useful for running customized TermuxArch locally.  
 elif [[ $1 = [Rr]* ]] || [[ $1 = -[Rr]* ]] || [[ $1 = --[Rr]* ]];then
 	runobloom 
 # [] Run default Arch Linux install.
