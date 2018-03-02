@@ -30,7 +30,7 @@ copybin2path ()
 		printf "\n"
 		break
 	else
-		printf "\n\033[0;34m 🕛 > 🕚 \033[0mYou answered \033[33;1m$answer\033[0m.\n\n\033[0;34m 🕛 > 🕚 \033[0mAnswer yes or no [y|n]\n\n"
+		printf "\n\033[0;34m 🕛 > 🕚 \033[0mYou answered \033[33;1m$answer\033[0m.\n\n\033[0;34m 🕛 > 🕚 \033[0mAnswer yes or no [Y|n]\n\n"
 	fi
 	done
 }
@@ -180,7 +180,7 @@ runfinishsetup ()
 	if [[ $ed = "" ]];then
 		editors 
 	fi
-	sed -i '1i# TermuxArch vi instructions:  Use the hjkl keys to navigate. \n# Numbers are multipliers.  12j then i will open insert mode in vi for the Geo-IP mirror.\n# Enter # to comment out this line.\n# Use ESC to return to command mode.\n# After locating a local mirror, use x to delete # to uncomment the mirror.\n# Choose only one mirror.  Use :x to save and finish your work after choosing only one local mirror.\n# ' $HOME$rootdir/etc/pacman.d/mirrorlist
+	sed -i '1i# TermuxArch vi instructions:\n# Use the hjkl keys to navigate. <h down j up k l>\n# Numbers are multipliers.\n# 18j then i will open insert mode in vi for the Geo-IP mirror.\n# Enter # to comment out this line.\n# Use ESC to return to command mode.\n# Long tap KEYBOARD in the side pane if you do not see ESC.\n#After locating a local mirror, use x to delete # uncommenting the mirror.\n# Choose only one mirror.\n# Use :x to save and finish your work.\n# ' $HOME$rootdir/etc/pacman.d/mirrorlist
 	$ed $HOME$rootdir/etc/pacman.d/mirrorlist
 	while true; do
 		printf "\n\033[0;32mWould you like to run \033[1;32mlocale-gen\033[0;32m to generate the en_US.UTF-8 locale, or edit \033[1;32m/etc/locale.gen\033[0;32m specifying your preferred language(s) before running \033[1;32mlocale-gen\033[0;32m?  "
@@ -201,8 +201,8 @@ runfinishsetup ()
 runfinishsetupq ()
 {
 	while true; do
-		printf "\n\033[0;32mWould you like to run \033[1;32mfinishsetup.sh\033[0;32m to complete the Arch Linux configuration now, or at a later time?  \033[1;32mNow is recommended\033[0;32m; "
-		read -p "Answer yes for now [Y|n] " nl
+		printf "\n\033[0;32mWould you like to run \033[1;32mfinishsetup.sh\033[0;32m to complete the Arch Linux configuration and update now, or at a later time?  \033[1;32mNow is recommended\033[0;32m; "
+		read -p "Answer yes to complete, or no for later [Y|n] " nl
 	if [[ $nl = [Yy]* ]] || [[ $nl = "" ]];then
 		runfinishsetup 
 		break
@@ -211,7 +211,7 @@ runfinishsetupq ()
 		break
 	else
 		printf "\nYou answered \033[1;36m$nl\033[1;32m.\n"
-		printf "\nAnswer yes for now [Y|n]\n"
+		printf "\nAnswer yes to complete, or no for later [Y|n]\n"
 	fi
 	done
 	printf "\n"
