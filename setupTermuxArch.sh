@@ -659,7 +659,7 @@ bin=startarch
 dmverbose="-q"
 #dmverbose="-v"
 stime=`date +%s|grep -o '....$'`
-versionid="v0.9"
+versionid="v0.9.1"
 
 setrootdir 
 
