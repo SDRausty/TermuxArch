@@ -62,6 +62,27 @@ detectsystem2 ()
 	fi
 }
 
+lkernid ()
+{
+	ur="$($PREFIX/bin/applets/uname -r)"
+	declare -g kid=0
+	declare -i KERNEL_VERSION=$(echo $ur |awk -F'.' '{print $1}')
+	declare -i MAJOR_REVISION=$(echo $ur |awk -F'.' '{print $2}')
+	declare -i MINOR_REVISION=$(echo $ur |awk -F'.' '{print $3}' | awk -F'-' '{print $1}')
+	if [ "$KERNEL_VERSION" -le 2 ]; then
+		kid=1
+	else
+		if [ "$KERNEL_VERSION" -eq 3 ]; then
+			if [ "$MAJOR_REVISION" -lt 2 ]; then
+				kid=1
+			else
+				if [ "$MAJOR_REVISION" -eq 2 ] && [ $MINOR_REVISION -eq 0 ]; then
+					kid=1
+				fi
+			fi
+		fi
+	fi
+}
 mainblock ()
 { 
 	rmarchq
@@ -116,8 +137,16 @@ makesetupbin ()
 	cat > root/bin/setupbin.sh <<- EOM
 	#!$PREFIX/bin/bash -e
 	unset LD_PRELOAD
-	exec proot --kernel-release=4.14.15 --link2symlink -0 -r $HOME$rootdir/ -b /dev/ -b /sys/ -b /proc/ -b /storage/ -b $HOME -w $HOME /bin/env -i HOME=/root TERM="$TERM" PS1='[termux@arch \W]\$ ' LANG=$LANG PATH=/bin:/usr/bin:/sbin:/usr/sbin $HOME$rootdir/root/bin/finishsetup.sh
 	EOM
+	if [ "$kid" -eq 1 ]; then
+		cat >> root/bin/setupbin.sh <<- EOM
+		exec proot --kernel-release=4.14.15 --link2symlink -0 -r $HOME$rootdir/ -b /dev/ -b /sys/ -b /proc/ -b /storage/ -b $HOME -w $HOME /bin/env -i HOME=/root TERM="$TERM" PS1='[termux@arch \W]\$ ' LANG=$LANG PATH=/bin:/usr/bin:/sbin:/usr/sbin $HOME$rootdir/root/bin/finishsetup.sh
+		EOM
+	else
+		cat >> root/bin/setupbin.sh <<- EOM
+		exec proot --link2symlink -0 -r $HOME$rootdir/ -b /dev/ -b /sys/ -b /proc/ -b /storage/ -b $HOME -w $HOME /bin/env -i HOME=/root TERM="$TERM" PS1='[termux@arch \W]\$ ' LANG=$LANG PATH=/bin:/usr/bin:/sbin:/usr/sbin $HOME$rootdir/root/bin/finishsetup.sh
+		EOM
+	fi
 	chmod 700 root/bin/setupbin.sh
 }
 
@@ -126,8 +155,16 @@ makestartbin ()
 	cat > $bin <<- EOM
 	#!$PREFIX/bin/bash -e
 	unset LD_PRELOAD
-	exec proot --kernel-release=4.14.15 --link2symlink -0 -r $HOME$rootdir/ -b /dev/ -b /sys/ -b /proc/ -b /storage/ -b $HOME -w $HOME /bin/env -i HOME=/root TERM="$TERM" PS1='[termux@arch \W]\$ ' LANG=$LANG PATH=/bin:/usr/bin:/sbin:/usr/sbin /bin/bash --login
 	EOM
+	if [ "$kid" -eq 1 ]; then
+		cat >> $bin <<- EOM
+		exec proot --kernel-release=4.14.15 --link2symlink -0 -r $HOME$rootdir/ -b /dev/ -b /sys/ -b /proc/ -b /storage/ -b $HOME -w $HOME /bin/env -i HOME=/root TERM="$TERM" PS1='[termux@arch \W]\$ ' LANG=$LANG PATH=/bin:/usr/bin:/sbin:/usr/sbin /bin/bash --login
+		EOM
+	else
+		cat >> $bin <<- EOM
+		exec proot --link2symlink -0 -r $HOME$rootdir/ -b /dev/ -b /sys/ -b /proc/ -b /storage/ -b $HOME -w $HOME /bin/env -i HOME=/root TERM="$TERM" PS1='[termux@arch \W]\$ ' LANG=$LANG PATH=/bin:/usr/bin:/sbin:/usr/sbin /bin/bash --login
+		EOM
+fi
 	chmod 700 $bin
 }
 
