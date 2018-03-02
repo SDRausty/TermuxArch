@@ -107,6 +107,7 @@ makefinishsetup ()
 	locale-gen ||:
 	printf "\n"
 	tzselect
+	printf "\r"
 	printf '\033]2; 🕛 > 🕙 Arch Linux in Termux is installed and configured.  📲  \007'
 	EOM
 	chmod 770 root/bin/finishsetup.sh 
