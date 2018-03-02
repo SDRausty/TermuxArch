@@ -24,7 +24,7 @@ copybin2path ()
 	read -p "Answer yes or no [Y|n] " answer
 	if [[ $answer = [Yy]* ]] || [[ $answer = "" ]];then
 		cp $HOME$rootdir/$bin $BPATH
-		printf "\n\033[0;34m 🕛 > 🕦 \033[0mCopied \033[1m$bin\033[0m to \033[1m$PREFIX/bin\033[0m.\n\n"
+		printf "\n\033[0;34m 🕛 > 🕦 \033[0mCopied \033[1m$bin\033[0m to \033[1m$BPATH\033[0m.\n\n"
 		break
 	elif [[ $answer = [Nn]* ]] || [[ $answer = [Qq]* ]];then
 		printf "\n"
