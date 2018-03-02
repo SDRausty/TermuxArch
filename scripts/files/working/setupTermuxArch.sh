@@ -663,7 +663,6 @@ versionid="v0.9"
 
 setrootdir 
 
-# `bash setupTermuxArch.sh --options` 
 # [curl debug|curl sysinfo] Get device system information using `curl`.
 if [[ $1 = [Cc][Dd]* ]] || [[ $1 = -[Cc][Dd]* ]] || [[ $1 = --[Cc][Dd]* ]] || [[ $1 = [Cc][Ss]* ]] || [[ $1 = -[Cc][Ss]* ]] || [[ $1 = --[Cc][Ss]* ]];then
 	dm=curl
