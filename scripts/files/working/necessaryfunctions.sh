@@ -202,8 +202,8 @@ runfinishsetup ()
 runfinishsetupq ()
 {
 	while true; do
-		printf "\n\033[0;32mWould you like to run \033[1;32mfinishsetup.sh\033[0;32m to complete the Arch Linux configuration and update now, or at a later time?  \033[1;32mNow is recommended\033[0;32m; "
-		read -p "Answer yes to complete the Arch Linux configuration and update, or no for later [Y|n] " nl
+		printf "\n\033[0;32mWould you like to run \033[1;32mfinishsetup.sh\033[0;32m to complete the Arch Linux configuration and update now, or at a later time?  \033[1;32mNow is recommended.  \033[0;32m"
+		read -p "Answer yes to complete the Arch Linux configuration and update now; Or answer no for later [Y|n] " nl
 	if [[ $nl = [Yy]* ]] || [[ $nl = "" ]];then
 		runfinishsetup 
 		break
