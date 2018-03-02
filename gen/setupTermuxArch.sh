@@ -93,7 +93,7 @@ depends ()
 	if [[ $dm = curl ]] || [[ $dm = wget ]];then
 		curlifdm 
 		wgetifdm 
-	elif [ -e $PREFIX/bin/curl ] || [ -e $PREFIX/bin/wget ];then
+	elif [ -x $PREFIX/bin/curl ] || [ -x $PREFIX/bin/wget ];then
 		if [ -x $PREFIX/bin/curl ];then
 			dm=curl 
 		fi
@@ -105,7 +105,7 @@ depends ()
 		curlif  
 		dm=curl 
 	fi
-	dependsa 
+	dependsx 
 	printf "\n\033[0;34m 🕛 > 🕧 \033[1;34mPrerequisites: \033[1;32mOK  \033[1;34mDownloading TermuxArch…\n\n\033[0;32m"
 }
 
@@ -120,7 +120,7 @@ dependsblock ()
 	chk
 }
 
-dependsa ()
+dependsx ()
 {
 	if [ $(getprop ro.product.cpu.abi) = x86 ] || [ $(getprop ro.product.cpu.abi) = x86_64 ];then
 		bsdtarif 
@@ -659,7 +659,7 @@ dfl=/gen
 dmverbose="-q"
 #dmverbose="-v"
 stime=`date +%s|grep -o '....$'`
-versionid="gen.v0.9 id820852641"
+versionid="gen.v0.9 id613843683"
 
 setrootdir 
 
