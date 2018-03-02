@@ -105,7 +105,7 @@ depends ()
 		curlif  
 		dm=curl 
 	fi
-	dependsx 
+	dependbp 
 	printf "\n\033[0;34m 🕛 > 🕧 \033[1;34mPrerequisites: \033[1;32mOK  \033[1;34mDownloading TermuxArch…\n\n\033[0;32m"
 }
 
@@ -120,7 +120,7 @@ dependsblock ()
 	chk
 }
 
-dependsx ()
+dependbp ()
 {
 	if [ $(getprop ro.product.cpu.abi) = x86 ] || [ $(getprop ro.product.cpu.abi) = x86_64 ];then
 		bsdtarif 
@@ -685,7 +685,7 @@ elif [[ $1 = [Ww]* ]] || [[ $1 = -[Ww]* ]] || [[ $1 = --[Ww]* ]] || [[ $1 = [Ww]
 	opt2 $args 
 	intro 
 	mainblock
-# [bloom] Create local copy of TermuxArch in TermuxArchBloom.  Useful for hacking and modifying TermuxArch.  
+# [bloom] Create local copy of TermuxArch in TermuxArchBloom.  Useful for hacking and customizing TermuxArch.  
 elif [[ $1 = [Bb]* ]] || [[ $1 = -[Bb]* ]] || [[ $1 = --[Bb]* ]];then
 	dependsblock
 	obloom
