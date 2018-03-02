@@ -30,7 +30,7 @@
 
 [EsdrasTarsis](https://github.com/EsdrasTarsis) contributed insightful comments regarding `pacman-key` https://github.com/sdrausty/TermuxArch/issues/28 Result: setupTermuxArch.sh improved!
 
-[fornwall](https://github.com/fornwall) contributed: Created Termux...pushed wget v1.19.4 fixing wget v1.19.3 errors immediatly...  Result: setupTermuxArch.sh improved!
+[fornwall](https://github.com/fornwall) contributed: Created Termux, Termux PRoot… Pushed wget v1.19.4 fixing wget v1.19.3 errors immediatly…  Result: setupTermuxArch.sh improved!
 
 [Hax4us](https://github.com/Hax4us) provided insight regarding open issues. Submitted pull request.  Result: setupTermuxArch.sh improved! 
 
@@ -39,6 +39,8 @@
 [imdaveho](https://github.com/imdaveho) helped debug Chromebook.  Result: setupTermuxArch.sh improved!
 
 jlam: contributed `getprop ro.product.device` Chromebook detection, `getprop ro.product.cpu.abi`, polite KISS, program flow suggestions.  Result: setupTermuxArch.sh improved! 
+
+[michalbednarski](https://github.com/michalbednarski) contributed Termux PRoot and PRoot insight.  
 
 [mjskoneg](https://github.com/mjskoneg) submitted issues.  Result: setupTermuxArch.sh improved! 
 

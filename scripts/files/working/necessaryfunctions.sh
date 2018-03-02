@@ -183,7 +183,7 @@ runfinishsetup ()
 	sed -i '1i# TermuxArch vi instructions:\n# Use the hjkl keys to navigate. <h down j up k l>\n# Numbers are multipliers.\n# 17j then i will open insert mode in vi for the Geo-IP mirror.\n# Enter # to comment out this line.\n# Use ESC to return to command mode.\n# Long tap KEYBOARD in the side pane if you do not see ESC.\n#After locating a local mirror, use x to delete # uncommenting the mirror.\n# Choose only one mirror.\n# Use :x to save and finish your work.\n# ' $HOME$rootdir/etc/pacman.d/mirrorlist
 	$ed $HOME$rootdir/etc/pacman.d/mirrorlist
 	while true; do
-		printf "\n\033[0;32mWould you like to run \033[1;32mlocale-gen\033[0;32m to generate the en_US.UTF-8 locale, or edit \033[1;32m/etc/locale.gen\033[0;32m specifying your preferred language(s) before running \033[1;32mlocale-gen\033[0;32m?  "
+		printf "\033[0;32mWould you like to run \033[1;32mlocale-gen\033[0;32m to generate the en_US.UTF-8 locale, or edit \033[1;32m/etc/locale.gen\033[0;32m specifying your preferred language(s) before running \033[1;32mlocale-gen\033[0;32m?  "
 		read -p "Answer yes to run [Y|e] " ye
 	if [[ $ye = [Yy]* ]] || [[ $ye = "" ]];then
 		break
@@ -202,12 +202,12 @@ runfinishsetupq ()
 {
 	while true; do
 		printf "\n\033[0;32mWould you like to run \033[1;32mfinishsetup.sh\033[0;32m to complete the Arch Linux configuration and update now, or at a later time?  \033[1;32mNow is recommended\033[0;32m; "
-		read -p "Answer yes to complete, or no for later [Y|n] " nl
+		read -p "Answer yes to complete the Arch Linux configuration and update, or no for later [Y|n] " nl
 	if [[ $nl = [Yy]* ]] || [[ $nl = "" ]];then
 		runfinishsetup 
 		break
 	elif [[ $nl = [Nn]* ]];then
-		printf "\n\033[0;32mSet the geographically nearby mirror in \033[1;32m/etc/pacman.d/mirrorlist\033[0;32m first.  Then use \033[1;32m$HOME$rootdir/root/bin/setupbin.sh\033[0;32m in Termux to run \033[1;32mfinishsetup.sh\033[0;32m or simply \033[1;32mfinishsetup.sh\033[0;32m in Arch Linux Termux PRoot."
+		printf "\n\033[0;32mSet the geographically nearby mirror in \033[1;32m/etc/pacman.d/mirrorlist\033[0;32m first.  Then use \033[1;32m$HOME$rootdir/root/bin/setupbin.sh\033[0;32m in Termux to run \033[1;32mfinishsetup.sh\033[0;32m or simply \033[1;32mfinishsetup.sh\033[0;32m in Arch Linux Termux PRoot to complete the Arch Linux configuration and update."
 		break
 	else
 		printf "\nYou answered \033[1;36m$nl\033[1;32m.\n"
