@@ -183,7 +183,7 @@ runfinishsetup ()
 	$ed $HOME$rootdir/etc/pacman.d/mirrorlist
 	while true; do
 		printf "\n\033[0;32mWould you like to run \033[1;32mlocale-gen\033[0;32m to generate the en_US.UTF-8 locale, or edit \033[1;32m/etc/locale.gen\033[0;32m specifying your preferred language(s) before running \033[1;32mlocale-gen\033[0;32m?  "
-		read -p "Answer yes to run [Y|e] " ye
+		read -p "Answer yes to run, or edit to edit the file [Y|e] " ye
 	if [[ $ye = [Yy]* ]] || [[ $ye = "" ]];then
 		break
 	elif [[ $ye = [Ee]* ]] || [[ $ye = [Nn]* ]];then
@@ -191,7 +191,7 @@ runfinishsetup ()
 		break
 	else
 		printf "\nYou answered \033[1;36m$ye\033[1;32m.\n"
-		printf "\nAnswer yes to run [Y|e]\n"
+		printf "\nAnswer yes to run, or edit to edit the file [Y|e]\n"
 	fi
 	done
 	$HOME$rootdir/root/bin/setupbin.sh 

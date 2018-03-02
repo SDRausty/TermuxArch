@@ -16,7 +16,7 @@
 
 ## Contributions have helped in the successful development of this script and project immensely.  The following contributors have helped to refine [setupTermuxArch.sh](https://raw.githubusercontent.com/sdrausty/TermuxArch/master/setupTermuxArch.tar.gz) 📲 __Thank you for contributing and collaborating!__  
 
-[AccountsDept](https://github.com/accountsdept) submitted an issue, "Every Mirror Returning 404".  Result: setupTermuxArch.sh improved!
+[AccountsDept](https://github.com/accountsdept) submitted an issue, "Every Mirror Returning 404".  Result: setupTermuxArch.sh instructions improved!
 
 [BearChavez](https://github.com/BearChavez) submitted an issue.  Result: setupTermuxArch.sh improved!
 
@@ -54,12 +54,12 @@ jlam: contributed `getprop ro.product.device` Chromebook detection, `getprop ro.
 
 [tomty89](https://github.com/tomty89) commented on issue 37 at [https://github.com/sdrausty/TermuxArch/issues/37](https://github.com/sdrausty/TermuxArch/issues/37) No such file or directory when setting Arch Linux up in Termux PRoot.  Helped debug `curl`, `proot bsdtar` and other script statements.  Result: [https://github.com/sdrausty/dfa](https://github.com/sdrausty/dfa) created and setupTermuxArch.sh improved!
 
-[Ublimjo](https://github.com/Ublimjo) submitted issue 37 at [https://github.com/sdrausty/TermuxArch/issues/37](https://github.com/sdrausty/TermuxArch/issues/37) No such or file directory when setting Arch Linux up in Termux PRoot and commented.  Result: [https://github.com/sdrausty/dfa](https://github.com/sdrausty/dfa) created and setupTermuxArch.sh improved!
+[Ublimjo](https://github.com/Ublimjo) submitted issue 37 at [https://github.com/sdrausty/TermuxArch/issues/37](https://github.com/sdrausty/TermuxArch/issues/37) No such or file directory when setting Arch Linux up in Termux PRoot and commented.  Result: [https://github.com/sdrausty/dfa](https://github.com/sdrausty/dfa) created and setupTermuxArch.sh improved!  TermuxArch space warnings added.
 
 [vishalbiswas](https://github.com/vishalbiswas) contributed: `export LD_PRELOAD=$PREFIX/lib/libtermux-exec.so`.  Result: setupTermuxArch.sh improved!
 
 [wulvyrn](https://github.com/wulvyrn) contributed: `pacman -S rng-tools`, `rngd -r /dev/urandom` to resolve `pacman-key --init` in issues #28, #33 and #46. 
 
-[xeffyr](https://github.com/Xeffyr) contributed: debugging wget v1.19.3 errors and insight into PRoot.  Result: setupTermuxArch.sh improved!
+[xeffyr](https://github.com/Xeffyr) contributed: debugging wget v1.19.3 errors and insight into PRoot, `exec proot --kernel-release=4.14.15 ...`  Result: setupTermuxArch.sh improved!
 
 Thank you for making this project work better and please contribute 🔆  See [Notice to Contributors](NOTICE) for information.  See [PRoot](docs/PRoot) for more information about Linux on device with Termux.
