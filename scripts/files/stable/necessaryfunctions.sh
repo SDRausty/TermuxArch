@@ -181,6 +181,7 @@ runfinishsetup ()
 	if [[ $ed = "" ]];then
 		editors 
 	fi
+	sed -i '1i# TermuxArch vi instructions:  Use the hjkl keys to navigate. \n# Numbers are multipliers.  6j then dd will delete the worldwide mirror configuration.\n# Alternatively 6j then i will open insert mode in vi.  Use ESC to return to command mode.\n# After locating a local mirror, use x to delete # uncommenting the setting.\n# Choose only one mirror.  Use :x to save and finish after choosing one local mirror.\n#' $HOME$rootdir/etc/pacman.d/mirrorlist
 	$ed $HOME$rootdir/etc/pacman.d/mirrorlist
 	while true; do
 		printf "\n\033[0;32mWould you like to run \033[1;32mlocale-gen\033[0;32m to generate the en_US.UTF-8 locale, or edit \033[1;32m/etc/locale.gen\033[0;32m specifying your preferred language(s) before running \033[1;32mlocale-gen\033[0;32m?  "
