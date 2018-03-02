@@ -44,7 +44,7 @@ printdownloadingx86two ()
 
 printdownloadingftch ()
 {
-	printf "\033[0;34m 🕛 > 🕓 \033[1;34mDownloading \033[0;32m$file \033[1;34mfrom geographically local mirror \033[0;32m$nmirror\033[1;34m.  \033[1;37mThis may take a long time pending Internet connection.  \033[1;34mIf the geographically local mirror is unresponsive, run \033[0;32mbash setupTermuxArch.sh\033[1;34m again.  Should the worldwide mirror not hand off a new geographically nearby server after subsequent attempts, use \033[0;32mbash setupTermuxArch.sh --manual\033[1;34m; See \033[0;32mbash setupTermuxArch.sh --help \033[1;34mfor additional information.\n\n\033[0;32m"'\033]2; 🕛 > 🕓 Downloading the checksum and Arch Linux system image file…  \007'
+	printf "\033[0;34m 🕛 > 🕓 \033[1;34mDownloading \033[0;32m$file \033[1;34mfrom geographically local mirror \033[0;32m$nmirror\033[1;34m.  \033[1;37mThis may take a long time pending Internet connection.  \033[1;34mIf the geographically local mirror is unresponsive, run \033[0;32mbash setupTermuxArch.sh\033[1;34m again.  Should the worldwide mirror not provide a new geographically nearby server after a couple of attempts, use \033[0;32mbash setupTermuxArch.sh --manual\033[1;34m; See \033[0;32mbash setupTermuxArch.sh --help \033[1;34mfor additional information.\n\n\033[0;32m"'\033]2; 🕛 > 🕓 Downloading the checksum and Arch Linux system image file…  \007'
 }
 
 printdownloadingftchit ()
@@ -70,7 +70,7 @@ printmd5error ()
 
 printmd5success ()
 {
-	printf '\033]2;  🕛 > 🕡 Uncompressing the image file…  This will take a long time; Be patient.\007'"\033[0;34m 🕛 > 🕕 \033[1;34mSystem image file download integrity: \033[1;32mOK\n\n\033[0;34m 🕛 > 🕡 \033[1;34mUncompressing \033[0;32m$file\033[1;34m into \033[0;32m$HOME$rootdir\033[1;34m.  \033[1;37mThis will take a long time; Be patient.  \033[1;34mIf curiosity prevails, use \033[0;36mdf\033[1;34m, \033[0;36mdu -hs\033[1;34m, \033[0;36mtop\033[1;34m and \033[0;36mwatch\033[1;34m in a new Termux session while this session completes…\n\033[0m"
+	printf '\033]2;  🕛 > 🕡 Uncompressing the image file…  This will take a long time; Be patient.\007'"\033[0;34m 🕛 > 🕕 \033[1;34mSystem image file download integrity: \033[1;32mOK\n\n\033[0;34m 🕛 > 🕡 \033[1;34mUncompressing \033[0;32m$file\033[1;34m into \033[0;32m$HOME$rootdir\033[1;34m.  \033[1;37mThis will take a long time; Be patient.  \033[1;34mUse \033[0;36mdf\033[1;34m, \033[0;36mdu -hs\033[1;34m, \033[0;36mps\033[1;34m, \033[0;36mtop\033[1;34m and \033[0;36mwatch\033[1;34m in a new Termux session to watch while this session completes if desired…\n\033[0m"
 }
 
 printmismatch ()

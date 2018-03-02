@@ -181,10 +181,10 @@ runfinishsetup ()
 	if [[ $ed = "" ]];then
 		editors 
 	fi
-	sed -i '1i# TermuxArch vi instructions:\n# Use the hjkl keys to navigate. <h down j up k l>\n# Numbers are multipliers.\n# 17j then i will open insert mode in vi for the Geo-IP mirror.\n# Enter # to comment out this line.\n# Use ESC to return to command mode.\n# Long tap KEYBOARD in the side pane if you do not see ESC.\n#After locating a local mirror, use x to delete # uncommenting the mirror.\n# Choose only one mirror.\n# Use :x to save and finish your work.\n# ' $HOME$rootdir/etc/pacman.d/mirrorlist
+	sed -i '1i# TermuxArch vi instructions:\n# Use the hjkl keys to navigate. <h down j up k l>\n# Numbers are multipliers.\n# 15j then i will open insert mode in vi for the Geo-IP mirror.\n# Enter # to comment out this line.\n# Use ESC to return to command mode.\n# Long tap KEYBOARD in the side pane if you do not see ESC.\n#After locating a local mirror, use x to delete # uncommenting the mirror.\n# Choose only one mirror.  Use :x to save and finish your work.' $HOME$rootdir/etc/pacman.d/mirrorlist
 	$ed $HOME$rootdir/etc/pacman.d/mirrorlist
 	while true; do
-		printf "\033[0;32mWould you like to run \033[1;32mlocale-gen\033[0;32m to generate the en_US.UTF-8 locale, or edit \033[1;32m/etc/locale.gen\033[0;32m specifying your preferred language(s) before running \033[1;32mlocale-gen\033[0;32m?  "
+		printf "\n\033[0;32mWould you like to run \033[1;32mlocale-gen\033[0;32m to generate the en_US.UTF-8 locale, or edit \033[1;32m/etc/locale.gen\033[0;32m specifying your preferred language(s) before running \033[1;32mlocale-gen\033[0;32m?  "
 		read -p "Answer yes to run [Y|e] " ye
 	if [[ $ye = [Yy]* ]] || [[ $ye = "" ]];then
 		break
