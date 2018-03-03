@@ -84,7 +84,7 @@ lkernid ()
 	fi
 }
 
-lkernid
+#lkernid
 
 mainblock ()
 { 
