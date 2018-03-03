@@ -89,16 +89,6 @@ adddfa ()
 	chmod 770 root/bin/dfa 
 }
 
-addprofile ()
-{
-	cat > root/.profile <<- EOM
-	. \$HOME/.bash_profile
-	EOM
-	if [ -e $HOME/.profile ] ; then
-		grep "proxy" $HOME/.profile |grep "export" >>  root/.profile 2>/dev/null||:
-	fi
-}
-
 addga ()
 {
 	cat > root/bin/ga  <<- EOM
@@ -170,9 +160,20 @@ addgp ()
 	chmod 700 root/bin/gp 
 }
 
+addkey ()
+{
+	cat > root/bin/addkey <<- EOM
+	#!/bin/bash -e
+	pacman-key --init ||:
+	echo disable-scdaemon > /etc/pacman.d/gnupg/gpg-agent.conf ||:
+	pacman-key --populate archlinux ||:
+	EOM
+	chmod 700 root/bin/addkey
+}
+
 addmotd ()
 {
-	cat > etc/motd  <<- EOM
+cat > etc/motd  <<- EOM
 	printf "\033[1;34mWelcome to Arch Linux in Termux!  Enjoy!\033[0m\033[1;34m
 	
 	Chat:    \033[0m\033[mhttps://gitter.im/termux/termux/\033[0m\033[1;34m
@@ -184,6 +185,16 @@ addmotd ()
 	Search   packages: \033[0m\033[34mpacman -Ss <query>\033[0m\033[1;34m
 	Upgrade  packages: \033[0m\033[34mpacman -Syu \n\033[0m"
 	EOM
+}
+
+addprofile ()
+{
+	cat > root/.profile <<- EOM
+	. \$HOME/.bash_profile
+	EOM
+	if [ -e $HOME/.profile ] ; then
+		grep "proxy" $HOME/.profile |grep "export" >>  root/.profile 2>/dev/null||:
+	fi
 }
 
 addresolvconf ()

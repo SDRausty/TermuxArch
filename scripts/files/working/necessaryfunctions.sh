@@ -138,9 +138,6 @@ makefinishsetup ()
 	printf '\033]2; 🕛 > 🕙 Arch Linux in Termux is installed and configured.  📲  \007'
 	EOM
 	chmod 770 root/bin/finishsetup.sh 
-#		pacman-key --init ||:
-#		echo disable-scdaemon > /etc/pacman.d/gnupg/gpg-agent.conf ||:
-#		pacman-key --populate ||:
 }
 
 makesetupbin ()
@@ -288,6 +285,7 @@ touchupsys ()
 	addgcm
 	addgp
 	addgpl
+	addkey 
 	addmotd
 	addprofile 
 	addresolvconf 
