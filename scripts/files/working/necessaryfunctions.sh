@@ -74,7 +74,7 @@ lkernid ()
 		kid=1
 	else
 		if [ "$KERNEL_VERSION" -eq 3 ]; then
-			if [ "$MAJOR_REVISION" -lt 22 ]; then
+			if [ "$MAJOR_REVISION" -lt 2 ]; then
 				kid=1
 			else
 				if [ "$MAJOR_REVISION" -eq 2 ] && [ $MINOR_REVISION -eq 0 ]; then
