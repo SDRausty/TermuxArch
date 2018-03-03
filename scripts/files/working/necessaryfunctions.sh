@@ -125,16 +125,13 @@ makefinishsetup ()
 	if [ $(getprop ro.product.cpu.abi) = x86 ] || [ $(getprop ro.product.cpu.abi) = x86_64 ];then
 		if [ $(getprop ro.product.cpu.abi) = x86 ];then
 			pacman -Syy sed archlinux32-keyring-transition --noconfirm ||:
-			pacman-key --init
 			echo disable-scdaemon > /etc/pacman.d/gnupg/gpg-agent.conf
 		else
 			pacman -Syy sed archlinux-keyring --noconfirm ||:
-			pacman-key --init
 			echo disable-scdaemon > /etc/pacman.d/gnupg/gpg-agent.conf
 		fi
 	else
 		pacman -Syy archlinux-keyring --noconfirm ||:
-		pacman-key --init
 		echo disable-scdaemon > /etc/pacman.d/gnupg/gpg-agent.conf
 	fi
 	printf "\n"
@@ -144,6 +141,7 @@ makefinishsetup ()
 	printf '\033]2; 🕛 > 🕙 Arch Linux in Termux is installed and configured.  📲  \007'
 	EOM
 	chmod 770 root/bin/finishsetup.sh 
+#		pacman-key --init
 #		pacman-key --populate
 }
 
