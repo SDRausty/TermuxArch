@@ -83,6 +83,9 @@ lkernid ()
 		fi
 	fi
 }
+
+lkernid
+
 mainblock ()
 { 
 	rmarchq

@@ -661,7 +661,6 @@ dmverbose="-q"
 stime=`date +%s|grep -o '....$'`
 versionid="v0.9.1"
 
-lkernid
 setrootdir 
 
 # [curl debug|curl sysinfo] Get device system information using `curl`.
