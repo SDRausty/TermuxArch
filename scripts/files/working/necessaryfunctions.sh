@@ -123,8 +123,14 @@ makefinishsetup ()
 	cat >> root/bin/$binfs <<- EOM
 	printf "\n"
 	if [ $(getprop ro.product.cpu.abi) = x86 ] || [ $(getprop ro.product.cpu.abi) = x86_64 ];then
+		pacman-key --init
+		echo disable-scdaemon > /etc/pacman.d/gnupg/gpg-agent.conf
+		pacman-key --populate
 		pacman -Syu sed --noconfirm ||:
 	else
+		pacman-key --init
+		echo disable-scdaemon > /etc/pacman.d/gnupg/gpg-agent.conf
+		pacman-key --populate
 		pacman -Syu --noconfirm ||:
 	fi
 	printf "\n"

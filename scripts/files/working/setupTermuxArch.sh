@@ -90,16 +90,13 @@ curlifdm ()
 depends ()
 {
 	printf "\033[1;34mChecking prerequisites…\n\033[1;32m"
-	if [[ $dm = curl ]] || [[ $dm = wget ]];then
-		curlifdm 
-		wgetifdm 
-	elif [ -x $PREFIX/bin/curl ] || [ -x $PREFIX/bin/wget ];then
-		if [ -x $PREFIX/bin/curl ];then
-			dm=curl 
-		fi
-		if [ -x $PREFIX/bin/wget ];then
-			dm=wget 
-		fi
+	curlifdm 
+	wgetifdm 
+	if [ -x $PREFIX/bin/curl ];then
+		dm=curl 
+	fi
+	if [ -x $PREFIX/bin/wget ];then
+		dm=wget 
 	fi
 	if [[ $dm = "" ]];then
 		curlif  
@@ -653,13 +650,13 @@ wgetif ()
 
 args=$@
 bin=startarch
-#dfl=/gen
+dfl=/gen
 #dm=curl
 #dm=wget
 dmverbose="-q"
 #dmverbose="-v"
 stime=`date +%s|grep -o '....$'`
-versionid="v0.9.2"
+versionid="gen.v0.9.2 id637566367"
 
 setrootdir 
 
