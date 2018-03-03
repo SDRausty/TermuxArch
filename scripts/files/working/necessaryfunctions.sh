@@ -125,11 +125,20 @@ makefinishsetup ()
 	if [ $(getprop ro.product.cpu.abi) = x86 ] || [ $(getprop ro.product.cpu.abi) = x86_64 ];then
 		if [ $(getprop ro.product.cpu.abi) = x86 ];then
 			pacman -Syu sed archlinux32-keyring --noconfirm ||:
+			pacman-key --init
+			echo disable-scdaemon > /etc/pacman.d/gnupg/gpg-agent.conf
+			pacman-key --populate
 		else
 			pacman -Syu sed archlinux-keyring --noconfirm ||:
+			pacman-key --init
+			echo disable-scdaemon > /etc/pacman.d/gnupg/gpg-agent.conf
+			pacman-key --populate
 		fi
 	else
 		pacman -Syu archlinux-keyring --noconfirm ||:
+		pacman-key --init
+		echo disable-scdaemon > /etc/pacman.d/gnupg/gpg-agent.conf
+		pacman-key --populate
 	fi
 	printf "\n"
 	locale-gen ||:
