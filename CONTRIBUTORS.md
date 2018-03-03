@@ -62,6 +62,6 @@ jlam: contributed `getprop ro.product.device` Chromebook detection, `getprop ro.
 
 [wulvyrn](https://github.com/wulvyrn) contributed: `pacman -S rng-tools`, `rngd -r /dev/urandom` to resolve `pacman-key --init` in issues #28, #33 and #46. 
 
-[xeffyr](https://github.com/Xeffyr) contributed: debugging wget v1.19.3 errors and insight into PRoot, `exec proot --kernel-release=4.14.15 ...`  Result: setupTermuxArch.sh improved!  Contributed standard output terminal benchmark information.  Result: `stdoutbench.sh` created.
+[xeffyr](https://github.com/Xeffyr) contributed: debugging wget v1.19.3 errors and insight into PRoot, suggested and outlined backwards compatiblity for 3.2.0 kernels and earlier via `exec proot --kernel-release=4.14.15 ...`  Result: setupTermuxArch.sh improved!  Contributed standard output terminal benchmark information.  Result: `stdoutbench.sh` created.
 
 Thank you for making this project work better and please contribute 🔆  See [Notice to Contributors](NOTICE) for information.  See [PRoot](docs/PRoot) for more information about Linux on device with Termux.
