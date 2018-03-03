@@ -127,18 +127,15 @@ makefinishsetup ()
 			pacman -Syy sed archlinux32-keyring-transition --noconfirm ||:
 			pacman-key --init
 			echo disable-scdaemon > /etc/pacman.d/gnupg/gpg-agent.conf
-			pacman-key --populate
 		else
 			pacman -Syy sed archlinux-keyring --noconfirm ||:
 			pacman-key --init
 			echo disable-scdaemon > /etc/pacman.d/gnupg/gpg-agent.conf
-			pacman-key --populate
 		fi
 	else
 		pacman -Syy archlinux-keyring --noconfirm ||:
 		pacman-key --init
 		echo disable-scdaemon > /etc/pacman.d/gnupg/gpg-agent.conf
-		pacman-key --populate
 	fi
 	printf "\n"
 	locale-gen ||:
@@ -147,6 +144,7 @@ makefinishsetup ()
 	printf '\033]2; 🕛 > 🕙 Arch Linux in Termux is installed and configured.  📲  \007'
 	EOM
 	chmod 770 root/bin/finishsetup.sh 
+#		pacman-key --populate
 }
 
 makesetupbin ()
