@@ -62,34 +62,14 @@ detectsystem2 ()
 	fi
 }
 
-kernid ()
-{
-	ur="$($PREFIX/bin/applets/uname -r)"
-	declare -g kid=0
-	declare -i KERNEL_VERSION=$(echo $ur |awk -F'.' '{print $1}')
-	declare -i MAJOR_REVISION=$(echo $ur |awk -F'.' '{print $2}')
-	declare -i MINOR_REVISION=$(echo $ur |awk -F'.' '{print $3}' | awk -F'-' '{print $1}')
-	if [ "$KERNEL_VERSION" -le 2 ]; then
-		kid=1
-	else
-		if [ "$KERNEL_VERSION" -eq 3 ]; then
-			if [ "$MAJOR_REVISION" -lt 2 ]; then
-				kid=1
-			else
-				if [ "$MAJOR_REVISION" -eq 2 ] && [ $MINOR_REVISION -eq 0 ]; then
-					kid=1
-				fi
-			fi
-		fi
-	fi
-}
 lkernid ()
 {
 	ur="$($PREFIX/bin/applets/uname -r)"
 	declare -g kid=0
 	declare -i KERNEL_VERSION=$(echo $ur |awk -F'.' '{print $1}')
 	declare -i MAJOR_REVISION=$(echo $ur |awk -F'.' '{print $2}')
-	declare -i MINOR_REVISION="$(echo $ur |awk -F'.' '{print $3}' | awk -F'-' '{print $1}')"
+	declare -- tmp=$(echo $ur |awk -F'.' '{print $3}')
+	declare -i MINOR_REVISION=$(echo ${tmp:0:3} |sed 's/[^0-9]*//g')
 	if [ "$KERNEL_VERSION" -le 2 ]; then
 		kid=1
 	else
