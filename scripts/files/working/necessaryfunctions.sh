@@ -87,9 +87,9 @@ lkernid ()
 {
 	ur="$($PREFIX/bin/applets/uname -r)"
 	declare -g kid=0
-	declare -i KERNEL_VERSION=`echo $ur |awk -F'.' '{print $1}'`
-	declare -i MAJOR_REVISION=`echo $ur |awk -F'.' '{print $2}'`
-	declare -i MINOR_REVISION=`echo $ur |awk -F'.' '{print $3}' | awk -F'-' '{print $1}'`
+	declare -i KERNEL_VERSION=$(echo $ur |awk -F'.' '{print $1}')
+	declare -i MAJOR_REVISION=$(echo $ur |awk -F'.' '{print $2}')
+	declare -i MINOR_REVISION="$(echo $ur |awk -F'.' '{print $3}' | awk -F'-' '{print $1}')"
 	if [ "$KERNEL_VERSION" -le 2 ]; then
 		kid=1
 	else
