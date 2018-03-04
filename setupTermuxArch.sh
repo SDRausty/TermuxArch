@@ -650,7 +650,7 @@ wgetif ()
 
 args=$@
 bin=startarch
-dfl=/gen
+#dfl=/gen
 #dm=curl
 #dm=wget
 dmverbose="-q"
