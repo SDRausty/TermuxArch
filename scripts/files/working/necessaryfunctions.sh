@@ -124,12 +124,12 @@ makefinishsetup ()
 	printf "\n"
 	if [ $(getprop ro.product.cpu.abi) = x86 ] || [ $(getprop ro.product.cpu.abi) = x86_64 ];then
 		if [ $(getprop ro.product.cpu.abi) = x86 ];then
-			pacman -Syu sed --noconfirm ||:
+			pacman -Syyu sed --noconfirm ||:
 		else
-			pacman -Syu sed --noconfirm ||:
+			pacman -Syyu sed --noconfirm ||:
 		fi
 	else
-		pacman -Syu --noconfirm ||:
+		pacman -Syyu --noconfirm ||:
 	fi
 	printf "\n"
 	locale-gen ||:
