@@ -20,7 +20,7 @@ copybin2path ()
 		BPATH=$PREFIX/bin
 	fi
 	while true; do
-	printf "\033[0;34m 🕛 > 🕚 \033[0mCopy \033[1m$bin\033[0m to \033[1m$BPATH\033[0m?  "'\033]2; 🕛 > 🕚 Copy to $PATH?  Please answer yes or no [Y|n]\007'
+	printf "\033[0;34m 🕛 > 🕚 \033[0mCopy \033[1m$bin\033[0m to \033[1m$BPATH\033[0m?  "'\033]2; 🕛 > 🕚 Copy to $PATH?  Answer yes or no [Y|n]\007'
 	read -p "Answer yes or no [Y|n] " answer
 	if [[ $answer = [Yy]* ]] || [[ $answer = "" ]];then
 		cp $HOME$rootdir/$bin $BPATH
@@ -227,7 +227,7 @@ runfinishsetup ()
 	if [[ $ed = "" ]];then
 		editors 
 	fi
-	sed -i '1i# TermuxArch vi instructions:  CTR+r is redo.\n# Use the hjkl keys to navigate. <h down j up k l>\n# Numbers are multipliers.  The u key is undelete.\n# 14j then i will open insert mode for the Geo-IP mirror.\n# Enter # to comment out this line.  Use ESC for command mode.\n# Long tap KEYBOARD in the side pane to see ESC.\n# Use x to delete # uncommenting your local mirror.\n# Choose only one mirror.  Use :x to save your work.\n#' $HOME$rootdir/etc/pacman.d/mirrorlist
+	sed -i '1i# TermuxArch vi instructions:  CTR+r is redo.\n# Use the hjkl keys to navigate. <h down j up k l>\n# Numbers are multipliers.  The u key is undelete.\n# 14j then i will open insert mode for the Geo-IP mirror.\n# Enter # to comment out: \n# Server = http://mirror.archlinuxarm.org/$arch/$repo.\n# Use ESC to return to command mode.\n# Long tap KEYBOARD in the side pane to see ESC.\n# Use x to delete # uncommenting your local mirror.\n# Choose only one mirror.  Use :x to save your work.' $HOME$rootdir/etc/pacman.d/mirrorlist
 	$ed $HOME$rootdir/etc/pacman.d/mirrorlist
 	while true; do
 		printf "\n\033[0;32mWould you like to run \033[1;32mlocale-gen\033[0;32m to generate the en_US.UTF-8 locale, or edit \033[1;32m/etc/locale.gen\033[0;32m specifying your preferred language(s) before running \033[1;32mlocale-gen\033[0;32m?  "
