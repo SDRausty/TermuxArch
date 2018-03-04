@@ -98,7 +98,7 @@ addbashrc ()
 	alias h='history >> \$HOME/.historyfile'
 	alias j='jobs'
 	alias l='ls -alG'
-	alias lr='ls -R'
+	alias lr='ls -alR'
 	alias ls='ls --color=always'
 	alias p='pwd'
 	alias q='logout'
@@ -108,6 +108,47 @@ addbashrc ()
 	if [ -e $HOME/.bashrc ] ; then
 		grep proxy $HOME/.bashrc |grep "export" >>  root/.bashrc 2>/dev/null||:
 	fi
+}
+
+addce ()
+{
+	cat > root/bin/ce <<- EOM
+	#!/bin/bash -e
+	# Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
+	# Hosting https://sdrausty.github.io/TermuxArch courtesy https://pages.github.com
+	# https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.  
+	# https://sdrausty.github.io/TermuxArch/README has information about this project. 
+	# Create entropy.
+	################################################################################
+	for i in {1..4}; do
+		nice -n 20 ls -alR / > /dev/null &
+	done
+	nice -n 20 ls -alR / &
+	EOM
+	chmod 770 root/bin/ce 
+}
+addces ()
+{
+	cat > ces<<- EOM
+	#!$PREFIX/bin/bash -e
+	# Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
+	# Hosting https://sdrausty.github.io/TermuxArch courtesy https://pages.github.com
+	# https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.  
+	# https://sdrausty.github.io/TermuxArch/README has information about this project. 
+	# Create entropy Termux startup file.
+	################################################################################
+	unset LD_PRELOAD
+	EOM
+	if [[ "$kid" -eq 1 ]]; then
+		cat >> ces <<- EOM
+		exec proot --kill-on-exit --kernel-release=4.14.15 --link2symlink -0 -r $HOME$rootdir/ -b /dev/ -b /sys/ -b /proc/ -b /storage/ -b $HOME -w $HOME /bin/env -i HOME=/root TERM="$TERM" PS1='[termux@arch \W]\$ ' LANG=$LANG PATH=/bin:/usr/bin:/sbin:/usr/sbin $HOME$rootdir/root/bin/ce ||:
+		EOM
+	else
+		cat >> ces <<- EOM
+		exec proot --kill-on-exit --link2symlink -0 -r $HOME$rootdir/ -b /dev/ -b /sys/ -b /proc/ -b /storage/ -b $HOME -w $HOME /bin/env -i HOME=/root TERM="$TERM" PS1='[termux@arch \W]\$ ' LANG=$LANG PATH=/bin:/usr/bin:/sbin:/usr/sbin $HOME$rootdir/root/bin/ce ||:
+		EOM
+	fi
+	chmod 770 ces 
 }
 
 adddfa ()
@@ -227,19 +268,16 @@ addkeys ()
 	cat > root/bin/addkeys <<- EOM
 	#!/bin/bash -e
 	# Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
-	# Contributed by https://github.com/bambooeater, https://github.com/EsdrasTarsis, https://github.com/michalbednarski and https://github.com/wulvyrn. 
+	# Contributors to this code are https://github.com/bambooeater, https://github.com/EsdrasTarsis and https://github.com/michalbednarski 
 	# Hosting https://sdrausty.github.io/TermuxArch courtesy https://pages.github.com
 	# https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.  
 	# https://sdrausty.github.io/TermuxArch/README has information about this project. 
 	################################################################################
-	printf "TermuxArch addkeys $versionid\n"
+	printf "\n\033[0;32mTermuxArch addkeys $versionidb.  When \033[1;32mgpg: Generating pacman keyring master key...\033[0;32m appears on the screen, the installation process can be accelerated.  The system desires a lot of entropy at this stage of the Arch Linux in Termux PRoot install procedure.  To generate much entropy open a new Termux session. Swipe from the left edge of the device towards the right to open a new Termux session.  \n\nIn a new Termux session run \033[1;32m$HOME$rootdir/$bin\033[0;32m.  Use \033[1;32mlr\033[0;32m to generate the desired entropy.  This will generate plenty of entropy by printing the names of files in $HOME to your screen.  If this isn't enough, use \033[1;32mlrr\033[0;32m to generate the desired entropy.  This will generate more entropy by printing the names of files to /dev/null.  \n\nA \033[1;32mmuch\033[0;32m simpler way to generate entropy is simply to move your finger(s) around this screen randomly.  To generate entropy, we want randomness by tapping, sliding, two and more finger tapping and long taps…  This method might not generate enough entropy for the process to complete quickly.  \n\nWhen \033[1;32mgpg: Generating pacman keyring master key...\033[0;32m appears on the screen, use these two simple methods to accelerate the installation process.  \n\nWould you like to run \033[1;32mlocale-gen\033[0;32m to generate the en_US.UTF-8 locale, or edit \033[1;32m/etc/locale.gen\033[0;32m specifying your preferred language(s) before running \033[1;32mlocale-gen\033[0;32m?  "
 	mv /usr/lib/gnupg/scdaemon{,_} ||:
 	rm -rf /etc/pacman.d/gnupg ||:
-	echo 0	pacman-key --init 
 	pacman-key --init 
-	echo 0	echo disable-scdaemon
 	echo disable-scdaemon > /etc/pacman.d/gnupg/gpg-agent.conf 
-	echo pacman -S archlinux-keyring --noconfirm 
 	if [ $(getprop ro.product.cpu.abi) = x86 ] || [ $(getprop ro.product.cpu.abi) = x86_64 ];then
 		if [ $(getprop ro.product.cpu.abi) = x86 ];then
 			pacman -S archlinux32-keyring-transition --noconfirm 
@@ -249,9 +287,7 @@ addkeys ()
 	else
 		pacman -S archlinux-keyring --noconfirm 
 	fi
-	echo 0	pacman-key --autopopulate 
-	pacman-key --autopopulate archlinux 
-	echo 0
+	pacman-key --populate archlinux 
 	EOM
 	chmod 700 root/bin/addkeys
 }
