@@ -216,9 +216,8 @@ addkeys ()
 	# https://sdrausty.github.io/TermuxArch/README has information about this project. 
 	################################################################################
 	printf "TermuxArch addkeys $versionid\n"
-	echo 0	rm -rf /etc/pacman.d/gnupg
-	mv /usr/lib/gnupg/scdaemon{,_}
-	rm -rf /etc/pacman.d/gnupg
+	mv /usr/lib/gnupg/scdaemon{,_} ||:
+	rm -rf /etc/pacman.d/gnupg ||:
 	echo 0	pacman-key --init 
 	pacman-key --init 
 	echo 0	echo disable-scdaemon

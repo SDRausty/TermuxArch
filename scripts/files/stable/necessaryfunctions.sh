@@ -130,7 +130,17 @@ makefinishsetup ()
 			pacman -Syyu sed --noconfirm ||:
 		fi
 	else
-		pacman -Syyu --noconfirm ||:
+		if [ $(getprop ro.product.cpu.abi) = arm64-v8a ];
+			mv /usr/lib/gnupg/scdaemon{,_}
+			rm -rf /etc/pacman.d/gnupg 
+			pacman-key --init 
+			echo disable-scdaemon > /etc/pacman.d/gnupg/gpg-agent.conf 
+			pacman -Syyu archlinux-keyring --noconfirm 
+			pacman-key --populate 
+			pacman-key --populate archlinux 
+		else
+			pacman -Syyu --noconfirm 
+		fi
 	fi
 	printf "\n"
 	locale-gen ||:
