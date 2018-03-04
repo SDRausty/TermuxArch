@@ -130,7 +130,7 @@ makefinishsetup ()
 			pacman -Syyu sed --noconfirm ||:
 		fi
 	else
-		if [ $(getprop ro.product.cpu.abi) = arm64-v8a ];
+		if [ $(getprop ro.product.cpu.abi) = arm64-v8a ];then
 			mv /usr/lib/gnupg/scdaemon{,_}
 			rm -rf /etc/pacman.d/gnupg 
 			pacman-key --init 
