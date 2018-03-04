@@ -123,9 +123,13 @@ makefinishsetup ()
 	cat >> root/bin/$binfs <<- EOM
 	printf "\n"
 	if [ $(getprop ro.product.cpu.abi) = x86 ] || [ $(getprop ro.product.cpu.abi) = x86_64 ];then
-		pacman -Syu sed --noconfirm ||:
+		if [ $(getprop ro.product.cpu.abi) = x86 ];then
+			pacman -Syu sed archlinux32-keyring-transition --noconfirm ||:
+		else
+			pacman -Syu sed archlinux-keyring --noconfirm ||:
+		fi
 	else
-		pacman -Syu --noconfirm ||:
+		pacman -Syu archlinux-keyring --noconfirm ||:
 	fi
 	printf "\n"
 	locale-gen ||:
@@ -281,6 +285,7 @@ touchupsys ()
 	addgcm
 	addgp
 	addgpl
+	addkeys 
 	addmotd
 	addprofile 
 	addresolvconf 
