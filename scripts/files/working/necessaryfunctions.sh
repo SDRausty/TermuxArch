@@ -133,14 +133,14 @@ makefinishsetup ()
 		if [ $(getprop ro.product.cpu.abi) = arm64-v8a ];then
 			mv /usr/lib/gnupg/scdaemon{,_}
 			rm -rf /etc/pacman.d/gnupg 
-			pacman-key --init 
+			pacman-key --init 2>/dev/null
 			echo disable-scdaemon > /etc/pacman.d/gnupg/gpg-agent.conf 
 			printf "\n\033[0;32m"
-			pacman -Syyu archlinux-keyring --noconfirm 
+			pacman -Syyu archlinux-keyring --noconfirm  2>/dev/null
 			printf "\n\033[0;32m"
-			pacman-key --populate 
+			pacman-key --populate  2>/dev/null
 			printf "\n\033[0;32m"
-			pacman-key --populate archlinux 
+			pacman-key --populate archlinux  2>/dev/null
 		else
 			pacman -Syyu --noconfirm 
 		fi
