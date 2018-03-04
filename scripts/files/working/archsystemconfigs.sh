@@ -120,12 +120,13 @@ addce ()
 	# https://sdrausty.github.io/TermuxArch/README has information about this project. 
 	# Create entropy.
 	################################################################################
-	for i in {1..12}; do
+	for i in {1..6}; do
 		nice -n 20 ls -alR / > /dev/null &
 	done
-	for i in {1..4}; do
+	for i in {1..2}; do
 		nice -n 20 ls -alR / &
 	done
+	watch cat /proc/sys/kernel/random/entropy_avail
 	EOM
 	chmod 770 root/bin/ce 
 }
