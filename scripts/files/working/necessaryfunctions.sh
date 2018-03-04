@@ -133,7 +133,6 @@ makefinishsetup ()
 		pacman -S archlinux-keyring --noconfirm ||: 
 		printf "\n\033[0;32m"
 		pacman-key --populate archlinux ||: 
-		fi
 	else
 		pacman -Syyu --noconfirm ||: 
 		mv /usr/lib/gnupg/scdaemon{,_} ||: 
@@ -144,7 +143,6 @@ makefinishsetup ()
 		pacman -S archlinux-keyring --noconfirm ||: 
 		printf "\n\033[0;32m"
 		pacman-key --populate archlinux ||: 
-		fi
 	fi
 	printf "\n\033[0;32m"
 	locale-gen ||:
