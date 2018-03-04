@@ -29,7 +29,7 @@ addauserps ()
 	cat >> root/bin/addauserps <<- EOM
 	#!/bin/bash -e
 	unset LD_PRELOAD
-	exec proot --link2symlink -0 -r $HOME$rootdir/ -b /dev/ -b /sys/ -b /proc/ -b /storage/ -b $HOME -w $HOME /bin/env -i HOME=/root TERM="$TERM" PS1='[termux@arch \W]\$ ' LANG=$LANG PATH=/bin:/usr/bin:/sbin:/usr/sbin /bin/su - \$1 --login
+	exec proot --kill-on-exit --link2symlink -0 -r $HOME$rootdir/ -b /dev/ -b /sys/ -b /proc/ -b /storage/ -b $HOME -w $HOME /bin/env -i HOME=/root TERM="$TERM" PS1='[termux@arch \W]\$ ' LANG=$LANG PATH=/bin:/usr/bin:/sbin:/usr/sbin /bin/su - \$1 --login
 	EOM
 	echo EOM >> root/bin/addauserps 
 	cat >> root/bin/addauserps <<- EOM
