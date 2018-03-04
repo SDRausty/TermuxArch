@@ -10,6 +10,7 @@ addae ()
 	cat > root/bin/ae <<- EOM
 	#!/bin/bash -e
 	# Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
+	# Contributed by https://github.com/cb125
 	# Hosting https://sdrausty.github.io/TermuxArch courtesy https://pages.github.com
 	# https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.  
 	# https://sdrausty.github.io/TermuxArch/README has information about this project. 
@@ -226,6 +227,7 @@ addkeys ()
 	cat > root/bin/addkeys <<- EOM
 	#!/bin/bash -e
 	# Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
+	# Contributed by https://github.com/bambooeater, https://github.com/EsdrasTarsis, https://github.com/michalbednarski and https://github.com/wulvyrn. 
 	# Hosting https://sdrausty.github.io/TermuxArch courtesy https://pages.github.com
 	# https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.  
 	# https://sdrausty.github.io/TermuxArch/README has information about this project. 
@@ -247,10 +249,8 @@ addkeys ()
 	else
 		pacman -S archlinux-keyring --noconfirm 
 	fi
-	echo 0	pacman-key --populate 
-	pacman-key --populate 
-	echo 0	pacman-key --populate archlinux 
-	pacman-key --populate archlinux 
+	echo 0	pacman-key --autopopulate 
+	pacman-key --autopopulate archlinux 
 	echo 0
 	EOM
 	chmod 700 root/bin/addkeys
