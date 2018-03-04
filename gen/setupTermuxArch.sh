@@ -652,11 +652,11 @@ args=$@
 bin=startarch
 dfl=/gen
 #dm=curl
-#dm=wget
+dm=wget
 dmverbose="-q"
 #dmverbose="-v"
 stime=`date +%s|grep -o '....$'`
-versionid="gen.v0.9.2 id159086995"
+versionid="gen.v0.9.2 id035359718"
 
 setrootdir 
 
