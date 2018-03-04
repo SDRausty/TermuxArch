@@ -166,6 +166,15 @@ addkeys ()
 	#!/bin/bash -e
 	pacman-key --init 
 	echo disable-scdaemon > /etc/pacman.d/gnupg/gpg-agent.conf 
+	if [ $(getprop ro.product.cpu.abi) = x86 ] || [ $(getprop ro.product.cpu.abi) = x86_64 ];then
+		if [ $(getprop ro.product.cpu.abi) = x86 ];then
+			pacman -Syu archlinux32-keyring-transition --noconfirm ||:
+		else
+			pacman -Syu archlinux-keyring --noconfirm ||:
+		fi
+	else
+		pacman -Syu archlinux-keyring --noconfirm ||:
+	fi
 	pacman-key --populate archlinux 
 	EOM
 	chmod 700 root/bin/addkeys

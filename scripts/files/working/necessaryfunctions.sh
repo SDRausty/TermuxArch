@@ -124,12 +124,12 @@ makefinishsetup ()
 	printf "\n"
 	if [ $(getprop ro.product.cpu.abi) = x86 ] || [ $(getprop ro.product.cpu.abi) = x86_64 ];then
 		if [ $(getprop ro.product.cpu.abi) = x86 ];then
-			pacman -Syu sed archlinux32-keyring-transition --noconfirm ||:
+			pacman -Syu sed --noconfirm ||:
 		else
-			pacman -Syu sed archlinux-keyring --noconfirm ||:
+			pacman -Syu sed --noconfirm ||:
 		fi
 	else
-		pacman -Syu archlinux-keyring --noconfirm ||:
+		pacman -Syu --noconfirm ||:
 	fi
 	printf "\n"
 	locale-gen ||:
