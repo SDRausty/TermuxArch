@@ -125,25 +125,25 @@ makefinishsetup ()
 	printf "\n"
 	if [ $(getprop ro.product.cpu.abi) = x86 ] || [ $(getprop ro.product.cpu.abi) = x86_64 ];then
 		if [ $(getprop ro.product.cpu.abi) = x86 ];then
-			pacman -Syyu sed --noconfirm 
+			pacman -Syyu sed --noconfirm ||: 
 		else
-			pacman -Syyu sed --noconfirm
+			pacman -Syyu sed --noconfirm ||: 
 		fi
 	else
 		if [ $(getprop ro.product.cpu.abi) = arm64-v8a ];then
-			pacman -Syyu --noconfirm 
+			pacman -Syyu --noconfirm ||: 
 			mv /usr/lib/gnupg/scdaemon{,_}
 			rm -rf /etc/pacman.d/gnupg 
 			pacman-key --init
 			echo disable-scdaemon > /etc/pacman.d/gnupg/gpg-agent.conf 
 			printf "\n\033[0;32m"
-			pacman -S archlinux-keyring --noconfirm
+			pacman -S archlinux-keyring --noconfirm ||: 
 			printf "\n\033[0;32m"
 			pacman-key --populate
 			printf "\n\033[0;32m"
 			pacman-key --populate archlinux
 		else
-			pacman -Syyu --noconfirm 
+			pacman -Syyu --noconfirm ||: 
 		fi
 	fi
 	printf "\n"
@@ -241,7 +241,8 @@ runfinishsetup ()
 	if [[ $ed = "" ]];then
 		editors 
 	fi
-	sed -i '1i# TermuxArch vi instructions:  CTR+r is redo.\n# Use the hjkl keys to navigate. <h down j up k l>\n# Numbers are multipliers.  The u key is undelete.\n# 17j and i opens edit mode for the Geo-IP mirror.\n# Enter the # hash symbol to comment it out: \n# Server = http://mirror.archlinuxarm.org/$arch/$repo.\n# Long tap KEYBOARD in the side pane to see ESC.\n# Tap ESC to return to command mode in vi.\n# Use CTRL+d and CTRL+b to find your local mirror.\n#Tap x to delete # uncommenting your local mirror.\n# Choose only one mirror.  Use :x to save your work.' $HOME$rootdir/etc/pacman.d/mirrorlist
+	sed -i -e 1,5d $HOME$rootdir/etc/pacman.d/mirrorlist
+	sed -i '1i# TermuxArch vi instructions:  CTR+r is redo.\n# Use the hjkl keys to navigate. <h down j up k l>\n# Numbers are multipliers.  The u key is undelete.\n# 17j and i opens edit mode for the Geo-IP mirror.\n# Enter the # hash/num/pounds symbol to comment out: \n# Server = http://mirror.archlinuxarm.org/$arch/$repo.\n# Long tap KEYBOARD in the side pane to see ESC.\n# Tap ESC to return to command mode in vi.\n# Use CTRL+d and CTRL+b to find your local mirror.\n# Tap x to delete # uncommenting your local mirror.\n# Choose only one mirror.  Use :x to save your work.' $HOME$rootdir/etc/pacman.d/mirrorlist
 	$ed $HOME$rootdir/etc/pacman.d/mirrorlist
 	while true; do
 		printf "\n\033[0;32mWould you like to run \033[1;32mlocale-gen\033[0;32m to generate the en_US.UTF-8 locale, or edit \033[1;32m/etc/locale.gen\033[0;32m specifying your preferred language(s) before running \033[1;32mlocale-gen\033[0;32m?  "
