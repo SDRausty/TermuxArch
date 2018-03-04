@@ -125,23 +125,23 @@ makefinishsetup ()
 	printf "\n"
 	if [ $(getprop ro.product.cpu.abi) = x86 ] || [ $(getprop ro.product.cpu.abi) = x86_64 ];then
 		if [ $(getprop ro.product.cpu.abi) = x86 ];then
-			pacman -Syyu sed --noconfirm ||:
+			pacman -Syyu sed --noconfirm 
 		else
-			pacman -Syyu sed --noconfirm ||:
+			pacman -Syyu sed --noconfirm
 		fi
 	else
 		if [ $(getprop ro.product.cpu.abi) = arm64-v8a ];then
 			pacman -Syyu --noconfirm 
 			mv /usr/lib/gnupg/scdaemon{,_}
 			rm -rf /etc/pacman.d/gnupg 
-			pacman-key --init 2>/dev/null
+			pacman-key --init
 			echo disable-scdaemon > /etc/pacman.d/gnupg/gpg-agent.conf 
 			printf "\n\033[0;32m"
-			pacman -S archlinux-keyring --noconfirm  2>/dev/null
+			pacman -S archlinux-keyring --noconfirm
 			printf "\n\033[0;32m"
-			pacman-key --populate  2>/dev/null
+			pacman-key --populate
 			printf "\n\033[0;32m"
-			pacman-key --populate archlinux  2>/dev/null
+			pacman-key --populate archlinux
 		else
 			pacman -Syyu --noconfirm 
 		fi
