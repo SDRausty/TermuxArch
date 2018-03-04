@@ -33,7 +33,6 @@ copybin2path ()
 		printf "\n\033[0;34m 🕛 > 🕚 \033[0mYou answered \033[33;1m$answer\033[0m.\n\n\033[0;34m 🕛 > 🕚 \033[0mAnswer yes or no [Y|n]\n\n"
 	fi
 	done
-	termux-wake-unlock
 }
 
 detectsystem ()
@@ -93,6 +92,9 @@ mainblock ()
 	rmarchq
 	spaceinfoq
 	callsystem 
+	printwld 
+	termux-wake-unlock
+	printdone 
 	printfooter
 	$HOME$rootdir/$bin 
 }

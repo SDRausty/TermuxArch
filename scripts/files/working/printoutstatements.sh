@@ -37,6 +37,11 @@ printwla ()
 	printf "\033[0;34m 🕛 > 🕒 \033[1;34mActivating termux-wake-lock: "'\033]2; 🕛 > 🕒 Activating termux-wake-lock: OK\007'
 }
 
+printwld ()
+{
+	printf "\033[0;34m 🕛 > 🕙 \033[1;34mReleasing termux-wake-lock: "'\033]2; 🕛 > 🕙 Releasing termux-wake-lock: OK\007'
+}
+
 printdownloadingx86 ()
 {
 	printf "\033[0;34m 🕛 > 🕞 \033[0;34mDownloading checksum from \033[0;32mhttp://$mirror\033[0;34m…\n\n\033[0;32m"'\033]2; 🕛 > 🕞 Downloading the Arch Linux system image checksum…  \007'
