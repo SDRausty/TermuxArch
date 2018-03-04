@@ -146,7 +146,7 @@ makefinishsetup ()
 			pacman -Syyu --noconfirm ||: 
 		fi
 	fi
-	printf "\n"
+	printf "\n\033[0;32m"
 	locale-gen ||:
 	printf "\n"
 	tzselect
