@@ -99,6 +99,7 @@ addbashrc ()
 	alias j='jobs'
 	alias l='ls -alG'
 	alias lr='ls -R'
+	alias lrr='ls -R > /dev/null &'
 	alias ls='ls --color=always'
 	alias p='pwd'
 	alias q='logout'
@@ -227,7 +228,7 @@ addkeys ()
 	cat > root/bin/addkeys <<- EOM
 	#!/bin/bash -e
 	# Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
-	# Contributed by https://github.com/bambooeater, https://github.com/EsdrasTarsis, https://github.com/michalbednarski and https://github.com/wulvyrn. 
+	# Contributors to this code are https://github.com/bambooeater, https://github.com/EsdrasTarsis and https://github.com/michalbednarski 
 	# Hosting https://sdrausty.github.io/TermuxArch courtesy https://pages.github.com
 	# https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.  
 	# https://sdrausty.github.io/TermuxArch/README has information about this project. 
@@ -249,8 +250,8 @@ addkeys ()
 	else
 		pacman -S archlinux-keyring --noconfirm 
 	fi
-	echo 0	pacman-key --autopopulate 
-	pacman-key --autopopulate archlinux 
+	echo 0	pacman-key --populate 
+	pacman-key --populate archlinux 
 	echo 0
 	EOM
 	chmod 700 root/bin/addkeys
