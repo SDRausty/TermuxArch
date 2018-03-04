@@ -12,13 +12,18 @@ printcontacting ()
 	printf "\033[0;34m 🕛 > 🕞 \033[1;34mContacting worldwide mirror \033[0;32m$cmirror\033[1;34m: "
 }
 
+printcu ()
+{
+	printf "\n\033[0;34m 🕛 > 🕘 \033[1;34mCleaning up installation files: "'\033]2; 🕛 > 🕙 Cleaning up installation files: \007'
+}
+
 printdetectedsystem ()
 {
 	printf "\n\033[0;34m 🕛 > 🕝 \033[1;34mDetected $(uname -m) " 
 	if [[ $(getprop ro.product.device) == *_cheets ]];then
-		printf "Chromebook: \033[32;1mOK\n\n\033[0m"
+		printf "Chromebook.\n\n\033[0m"
 	else
-		printf "$(uname -o) operating system: \033[32;1mOK\n\n\033[0m"
+		printf "$(uname -o) operating system.\n\n\033[0m"
 	fi
 }
 
@@ -30,6 +35,11 @@ printdone ()
 printwla ()
 {
 	printf "\033[0;34m 🕛 > 🕒 \033[1;34mActivating termux-wake-lock: "'\033]2; 🕛 > 🕒 Activating termux-wake-lock: OK\007'
+}
+
+printwld ()
+{
+	printf "\033[0;34m 🕛 > 🕙 \033[1;34mReleasing termux-wake-lock: "'\033]2; 🕛 > 🕙 Releasing termux-wake-lock: OK\007'
 }
 
 printdownloadingx86 ()
@@ -54,7 +64,7 @@ printdownloadingftchit ()
 
 printconfigq ()
 {
-	printf "\n\033[0;34m 🕛 > 🕙 \033[1;34mArch Linux in Termux is installed.  Answer the following questions to complete the Arch Linux configuration:\n\033[0m"'\033]2; 🕛 > 🕙 Arch Linux in Termux is installed!  Complete the configuration and update.  📲 \007'
+	printf "\033[0;34m 🕛 > 🕤 \033[1;34mArch Linux in Termux is installed.  Answer the following questions to complete the Arch Linux configuration:\n\033[0m"'\033]2; 🕛 > 🕙 Arch Linux in Termux is installed!  Configure and update Arch Linux 📲 \007'
 }
 
 printmd5check ()
@@ -81,7 +91,7 @@ printmismatch ()
 
 printfooter ()
 {
-	printf "\n\033[0;34m 🕛 > 🕥 \033[1;34mUse \033[1;32m.$rootdir/$bin\033[1;34m from the \033[1;32m\$HOME\033[1;34m directory to launch Arch Linux in Termux for future sessions.   Alternatively copy \033[1;32m$bin\033[1;34m to the \033[32m\$PATH\033[1;34m which is, \033[37m$PATH\033[0m.\n\n"'\033]2;  Thank you for using `setupTermuxArch.sh` to install Arch Linux in Termux 📲  \007'
+	printf "\033[0;34m 🕛 > 🕥 \033[1;34mUse \033[1;32m.$rootdir/$bin\033[1;34m from the \033[1;32m\$HOME\033[1;34m directory to launch Arch Linux in Termux for future sessions.   Alternatively copy \033[1;32m$bin\033[1;34m to the \033[32m\$PATH\033[1;34m which is, \033[37m$PATH\033[0m.\n\n"'\033]2;  Thank you for using `setupTermuxArch.sh` to install Arch Linux in Termux 📲  \007'
 	copybin2path
 	printf "\033[0;32m 🕛 = 🕛 \033[1;34mTermux-wake-lock released.  Use \033[1;32mtzselect\033[1;34m to set the local time zone.  For more information about, \033[0;34m\"Starting Arch Linux from Termux?\"\033[1;34m see https://github.com/sdrausty/TermuxArch/issues/25.  \033[0;32mArch Linux is installed in $HOME$rootdir\n\n\033[0m"
 }

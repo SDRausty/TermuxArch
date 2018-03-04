@@ -20,7 +20,7 @@ copybin2path ()
 		BPATH=$PREFIX/bin
 	fi
 	while true; do
-	printf "\033[0;34m 🕛 > 🕚 \033[0mCopy \033[1m$bin\033[0m to \033[1m$BPATH\033[0m?  " 
+	printf "\033[0;34m 🕛 > 🕚 \033[0mCopy \033[1m$bin\033[0m to \033[1m$BPATH\033[0m?  "'\033]2; 🕛 > 🕚 Copy to $PATH?  Answer yes or no [Y|n]\007'
 	read -p "Answer yes or no [Y|n] " answer
 	if [[ $answer = [Yy]* ]] || [[ $answer = "" ]];then
 		cp $HOME$rootdir/$bin $BPATH
@@ -33,7 +33,6 @@ copybin2path ()
 		printf "\n\033[0;34m 🕛 > 🕚 \033[0mYou answered \033[33;1m$answer\033[0m.\n\n\033[0;34m 🕛 > 🕚 \033[0mAnswer yes or no [Y|n]\n\n"
 	fi
 	done
-	termux-wake-unlock
 }
 
 detectsystem ()
@@ -93,6 +92,9 @@ mainblock ()
 	rmarchq
 	spaceinfoq
 	callsystem 
+	printwld 
+	termux-wake-unlock
+	printdone 
 	printfooter
 	$HOME$rootdir/$bin 
 }
@@ -197,9 +199,9 @@ makesystem ()
 		rmarchrm 
 		printmd5error
 	fi
-	printf "\n\033[0;34m 🕛 > 🕘 \033[1;34mCleaning up installation files…\n"'\033]2; 🕛 > 🕙 Cleaning up installation files: DONE 📲 \007'
+	printcu 
 	rm *.tar.gz *.tar.gz.md5
-	printf "\n\033[0;34m 🕛 > 🕤 \033[1;34mCleaning up installation files: \033[1;32mDONE\n"'\033]2; 🕛 > 🕙 Cleaning up installation files: DONE 📲 \007'
+	printdone 
 	makebin 
 }
 
@@ -225,7 +227,7 @@ runfinishsetup ()
 	if [[ $ed = "" ]];then
 		editors 
 	fi
-	sed -i '1i# TermuxArch vi instructions:\n# Use the hjkl keys to navigate. <h down j up k l>\n# Numbers are multipliers.  The u key is undelete.  CTR+r is redo.\n# 15j then i will open insert mode in vi for the Geo-IP mirror.\n# Enter # to comment out this line.\n# Use ESC to return to command mode.\n# Long tap KEYBOARD in the side pane if you do not see ESC.\n# Locate a local mirror.  Use x to delete # uncommenting the mirror.\n# Choose only one mirror.  Use :x to save and finish your work.' $HOME$rootdir/etc/pacman.d/mirrorlist
+	sed -i '1i# TermuxArch vi instructions:  CTR+r is redo.\n# Use the hjkl keys to navigate. <h down j up k l>\n# Numbers are multipliers.  The u key is undelete.\n# 14j then i will open insert mode in vi for the Geo-IP mirror.\n# Enter # to comment out this line.  Use ESC to return to command mode.\n# Long tap KEYBOARD in the side pane if you do not see ESC.\n# Use x to delete # uncommenting your local mirror.\n# Choose only one mirror.  Use :x to save your work.' $HOME$rootdir/etc/pacman.d/mirrorlist
 	$ed $HOME$rootdir/etc/pacman.d/mirrorlist
 	while true; do
 		printf "\n\033[0;32mWould you like to run \033[1;32mlocale-gen\033[0;32m to generate the en_US.UTF-8 locale, or edit \033[1;32m/etc/locale.gen\033[0;32m specifying your preferred language(s) before running \033[1;32mlocale-gen\033[0;32m?  "
