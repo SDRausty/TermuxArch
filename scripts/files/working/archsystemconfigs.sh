@@ -5,6 +5,20 @@
 # https://sdrausty.github.io/TermuxArch/README has information about this project. 
 ################################################################################
 
+addae ()
+{
+	cat > root/bin/ae <<- EOM
+	#!/bin/bash -e
+	# Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
+	# Hosting https://sdrausty.github.io/TermuxArch courtesy https://pages.github.com
+	# https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.  
+	# https://sdrausty.github.io/TermuxArch/README has information about this project. 
+	################################################################################
+	watch cat /proc/sys/kernel/random/entropy_avail
+	EOM
+	chmod 770 root/bin/ae 
+}
+
 addauser ()
 {
 	# Add Arch Linux user.
@@ -83,6 +97,7 @@ addbashrc ()
 	alias h='history >> \$HOME/.historyfile'
 	alias j='jobs'
 	alias l='ls -alG'
+	alias lr='ls -R'
 	alias ls='ls --color=always'
 	alias p='pwd'
 	alias q='logout'
