@@ -21,9 +21,9 @@ printdetectedsystem ()
 {
 	printf "\n\033[0;34m 🕛 > 🕝 \033[1;34mDetected $(uname -m) " 
 	if [[ $(getprop ro.product.device) == *_cheets ]];then
-		printf "Chromebook: \033[32;1mOK\n\n\033[0m"
+		printf "Chromebook.\n\n\033[0m"
 	else
-		printf "$(uname -o) operating system: \033[32;1mOK\n\n\033[0m"
+		printf "$(uname -o) operating system.\n\n\033[0m"
 	fi
 }
 
