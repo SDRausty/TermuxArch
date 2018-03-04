@@ -19,22 +19,20 @@ fi
 pwd
 ls -al se*
 printf "\n"
-msg="v0.6.1 id$ntime"
+msg="v0.9.2 id$ntime"
 echo "printf \"$msg\""
 ms="		printf \"$msg\""
-sed -i "/v0.6.1/c\\$ms" setupTermuxArch.sh 
+sed -i "/v0/c\\$ms" setupTermuxArch.sh 
 cp setupTermuxArch.sh ..
-#echo "echo "TermuxArch v0.5.$(date +%N)"" >> ../setupTermuxArch.sh 
-ntime=`date +%N`
 echo "$(date +%N)" 
-md5sum *sh > termuxarchchecksum.md5 
+sha512sum *sh > termuxarchchecksum.sha512
 cd ..
 bsdtar -czv -f setupTermuxArch.tar.gz --strip-components 1 $cdir/*
 pwd
 ls -al se*
 printf "Generated tar.gz file with internal md5 checksum.\n\n"
-rm $cdir/termuxarchchecksum.md5
-md5sum setupTermuxArch.tar.gz > setupTermuxArch.md5
+rm $cdir/termuxarchchecksum.sha512
+md5sum setupTermuxArch.tar.gz > setupTermuxArch.sha512
 ls -al se*
 printf "Generated md5 checksum for tar.gz file.\n\n"
 mv se* ../../gen
