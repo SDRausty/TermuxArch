@@ -29,7 +29,7 @@ addauserps ()
 	cat >> root/bin/addauserps <<- EOM
 	#!/bin/bash -e
 	unset LD_PRELOAD
-	exec proot --link2symlink -0 -r $HOME$rootdir/ -b /dev/ -b /sys/ -b /proc/ -b /storage/ -b $HOME -w $HOME /bin/env -i HOME=/root TERM="$TERM" PS1='[termux@arch \W]\$ ' LANG=$LANG PATH=/bin:/usr/bin:/sbin:/usr/sbin /bin/su - \$1 --login
+	exec proot --kill-on-exit --link2symlink -0 -r $HOME$rootdir/ -b /dev/ -b /sys/ -b /proc/ -b /storage/ -b $HOME -w $HOME /bin/env -i HOME=/root TERM="$TERM" PS1='[termux@arch \W]\$ ' LANG=$LANG PATH=/bin:/usr/bin:/sbin:/usr/sbin /bin/su - \$1 --login
 	EOM
 	echo EOM >> root/bin/addauserps 
 	cat >> root/bin/addauserps <<- EOM
@@ -164,16 +164,17 @@ addkeys ()
 {
 	cat > root/bin/addkeys <<- EOM
 	#!/bin/bash -e
+	rm -rf /etc/pacman.d/gnupg
 	pacman-key --init 
 	echo disable-scdaemon > /etc/pacman.d/gnupg/gpg-agent.conf 
 	if [ $(getprop ro.product.cpu.abi) = x86 ] || [ $(getprop ro.product.cpu.abi) = x86_64 ];then
 		if [ $(getprop ro.product.cpu.abi) = x86 ];then
-			pacman -Syu archlinux32-keyring-transition --noconfirm ||:
+			pacman -S archlinux32-keyring-transition --noconfirm 
 		else
-			pacman -Syu archlinux-keyring --noconfirm ||:
+			pacman -S archlinux-keyring --noconfirm 
 		fi
 	else
-		pacman -Syu archlinux-keyring --noconfirm ||:
+		pacman -S archlinux-keyring --noconfirm 
 	fi
 	pacman-key --populate archlinux 
 	EOM
