@@ -42,7 +42,7 @@
 
 jlam: contributed `getprop ro.product.device` Chromebook detection, `getprop ro.product.cpu.abi`, polite KISS, program flow suggestions.  Result: setupTermuxArch.sh improved! 
 
-[michalbednarski](https://github.com/michalbednarski) contributed Termux PRoot and PRoot insight and code: `pacman-key --init` && `echo disable-scdaemon > /etc/pacman.d/gnupg/gpg-agent.conf` which resolves `pacman-key --populate archlinux` issuses.  Result: setupTermuxArch.sh improved! 
+[michalbednarski](https://github.com/michalbednarski) contributed Termux PRoot and insight into PRoot plus code: `pacman-key --init` && `echo disable-scdaemon > /etc/pacman.d/gnupg/gpg-agent.conf` which resolves `pacman-key --populate archlinux` issuses.  Result: setupTermuxArch.sh improved! 
 
 [mjskoneg](https://github.com/mjskoneg) submitted issues.  Result: setupTermuxArch.sh improved! 
 
