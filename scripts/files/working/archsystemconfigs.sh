@@ -216,7 +216,6 @@ addkeys ()
 	# https://sdrausty.github.io/TermuxArch/README has information about this project. 
 	################################################################################
 	printf "TermuxArch addkeys $versionid\n"
-	termux-wake-lock
 	echo 0
 	rm -rf /etc/pacman.d/gnupg
 	echo 0
