@@ -1,0 +1,2 @@
+
+		In a new Termux session run \033[1;32m$HOME$rootdir/$bin\033[0;32m.  Use \033[1;32mlr\033[0;32m to generate the desired entropy.  This will generate plenty of entropy by printing the names of files in $HOME to your screen.  If this isn't enough, use \033[1;32mce\033[0;32m to generate the desired entropy.  This will generate more entropy by printing the names of files to the screen and to /dev/null also to create entropy.\n\nA \033[1;32mmuch\033[0;32m simpler way to generate entropy is simply to move your finger(s) around this screen randomly.  
