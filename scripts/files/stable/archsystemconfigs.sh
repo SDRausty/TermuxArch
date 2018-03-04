@@ -164,6 +164,7 @@ addkeys ()
 {
 	cat > root/bin/addkeys <<- EOM
 	#!/bin/bash -e
+	termux-wake-lock
 	echo 0
 	rm -rf /etc/pacman.d/gnupg
 	echo 0
@@ -184,6 +185,8 @@ addkeys ()
 	fi
 	echo 0
 	pacman-key --populate archlinux 
+	echo 0
+	termux-wake-unlock
 	echo 0
 	EOM
 	chmod 700 root/bin/addkeys
