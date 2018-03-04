@@ -219,11 +219,11 @@ addkeys ()
 	echo 0
 	rm -rf /etc/pacman.d/gnupg
 	echo 0
-	pacman -S gnupg --noconfirm 
-	echo 0
 	pacman-key --init 
 	echo 0
 	echo disable-scdaemon > /etc/pacman.d/gnupg/gpg-agent.conf 
+	echo 0
+	pacman-key --populate archlinux 
 	echo 0
 	if [ $(getprop ro.product.cpu.abi) = x86 ] || [ $(getprop ro.product.cpu.abi) = x86_64 ];then
 		if [ $(getprop ro.product.cpu.abi) = x86 ];then
@@ -234,10 +234,6 @@ addkeys ()
 	else
 		pacman -S archlinux-keyring --noconfirm 
 	fi
-	echo 0
-	pacman-key --populate archlinux 
-	echo 0
-	termux-wake-unlock
 	echo 0
 	EOM
 	chmod 700 root/bin/addkeys
