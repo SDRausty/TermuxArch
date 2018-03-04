@@ -9,6 +9,12 @@ addauser ()
 {
 	# Add Arch Linux user.
 	cat > root/bin/addauser <<- EOM
+	#!/bin/bash -e
+	# Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
+	# Hosting https://sdrausty.github.io/TermuxArch courtesy https://pages.github.com
+	# https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.  
+	# https://sdrausty.github.io/TermuxArch/README has information about this project. 
+	################################################################################
 	useradd \$1
 	cp -r /root /home/\$1
 	su - \$1
@@ -21,6 +27,11 @@ addauserps ()
 	# Add Arch Linux user and create user login Termux startup script. 
 	cat > root/bin/addauserps <<- EOM
 	#!/bin/bash -e
+	# Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
+	# Hosting https://sdrausty.github.io/TermuxArch courtesy https://pages.github.com
+	# https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.  
+	# https://sdrausty.github.io/TermuxArch/README has information about this project. 
+	################################################################################
 	useradd \$1
 	cp -r /root /home/\$1
 	su - \$1
@@ -28,6 +39,11 @@ addauserps ()
 	echo "cat > $HOME/bin/startarchuser\$1 <<- EOM " >> root/bin/addauserps 
 	cat >> root/bin/addauserps <<- EOM
 	#!/bin/bash -e
+	# Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
+	# Hosting https://sdrausty.github.io/TermuxArch courtesy https://pages.github.com
+	# https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.  
+	# https://sdrausty.github.io/TermuxArch/README has information about this project. 
+	################################################################################
 	unset LD_PRELOAD
 	exec proot --kill-on-exit --link2symlink -0 -r $HOME$rootdir/ -b /dev/ -b /sys/ -b /proc/ -b /storage/ -b $HOME -w $HOME /bin/env -i HOME=/root TERM="$TERM" PS1='[termux@arch \W]\$ ' LANG=$LANG PATH=/bin:/usr/bin:/sbin:/usr/sbin /bin/su - \$1 --login
 	EOM
@@ -82,6 +98,11 @@ adddfa ()
 {
 	cat > root/bin/dfa <<- EOM
 	#!/bin/bash -e
+	# Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
+	# Hosting https://sdrausty.github.io/TermuxArch courtesy https://pages.github.com
+	# https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.  
+	# https://sdrausty.github.io/TermuxArch/README has information about this project. 
+	################################################################################
 	units=\`df 2>/dev/null | awk 'FNR == 1 {print \$2}'\`
 	usrspace=\`df 2>/dev/null | grep "/data" | awk {'print \$4'}\`
 	printf "\033[0;33m\$usrspace \$units of free user space is available on this device.\n\033[0m"
@@ -93,6 +114,11 @@ addga ()
 {
 	cat > root/bin/ga  <<- EOM
 	#!/bin/bash -e
+	# Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
+	# Hosting https://sdrausty.github.io/TermuxArch courtesy https://pages.github.com
+	# https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.  
+	# https://sdrausty.github.io/TermuxArch/README has information about this project. 
+	################################################################################
 	if [ ! -e /usr/bin/git ] ; then
 		pacman -Syu git --noconfirm
 		git add .
@@ -107,6 +133,11 @@ addgcl ()
 {
 	cat > root/bin/gcl  <<- EOM
 	#!/bin/bash -e
+	# Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
+	# Hosting https://sdrausty.github.io/TermuxArch courtesy https://pages.github.com
+	# https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.  
+	# https://sdrausty.github.io/TermuxArch/README has information about this project. 
+	################################################################################
 	if [ ! -e /usr/bin/git ] ; then
 		pacman -Syu git --noconfirm
 		git clone \$@
@@ -121,6 +152,11 @@ addgcm ()
 {
 	cat > root/bin/gcm  <<- EOM
 	#!/bin/bash -e
+	# Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
+	# Hosting https://sdrausty.github.io/TermuxArch courtesy https://pages.github.com
+	# https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.  
+	# https://sdrausty.github.io/TermuxArch/README has information about this project. 
+	################################################################################
 	if [ ! -e /usr/bin/git ] ; then
 		pacman -Syu git --noconfirm
 		git commit
@@ -135,6 +171,11 @@ addgpl ()
 {
 	cat > root/bin/gpl  <<- EOM
 	#!/bin/bash -e
+	# Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
+	# Hosting https://sdrausty.github.io/TermuxArch courtesy https://pages.github.com
+	# https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.  
+	# https://sdrausty.github.io/TermuxArch/README has information about this project. 
+	################################################################################
 	if [ ! -e /usr/bin/git ] ; then
 		pacman -Syu git --noconfirm
 		git pull
@@ -149,7 +190,12 @@ addgp ()
 {
 	cat > root/bin/gp  <<- EOM
 	#!/bin/bash -e
-	#git push https://username:password@github.com/username/repository.git master
+	# Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
+	# Hosting https://sdrausty.github.io/TermuxArch courtesy https://pages.github.com
+	# https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.  
+	# https://sdrausty.github.io/TermuxArch/README has information about this project. 
+	# git push https://username:password@github.com/username/repository.git master
+	################################################################################
 	if [ ! -e /usr/bin/git ] ; then
 		pacman -Syu git --noconfirm
 		git push
@@ -164,6 +210,12 @@ addkeys ()
 {
 	cat > root/bin/addkeys <<- EOM
 	#!/bin/bash -e
+	# Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
+	# Hosting https://sdrausty.github.io/TermuxArch courtesy https://pages.github.com
+	# https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.  
+	# https://sdrausty.github.io/TermuxArch/README has information about this project. 
+	################################################################################
+	printf "TermuxArch addkeys $versionid\n"
 	termux-wake-lock
 	echo 0
 	rm -rf /etc/pacman.d/gnupg
@@ -231,6 +283,11 @@ addt ()
 {
 	cat > root/bin/t  <<- EOM
 	#!/bin/bash -e
+	# Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
+	# Hosting https://sdrausty.github.io/TermuxArch courtesy https://pages.github.com
+	# https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.  
+	# https://sdrausty.github.io/TermuxArch/README has information about this project. 
+	################################################################################
 	if [ ! -e /usr/bin/tree ] ; then
 		pacman -Syu tree --noconfirm
 		tree \$@
@@ -245,6 +302,11 @@ addv ()
 {
 	cat > root/bin/v  <<- EOM
 	#!/bin/bash -e
+	# Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
+	# Hosting https://sdrausty.github.io/TermuxArch courtesy https://pages.github.com
+	# https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.  
+	# https://sdrausty.github.io/TermuxArch/README has information about this project. 
+	################################################################################
 	if [ ! -e /usr/bin/vim ] ; then
 		pacman -Syu vim --noconfirm
 		vim \$@
@@ -259,6 +321,11 @@ addyt ()
 {
 	cat > root/bin/yt  <<- EOM
 	#!/bin/bash -e
+	# Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
+	# Hosting https://sdrausty.github.io/TermuxArch courtesy https://pages.github.com
+	# https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.  
+	# https://sdrausty.github.io/TermuxArch/README has information about this project. 
+	################################################################################
 	if [ ! -e /usr/bin/youtube-dl ] ; then
 		pacman -Syu python-pip --noconfirm
 		pip install youtube-dl
