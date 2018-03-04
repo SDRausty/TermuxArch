@@ -125,29 +125,25 @@ makefinishsetup ()
 	printf "\n"
 	if [ $(getprop ro.product.cpu.abi) = x86 ] || [ $(getprop ro.product.cpu.abi) = x86_64 ];then
 		pacman -Syyu sed --noconfirm ||: 
-		mv /usr/lib/gnupg/scdaemon{,_}
-		rm -rf /etc/pacman.d/gnupg 
-		pacman-key --init
-		echo disable-scdaemon > /etc/pacman.d/gnupg/gpg-agent.conf 
+		mv /usr/lib/gnupg/scdaemon{,_} ||: 
+		rm -rf /etc/pacman.d/gnupg ||: 
+		pacman-key --init ||: 
+		echo disable-scdaemon > /etc/pacman.d/gnupg/gpg-agent.conf ||: 
 		printf "\n\033[0;32m"
 		pacman -S archlinux-keyring --noconfirm ||: 
 		printf "\n\033[0;32m"
-		pacman-key --populate
-		printf "\n\033[0;32m"
-		pacman-key --populate archlinux
+		pacman-key --populate archlinux ||: 
 		fi
 	else
 		pacman -Syyu --noconfirm ||: 
-		mv /usr/lib/gnupg/scdaemon{,_}
-		rm -rf /etc/pacman.d/gnupg 
-		pacman-key --init
-		echo disable-scdaemon > /etc/pacman.d/gnupg/gpg-agent.conf 
+		mv /usr/lib/gnupg/scdaemon{,_} ||: 
+		rm -rf /etc/pacman.d/gnupg ||: 
+		pacman-key --init ||: 
+		echo disable-scdaemon > /etc/pacman.d/gnupg/gpg-agent.conf ||: 
 		printf "\n\033[0;32m"
 		pacman -S archlinux-keyring --noconfirm ||: 
 		printf "\n\033[0;32m"
-		pacman-key --populate
-		printf "\n\033[0;32m"
-		pacman-key --populate archlinux
+		pacman-key --populate archlinux ||: 
 		fi
 	fi
 	printf "\n\033[0;32m"
