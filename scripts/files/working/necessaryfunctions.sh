@@ -240,7 +240,7 @@ runfinishsetup ()
 		editors 
 	fi
 	sed -i -e 1,4d $HOME$rootdir/etc/pacman.d/mirrorlist
-	sed -i '1i# # # # # # # # # # # # # # # # # # # # # # # # # # #\n# TermuxArch vi instructions:	CTR+r is redo.\n# Use the hjkl keys to navigate. <h down j up k l>\n# Numbers are multipliers.  The u is undelete/undo.\n# 14j then i opens edit mode for the Geo-IP mirror.\n# Enter the # hash/num/pounds symbol to comment out: \n# Server = http://mirror.archlinuxarm.org/$arch/$repo.\n# Long tap KEYBOARD in the side pane to see ESC.\n# Tap ESC to return to command mode in vi, i for insert.\n# Use CTRL+d and CTRL+b to find your local mirror.\n# Tap x to delete # uncommenting your local mirror.\n# Choose only one mirror.  Use :x to save your work.\n# Geo-IP mirror		end G		top gg\n# # # # # # # # # # # # # # # # # # # # # # # # # # #' $HOME$rootdir/etc/pacman.d/mirrorlist
+	sed -i '1i# # # # # # # # # # # # # # # # # # # # # # # # # # #\n# TermuxArch vi instructions:	CTR+r is redo.\n# Use the hjkl keys to navigate. <h down j up k l>\n# Numbers are multipliers.  The u is undelete/undo.\n# 16j then i opens edit mode for the Geo-IP mirror.\n# Enter the # hash/num/pounds symbol to comment out: \n# Server = http://mirror.archlinuxarm.org/$arch/$repo.\n# Long tap KEYBOARD in the side pane to see ESC.\n# Tap ESC to return to command mode in vi, i for insert.\n# Use CTRL+d and CTRL+b to find your local mirror.\n# Tap x to delete # uncommenting your local mirror.\n# Choose only one mirror.  Use :x to save your work.\n# Geo-IP mirror		end G		top gg\n# # # # # # # # # # # # # # # # # # # # # # # # # # #' $HOME$rootdir/etc/pacman.d/mirrorlist
 	printf "\033[0m"
 	$ed $HOME$rootdir/etc/pacman.d/mirrorlist
 	while true; do
@@ -299,6 +299,7 @@ touchupsys ()
 	addbash_profile 
 	addbashrc 
 	addce 
+	addces
 	adddfa
 	addga
 	addgcl
