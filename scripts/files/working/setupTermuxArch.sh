@@ -208,7 +208,7 @@ edq2 ()
 {
 	while true; do
 		if [[ $opt = bloom ]] || [[ $opt = manual ]];then
-			printf "Would you like to use \`\033[1;32mnano\033[0;32m\` or \`\033[1;32mvi\033[0;32m\` to edit \`\033[1;32msetupTermuxArchConfigs.sh\033[0;32m\`?  "
+			printf "\nWould you like to use \`\033[1;32mnano\033[0;32m\` or \`\033[1;32mvi\033[0;32m\` to edit \`\033[1;32msetupTermuxArchConfigs.sh\033[0;32m\`?  "
 			read -p "Answer nano or vi [n|V]? "  nv
 		else 
 			printf "\nChange the worldwide mirror to a mirror that is geographically nearby.  Choose only ONE active mirror in the mirrors file that you are about to edit.  Would you like to use \`\033[1;32mnano\033[0;32m\` or \`\033[1;32mvi\033[0;32m\` to edit the Arch Linux configuration files?  "
@@ -650,13 +650,13 @@ wgetif ()
 
 args=$@
 bin=startarch
-#dfl=/gen
+dfl=/gen
 #dm=curl
 dm=wget
 dmverbose="-q"
 #dmverbose="-v"
 stime=`date +%s|grep -o '....$'`
-versionid="gen.v1.0 id631594018"
+versionid="gen.v1.0 id033936718"
 
 setrootdir 
 
