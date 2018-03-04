@@ -135,8 +135,11 @@ makefinishsetup ()
 			rm -rf /etc/pacman.d/gnupg 
 			pacman-key --init 
 			echo disable-scdaemon > /etc/pacman.d/gnupg/gpg-agent.conf 
+			printf "\n\033[0;32m"
 			pacman -Syyu archlinux-keyring --noconfirm 
+			printf "\n\033[0;32m"
 			pacman-key --populate 
+			printf "\n\033[0;32m"
 			pacman-key --populate archlinux 
 		else
 			pacman -Syyu --noconfirm 
