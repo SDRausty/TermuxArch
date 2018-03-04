@@ -245,7 +245,6 @@ runfinishsetup ()
 	$ed $HOME$rootdir/etc/pacman.d/mirrorlist
 	while true; do
 		printf "\n\033[0;32mWhen \033[1;32mgpg: Generating pacman keyring master key\033[0;32m appears on the screen, the installation process can be accelerated.  The system desires a lot of entropy at this stage of the install procedure.  To generate as much entropy as possible quickly, watch and listen to a file from a file manager on your device.  To generate entropy, we want randomness.  \n\nThe programs \033[1;32mpacman\033[0;32m and \033[1;32mpacman-key\033[0;32m will want as much as possible when employing keys.  Entropy is also created through tapping, sliding, two and more finger tapping and long taps…  This method might not generate enough entropy for the process to complete quickly.  When \033[1;32mgpg: Generating pacman keyring master key\033[0;32m appears on the screen, use any of these simple methods to accelerate the installation process if it is stalled.  Or put even simpler, just do something and device.  Browsing files in a file manager is an example of generating entropy.\n\nWould you like to run \033[1;32mlocale-gen\033[0;32m to generate the en_US.UTF-8 locale, or edit \033[1;32m/etc/locale.gen\033[0;32m specifying your preferred language(s) before running \033[1;32mlocale-gen\033[0;32m?  "
-.
 		read -p "Answer yes to run, or edit to edit the file [Y|e] " ye
 	if [[ $ye = [Yy]* ]] || [[ $ye = "" ]];then
 		break
