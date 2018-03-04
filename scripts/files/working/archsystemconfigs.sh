@@ -216,16 +216,13 @@ addkeys ()
 	# https://sdrausty.github.io/TermuxArch/README has information about this project. 
 	################################################################################
 	printf "TermuxArch addkeys $versionid\n"
-	rm -rf /etc/pacman.d/gnupg
 	echo 0	rm -rf /etc/pacman.d/gnupg
-	pacman-key --init 
+	rm -rf /etc/pacman.d/gnupg
 	echo 0	pacman-key --init 
+	pacman-key --init 
+	echo 0	echo disable-scdaemon
 	echo disable-scdaemon > /etc/pacman.d/gnupg/gpg-agent.conf 
-	echo 0	echo disable-scdaemon > /etc/pacman.d/gnupg/gpg-agent.conf 
-	pacman-key --populate 
-	echo 0	pacman-key --populate 
-	pacman-key --populate archlinux 
-	echo 0	pacman-key --populate archlinux 
+	echo pacman -S archlinux-keyring --noconfirm 
 	if [ $(getprop ro.product.cpu.abi) = x86 ] || [ $(getprop ro.product.cpu.abi) = x86_64 ];then
 		if [ $(getprop ro.product.cpu.abi) = x86 ];then
 			pacman -S archlinux32-keyring-transition --noconfirm 
@@ -235,6 +232,10 @@ addkeys ()
 	else
 		pacman -S archlinux-keyring --noconfirm 
 	fi
+	echo 0	pacman-key --populate 
+	pacman-key --populate 
+	echo 0	pacman-key --populate archlinux 
+	pacman-key --populate archlinux 
 	echo 0
 	EOM
 	chmod 700 root/bin/addkeys
