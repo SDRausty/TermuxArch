@@ -239,12 +239,12 @@ runfinishsetup ()
 	if [[ $ed = "" ]];then
 		editors 
 	fi
-	sed -i -e 1,6d $HOME$rootdir/etc/pacman.d/mirrorlist
-	sed -i '1i# TermuxArch vi instructions:	CTR+r is redo.\n# Use the hjkl keys to navigate. <h down j up k l>\n# Numbers are multipliers.  The u key is undelete/undo.\n# 12j then i opens edit mode for the Geo-IP mirror.\n# Enter the # hash/num/pounds symbol to comment out: \n# Server = http://mirror.archlinuxarm.org/$arch/$repo.\n# Long tap KEYBOARD in the side pane to see ESC.\n# Tap ESC to return to command mode in vi.\n# Use CTRL+d and CTRL+b to find your local mirror.\n# Tap x to delete # uncommenting your local mirror.\n# Choose only one mirror.  Use :x to save your work.\n# Geo-IP mirror		end G		top gg' $HOME$rootdir/etc/pacman.d/mirrorlist
+	sed -i -e 1,4d $HOME$rootdir/etc/pacman.d/mirrorlist
+	sed -i '1i# # # # # # # # # # # # # # # # # # # # # # # # # # #\n# TermuxArch vi instructions:	CTR+r is redo.\n# Use the hjkl keys to navigate. <h down j up k l>\n# Numbers are multipliers.  The u is undelete/undo.\n# 14j then i opens edit mode for the Geo-IP mirror.\n# Enter the # hash/num/pounds symbol to comment out: \n# Server = http://mirror.archlinuxarm.org/$arch/$repo.\n# Long tap KEYBOARD in the side pane to see ESC.\n# Tap ESC to return to command mode in vi, i for insert.\n# Use CTRL+d and CTRL+b to find your local mirror.\n# Tap x to delete # uncommenting your local mirror.\n# Choose only one mirror.  Use :x to save your work.\n# Geo-IP mirror		end G		top gg\n# # # # # # # # # # # # # # # # # # # # # # # # # # #' $HOME$rootdir/etc/pacman.d/mirrorlist
 	printf "\033[0m"
 	$ed $HOME$rootdir/etc/pacman.d/mirrorlist
 	while true; do
-		printf "\n\033[0;32mWhen \033[1;32mgpg: Generating pacman keyring master key...\033[0;32m appears on the screen, the installation process can be accelerated.  The system desires a lot of entropy at this stage of the Arch Linux in Termux PRoot install procedure.  \n\nTo generate much entropy open a new Termux session. Swipe from the left edge of the device towards the right to open a new Termux session.  \n\nIn a new Termux session run \033[1;32m$HOME$rootdir/$bin\033[0;32m.  Use \033[1;32mlr\033[0;32m to generate the desired entropy.  This will generate plenty of entropy by printing the names of file in $HOME to your screen.  \n\nA \033[1;32mmuch\033[0;32m simpler way to generate entropy is simply to move your finger(s) around this screen randomly.  To generate entropy, we want randomness by tapping, sliding, two and more finger tapping and long taps…  This method might not generate enough entropy for the process to complete quickly.  \n\nWhen \033[1;32mgpg: Generating pacman keyring master key...\033[0;32m appears on the screen, use these two simple methods to accelerate the installation process.  \n\nWould you like to run \033[1;32mlocale-gen\033[0;32m to generate the en_US.UTF-8 locale, or edit \033[1;32m/etc/locale.gen\033[0;32m specifying your preferred language(s) before running \033[1;32mlocale-gen\033[0;32m?  "
+		printf "\n\033[0;32mWhen \033[1;32mgpg: Generating pacman keyring master key...\033[0;32m appears on the screen, the installation process can be accelerated.  The system desires a lot of entropy at this stage of the Arch Linux in Termux PRoot install procedure.  To generate much entropy open a new Termux session. Swipe from the left edge of the device towards the right to open a new Termux session.  \n\nIn a new Termux session run \033[1;32m$HOME$rootdir/$bin\033[0;32m.  Use \033[1;32mlr\033[0;32m to generate the desired entropy.  This will generate plenty of entropy by printing the names of files in $HOME to your screen.  If this isn't enough, use \033[1;32mlrr\033[0;32m to generate the desired entropy.  This will generate more entropy by printing the names of files to /dev/null.  \n\nA \033[1;32mmuch\033[0;32m simpler way to generate entropy is simply to move your finger(s) around this screen randomly.  To generate entropy, we want randomness by tapping, sliding, two and more finger tapping and long taps…  This method might not generate enough entropy for the process to complete quickly.  \n\nWhen \033[1;32mgpg: Generating pacman keyring master key...\033[0;32m appears on the screen, use these two simple methods to accelerate the installation process.  \n\nWould you like to run \033[1;32mlocale-gen\033[0;32m to generate the en_US.UTF-8 locale, or edit \033[1;32m/etc/locale.gen\033[0;32m specifying your preferred language(s) before running \033[1;32mlocale-gen\033[0;32m?  "
 		read -p "Answer yes to run, or edit to edit the file [Y|e] " ye
 	if [[ $ye = [Yy]* ]] || [[ $ye = "" ]];then
 		break
@@ -298,6 +298,7 @@ touchupsys ()
 	addauserps
 	addbash_profile 
 	addbashrc 
+	addce 
 	adddfa
 	addga
 	addgcl
