@@ -285,7 +285,7 @@ touchupsys ()
 	addgcm
 	addgp
 	addgpl
-	addkey 
+	addkeys 
 	addmotd
 	addprofile 
 	addresolvconf 

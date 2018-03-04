@@ -160,15 +160,15 @@ addgp ()
 	chmod 700 root/bin/gp 
 }
 
-addkey ()
+addkeys ()
 {
-	cat > root/bin/addkey <<- EOM
+	cat > root/bin/addkeys <<- EOM
 	#!/bin/bash -e
-	pacman-key --init ||:
-	echo disable-scdaemon > /etc/pacman.d/gnupg/gpg-agent.conf ||:
-	pacman-key --populate archlinux ||:
+	pacman-key --init 
+	echo disable-scdaemon > /etc/pacman.d/gnupg/gpg-agent.conf 
+	pacman-key --populate archlinux 
 	EOM
-	chmod 700 root/bin/addkey
+	chmod 700 root/bin/addkeys
 }
 
 addmotd ()
