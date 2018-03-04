@@ -142,11 +142,11 @@ addces ()
 	EOM
 	if [[ "$kid" -eq 1 ]]; then
 		cat >> ces <<- EOM
-		exec proot --kill-on-exit --kernel-release=4.14.15 --link2symlink -0 -r $HOME$rootdir/ -b /dev/ -b /sys/ -b /proc/ -b /storage/ -b $HOME -w $HOME /bin/env -i HOME=/root TERM="$TERM" PS1='[termux@arch \W]\$ ' LANG=$LANG PATH=/bin:/usr/bin:/sbin:/usr/sbin $HOME$rootdir/root/bin/ce ||:
+		exec proot --kill-on-exit --kernel-release=4.14.15 --link2symlink -0 -r $HOME$rootdir/ -b /dev/ -b /sys/ -b /proc/ -b /storage/ -b $HOME -w $HOME /bin/env -i HOME=/root TERM="$TERM" PS1='[termux@arch \W]\$ ' LANG=$LANG PATH=/bin:/usr/bin:/sbin:/usr/sbin $rootdir/root/bin/ce ||:
 		EOM
 	else
 		cat >> ces <<- EOM
-		exec proot --kill-on-exit --link2symlink -0 -r $HOME$rootdir/ -b /dev/ -b /sys/ -b /proc/ -b /storage/ -b $HOME -w $HOME /bin/env -i HOME=/root TERM="$TERM" PS1='[termux@arch \W]\$ ' LANG=$LANG PATH=/bin:/usr/bin:/sbin:/usr/sbin $HOME$rootdir/root/bin/ce ||:
+		exec proot --kill-on-exit --link2symlink -0 -r $HOME$rootdir/ -b /dev/ -b /sys/ -b /proc/ -b /storage/ -b $HOME -w $HOME /bin/env -i HOME=/root TERM="$TERM" PS1='[termux@arch \W]\$ ' LANG=$LANG PATH=/bin:/usr/bin:/sbin:/usr/sbin $rootdir/root/bin/ce ||:
 		EOM
 	fi
 	chmod 770 ces 
@@ -274,7 +274,7 @@ addkeys ()
 	# https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.  
 	# https://sdrausty.github.io/TermuxArch/README has information about this project. 
 	################################################################################
-	printf "\n\033[0;32mTermuxArch addkeys $versionidb.  When \033[1;32mgpg: Generating pacman keyring master key...\033[0;32m appears on the screen, the installation process can be accelerated.  The system desires a lot of entropy at this stage of the Arch Linux in Termux PRoot install procedure.  To generate much entropy open a new Termux session. Swipe from the left edge of the device towards the right to open a new Termux session.  \n\nIn a new Termux session run \033[1;32m$HOME$rootdir/$bin\033[0;32m.  Use \033[1;32mlr\033[0;32m to generate the desired entropy.  This will generate plenty of entropy by printing the names of files in $HOME to your screen.  If this isn't enough, use \033[1;32mlrr\033[0;32m to generate the desired entropy.  This will generate more entropy by printing the names of files to /dev/null.  \n\nA \033[1;32mmuch\033[0;32m simpler way to generate entropy is simply to move your finger(s) around this screen randomly.  To generate entropy, we want randomness by tapping, sliding, two and more finger tapping and long taps…  This method might not generate enough entropy for the process to complete quickly.  \n\nWhen \033[1;32mgpg: Generating pacman keyring master key...\033[0;32m appears on the screen, use these two simple methods to accelerate the installation process.\033[0;32m"
+	printf "\n\033[0;32mTermuxArch addkeys $versionidb.  \033[0;32mWhen \033[1;32mgpg: Generating pacman keyring master key\033[0;32m appears on the screen, the installation process can be accelerated.  The system desires a lot of entropy at this stage of the install procedure.  To generate as much entropy as possible quickly, watch and listen to a file from a file manager on your device.  To generate entropy, we want randomness.  \n\nThe programs \033[1;32mpacman\033[0;32m and \033[1;32mpacman-key\033[0;32m will want as much as possible when employing keys.  Entropy is also created through tapping, sliding, two and more finger tapping and long taps…  This method might not generate enough entropy for the process to complete quickly.  When \033[1;32mgpg: Generating pacman keyring master key\033[0;32m appears on the screen, use any of these simple methods to accelerate the installation process if it is stalled.  Or put even simpler, just do something and device.  Browsing files in a file manager is an example of generating entropy.\n\nWould you like to run \033[1;32mlocale-gen\033[0;32m to generate the en_US.UTF-8 locale, or edit \033[1;32m/etc/locale.gen\033[0;32m specifying your preferred language(s) before running \033[1;32mlocale-gen\033[0;32m?  "
 	mv /usr/lib/gnupg/scdaemon{,_} ||:
 	rm -rf /etc/pacman.d/gnupg ||:
 	pacman-key --init 
