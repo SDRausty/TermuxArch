@@ -197,10 +197,9 @@ makesystem ()
 		rmarchrm 
 		printmd5error
 	fi
-	printf "\n\033[1;34mInstalling \033[0;32mcurl\033[1;34m…\n\n\033[1;32m"
-	printf "\n\033[0;34m 🕛 > 🕤 \033[1;34mCleaning up installation files: \033[1;32mDONE…\n\n"'\033]2; 🕛 > 🕙 Cleaning up installation files: DONE 📲 \007'
+	printf "\n\033[0;34m 🕛 > 🕤 \033[1;34mCleaning up installation files: \033[1;32mDONE…\n"'\033]2; 🕛 > 🕙 Cleaning up installation files: DONE 📲 \007'
 	rm *.tar.gz *.tar.gz.md5
-	printf "\n\033[0;34m 🕛 > 🕙 \033[1;34mCleaning up installation files: \033[1;32mDONE\n\n"'\033]2; 🕛 > 🕙 Cleaning up installation files: DONE 📲 \007'
+	printf "\n\033[0;34m 🕛 > 🕙 \033[1;34mCleaning up installation files: \033[1;32mDONE\n"'\033]2; 🕛 > 🕙 Cleaning up installation files: DONE 📲 \007'
 	makebin 
 }
 
