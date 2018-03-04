@@ -146,7 +146,7 @@ makefinishsetup ()
 			pacman -Syyu --noconfirm ||: 
 		fi
 	fi
-	printf "\n"
+	printf "\n\033[0;32m"
 	locale-gen ||:
 	printf "\n"
 	tzselect
@@ -242,7 +242,7 @@ runfinishsetup ()
 		editors 
 	fi
 	sed -i -e 1,5d $HOME$rootdir/etc/pacman.d/mirrorlist
-	sed -i '1i# TermuxArch vi instructions:  CTR+r is redo.\n# Use the hjkl keys to navigate. <h down j up k l>\n# Numbers are multipliers.  The u key is undelete.\n# 17j and i opens edit mode for the Geo-IP mirror.\n# Enter the # hash/num/pounds symbol to comment out: \n# Server = http://mirror.archlinuxarm.org/$arch/$repo.\n# Long tap KEYBOARD in the side pane to see ESC.\n# Tap ESC to return to command mode in vi.\n# Use CTRL+d and CTRL+b to find your local mirror.\n# Tap x to delete # uncommenting your local mirror.\n# Choose only one mirror.  Use :x to save your work.' $HOME$rootdir/etc/pacman.d/mirrorlist
+	sed -i '1i# TermuxArch vi instructions:  CTR+r is redo.\n# Use the hjkl keys to navigate. <h down j up k l>\n# Numbers are multipliers.  The u key is undelete.\n# 12j and i opens edit mode for the Geo-IP mirror.\n# Enter the # hash/num/pounds symbol to comment out: \n# Server = http://mirror.archlinuxarm.org/$arch/$repo.\n# Long tap KEYBOARD in the side pane to see ESC.\n# Tap ESC to return to command mode in vi.\n# Use CTRL+d and CTRL+b to find your local mirror.\n# Tap x to delete # uncommenting your local mirror.\n# Choose only one mirror.  Use :x to save your work.' $HOME$rootdir/etc/pacman.d/mirrorlist
 	$ed $HOME$rootdir/etc/pacman.d/mirrorlist
 	while true; do
 		printf "\n\033[0;32mWould you like to run \033[1;32mlocale-gen\033[0;32m to generate the en_US.UTF-8 locale, or edit \033[1;32m/etc/locale.gen\033[0;32m specifying your preferred language(s) before running \033[1;32mlocale-gen\033[0;32m?  "
