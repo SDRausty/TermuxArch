@@ -318,7 +318,6 @@ touchupsys ()
 	addae
 	addauser
 	addauserps
-	add√
 	addbash_profile 
 	addbashrc 
 	addce 
