@@ -122,7 +122,7 @@ makefinishsetup ()
 		grep "proxy" $HOME/.profile | grep "export" >>  root/bin/$binfs 2>/dev/null ||:
 	fi
 	cat >> root/bin/$binfs <<- EOM
-	t=240
+	t=420
 	printf "\n"
 	if [ $(getprop ro.product.cpu.abi) = x86 ] || [ $(getprop ro.product.cpu.abi) = x86_64 ];then
 		pacman -Syu sed --noconfirm ||: 
