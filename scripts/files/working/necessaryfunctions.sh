@@ -129,10 +129,10 @@ makefinishsetup ()
 		mv /usr/lib/gnupg/scdaemon{,_} ||: 
 		rm -rf /etc/pacman.d/gnupg ||: 
 		for i in {1..4}; do
-			nice -n 20 find / -type f -exec cat {} \\; >/dev/null 2>/dev/null  & sleep \$t ; kill \$! &
-			nice -n 20 ls -alR / >/dev/null 2>/dev/null & sleep \$t ; kill \$! &
-			nice -n 20 find / >/dev/null 2>/dev/null & sleep \$t ; kill \$! &
-			nice -n 20 cat /dev/urandom >/dev/null & sleep \$t ; kill \$! &
+			\$(nice -n 20 find / -type f -exec cat {} \\; >/dev/null 2>/dev/null & sleep \$t ; kill \$!) &
+			\$(nice -n 20 ls -alR / >/dev/null 2>/dev/null & sleep \$t ; kill \$!) &
+			\$(nice -n 20 find / >/dev/null 2>/dev/null & sleep \$t ; kill \$!) &
+			\$(nice -n 20 cat /dev/urandom >/dev/null & sleep \$t ; kill \$!) &
 		done
 		pacman-key --init ||: 
 		echo disable-scdaemon > /etc/pacman.d/gnupg/gpg-agent.conf ||: 
@@ -145,10 +145,10 @@ makefinishsetup ()
 		mv /usr/lib/gnupg/scdaemon{,_} ||: 
 		rm -rf /etc/pacman.d/gnupg ||: 
 		for i in {1..4}; do
-			nice -n 20 find / -type f -exec cat {} \\; >/dev/null 2>/dev/null  & sleep \$t ; kill \$! &
-			nice -n 20 ls -alR / >/dev/null 2>/dev/null & sleep \$t ; kill \$! &
-			nice -n 20 find / >/dev/null 2>/dev/null & sleep \$t ; kill \$! &
-			nice -n 20 cat /dev/urandom >/dev/null & sleep \$t ; kill \$! &
+			\$(nice -n 20 find / -type f -exec cat {} \\; >/dev/null 2>/dev/null & sleep \$t ; kill \$!) &
+			\$(nice -n 20 ls -alR / >/dev/null 2>/dev/null & sleep \$t ; kill \$!) &
+			\$(nice -n 20 find / >/dev/null 2>/dev/null & sleep \$t ; kill \$!) &
+			\$(nice -n 20 cat /dev/urandom >/dev/null & sleep \$t ; kill \$!) &
 		done
 		pacman-key --init ||: 
 		echo disable-scdaemon > /etc/pacman.d/gnupg/gpg-agent.conf ||: 
