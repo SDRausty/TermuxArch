@@ -89,7 +89,6 @@ lkernid
 
 mainblock ()
 { 
-	rmarchq
 	spaceinfoq
 	callsystem 
 	printwld 
