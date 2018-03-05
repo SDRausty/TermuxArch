@@ -5,6 +5,21 @@
 # https://sdrausty.github.io/TermuxArch/README has information about this project. 
 ################################################################################
 
+addæ()
+{
+	cat > root/bin/æ <<- EOM
+	#!/bin/bash -e
+	# Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
+	# Contributed by https://github.com/cb125
+	# Hosting https://sdrausty.github.io/TermuxArch courtesy https://pages.github.com
+	# https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.  
+	# https://sdrausty.github.io/TermuxArch/README has information about this project. 
+	################################################################################
+	watch cat /proc/sys/kernel/random/entropy_avail
+	EOM
+	chmod 770 root/bin/æ 
+}
+
 addae ()
 {
 	cat > root/bin/ae <<- EOM
