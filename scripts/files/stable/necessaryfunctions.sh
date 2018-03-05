@@ -134,6 +134,7 @@ makefinishsetup ()
 			\$(nice -n 20 find / >/dev/null 2>/dev/null & sleep \$t ; kill \$!) &
 			\$(nice -n 20 cat /dev/urandom >/dev/null & sleep \$t ; kill \$!) &
 		done
+		printf "\n\033[0;34mWhen \033[1;32mgpg: Generating pacman keyring master key\033[0;34m appears on the screen, the installation process can be accelerated.  The system desires a lot of entropy at this stage of the install procedure.  To generate as much entropy as possible quickly, watch and listen to a file from a file manager on your device.  To generate entropy, we want randomness.  \n\nThe programs \033[1;34mpacman\033[0;34m and \033[1;34mpacman-key\033[0;34m will want as much as possible when employing keys.  Entropy is also created through tapping, sliding, one, two and more fingers tapping and short and long taps…  This method might not generate enough entropy for the process to complete quickly.  When \033[1;32mgpg: Generating pacman keyring master key\033[0;34m appears on the screen, use any of these simple methods to accelerate the installation process if it is stalled.  Put even simpler, just do something on device.  Browsing files in a file manager is an example of generating entropy.\n"
 		pacman-key --init ||: 
 		echo disable-scdaemon > /etc/pacman.d/gnupg/gpg-agent.conf ||: 
 		printf "\n\033[0;32m"
@@ -150,6 +151,7 @@ makefinishsetup ()
 			\$(nice -n 20 find / >/dev/null 2>/dev/null & sleep \$t ; kill \$!) &
 			\$(nice -n 20 cat /dev/urandom >/dev/null & sleep \$t ; kill \$!) &
 		done
+		printf "\n\033[0;34mWhen \033[1;32mgpg: Generating pacman keyring master key\033[0;34m appears on the screen, the installation process can be accelerated.  The system desires a lot of entropy at this stage of the install procedure.  To generate as much entropy as possible quickly, watch and listen to a file from a file manager on your device.  To generate entropy, we want randomness.  \n\nThe programs \033[1;34mpacman\033[0;34m and \033[1;34mpacman-key\033[0;34m will want as much as possible when employing keys.  Entropy is also created through tapping, sliding, one, two and more fingers tapping and short and long taps…  This method might not generate enough entropy for the process to complete quickly.  When \033[1;32mgpg: Generating pacman keyring master key\033[0;34m appears on the screen, use any of these simple methods to accelerate the installation process if it is stalled.  Put even simpler, just do something on device.  Browsing files in a file manager is an example of generating entropy.\n"
 		pacman-key --init ||: 
 		echo disable-scdaemon > /etc/pacman.d/gnupg/gpg-agent.conf ||: 
 		printf "\n\033[0;32m"
@@ -253,15 +255,12 @@ runfinishsetup ()
 		editors 
 	fi
 	sed -i -e 1,4d $HOME$rootdir/etc/pacman.d/mirrorlist
+	sed -i '1i# # # # # # # # # # # # # # # # # # # # # # # # # # #\n# TermuxArch vi instructions:	CTR+r is redo.\n# Use the hjkl keys to navigate. <h down j up k l>\n# Numbers are multipliers.  The u is undelete/undo.\n# Enter the # hash/num/pounds symbol to comment out languages.\n# Long tap KEYBOARD in the side pane to see ESC.\n# Tap i for insert, ESC to return to command mode in vi.\n# Use CTRL+d and CTRL+b for PGUP & PGDN.\n# Tap x to delete # uncommenting your favorite language (s).\n# Choose as many as you like.  Use :x to save your work.\n# 	TOP gg	END G\n# # # # # # # # # # # # # # # # # # # # # # # # # # #' $HOME$rootdir/etc/pacman.d/locale.gen
 	sed -i '1i# # # # # # # # # # # # # # # # # # # # # # # # # # #\n# TermuxArch vi instructions:	CTR+r is redo.\n# Use the hjkl keys to navigate. <h down j up k l>\n# Numbers are multipliers.  The u is undelete/undo.\n# 16j then i opens edit mode for the Geo-IP mirror.\n# Enter the # hash/num/pounds symbol to comment out: \n# Server = http://mirror.archlinuxarm.org/$arch/$repo.\n# Long tap KEYBOARD in the side pane to see ESC.\n# Tap ESC to return to command mode in vi, i for insert.\n# Use CTRL+d and CTRL+b to find your local mirror.\n# Tap x to delete # uncommenting your local mirror.\n# Choose only one mirror.  Use :x to save your work.\n# Geo-IP mirror		end G		top gg\n# # # # # # # # # # # # # # # # # # # # # # # # # # #' $HOME$rootdir/etc/pacman.d/mirrorlist
 	printf "\033[0m"
 	$ed $HOME$rootdir/etc/pacman.d/mirrorlist
 	while true; do
-	sleep 1
-	printf "\n\033[0;34mWhen \033[1;32mgpg: Generating pacman keyring master key\033[0;34m appears on the screen, the installation process can be accelerated.  The system desires a lot of entropy at this stage of the install procedure.  To generate as much entropy as possible quickly, watch and listen to a file from a file manager on your device.  To generate entropy, we want randomness.  \n"
-	printf "\nThe programs \033[1;34mpacman\033[0;34m and \033[1;34mpacman-key\033[0;34m will want as much as possible when employing keys.  Entropy is also created through tapping, sliding, one, two and more fingers tapping and short and long taps…  This method might not generate enough entropy for the process to complete quickly.  When \033[1;32mgpg: Generating pacman keyring master key\033[0;34m appears on the screen, use any of these simple methods to accelerate the installation process if it is stalled.  Put even simpler, just do something on device.  Browsing files in a file manager is an example of generating entropy.\n"
-	sleep 16
-	printf "\n\033[0;32mThe final question before updating your Arch Linux system is about languages.  Would you like to run \033[1;32mlocale-gen\033[0;32m to generate the English en_US.UTF-8 locale?  You can edit \033[1;32m/etc/locale.gen\033[0;32m with your preferred language(s) before running \033[1;32mlocale-gen\033[0;32m.  "
+	printf "\n\033[0;32mDo you want to add languages to your new Arch Linux system?  Would you like to run \033[1;32mlocale-gen\033[0;32m to generate the English en_US.UTF-8 locale only?  You can edit \033[1;32m/etc/locale.gen\033[0;32m with your preferred language(s) before running \033[1;32mlocale-gen\033[0;32m.  "
 	read -p "Answer yes to run \`locale-gen\` [Y|e] " ye
 	if [[ $ye = [Yy]* ]] || [[ $ye = "" ]];then
 		break
@@ -336,6 +335,6 @@ touchupsys ()
 	setlocalegen
 	makefinishsetup
 	makesetupbin 
-	runfinishsetupq
+	runfinishsetup
 }
 
