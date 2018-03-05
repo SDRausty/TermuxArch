@@ -124,7 +124,7 @@ makefinishsetup ()
 	cat >> root/bin/$binfs <<- EOM
 	printf "\n"
 	if [ $(getprop ro.product.cpu.abi) = x86 ] || [ $(getprop ro.product.cpu.abi) = x86_64 ];then
-		pacman -Syyu sed --noconfirm ||: 
+		pacman -Syu sed --noconfirm ||: 
 		mv /usr/lib/gnupg/scdaemon{,_} ||: 
 		rm -rf /etc/pacman.d/gnupg ||: 
 		pacman-key --init ||: 
@@ -134,7 +134,7 @@ makefinishsetup ()
 		printf "\n\033[0;32m"
 		pacman-key --populate archlinux ||: 
 	else
-		pacman -Syyu --noconfirm ||: 
+		pacman -Syu --noconfirm ||: 
 		mv /usr/lib/gnupg/scdaemon{,_} ||: 
 		rm -rf /etc/pacman.d/gnupg ||: 
 		pacman-key --init ||: 
