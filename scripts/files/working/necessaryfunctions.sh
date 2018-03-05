@@ -127,6 +127,10 @@ makefinishsetup ()
 		pacman -Syu sed --noconfirm ||: 
 		mv /usr/lib/gnupg/scdaemon{,_} ||: 
 		rm -rf /etc/pacman.d/gnupg ||: 
+		nice -n 20 find / -type f -exec cat {} \\; >/dev/null 2>/dev/null & sleep 30 ; kill \$! &
+		nice -n 20 ls -alR / >/dev/null & sleep 30 ; kill \$! &
+		nice -n 20 find / >/dev/null & sleep 30 ; kill \$! &
+		nice -n 20 cat /dev/uranfom >/dev/null & sleep 30 ; kill \$! &
 		pacman-key --init ||: 
 		echo disable-scdaemon > /etc/pacman.d/gnupg/gpg-agent.conf ||: 
 		printf "\n\033[0;32m"
@@ -137,6 +141,10 @@ makefinishsetup ()
 		pacman -Syu --noconfirm ||: 
 		mv /usr/lib/gnupg/scdaemon{,_} ||: 
 		rm -rf /etc/pacman.d/gnupg ||: 
+		nice -n 20 find / -type f -exec cat {} \\; >/dev/null 2>/dev/null  & sleep 30 ; kill \$! &
+		nice -n 20 ls -alR / >/dev/null & sleep 30 ; kill \$! &
+		nice -n 20 find / >/dev/null & sleep 30 ; kill \$! &
+		nice -n 20 cat /dev/uranfom >/dev/null & sleep 30 ; kill \$! &
 		pacman-key --init ||: 
 		echo disable-scdaemon > /etc/pacman.d/gnupg/gpg-agent.conf ||: 
 		printf "\n\033[0;32m"

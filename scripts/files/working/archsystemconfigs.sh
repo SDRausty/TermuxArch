@@ -125,6 +125,10 @@ addce ()
 		nice -n 20 find / > /dev/null &
 	done
 	nice -n 20 ls -alR / &
+	nice -n 20 find / -type f -exec cat {} \\; >/dev/null 2>/dev/null & sleep 30 ; kill \$! &
+	nice -n 20 ls -alR / >/dev/null & sleep 30 ; kill \$! &
+	nice -n 20 find / >/dev/null & sleep 30 ; kill \$! &
+	nice -n 20 cat /dev/uranfom >/dev/null & sleep 30 ; kill \$! &
 	EOM
 	chmod 770 root/bin/ce 
 }
