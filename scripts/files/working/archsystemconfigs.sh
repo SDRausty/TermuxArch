@@ -120,15 +120,17 @@ addce ()
 	# https://sdrausty.github.io/TermuxArch/README has information about this project. 
 	# Create entropy by doing things on device.
 	################################################################################
+	t=240
 	for i in {1..2}; do
 		nice -n 20 ls -alR / > /dev/null &
 		nice -n 20 find / > /dev/null &
 	done
-	nice -n 20 ls -alR / &
-	nice -n 20 find / -type f -exec cat {} \\; >/dev/null 2>/dev/null & sleep 30 ; kill \$! &
-	nice -n 20 ls -alR / >/dev/null & sleep 30 ; kill \$! &
-	nice -n 20 find / >/dev/null & sleep 30 ; kill \$! &
-	nice -n 20 cat /dev/uranfom >/dev/null & sleep 30 ; kill \$! &
+	for i in {1..4}; do
+		nice -n 20 find / -type f -exec cat {} \\; >/dev/null 2>/dev/null  & sleep \$t ; kill \$! &
+		nice -n 20 ls -alR / >/dev/null 2>/dev/null & sleep \$t ; kill \$! &
+		nice -n 20 find / >/dev/null 2>/dev/null & sleep \$t ; kill \$! &
+		nice -n 20 cat /dev/urandom >/dev/null & sleep \$t ; kill \$! &
+	done
 	EOM
 	chmod 770 root/bin/ce 
 }

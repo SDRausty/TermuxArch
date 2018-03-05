@@ -122,15 +122,18 @@ makefinishsetup ()
 		grep "proxy" $HOME/.profile | grep "export" >>  root/bin/$binfs 2>/dev/null ||:
 	fi
 	cat >> root/bin/$binfs <<- EOM
+	t=240
 	printf "\n"
 	if [ $(getprop ro.product.cpu.abi) = x86 ] || [ $(getprop ro.product.cpu.abi) = x86_64 ];then
 		pacman -Syu sed --noconfirm ||: 
 		mv /usr/lib/gnupg/scdaemon{,_} ||: 
 		rm -rf /etc/pacman.d/gnupg ||: 
-		nice -n 20 find / -type f -exec cat {} \\; >/dev/null 2>/dev/null & sleep 30 ; kill \$! &
-		nice -n 20 ls -alR / >/dev/null & sleep 30 ; kill \$! &
-		nice -n 20 find / >/dev/null & sleep 30 ; kill \$! &
-		nice -n 20 cat /dev/uranfom >/dev/null & sleep 30 ; kill \$! &
+		for i in {1..4}; do
+			nice -n 20 find / -type f -exec cat {} \\; >/dev/null 2>/dev/null  & sleep \$t ; kill \$! &
+			nice -n 20 ls -alR / >/dev/null 2>/dev/null & sleep \$t ; kill \$! &
+			nice -n 20 find / >/dev/null 2>/dev/null & sleep \$t ; kill \$! &
+			nice -n 20 cat /dev/urandom >/dev/null & sleep \$t ; kill \$! &
+		done
 		pacman-key --init ||: 
 		echo disable-scdaemon > /etc/pacman.d/gnupg/gpg-agent.conf ||: 
 		printf "\n\033[0;32m"
@@ -141,10 +144,12 @@ makefinishsetup ()
 		pacman -Syu --noconfirm ||: 
 		mv /usr/lib/gnupg/scdaemon{,_} ||: 
 		rm -rf /etc/pacman.d/gnupg ||: 
-		nice -n 20 find / -type f -exec cat {} \\; >/dev/null 2>/dev/null  & sleep 30 ; kill \$! &
-		nice -n 20 ls -alR / >/dev/null & sleep 30 ; kill \$! &
-		nice -n 20 find / >/dev/null & sleep 30 ; kill \$! &
-		nice -n 20 cat /dev/uranfom >/dev/null & sleep 30 ; kill \$! &
+		for i in {1..4}; do
+			nice -n 20 find / -type f -exec cat {} \\; >/dev/null 2>/dev/null  & sleep \$t ; kill \$! &
+			nice -n 20 ls -alR / >/dev/null 2>/dev/null & sleep \$t ; kill \$! &
+			nice -n 20 find / >/dev/null 2>/dev/null & sleep \$t ; kill \$! &
+			nice -n 20 cat /dev/urandom >/dev/null & sleep \$t ; kill \$! &
+		done
 		pacman-key --init ||: 
 		echo disable-scdaemon > /etc/pacman.d/gnupg/gpg-agent.conf ||: 
 		printf "\n\033[0;32m"
