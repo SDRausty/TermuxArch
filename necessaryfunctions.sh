@@ -124,7 +124,9 @@ makefinishsetup ()
 	t=420
 	printf "\n"
 	if [ $(getprop ro.product.cpu.abi) = x86 ] || [ $(getprop ro.product.cpu.abi) = x86_64 ];then
+		printf "\n\033[0;34m"
 		pacman -Syu sed --noconfirm ||: 
+		printf "\n\033[36m"
 		mv /usr/lib/gnupg/scdaemon{,_} ||: 
 		rm -rf /etc/pacman.d/gnupg ||: 
 		for i in {1..4}; do
