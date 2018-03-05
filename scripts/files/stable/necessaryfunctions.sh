@@ -264,7 +264,7 @@ runfinishsetup ()
 	printf "\033[0m"
 	$ed $HOME$rootdir/etc/pacman.d/mirrorlist
 	while true; do
-	printf "\n\033[0;32mDo you want to add languages to your Anew rch Linux system or would you like to run \033[1;32mlocale-gen\033[0;32m with the English en_US.UTF-8 locale only?  To edit \033[1;32m/etc/locale.gen\033[0;32m for your preferred language(s) before running \033[1;32mlocale-gen\033[0;32m choose edit.  "
+	printf "\n\033[0;32mAdd languages to the Arch Linux system? Would you like to run \033[1;32mlocale-gen\033[0;32m with the English en_US.UTF-8 locale only?  To edit \033[1;32m/etc/locale.gen\033[0;32m for your preferred language(s) before running \033[1;32mlocale-gen\033[0;32m choose edit.  "
 	read -p "Answer yes to run \`locale-gen\` for English en_US.UTF-8 locale only [Y|e] " ye
 	if [[ $ye = [Yy]* ]] || [[ $ye = "" ]];then
 		break
