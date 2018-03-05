@@ -259,11 +259,9 @@ runfinishsetup ()
 	while true; do
 	sleep 1
 	printf "\n\033[0;34mWhen \033[1;32mgpg: Generating pacman keyring master key\033[0;34m appears on the screen, the installation process can be accelerated.  The system desires a lot of entropy at this stage of the install procedure.  To generate as much entropy as possible quickly, watch and listen to a file from a file manager on your device.  To generate entropy, we want randomness.  \n"
-	sleep 8
 	printf "\nThe programs \033[1;34mpacman\033[0;34m and \033[1;34mpacman-key\033[0;34m will want as much as possible when employing keys.  Entropy is also created through tapping, sliding, one, two and more fingers tapping and short and long taps…  This method might not generate enough entropy for the process to complete quickly.  When \033[1;32mgpg: Generating pacman keyring master key\033[0;34m appears on the screen, use any of these simple methods to accelerate the installation process if it is stalled.  Put even simpler, just do something on device.  Browsing files in a file manager is an example of generating entropy.\n"
 	sleep 16
 	printf "\n\033[0;32mThe final question before updating your Arch Linux system is about languages.  Would you like to run \033[1;32mlocale-gen\033[0;32m to generate the English en_US.UTF-8 locale?  You can edit \033[1;32m/etc/locale.gen\033[0;32m with your preferred language(s) before running \033[1;32mlocale-gen\033[0;32m.  "
-	sleep 8
 	read -p "Answer yes to run \`locale-gen\` [Y|e] " ye
 	if [[ $ye = [Yy]* ]] || [[ $ye = "" ]];then
 		break

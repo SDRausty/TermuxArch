@@ -266,31 +266,6 @@ addgp ()
 	chmod 700 root/bin/gp 
 }
 
-addkeys ()
-{
-	cat > root/bin/addkeys <<- EOM
-	#!/bin/bash -e
-	# Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
-	# Contributors to this code are https://github.com/bambooeater, https://github.com/EsdrasTarsis and https://github.com/michalbednarski 
-	# Hosting https://sdrausty.github.io/TermuxArch courtesy https://pages.github.com
-	# https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.  
-	# https://sdrausty.github.io/TermuxArch/README has information about this project. 
-	################################################################################
-	printf "\n\033[0;32mTermuxArch addkeys $versionidb.  \033[0;32mWhen \033[1;32mgpg: Generating pacman keyring master key\033[0;32m appears on the screen, the installation process can be accelerated.  The system desires a lot of entropy at this stage of the install procedure.  To generate as much entropy as possible quickly, watch and listen to a file from a file manager on your device.  To generate entropy, we want randomness.  \n\nThe programs \033[1;32mpacman\033[0;32m and \033[1;32mpacman-key\033[0;32m will want as much as possible when employing keys.  Entropy is also created through tapping, sliding, two and more finger tapping and long taps…  This method might not generate enough entropy for the process to complete quickly.  When \033[1;32mgpg: Generating pacman keyring master key\033[0;32m appears on the screen, use any of these simple methods to accelerate the installation process if it is stalled.  Or put even simpler, just do something and device.  Browsing files in a file manager is an example of generating entropy.\n\nWould you like to run \033[1;32mlocale-gen\033[0;32m to generate the en_US.UTF-8 locale, or edit \033[1;32m/etc/locale.gen\033[0;32m specifying your preferred language(s) before running \033[1;32mlocale-gen\033[0;32m?  "
-	mv /usr/lib/gnupg/scdaemon{,_} ||:
-	rm -rf /etc/pacman.d/gnupg ||:
-	pacman-key --init 
-	echo disable-scdaemon > /etc/pacman.d/gnupg/gpg-agent.conf 
-	if [ $(getprop ro.product.cpu.abi) = x86 ] ;then
-		pacman -S archlinux32-keyring-transition --noconfirm 
-	else
-		pacman -S archlinux-keyring --noconfirm 
-	fi
-	pacman-key --populate archlinux 
-	EOM
-	chmod 700 root/bin/addkeys
-}
-
 addmotd ()
 {
 cat > etc/motd  <<- EOM
