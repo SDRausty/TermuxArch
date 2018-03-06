@@ -18,6 +18,8 @@
 
 [AccountsDept](https://github.com/accountsdept) submitted an issue, "Every Mirror Returning 404".  Result: setupTermuxArch.sh instructions improved!
 
+[abicorios](https://github.com/abicorios) opened https://github.com/sdrausty/TermuxArch/issues/27 How to use Xorg in TermuxArch? Contributed important XServer XSDL information.
+
 [BearChavez](https://github.com/BearChavez) submitted an issue.  Result: setupTermuxArch.sh improved!
 
 [brysgo](https://github.com/brysgo) helped debug Chromebook.  Result: setupTermuxArch.sh improved!
