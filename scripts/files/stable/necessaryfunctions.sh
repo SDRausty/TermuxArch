@@ -139,8 +139,8 @@ makefinishsetup ()
 		pacman-key --init ||: 
 		#echo disable-scdaemon > /etc/pacman.d/gnupg/gpg-agent.conf ||: 
 		printf "\n\033[0;32m"
-		#pacman -S archlinux-keyring --noconfirm ||: 
-		#printf "\n\033[0;32m"
+		pacman -S archlinux-keyring --noconfirm ||: 
+		printf "\n\033[0;32m"
 		pacman-key --populate archlinux ||: 
 	else
 		printf "\n\033[0;32m"
@@ -159,8 +159,8 @@ makefinishsetup ()
 		pacman-key --init ||: 
 		#echo disable-scdaemon > /etc/pacman.d/gnupg/gpg-agent.conf ||: 
 		printf "\n\033[0;32m"
-		#pacman -S archlinux-keyring --noconfirm ||: 
-		#printf "\n\033[0;32m"
+		pacman -S archlinux-keyring --noconfirm ||: 
+		printf "\n\033[0;32m"
 		pacman-key --populate archlinux ||: 
 	fi
 	printf "\n\033[0;32m"
