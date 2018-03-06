@@ -655,7 +655,7 @@ dm=wget
 dmverbose="-q"
 #dmverbose="-v"
 stime=`date +%s|grep -o '....$'`
-versionid="v1.0"
+versionid="gen.v1.0 id188007648"
 
 setrootdir 
 

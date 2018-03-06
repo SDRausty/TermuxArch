@@ -16,15 +16,15 @@
 
 ## Contributions have helped in the successful development of this script and project immensely.  The following contributors have helped to refine [setupTermuxArch.sh](https://raw.githubusercontent.com/sdrausty/TermuxArch/master/setupTermuxArch.tar.gz) 📲 __Thank you for contributing and collaborating!__  
 
-[AccountsDept](https://github.com/accountsdept) submitted an issue, "Every Mirror Returning 404".  Result: setupTermuxArch.sh instructions improved!
+[AccountsDept](https://github.com/accountsdept) submitted issue [#49](https://github.com/sdrausty/TermuxArch/issues/49), "Every Mirror Returning 404".  Result: setupTermuxArch.sh instructions improved!
 
-[abicorios](https://github.com/abicorios) opened https://github.com/sdrausty/TermuxArch/issues/27 How to use Xorg in TermuxArch? Contributed important XServer XSDL information.
+[abicorios](https://github.com/abicorios) opened issue [#27](https://github.com/sdrausty/TermuxArch/issues/27), How to use Xorg in TermuxArch? Contributed important XServer XSDL information.
 
 [BearChavez](https://github.com/BearChavez) submitted an issue.  Result: setupTermuxArch.sh improved!
 
 [brysgo](https://github.com/brysgo) helped debug Chromebook.  Result: setupTermuxArch.sh improved!
 
-[Codimiracle](https://github.com/Codimiracle) submitted, discussed issue https://github.com/sdrausty/TermuxArch/issues/46 "TermuxArch setup scripts has some error in Android x86_64(RemixOS 2.0.513) in Termux" and suggested solutions, thereby resolving the matter.  Result: setupTermuxArch.sh improved! 
+[Codimiracle](https://github.com/Codimiracle) submitted and discussed issue [#46](https://github.com/sdrausty/TermuxArch/issues/46), "TermuxArch setup scripts has some error in Android x86_64(RemixOS 2.0.513) in Termux" and suggested solutions resolving this matter.  Result: setupTermuxArch.sh improved! 
 
 [cb125](https://github.com/cb125) commented and contributed: `watch cat /proc/sys/kernel/random/entropy_avail` to resolve `pacman-key --populate archlinux` in issue #33. 
 
@@ -50,17 +50,17 @@ jlam: contributed `getprop ro.product.device` Chromebook detection, `getprop ro.
 
 [Neo-Oli](https://github.com/Neo-Oli) suggested `unset LD_PRELOAD` to resolve an issue when using `termux-exec`.  Result: setupTermuxArch.sh improved! 
 
-[rootconfig27](https://github.com/rootconfig27) contributed to `printoutstatements.sh` with this https://github.com/rootconfig27/TermuxArch/commit/5c5f1de746731b2f98dc11064fbfd7f8c9cd505a commit.
-
-[smu](https://github.com/smu) submitted an issue and helped debug i686 Chromebook installation.  Result: setupTermuxArch.sh improved!
+[rootconfig27](https://github.com/rootconfig27) contributed to `printoutstatements.sh` with this [9cd505a](https://github.com/rootconfig27/TermuxArch/commit/5c5f1de746731b2f98dc11064fbfd7f8c9cd505a) commit.
 
 [Soph1a7](https://github.com/Soph1a7) contributed to issues and submitted pull requests (locale-gen, printf, quiet, mirrors, `wget -A tar.gz -m -nd -np http://mirrors.evowise.com/archlinux/iso/latest`, et al ).  Also provided numerous constructive suggestions.  Result: setupTermuxArch.sh greatly improved, and working with this project improved too! 
 
+[smu](https://github.com/smu) submitted issues [#21](https://github.com/sdrausty/TermuxArch/issues/21) "`vi` Command Not Found" and [#24](https://github.com/sdrausty/TermuxArch/issues/24) "`sed` Command Not Found" which helped debug i686 Chromebook installation.  Result: setupTermuxArch.sh improved!
+
 [staymetal](https://github.com/staymetal) contributed: debugging wget v1.19.3 errors Result: setupTermuxArch.sh improved!
 
-[tomty89](https://github.com/tomty89) commented on issue 37 at [https://github.com/sdrausty/TermuxArch/issues/37](https://github.com/sdrausty/TermuxArch/issues/37) No such file or directory when setting Arch Linux up in Termux PRoot.  Helped debug this issue, `curl`, `proot bsdtar` statements and other script statements.  Result: [https://github.com/sdrausty/dfa](https://github.com/sdrausty/dfa) created and setupTermuxArch.sh improved: `TermuxArch: FREE SPACE WARNING` added, and `bsdtar` substituted for `busybox` `tar` trimming install dependencies for all arm architectures!
+[tomty89](https://github.com/tomty89) commented on issue [#37](https://github.com/sdrausty/TermuxArch/issues/37), No such file or directory when setting Arch Linux up in Termux PRoot.  Helped debug this issue, `curl`, `proot bsdtar` statements and other script statements.  Result: [https://github.com/sdrausty/dfa](https://github.com/sdrausty/dfa) created and setupTermuxArch.sh improved: `TermuxArch: FREE SPACE WARNING` added, and `bsdtar` substituted for `busybox` `tar` trimming install dependencies for all arm architectures!
 
-[Ublimjo](https://github.com/Ublimjo) submitted issue 37 at [https://github.com/sdrausty/TermuxArch/issues/37](https://github.com/sdrausty/TermuxArch/issues/37) No such or file directory when setting Arch Linux up in Termux PRoot and commented.  Result: [https://github.com/sdrausty/dfa](https://github.com/sdrausty/dfa) created and setupTermuxArch.sh improved!  TermuxArch space warnings added.
+[Ublimjo](https://github.com/Ublimjo) submitted issue [#37](https://github.com/sdrausty/TermuxArch/issues/37), No such or file directory when setting Arch Linux up in Termux PRoot and commented.  Result: [https://github.com/sdrausty/dfa](https://github.com/sdrausty/dfa) created and setupTermuxArch.sh improved!  TermuxArch space warnings added.
 
 [vishalbiswas](https://github.com/vishalbiswas) contributed: `export LD_PRELOAD=$PREFIX/lib/libtermux-exec.so`.  Result: setupTermuxArch.sh improved!
 
