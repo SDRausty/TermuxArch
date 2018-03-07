@@ -124,8 +124,7 @@ makefinishsetup ()
 	t=420
 	if [ $(getprop ro.product.cpu.abi) = x86 ] || [ $(getprop ro.product.cpu.abi) = x86_64 ];then
 	if [ $(getprop ro.product.cpu.abi) = x86 ];then
-		printf "\n\033[0;32m"
-		pacman -Syu sed archlinux32-keyring-transition --noconfirm ||: 
+		pacman -Syu sed archlinux32-keyring-transition --noconfirm --color always ||: 
 		printf "\n\033[36m"
 		mv /usr/lib/gnupg/scdaemon{,_} ||: 
 		rm -rf /etc/pacman.d/gnupg ||: 
@@ -136,16 +135,13 @@ makefinishsetup ()
 			\$(nice -n 20 find / >/dev/null 2>/dev/null & sleep \$t ; kill \$!) &
 			\$(nice -n 20 cat /dev/urandom >/dev/null & sleep \$t ; kill \$!) &
 		done
-		printf "\033[0;34mWhen \033[1;32mgpg: Generating pacman keyring master key\033[0;34m appears on the screen, the installation process can be accelerated.  The system desires a lot of entropy at this part of the install procedure.  To generate as much entropy as possible quickly, watch and listen to a file from the file manager on your device.  \n\nThe program  \033[1;34mpacman-key\033[0;34m will want as much entropy as possible when generating keys.  Entropy is also created through tapping, sliding, one, two and more fingers tapping with short and long taps.  This method might not generate enough entropy (A measure of randomness in a closed system) for the process to complete quickly.  When \033[1;32mgpg: Generating pacman keyring master key\033[0;34m appears on the screen, use any of these simple methods to accelerate the installation process if it is stalled.  Put even simpler, just do something on device.  Browsing files will create entropy on device.  This will accelerate the installation process.\n\n"
+		printf "\033[0;34mWhen \033[1;32mgpg: Generating pacman keyring master key\033[0;34m appears on the screen, the installation process can be accelerated.  The system desires a lot of entropy at this part of the install procedure.  To generate as much entropy as possible quickly, watch and listen to a file from the file manager on your device.  \n\nThe program  \033[1;34mpacman-key\033[0;34m will want as much entropy as possible when generating keys.  Entropy is also created through tapping, sliding, one, two and more fingers tapping with short and long taps.  This method might not generate enough entropy (A measure of randomness in a closed system) for the process to complete quickly.  When \033[1;32mgpg: Generating pacman keyring master key\033[0;34m appears on the screen, use any of these simple methods to accelerate the installation process if it is stalled.  Put even simpler, just do something on device.  Browsing files will create entropy on device.  This will accelerate the installation process.\n"
+		printf "\n\033[0;32m"
 		pacman-key --init ||: 
-		#echo disable-scdaemon > /etc/pacman.d/gnupg/gpg-agent.conf ||: 
-		#printf "\n\033[0;32m"
-		#pacman -S archlinux-keyring --noconfirm ||: 
 		printf "\n\033[0;32m"
 		pacman-key --populate archlinux ||: 
 	else
-		printf "\n\033[0;32m"
-		pacman -Syu sed archlinux-keyring --noconfirm ||: 
+		pacman -Syu sed archlinux-keyring --noconfirm --color always ||: 
 		printf "\n\033[36m"
 		mv /usr/lib/gnupg/scdaemon{,_} ||: 
 		rm -rf /etc/pacman.d/gnupg ||: 
@@ -156,17 +152,14 @@ makefinishsetup ()
 			\$(nice -n 20 find / >/dev/null 2>/dev/null & sleep \$t ; kill \$!) &
 			\$(nice -n 20 cat /dev/urandom >/dev/null & sleep \$t ; kill \$!) &
 		done
-		printf "\033[0;34mWhen \033[1;32mgpg: Generating pacman keyring master key\033[0;34m appears on the screen, the installation process can be accelerated.  The system desires a lot of entropy at this part of the install procedure.  To generate as much entropy as possible quickly, watch and listen to a file from the file manager on your device.  \n\nThe program  \033[1;34mpacman-key\033[0;34m will want as much entropy as possible when generating keys.  Entropy is also created through tapping, sliding, one, two and more fingers tapping with short and long taps.  This method might not generate enough entropy (A measure of randomness in a closed system) for the process to complete quickly.  When \033[1;32mgpg: Generating pacman keyring master key\033[0;34m appears on the screen, use any of these simple methods to accelerate the installation process if it is stalled.  Put even simpler, just do something on device.  Browsing files will create entropy on device.  This will accelerate the installation process.\n\n"
+		printf "\033[0;34mWhen \033[1;32mgpg: Generating pacman keyring master key\033[0;34m appears on the screen, the installation process can be accelerated.  The system desires a lot of entropy at this part of the install procedure.  To generate as much entropy as possible quickly, watch and listen to a file from the file manager on your device.  \n\nThe program  \033[1;34mpacman-key\033[0;34m will want as much entropy as possible when generating keys.  Entropy is also created through tapping, sliding, one, two and more fingers tapping with short and long taps.  This method might not generate enough entropy (A measure of randomness in a closed system) for the process to complete quickly.  When \033[1;32mgpg: Generating pacman keyring master key\033[0;34m appears on the screen, use any of these simple methods to accelerate the installation process if it is stalled.  Put even simpler, just do something on device.  Browsing files will create entropy on device.  This will accelerate the installation process.\n"
+		printf "\n\033[0;32m"
 		pacman-key --init ||: 
-		#echo disable-scdaemon > /etc/pacman.d/gnupg/gpg-agent.conf ||: 
-		#printf "\n\033[0;32m"
-		#pacman -S archlinux-keyring --noconfirm ||: 
 		printf "\n\033[0;32m"
 		pacman-key --populate archlinux ||: 
 	fi
 	else
-		printf "\n\033[0;32m"
-		pacman -Syu archlinux-keyring --noconfirm ||: 
+		pacman -Syu archlinux-keyring --noconfirm --color always ||: 
 		printf "\n\033[36m"
 		mv /usr/lib/gnupg/scdaemon{,_} ||: 
 		rm -rf /etc/pacman.d/gnupg ||: 
@@ -177,11 +170,9 @@ makefinishsetup ()
 			\$(nice -n 20 find / >/dev/null 2>/dev/null & sleep \$t ; kill \$!) &
 			\$(nice -n 20 cat /dev/urandom >/dev/null & sleep \$t ; kill \$!) &
 		done
-		printf "\033[0;34mWhen \033[1;32mgpg: Generating pacman keyring master key\033[0;34m appears on the screen, the installation process can be accelerated.  The system desires a lot of entropy at this part of the install procedure.  To generate as much entropy as possible quickly, watch and listen to a file from the file manager on your device.  \n\nThe program  \033[1;34mpacman-key\033[0;34m will want as much entropy as possible when generating keys.  Entropy is also created through tapping, sliding, one, two and more fingers tapping with short and long taps.  This method might not generate enough entropy (A measure of randomness in a closed system) for the process to complete quickly.  When \033[1;32mgpg: Generating pacman keyring master key\033[0;34m appears on the screen, use any of these simple methods to accelerate the installation process if it is stalled.  Put even simpler, just do something on device.  Browsing files will create entropy on device.  This will accelerate the installation process.\n\n"
+		printf "\033[0;34mWhen \033[1;32mgpg: Generating pacman keyring master key\033[0;34m appears on the screen, the installation process can be accelerated.  The system desires a lot of entropy at this part of the install procedure.  To generate as much entropy as possible quickly, watch and listen to a file from the file manager on your device.  \n\nThe program  \033[1;34mpacman-key\033[0;34m will want as much entropy as possible when generating keys.  Entropy is also created through tapping, sliding, one, two and more fingers tapping with short and long taps.  This method might not generate enough entropy (A measure of randomness in a closed system) for the process to complete quickly.  When \033[1;32mgpg: Generating pacman keyring master key\033[0;34m appears on the screen, use any of these simple methods to accelerate the installation process if it is stalled.  Put even simpler, just do something on device.  Browsing files will create entropy on device.  This will accelerate the installation process.\n"
+		printf "\n\033[0;32m"
 		pacman-key --init ||: 
-		#echo disable-scdaemon > /etc/pacman.d/gnupg/gpg-agent.conf ||: 
-		#printf "\n\033[0;32m"
-		#pacman -S archlinux-keyring --noconfirm ||: 
 		printf "\n\033[0;32m"
 		pacman-key --populate archlinux ||: 
 	fi
