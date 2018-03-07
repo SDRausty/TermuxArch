@@ -180,7 +180,7 @@ addga ()
 	# https://sdrausty.github.io/TermuxArch/README has information about this project. 
 	################################################################################
 	if [ ! -e /usr/bin/git ] ; then
-		pacman -Syu git --noconfirm
+		pacman -Syu git --noconfirm --color always
 		git add .
 	else
 		git add .
@@ -199,7 +199,7 @@ addgcl ()
 	# https://sdrausty.github.io/TermuxArch/README has information about this project. 
 	################################################################################
 	if [ ! -e /usr/bin/git ] ; then
-		pacman -Syu git --noconfirm
+		pacman -Syu git --noconfirm --color always
 		git clone \$@
 	else
 		git clone \$@
@@ -218,7 +218,7 @@ addgcm ()
 	# https://sdrausty.github.io/TermuxArch/README has information about this project. 
 	################################################################################
 	if [ ! -e /usr/bin/git ] ; then
-		pacman -Syu git --noconfirm
+		pacman -Syu git --noconfirm --color always
 		git commit
 	else
 		git commit
@@ -237,7 +237,7 @@ addgpl ()
 	# https://sdrausty.github.io/TermuxArch/README has information about this project. 
 	################################################################################
 	if [ ! -e /usr/bin/git ] ; then
-		pacman -Syu git --noconfirm
+		pacman -Syu git --noconfirm --color always
 		git pull
 	else
 		git pull
@@ -257,7 +257,7 @@ addgp ()
 	# git push https://username:password@github.com/username/repository.git master
 	################################################################################
 	if [ ! -e /usr/bin/git ] ; then
-		pacman -Syu git --noconfirm
+		pacman -Syu git --noconfirm --color always
 		git push
 	else
 		git push
@@ -311,7 +311,7 @@ addt ()
 	# https://sdrausty.github.io/TermuxArch/README has information about this project. 
 	################################################################################
 	if [ ! -e /usr/bin/tree ] ; then
-		pacman -Syu tree --noconfirm
+		pacman -Syu tree --noconfirm --color always
 		tree \$@
 	else
 		tree \$@
@@ -330,7 +330,7 @@ addv ()
 	# https://sdrausty.github.io/TermuxArch/README has information about this project. 
 	################################################################################
 	if [ ! -e /usr/bin/vim ] ; then
-		pacman -Syu vim --noconfirm
+		pacman -Syu vim --noconfirm --color always
 		vim \$@
 	else
 		vim \$@
@@ -349,7 +349,7 @@ addyt ()
 	# https://sdrausty.github.io/TermuxArch/README has information about this project. 
 	################################################################################
 	if [ ! -e /usr/bin/youtube-dl ] ; then
-		pacman -Syu python-pip --noconfirm
+		pacman -Syu python-pip --noconfirm --color always
 		pip install youtube-dl
 		youtube-dl \$@
 	else
