@@ -440,21 +440,16 @@ rmarchrm ()
 
 rmarchq ()
 {
-	if [[ $ruanswer = [Ee]* ]] || [[ $ruanswer = [Nn]* ]] || [[ $ruanswer = [Qq]* ]];then
-		:
-	else
-		if [ -d $HOME$rootdir ];then
-			printf "\n\033[0;33mTermuxArch: \033[1;33mDIRECTORY WARNING!  $HOME$rootdir/ \033[0;33mdirectory detected.  \033[1;30mTermux Arch installation shall continue.  \033[0;32mInstalling into a clean directory is recommended when using the worldwide mirror.  \033[1;30mUnless continuing from a geographically local mirror or x86/x86_64 download, removing $HOME$rootdir before continuing is suggested.  If in doubt, answer yes.\n"
-			rmarch
-		fi
+	if [ -d $HOME$rootdir ];then
+		printf "\n\033[0;33mTermuxArch: \033[1;33mDIRECTORY WARNING!  $HOME$rootdir/ \033[0;33mdirectory detected.  \033[1;30mTermux Arch installation shall continue.  \033[0;32mInstalling into a clean directory is recommended when using the worldwide mirror.  \033[1;30mUnless continuing from a geographically local mirror or x86/x86_64 download, removing $HOME$rootdir before continuing is suggested.  If in doubt, answer yes.\n"
+		rmarch
 	fi
 }
 
-rmbloom ()
+rmbloomq ()
 {
-	if [[ $rbuanswer = [Ee]* ]] || [[ $rbuanswer = [Nn]* ]] || [[ $rbuanswer = [Qq]* ]];then
-		:
-	else
+	if [ -d $HOME/TermuxArchBloom ];then
+		printf "\n\n\033[0;33mTermuxArch: \033[1;33mDIRECTORY WARNING!  $HOME/TermuxArchBloom/ \033[0;33mdirectory detected.  \033[1;30mTermux Arch will continue.\n"
 		while true; do
 			printf "\n\033[1;30m"
 			read -p "Refresh $HOME/TermuxArchBloom? [y|n] " rbuanswer
@@ -473,14 +468,6 @@ rmbloom ()
 				printf "\nYou answered \033[33;1m$rbuanswer\033[30m.\n\nAnswer \033[32mYes\033[30m or \033[1;31mNo\033[30m. [\033[32my\033[30m|\033[1;31mn\033[30m]\n"
 			fi
 		done
-	fi
-}
-
-rmbloomq ()
-{
-	if [ -d $HOME/TermuxArchBloom ];then
-		printf "\n\n\033[0;33mTermuxArch: \033[1;33mDIRECTORY WARNING!  $HOME/TermuxArchBloom/ \033[0;33mdirectory detected.  \033[1;30mTermux Arch will continue.\n"
-		rmbloom
 	fi
 }
 
@@ -655,7 +642,7 @@ dm=wget
 dmverbose="-q"
 #dmverbose="-v"
 stime=`date +%s|grep -o '....$'`
-versionid="gen.v1.1 id440894168"
+versionid="gen.v1.1 id371472767"
 
 setrootdir 
 
