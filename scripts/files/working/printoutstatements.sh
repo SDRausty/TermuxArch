@@ -9,7 +9,7 @@
 
 printcontacting ()
 {
-	printf  '\033]2;  🕛 > 🕞 \033[1;34mContacting worldwide mirror…\007'"\033[0;34m 🕛 > 🕞 \033[1;34mContacting worldwide mirror \033[0;32m$cmirror\033[1;34m: "
+ 	printf '\033]2;  🕛 > 🕞 Contacting worldwide mirror…\007'"\033[0;34m 🕛 > 🕞 \033[1;34mContacting worldwide mirror \033[0;32m$cmirror\033[1;34m: "
 }
 
 printcu ()
