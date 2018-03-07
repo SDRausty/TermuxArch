@@ -310,6 +310,7 @@ obloom ()
 	ls -al
 	printf "\n"
 	pwd
+	printf "\n"
 	dependsblock 
 	ls -al
 	printf "\n\033[1;34mUse \033[1;32mcd ~/TermuxArchBloom\033[0m to continue.\n\n\033[0m"'\033]2;  Thank you for using TermuxArch Bloom option via `setupTermuxArch.sh --bloom` 📲 \007'
@@ -455,7 +456,7 @@ rmbloomq ()
 			printf "\n\033[1;30m"
 			read -p "Refresh $HOME/TermuxArchBloom? [Y|n] " rbuanswer
 			if [[ $rbuanswer = [Ee]* ]] || [[ $rbuanswer = [Nn]* ]] || [[ $rbuanswer = [Qq]* ]];then
-				break
+				printtail 
 			elif [[ $rbuanswer = [Yy]* ]] || [[ $rbuanswer = "" ]];then
 				printf "\033[30mUninstalling $HOME/TermuxArchBloom…\n"
 				if [ -d $HOME/TermuxArchBloom ];then
@@ -643,7 +644,7 @@ dm=wget
 dmverbose="-q"
 #dmverbose="-v"
 stime=`date +%s|grep -o '....$'`
-versionid="gen.v1.1 id607201623"
+versionid="gen.v1.1 id391721331"
 
 setrootdir 
 
