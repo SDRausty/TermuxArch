@@ -59,7 +59,7 @@ printdownloadingftch ()
 
 printdownloadingftchit ()
 {
-	printf "\033[0;34m 🕛 > 🕓 \033[0;34mDownloading \033[0;32m$file \033[0;34mand checksum from \033[0;32mhttp://$mirror\033[0;34m…  \033[1;37mThis may take a long time pending connection.\n\n\033[0;32m"'\033]2; 🕛 > 🕓 Downloading the checksum and Arch Linux system image file…  \007'
+	printf "\033[0;34m 🕛 > 🕓 \033[0;34mDownloading the checksum file and \033[0;32m$file \033[0;34m from \033[0;32mhttp://$mirror\033[0;34m…  \033[1;37mThis may take a long time pending connection.\n\n\033[0;32m"'\033]2; 🕛 > 🕓 Downloading the checksum and Arch Linux system image file…  \007'
 }
 
 printconfigq ()
