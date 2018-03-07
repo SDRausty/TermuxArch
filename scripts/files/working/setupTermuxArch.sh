@@ -452,10 +452,10 @@ rmbloomq ()
 		printf "\n\n\033[0;33mTermuxArch: \033[1;33mDIRECTORY WARNING!  $HOME/TermuxArchBloom/ \033[0;33mdirectory detected.  \033[1;30mTermux Arch will continue.\n"
 		while true; do
 			printf "\n\033[1;30m"
-			read -p "Refresh $HOME/TermuxArchBloom? [y|n] " rbuanswer
+			read -p "Refresh $HOME/TermuxArchBloom? [Y|n] " rbuanswer
 			if [[ $rbuanswer = [Ee]* ]] || [[ $rbuanswer = [Nn]* ]] || [[ $rbuanswer = [Qq]* ]];then
 				break
-			elif [[ $rbuanswer = [Yy]* ]];then
+			elif [[ $rbuanswer = [Yy]* ]] || [[ $rbuanswer = "" ]];then
 				printf "\033[30mUninstalling $HOME/TermuxArchBloom…\n"
 				if [ -d $HOME/TermuxArchBloom ];then
 					rm -rf $HOME/TermuxArchBloom 
@@ -465,7 +465,7 @@ rmbloomq ()
 				printf "Uninstalling $HOME/TermuxArchBloom done.\n"
 				break
 			else
-				printf "\nYou answered \033[33;1m$rbuanswer\033[30m.\n\nAnswer \033[32mYes\033[30m or \033[1;31mNo\033[30m. [\033[32my\033[30m|\033[1;31mn\033[30m]\n"
+				printf "\nYou answered \033[33;1m$rbuanswer\033[30m.\n\nAnswer \033[32mYes\033[30m or \033[1;31mNo\033[30m. [\033[32mY\033[30m|\033[1;31mn\033[30m]\n"
 			fi
 		done
 	fi
@@ -642,7 +642,7 @@ dm=wget
 dmverbose="-q"
 #dmverbose="-v"
 stime=`date +%s|grep -o '....$'`
-versionid="gen.v1.1 id371472767"
+versionid="gen.v1.1 id676679951"
 
 setrootdir 
 
