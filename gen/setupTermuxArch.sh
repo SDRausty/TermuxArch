@@ -451,7 +451,7 @@ rmarchq ()
 rmbloomq ()
 {
 	if [ -d $HOME/TermuxArchBloom ];then
-		printf "\n\n\033[0;33mTermuxArch: \033[1;33mDIRECTORY WARNING!  $HOME/TermuxArchBloom/ \033[0;33mdirectory detected.  \033[1;30mTermux Arch will continue.\n"
+		printf "\n\n\033[0;33mTermuxArch: \033[1;33mDIRECTORY WARNING!  $HOME/TermuxArchBloom/ \033[0;33mdirectory detected.  \033[1;30msetupTermuxArch.sh --bloom will continue.\n"
 		while true; do
 			printf "\n\033[1;30m"
 			read -p "Refresh $HOME/TermuxArchBloom? [Y|n] " rbuanswer
@@ -644,7 +644,7 @@ dm=wget
 dmverbose="-q"
 #dmverbose="-v"
 stime=`date +%s|grep -o '....$'`
-versionid="gen.v1.1 id079373020"
+versionid="gen.v1.1 id662518123"
 
 setrootdir 
 
