@@ -638,13 +638,13 @@ wgetif ()
 
 args=$@
 bin=startarch
-dfl=/g en
+dfl=/gen
 #dm=curl
 dm=wget
 dmverbose="-q"
 #dmverbose="-v"
 stime=`date +%s|grep -o '....$'`
-versionid="gen.v1.1 id618950038"
+versionid="gen.v1.1 id621057099"
 
 setrootdir 
 
