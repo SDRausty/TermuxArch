@@ -173,12 +173,11 @@ makefinishsetup ()
 		printf "\n\033[0;34mWhen \033[1;32mAppending keys from archlinux.gpg\033[0;34m appears on the screen, the installation process can be accelerated.  The system desires a lot of entropy at this part of the install procedure.  To generate as much entropy as possible quickly, watch and listen to a file on your device.  \n\nThe program  \033[1;34mpacman-key\033[0;34m will want as much entropy as possible when generating keys.  Entropy is also created through tapping, sliding, one, two and more fingers tapping with short and long taps.  This method might not generate enough entropy (A measure of randomness in a closed system) for the process to complete quickly.  When \033[1;32mAppending keys from archlinux.gpg\033[0;34m appears on the screen, use any of these simple methods to accelerate the installation process if it is stalled.  Put even simpler, just do something on device.  Browsing files will create entropy on device.  This will accelerate the installation process.\n\n"
 		pacman-key --populate archlinux ||: 
 	fi
-	printf "\n\033[1;34m"
+	printf "\n\033[1;32m==> \033[1m"
 	locale-gen ||:
-	printf "\n\033[1;32m"
+	printf "\n\033[1;30m"
 	tzselect
-	printf "\n"
-	printf '\033]2; 🕛 > 🕤 Arch Linux in Termux is installed and configured.  📲  \007'
+	printf "\n"'\033]2; 🕛 > 🕤 Arch Linux in Termux is installed and configured.  📲  \007'
 	EOM
 	chmod 770 root/bin/finishsetup.sh 
 }
