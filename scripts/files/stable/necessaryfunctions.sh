@@ -356,6 +356,7 @@ touchupsys ()
 	addprofile 
 	addresolvconf 
 	addt 
+	addtour
 	addyt 
 	addv 
 	setlocalegen

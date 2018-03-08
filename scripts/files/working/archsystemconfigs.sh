@@ -320,6 +320,32 @@ addt ()
 	chmod 770 root/bin/t 
 }
 
+addtour ()
+{
+	cat > root/bin/tour <<- EOM
+	#!/bin/bash -e
+	# Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
+	# Hosting https://sdrausty.github.io/TermuxArch courtesy https://pages.github.com
+	# https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.  
+	# https://sdrausty.github.io/TermuxArch/README has information about this project. 
+	################################################################################
+	printf "\n\033[1;32m==> \033[1;37mRunning \033[1;32mlr ~\033[1;37m...\n"
+	lr ~
+	sleep 1
+	printf "\n\033[1;32m==> \033[1;37mRunning \033[1;32mt ~\033[1;37m...\n"
+	t ~
+	sleep 1
+	printf "\n\033[1;32m==> \033[1;37mRunning \033[1;32mcat ~/.bash_profile\033[1;37m...\n"
+	cat ~/.bash_profile
+	sleep 1
+	printf "\n\033[1;32m==> \033[1;37mRunning \033[1;32mcat ~/.bashrc\033[1;37m...\n"
+	cat ~/.bashrc
+	sleep 1
+	printf "\n\033[1;32m==> \033[1;37mShort tour is complete.\n"
+	EOM
+	chmod 770 root/bin/tour 
+}
+
 addv ()
 {
 	cat > root/bin/v  <<- EOM
