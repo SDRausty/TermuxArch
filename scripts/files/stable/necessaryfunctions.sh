@@ -175,7 +175,7 @@ makefinishsetup ()
 	fi
 	printf "\n\033[1;32m==> \033[1;37m"
 	locale-gen ||:
-	printf "\n\033[1;37m"
+	printf "\n\033[1;32m==> \033[1;37m"
 	tzselect
 	printf "\n"'\033]2; 🕛 > 🕤 Arch Linux in Termux is installed and configured.  📲  \007'
 	EOM
