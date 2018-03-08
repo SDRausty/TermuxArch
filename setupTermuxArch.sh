@@ -228,10 +228,10 @@ edq2 ()
 {
 	while true; do
 		if [[ $opt = bloom ]] || [[ $opt = manual ]];then
-			printf "\nWould you like to use \`\033[1;32mnano\033[0;32m\` or \`\033[1;32mvi\033[0;32m\` to edit \`\033[1;32msetupTermuxArchConfigs.sh\033[0;32m\`?  "
+			printf "\033[1;34m  Would you like to use \`\033[1;32mnano\033[0;32m\` or \`\033[1;32mvi\033[0;32m\` to edit \`\033[1;32msetupTermuxArchConfigs.sh\033[0;32m\`?  "
 			read -p "Answer nano or vi [n|V]? "  nv
 		else 
-			printf "\nChange the worldwide mirror to a mirror that is geographically nearby.  Choose only ONE active mirror in the mirrors file that you are about to edit.  Would you like to use \`\033[1;32mnano\033[0;32m\` or \`\033[1;32mvi\033[0;32m\` to edit the Arch Linux configuration files?  "
+			printf "\033[1;34m  Change the worldwide mirror to a mirror that is geographically nearby.  Choose only ONE active mirror in the mirrors file that you are about to edit.  Would you like to use \`\033[1;32mnano\033[0;32m\` or \`\033[1;32mvi\033[0;32m\` to edit the Arch Linux configuration files?  "
 			read -p "Answer nano or vi [n|V]? "  nv
 		fi
 		if [[ $nv = [Nn]* ]];then
@@ -246,6 +246,7 @@ edq2 ()
 		else
 			printf "\nYou answered \033[36;1m$nv\033[1;32m.\n\nAnswer nano or vi [n|v].  \n"
 		fi
+		printf "\n"
 	done	
 }
 
