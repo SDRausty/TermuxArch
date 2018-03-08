@@ -80,7 +80,7 @@ printmd5error ()
 
 printmd5success ()
 {
- 	printf '\033]2;  🕛 > 🕡 Uncompressing the image file…  This will take a long time; Be patient.\007'"\033[0;34m 🕛 > 🕕 \033[1;34mSystem image file download integrity: \033[1;32mOK\n\n\033[0;34m 🕛 > 🕡 \033[1;34mUncompressing \033[0;32m$file\033[1;34m into \033[0;32m$HOME$rootdir\033[1;34m.  \033[1;37mThis will take a long time; Be patient.  \033[1;34mThe option to install additional languages with Arch Linux in Termux PRoot will appear soon followed by \033[1;32mtzselect\033[1;34m.  Add the \033[1;32mtzselect\033[1;34m output code to \033[1;32m.bash_profile\033[1;34m so the time in Arch Linux for future sessions will be set correctly.  If curiosity prevails, use \033[0;36mdf\033[1;34m, \033[0;36mdu -hs\033[1;34m, \033[0;36mtop\033[1;34m and \033[0;36mwatch\033[1;34m in a new Termux session while this session completes…\n\033[0m"
+ 	printf '\033]2;  🕛 > 🕡 Uncompressing the image file…  This will take a long time; Be patient.\007'"\033[0;34m 🕛 > 🕕 \033[1;34mSystem image file download integrity: \033[1;32mOK\n\n\033[0;34m 🕛 > 🕡 \033[1;34mUncompressing \033[0;32m$file\033[1;34m into \033[0;32m$HOME$rootdir\033[1;34m.  \033[1;37mThis will take a long time; Be patient.  \033[1;34mThe option to install additional languages with Arch Linux in Termux PRoot will appear soon followed by \033[1;32mtzselect\033[1;34m.  Add the \033[1;32mtzselect\033[1;34m output code to \033[1;32m.bash_profile\033[1;34m so the system time in Arch Linux for future sessions will be set correctly.  If curiosity prevails, use \033[0;36mdf\033[1;34m, \033[0;36mdu -hs\033[1;34m, \033[0;36mtop\033[1;34m and \033[0;36mwatch\033[1;34m in a new Termux session while this session completes…\n\033[0m"
 }
 
 printmismatch ()
@@ -93,6 +93,6 @@ printfooter ()
 {
 	printf "\033[0;34m 🕛 > 🕥 \033[1;34mUse \033[1;32m.$rootdir/$bin\033[1;34m from the \033[1;32m\$HOME\033[1;34m directory to launch Arch Linux in Termux for future sessions.   Alternatively copy \033[1;32m$bin\033[1;34m to the \033[32m\$PATH\033[1;34m which is, \033[37m$PATH\033[0m.\n\n"'\033]2;  Thank you for using `setupTermuxArch.sh` to install Arch Linux in Termux 📲  \007'
 	copybin2path
-	printf "\033[0;32m 🕛 = 🕛 \033[1;34mAdd the \033[1;32mtzselect\033[1;34m output code to \033[1;32m.bash_profile\033[1;34m so the time in Arch Linux for future sessions will be set correctly.  Information about, \033[0;34m\"Starting Arch Linux from Termux?\"\033[1;34m at https://github.com/sdrausty/TermuxArch/issues/25.  Arch Linux is installed in \033[0;32m$HOME$rootdir\033[1;34m.\n\n\033[0m"
+	printf "\033[0;32m 🕛 = 🕛 \033[1;34mAdd the \033[1;32mtzselect\033[1;34m output code to \033[1;32m.bash_profile\033[1;34m so the system time in Arch Linux for future sessions will be set correctly.  Information about, \033[0;34m\"Starting Arch Linux from Termux?\"\033[1;34m at https://github.com/sdrausty/TermuxArch/issues/25.  Arch Linux is installed in \033[0;32m$HOME$rootdir\033[1;34m.\n\n\033[0m"
 }
 
