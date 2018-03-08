@@ -246,7 +246,7 @@ edq2 ()
 		else
 			printf "\nYou answered \033[36;1m$nv\033[1;32m.\n\nAnswer nano or vi [n|v].  \n"
 		fi
-		printf "\n"
+		printf "\n\n"
 	done	
 }
 
