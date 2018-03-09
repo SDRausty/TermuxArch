@@ -169,7 +169,7 @@ addce ()
 }
 addces ()
 {
-	cat > ces<<- EOM
+	cat > bin/ces<<- EOM
 	#!$PREFIX/bin/bash -e
 	# Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
 	# Hosting https://sdrausty.github.io/TermuxArch courtesy https://pages.github.com
@@ -180,15 +180,15 @@ addces ()
 	unset LD_PRELOAD
 	EOM
 	if [[ "$kid" -eq 1 ]]; then
-		cat >> ces <<- EOM
+		cat >> bin/ces <<- EOM
 		exec proot --kill-on-exit --kernel-release=4.14.15 --link2symlink -0 -r $HOME$rootdir/ -b /dev/ -b /sys/ -b /proc/ -b /storage/ -b $HOME -w $HOME /bin/env -i HOME=/root TERM="$TERM" PS1='[termux@arch \W]\$ ' LANG=$LANG PATH=/bin:/usr/bin:/sbin:/usr/sbin $rootdir/root/bin/ce ||:
 		EOM
 	else
-		cat >> ces <<- EOM
+		cat >> bin/ces <<- EOM
 		exec proot --kill-on-exit --link2symlink -0 -r $HOME$rootdir/ -b /dev/ -b /sys/ -b /proc/ -b /storage/ -b $HOME -w $HOME /bin/env -i HOME=/root TERM="$TERM" PS1='[termux@arch \W]\$ ' LANG=$LANG PATH=/bin:/usr/bin:/sbin:/usr/sbin /root/bin/ce ||:
 		EOM
 	fi
-	chmod 770 ces 
+	chmod 770 bin/ces 
 }
 
 adddfa ()
