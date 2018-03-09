@@ -653,7 +653,7 @@ dm=wget
 dmverbose="-q"
 #dmverbose="-v"
 stime=`date +%s|grep -o '....$'`
-versionid="gen.v1.1 id121132765"
+versionid="gen.v1.1 id203295012"
 
 setrootdir 
 
@@ -705,7 +705,7 @@ elif [[ $1 = [Ii]* ]] || [[ $1 = -[Ii]* ]] || [[ $1 = --[Ii]* ]] ||  [[ $1 = [Rr
 	intro 
 	mainblock
 # [refresh] Refresh Arch Linux in Termux PRoot using TermuxArch.  Useful for refreshing TermuxArch generated scripts to the newest version.  
-elif [[ $1 = [Re]* ]] || [[ $1 = -[Re]* ]] || [[ $1 = --[Re]* ]];then
+elif [[ $1 = [Rr][Ee]* ]] || [[ $1 = -[Rr][Ee]* ]] || [[ $1 = --[Rr][Ee]* ]];then
 	introrefresh 
 # [run] Run local copy of TermuxArch from TermuxArchBloom.  Useful for running customized TermuxArch locally.  
 elif [[ $1 = [Rr]* ]] || [[ $1 = -[Rr]* ]] || [[ $1 = --[Rr]* ]];then
