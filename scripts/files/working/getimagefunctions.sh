@@ -22,6 +22,7 @@ ftchstnd ()
 	if [[ $dm = wget ]];then 
 		while ! $(grep Location gmirror | awk {'print $2'}) ||: ; do
 		wget -v -O/dev/null $cmirror 2>gmirror
+		cat gmirror
 		nmirror=$(grep Location gmirror | awk {'print $2'}) 
 		sleep 2
 	done
