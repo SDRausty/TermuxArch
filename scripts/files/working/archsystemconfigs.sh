@@ -303,9 +303,9 @@ addgp ()
 	chmod 700 root/bin/gp 
 }
 
-addmakepkg.diff ()
+addmakepkgdiff ()
 {
-	cat > etc/makepkg.diff <<- EOM
+	cat > root/bin/makepkg.diff <<- EOM
 	170c170
 	< 	fakeroot -- \$0 -F "\${ARGLIST[@]}" || exit \$?
 	---

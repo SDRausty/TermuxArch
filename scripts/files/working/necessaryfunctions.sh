@@ -398,7 +398,7 @@ touchupsys ()
 	addgcm
 	addgp
 	addgpl
-	addmakepkg.diff
+	addmakepkgdiff
 	addmotd
 	addprofile 
 	addresolvconf 
