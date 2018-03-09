@@ -250,9 +250,9 @@ makestartbin ()
 		# [login user|su user] || [login user -c command|su user -c command] Login as user.  Alternatively, login as user and execute command.  Use \`addauser user\` first to create this user and the user home directory.
 		elif [[ \$1 = [Ll]* ]] || [[ \$1 = -[Ll]* ]] || [[ \$1 = --[Ll]* ]] || [[ \$1 = [Ss]* ]] || [[ \$1 = -[Ss]* ]] || [[ \$1 = --[Ss]* ]];then
 		exec proot --kill-on-exit --link2symlink -0 -r \$HOME$rootdir/ -b /dev/ -b \$ANDROID_DATA -b \$EXTERNAL_STORAGE -b /proc/ -w "\$PWD" /bin/env -i HOME=/root TERM=\$TERM LANG=\$LANG PATH=/bin:/usr/bin:/sbin:/usr/sbin /bin/su - \$2
-		# [raw args] Construct the \`startarch\` proot statement.  For example \`startarch r su - archuser\` will login as user archuser.  Use \`addauser archuser\` first to create this user and the user home directory.
+		# [raw args] Construct the \`startarch\` proot statement.  For example \`startarch r su - archuser\` will login as user archuser.  Use \`addauser archuser\` first to create this user and the user's home directory.
 		elif [[ \$1 = [Rr]* ]] || [[ \$1 = -[Rr]* ]] || [[ \$1 = --[Rr]* ]];then
-		exec proot --kill-on-exit --link2symlink -0 -r \$HOME$rootdir/ -b /dev/ -b \$ANDROID_DATA -b \$EXTERNAL_STORAGE -b /proc/ -w "\$PWD" /bin/env -i HOME=/root TERM=\$TERM LANG=\$LANG PATH=/bin:/usr/bin:/sbin:/usr/sbin /bin/su - \$2 -c "\${*:3}"
+		exec proot --kill-on-exit --link2symlink -0 -r \$HOME$rootdir/ -b /dev/ -b \$ANDROID_DATA -b \$EXTERNAL_STORAGE -b /proc/ -w "\$PWD" /bin/env -i HOME=/root TERM=\$TERM LANG=\$LANG PATH=/bin:/usr/bin:/sbin:/usr/sbin /bin/\$*
 		else
 		# [] Default Arch Linux in Termux PRoot root login.
 		exec proot --kill-on-exit --link2symlink -0 -r \$HOME$rootdir/ -b /dev/ -b \$ANDROID_DATA -b \$EXTERNAL_STORAGE -b /proc/ -w "\$PWD" /bin/env -i HOME=/root TERM=\$TERM LANG=\$LANG PATH=/bin:/usr/bin:/sbin:/usr/sbin /bin/bash -l
