@@ -70,6 +70,5 @@ refreshsys ()
 	ls -al $HOME$rootdir/root/bin/
 	ls -al $HOME$rootdir/ces
 	ls -al $HOME$rootdir/startarch
-	printf "\n"
 }
 
