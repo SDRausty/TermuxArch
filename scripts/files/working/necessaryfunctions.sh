@@ -212,7 +212,7 @@ makestartbin ()
 		EOM
 	else
 		cat >> $bin <<- EOM
-		if [[ $1 = [Rr]* ]] || [[ $1 = -[Rr]* ]] || [[ $1 = --[Rr]* ]];then
+		if [[ \$1 = [Rr]* ]] || [[ \$1 = -[Rr]* ]] || [[ \$1 = --[Rr]* ]];then
 		exec proot --kill-on-exit --link2symlink -0 -r $HOME$rootdir/ -b /dev/ -b /sys/ -b /proc/ -b /storage/ -b $HOME -w $HOME /bin/env -i HOME=/root TERM="$TERM" PS1='[termux@arch \W]\$ ' LANG=$LANG PATH=/bin:/usr/bin:/sbin:/usr/sbin /bin/\$@ --login ||:
 		else
 		exec proot --kill-on-exit --link2symlink -0 -r $HOME$rootdir/ -b /dev/ -b /sys/ -b /proc/ -b /storage/ -b $HOME -w $HOME /bin/env -i HOME=/root TERM="$TERM" PS1='[termux@arch \W]\$ ' LANG=$LANG PATH=/bin:/usr/bin:/sbin:/usr/sbin /bin/bash --login ||:
