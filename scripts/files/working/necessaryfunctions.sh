@@ -150,7 +150,7 @@ makefinishsetup ()
 	if [ $(getprop ro.product.cpu.abi) = x86 ];then
 		pacman -Syu sed archlinux32-keyring-transition patch --noconfirm --color always ||: 
 		printf "\n\033[36m"
-		mv /usr/lib/gnupg/scdaemon{,_} ||: 
+		mv /usr/lib/gnupg/scdaemon{,_} 2>/dev/null ||: 
 		rm -rf /etc/pacman.d/gnupg ||: 
 		# This for loop generates entropy for \$t seconds.
 		for i in {1..4}; do
@@ -166,7 +166,7 @@ makefinishsetup ()
 	else
 		pacman -Syu sed archlinux-keyring patch --noconfirm --color always ||: 
 		printf "\n\033[36m"
-		mv /usr/lib/gnupg/scdaemon{,_} ||: 
+		mv /usr/lib/gnupg/scdaemon{,_} 2>/dev/null ||: 
 		rm -rf /etc/pacman.d/gnupg ||: 
 		# This for loop generates entropy for \$t seconds.
 		for i in {1..4}; do
@@ -183,7 +183,7 @@ makefinishsetup ()
 	else
 		pacman -Syu archlinux-keyring patch --noconfirm --color always ||: 
 		printf "\n\033[36m"
-		mv /usr/lib/gnupg/scdaemon{,_} ||: 
+		mv /usr/lib/gnupg/scdaemon{,_} 2>/dev/null ||: 
 		rm -rf /etc/pacman.d/gnupg ||: 
 		# This for loop generates entropy for \$t seconds.
 		for i in {1..4}; do
@@ -252,10 +252,10 @@ makestartbin ()
 		exec proot --kill-on-exit --kernel-release=4.14.15 --link2symlink -0 -r \$HOME$rootdir/ -b /dev/ -b \$ANDROID_DATA -b \$EXTERNAL_STORAGE -b /proc/ -w "\$PWD" /bin/env -i HOME=/root TERM=\$TERM PATH=/bin:/usr/bin:/sbin:/usr/sbin /bin/bash -lc  "\${*:2}"
 		# [login user|su user] || [login user -c command|su user -c command] Login as user.  Alternatively, login as user and execute command.  Use \`addauser user\` first to create this user and the user home directory.
 		elif [[ \$1 = [Ll]* ]] || [[ \$1 = -[Ll]* ]] || [[ \$1 = --[Ll]* ]] || [[ \$1 = [Ss]* ]] || [[ \$1 = -[Ss]* ]] || [[ \$1 = --[Ss]* ]];then
-		exec proot --kill-on-exit --kernel-release=4.14.15 --link2symlink -0 -r \$HOME$rootdir/ -b /dev/ -b \$ANDROID_DATA -b \$EXTERNAL_STORAGE -b /proc/ -w "\$PWD" /bin/env -i HOME=/root TERM=\$TERM PATH=/bin:/usr/bin:/sbin:/usr/sbin /bin/su - \$2 -c "\${*:3}"
+		exec proot --kill-on-exit --kernel-release=4.14.15 --link2symlink -0 -r \$HOME$rootdir/ -b /dev/ -b \$ANDROID_DATA -b \$EXTERNAL_STORAGE -b /proc/ -w "\$PWD" /bin/env -i HOME=/root TERM=\$TERM PATH=/bin:/usr/bin:/sbin:/usr/sbin /bin/su - \$2 -c "\${@:3}"
 		# [raw args] Construct the \`startarch\` proot statement.  For example \`startarch r su - archuser\` will login as user archuser.  Use \`addauser archuser\` first to create this user and the user home directory.
 		elif [[ \$1 = [Rr]* ]] || [[ \$1 = -[Rr]* ]] || [[ \$1 = --[Rr]* ]];then
-		exec proot --kill-on-exit --kernel-release=4.14.15 --link2symlink -0 -r \$HOME$rootdir/ -b /dev/ -b \$ANDROID_DATA -b \$EXTERNAL_STORAGE -b /proc/ -w "\$PWD" /bin/env -i HOME=/root TERM=\$TERM PATH=/bin:/usr/bin:/sbin:/usr/sbin /bin/"\${*:2}"
+		exec proot --kill-on-exit --kernel-release=4.14.15 --link2symlink -0 -r \$HOME$rootdir/ -b /dev/ -b \$ANDROID_DATA -b \$EXTERNAL_STORAGE -b /proc/ -w "\$PWD" /bin/env -i HOME=/root TERM=\$TERM PATH=/bin:/usr/bin:/sbin:/usr/sbin /bin/"\${@:2}"
 		else
 		# [] Default Arch Linux in Termux PRoot root login.
 		exec proot --kill-on-exit --kernel-release=4.14.15 --link2symlink -0 -r \$HOME$rootdir/ -b /dev/ -b \$ANDROID_DATA -b \$EXTERNAL_STORAGE -b /proc/ -w "\$PWD" /bin/env -i HOME=/root TERM=\$TERM PATH=/bin:/usr/bin:/sbin:/usr/sbin /bin/bash -l
@@ -266,12 +266,15 @@ makestartbin ()
 		# [command args] Execute a command in BASH as root.
 		if [[ \$1 = [Cc]* ]] || [[ \$1 = -[Cc]* ]] || [[ \$1 = --[Cc]* ]];then
 		exec proot --kill-on-exit --link2symlink -0 -r \$HOME$rootdir/ -b /dev/ -b \$ANDROID_DATA -b \$EXTERNAL_STORAGE -b /proc/ -w "\$PWD" /bin/env -i HOME=/root TERM=\$TERM PATH=/bin:/usr/bin:/sbin:/usr/sbin /bin/bash -lc "\${*:2}"
+		# [login user -c command] Login as user and execute command.  Use \`addauser user\` first to create this user and the user home directory.
+		elif [[ \$1 = [Ll]* ]] || [[ \$1 = -[Ll]* ]] || [[ \$1 = --[Ll]* ]] ;then
+		exec proot --kill-on-exit --link2symlink -0 -r \$HOME$rootdir/ -b /dev/ -b \$ANDROID_DATA -b \$EXTERNAL_STORAGE -b /proc/ -w "\$PWD" /bin/env -i HOME=/root TERM=\$TERM PATH=/bin:/usr/bin:/sbin:/usr/sbin /bin/su - \$2 -c "\${@:3}"
 		# [login user|su user] || [login user -c command|su user -c command] Login as user.  Alternatively, login as user and execute command.  Use \`addauser user\` first to create this user and the user home directory.
-		elif [[ \$1 = [Ll]* ]] || [[ \$1 = -[Ll]* ]] || [[ \$1 = --[Ll]* ]] || [[ \$1 = [Ss]* ]] || [[ \$1 = -[Ss]* ]] || [[ \$1 = --[Ss]* ]];then
-		exec proot --kill-on-exit --link2symlink -0 -r \$HOME$rootdir/ -b /dev/ -b \$ANDROID_DATA -b \$EXTERNAL_STORAGE -b /proc/ -w "\$PWD" /bin/env -i HOME=/root TERM=\$TERM PATH=/bin:/usr/bin:/sbin:/usr/sbin /bin/su - \$2 -c "\${*:3}"
+		elif [[ \$1 = [Ss]* ]] || [[ \$1 = -[Ss]* ]] || [[ \$1 = --[Ss]* ]];then
+		exec proot --kill-on-exit --link2symlink -0 -r \$HOME$rootdir/ -b /dev/ -b \$ANDROID_DATA -b \$EXTERNAL_STORAGE -b /proc/ -w "\$PWD" /bin/env -i HOME=/root TERM=\$TERM PATH=/bin:/usr/bin:/sbin:/usr/sbin /bin/su - "\${@:2}"
 		# [raw args] Construct the \`startarch\` proot statement.  For example \`startarch r su - archuser\` will login as user archuser.  Use \`addauser archuser\` first to create this user and the user's home directory.
 		elif [[ \$1 = [Rr]* ]] || [[ \$1 = -[Rr]* ]] || [[ \$1 = --[Rr]* ]];then
-		exec proot --kill-on-exit --link2symlink -0 -r \$HOME$rootdir/ -b /dev/ -b \$ANDROID_DATA -b \$EXTERNAL_STORAGE -b /proc/ -w "\$PWD" /bin/env -i HOME=/root TERM=\$TERM PATH=/bin:/usr/bin:/sbin:/usr/sbin /bin/"\${*:2}"
+		exec proot --kill-on-exit --link2symlink -0 -r \$HOME$rootdir/ -b /dev/ -b \$ANDROID_DATA -b \$EXTERNAL_STORAGE -b /proc/ -w "\$PWD" /bin/env -i HOME=/root TERM=\$TERM PATH=/bin:/usr/bin:/sbin:/usr/sbin /bin/"\${@:2}"
 		else
 		# [] Default Arch Linux in Termux PRoot root login.
 		exec proot --kill-on-exit --link2symlink -0 -r \$HOME$rootdir/ -b /dev/ -b \$ANDROID_DATA -b \$EXTERNAL_STORAGE -b /proc/ -w "\$PWD" /bin/env -i HOME=/root TERM=\$TERM PATH=/bin:/usr/bin:/sbin:/usr/sbin /bin/bash -l
