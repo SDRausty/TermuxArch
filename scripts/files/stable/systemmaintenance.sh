@@ -66,5 +66,10 @@ refreshsys ()
 	setlocalegen
 	makefinishsetup
 	makesetupbin 
+	printf "\n\033[0mThe following files have been updated to the newest version.\n\n"
+	ls -alR $HOME$rootdir/root/bin/
+	ls -alR $HOME$rootdir/ces
+	ls -alR $HOME$rootdir/startarch
+	printf "\n"
 }
 
