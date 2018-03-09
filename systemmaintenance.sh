@@ -42,6 +42,7 @@ sysinfo ()
 refreshsys ()
 {
 	cd $HOME$rootdir
+	makestartbin 
 	addae
 	addauser
 	addauserps
@@ -56,6 +57,7 @@ refreshsys ()
 	addgcm
 	addgp
 	addgpl
+	addmakepkgdiff
 	addmotd
 	addprofile 
 	addresolvconf 
@@ -66,9 +68,15 @@ refreshsys ()
 	setlocalegen
 	makefinishsetup
 	makesetupbin 
-	printf "\n\033[0mThe following files have been updated to the newest version.\n\n"
+	printf "\n"
+	printconfigq
+	runfinishsetup
+	printf "\033[1;34mThe following files have been updated to the newest version.\n\n\033[0m"
 	ls -al $HOME$rootdir/ces
 	ls -al $HOME$rootdir/startarch
 	ls -al $HOME$rootdir/root/bin/*
+	printf "\n"
+	printfooter 
+	$HOME$rootdir/$bin 
 }
 
