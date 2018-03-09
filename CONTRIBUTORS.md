@@ -28,7 +28,7 @@
 
 [cb125](https://github.com/cb125) commented and contributed: `watch cat /proc/sys/kernel/random/entropy_avail` to resolve `pacman-key --populate archlinux` in issue #33. 
 
-[cherryleafroad](https://github.com/cherryleafroad) opened and discussed issue [Ability for Scripts to Launch Commands for Arch Linux in Termux PRoot on Device #54](https://github.com/sdrausty/TermuxArch/issues/54) Result: setupTermuxArch.sh improved, option `setupTermuxArch.sh --refresh` added and user options introduced to `startarch`! 
+[cherryleafroad](https://github.com/cherryleafroad) opened and discussed issue [Ability for Scripts to Launch Commands for Arch Linux in Termux PRoot on Device #54](https://github.com/sdrausty/TermuxArch/issues/54) Result: setupTermuxArch.sh improved, option `setupTermuxArch.sh --refresh` added, user login and command options introduced to `startarch`! 
 
 [developer787](https://github.com/developer787) submitted an issue.  Result: setupTermuxArch.sh improved! 
 
@@ -46,7 +46,7 @@
 
 jlam: contributed `getprop ro.product.device` Chromebook detection, `getprop ro.product.cpu.abi`, polite KISS, program flow suggestions.  Result: setupTermuxArch.sh improved! 
 
-[markfelt](https://github.com/markfelt) contributed [Succesfully Modified Stock 'makepkg'... #38](https://github.com/sdrausty/TermuxArch/issues/38) with instructions.
+[markfelt](https://github.com/markfelt) contributed [Succesfully Modified Stock 'makepkg'... #38](https://github.com/sdrausty/TermuxArch/issues/38) with instructions.  Result: pending 
 
 [michalbednarski](https://github.com/michalbednarski) contributed Termux PRoot and insight into PRoot plus code: `pacman-key --init` && `echo disable-scdaemon > /etc/pacman.d/gnupg/gpg-agent.conf` which resolves `pacman-key --populate archlinux` issuses.  Result: setupTermuxArch.sh improved! 
 
@@ -62,7 +62,7 @@ jlam: contributed `getprop ro.product.device` Chromebook detection, `getprop ro.
 
 [staymetal](https://github.com/staymetal) contributed: debugging wget v1.19.3 errors Result: setupTermuxArch.sh improved!
 
-[tomty89](https://github.com/tomty89) commented on issue [No such file or directory when setting Arch Linux up in Termux PRoot #37](https://github.com/sdrausty/TermuxArch/issues/37), helped debug this issue, `curl`, `proot bsdtar` statements and other script statements, discussed on issue [Ability for Scripts to Launch Commands for Arch Linux in Termux PRoot on Device #54](https://github.com/sdrausty/TermuxArch/issues/54) with many examples.  Result: [https://github.com/sdrausty/dfa](https://github.com/sdrausty/dfa) created and setupTermuxArch.sh improved: `TermuxArch: FREE SPACE WARNING` added, `bsdtar` substituted for `busybox tar` trimming install dependencies for all arm architectures and user options introduced to `startarch`!
+[tomty89](https://github.com/tomty89) commented on issue [No such file or directory when setting Arch Linux up in Termux PRoot #37](https://github.com/sdrausty/TermuxArch/issues/37), helped debug this issue, `curl`, `proot bsdtar` statements and other script statements, discussed issue [Ability for Scripts to Launch Commands for Arch Linux in Termux PRoot on Device #54](https://github.com/sdrausty/TermuxArch/issues/54) with many examples.  Results: [https://github.com/sdrausty/dfa](https://github.com/sdrausty/dfa) created, setupTermuxArch.sh improved: `TermuxArch: FREE SPACE WARNING` added, `bsdtar` substituted for `busybox tar` trimming install dependencies for all arm architectures and user login and command options introduced to `startarch`!
 
 [Ublimjo](https://github.com/Ublimjo) submitted issue [#37](https://github.com/sdrausty/TermuxArch/issues/37), No such or file directory when setting Arch Linux up in Termux PRoot and commented.  Result: [https://github.com/sdrausty/dfa](https://github.com/sdrausty/dfa) created and setupTermuxArch.sh improved!  TermuxArch space warnings added.
 
