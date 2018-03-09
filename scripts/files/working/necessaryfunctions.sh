@@ -184,8 +184,7 @@ makefinishsetup ()
 	patch -n -i /root/bin/makepkg.diff -o makepkg /bin/makepkg ||: 
 	mv makepkg /bin/makepkg ||: 
 	rm /root/bin/makepkg.diff ||: 
-	printf "\n\033[1;32m==> \033[1;37mPatching \033[1;32m/bin/makepkg\033[1;37m: \033[1;32mDONE\n\n\033[0m"
-	printf "\n\033[1;32m==> \033[1;37mRunning \033[1;32mtzselect\033[1;37m...\n\n\033[1;34mAdd the \033[1;32mtzselect\033[1;34m output code to \033[1;32m.bash_profile\033[1;34m so the system time in Arch Linux for future sessions will be set correctly.\n\n\033[0m"
+	printf "\n\033[1;32m==> \033[1;37mPatching \033[1;32m/bin/makepkg\033[1;37m: \033[1;32mDONE\n\n\033[1;32m==> \033[1;37mRunning \033[1;32mtzselect\033[1;37m...\n\n\033[1;34mAdd the \033[1;32mtzselect\033[1;34m output code to \033[1;32m.bash_profile\033[1;34m so the system time in Arch Linux for future sessions will be set correctly.\n\n\033[0m"
 	tzselect
 	printf "\n"
 	printf '\033]2; 🕛 > 🕤 Arch Linux in Termux is installed and configured 📲 \007'
