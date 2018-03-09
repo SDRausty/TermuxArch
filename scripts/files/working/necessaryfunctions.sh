@@ -312,7 +312,7 @@ runfinishsetup ()
 	if [[ $ed = "" ]];then
 		editors 
 	fi
-	if [[ $(sed 1q  /etc/pacman.d/mirrorlist) = "# # # # # # # # # # # # # # # # # # # # # # # # # # #" ]];then
+	if [[ $(sed 1q  $HOME$rootdir/etc/pacman.d/mirrorlist) = "# # # # # # # # # # # # # # # # # # # # # # # # # # #" ]];then
 		:
 	else
 	if [[ ${ceds[$i]} = "applets/vi" ]];then
