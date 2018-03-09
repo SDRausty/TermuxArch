@@ -39,3 +39,32 @@ sysinfo ()
 	printf "\n\033[0mSubmit this information if you plan to open up an issue at https://github.com/sdrausty/TermuxArch/issues to improve this installation script along with a screenshot of your topic.  Include information about input and output.  \n"
 }
 
+refreshsys ()
+{
+	cd $HOME$rootdir
+	addae
+	addauser
+	addauserps
+	addauserpsc
+	addbash_profile 
+	addbashrc 
+	addce 
+	addces
+	adddfa
+	addga
+	addgcl
+	addgcm
+	addgp
+	addgpl
+	addmotd
+	addprofile 
+	addresolvconf 
+	addt 
+	addtour
+	addyt 
+	addv 
+	setlocalegen
+	makefinishsetup
+	makesetupbin 
+}
+
