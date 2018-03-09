@@ -653,7 +653,7 @@ dm=wget
 dmverbose="-q"
 #dmverbose="-v"
 stime=`date +%s|grep -o '....$'`
-versionid="gen.v1.1 id840441652"
+versionid="gen.v1.1 id732459160"
 
 setrootdir 
 
@@ -704,7 +704,7 @@ elif [[ $1 = [Ii]* ]] || [[ $1 = -[Ii]* ]] || [[ $1 = --[Ii]* ]] ||  [[ $1 = [Rr
 	arg2dir 
 	intro 
 	mainblock
-# [refresh] Refresh Arch Linux in Termux PRoot using TermuxArch.  Useful for refreshing TermuxArch generated scripts to the newest version.  
+# [refresh|refresh installdir] Refresh Arch Linux in Termux PRoot using TermuxArch.  Useful for refreshing TermuxArch generated scripts to the newest version.  
 elif [[ $1 = [Rr][Ee]* ]] || [[ $1 = -[Rr][Ee]* ]] || [[ $1 = --[Rr][Ee]* ]];then
 	arg2dir 
 	refresh 
