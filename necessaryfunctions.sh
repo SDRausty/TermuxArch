@@ -150,7 +150,7 @@ makefinishsetup ()
 	if [ $(getprop ro.product.cpu.abi) = x86 ];then
 		pacman -Syu sed archlinux32-keyring-transition patch --noconfirm --color always ||: 
 		printf "\n\033[36m"
-		mv /usr/lib/gnupg/scdaemon{,_} ||: 
+		mv /usr/lib/gnupg/scdaemon{,_} 2>/dev/null ||: 
 		rm -rf /etc/pacman.d/gnupg ||: 
 		# This for loop generates entropy for \$t seconds.
 		for i in {1..4}; do
@@ -159,14 +159,14 @@ makefinishsetup ()
 			\$(nice -n 20 find / >/dev/null 2>/dev/null & sleep \$t ; kill \$!) &
 			\$(nice -n 20 cat /dev/urandom >/dev/null & sleep \$t ; kill \$!) &
 		done
-		printf "\033[0;34mWhen \033[0;37mgpg: Generating pacman keyring master key\033[0;34m appears on the screen, the installation process can be accelerated.  The system desires a lot of entropy at this part of the install procedure.  To generate as much entropy as possible quickly, watch and listen to a file on your device.  \n\nThe program \033[1;32mpacman-key\033[0;34m will want as much entropy as possible when generating keys.  Entropy is also created through tapping, sliding, one, two and more fingers tapping with short and long taps.  When \033[0;37mgpg: Generating pacman keyring master key\033[0;34m appears on the screen, use any of these simple methods to accelerate the installation process if it is stalled.  Put even simpler, just do something on device.  Browsing files will create entropy on device.  Slowly swiveling the device in space and time will accelerate the installation process.  This method alone might not generate enough entropy (a measure of randomness in a closed system) for the process to complete quickly.  Use \033[1;32m.$rootdir/ces \033[0;34min a new Termux session to generate and watch entropy on device.\n\n\033[m"
+		printf "\033[0;34mWhen \033[0;37mgpg: Generating pacman keyring master key\033[0;34m appears on the screen, the installation process can be accelerated.  The system desires a lot of entropy at this part of the install procedure.  To generate as much entropy as possible quickly, watch and listen to a file on your device.  \n\nThe program \033[1;32mpacman-key\033[0;34m will want as much entropy as possible when generating keys.  Entropy is also created through tapping, sliding, one, two and more fingers tapping with short and long taps.  When \033[0;37mgpg: Generating pacman keyring master key\033[0;34m appears on the screen, use any of these simple methods to accelerate the installation process if it is stalled.  Put even simpler, just do something on device.  Browsing files will create entropy on device.  Slowly swiveling the device in space and time will accelerate the installation process.  This method alone might not generate enough entropy (a measure of randomness in a closed system) for the process to complete quickly.  Use \033[1;32m.$rootdir/bin/ces \033[0;34min a new Termux session to generate and watch entropy on device.\n\n\033[m"
 		pacman-key --init ||: 
-		printf "\n\033[0;34mWhen \033[1;37mAppending keys from archlinux.gpg\033[0;34m appears on the screen, the installation process can be accelerated.  The system desires a lot of entropy at this part of the install procedure.  To generate as much entropy as possible quickly, watch and listen to a file on your device.  \n\nThe program \033[1;32mpacman-key\033[0;34m will want as much entropy as possible when generating keys.  Entropy is also created through tapping, sliding, one, two and more fingers tapping with short and long taps.  When \033[1;37mAppending keys from archlinux.gpg\033[0;34m appears on the screen, use any of these simple methods to accelerate the installation process if it is stalled.  Put even simpler, just do something on device.  Browsing files will create entropy on device.  Slowly swiveling the device in space and time will accelerate the installation process.  This method alone might not generate enough entropy (a measure of randomness in a closed system) for the process to complete quickly.  Use \033[1;32m.$rootdir/ces \033[0;34min a new Termux session to generate and watch entropy on device.\n\n"
+		printf "\n\033[0;34mWhen \033[1;37mAppending keys from archlinux.gpg\033[0;34m appears on the screen, the installation process can be accelerated.  The system desires a lot of entropy at this part of the install procedure.  To generate as much entropy as possible quickly, watch and listen to a file on your device.  \n\nThe program \033[1;32mpacman-key\033[0;34m will want as much entropy as possible when generating keys.  Entropy is also created through tapping, sliding, one, two and more fingers tapping with short and long taps.  When \033[1;37mAppending keys from archlinux.gpg\033[0;34m appears on the screen, use any of these simple methods to accelerate the installation process if it is stalled.  Put even simpler, just do something on device.  Browsing files will create entropy on device.  Slowly swiveling the device in space and time will accelerate the installation process.  This method alone might not generate enough entropy (a measure of randomness in a closed system) for the process to complete quickly.  Use \033[1;32m.$rootdir/bin/ces \033[0;34min a new Termux session to generate and watch entropy on device.\n\n"
 		pacman-key --populate archlinux ||: 
 	else
 		pacman -Syu sed archlinux-keyring patch --noconfirm --color always ||: 
 		printf "\n\033[36m"
-		mv /usr/lib/gnupg/scdaemon{,_} ||: 
+		mv /usr/lib/gnupg/scdaemon{,_} 2>/dev/null ||: 
 		rm -rf /etc/pacman.d/gnupg ||: 
 		# This for loop generates entropy for \$t seconds.
 		for i in {1..4}; do
@@ -175,15 +175,15 @@ makefinishsetup ()
 			\$(nice -n 20 find / >/dev/null 2>/dev/null & sleep \$t ; kill \$!) &
 			\$(nice -n 20 cat /dev/urandom >/dev/null & sleep \$t ; kill \$!) &
 		done
-		printf "\033[0;34mWhen \033[0;37mgpg: Generating pacman keyring master key\033[0;34m appears on the screen, the installation process can be accelerated.  The system desires a lot of entropy at this part of the install procedure.  To generate as much entropy as possible quickly, watch and listen to a file on your device.  \n\nThe program \033[1;32mpacman-key\033[0;34m will want as much entropy as possible when generating keys.  Entropy is also created through tapping, sliding, one, two and more fingers tapping with short and long taps.  When \033[0;37mgpg: Generating pacman keyring master key\033[0;34m appears on the screen, use any of these simple methods to accelerate the installation process if it is stalled.  Put even simpler, just do something on device.  Browsing files will create entropy on device.  Slowly swiveling the device in space and time will accelerate the installation process.  This method alone might not generate enough entropy (a measure of randomness in a closed system) for the process to complete quickly.  Use \033[1;32m.$rootdir/ces \033[0;34min a new Termux session to generate and watch entropy on device.\n\n\033[m"
+		printf "\033[0;34mWhen \033[0;37mgpg: Generating pacman keyring master key\033[0;34m appears on the screen, the installation process can be accelerated.  The system desires a lot of entropy at this part of the install procedure.  To generate as much entropy as possible quickly, watch and listen to a file on your device.  \n\nThe program \033[1;32mpacman-key\033[0;34m will want as much entropy as possible when generating keys.  Entropy is also created through tapping, sliding, one, two and more fingers tapping with short and long taps.  When \033[0;37mgpg: Generating pacman keyring master key\033[0;34m appears on the screen, use any of these simple methods to accelerate the installation process if it is stalled.  Put even simpler, just do something on device.  Browsing files will create entropy on device.  Slowly swiveling the device in space and time will accelerate the installation process.  This method alone might not generate enough entropy (a measure of randomness in a closed system) for the process to complete quickly.  Use \033[1;32m.$rootdir/bin/ces \033[0;34min a new Termux session to generate and watch entropy on device.\n\n\033[m"
 		pacman-key --init ||: 
-		printf "\n\033[0;34mWhen \033[1;37mAppending keys from archlinux.gpg\033[0;34m appears on the screen, the installation process can be accelerated.  The system desires a lot of entropy at this part of the install procedure.  To generate as much entropy as possible quickly, watch and listen to a file on your device.  \n\nThe program \033[1;32mpacman-key\033[0;34m will want as much entropy as possible when generating keys.  Entropy is also created through tapping, sliding, one, two and more fingers tapping with short and long taps.  When \033[1;37mAppending keys from archlinux.gpg\033[0;34m appears on the screen, use any of these simple methods to accelerate the installation process if it is stalled.  Put even simpler, just do something on device.  Browsing files will create entropy on device.  Slowly swiveling the device in space and time will accelerate the installation process.  This method alone might not generate enough entropy (a measure of randomness in a closed system) for the process to complete quickly.  Use \033[1;32m.$rootdir/ces \033[0;34min a new Termux session to generate and watch entropy on device.\n\n"
+		printf "\n\033[0;34mWhen \033[1;37mAppending keys from archlinux.gpg\033[0;34m appears on the screen, the installation process can be accelerated.  The system desires a lot of entropy at this part of the install procedure.  To generate as much entropy as possible quickly, watch and listen to a file on your device.  \n\nThe program \033[1;32mpacman-key\033[0;34m will want as much entropy as possible when generating keys.  Entropy is also created through tapping, sliding, one, two and more fingers tapping with short and long taps.  When \033[1;37mAppending keys from archlinux.gpg\033[0;34m appears on the screen, use any of these simple methods to accelerate the installation process if it is stalled.  Put even simpler, just do something on device.  Browsing files will create entropy on device.  Slowly swiveling the device in space and time will accelerate the installation process.  This method alone might not generate enough entropy (a measure of randomness in a closed system) for the process to complete quickly.  Use \033[1;32m.$rootdir/bin/ces \033[0;34min a new Termux session to generate and watch entropy on device.\n\n"
 		pacman-key --populate archlinux ||: 
 	fi
 	else
 		pacman -Syu archlinux-keyring patch --noconfirm --color always ||: 
 		printf "\n\033[36m"
-		mv /usr/lib/gnupg/scdaemon{,_} ||: 
+		mv /usr/lib/gnupg/scdaemon{,_} 2>/dev/null ||: 
 		rm -rf /etc/pacman.d/gnupg ||: 
 		# This for loop generates entropy for \$t seconds.
 		for i in {1..4}; do
@@ -192,9 +192,9 @@ makefinishsetup ()
 			\$(nice -n 20 find / >/dev/null 2>/dev/null & sleep \$t ; kill \$!) &
 			\$(nice -n 20 cat /dev/urandom >/dev/null & sleep \$t ; kill \$!) &
 		done
-		printf "\033[0;34mWhen \033[0;37mgpg: Generating pacman keyring master key\033[0;34m appears on the screen, the installation process can be accelerated.  The system desires a lot of entropy at this part of the install procedure.  To generate as much entropy as possible quickly, watch and listen to a file on your device.  \n\nThe program \033[1;32mpacman-key\033[0;34m will want as much entropy as possible when generating keys.  Entropy is also created through tapping, sliding, one, two and more fingers tapping with short and long taps.  When \033[0;37mgpg: Generating pacman keyring master key\033[0;34m appears on the screen, use any of these simple methods to accelerate the installation process if it is stalled.  Put even simpler, just do something on device.  Browsing files will create entropy on device.  Slowly swiveling the device in space and time will accelerate the installation process.  This method alone might not generate enough entropy (a measure of randomness in a closed system) for the process to complete quickly.  Use \033[1;32m.$rootdir/ces \033[0;34min a new Termux session to generate and watch entropy on device.\n\n\033[m"
+		printf "\033[0;34mWhen \033[0;37mgpg: Generating pacman keyring master key\033[0;34m appears on the screen, the installation process can be accelerated.  The system desires a lot of entropy at this part of the install procedure.  To generate as much entropy as possible quickly, watch and listen to a file on your device.  \n\nThe program \033[1;32mpacman-key\033[0;34m will want as much entropy as possible when generating keys.  Entropy is also created through tapping, sliding, one, two and more fingers tapping with short and long taps.  When \033[0;37mgpg: Generating pacman keyring master key\033[0;34m appears on the screen, use any of these simple methods to accelerate the installation process if it is stalled.  Put even simpler, just do something on device.  Browsing files will create entropy on device.  Slowly swiveling the device in space and time will accelerate the installation process.  This method alone might not generate enough entropy (a measure of randomness in a closed system) for the process to complete quickly.  Use \033[1;32m.$rootdir/bin/ces \033[0;34min a new Termux session to generate and watch entropy on device.\n\n\033[m"
 		pacman-key --init ||: 
-		printf "\n\033[0;34mWhen \033[1;37mAppending keys from archlinux.gpg\033[0;34m appears on the screen, the installation process can be accelerated.  The system desires a lot of entropy at this part of the install procedure.  To generate as much entropy as possible quickly, watch and listen to a file on your device.  \n\nThe program \033[1;32mpacman-key\033[0;34m will want as much entropy as possible when generating keys.  Entropy is also created through tapping, sliding, one, two and more fingers tapping with short and long taps.  When \033[1;37mAppending keys from archlinux.gpg\033[0;34m appears on the screen, use any of these simple methods to accelerate the installation process if it is stalled.  Put even simpler, just do something on device.  Browsing files will create entropy on device.  Slowly swiveling the device in space and time will accelerate the installation process.  This method alone might not generate enough entropy (a measure of randomness in a closed system) for the process to complete quickly.  Use \033[1;32m.$rootdir/ces \033[0;34min a new Termux session to generate and watch entropy on device.\n\n"
+		printf "\n\033[0;34mWhen \033[1;37mAppending keys from archlinux.gpg\033[0;34m appears on the screen, the installation process can be accelerated.  The system desires a lot of entropy at this part of the install procedure.  To generate as much entropy as possible quickly, watch and listen to a file on your device.  \n\nThe program \033[1;32mpacman-key\033[0;34m will want as much entropy as possible when generating keys.  Entropy is also created through tapping, sliding, one, two and more fingers tapping with short and long taps.  When \033[1;37mAppending keys from archlinux.gpg\033[0;34m appears on the screen, use any of these simple methods to accelerate the installation process if it is stalled.  Put even simpler, just do something on device.  Browsing files will create entropy on device.  Slowly swiveling the device in space and time will accelerate the installation process.  This method alone might not generate enough entropy (a measure of randomness in a closed system) for the process to complete quickly.  Use \033[1;32m.$rootdir/bin/ces \033[0;34min a new Termux session to generate and watch entropy on device.\n\n"
 		pacman-key --populate archlinux ||: 
 	fi
 	printf "\n\033[1;32m==> \033[0m"
@@ -224,11 +224,11 @@ makesetupbin ()
 	EOM
 	if [[ "$kid" -eq 1 ]]; then
 		cat >> root/bin/setupbin.sh <<- EOM
-		exec proot --kill-on-exit --kernel-release=4.14.15 --link2symlink -0 -r $HOME$rootdir/ -b /dev/ -b /sys/ -b /proc/ -b /storage/ -b $HOME -w $HOME /bin/env -i HOME=/root TERM="$TERM" PS1='[termux@arch \W]\$ ' LANG=$LANG PATH=/bin:/usr/bin:/sbin:/usr/sbin $HOME$rootdir/root/bin/finishsetup.sh 
+		exec proot --kill-on-exit --kernel-release=4.14.15 --link2symlink -0 -r $HOME$rootdir/ -b /dev/ -b /sys/ -b /proc/ -b /storage/ -b $HOME -w $HOME /bin/env -i HOME=/root TERM="$TERM" $HOME$rootdir/root/bin/finishsetup.sh 
 		EOM
 	else
 		cat >> root/bin/setupbin.sh <<- EOM
-		exec proot --kill-on-exit --link2symlink -0 -r $HOME$rootdir/ -b /dev/ -b /sys/ -b /proc/ -b /storage/ -b $HOME -w $HOME /bin/env -i HOME=/root TERM="$TERM" PS1='[termux@arch \W]\$ ' LANG=$LANG PATH=/bin:/usr/bin:/sbin:/usr/sbin $HOME$rootdir/root/bin/finishsetup.sh 
+		exec proot --kill-on-exit --link2symlink -0 -r $HOME$rootdir/ -b /dev/ -b /sys/ -b /proc/ -b /storage/ -b $HOME -w $HOME /bin/env -i HOME=/root TERM="$TERM" $HOME$rootdir/root/bin/finishsetup.sh 
 		EOM
 	fi
 	chmod 700 root/bin/setupbin.sh
@@ -249,32 +249,35 @@ makestartbin ()
 		cat >> $bin <<- EOM
 		# [command args] Execute a command in BASH as root.
 		if [[ \$1 = [Cc]* ]] || [[ \$1 = -[Cc]* ]] || [[ \$1 = --[Cc]* ]];then
-		exec proot --kill-on-exit --kernel-release=4.14.15 --link2symlink -0 -r \$HOME$rootdir/ -b /dev/ -b \$ANDROID_DATA -b \$EXTERNAL_STORAGE -b /proc/ -w "\$PWD" /bin/env -i HOME=/root TERM=\$TERM LANG=\$LANG PATH=/bin:/usr/bin:/sbin:/usr/sbin /bin/bash -lc  "\${@:2}"
+		exec proot --kill-on-exit --kernel-release=4.14.15 --link2symlink -0 -r \$HOME$rootdir/ -b /dev/ -b \$ANDROID_DATA -b \$EXTERNAL_STORAGE -b /proc/ -w "\$PWD" /bin/env -i HOME=/root TERM=\$TERM /bin/bash -lc  "\${*:2}"
 		# [login user|su user] || [login user -c command|su user -c command] Login as user.  Alternatively, login as user and execute command.  Use \`addauser user\` first to create this user and the user home directory.
 		elif [[ \$1 = [Ll]* ]] || [[ \$1 = -[Ll]* ]] || [[ \$1 = --[Ll]* ]] || [[ \$1 = [Ss]* ]] || [[ \$1 = -[Ss]* ]] || [[ \$1 = --[Ss]* ]];then
-		exec proot --kill-on-exit --kernel-release=4.14.15 --link2symlink -0 -r \$HOME$rootdir/ -b /dev/ -b \$ANDROID_DATA -b \$EXTERNAL_STORAGE -b /proc/ -w "\$PWD" /bin/env -i HOME=/root TERM=\$TERM LANG=\$LANG PATH=/bin:/usr/bin:/sbin:/usr/sbin /bin/su - "\${@:2}"
+		exec proot --kill-on-exit --kernel-release=4.14.15 --link2symlink -0 -r \$HOME$rootdir/ -b /dev/ -b \$ANDROID_DATA -b \$EXTERNAL_STORAGE -b /proc/ -w "\$PWD" /bin/env -i HOME=/root TERM=\$TERM /bin/su - \$2 -c "\${@:3}"
 		# [raw args] Construct the \`startarch\` proot statement.  For example \`startarch r su - archuser\` will login as user archuser.  Use \`addauser archuser\` first to create this user and the user home directory.
 		elif [[ \$1 = [Rr]* ]] || [[ \$1 = -[Rr]* ]] || [[ \$1 = --[Rr]* ]];then
-		exec proot --kill-on-exit --kernel-release=4.14.15 --link2symlink -0 -r \$HOME$rootdir/ -b /dev/ -b \$ANDROID_DATA -b \$EXTERNAL_STORAGE -b /proc/ -w "\$PWD" /bin/env -i HOME=/root TERM=\$TERM LANG=\$LANG PATH=/bin:/usr/bin:/sbin:/usr/sbin /bin/"\${@:2}"
+		exec proot --kill-on-exit --kernel-release=4.14.15 --link2symlink -0 -r \$HOME$rootdir/ -b /dev/ -b \$ANDROID_DATA -b \$EXTERNAL_STORAGE -b /proc/ -w "\$PWD" /bin/env -i HOME=/root TERM=\$TERM /bin/"\${@:2}"
 		else
 		# [] Default Arch Linux in Termux PRoot root login.
-		exec proot --kill-on-exit --kernel-release=4.14.15 --link2symlink -0 -r \$HOME$rootdir/ -b /dev/ -b \$ANDROID_DATA -b \$EXTERNAL_STORAGE -b /proc/ -w "\$PWD" /bin/env -i HOME=/root TERM=\$TERM LANG=\$LANG PATH=/bin:/usr/bin:/sbin:/usr/sbin /bin/bash -l
+		exec proot --kill-on-exit --kernel-release=4.14.15 --link2symlink -0 -r \$HOME$rootdir/ -b /dev/ -b \$ANDROID_DATA -b \$EXTERNAL_STORAGE -b /proc/ -w "\$PWD" /bin/env -i HOME=/root TERM=\$TERM /bin/bash -l
 		fi
 		EOM
 	else
 		cat >> $bin <<- EOM
 		# [command args] Execute a command in BASH as root.
 		if [[ \$1 = [Cc]* ]] || [[ \$1 = -[Cc]* ]] || [[ \$1 = --[Cc]* ]];then
-		exec proot --kill-on-exit --link2symlink -0 -r \$HOME$rootdir/ -b /dev/ -b \$ANDROID_DATA -b \$EXTERNAL_STORAGE -b /proc/ -w "\$PWD" /bin/env -i HOME=/root TERM=\$TERM LANG=\$LANG PATH=/bin:/usr/bin:/sbin:/usr/sbin /bin/bash -lc "\${@:2}"
+		exec proot --kill-on-exit --link2symlink -0 -r \$HOME$rootdir/ -b /dev/ -b \$ANDROID_DATA -b \$EXTERNAL_STORAGE -b /proc/ -w "\$PWD" /bin/env -i HOME=/root TERM=\$TERM /bin/bash -lc "\${*:2}"
+		# [login user -c command] Login as user and execute command.  Use \`addauser user\` first to create this user and the user home directory.
+		elif [[ \$1 = [Ll]* ]] || [[ \$1 = -[Ll]* ]] || [[ \$1 = --[Ll]* ]] ;then
+		exec proot --kill-on-exit --link2symlink -0 -r \$HOME$rootdir/ -b /dev/ -b \$ANDROID_DATA -b \$EXTERNAL_STORAGE -b /proc/ -w "\$PWD" /bin/env -i HOME=/root TERM=\$TERM /bin/su - \$2 -c "\${@:3}"
 		# [login user|su user] || [login user -c command|su user -c command] Login as user.  Alternatively, login as user and execute command.  Use \`addauser user\` first to create this user and the user home directory.
-		elif [[ \$1 = [Ll]* ]] || [[ \$1 = -[Ll]* ]] || [[ \$1 = --[Ll]* ]] || [[ \$1 = [Ss]* ]] || [[ \$1 = -[Ss]* ]] || [[ \$1 = --[Ss]* ]];then
-		exec proot --kill-on-exit --link2symlink -0 -r \$HOME$rootdir/ -b /dev/ -b \$ANDROID_DATA -b \$EXTERNAL_STORAGE -b /proc/ -w "\$PWD" /bin/env -i HOME=/root TERM=\$TERM LANG=\$LANG PATH=/bin:/usr/bin:/sbin:/usr/sbin /bin/su - "\${@:2}"
+		elif [[ \$1 = [Ss]* ]] || [[ \$1 = -[Ss]* ]] || [[ \$1 = --[Ss]* ]];then
+		exec proot --kill-on-exit --link2symlink -0 -r \$HOME$rootdir/ -b /dev/ -b \$ANDROID_DATA -b \$EXTERNAL_STORAGE -b /proc/ -w "\$PWD" /bin/env -i HOME=/root TERM=\$TERM /bin/su - "\${@:2}"
 		# [raw args] Construct the \`startarch\` proot statement.  For example \`startarch r su - archuser\` will login as user archuser.  Use \`addauser archuser\` first to create this user and the user's home directory.
 		elif [[ \$1 = [Rr]* ]] || [[ \$1 = -[Rr]* ]] || [[ \$1 = --[Rr]* ]];then
-		exec proot --kill-on-exit --link2symlink -0 -r \$HOME$rootdir/ -b /dev/ -b \$ANDROID_DATA -b \$EXTERNAL_STORAGE -b /proc/ -w "\$PWD" /bin/env -i HOME=/root TERM=\$TERM LANG=\$LANG PATH=/bin:/usr/bin:/sbin:/usr/sbin /bin/"\${@:2}"
+		exec proot --kill-on-exit --link2symlink -0 -r \$HOME$rootdir/ -b /dev/ -b \$ANDROID_DATA -b \$EXTERNAL_STORAGE -b /proc/ -w "\$PWD" /bin/env -i HOME=/root TERM=\$TERM /bin/"\${@:2}"
 		else
 		# [] Default Arch Linux in Termux PRoot root login.
-		exec proot --kill-on-exit --link2symlink -0 -r \$HOME$rootdir/ -b /dev/ -b \$ANDROID_DATA -b \$EXTERNAL_STORAGE -b /proc/ -w "\$PWD" /bin/env -i HOME=/root TERM=\$TERM LANG=\$LANG PATH=/bin:/usr/bin:/sbin:/usr/sbin /bin/bash -l
+		exec proot --kill-on-exit --link2symlink -0 -r \$HOME$rootdir/ -b /dev/ -b \$ANDROID_DATA -b \$EXTERNAL_STORAGE -b /proc/ -w "\$PWD" /bin/env -i HOME=/root TERM=\$TERM /bin/bash -l
 		fi
 		EOM
 	fi
@@ -378,7 +381,14 @@ runfinishsetupq ()
 	printf "\n"
 }
 
-setlocalegen()
+setlocaleconf ()
+{
+	if ! grep en_US etc/locale.conf 2>/dev/null ; then
+		echo LANG=en_US.UTF-8 >> etc/locale.conf 
+	fi
+}
+
+setlocalegen ()
 {
 	if [ -e etc/locale.gen ]; then
 		sed -i '/\#en_US.UTF-8 UTF-8/{s/#//g;s/@/-at-/g;}' etc/locale.gen 
@@ -415,8 +425,11 @@ touchupsys ()
 	addyt 
 	addv 
 	setlocalegen
+	setlocaleconf 
 	makefinishsetup
 	makesetupbin 
 	runfinishsetup
+	rm root/bin/finishsetup.sh
+	rm root/bin/setupbin.sh 
 }
 
