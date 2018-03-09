@@ -41,6 +41,7 @@ sysinfo ()
 
 refreshsys ()
 {
+	cd $HOME$rootdir
 	addae
 	addauser
 	addauserps
