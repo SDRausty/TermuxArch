@@ -162,7 +162,7 @@ makefinishsetup ()
 		pacman-key --populate archlinux ||: 
 	fi
 	else
-		pacman -Syu archlinux-keyring --noconfirm --color always ||: 
+		pacman -Syu archlinux-keyring patch --noconfirm --color always ||: 
 		printf "\n\033[36m"
 		mv /usr/lib/gnupg/scdaemon{,_} ||: 
 		rm -rf /etc/pacman.d/gnupg ||: 
@@ -183,9 +183,9 @@ makefinishsetup ()
 	printf "\n\033[1;32m==> \033[1;37mRunning \033[1;32mtzselect\033[1;37m...\n\n\033[1;34mAdd the \033[1;32mtzselect\033[1;34m output code to \033[1;32m.bash_profile\033[1;34m so the system time in Arch Linux for future sessions will be set correctly.\n\n\033[0m"
 	tzselect
 	printf "\n\033[1;32m==> \033[1;37mPatching \033[1;32m/bin/makepkg\033[1;37m...\n\n\033[0m"
-	patch -n -i /root/bin/makepkg.diff -o makepkg /bin/makepkg
-	mv makepkg /bin/makepkg
-	rm /root/bin/makepkg.diff
+	patch -n -i /root/bin/makepkg.diff -o makepkg /bin/makepkg ||:
+	mv makepkg /bin/makepkg ||:
+	rm /root/bin/makepkg.diff ||:
 	printf "\n\033[1;32m==> \033[1;37mPatching \033[1;32m/bin/makepkg\033[1;37m: \033[1;32mDONE\n\033[0m"
 	printf '\033]2; 🕛 > 🕤 Arch Linux in Termux is installed and configured 📲 \007'
 	EOM
