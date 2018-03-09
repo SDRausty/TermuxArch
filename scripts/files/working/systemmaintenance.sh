@@ -42,6 +42,7 @@ sysinfo ()
 refreshsys ()
 {
 	cd $HOME$rootdir
+	makestartbin 
 	addae
 	addauser
 	addauserps
@@ -65,7 +66,6 @@ refreshsys ()
 	addyt 
 	addv 
 	setlocalegen
-	makebin 
 	makefinishsetup
 	makesetupbin 
 	printf "\n"
