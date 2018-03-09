@@ -224,11 +224,11 @@ makesetupbin ()
 	EOM
 	if [[ "$kid" -eq 1 ]]; then
 		cat >> root/bin/setupbin.sh <<- EOM
-		exec proot --kill-on-exit --kernel-release=4.14.15 --link2symlink -0 -r $HOME$rootdir/ -b /dev/ -b /sys/ -b /proc/ -b /storage/ -b $HOME -w $HOME /bin/env -i HOME=/root TERM="$TERM" PS1='[termux@arch \W]\$ ' LANG=$LANG PATH=/bin:/usr/bin:/sbin:/usr/sbin $HOME$rootdir/root/bin/finishsetup.sh 
+		exec proot --kill-on-exit --kernel-release=4.14.15 --link2symlink -0 -r $HOME$rootdir/ -b /dev/ -b /sys/ -b /proc/ -b /storage/ -b $HOME -w $HOME /bin/env -i HOME=/root TERM="$TERM" PS1='[termux@arch \W]\$ ' PATH=/bin:/usr/bin:/sbin:/usr/sbin $HOME$rootdir/root/bin/finishsetup.sh 
 		EOM
 	else
 		cat >> root/bin/setupbin.sh <<- EOM
-		exec proot --kill-on-exit --link2symlink -0 -r $HOME$rootdir/ -b /dev/ -b /sys/ -b /proc/ -b /storage/ -b $HOME -w $HOME /bin/env -i HOME=/root TERM="$TERM" PS1='[termux@arch \W]\$ ' LANG=$LANG PATH=/bin:/usr/bin:/sbin:/usr/sbin $HOME$rootdir/root/bin/finishsetup.sh 
+		exec proot --kill-on-exit --link2symlink -0 -r $HOME$rootdir/ -b /dev/ -b /sys/ -b /proc/ -b /storage/ -b $HOME -w $HOME /bin/env -i HOME=/root TERM="$TERM" PS1='[termux@arch \W]\$ ' PATH=/bin:/usr/bin:/sbin:/usr/sbin $HOME$rootdir/root/bin/finishsetup.sh 
 		EOM
 	fi
 	chmod 700 root/bin/setupbin.sh
@@ -249,32 +249,32 @@ makestartbin ()
 		cat >> $bin <<- EOM
 		# [command args] Execute a command in BASH as root.
 		if [[ \$1 = [Cc]* ]] || [[ \$1 = -[Cc]* ]] || [[ \$1 = --[Cc]* ]];then
-		exec proot --kill-on-exit --kernel-release=4.14.15 --link2symlink -0 -r \$HOME$rootdir/ -b /dev/ -b \$ANDROID_DATA -b \$EXTERNAL_STORAGE -b /proc/ -w "\$PWD" /bin/env -i HOME=/root TERM=\$TERM LANG=\$LANG PATH=/bin:/usr/bin:/sbin:/usr/sbin /bin/bash -lc  "\${*:2}"
+		exec proot --kill-on-exit --kernel-release=4.14.15 --link2symlink -0 -r \$HOME$rootdir/ -b /dev/ -b \$ANDROID_DATA -b \$EXTERNAL_STORAGE -b /proc/ -w "\$PWD" /bin/env -i HOME=/root TERM=\$TERM PATH=/bin:/usr/bin:/sbin:/usr/sbin /bin/bash -lc  "\${*:2}"
 		# [login user|su user] || [login user -c command|su user -c command] Login as user.  Alternatively, login as user and execute command.  Use \`addauser user\` first to create this user and the user home directory.
 		elif [[ \$1 = [Ll]* ]] || [[ \$1 = -[Ll]* ]] || [[ \$1 = --[Ll]* ]] || [[ \$1 = [Ss]* ]] || [[ \$1 = -[Ss]* ]] || [[ \$1 = --[Ss]* ]];then
-		exec proot --kill-on-exit --kernel-release=4.14.15 --link2symlink -0 -r \$HOME$rootdir/ -b /dev/ -b \$ANDROID_DATA -b \$EXTERNAL_STORAGE -b /proc/ -w "\$PWD" /bin/env -i HOME=/root TERM=\$TERM LANG=\$LANG PATH=/bin:/usr/bin:/sbin:/usr/sbin /bin/su - \$2 -c "\${*:3}"
+		exec proot --kill-on-exit --kernel-release=4.14.15 --link2symlink -0 -r \$HOME$rootdir/ -b /dev/ -b \$ANDROID_DATA -b \$EXTERNAL_STORAGE -b /proc/ -w "\$PWD" /bin/env -i HOME=/root TERM=\$TERM PATH=/bin:/usr/bin:/sbin:/usr/sbin /bin/su - \$2 -c "\${*:3}"
 		# [raw args] Construct the \`startarch\` proot statement.  For example \`startarch r su - archuser\` will login as user archuser.  Use \`addauser archuser\` first to create this user and the user home directory.
 		elif [[ \$1 = [Rr]* ]] || [[ \$1 = -[Rr]* ]] || [[ \$1 = --[Rr]* ]];then
-		exec proot --kill-on-exit --kernel-release=4.14.15 --link2symlink -0 -r \$HOME$rootdir/ -b /dev/ -b \$ANDROID_DATA -b \$EXTERNAL_STORAGE -b /proc/ -w "\$PWD" /bin/env -i HOME=/root TERM=\$TERM LANG=\$LANG PATH=/bin:/usr/bin:/sbin:/usr/sbin /bin/"\${*:2}"
+		exec proot --kill-on-exit --kernel-release=4.14.15 --link2symlink -0 -r \$HOME$rootdir/ -b /dev/ -b \$ANDROID_DATA -b \$EXTERNAL_STORAGE -b /proc/ -w "\$PWD" /bin/env -i HOME=/root TERM=\$TERM PATH=/bin:/usr/bin:/sbin:/usr/sbin /bin/"\${*:2}"
 		else
 		# [] Default Arch Linux in Termux PRoot root login.
-		exec proot --kill-on-exit --kernel-release=4.14.15 --link2symlink -0 -r \$HOME$rootdir/ -b /dev/ -b \$ANDROID_DATA -b \$EXTERNAL_STORAGE -b /proc/ -w "\$PWD" /bin/env -i HOME=/root TERM=\$TERM LANG=\$LANG PATH=/bin:/usr/bin:/sbin:/usr/sbin /bin/bash -l
+		exec proot --kill-on-exit --kernel-release=4.14.15 --link2symlink -0 -r \$HOME$rootdir/ -b /dev/ -b \$ANDROID_DATA -b \$EXTERNAL_STORAGE -b /proc/ -w "\$PWD" /bin/env -i HOME=/root TERM=\$TERM PATH=/bin:/usr/bin:/sbin:/usr/sbin /bin/bash -l
 		fi
 		EOM
 	else
 		cat >> $bin <<- EOM
 		# [command args] Execute a command in BASH as root.
 		if [[ \$1 = [Cc]* ]] || [[ \$1 = -[Cc]* ]] || [[ \$1 = --[Cc]* ]];then
-		exec proot --kill-on-exit --link2symlink -0 -r \$HOME$rootdir/ -b /dev/ -b \$ANDROID_DATA -b \$EXTERNAL_STORAGE -b /proc/ -w "\$PWD" /bin/env -i HOME=/root TERM=\$TERM LANG=\$LANG PATH=/bin:/usr/bin:/sbin:/usr/sbin /bin/bash -lc "\${*:2}"
+		exec proot --kill-on-exit --link2symlink -0 -r \$HOME$rootdir/ -b /dev/ -b \$ANDROID_DATA -b \$EXTERNAL_STORAGE -b /proc/ -w "\$PWD" /bin/env -i HOME=/root TERM=\$TERM PATH=/bin:/usr/bin:/sbin:/usr/sbin /bin/bash -lc "\${*:2}"
 		# [login user|su user] || [login user -c command|su user -c command] Login as user.  Alternatively, login as user and execute command.  Use \`addauser user\` first to create this user and the user home directory.
 		elif [[ \$1 = [Ll]* ]] || [[ \$1 = -[Ll]* ]] || [[ \$1 = --[Ll]* ]] || [[ \$1 = [Ss]* ]] || [[ \$1 = -[Ss]* ]] || [[ \$1 = --[Ss]* ]];then
-		exec proot --kill-on-exit --link2symlink -0 -r \$HOME$rootdir/ -b /dev/ -b \$ANDROID_DATA -b \$EXTERNAL_STORAGE -b /proc/ -w "\$PWD" /bin/env -i HOME=/root TERM=\$TERM LANG=\$LANG PATH=/bin:/usr/bin:/sbin:/usr/sbin /bin/su - \$2 -c "\${*:3}"
+		exec proot --kill-on-exit --link2symlink -0 -r \$HOME$rootdir/ -b /dev/ -b \$ANDROID_DATA -b \$EXTERNAL_STORAGE -b /proc/ -w "\$PWD" /bin/env -i HOME=/root TERM=\$TERM PATH=/bin:/usr/bin:/sbin:/usr/sbin /bin/su - \$2 -c "\${*:3}"
 		# [raw args] Construct the \`startarch\` proot statement.  For example \`startarch r su - archuser\` will login as user archuser.  Use \`addauser archuser\` first to create this user and the user's home directory.
 		elif [[ \$1 = [Rr]* ]] || [[ \$1 = -[Rr]* ]] || [[ \$1 = --[Rr]* ]];then
-		exec proot --kill-on-exit --link2symlink -0 -r \$HOME$rootdir/ -b /dev/ -b \$ANDROID_DATA -b \$EXTERNAL_STORAGE -b /proc/ -w "\$PWD" /bin/env -i HOME=/root TERM=\$TERM LANG=\$LANG PATH=/bin:/usr/bin:/sbin:/usr/sbin /bin/"\${*:2}"
+		exec proot --kill-on-exit --link2symlink -0 -r \$HOME$rootdir/ -b /dev/ -b \$ANDROID_DATA -b \$EXTERNAL_STORAGE -b /proc/ -w "\$PWD" /bin/env -i HOME=/root TERM=\$TERM PATH=/bin:/usr/bin:/sbin:/usr/sbin /bin/"\${*:2}"
 		else
 		# [] Default Arch Linux in Termux PRoot root login.
-		exec proot --kill-on-exit --link2symlink -0 -r \$HOME$rootdir/ -b /dev/ -b \$ANDROID_DATA -b \$EXTERNAL_STORAGE -b /proc/ -w "\$PWD" /bin/env -i HOME=/root TERM=\$TERM LANG=\$LANG PATH=/bin:/usr/bin:/sbin:/usr/sbin /bin/bash -l
+		exec proot --kill-on-exit --link2symlink -0 -r \$HOME$rootdir/ -b /dev/ -b \$ANDROID_DATA -b \$EXTERNAL_STORAGE -b /proc/ -w "\$PWD" /bin/env -i HOME=/root TERM=\$TERM PATH=/bin:/usr/bin:/sbin:/usr/sbin /bin/bash -l
 		fi
 		EOM
 	fi
@@ -378,7 +378,14 @@ runfinishsetupq ()
 	printf "\n"
 }
 
-setlocalegen()
+setlocaleconf ()
+{
+	if ! grep en_US etc/locale.conf 2>/dev/null ; then
+		echo LANG=en_US.UTF-8 >> etc/locale.conf 
+	fi
+}
+
+setlocalegen ()
 {
 	if [ -e etc/locale.gen ]; then
 		sed -i '/\#en_US.UTF-8 UTF-8/{s/#//g;s/@/-at-/g;}' etc/locale.gen 
@@ -415,6 +422,7 @@ touchupsys ()
 	addyt 
 	addv 
 	setlocalegen
+	setlocaleconf 
 	makefinishsetup
 	makesetupbin 
 	runfinishsetup
