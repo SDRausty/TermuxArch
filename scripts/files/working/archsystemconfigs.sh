@@ -338,7 +338,7 @@ addmakepkgdiff ()
 	---
 	> #if (( ! INFAKEROOT )); then
 	> #	if (( EUID == 0 )); then
-	> #		error "\$(gettext "Running %s as root is not allowed as it can cause permanent,\n\catastrophic damage to your system.")" "makepkg"
+	> #		error "\$(gettext "Running %s as root is not allowed as it can cause permanent,\n\\catastrophic damage to your system.")" "makepkg"
 	> #		exit 1 # \$E_USER_ABORT
 	> #	fi
 	> #else
