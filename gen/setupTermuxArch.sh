@@ -25,6 +25,45 @@ arg3dir ()
 	fi
 }
 
+bloom ()
+{
+	opt=bloom 
+	intrbloom 
+	if [ -d $HOME/TermuxArchBloom ];then 
+		rmbloomq 
+	fi
+	if [ ! -d $HOME/TermuxArchBloom ];then 
+		mkdir $HOME/TermuxArchBloom
+	fi
+	cd $HOME/TermuxArchBloom
+	printf "\033[1;34mTermuxArch Bloom option via \033[1;32msetupTermuxArch.sh --bloom\033[0m 📲\n\n\033[0m"'\033]2;  Thank you for using TermuxArch Bloom option via `setupTermuxArch.sh --bloom` 📲 \007'
+	ls -al
+	printf "\n"
+	pwd
+	printf "\n"
+	dependsblock 
+	ls -al
+	printf "\n\033[1;34mUse \033[1;32mcd ~/TermuxArchBloom\033[1;34m to continue.\n\n\033[0m"'\033]2;  Thank you for using TermuxArch Bloom option via `setupTermuxArch.sh --bloom` 📲 \007'
+}
+
+bloomdependsblock ()
+{
+	intrbloom 
+	cd $HOME/TermuxArchBloom
+	printf "\033[1;34mTermuxArch Bloom option via \033[1;32mbash setupTermuxArch.sh --run\033[0m 📲\n\n\033[0m"'\033]2;  Thank you for using TermuxArch Bloom option via `bash setupTermuxArch.sh --run` 📲 \007'
+	ls -al
+	printf "\n"
+	pwd
+	. archsystemconfigs.sh
+	. getimagefunctions.sh
+	. knownconfigurations.sh
+	. necessaryfunctions.sh
+	. printoutstatements.sh
+	. systemmaintenance.sh
+	printf "\n\033[0;34m 🕛 > 🕑 \033[1;34mTermuxArch $versionid integrity: \033[1;32mOK\n"
+	mainblock
+}
+
 bsdtarif ()
 {
 	if [ ! -x $PREFIX/bin/bsdtar ];then
@@ -247,7 +286,7 @@ edq2 ()
 			printf "\nYou answered \033[36;1m$nv\033[1;32m.\n\nAnswer nano or vi [n|v].  \n"
 		fi
 	done	
-	printf "\n\n"
+	printf "\n"
 }
 
 intro ()
@@ -259,7 +298,7 @@ intro ()
 	dependsblock 
 }
 
-introbloom ()
+intrbloom ()
 {
 	printf '\033]2;  Thank you for using `bash setupTermuxArch.sh --bloom` 📲 \007'
 	spaceinfo
@@ -272,6 +311,15 @@ introdebug ()
 	spaceinfo
 	printf "\n\033[0;34m 🕛 > 🕛 \033[1;34msetupTermuxArch $versionid will create a system information file.  Ensure background data is not restricted.  Run \033[0;32mbash setupTermuxArch.sh --help \033[1;34mfor additional information.  Check the wireless connection if you do not see one o'clock 🕐 below.  "
 	dependsblock 
+}
+
+introrefresh ()
+{
+	printf '\033]2;  Thank you for using `bash setupTermuxArch.sh --refresh` 📲 \007'
+	spaceinfo
+	printf "\n\033[0;34m 🕛 > 🕛 \033[1;34msetupTermuxArch $versionid will refresh your TermuxArch files.  Ensure background data is not restricted.  Run \033[0;32mbash setupTermuxArch.sh --help \033[1;34mfor additional information.  Check the wireless connection if you do not see one o'clock 🕐 below.  "
+	dependsblock 
+	refreshsys
 }
 
 ldconf ()
@@ -294,45 +342,6 @@ nanoif ()
 	if [ ! -x $PREFIX/bin/nano ];then
 		pe
 	fi
-}
-
-obloom ()
-{
-	opt=bloom 
-	introbloom 
-	if [ -d $HOME/TermuxArchBloom ];then 
-		rmbloomq 
-	fi
-	if [ ! -d $HOME/TermuxArchBloom ];then 
-		mkdir $HOME/TermuxArchBloom
-	fi
-	cd $HOME/TermuxArchBloom
-	printf "\033[1;34mTermuxArch Bloom option via \033[1;32msetupTermuxArch.sh --bloom\033[0m 📲\n\n\033[0m"'\033]2;  Thank you for using TermuxArch Bloom option via `setupTermuxArch.sh --bloom` 📲 \007'
-	ls -al
-	printf "\n"
-	pwd
-	printf "\n"
-	dependsblock 
-	ls -al
-	printf "\n\033[1;34mUse \033[1;32mcd ~/TermuxArchBloom\033[1;34m to continue.\n\n\033[0m"'\033]2;  Thank you for using TermuxArch Bloom option via `setupTermuxArch.sh --bloom` 📲 \007'
-}
-
-obloomdependsblock ()
-{
-	introbloom 
-	cd $HOME/TermuxArchBloom
-	printf "\033[1;34mTermuxArch Bloom option via \033[1;32mbash setupTermuxArch.sh --run\033[0m 📲\n\n\033[0m"'\033]2;  Thank you for using TermuxArch Bloom option via `bash setupTermuxArch.sh --run` 📲 \007'
-	ls -al
-	printf "\n"
-	pwd
-	. archsystemconfigs.sh
-	. getimagefunctions.sh
-	. knownconfigurations.sh
-	. necessaryfunctions.sh
-	. printoutstatements.sh
-	. systemmaintenance.sh
-	printf "\n\033[0;34m 🕛 > 🕑 \033[1;34mTermuxArch $versionid integrity: \033[1;32mOK\n"
-	mainblock
 }
 
 omanual ()
@@ -499,17 +508,16 @@ rootdirexception ()
 	fi
 }
 
-runobloom ()
+runbloom ()
 {
 	if [ -d $HOME/TermuxArchBloom ];then 
 		opt=bloom
-		obloomdependsblock 
+		bloomdependsblock 
 	else
 		dependsblock
-		obloom 
+		bloom 
 	fi
 }
-
 
 setrootdir ()
 {
@@ -645,7 +653,7 @@ dm=wget
 dmverbose="-q"
 #dmverbose="-v"
 stime=`date +%s|grep -o '....$'`
-versionid="gen.v1.1 id261813031"
+versionid="gen.v1.1 id121132765"
 
 setrootdir 
 
@@ -674,7 +682,7 @@ elif [[ $1 = [Ww]* ]] || [[ $1 = -[Ww]* ]] || [[ $1 = --[Ww]* ]] || [[ $1 = [Ww]
 # [bloom] Create local copy of TermuxArch in TermuxArchBloom.  Useful for hacking and customizing TermuxArch.  
 elif [[ $1 = [Bb]* ]] || [[ $1 = -[Bb]* ]] || [[ $1 = --[Bb]* ]];then
 	dependsblock
-	obloom
+	bloom
 # [debug|sysinfo] Get system information.
 elif [[ $1 = [Dd]* ]] || [[ $1 = -[Dd]* ]] || [[ $1 = --[Dd]* ]] || [[ $1 = [Ss]* ]] || [[ $1 = -[Ss]* ]] || [[ $1 = --[Ss]* ]];then
 	introdebug 
@@ -696,9 +704,12 @@ elif [[ $1 = [Ii]* ]] || [[ $1 = -[Ii]* ]] || [[ $1 = --[Ii]* ]] ||  [[ $1 = [Rr
 	arg2dir 
 	intro 
 	mainblock
+# [refresh] Refresh Arch Linux in Termux PRoot using TermuxArch.  Useful for refreshing TermuxArch generated scripts to the newest version.  
+elif [[ $1 = [Re]* ]] || [[ $1 = -[Re]* ]] || [[ $1 = --[Re]* ]];then
+	introrefresh 
 # [run] Run local copy of TermuxArch from TermuxArchBloom.  Useful for running customized TermuxArch locally.  
 elif [[ $1 = [Rr]* ]] || [[ $1 = -[Rr]* ]] || [[ $1 = --[Rr]* ]];then
-	runobloom 
+	runbloom 
 # [] Run default Arch Linux install.
 elif [[ $1 = "" ]] ;then
 	intro 
