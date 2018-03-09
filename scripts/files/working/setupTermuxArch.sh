@@ -82,7 +82,7 @@ chk ()
 		chkself 
 		printf "\033[0;34m 🕛 > 🕜 \033[1;34mTermuxArch $versionid integrity: \033[1;32mOK\n"
 		if [[ $opt = manual ]];then
-			omanual
+			manual
 		else 
 			ldconf
 		fi
@@ -313,15 +313,6 @@ introdebug ()
 	dependsblock 
 }
 
-introrefresh ()
-{
-	printf '\033]2;  Thank you for using `bash setupTermuxArch.sh --refresh` 📲 \007'
-	spaceinfo
-	printf "\n\033[0;34m 🕛 > 🕛 \033[1;34msetupTermuxArch $versionid will refresh your TermuxArch files.  Ensure background data is not restricted.  Run \033[0;32mbash setupTermuxArch.sh --help \033[1;34mfor additional information.  Check the wireless connection if you do not see one o'clock 🕐 below.  "
-	dependsblock 
-	refreshsys
-}
-
 ldconf ()
 {
 	if [ -f "setupTermuxArchConfigs.sh" ];then
@@ -332,19 +323,7 @@ ldconf ()
 	fi
 }
 
-nanoif ()
-{
-	if [ ! -x $PREFIX/bin/nano ];then
-		printf "\n\033[1;34mInstalling \033[0;32mnano\033[1;34m…\n\n\033[1;32m"
-		pkg install nano --yes 
-		printf "\n\033[1;34mInstalling \033[0;32mnano\033[1;34m: \033[1;32mDONE\n\033[0m"
-	fi
-	if [ ! -x $PREFIX/bin/nano ];then
-		pe
-	fi
-}
-
-omanual ()
+manual ()
 {
 	printf '\033]2;  Thank you for using `bash setupTermuxArch.sh --manual` 📲 \007'
 	editors
@@ -357,6 +336,18 @@ omanual ()
 		$ed setupTermuxArchConfigs.sh
 		. setupTermuxArchConfigs.sh
 		printconfloaded 
+	fi
+}
+
+nanoif ()
+{
+	if [ ! -x $PREFIX/bin/nano ];then
+		printf "\n\033[1;34mInstalling \033[0;32mnano\033[1;34m…\n\n\033[1;32m"
+		pkg install nano --yes 
+		printf "\n\033[1;34mInstalling \033[0;32mnano\033[1;34m: \033[1;32mDONE\n\033[0m"
+	fi
+	if [ ! -x $PREFIX/bin/nano ];then
+		pe
 	fi
 }
 
@@ -411,6 +402,15 @@ prootif ()
 	if [ ! -x $PREFIX/bin/proot ];then
 		pe
 	fi
+}
+
+refresh ()
+{
+	printf '\033]2;  Thank you for using `bash setupTermuxArch.sh --refresh` 📲 \007'
+	spaceinfo
+	printf "\n\033[0;34m 🕛 > 🕛 \033[1;34msetupTermuxArch $versionid will refresh your TermuxArch files.  Ensure background data is not restricted.  Run \033[0;32mbash setupTermuxArch.sh --help \033[1;34mfor additional information.  Check the wireless connection if you do not see one o'clock 🕐 below.  "
+	dependsblock 
+	refreshsys
 }
 
 rmarch ()
@@ -653,7 +653,7 @@ dm=wget
 dmverbose="-q"
 #dmverbose="-v"
 stime=`date +%s|grep -o '....$'`
-versionid="gen.v1.1 id203295012"
+versionid="gen.v1.1 id595475351"
 
 setrootdir 
 
@@ -706,7 +706,7 @@ elif [[ $1 = [Ii]* ]] || [[ $1 = -[Ii]* ]] || [[ $1 = --[Ii]* ]] ||  [[ $1 = [Rr
 	mainblock
 # [refresh] Refresh Arch Linux in Termux PRoot using TermuxArch.  Useful for refreshing TermuxArch generated scripts to the newest version.  
 elif [[ $1 = [Rr][Ee]* ]] || [[ $1 = -[Rr][Ee]* ]] || [[ $1 = --[Rr][Ee]* ]];then
-	introrefresh 
+	refresh 
 # [run] Run local copy of TermuxArch from TermuxArchBloom.  Useful for running customized TermuxArch locally.  
 elif [[ $1 = [Rr]* ]] || [[ $1 = -[Rr]* ]] || [[ $1 = --[Rr]* ]];then
 	runbloom 
