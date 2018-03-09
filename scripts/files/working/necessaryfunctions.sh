@@ -221,6 +221,8 @@ makesetupbin ()
 	# https://sdrausty.github.io/TermuxArch/README has information about this project. 
 	################################################################################
 	unset LD_PRELOAD
+	pwd
+	sleep 2
 	EOM
 	if [[ "$kid" -eq 1 ]]; then
 		cat >> root/bin/setupbin.sh <<- EOM
