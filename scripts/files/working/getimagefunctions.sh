@@ -24,6 +24,7 @@ ftchstnd ()
 		wget -v -O/dev/null $cmirror 2>gmirror
 		cat gmirror
 		nmirror=$(grep Location gmirror | awk {'print $2'}) 
+		echo $nmirror
 		sleep 2
 	done
 		rm gmirror
