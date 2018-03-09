@@ -159,6 +159,10 @@ addce ()
 		\$(nice -n 20 find / >/dev/null 2>/dev/null & sleep \$t ; kill \$!) &
 		\$(nice -n 20 cat /dev/urandom >/dev/null & sleep \$t ; kill \$!) &
 	done
+	for i in {1..240}; do
+		printf "Available entropy reading $i of $t	"
+		cat /proc/sys/kernel/random/entropy_avail
+	done
 	EOM
 	chmod 770 root/bin/ce 
 }
