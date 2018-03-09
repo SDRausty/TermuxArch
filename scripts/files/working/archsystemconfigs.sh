@@ -413,16 +413,16 @@ addtour ()
 	# https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.  
 	# https://sdrausty.github.io/TermuxArch/README has information about this project. 
 	################################################################################
-	printf "\n\033[1;32m==> \033[1;37mRunning \033[1;32mlr ~\033[1;37m\n"
+	printf "\n\033[1;32m==> \033[1;37mRunning \033[1;32mlr ~\033[1;37m\n\n"
 	ls -alR ~
 	sleep 1
-	printf "\n\n\033[1;32m==> \033[1;37mRunning \033[1;32mt ~\033[1;37m\n"
+	printf "\n\n\033[1;32m==> \033[1;37mRunning \033[1;32mt ~\033[1;37m\n\n"
 	t ~
 	sleep 1
-	printf "\n\n\033[1;32m==> \033[1;37mRunning \033[1;32mcat ~/.bash_profile\033[1;37m\n"
+	printf "\n\n\033[1;32m==> \033[1;37mRunning \033[1;32mcat ~/.bash_profile\033[1;37m\n\n"
 	cat ~/.bash_profile
 	sleep 1
-	printf "\n\n\033[1;32m==> \033[1;37mRunning \033[1;32mcat ~/.bashrc\033[1;37m\n"
+	printf "\n\n\033[1;32m==> \033[1;37mRunning \033[1;32mcat ~/.bashrc\033[1;37m\n\n"
 	cat ~/.bashrc
 	sleep 1
 	printf "\n\n\033[1;32m==> \033[1;37mShort tour is complete.\n\n"
