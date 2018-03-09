@@ -305,6 +305,7 @@ addgp ()
 
 addmakepkgdiff ()
 {
+	# Contributed by https://github.com/markfelt
 	cat > root/bin/makepkg.diff <<- EOM
 	170c170
 	< 	fakeroot -- \$0 -F "\${ARGLIST[@]}" || exit \$?
