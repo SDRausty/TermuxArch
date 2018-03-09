@@ -69,6 +69,38 @@ addauserps ()
 	chmod 770 root/bin/addauserps 
 }
 
+addauserpsc ()
+{
+	# Add Arch Linux user and create user login Termux startup script. 
+	cat > root/bin/addauserpsc <<- EOM
+	#!/bin/bash -e
+	# Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
+	# Hosting https://sdrausty.github.io/TermuxArch courtesy https://pages.github.com
+	# https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.  
+	# https://sdrausty.github.io/TermuxArch/README has information about this project. 
+	################################################################################
+	useradd \$1
+	cp -r /root /home/\$1
+	su - \$1
+	EOM
+	echo "cat > $HOME/bin/startarchuser\$1 <<- EOM " >> root/bin/addauserpsc 
+	cat >> root/bin/addauserpsc <<- EOM
+	#!/bin/bash -e
+	# Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
+	# Hosting https://sdrausty.github.io/TermuxArch courtesy https://pages.github.com
+	# https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.  
+	# https://sdrausty.github.io/TermuxArch/README has information about this project. 
+	################################################################################
+	unset LD_PRELOAD
+	exec proot --kill-on-exit --link2symlink -0 -r $HOME$rootdir/ -b /dev/ -b /sys/ -b /proc/ -b /storage/ -b $HOME -w $HOME /bin/env -i HOME=/root TERM="$TERM" PS1='[termux@arch \W]\$ ' LANG=$LANG PATH=/bin:/usr/bin:/sbin:/usr/sbin /bin/su - \$1 --login
+	EOM
+	echo EOM >> root/bin/addauserpsc 
+	cat >> root/bin/addauserpsc <<- EOM
+	chmod 770 $HOME/bin/startarchuser\$1
+	EOM
+	chmod 770 root/bin/addauserpsc 
+}
+
 addbash_profile ()
 {
 	cat > root/.bash_profile <<- EOM
@@ -329,19 +361,19 @@ addtour ()
 	# https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.  
 	# https://sdrausty.github.io/TermuxArch/README has information about this project. 
 	################################################################################
-	printf "\n\033[1;32m==> \033[1;37mRunning \033[1;32mlr ~\033[1;37m...\n"
+	printf "\n\033[1;32m==> \033[1;37mRunning \033[1;32mlr ~\033[1;37m\n"
 	ls -alR ~
 	sleep 1
-	printf "\n\033[1;32m==> \033[1;37mRunning \033[1;32mt ~\033[1;37m...\n"
+	printf "\n\n\033[1;32m==> \033[1;37mRunning \033[1;32mt ~\033[1;37m\n"
 	t ~
 	sleep 1
-	printf "\n\033[1;32m==> \033[1;37mRunning \033[1;32mcat ~/.bash_profile\033[1;37m...\n"
+	printf "\n\n\033[1;32m==> \033[1;37mRunning \033[1;32mcat ~/.bash_profile\033[1;37m\n"
 	cat ~/.bash_profile
 	sleep 1
-	printf "\n\033[1;32m==> \033[1;37mRunning \033[1;32mcat ~/.bashrc\033[1;37m...\n"
+	printf "\n\n\033[1;32m==> \033[1;37mRunning \033[1;32mcat ~/.bashrc\033[1;37m\n"
 	cat ~/.bashrc
 	sleep 1
-	printf "\n\033[1;32m==> \033[1;37mShort tour is complete.\n"
+	printf "\n\n\033[1;32m==> \033[1;37mShort tour is complete.\n\n"
 	EOM
 	chmod 770 root/bin/tour 
 }
