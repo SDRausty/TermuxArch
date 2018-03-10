@@ -267,7 +267,7 @@ edq2 ()
 {
 	while true; do
 		if [[ $opt = bloom ]] || [[ $opt = manual ]];then
-			printf "\033[1;34m  Would you like to use \033[1;32mnano\033[1;34m or \033[1;32mvi\033[1;34m to edit \033[1;32msetupTermuxArchConfigs.sh\033[1;34m?  "
+			printf "\n\033[1;34m  Would you like to use \033[1;32mnano\033[1;34m or \033[1;32mvi\033[1;34m to edit \033[1;32msetupTermuxArchConfigs.sh\033[1;34m?  "
 			read -p "Answer nano or vi [n|V]? "  nv
 		else 
 			printf "\033[1;34m  Change the worldwide mirror to a mirror that is geographically nearby.  Choose only ONE active mirror in the mirrors file that you are about to edit.  Would you like to use \033[1;32mnano\033[1;34m or \033[1;32mvi\033[1;34m to edit the Arch Linux configuration files?  "
@@ -647,13 +647,13 @@ wgetif ()
 
 args=$@
 bin=startarch
-dfl=/gen
+#dfl=/gen
 #dm=curl
 dm=wget
 dmverbose="-q"
 #dmverbose="-v"
 stime=`date +%s|grep -o '....$'`
-versionid="gen.v1.2 id456900920"
+versionid="v1.2"
 
 setrootdir 
 
