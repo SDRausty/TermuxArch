@@ -147,7 +147,7 @@ makefinishsetup ()
 	cat >> root/bin/$binfs <<- EOM
 	t=420
 	# This for loop generates entropy for \$t seconds.
-	for i in {1..4}; do
+	for i in {1..2}; do
 		\$(nice -n 20 find / -type f -exec cat {} \\; >/dev/null 2>/dev/null & sleep \$t ; kill \$! 2>/dev/null) &
 		\$(nice -n 20 ls -alR / >/dev/null 2>/dev/null & sleep \$t ; kill \$! 2>/dev/null) &
 		\$(nice -n 20 find / >/dev/null 2>/dev/null & sleep \$t ; kill \$! 2>/dev/null) &
@@ -160,7 +160,7 @@ makefinishsetup ()
 		mv /usr/lib/gnupg/scdaemon{,_} 2>/dev/null ||: 
 		rm -rf /etc/pacman.d/gnupg ||: 
 		# This for loop generates entropy for \$t seconds.
-		for i in {1..4}; do
+		for i in {1..2}; do
 			\$(nice -n 20 find / -type f -exec cat {} \\; >/dev/null 2>/dev/null & sleep \$t ; kill \$! 2>/dev/null) &
 			\$(nice -n 20 ls -alR / >/dev/null 2>/dev/null & sleep \$t ; kill \$! 2>/dev/null) &
 			\$(nice -n 20 find / >/dev/null 2>/dev/null & sleep \$t ; kill \$! 2>/dev/null) &
@@ -176,7 +176,7 @@ makefinishsetup ()
 		mv /usr/lib/gnupg/scdaemon{,_} 2>/dev/null ||: 
 		rm -rf /etc/pacman.d/gnupg ||: 
 		# This for loop generates entropy for \$t seconds.
-		for i in {1..4}; do
+		for i in {1..2}; do
 			\$(nice -n 20 find / -type f -exec cat {} \\; >/dev/null 2>/dev/null & sleep \$t ; kill \$! 2>/dev/null) &
 			\$(nice -n 20 ls -alR / >/dev/null 2>/dev/null & sleep \$t ; kill \$! 2>/dev/null) &
 			\$(nice -n 20 find / >/dev/null 2>/dev/null & sleep \$t ; kill \$! 2>/dev/null) &
@@ -193,7 +193,7 @@ makefinishsetup ()
 		mv /usr/lib/gnupg/scdaemon{,_} 2>/dev/null ||: 
 		rm -rf /etc/pacman.d/gnupg ||: 
 		# This for loop generates entropy for \$t seconds.
-		for i in {1..4}; do
+		for i in {1..2}; do
 			\$(nice -n 20 find / -type f -exec cat {} \\; >/dev/null 2>/dev/null & sleep \$t ; kill \$! 2>/dev/null) &
 			\$(nice -n 20 ls -alR / >/dev/null 2>/dev/null & sleep \$t ; kill \$! 2>/dev/null) &
 			\$(nice -n 20 find / >/dev/null 2>/dev/null & sleep \$t ; kill \$! 2>/dev/null) &
