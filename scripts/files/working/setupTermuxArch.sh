@@ -650,12 +650,12 @@ setrootdir
 arch=$(echo $rootdir|awk '{print substr($1,2); }')
 args=$@
 bin=start$arch
-dfl=/gen
+#dfl=/gen
 #dm=wget
 dmverbose="-q"
 #dmverbose="-v"
 stime=`date +%s|grep -o '....$'`
-versionid="gen.v1.3 id513726159"
+versionid="v1.3"
 
 # [curl debug|curl sysinfo] Get device system information using `curl`.
 if [[ $1 = [Cc][Dd]* ]] || [[ $1 = -[Cc][Dd]* ]] || [[ $1 = --[Cc][Dd]* ]] || [[ $1 = [Cc][Ss]* ]] || [[ $1 = -[Cc][Ss]* ]] || [[ $1 = --[Cc][Ss]* ]];then

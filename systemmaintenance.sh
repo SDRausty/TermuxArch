@@ -64,6 +64,7 @@ refreshsys ()
 	addt 
 	addtour
 	addyt 
+	addwe  
 	addv 
 	setlocalegen
 	makefinishsetup

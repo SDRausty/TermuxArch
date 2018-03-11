@@ -643,19 +643,19 @@ wgetif ()
 	fi
 }
 
+setrootdir 
+
 # User configurable variables such as mirrors are in `setupTermuxArchConfigs.sh`.  Creating this file from `kownconfigurations.sh` in the working directory is simple, use `bash setupTermuxArch.sh --manual` to create, edit and run `setupTermuxArchConfigs.sh`; `bash setupTermuxArch.sh --help` has more information. 
 
+arch=$(echo $rootdir|awk '{print substr($1,2); }')
 args=$@
-bin=startarch
+bin=start$arch
 #dfl=/gen
-#dm=curl
 #dm=wget
 dmverbose="-q"
 #dmverbose="-v"
 stime=`date +%s|grep -o '....$'`
-versionid="v1.2"
-
-setrootdir 
+versionid="v1.3"
 
 # [curl debug|curl sysinfo] Get device system information using `curl`.
 if [[ $1 = [Cc][Dd]* ]] || [[ $1 = -[Cc][Dd]* ]] || [[ $1 = --[Cc][Dd]* ]] || [[ $1 = [Cc][Ss]* ]] || [[ $1 = -[Cc][Ss]* ]] || [[ $1 = --[Cc][Ss]* ]];then
