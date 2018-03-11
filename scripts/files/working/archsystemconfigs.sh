@@ -133,228 +133,229 @@ addbashrc ()
 	alias lr='ls -alR'
 	alias ls='ls --color=always'
 	alias p='pwd'
-alias pc='pacman --color=always'
-alias q='logout'
-alias rf='rm -rf'
-. /etc/motd
-EOM
-if [ -e $HOME/.bashrc ] ; then
-	grep proxy $HOME/.bashrc |grep "export" >>  root/.bashrc 2>/dev/null||:
-fi
+	alias pc='pacman --color=always'
+	alias q='logout'
+	alias rf='rm -rf'
+	. /etc/motd
+	EOM
+	if [ -e $HOME/.bashrc ] ; then
+		grep proxy $HOME/.bashrc |grep "export" >>  root/.bashrc 2>/dev/null||:
+	fi
 }
 
 addce ()
 {
-cat > root/bin/ce <<- EOM
-#!/bin/bash -e
-# Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
-# Hosting https://sdrausty.github.io/TermuxArch courtesy https://pages.github.com
-# https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.  
-# https://sdrausty.github.io/TermuxArch/README has information about this project. 
-# Create entropy by doing things on device.
-################################################################################
-t=240
-for i in {1..5}; do
-	\$(nice -n 20 find / -type f -exec cat {} \\; >/dev/null 2>/dev/null & sleep \$t ; kill \$!) &
-	\$(nice -n 20 ls -alR / >/dev/null 2>/dev/null & sleep \$t ; kill \$!) &
-	\$(nice -n 20 find / >/dev/null 2>/dev/null & sleep \$t ; kill \$!) &
-	\$(nice -n 20 cat /dev/urandom >/dev/null & sleep \$t ; kill \$!) &
-done
-for i in {1..240}; do
-	printf "Available entropy reading \$i of \$t	"
-	cat /proc/sys/kernel/random/entropy_avail
-	sleep 1
-done
-EOM
-chmod 770 root/bin/ce 
+	cat > root/bin/ce <<- EOM
+	#!/bin/bash -e
+	# Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
+	# Hosting https://sdrausty.github.io/TermuxArch courtesy https://pages.github.com
+	# https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.  
+	# https://sdrausty.github.io/TermuxArch/README has information about this project. 
+	# Create entropy by doing things on device.
+	################################################################################
+	t=240
+	for i in {1..5}; do
+		\$(nice -n 20 find / -type f -exec cat {} \\; >/dev/null 2>/dev/null & sleep \$t ; kill \$!) &
+		\$(nice -n 20 ls -alR / >/dev/null 2>/dev/null & sleep \$t ; kill \$!) &
+		\$(nice -n 20 find / >/dev/null 2>/dev/null & sleep \$t ; kill \$!) &
+		\$(nice -n 20 cat /dev/urandom >/dev/null & sleep \$t ; kill \$!) &
+	done
+	for i in {1..240}; do
+		printf "Available entropy reading \$i of \$t	"
+		cat /proc/sys/kernel/random/entropy_avail
+		sleep 1
+	done
+	EOM
+	chmod 770 root/bin/ce 
 }
+
 addces ()
 {
-cat > bin/ces<<- EOM
-#!$PREFIX/bin/bash -e
-# Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
-# Hosting https://sdrausty.github.io/TermuxArch courtesy https://pages.github.com
-# https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.  
-# https://sdrausty.github.io/TermuxArch/README has information about this project. 
-# Create entropy Termux startup file.
-################################################################################
-unset LD_PRELOAD
-EOM
-if [[ "$kid" -eq 1 ]]; then
-	cat >> bin/ces <<- EOM
-	exec proot --kill-on-exit --kernel-release=4.14.15 --link2symlink -0 -r $HOME$rootdir/ -b /dev/ -b /sys/ -b /proc/ -b /storage/ -b $HOME -w $HOME /bin/env -i HOME=/root TERM="$TERM" PATH=/bin:/usr/bin:/sbin:/usr/sbin $rootdir/root/bin/ce 
+	cat > bin/ces<<- EOM
+	#!$PREFIX/bin/bash -e
+	# Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
+	# Hosting https://sdrausty.github.io/TermuxArch courtesy https://pages.github.com
+	# https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.  
+	# https://sdrausty.github.io/TermuxArch/README has information about this project. 
+	# Create entropy Termux startup file.
+	################################################################################
+	unset LD_PRELOAD
 	EOM
-else
-	cat >> bin/ces <<- EOM
-	exec proot --kill-on-exit --link2symlink -0 -r $HOME$rootdir/ -b /dev/ -b /sys/ -b /proc/ -b /storage/ -b $HOME -w $HOME /bin/env -i HOME=/root TERM="$TERM" PATH=/bin:/usr/bin:/sbin:/usr/sbin /root/bin/ce 
-	EOM
-fi
-chmod 770 bin/ces 
+	if [[ "$kid" -eq 1 ]]; then
+		cat >> bin/ces <<- EOM
+		exec proot --kill-on-exit --kernel-release=4.14.15 --link2symlink -0 -r $HOME$rootdir/ -b /dev/ -b /sys/ -b /proc/ -b /storage/ -b $HOME -w $HOME /bin/env -i HOME=/root TERM="$TERM" PATH=/bin:/usr/bin:/sbin:/usr/sbin $rootdir/root/bin/ce 
+		EOM
+	else
+		cat >> bin/ces <<- EOM
+		exec proot --kill-on-exit --link2symlink -0 -r $HOME$rootdir/ -b /dev/ -b /sys/ -b /proc/ -b /storage/ -b $HOME -w $HOME /bin/env -i HOME=/root TERM="$TERM" PATH=/bin:/usr/bin:/sbin:/usr/sbin /root/bin/ce 
+		EOM
+	fi
+	chmod 770 bin/ces 
 }
 
 adddfa ()
 {
-cat > root/bin/dfa <<- EOM
-#!/bin/bash -e
-# Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
-# Hosting https://sdrausty.github.io/TermuxArch courtesy https://pages.github.com
-# https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.  
-# https://sdrausty.github.io/TermuxArch/README has information about this project. 
-################################################################################
-units=\`df 2>/dev/null | awk 'FNR == 1 {print \$2}'\`
-usrspace=\`df 2>/dev/null | grep "/data" | awk {'print \$4'}\`
-printf "\033[0;33m\$usrspace \$units of free user space is available on this device.\n\033[0m"
-EOM
-chmod 770 root/bin/dfa 
+	cat > root/bin/dfa <<- EOM
+	#!/bin/bash -e
+	# Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
+	# Hosting https://sdrausty.github.io/TermuxArch courtesy https://pages.github.com
+	# https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.  
+	# https://sdrausty.github.io/TermuxArch/README has information about this project. 
+	################################################################################
+	units=\`df 2>/dev/null | awk 'FNR == 1 {print \$2}'\`
+	usrspace=\`df 2>/dev/null | grep "/data" | awk {'print \$4'}\`
+	printf "\033[0;33m\$usrspace \$units of free user space is available on this device.\n\033[0m"
+	EOM
+	chmod 770 root/bin/dfa 
 }
 
 addga ()
 {
-cat > root/bin/ga  <<- EOM
-#!/bin/bash -e
-# Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
-# Hosting https://sdrausty.github.io/TermuxArch courtesy https://pages.github.com
-# https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.  
-# https://sdrausty.github.io/TermuxArch/README has information about this project. 
-################################################################################
-if [ ! -e /usr/bin/git ] ; then
-	pacman -Syu git --noconfirm --color always
-	git add .
-else
-	git add .
-fi
-EOM
-chmod 770 root/bin/ga 
+	cat > root/bin/ga  <<- EOM
+	#!/bin/bash -e
+	# Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
+	# Hosting https://sdrausty.github.io/TermuxArch courtesy https://pages.github.com
+	# https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.  
+	# https://sdrausty.github.io/TermuxArch/README has information about this project. 
+	################################################################################
+	if [ ! -e /usr/bin/git ] ; then
+		pacman -Syu git --noconfirm --color always
+		git add .
+	else
+		git add .
+	fi
+	EOM
+	chmod 770 root/bin/ga 
 }
 
 addgcl ()
 {
-cat > root/bin/gcl  <<- EOM
-#!/bin/bash -e
-# Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
-# Hosting https://sdrausty.github.io/TermuxArch courtesy https://pages.github.com
-# https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.  
-# https://sdrausty.github.io/TermuxArch/README has information about this project. 
-################################################################################
-if [ ! -e /usr/bin/git ] ; then
-	pacman -Syu git --noconfirm --color always
-	git clone \$@
-else
-	git clone \$@
-fi
-EOM
-chmod 770 root/bin/gcl 
+	cat > root/bin/gcl  <<- EOM
+	#!/bin/bash -e
+	# Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
+	# Hosting https://sdrausty.github.io/TermuxArch courtesy https://pages.github.com
+	# https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.  
+	# https://sdrausty.github.io/TermuxArch/README has information about this project. 
+	################################################################################
+	if [ ! -e /usr/bin/git ] ; then
+		pacman -Syu git --noconfirm --color always
+		git clone \$@
+	else
+		git clone \$@
+	fi
+	EOM
+	chmod 770 root/bin/gcl 
 }
 
 addgcm ()
 {
-cat > root/bin/gcm  <<- EOM
-#!/bin/bash -e
-# Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
-# Hosting https://sdrausty.github.io/TermuxArch courtesy https://pages.github.com
-# https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.  
-# https://sdrausty.github.io/TermuxArch/README has information about this project. 
-################################################################################
-if [ ! -e /usr/bin/git ] ; then
-	pacman -Syu git --noconfirm --color always
-	git commit
-else
-	git commit
-fi
-EOM
-chmod 770 root/bin/gcm 
+	cat > root/bin/gcm  <<- EOM
+	#!/bin/bash -e
+	# Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
+	# Hosting https://sdrausty.github.io/TermuxArch courtesy https://pages.github.com
+	# https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.  
+	# https://sdrausty.github.io/TermuxArch/README has information about this project. 
+	################################################################################
+	if [ ! -e /usr/bin/git ] ; then
+		pacman -Syu git --noconfirm --color always
+		git commit
+	else
+		git commit
+	fi
+	EOM
+	chmod 770 root/bin/gcm 
 }
 
 addgpl ()
 {
-cat > root/bin/gpl  <<- EOM
-#!/bin/bash -e
-# Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
-# Hosting https://sdrausty.github.io/TermuxArch courtesy https://pages.github.com
-# https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.  
-# https://sdrausty.github.io/TermuxArch/README has information about this project. 
-################################################################################
-if [ ! -e /usr/bin/git ] ; then
-	pacman -Syu git --noconfirm --color always
-	git pull
-else
-	git pull
-fi
-EOM
-chmod 770 root/bin/gpl 
+	cat > root/bin/gpl  <<- EOM
+	#!/bin/bash -e
+	# Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
+	# Hosting https://sdrausty.github.io/TermuxArch courtesy https://pages.github.com
+	# https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.  
+	# https://sdrausty.github.io/TermuxArch/README has information about this project. 
+	################################################################################
+	if [ ! -e /usr/bin/git ] ; then
+		pacman -Syu git --noconfirm --color always
+		git pull
+	else
+		git pull
+	fi
+	EOM
+	chmod 770 root/bin/gpl 
 }
 
 addgp ()
 {
-cat > root/bin/gp  <<- EOM
-#!/bin/bash -e
-# Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
-# Hosting https://sdrausty.github.io/TermuxArch courtesy https://pages.github.com
-# https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.  
-# https://sdrausty.github.io/TermuxArch/README has information about this project. 
-# git push https://username:password@github.com/username/repository.git master
-################################################################################
-if [ ! -e /usr/bin/git ] ; then
-	pacman -Syu git --noconfirm --color always
-	git push
-else
-	git push
-fi
-EOM
-chmod 700 root/bin/gp 
+	cat > root/bin/gp  <<- EOM
+	#!/bin/bash -e
+	# Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
+	# Hosting https://sdrausty.github.io/TermuxArch courtesy https://pages.github.com
+	# https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.  
+	# https://sdrausty.github.io/TermuxArch/README has information about this project. 
+	# git push https://username:password@github.com/username/repository.git master
+	################################################################################
+	if [ ! -e /usr/bin/git ] ; then
+		pacman -Syu git --noconfirm --color always
+		git push
+	else
+		git push
+	fi
+	EOM
+	chmod 700 root/bin/gp 
 }
 
 addmakepkgdiff ()
 {
-# Contributed by https://github.com/markfelt
-cat > root/bin/makepkg.diff <<- EOM
-170c170
-< 	fakeroot -- \$0 -F "\${ARGLIST[@]}" || exit \$?
----
-> 	\$0 -F "\${ARGLIST[@]}" || exit \$?
-227,229c227,229
-< 		if type -p sudo >/dev/null; then
-< 			cmd=(sudo "\${cmd[@]}")
-< 		else
----
-> #		if type -p sudo >/dev/null; then
-> #			cmd=(sudo "\${cmd[@]}")
-> #		else
-231c231
-< 		fi
----
-> #		fi
-2126,2137c2126,2136
-< if (( ! INFAKEROOT )); then
-< 	if (( EUID == 0 )); then
-< 		error "\$(gettext "Running %s as root is not allowed as it can cause permanent,\\n\\
-< catastrophic damage to your system.")" "makepkg"
-< 		exit 1 # \$E_USER_ABORT
-< 	fi
-< else
-< 	if [[ -z \$FAKEROOTKEY ]]; then
-< 		error "\$(gettext "Do not use the %s option. This option is only for use by %s.")" "'-F'" "makepkg"
-< 		exit 1 # TODO: error code
-< 	fi
-< fi
----
-> #if (( ! INFAKEROOT )); then
-> #	if (( EUID == 0 )); then
-> #		error "\$(gettext "Running %s as root is not allowed as it can cause permanent,\\n\\catastrophic damage to your system.")" "makepkg"
-> #		exit 1 # \$E_USER_ABORT
-> #	fi
-> #else
-> #	if [[ -z \$FAKEROOTKEY ]]; then
-> #		error "\$(gettext "Do not use the %s option. This option is only for use by %s.")" "'-F'" "makepkg"
-> #		exit 1 # TODO: error code
-> #	fi
-> #fi
-EOM
+	# Contributed by https://github.com/markfelt
+	cat > root/bin/makepkg.diff <<- EOM
+	170c170
+	< 	fakeroot -- \$0 -F "\${ARGLIST[@]}" || exit \$?
+	---
+	> 	\$0 -F "\${ARGLIST[@]}" || exit \$?
+	227,229c227,229
+	< 		if type -p sudo >/dev/null; then
+	< 			cmd=(sudo "\${cmd[@]}")
+	< 		else
+	---
+	> #		if type -p sudo >/dev/null; then
+	> #			cmd=(sudo "\${cmd[@]}")
+	> #		else
+	231c231
+	< 		fi
+	---
+	> #		fi
+	2126,2137c2126,2136
+	< if (( ! INFAKEROOT )); then
+	< 	if (( EUID == 0 )); then
+	< 		error "\$(gettext "Running %s as root is not allowed as it can cause permanent,\\n\\
+	< catastrophic damage to your system.")" "makepkg"
+	< 		exit 1 # \$E_USER_ABORT
+	< 	fi
+	< else
+	< 	if [[ -z \$FAKEROOTKEY ]]; then
+	< 		error "\$(gettext "Do not use the %s option. This option is only for use by %s.")" "'-F'" "makepkg"
+	< 		exit 1 # TODO: error code
+	< 	fi
+	< fi
+	---
+	> #if (( ! INFAKEROOT )); then
+	> #	if (( EUID == 0 )); then
+	> #		error "\$(gettext "Running %s as root is not allowed as it can cause permanent,\\n\\catastrophic damage to your system.")" "makepkg"
+	> #		exit 1 # \$E_USER_ABORT
+	> #	fi
+	> #else
+	> #	if [[ -z \$FAKEROOTKEY ]]; then
+	> #		error "\$(gettext "Do not use the %s option. This option is only for use by %s.")" "'-F'" "makepkg"
+	> #		exit 1 # TODO: error code
+	> #	fi
+	> #fi
+	EOM
 }
 
 addmotd ()
 {
-cat > etc/motd  <<- EOM
+	cat > etc/motd  <<- EOM
 	printf "\033[1;34mWelcome to Arch Linux in Termux!  Enjoy!\nChat:    \033[0mhttps://gitter.im/termux/termux/\n\033[1;34mHelp:    \033[0;34minfo query \033[1;34mand \033[0;34mman query\n\033[1;34mPortal:  \033[0mhttps://wiki.termux.com/wiki/Community\n\n\033[1;34mInstall a package: \033[0;34mpacman -S package\n\033[1;34mMore  information: \033[0;34mpacman [-D|F|Q|R|S|T|U]h\n\033[1;34mSearch   packages: \033[0;34mpacman -Ss query\n\033[1;34mUpgrade  packages: \033[0;34mpacman -Syu\n\033[0m"
 	EOM
 }
