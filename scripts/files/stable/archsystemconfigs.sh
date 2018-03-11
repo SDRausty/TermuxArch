@@ -153,7 +153,7 @@ addce ()
 	# https://sdrausty.github.io/TermuxArch/README has information about this project. 
 	# Create entropy by doing things on device.
 	################################################################################
-	printf "\033[1;32m"'\033]2;  Thank you for using `ce` from TermuxArch 📲  \007'
+	printf "\033[1;32m"'\033]2;  Thank you for using \`ce\` from TermuxArch 📲  \007'
 	t=240
 	for i in {1..5}; do
 		\$(nice -n 20 find / -type f -exec cat {} \\; >/dev/null 2>/dev/null & sleep \$t ; kill \$!) 2>/dev/null &
