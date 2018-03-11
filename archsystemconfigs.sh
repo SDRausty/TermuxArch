@@ -134,6 +134,7 @@ addbashrc ()
 	alias ls='ls --color=always'
 	alias p='pwd'
 	alias pc='pacman --color=always'
+	alias pci='pacman --color=always -Syu'
 	alias q='logout'
 	alias rf='rm -rf'
 	. /etc/motd
