@@ -357,7 +357,7 @@ addmotd ()
 	printf "\033[1;34mWelcome to Arch Linux in Termux!  Enjoy!\033[0m\033[1;34m
 	
 	Chat:    \033[0m\033[mhttps://gitter.im/termux/termux/\033[0m\033[1;34m
-	Help:    \033[0m\033[34minfo <query> \033[0m\033[mand \033[0m\033[34mman <query> \033[0m\033[1;34m
+	Help:    \033[0m\033[34minfo query \033[0m\033[mand \033[0m\033[34mman query \033[0m\033[1;34m
 	Portal:  \033[0m\033[mhttps://wiki.termux.com/wiki/Community\033[0m\033[1;34m
 	
 	Install a package: \033[0m\033[34mpacman -S <package>\033[0m\033[1;34m
