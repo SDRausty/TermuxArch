@@ -646,14 +646,14 @@ wgetif ()
 # User configurable variables such as mirrors are in `setupTermuxArchConfigs.sh`.  Creating this file from `kownconfigurations.sh` in the working directory is simple, use `bash setupTermuxArch.sh --manual` to create, edit and run `setupTermuxArchConfigs.sh`; `bash setupTermuxArch.sh --help` has more information. 
 
 args=$@
-bin=startarch
-#dfl=/gen
+bin=start$rootdir
+dfl=/gen
 #dm=curl
 #dm=wget
 dmverbose="-q"
 #dmverbose="-v"
 stime=`date +%s|grep -o '....$'`
-versionid="v1.2"
+versionid="gen.v1.2 id388466110"
 
 setrootdir 
 
