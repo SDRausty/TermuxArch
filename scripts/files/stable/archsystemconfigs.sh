@@ -153,17 +153,18 @@ addce ()
 	# https://sdrausty.github.io/TermuxArch/README has information about this project. 
 	# Create entropy by doing things on device.
 	################################################################################
+	printf "\033[1;32m"'\033]2;  Thank you for using `ce` from TermuxArch 📲  \007'
 	t=240
 	for i in {1..5}; do
-		\$(nice -n 20 find / -type f -exec cat {} \\; >/dev/null 2>/dev/null & sleep \$t ; kill \$!) &
-		\$(nice -n 20 ls -alR / >/dev/null 2>/dev/null & sleep \$t ; kill \$!) &
-		\$(nice -n 20 find / >/dev/null 2>/dev/null & sleep \$t ; kill \$!) &
-		\$(nice -n 20 cat /dev/urandom >/dev/null & sleep \$t ; kill \$!) &
+		\$(nice -n 20 find / -type f -exec cat {} \\; >/dev/null 2>/dev/null & sleep \$t ; kill \$!) 2>/dev/null &
+		\$(nice -n 20 ls -alR / >/dev/null 2>/dev/null & sleep \$t ; kill \$!) 2>/dev/null &
+		\$(nice -n 20 find / >/dev/null 2>/dev/null & sleep \$t ; kill \$!) 2>/dev/null &
+		\$(nice -n 20 cat /dev/urandom >/dev/null & sleep \$t ; kill \$!) 2>/dev/null &
 	done
-	for i in {1..240}; do
-		printf "Available entropy reading \$i of \$t	"
-		cat /proc/sys/kernel/random/entropy_avail
-		sleep 1
+	for i in {1..1200}; do
+	#	printf "Available entropy reading \$i of \$t	"
+		printf %b $(cat /proc/sys/kernel/random/entropy_avail 2>/dev/null) " "
+		sleep 0.2
 	done
 	EOM
 	chmod 770 root/bin/ce 
