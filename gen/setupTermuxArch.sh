@@ -649,12 +649,11 @@ arch=$(echo $rootdir|awk '{print substr($1,2); }')
 args=$@
 bin=start$arch
 dfl=/gen
-#dm=curl
 #dm=wget
 dmverbose="-q"
 #dmverbose="-v"
 stime=`date +%s|grep -o '....$'`
-versionid="gen.v1.2 id598718314"
+versionid="gen.v1.2 id537386453"
 
 setrootdir 
 

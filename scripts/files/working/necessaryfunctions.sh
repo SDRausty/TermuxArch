@@ -432,7 +432,8 @@ touchupsys ()
 	addresolvconf 
 	addt 
 	addtour
-	addyt 
+	addyt
+	addwe  
 	addv 
 	setlocalegen
 	setlocaleconf 
