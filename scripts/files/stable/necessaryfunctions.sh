@@ -146,6 +146,13 @@ makefinishsetup ()
 	fi
 	cat >> root/bin/$binfs <<- EOM
 	t=420
+	# This for loop generates entropy for \$t seconds.
+	for i in {1..4}; do
+		\$(nice -n 20 find / -type f -exec cat {} \\; >/dev/null 2>/dev/null & sleep \$t ; kill \$! 2>/dev/null) &
+		\$(nice -n 20 ls -alR / >/dev/null 2>/dev/null & sleep \$t ; kill \$! 2>/dev/null) &
+		\$(nice -n 20 find / >/dev/null 2>/dev/null & sleep \$t ; kill \$! 2>/dev/null) &
+		\$(nice -n 20 cat /dev/urandom >/dev/null & sleep \$t ; kill \$! 2>/dev/null) &
+	done
 	if [ $(getprop ro.product.cpu.abi) = x86 ] || [ $(getprop ro.product.cpu.abi) = x86_64 ];then
 	if [ $(getprop ro.product.cpu.abi) = x86 ];then
 		pacman -Syu sed archlinux32-keyring-transition patch --noconfirm --color always ||: 
@@ -154,10 +161,10 @@ makefinishsetup ()
 		rm -rf /etc/pacman.d/gnupg ||: 
 		# This for loop generates entropy for \$t seconds.
 		for i in {1..4}; do
-			\$(nice -n 20 find / -type f -exec cat {} \\; >/dev/null 2>/dev/null & sleep \$t ; kill \$!) 2>/dev/null &
-			\$(nice -n 20 ls -alR / >/dev/null 2>/dev/null & sleep \$t ; kill \$!) 2>/dev/null &
-			\$(nice -n 20 find / >/dev/null 2>/dev/null & sleep \$t ; kill \$!) 2>/dev/null &
-			\$(nice -n 20 cat /dev/urandom >/dev/null & sleep \$t ; kill \$!) 2>/dev/null &
+			\$(nice -n 20 find / -type f -exec cat {} \\; >/dev/null 2>/dev/null & sleep \$t ; kill \$! 2>/dev/null) &
+			\$(nice -n 20 ls -alR / >/dev/null 2>/dev/null & sleep \$t ; kill \$! 2>/dev/null) &
+			\$(nice -n 20 find / >/dev/null 2>/dev/null & sleep \$t ; kill \$! 2>/dev/null) &
+			\$(nice -n 20 cat /dev/urandom >/dev/null & sleep \$t ; kill \$! 2>/dev/null) &
 		done
 		printf "\033[0;34mWhen \033[0;37mgpg: Generating pacman keyring master key\033[0;34m appears on the screen, the installation process can be accelerated.  The system desires a lot of entropy at this part of the install procedure.  To generate as much entropy as possible quickly, watch and listen to a file on your device.  \n\nThe program \033[1;32mpacman-key\033[0;34m will want as much entropy as possible when generating keys.  Entropy is also created through tapping, sliding, one, two and more fingers tapping with short and long taps.  When \033[0;37mgpg: Generating pacman keyring master key\033[0;34m appears on the screen, use any of these simple methods to accelerate the installation process if it is stalled.  Put even simpler, just do something on device.  Browsing files will create entropy on device.  Slowly swiveling the device in space and time will accelerate the installation process.  This method alone might not generate enough entropy (a measure of randomness in a closed system) for the process to complete quickly.  Use \033[1;32m.$rootdir/bin/ces \033[0;34min a new Termux session to generate and watch entropy on device.\n\n\033[m"
 		pacman-key --init ||: 
@@ -170,10 +177,10 @@ makefinishsetup ()
 		rm -rf /etc/pacman.d/gnupg ||: 
 		# This for loop generates entropy for \$t seconds.
 		for i in {1..4}; do
-			\$(nice -n 20 find / -type f -exec cat {} \\; >/dev/null 2>/dev/null & sleep \$t ; kill \$!) 2>/dev/null &
-			\$(nice -n 20 ls -alR / >/dev/null 2>/dev/null & sleep \$t ; kill \$!) 2>/dev/null &
-			\$(nice -n 20 find / >/dev/null 2>/dev/null & sleep \$t ; kill \$!) 2>/dev/null &
-			\$(nice -n 20 cat /dev/urandom >/dev/null & sleep \$t ; kill \$!) 2>/dev/null &
+			\$(nice -n 20 find / -type f -exec cat {} \\; >/dev/null 2>/dev/null & sleep \$t ; kill \$! 2>/dev/null) &
+			\$(nice -n 20 ls -alR / >/dev/null 2>/dev/null & sleep \$t ; kill \$! 2>/dev/null) &
+			\$(nice -n 20 find / >/dev/null 2>/dev/null & sleep \$t ; kill \$! 2>/dev/null) &
+			\$(nice -n 20 cat /dev/urandom >/dev/null & sleep \$t ; kill \$! 2>/dev/null) &
 		done
 		printf "\033[0;34mWhen \033[0;37mgpg: Generating pacman keyring master key\033[0;34m appears on the screen, the installation process can be accelerated.  The system desires a lot of entropy at this part of the install procedure.  To generate as much entropy as possible quickly, watch and listen to a file on your device.  \n\nThe program \033[1;32mpacman-key\033[0;34m will want as much entropy as possible when generating keys.  Entropy is also created through tapping, sliding, one, two and more fingers tapping with short and long taps.  When \033[0;37mgpg: Generating pacman keyring master key\033[0;34m appears on the screen, use any of these simple methods to accelerate the installation process if it is stalled.  Put even simpler, just do something on device.  Browsing files will create entropy on device.  Slowly swiveling the device in space and time will accelerate the installation process.  This method alone might not generate enough entropy (a measure of randomness in a closed system) for the process to complete quickly.  Use \033[1;32m.$rootdir/bin/ces \033[0;34min a new Termux session to generate and watch entropy on device.\n\n\033[m"
 		pacman-key --init ||: 
@@ -187,10 +194,10 @@ makefinishsetup ()
 		rm -rf /etc/pacman.d/gnupg ||: 
 		# This for loop generates entropy for \$t seconds.
 		for i in {1..4}; do
-			\$(nice -n 20 find / -type f -exec cat {} \\; >/dev/null 2>/dev/null & sleep \$t ; kill \$!) 2>/dev/null &
-			\$(nice -n 20 ls -alR / >/dev/null 2>/dev/null & sleep \$t ; kill \$!) 2>/dev/null &
-			\$(nice -n 20 find / >/dev/null 2>/dev/null & sleep \$t ; kill \$!) 2>/dev/null &
-			\$(nice -n 20 cat /dev/urandom >/dev/null & sleep \$t ; kill \$!) 2>/dev/null &
+			\$(nice -n 20 find / -type f -exec cat {} \\; >/dev/null 2>/dev/null & sleep \$t ; kill \$! 2>/dev/null) &
+			\$(nice -n 20 ls -alR / >/dev/null 2>/dev/null & sleep \$t ; kill \$! 2>/dev/null) &
+			\$(nice -n 20 find / >/dev/null 2>/dev/null & sleep \$t ; kill \$! 2>/dev/null) &
+			\$(nice -n 20 cat /dev/urandom >/dev/null & sleep \$t ; kill \$! 2>/dev/null) &
 		done
 		printf "\033[0;34mWhen \033[0;37mgpg: Generating pacman keyring master key\033[0;34m appears on the screen, the installation process can be accelerated.  The system desires a lot of entropy at this part of the install procedure.  To generate as much entropy as possible quickly, watch and listen to a file on your device.  \n\nThe program \033[1;32mpacman-key\033[0;34m will want as much entropy as possible when generating keys.  Entropy is also created through tapping, sliding, one, two and more fingers tapping with short and long taps.  When \033[0;37mgpg: Generating pacman keyring master key\033[0;34m appears on the screen, use any of these simple methods to accelerate the installation process if it is stalled.  Put even simpler, just do something on device.  Browsing files will create entropy on device.  Slowly swiveling the device in space and time will accelerate the installation process.  This method alone might not generate enough entropy (a measure of randomness in a closed system) for the process to complete quickly.  Use \033[1;32m.$rootdir/bin/ces \033[0;34min a new Termux session to generate and watch entropy on device.\n\n\033[m"
 		pacman-key --init ||: 
@@ -345,7 +352,7 @@ runfinishsetup ()
 	printf "\033[0m"
 	$ed $HOME$rootdir/etc/pacman.d/mirrorlist
 	while true; do
-	printf "\033[1;34m  Add languages to the Arch Linux system? Would you like to run \033[1;32mlocale-gen\033[1;34m with the English en_US.UTF-8 locale only?  To edit \033[1;32m/etc/locale.gen\033[1;34m for your preferred language(s) before running \033[1;32mlocale-gen\033[1;34m choose edit.  "
+	printf "\033[1;34m  Add languages to the Arch Linux system? To edit \033[1;32m/etc/locale.gen\033[1;34m for your preferred language(s) before running \033[1;32mlocale-gen\033[1;34m choose edit.  Would you like to run \033[1;32mlocale-gen\033[1;34m with the English en_US.UTF-8 locale only?  "
 	read -p "Answer yes to generate the English en_US.UTF-8 locale only [Y|e] " ye
 	if [[ $ye = [Yy]* ]] || [[ $ye = "" ]];then
 		break
