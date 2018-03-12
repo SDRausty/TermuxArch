@@ -116,6 +116,7 @@ mainblock ()
 	printdone 
 	printfooter
 	$HOME$rootdir/$bin 
+	printfooter2
 }
 
 makebin ()

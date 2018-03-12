@@ -82,5 +82,6 @@ refreshsys ()
 	printf "\n"
 	printfooter 
 	$HOME$rootdir/$bin 
+	printfooter2
 }
 
