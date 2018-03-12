@@ -41,6 +41,7 @@ sysinfo ()
 
 refreshsys ()
 {
+	arch=$(echo $rootdir|awk '{print substr($1,2); }')
 	bin=start$arch
 	echo $bin
 	cd $HOME$rootdir

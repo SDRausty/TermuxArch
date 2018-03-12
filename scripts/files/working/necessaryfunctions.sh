@@ -108,6 +108,7 @@ lkernid
 
 mainblock ()
 { 
+	arch=$(echo $rootdir|awk '{print substr($1,2); }')
 	bin=start$arch
 	spaceinfoq
 	callsystem 
