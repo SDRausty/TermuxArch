@@ -78,7 +78,7 @@ bsdtarif ()
 
 chk ()
 {
-	if sha512sum -c termuxarchchecksum.sha512 1>/dev/null ;then
+	if $PREFIX/bin/applets/sha512sum -c termuxarchchecksum.sha512 1>/dev/null ;then
 		chkself 
 		printf "\033[0;34m 🕛 > 🕜 \033[1;34mTermuxArch $versionid integrity: \033[1;32mOK\n"
 		if [[ $opt = manual ]];then
@@ -104,7 +104,7 @@ chk ()
 
 chkdwn ()
 {
-	if sha512sum -c setupTermuxArch.sha512 1>/dev/null ;then
+	if $PREFIX/bin/applets/sha512sum -c setupTermuxArch.sha512 1>/dev/null ;then
 		printf "\033[0;34m 🕛 > 🕐 \033[1;34mTermuxArch download: \033[1;32mOK\n\n"
 		$PREFIX/bin/applets/tar	xf setupTermuxArch.tar.gz
 		rmds 
@@ -654,7 +654,7 @@ dfl=/gen
 #dmverbose="-q"
 #dmverbose="-v"
 stime=`date +%s|grep -o '....$'`
-versionid="gen.v1.3 id272334133"
+versionid="gen.v1.3 id068009012"
 
 # [curl debug|curl sysinfo] Get device system information using `curl`.
 if [[ $1 = [Cc][Dd]* ]] || [[ $1 = -[Cc][Dd]* ]] || [[ $1 = --[Cc][Dd]* ]] || [[ $1 = [Cc][Ss]* ]] || [[ $1 = -[Cc][Ss]* ]] || [[ $1 = --[Cc][Ss]* ]];then
