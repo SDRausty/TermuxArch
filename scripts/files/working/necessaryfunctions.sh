@@ -108,8 +108,7 @@ lkernid
 
 mainblock ()
 { 
-	tarch=$(echo $rootdir|awk '{print substr($1,2); }')
-	bin=startarch$tarch
+	namestartarch 
 	spaceinfoq
 	callsystem 
 	printwld 

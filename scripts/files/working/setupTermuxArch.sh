@@ -351,6 +351,17 @@ nanoif ()
 	fi
 }
 
+namestartarch ()
+{
+	darch=$(echo $rootdir|awk '{print substr($1,2); }')
+	if [ "darch" = "arch" ];then
+		tarch=""
+	else
+		tarch=darch
+	fi
+	bin=startarch$tarch
+}
+
 opt2 ()
 {
 	if [[ $2 = [Dd]* ]] || [[ $2 = [Ss]* ]] ;then
@@ -415,8 +426,7 @@ refresh ()
 
 rmarch ()
 {
-	tarch=$(echo $rootdir|awk '{print substr($1,2); }')
-	bin=startarch$tarch
+	namestartarch 
 	while true; do
 		printf "\n\033[1;30m"
 		read -p "Remove $HOME$rootdir? [Y|n] " ruanswer
@@ -650,11 +660,11 @@ setrootdir
 # User configurable variables such as mirrors and download manager options are in `setupTermuxArchConfigs.sh`.  Creating this file from `kownconfigurations.sh` in the working directory is simple, use `setupTermuxArch.sh --manual` to create, edit and run `setupTermuxArchConfigs.sh`; `setupTermuxArch.sh --help` has more information.  All options can be abbreviated to the first letter(s). 
 
 args=$@
-#dfl=/gen
+dfl=/gen
 dmverbose="-q"
 #dmverbose="-v"
 stime=`date +%s|grep -o '....$'`
-versionid="v1.3"
+versionid="gen.v1.3 id440727448"
 
 # [curl debug|curl sysinfo] Get device system information using `curl`.
 if [[ $1 = [Cc][Dd]* ]] || [[ $1 = -[Cc][Dd]* ]] || [[ $1 = --[Cc][Dd]* ]] || [[ $1 = [Cc][Ss]* ]] || [[ $1 = -[Cc][Ss]* ]] || [[ $1 = --[Cc][Ss]* ]];then
