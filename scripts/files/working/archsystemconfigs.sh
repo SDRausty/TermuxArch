@@ -133,8 +133,8 @@ addbashrc ()
 	alias lr='ls -alR'
 	alias ls='ls --color=always'
 	alias p='pwd'
-	alias pc='pacman --color=always'
-	alias pci='pacman --color=always -Syu'
+	alias pc='pacman --noconfirm --color=always'
+	alias pci='pacman  --noconfirm --color=always -Syu'
 	alias q='logout'
 	alias rf='rm -rf'
 	. /etc/motd
@@ -221,7 +221,7 @@ addga ()
 	# https://sdrausty.github.io/TermuxArch/README has information about this project. 
 	################################################################################
 	if [ ! -e /usr/bin/git ] ; then
-		pacman -Syu git --noconfirm --color always
+		pacman --noconfirm --color=always -Syu git
 		git add .
 	else
 		git add .
@@ -240,7 +240,7 @@ addgcl ()
 	# https://sdrausty.github.io/TermuxArch/README has information about this project. 
 	################################################################################
 	if [ ! -e /usr/bin/git ] ; then
-		pacman -Syu git --noconfirm --color always
+		pacman --noconfirm --color=always -Syu git 
 		git clone \$@
 	else
 		git clone \$@
@@ -259,7 +259,7 @@ addgcm ()
 	# https://sdrausty.github.io/TermuxArch/README has information about this project. 
 	################################################################################
 	if [ ! -e /usr/bin/git ] ; then
-		pacman -Syu git --noconfirm --color always
+		pacman --noconfirm --color=always -Syu git 
 		git commit
 	else
 		git commit
@@ -278,7 +278,7 @@ addgpl ()
 	# https://sdrausty.github.io/TermuxArch/README has information about this project. 
 	################################################################################
 	if [ ! -e /usr/bin/git ] ; then
-		pacman -Syu git --noconfirm --color always
+		pacman --noconfirm --color=always -Syu git 
 		git pull
 	else
 		git pull
@@ -298,7 +298,7 @@ addgp ()
 	# git push https://username:password@github.com/username/repository.git master
 	################################################################################
 	if [ ! -e /usr/bin/git ] ; then
-		pacman -Syu git --noconfirm --color always
+		pacman --noconfirm --color=always -Syu git 
 		git push
 	else
 		git push
@@ -391,7 +391,7 @@ addt ()
 	# https://sdrausty.github.io/TermuxArch/README has information about this project. 
 	################################################################################
 	if [ ! -e /usr/bin/tree ] ; then
-		pacman -Syu tree --noconfirm --color always
+		pacman --noconfirm --color=always -Syu tree 
 		tree \$@
 	else
 		tree \$@
@@ -436,7 +436,7 @@ addv ()
 	# https://sdrausty.github.io/TermuxArch/README has information about this project. 
 	################################################################################
 	if [ ! -e /usr/bin/vim ] ; then
-		pacman -Syu vim --noconfirm --color always
+		pacman --noconfirm --color=always -Syu vim 
 		vim \$@
 	else
 		vim \$@
@@ -474,7 +474,7 @@ addyt ()
 	# https://sdrausty.github.io/TermuxArch/README has information about this project. 
 	################################################################################
 	if [ ! -e /usr/bin/youtube-dl ] ; then
-		pacman -Syu python-pip --noconfirm --color always
+		pacman --noconfirm --color=always -Syu python-pip
 		pip install youtube-dl
 		youtube-dl \$@
 	else
