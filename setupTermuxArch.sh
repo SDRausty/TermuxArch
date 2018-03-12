@@ -439,6 +439,11 @@ rmarch ()
 			else 
 				printf "Removing $PREFIX/bin/$bin, nothing to do for $PREFIX/bin/$bin.\n"
 			fi
+			if [ -e $HOME/bin/$bin ];then
+				rm $HOME/bin/$bin 
+			else 
+				printf "Removing $HOME/bin/$bin, nothing to do for $HOME/bin/$bin.\n"
+			fi
 			if [ -d $HOME$rootdir ];then
 				rmarchrm 
 			else 
