@@ -51,7 +51,7 @@ addauserps ()
 	cp -r /root /home/\$1
 	su - \$1
 	EOM
-	echo "cat > $HOME/bin/startarchuser\$1 <<- EOM " >> root/bin/addauserps 
+	echo "cat > $HOME/bin/${bin}user\$1 <<- EOM " >> root/bin/addauserps 
 	cat >> root/bin/addauserps <<- EOM
 	#!/bin/bash -e
 	# Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
@@ -64,7 +64,7 @@ addauserps ()
 	EOM
 	echo EOM >> root/bin/addauserps 
 	cat >> root/bin/addauserps <<- EOM
-	chmod 770 $HOME/bin/startarchuser\$1
+	chmod 770 $HOME/bin/${bin}user\$1
 	EOM
 	chmod 770 root/bin/addauserps 
 }
@@ -83,7 +83,7 @@ addauserpsc ()
 	cp -r /root /home/\$1
 	su - \$1
 	EOM
-	echo "cat > $HOME/bin/startarchuser\$1 <<- EOM " >> root/bin/addauserpsc 
+	echo "cat > $HOME/bin/${bin}user\$1 <<- EOM " >> root/bin/addauserpsc 
 	cat >> root/bin/addauserpsc <<- EOM
 	#!/bin/bash -e
 	# Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
@@ -96,7 +96,7 @@ addauserpsc ()
 	EOM
 	echo EOM >> root/bin/addauserpsc 
 	cat >> root/bin/addauserpsc <<- EOM
-	chmod 770 $HOME/bin/startarchuser\$1
+	chmod 770 $HOME/bin/${bin}user\$1
 	EOM
 	chmod 770 root/bin/addauserpsc 
 }
