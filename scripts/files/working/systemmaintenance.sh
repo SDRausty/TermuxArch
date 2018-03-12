@@ -43,7 +43,6 @@ refreshsys ()
 {
 	tarch=$(echo $rootdir|awk '{print substr($1,2); }')
 	bin=startarch$tarch
-	echo $bin
 	cd $HOME$rootdir
 	makestartbin 
 	addae
@@ -72,6 +71,7 @@ refreshsys ()
 	setlocalegen
 	makefinishsetup
 	makesetupbin 
+	$HOME$rootdir/root/bin/setupbin.sh 
 	printf "\n"
 	printconfigq
 	rm root/bin/finishsetup.sh
