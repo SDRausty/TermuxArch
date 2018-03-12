@@ -42,6 +42,7 @@ sysinfo ()
 refreshsys ()
 {
 	bin=start$arch
+	echo $bin
 	cd $HOME$rootdir
 	makestartbin 
 	addae
