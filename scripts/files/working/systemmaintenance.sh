@@ -77,9 +77,9 @@ refreshsys ()
 	rm root/bin/finishsetup.sh
 	rm root/bin/setupbin.sh 
 	printf "\033[1;34mThe following files have been updated to the newest version.\n\n\033[0m"
-	ls -aGgl $HOME$rootdir/bin/ces
-	ls -aGgl $HOME$rootdir/$bin
-	ls -aGgl $HOME$rootdir/root/bin/*
+	ls -agl $HOME$rootdir/bin/ces
+	ls -agl $HOME$rootdir/$bin
+	ls -agl $HOME$rootdir/root/bin/*
 	printf "\n"
 	printfooter 
 	$HOME$rootdir/$bin 
