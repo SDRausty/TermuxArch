@@ -41,8 +41,8 @@ sysinfo ()
 
 refreshsys ()
 {
-	arch=$(echo $rootdir|awk '{print substr($1,2); }')
-	bin=start$arch
+	tarch=$(echo $rootdir|awk '{print substr($1,2); }')
+	bin=start$tarch
 	echo $bin
 	cd $HOME$rootdir
 	makestartbin 
