@@ -71,8 +71,8 @@ refreshsys ()
 	setlocalegen
 	makefinishsetup
 	makesetupbin 
-	$HOME$rootdir/root/bin/setupbin.sh 
 	printf "\n"
+	$HOME$rootdir/root/bin/setupbin.sh 
 	printconfigq
 	rm root/bin/finishsetup.sh
 	rm root/bin/setupbin.sh 

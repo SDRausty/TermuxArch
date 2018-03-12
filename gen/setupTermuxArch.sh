@@ -415,6 +415,8 @@ refresh ()
 
 rmarch ()
 {
+	tarch=$(echo $rootdir|awk '{print substr($1,2); }')
+	bin=startarch$tarch
 	while true; do
 		printf "\n\033[1;30m"
 		read -p "Remove $HOME$rootdir? [Y|n] " ruanswer
@@ -652,7 +654,7 @@ dfl=/gen
 #dmverbose="-q"
 #dmverbose="-v"
 stime=`date +%s|grep -o '....$'`
-versionid="gen.v1.3 id470188528"
+versionid="gen.v1.3 id749936435"
 
 # [curl debug|curl sysinfo] Get device system information using `curl`.
 if [[ $1 = [Cc][Dd]* ]] || [[ $1 = -[Cc][Dd]* ]] || [[ $1 = --[Cc][Dd]* ]] || [[ $1 = [Cc][Ss]* ]] || [[ $1 = -[Cc][Ss]* ]] || [[ $1 = --[Cc][Ss]* ]];then
