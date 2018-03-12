@@ -108,6 +108,8 @@ lkernid
 
 mainblock ()
 { 
+	tarch=$(echo $rootdir|awk '{print substr($1,2); }')
+	bin=startarch$tarch
 	spaceinfoq
 	callsystem 
 	printwld 
@@ -309,7 +311,7 @@ makesystem ()
 		fi
 	fi
 	printmd5check
-	if md5sum -c $file.md5 1>/dev/null ; then
+	if $PREFIX/bin/applets/md5sum -c $file.md5 1>/dev/null ; then
 		printmd5success
 		preproot 
 	else

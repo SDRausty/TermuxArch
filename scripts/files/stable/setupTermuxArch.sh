@@ -78,7 +78,7 @@ bsdtarif ()
 
 chk ()
 {
-	if sha512sum -c termuxarchchecksum.sha512 1>/dev/null ;then
+	if $PREFIX/bin/applets/sha512sum -c termuxarchchecksum.sha512 1>/dev/null ;then
 		chkself 
 		printf "\033[0;34m 🕛 > 🕜 \033[1;34mTermuxArch $versionid integrity: \033[1;32mOK\n"
 		if [[ $opt = manual ]];then
@@ -104,7 +104,7 @@ chk ()
 
 chkdwn ()
 {
-	if sha512sum -c setupTermuxArch.sha512 1>/dev/null ;then
+	if $PREFIX/bin/applets/sha512sum -c setupTermuxArch.sha512 1>/dev/null ;then
 		printf "\033[0;34m 🕛 > 🕐 \033[1;34mTermuxArch download: \033[1;32mOK\n\n"
 		$PREFIX/bin/applets/tar	xf setupTermuxArch.tar.gz
 		rmds 
@@ -294,7 +294,7 @@ intro ()
 #	rmarchq
 	rootdirexception 
 	spaceinfoq
-	printf "\n\033[0;34m 🕛 > 🕛 \033[1;34msetupTermuxArch $versionid will attempt to install Linux in \033[1;32m$HOME$rootdir\033[1;34m.  Arch Linux in Termux PRoot will be available upon successful completion.  Ensure background data is not restricted.  Check the wireless connection if you do not see one o'clock 🕐 below.  "
+	printf "\n\033[0;34m 🕛 > 🕛 \033[1;34msetupTermuxArch $versionid will attempt to install Linux in \033[0;32m$HOME$rootdir\033[1;34m.  Arch Linux in Termux PRoot will be available upon successful completion.  To run this BASH script again, use \`!!\`.  Ensure background data is not restricted.  Check the wireless connection if you do not see one o'clock 🕐 below.  "
 	dependsblock 
 }
 
@@ -415,6 +415,8 @@ refresh ()
 
 rmarch ()
 {
+	tarch=$(echo $rootdir|awk '{print substr($1,2); }')
+	bin=startarch$tarch
 	while true; do
 		printf "\n\033[1;30m"
 		read -p "Remove $HOME$rootdir? [Y|n] " ruanswer
@@ -645,13 +647,10 @@ wgetif ()
 
 setrootdir 
 
-# User configurable variables such as mirrors are in `setupTermuxArchConfigs.sh`.  Creating this file from `kownconfigurations.sh` in the working directory is simple, use `bash setupTermuxArch.sh --manual` to create, edit and run `setupTermuxArchConfigs.sh`; `bash setupTermuxArch.sh --help` has more information. 
+# User configurable variables such as mirrors and download manager options are in `setupTermuxArchConfigs.sh`.  Creating this file from `kownconfigurations.sh` in the working directory is simple, use `setupTermuxArch.sh --manual` to create, edit and run `setupTermuxArchConfigs.sh`; `setupTermuxArch.sh --help` has more information.  All options can be abbreviated to the first letter(s). 
 
-arch=$(echo $rootdir|awk '{print substr($1,2); }')
 args=$@
-bin=start$arch
 #dfl=/gen
-#dm=wget
 dmverbose="-q"
 #dmverbose="-v"
 stime=`date +%s|grep -o '....$'`
