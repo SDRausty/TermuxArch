@@ -351,6 +351,17 @@ nanoif ()
 	fi
 }
 
+namestartarch ()
+{
+	darch=$(echo $rootdir|awk '{print substr($1,2); }')
+	if [ "$darch" = "arch" ];then
+		aarch=""
+	else
+		aarch=$darch
+	fi
+	bin=startarch$aarch
+}
+
 opt2 ()
 {
 	if [[ $2 = [Dd]* ]] || [[ $2 = [Ss]* ]] ;then
@@ -415,8 +426,7 @@ refresh ()
 
 rmarch ()
 {
-	tarch=$(echo $rootdir|awk '{print substr($1,2); }')
-	bin=startarch$tarch
+	namestartarch 
 	while true; do
 		printf "\n\033[1;30m"
 		read -p "Remove $HOME$rootdir? [Y|n] " ruanswer
