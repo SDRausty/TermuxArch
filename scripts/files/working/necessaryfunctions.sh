@@ -108,6 +108,7 @@ lkernid
 
 mainblock ()
 { 
+	bin=start$arch
 	spaceinfoq
 	callsystem 
 	printwld 

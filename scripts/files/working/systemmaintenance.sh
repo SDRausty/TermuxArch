@@ -41,6 +41,7 @@ sysinfo ()
 
 refreshsys ()
 {
+	bin=start$arch
 	cd $HOME$rootdir
 	makestartbin 
 	addae
@@ -75,9 +76,9 @@ refreshsys ()
 	rm root/bin/finishsetup.sh
 	rm root/bin/setupbin.sh 
 	printf "\033[1;34mThe following files have been updated to the newest version.\n\n\033[0m"
-	ls -al $HOME$rootdir/bin/ces
-	ls -al $HOME$rootdir/$bin
-	ls -al $HOME$rootdir/root/bin/*
+	ls -aGgl $HOME$rootdir/bin/ces
+	ls -aGgl $HOME$rootdir/$bin
+	ls -aGgl $HOME$rootdir/root/bin/*
 	printf "\n"
 	printfooter 
 	$HOME$rootdir/$bin 
