@@ -45,7 +45,7 @@ refreshsys ()
 {
 	namestartarch 
 	if [ ! -d $HOME$rootdir ];then
-		printf "$HOME$rootdir does not exist.  Nothing to to refresh.\n\n"
+		printf "\033[30mDirectory $HOME$rootdir does not exist.  Nothing to to refresh.\033[0m\n\n"
 		exit
 	else
 		cd $HOME$rootdir
