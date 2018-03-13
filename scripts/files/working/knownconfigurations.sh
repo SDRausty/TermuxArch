@@ -3,9 +3,9 @@
 # Hosting https://sdrausty.github.io/TermuxArch courtesy https://pages.github.com
 # https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.
 # https://sdrausty.github.io/TermuxArch/README has information about this project.
-# Create `setupTermuxArchConfigs.sh` from this file in your working directory by using `bash setupTermuxArch.sh --manual`.
+# Create `setupTermuxArchConfigs.sh` from this file in your working directory by using `bash setupTermuxArch.sh manual`.
 # Run `bash setupTermuxArch.sh` and `setupTermuxArchConfigs.sh` loads automaticaly.
-# See `bash setupTermuxArch.sh --help` for more information.  
+# See `bash setupTermuxArch.sh help` for more information.  
 # Change mirror to desired geographic location in `setupTermuxArchConfigs.sh` to resolve 404 and checksum errors.
 # The following user configurable variables are available in this file:
 ################################################################################
