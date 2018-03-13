@@ -429,27 +429,27 @@ rmarch ()
 	namestartarch 
 	while true; do
 		printf "\n\033[1;30m"
-		read -p "Remove $HOME$rootdir? [Y|n] " ruanswer
+		read -p "Uninstall $HOME$rootdir? [Y|n] " ruanswer
 		if [[ $ruanswer = [Ee]* ]] || [[ $ruanswer = [Nn]* ]] || [[ $ruanswer = [Qq]* ]];then
 			break
 		elif [[ $ruanswer = [Yy]* ]] || [[ $ruanswer = "" ]];then
-			printf "\033[30mRemoving $HOME$rootdir…\n"
+			printf "\033[30mUninstalling $HOME$rootdir…\n"
 			if [ -e $PREFIX/bin/$bin ];then
 				rm $PREFIX/bin/$bin 
 			else 
-				printf "Removing $PREFIX/bin/$bin, nothing to do for $PREFIX/bin/$bin.\n"
+				printf "Uninstalling $PREFIX/bin/$bin, nothing to do for $PREFIX/bin/$bin.\n"
 			fi
 			if [ -e $HOME/bin/$bin ];then
 				rm $HOME/bin/$bin 
 			else 
-				printf "Removing $HOME/bin/$bin, nothing to do for $HOME/bin/$bin.\n"
+				printf "Uninstalling $HOME/bin/$bin, nothing to do for $HOME/bin/$bin.\n"
 			fi
 			if [ -d $HOME$rootdir ];then
 				rmarchrm 
 			else 
-				printf "Removing $HOME$rootdir, nothing to do for $HOME$rootdir.\n"
+				printf "Uninstalling $HOME$rootdir, nothing to do for $HOME$rootdir.\n"
 			fi
-			printf "Removing $HOME$rootdir: \033[1;32mDone\n\033[30m"
+			printf "Uninstalling $HOME$rootdir: \033[1;32mDone\n\033[30m"
 			break
 		else
 			printf "\nYou answered \033[33;1m$ruanswer\033[30m.\n\nAnswer \033[32mYes\033[30m or \033[1;31mNo\033[30m. [\033[32my\033[30m|\033[1;31mn\033[30m]\n"
@@ -669,7 +669,7 @@ dfl=/gen
 dmverbose="-q"
 #dmverbose="-v"
 stime=`date +%s|grep -o '....$'`
-versionid="gen.v1.3 id476800780"
+versionid="gen.v1.3 id275159515"
 
 # [curl debug|curl sysinfo] Get device system information using `curl`.
 if [[ $1 = [Cc][Dd]* ]] || [[ $1 = -[Cc][Dd]* ]] || [[ $1 = --[Cc][Dd]* ]] || [[ $1 = [Cc][Ss]* ]] || [[ $1 = -[Cc][Ss]* ]] || [[ $1 = --[Cc][Ss]* ]];then
