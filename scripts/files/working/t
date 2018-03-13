@@ -1,2 +1,0 @@
-19969 u0_a94     0:00 grep proot
-27781 u0_a94     3:48 proot --kill-on-exit --link2symlink -0 -r /data/data/com.termux/files/home/arch/ -b /dev/ -b /sys/ -b /proc/ -b /storage/ -b /data/data/com.termux/files/home -w /data/data/com.termux/files/home /bin/env -i HOME=/root TERM=xterm-256color /data/data/com.termux/files/home/arch/root/bin/finishsetup.sh
