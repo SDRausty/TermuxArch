@@ -437,17 +437,17 @@ rmarch ()
 			if [ -e $PREFIX/bin/$bin ];then
 				rm $PREFIX/bin/$bin 
 			else 
-				printf "Uninstalling $PREFIX/bin/$bin, nothing to do for $PREFIX/bin/$bin.\n"
+				printf "Uninstalling $PREFIX/bin/$bin: nothing to do for $PREFIX/bin/$bin.\n"
 			fi
 			if [ -e $HOME/bin/$bin ];then
 				rm $HOME/bin/$bin 
 			else 
-				printf "Uninstalling $HOME/bin/$bin, nothing to do for $HOME/bin/$bin.\n"
+				printf "Uninstalling $HOME/bin/$bin: nothing to do for $HOME/bin/$bin.\n"
 			fi
 			if [ -d $HOME$rootdir ];then
 				rmarchrm 
 			else 
-				printf "Uninstalling $HOME$rootdir, nothing to do for $HOME$rootdir.\n"
+				printf "Uninstalling $HOME$rootdir: nothing to do for $HOME$rootdir.\n"
 			fi
 			printf "Uninstalling $HOME$rootdir: \033[1;32mDone\n\033[30m"
 			break
@@ -669,7 +669,7 @@ dfl=/gen
 dmverbose="-q"
 #dmverbose="-v"
 stime=`date +%s|grep -o '....$'`
-versionid="gen.v1.3 id275159515"
+versionid="gen.v1.3 id250611429"
 
 # [curl debug|curl sysinfo] Get device system information using `curl`.
 if [[ $1 = [Cc][Dd]* ]] || [[ $1 = -[Cc][Dd]* ]] || [[ $1 = --[Cc][Dd]* ]] || [[ $1 = [Cc][Ss]* ]] || [[ $1 = -[Cc][Ss]* ]] || [[ $1 = --[Cc][Ss]* ]];then
