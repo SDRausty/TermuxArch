@@ -58,7 +58,6 @@ refreshsys ()
 	addgcm
 	addgp
 	addgpl
-	addmakepkgdiff
 	addmotd
 	addprofile 
 	addresolvconf 

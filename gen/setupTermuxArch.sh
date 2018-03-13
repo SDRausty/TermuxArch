@@ -439,6 +439,11 @@ rmarch ()
 			else 
 				printf "Removing $PREFIX/bin/$bin, nothing to do for $PREFIX/bin/$bin.\n"
 			fi
+			if [ -e $HOME/bin/$bin ];then
+				rm $HOME/bin/$bin 
+			else 
+				printf "Removing $HOME/bin/$bin, nothing to do for $HOME/bin/$bin.\n"
+			fi
 			if [ -d $HOME$rootdir ];then
 				rmarchrm 
 			else 
@@ -664,7 +669,7 @@ dfl=/gen
 dmverbose="-q"
 #dmverbose="-v"
 stime=`date +%s|grep -o '....$'`
-versionid="gen.v1.3 id617366714"
+versionid="gen.v1.3 id879129508"
 
 # [curl debug|curl sysinfo] Get device system information using `curl`.
 if [[ $1 = [Cc][Dd]* ]] || [[ $1 = -[Cc][Dd]* ]] || [[ $1 = --[Cc][Dd]* ]] || [[ $1 = [Cc][Ss]* ]] || [[ $1 = -[Cc][Ss]* ]] || [[ $1 = --[Cc][Ss]* ]];then
