@@ -157,7 +157,7 @@ makefinishsetup ()
 	done
 	if [ $(getprop ro.product.cpu.abi) = x86 ] || [ $(getprop ro.product.cpu.abi) = x86_64 ];then
 	if [ $(getprop ro.product.cpu.abi) = x86 ];then
-		pacman -Syu sed archlinux32-keyring-transition patch --noconfirm --color always ||: 
+		pacman -Syu sed archlinux32-keyring-transition --noconfirm --color always ||: 
 		printf "\n\033[36m"
 		mv /usr/lib/gnupg/scdaemon{,_} 2>/dev/null ||: 
 		rm -rf /etc/pacman.d/gnupg ||: 
@@ -173,7 +173,7 @@ makefinishsetup ()
 		printf "\n\033[0;34mWhen \033[1;37mAppending keys from archlinux.gpg\033[0;34m appears on the screen, the installation process can be accelerated.  The system desires a lot of entropy at this part of the install procedure.  To generate as much entropy as possible quickly, watch and listen to a file on your device.  \n\nThe program \033[1;32mpacman-key\033[0;34m will want as much entropy as possible when generating keys.  Entropy is also created through tapping, sliding, one, two and more fingers tapping with short and long taps.  When \033[1;37mAppending keys from archlinux.gpg\033[0;34m appears on the screen, use any of these simple methods to accelerate the installation process if it is stalled.  Put even simpler, just do something on device.  Browsing files will create entropy on device.  Slowly swiveling the device in space and time will accelerate the installation process.  This method alone might not generate enough entropy (a measure of randomness in a closed system) for the process to complete quickly.  Use \033[1;32m.$rootdir/bin/ces \033[0;34min a new Termux session to generate and watch entropy on device.\n\n"
 		pacman-key --populate archlinux ||: 
 	else
-		pacman -Syu sed archlinux-keyring patch --noconfirm --color always ||: 
+		pacman -Syu sed archlinux-keyring --noconfirm --color always ||: 
 		printf "\n\033[36m"
 		mv /usr/lib/gnupg/scdaemon{,_} 2>/dev/null ||: 
 		rm -rf /etc/pacman.d/gnupg ||: 
@@ -190,7 +190,7 @@ makefinishsetup ()
 		pacman-key --populate archlinux ||: 
 	fi
 	else
-		pacman -Syu archlinux-keyring patch --noconfirm --color always ||: 
+		pacman -Syu archlinux-keyring --noconfirm --color always ||: 
 		printf "\n\033[36m"
 		mv /usr/lib/gnupg/scdaemon{,_} 2>/dev/null ||: 
 		rm -rf /etc/pacman.d/gnupg ||: 
@@ -208,11 +208,7 @@ makefinishsetup ()
 	fi
 	printf "\n\033[1;32m==> \033[0m"
 	locale-gen ||:
-	printf "\n\033[1;32m==> \033[1;37mPatching \033[1;32m/bin/makepkg\033[1;37m...\n\n\033[0m"
-	patch -n -i /root/bin/makepkg.diff -o makepkg /bin/makepkg ||: 
-	mv makepkg /bin/makepkg ||: 
-	rm /root/bin/makepkg.diff ||: 
-	printf "\n\033[1;32m==> \033[1;37mPatching \033[1;32m/bin/makepkg\033[1;37m: \033[1;32mDONE\n\n\033[1;32m==> \033[1;37mRunning \033[1;32mtzselect\033[1;37m...\n\n\033[1;34mAdd the \033[1;32mtzselect\033[1;34m output code to \033[1;32m.bash_profile\033[1;34m so the system time in Arch Linux for future sessions will be set correctly.\n\n\033[0m"
+	printf "\n\033[1;32m==> \033[1;37mRunning \033[1;32mtzselect\033[1;37m...\n\n\033[1;34mAdd the \033[1;32mtzselect\033[1;34m output code to \033[1;32m.bash_profile\033[1;34m so the system time in Arch Linux for future sessions will be set correctly.\n\n\033[0m"
 	tzselect
 	printf "\n"
 	printf '\033]2; 🕛 > 🕤 Arch Linux in Termux is installed and configured 📲 \007'
@@ -428,7 +424,6 @@ touchupsys ()
 	addgcm
 	addgp
 	addgpl
-	addmakepkgdiff
 	addmotd
 	addprofile 
 	addresolvconf 

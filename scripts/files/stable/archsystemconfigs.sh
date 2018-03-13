@@ -307,54 +307,6 @@ addgp ()
 	chmod 700 root/bin/gp 
 }
 
-addmakepkgdiff ()
-{
-	# Contributed by https://github.com/markfelt
-	cat > root/bin/makepkg.diff <<- EOM
-	170c170
-	< 	fakeroot -- \$0 -F "\${ARGLIST[@]}" || exit \$?
-	---
-	> 	\$0 -F "\${ARGLIST[@]}" || exit \$?
-	227,229c227,229
-	< 		if type -p sudo >/dev/null; then
-	< 			cmd=(sudo "\${cmd[@]}")
-	< 		else
-	---
-	> #		if type -p sudo >/dev/null; then
-	> #			cmd=(sudo "\${cmd[@]}")
-	> #		else
-	231c231
-	< 		fi
-	---
-	> #		fi
-	2126,2137c2126,2136
-	< if (( ! INFAKEROOT )); then
-	< 	if (( EUID == 0 )); then
-	< 		error "\$(gettext "Running %s as root is not allowed as it can cause permanent,\\n\\
-	< catastrophic damage to your system.")" "makepkg"
-	< 		exit 1 # \$E_USER_ABORT
-	< 	fi
-	< else
-	< 	if [[ -z \$FAKEROOTKEY ]]; then
-	< 		error "\$(gettext "Do not use the %s option. This option is only for use by %s.")" "'-F'" "makepkg"
-	< 		exit 1 # TODO: error code
-	< 	fi
-	< fi
-	---
-	> #if (( ! INFAKEROOT )); then
-	> #	if (( EUID == 0 )); then
-	> #		error "\$(gettext "Running %s as root is not allowed as it can cause permanent,\\n\\catastrophic damage to your system.")" "makepkg"
-	> #		exit 1 # \$E_USER_ABORT
-	> #	fi
-	> #else
-	> #	if [[ -z \$FAKEROOTKEY ]]; then
-	> #		error "\$(gettext "Do not use the %s option. This option is only for use by %s.")" "'-F'" "makepkg"
-	> #		exit 1 # TODO: error code
-	> #	fi
-	> #fi
-	EOM
-}
-
 addmotd ()
 {
 	cat > etc/motd  <<- EOM
