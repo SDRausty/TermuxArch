@@ -10,6 +10,8 @@ sysinfo ()
 	spaceinfo
 	printf "\n\033[1;32m"
 	printf "Begin setupTermuxArch debug information.\n" > setupTermuxArchDebug$stime.log
+	printf "\n\`termux-info\` results:\n\n" >> setupTermuxArchDebug$stime.log
+	termux-info >> setupTermuxArchDebug$stime.log
 	printf "\nDisk report $usrspace on /data `date`\n\n" >> setupTermuxArchDebug$stime.log 
 	for n in 0 1 2 3 4 5 
 	do 
