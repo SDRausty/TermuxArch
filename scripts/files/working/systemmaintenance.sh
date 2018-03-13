@@ -44,9 +44,9 @@ sysinfo ()
 refreshsys ()
 {
 	namestartarch 
-	if [ ! -d $HOME$rootdir ];then
-		printf "\n\033[30mDirectory $HOME$rootdir does not exist.  Nothing to to refresh.\033[0m\n\n"
-		exit
+	if [ ! -d $HOME$rootdir ] || [ ! -f $HOME$rootdir/root/bin/we ];then
+		printf "\n\033[30mThe root directory structure is incorrect.  Refusing to continue \033[33mbash setupTermuxArch.sh refresh\033[30m.\033[0m\n\n"
+		printfooter 
 	else
 		cd $HOME$rootdir
 	fi
