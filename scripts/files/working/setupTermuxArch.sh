@@ -353,7 +353,7 @@ nanoif ()
 
 namestartarch ()
 {
-	darch=$(echo $rootdir|awk '{print substr($1,2); }')
+	declare -g darch=$(echo $rootdir|awk '{print substr($1,2); }')
 	if [ "$darch" = "arch" ];then
 		aarch=""
 	else
