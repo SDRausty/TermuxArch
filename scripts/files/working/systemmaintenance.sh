@@ -42,7 +42,12 @@ sysinfo ()
 refreshsys ()
 {
 	namestartarch 
-	cd $HOME$rootdir
+	if [ ! -d $HOME$rootdir ];then
+		printf "$HOME$rootdir does not exist.  Nothing to to refresh.\n\n"
+		exit
+	else
+		cd $HOME$rootdir
+	fi
 	makestartbin 
 	addae
 	addauser
