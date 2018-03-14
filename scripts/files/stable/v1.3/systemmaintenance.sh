@@ -76,9 +76,7 @@ refreshsys ()
 	setlocalegen
 	makefinishsetup
 	makesetupbin 
-	printwla 
-	termux-wake-lock 
-	printdone 
+	printf "\n"
 	$HOME$rootdir/root/bin/setupbin.sh 
 	printconfigq
 	rm root/bin/finishsetup.sh
@@ -87,9 +85,7 @@ refreshsys ()
 	ls -agl $HOME$rootdir/bin/ces
 	ls -agl $HOME$rootdir/$bin
 	ls -agl $HOME$rootdir/root/bin/*
-	printwld 
-	termux-wake-unlock
-	printdone 
+	printf "\n"
 	printfooter 
 	$HOME$rootdir/$bin 
 	printfooter2

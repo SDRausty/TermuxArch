@@ -356,10 +356,12 @@ namestartarch ()
 	declare -g darch=$(echo $rootdir|awk '{print substr($1,2); }')
 	if [ "$darch" = "arch" ];then
 		aarch=""
+		startbin2=arch
 	else
 		aarch=$darch
+		startbin2=archin
 	fi
-	bin=startarch$aarch
+	bin=start$startbin2$aarch
 }
 
 opt2 ()
@@ -665,11 +667,11 @@ setrootdir
 # User configurable variables such as mirrors and download manager options are in `setupTermuxArchConfigs.sh`.  Creating this file from `kownconfigurations.sh` in the working directory is simple, use `setupTermuxArch.sh manual` to create, edit and run `setupTermuxArchConfigs.sh`; `setupTermuxArch.sh help` has more information.  All options can be abbreviated to the first letter(s). 
 
 args=$@
-#dfl=/gen
+dfl=/gen
 dmverbose="-q"
 #dmverbose="-v"
 stime=`date +%s|grep -o '....$'`
-versionid="v1.3"
+versionid="gen.v1.3 id105661750"
 
 # [curl debug|curl sysinfo] Get device system information using `curl`.
 if [[ $1 = [Cc][Dd]* ]] || [[ $1 = -[Cc][Dd]* ]] || [[ $1 = --[Cc][Dd]* ]] || [[ $1 = [Cc][Ss]* ]] || [[ $1 = -[Cc][Ss]* ]] || [[ $1 = --[Cc][Ss]* ]];then
