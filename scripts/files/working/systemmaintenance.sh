@@ -76,6 +76,7 @@ refreshsys ()
 	setlocalegen
 	makefinishsetup
 	makesetupbin 
+	printf "\n" 
 	printwla 
 	termux-wake-lock 
 	printdone 
@@ -87,6 +88,7 @@ refreshsys ()
 	ls -agl $HOME$rootdir/bin/ces
 	ls -agl $HOME$rootdir/$bin
 	ls -agl $HOME$rootdir/root/bin/*
+	printf "\n" 
 	printwld 
 	termux-wake-unlock
 	printdone 
