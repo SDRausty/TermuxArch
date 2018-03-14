@@ -362,7 +362,7 @@ addtour ()
 	# https://sdrausty.github.io/TermuxArch/README has information about this project. 
 	################################################################################
 	printf "\n\033[1;32m==> \033[1;37mRunning \033[1;32mlr ~\033[1;37m\n\n"
-	ls -alR ~
+	ls -R --color=always ~
 	sleep 1
 	printf "\n\033[1;32m==> \033[1;37mRunning \033[1;32mt ~\033[1;37m\n\n"
 	t ~
