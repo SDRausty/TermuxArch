@@ -358,7 +358,7 @@ namestartarch ()
 		aarch=""
 		startbin2=arch
 	else
-		aarch=("/[^A-Za-z0-9 ]/", '', $darch)
+		aarch=$(echo '$darch' | sed 's/[^a-zA-Z0-9]//g')
 		startbin2=archin
 	fi
 	bin=start$startbin2$aarch
@@ -676,7 +676,7 @@ dfl=/gen
 dmverbose="-q"
 #dmverbose="-v"
 stime=`date +%s|grep -o '....$'`
-versionid="gen.v1.3 id772792933"
+versionid="gen.v1.3 idN"
 
 # [curl debug|curl sysinfo] Get device system information using `curl`.
 if [[ $1 = [Cc][Dd]* ]] || [[ $1 = -[Cc][Dd]* ]] || [[ $1 = --[Cc][Dd]* ]] || [[ $1 = [Cc][Ss]* ]] || [[ $1 = -[Cc][Ss]* ]] || [[ $1 = --[Cc][Ss]* ]];then
