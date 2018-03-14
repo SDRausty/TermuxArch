@@ -358,8 +358,8 @@ namestartarch ()
 		aarch=""
 		startbin2=arch
 	else
-		tmp=$(echo $darch |xargs sed 's/\//\,/g')
-		aarch=$(echo $darch |xargs sed 's/[^0-9a-zA-Z]//g')
+		tmp=$(echo $darch |sed 's/\//\,/g')
+		aarch=$(echo $darch |sed 's/[^0-9a-zA-Z]//g')
 		echo tmp
 		echo $tmp
 		echo darch
@@ -689,7 +689,7 @@ dfl=/gen
 dmverbose="-q"
 #dmverbose="-v"
 stime=`date +%s|grep -o '....$'`
-versionid="gen.v1.3 id128606011"
+versionid="gen.v1.3 id330564211"
 
 # [curl debug|curl sysinfo] Get device system information using `curl`.
 if [[ $1 = [Cc][Dd]* ]] || [[ $1 = -[Cc][Dd]* ]] || [[ $1 = --[Cc][Dd]* ]] || [[ $1 = [Cc][Ss]* ]] || [[ $1 = -[Cc][Ss]* ]] || [[ $1 = --[Cc][Ss]* ]];then
