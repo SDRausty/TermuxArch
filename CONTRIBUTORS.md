@@ -48,7 +48,7 @@ jlam: contributed `getprop ro.product.device` Chromebook detection, `getprop ro.
 
 [markfelt](https://github.com/markfelt) contributed [Succesfully Modified Stock 'makepkg'... #38](https://github.com/sdrausty/TermuxArch/issues/38) with instructions.  Result: pending 
 
-[michalbednarski](https://github.com/michalbednarski) contributed Termux PRoot and insight into PRoot plus code: `pacman-key --init` && `echo disable-scdaemon > /etc/pacman.d/gnupg/gpg-agent.conf` which resolves `pacman-key --populate archlinux` issuses.  Result: setupTermuxArch.sh improved! 
+[michalbednarski](https://github.com/michalbednarski) contributed Termux PRoot, discussed PRoot, contributed: `pacman-key --init` && `echo disable-scdaemon > /etc/pacman.d/gnupg/gpg-agent.conf` which resolved `pacman-key --populate archlinux` issuses.  Result: setupTermuxArch.sh improved! 
 
 [mjskoneg](https://github.com/mjskoneg) submitted issues.  Result: setupTermuxArch.sh improved! 
 
@@ -70,6 +70,6 @@ jlam: contributed `getprop ro.product.device` Chromebook detection, `getprop ro.
 
 [wulvyrn](https://github.com/wulvyrn) contributed: `pacman -S rng-tools`, `rngd -r /dev/urandom` to resolve `pacman-key --init` in issues #28, #33 and #46. 
 
-[xeffyr](https://github.com/Xeffyr) contributed: debugging wget v1.19.3 errors and insight into PRoot, suggested and outlined backwards compatiblity for 3.2.0 kernels and earlier `exec proot --kernel-release=4.14.15 ...`  Result: setupTermuxArch.sh improved!  Contributed standard output terminal benchmark information.  Result: `stdoutbench.sh` created.
+[xeffyr](https://github.com/Xeffyr) contributed: debugging wget v1.19.3 errors, discussed PRoot, outlined backwards compatiblity for le 3.2.0 kernels through `exec proot --kernel-release=4.14.15` and discussed automating kernel version detection.  Result: setupTermuxArch.sh improved!  Contributed standard output terminal benchmark information.  Result: `stdoutbench.sh` created.
 
 Thank you for making this project work better and please contribute 🔆  See [Notice to Contributors](NOTICE) for information.  See [PRoot](docs/PRoot) for more information about Linux on device with Termux.
