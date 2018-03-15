@@ -404,21 +404,22 @@ addv ()
 
 addwe ()
 {
-	cat > root/bin/we <<- EOM
+	cat > bin/we <<- EOM
 	#!/bin/bash -e
 	# Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
+	# cat /proc/sys/kernel/random/entropy_avail contributed by https://github.com/cb125
 	# Hosting https://sdrausty.github.io/TermuxArch courtesy https://pages.github.com
 	# https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.  
 	# https://sdrausty.github.io/TermuxArch/README has information about this project. 
 	# Watch available entropy on device.
 	################################################################################
 	printf "\033[1;32m"'\033]2;  Thank you for using \`we\` from TermuxArch 📲  \007'
-	for i in {1..1200}; do
+	for i in {1..4800}; do
 		printf %b \$(cat /proc/sys/kernel/random/entropy_avail 2>/dev/null) " "
 		sleep 0.2
 	done
 	EOM
-	chmod 770 root/bin/we 
+	chmod 770 bin/we 
 }
 
 addyt ()
