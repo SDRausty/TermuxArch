@@ -109,6 +109,7 @@ lkernid
 mainblock ()
 { 
 	namestartarch 
+	nameinstalldir
 	spaceinfoq
 	callsystem 
 	printwld 
