@@ -369,7 +369,7 @@ nameinstalldir ()
 	if [[ $rootdir = "" ]] ;then
 		rootdir=arch
 	fi
-	declare -g installdir=$(echo $HOME${rootdir%/} |sed s#//*#/#g)
+	declare -g installdir=$(echo $HOME/${rootdir%/} |sed s#//*#/#g)
 }
 nameinstalldir
 
