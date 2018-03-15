@@ -443,11 +443,11 @@ rmarch ()
 	namestartarch 
 	while true; do
 		printf "\n\033[1;30m"
-		read -p "Uninstall $HOME$rootdir? [Y|n] " ruanswer
+		read -p "Uninstall $installdir? [Y|n] " ruanswer
 		if [[ $ruanswer = [Ee]* ]] || [[ $ruanswer = [Nn]* ]] || [[ $ruanswer = [Qq]* ]];then
 			break
 		elif [[ $ruanswer = [Yy]* ]] || [[ $ruanswer = "" ]];then
-			printf "\033[30mUninstalling $HOME$rootdir…\n"
+			printf "\033[30mUninstalling $installdir…\n"
 			if [ -e $PREFIX/bin/$bin ];then
 				rm $PREFIX/bin/$bin 
 			else 
@@ -458,12 +458,12 @@ rmarch ()
 			else 
 				printf "Uninstalling $HOME/bin/$bin: nothing to do for $HOME/bin/$bin.\n"
 			fi
-			if [ -d $HOME$rootdir ];then
+			if [ -d $installdir ];then
 				rmarchrm 
 			else 
-				printf "Uninstalling $HOME$rootdir: nothing to do for $HOME$rootdir.\n"
+				printf "Uninstalling $installdir: nothing to do for $installdir.\n"
 			fi
-			printf "Uninstalling $HOME$rootdir: \033[1;32mDone\n\033[30m"
+			printf "Uninstalling $installdir: \033[1;32mDone\n\033[30m"
 			break
 		else
 			printf "\nYou answered \033[33;1m$ruanswer\033[30m.\n\nAnswer \033[32mYes\033[30m or \033[1;31mNo\033[30m. [\033[32my\033[30m|\033[1;31mn\033[30m]\n"
@@ -473,18 +473,18 @@ rmarch ()
 
 rmarchrm ()
 {
-	cd $HOME$rootdir
+	cd $installdir
 	rootdirexception 
 	rm -rf * 2>/dev/null ||:
 	find -type d -exec chmod 700 {} \; 2>/dev/null ||:
 	cd ..
-	rm -rf $HOME$rootdir 2>/dev/null ||:
+	rm -rf $installdir 2>/dev/null ||:
 }
 
 rmarchq ()
 {
-	if [ -d $HOME$rootdir ];then
-		printf "\n\033[0;33mTermuxArch: \033[1;33mDIRECTORY WARNING!  $HOME$rootdir/ \033[0;33mdirectory detected.  \033[1;30mTermux Arch installation shall continue.  If in doubt, answer yes.\n"
+	if [ -d $installdir ];then
+		printf "\n\033[0;33mTermuxArch: \033[1;33mDIRECTORY WARNING!  $installdir/ \033[0;33mdirectory detected.  \033[1;30mTermux Arch installation shall continue.  If in doubt, answer yes.\n"
 		rmarch
 	fi
 }
@@ -503,7 +503,7 @@ rmbloomq ()
 				if [ -d $HOME/TermuxArchBloom ];then
 					rm -rf $HOME/TermuxArchBloom 
 				else 
-					printf "Uninstalling $HOME/TermuxArchBloom, nothing to do for $HOME$rootdir.\n"
+					printf "Uninstalling $HOME/TermuxArchBloom, nothing to do for $installdir.\n"
 				fi
 				printf "Uninstalling $HOME/TermuxArchBloom done.\n"
 				break
@@ -533,7 +533,7 @@ rmds ()
 
 rootdirexception ()
 {
-	if [[ $HOME$rootdir = $HOME ]] || [[ $HOME$rootdir = $HOME/ ]] || [[ $HOME$rootdir = $HOME/.. ]] || [[ $HOME$rootdir = $HOME/../ ]] || [[ $HOME$rootdir = $HOME/../.. ]] || [[ $HOME$rootdir = $HOME/../../ ]];then
+	if [[ $installdir = $HOME ]] || [[ $installdir = $HOME/ ]] || [[ $installdir = $HOME/.. ]] || [[ $installdir = $HOME/../ ]] || [[ $installdir = $HOME/../.. ]] || [[ $installdir = $HOME/../../ ]];then
 		printf "\n\033[1;31mRootdir exception.  Run the script again with different options…\n\n\033[0m"'\033]2;Rootdir exception.  Run `bash setupTermuxArch.sh` again with different options…\007'
 		exit
 	fi
@@ -683,7 +683,7 @@ dfl=/gen
 dmverbose="-q"
 #dmverbose="-v"
 stime=`date +%s|grep -o '....$'`
-versionid="gen.v1.3 id555580228"
+versionid="gen.v1.3 id552806281"
 
 # [curl debug|curl sysinfo] Get device system information using `curl`.
 if [[ $1 = [Cc][Dd]* ]] || [[ $1 = -[Cc][Dd]* ]] || [[ $1 = --[Cc][Dd]* ]] || [[ $1 = [Cc][Ss]* ]] || [[ $1 = -[Cc][Ss]* ]] || [[ $1 = --[Cc][Ss]* ]];then

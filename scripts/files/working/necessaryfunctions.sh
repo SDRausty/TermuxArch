@@ -7,8 +7,8 @@
 
 callsystem ()
 {
-	mkdir -p $HOME$rootdir
-	cd $HOME$rootdir
+	mkdir -p $installdir
+	cd $installdir
 	detectsystem
 }
 
@@ -23,7 +23,7 @@ copybin2path ()
 	printf "\033[0;34m 🕛 > 🕚 \033[0mCopy \033[1m$bin\033[0m to \033[1m$BPATH\033[0m?  "'\033]2; 🕛 > 🕚 Copy to $PATH [Y|n]?\007'
 	read -p "Answer yes or no [Y|n] " answer
 	if [[ $answer = [Yy]* ]] || [[ $answer = "" ]];then
-		cp $HOME$rootdir/$bin $BPATH
+		cp $installdir/$bin $BPATH
 		printf "\n\033[0;34m 🕛 > 🕦 \033[0mCopied \033[1m$bin\033[0m to \033[1m$BPATH\033[0m.\n\n"
 		break
 	elif [[ $answer = [Nn]* ]] || [[ $answer = [Qq]* ]];then
@@ -65,19 +65,19 @@ detectsystem2 ()
 editfiles ()
 {
 	if [[ ${ceds[$i]} = "applets/vi" ]];then
-		sed -i -e 1,4d $HOME$rootdir/etc/pacman.d/mirrorlist
-		sed -i '1i# # # # # # # # # # # # # # # # # # # # # # # # # # #\n# TermuxArch vi instructions:	CTR+r is redo.\n# Use the hjkl keys to navigate. <h down j up k l>\n# Numbers are multipliers.  The u is undelete/undo.\n# 17j then i opens edit mode for the Geo-IP mirror.\n# Enter the # hash/num/pounds symbol to comment it out: \n# Server = http://mirror.archlinuxarm.org/$arch/$repo.\n# Long tap KEYBOARD in the side pane to see ESC, CTR...\n# Tap ESC to return to command mode in vi.\n# CTRL+d and CTRL+b to find your local mirror.\n# / for search, N and n for next match.\n# Tap x to delete # to uncomment your local mirror.\n# Choose only one mirror.  Use :x to save your work.\n# Comment out the Geo-IP mirror	end G	top gg\n# # # # # # # # # # # # # # # # # # # # # # # # # # #' $HOME$rootdir/etc/pacman.d/mirrorlist
-		sed -i '1i# # # # # # # # # # # # # # # # # # # # # # # # # # #\n# TermuxArch vi instructions:	CTR+r is redo.\n# Use the hjkl keys to navigate. <h down j up k l>\n# Numbers are multipliers.  The u is undelete/undo.\n# Tap i for insert, ESC to return to command mode in vi.\n# Long tap KEYBOARD in the side pane to see ESC, CTR...\n# Tap x to delete # to uncomment your favorite language(s).\n# Enter the # hash/num/pounds symbol to comment out locales.\n# CTRL+d and CTRL+b for PGUP & PGDN.\n# top gg	bottom G\n# / for search, N and n for next match.\n# Choose as many as you like.  Use :x to save your work.\n# # # # # # # # # # # # # # # # # # # # # # # # # # #\n#' $HOME$rootdir/etc/locale.gen
+		sed -i -e 1,4d $installdir/etc/pacman.d/mirrorlist
+		sed -i '1i# # # # # # # # # # # # # # # # # # # # # # # # # # #\n# TermuxArch vi instructions:	CTR+r is redo.\n# Use the hjkl keys to navigate. <h down j up k l>\n# Numbers are multipliers.  The u is undelete/undo.\n# 17j then i opens edit mode for the Geo-IP mirror.\n# Enter the # hash/num/pounds symbol to comment it out: \n# Server = http://mirror.archlinuxarm.org/$arch/$repo.\n# Long tap KEYBOARD in the side pane to see ESC, CTR...\n# Tap ESC to return to command mode in vi.\n# CTRL+d and CTRL+b to find your local mirror.\n# / for search, N and n for next match.\n# Tap x to delete # to uncomment your local mirror.\n# Choose only one mirror.  Use :x to save your work.\n# Comment out the Geo-IP mirror	end G	top gg\n# # # # # # # # # # # # # # # # # # # # # # # # # # #' $installdir/etc/pacman.d/mirrorlist
+		sed -i '1i# # # # # # # # # # # # # # # # # # # # # # # # # # #\n# TermuxArch vi instructions:	CTR+r is redo.\n# Use the hjkl keys to navigate. <h down j up k l>\n# Numbers are multipliers.  The u is undelete/undo.\n# Tap i for insert, ESC to return to command mode in vi.\n# Long tap KEYBOARD in the side pane to see ESC, CTR...\n# Tap x to delete # to uncomment your favorite language(s).\n# Enter the # hash/num/pounds symbol to comment out locales.\n# CTRL+d and CTRL+b for PGUP & PGDN.\n# top gg	bottom G\n# / for search, N and n for next match.\n# Choose as many as you like.  Use :x to save your work.\n# # # # # # # # # # # # # # # # # # # # # # # # # # #\n#' $installdir/etc/locale.gen
 	elif [[ ${ceds[$i]} = "vim" ]];then
-		sed -i -e 1,4d $HOME$rootdir/etc/pacman.d/mirrorlist
-		sed -i '1i# # # # # # # # # # # # # # # # # # # # # # # # # # #\n# TermuxArch vim instructions:	CTR+r is redo.\n# Use the hjkl keys to navigate. <h down j up k l>\n# Numbers are multipliers.  The u is undelete/undo.\n# 17j then i opens edit mode for the Geo-IP mirror.\n# Enter the # hash/num/pounds symbol to comment it out: \n# Server = http://mirror.archlinuxarm.org/$arch/$repo.\n# Long tap KEYBOARD in the side pane to see ESC, CTR...\n# Tap ESC to return to command mode in vi.\n# CTRL+d and CTRL+b to find your local mirror.\n# / for search, N and n for next match.\n# Tap x to delete # to uncomment your local mirror.\n# Choose only one mirror.  Use :x to save your work.\n#Comment out the Geo-IP mirror	end G	top gg\n# # # # # # # # # # # # # # # # # # # # # # # # # # #' $HOME$rootdir/etc/pacman.d/mirrorlist
-		sed -i '1i# # # # # # # # # # # # # # # # # # # # # # # # # # #\n# TermuxArch vim instructions:	CTR+r is redo.\n# Use the hjkl keys to navigate. <h down j up k l>\n# Numbers are multipliers.  The u is undelete/undo.\n# Tap i for insert, ESC to return to command mode in vi.\n# Long tap KEYBOARD in the side pane to see ESC, CTR...\n# Tap x to delete # to uncomment your favorite language(s).\n# Enter the # hash/num/pounds symbol to comment out locales.\n# CTRL+d and CTRL+b for PGUP & PGDN.\n# top gg	bottom G\n# / for search, N and n for next match.\n# Choose as many as you like.  Use :x to save your work.\n# # # # # # # # # # # # # # # # # # # # # # # # # # #\n#' $HOME$rootdir/etc/locale.gen
+		sed -i -e 1,4d $installdir/etc/pacman.d/mirrorlist
+		sed -i '1i# # # # # # # # # # # # # # # # # # # # # # # # # # #\n# TermuxArch vim instructions:	CTR+r is redo.\n# Use the hjkl keys to navigate. <h down j up k l>\n# Numbers are multipliers.  The u is undelete/undo.\n# 17j then i opens edit mode for the Geo-IP mirror.\n# Enter the # hash/num/pounds symbol to comment it out: \n# Server = http://mirror.archlinuxarm.org/$arch/$repo.\n# Long tap KEYBOARD in the side pane to see ESC, CTR...\n# Tap ESC to return to command mode in vi.\n# CTRL+d and CTRL+b to find your local mirror.\n# / for search, N and n for next match.\n# Tap x to delete # to uncomment your local mirror.\n# Choose only one mirror.  Use :x to save your work.\n#Comment out the Geo-IP mirror	end G	top gg\n# # # # # # # # # # # # # # # # # # # # # # # # # # #' $installdir/etc/pacman.d/mirrorlist
+		sed -i '1i# # # # # # # # # # # # # # # # # # # # # # # # # # #\n# TermuxArch vim instructions:	CTR+r is redo.\n# Use the hjkl keys to navigate. <h down j up k l>\n# Numbers are multipliers.  The u is undelete/undo.\n# Tap i for insert, ESC to return to command mode in vi.\n# Long tap KEYBOARD in the side pane to see ESC, CTR...\n# Tap x to delete # to uncomment your favorite language(s).\n# Enter the # hash/num/pounds symbol to comment out locales.\n# CTRL+d and CTRL+b for PGUP & PGDN.\n# top gg	bottom G\n# / for search, N and n for next match.\n# Choose as many as you like.  Use :x to save your work.\n# # # # # # # # # # # # # # # # # # # # # # # # # # #\n#' $installdir/etc/locale.gen
 	elif [[ ${ceds[$i]} = "nvim" ]];then
-		sed -i -e 1,4d $HOME$rootdir/etc/pacman.d/mirrorlist
-		sed -i '1i# # # # # # # # # # # # # # # # # # # # # # # # # # #\n# TermuxArch neovim instructions:	CTR+r is redo.\n# Use the hjkl keys to navigate. <h down j up k l>\n# Numbers are multipliers.  The u is undelete/undo.\n# 17j then i opens edit mode for the Geo-IP mirror.\n# Enter the # hash/num/pounds symbol to comment it out: \n# Server = http://mirror.archlinuxarm.org/$arch/$repo.\n# Long tap KEYBOARD in the side pane to see ESC, CTR...\n# Tap ESC to return to command mode in vi.\n# CTRL+d and CTRL+b to find your local mirror.\n# / for search, N and n for next match.\n# Tap x to delete # to uncomment your local mirror.\n# Choose only one mirror.  Use :x to save your work.\n#Comment out the Geo-IP mirror	end G	top gg\n# # # # # # # # # # # # # # # # # # # # # # # # # # #' $HOME$rootdir/etc/pacman.d/mirrorlist
-		sed -i '1i# # # # # # # # # # # # # # # # # # # # # # # # # # #\n# TermuxArch neovim instructions:	CTR+r is redo.\n# Use the hjkl keys to navigate. <h down j up k l>\n# Numbers are multipliers.  The u is undelete/undo.\n# Tap i for insert, ESC to return to command mode in vi.\n# Long tap KEYBOARD in the side pane to see ESC, CTR...\n# Tap x to delete # to uncomment your favorite language(s).\n# Enter the # hash/num/pounds symbol to comment out locales.\n# CTRL+d and CTRL+b for PGUP & PGDN.\n# top gg	bottom G\n# / for search, N and n for next match.\n# Choose as many as you like.  Use :x to save your work.\n# # # # # # # # # # # # # # # # # # # # # # # # # # #\n#' $HOME$rootdir/etc/locale.gen
+		sed -i -e 1,4d $installdir/etc/pacman.d/mirrorlist
+		sed -i '1i# # # # # # # # # # # # # # # # # # # # # # # # # # #\n# TermuxArch neovim instructions:	CTR+r is redo.\n# Use the hjkl keys to navigate. <h down j up k l>\n# Numbers are multipliers.  The u is undelete/undo.\n# 17j then i opens edit mode for the Geo-IP mirror.\n# Enter the # hash/num/pounds symbol to comment it out: \n# Server = http://mirror.archlinuxarm.org/$arch/$repo.\n# Long tap KEYBOARD in the side pane to see ESC, CTR...\n# Tap ESC to return to command mode in vi.\n# CTRL+d and CTRL+b to find your local mirror.\n# / for search, N and n for next match.\n# Tap x to delete # to uncomment your local mirror.\n# Choose only one mirror.  Use :x to save your work.\n#Comment out the Geo-IP mirror	end G	top gg\n# # # # # # # # # # # # # # # # # # # # # # # # # # #' $installdir/etc/pacman.d/mirrorlist
+		sed -i '1i# # # # # # # # # # # # # # # # # # # # # # # # # # #\n# TermuxArch neovim instructions:	CTR+r is redo.\n# Use the hjkl keys to navigate. <h down j up k l>\n# Numbers are multipliers.  The u is undelete/undo.\n# Tap i for insert, ESC to return to command mode in vi.\n# Long tap KEYBOARD in the side pane to see ESC, CTR...\n# Tap x to delete # to uncomment your favorite language(s).\n# Enter the # hash/num/pounds symbol to comment out locales.\n# CTRL+d and CTRL+b for PGUP & PGDN.\n# top gg	bottom G\n# / for search, N and n for next match.\n# Choose as many as you like.  Use :x to save your work.\n# # # # # # # # # # # # # # # # # # # # # # # # # # #\n#' $installdir/etc/locale.gen
 	else
-		sed -i '1i# # # # # # # # # # # # # # # # # # # # # # # # # # #\n# TermuxArch edit instructions:	 Locate the Geo-IP mirror.\n# Enter the # hash/num/pounds symbol to comment it out: \n# Server = http://mirror.archlinuxarm.org/$arch/$repo.\n# Long tap KEYBOARD in the side pane to see ESC, CTR...\n# Choose only one mirror.\n# Delete # to uncomment your local mirror.\n# # # # # # # # # # # # # # # # # # # # # # # # # # #' $HOME$rootdir/etc/pacman.d/mirrorlist
+		sed -i '1i# # # # # # # # # # # # # # # # # # # # # # # # # # #\n# TermuxArch edit instructions:	 Locate the Geo-IP mirror.\n# Enter the # hash/num/pounds symbol to comment it out: \n# Server = http://mirror.archlinuxarm.org/$arch/$repo.\n# Long tap KEYBOARD in the side pane to see ESC, CTR...\n# Choose only one mirror.\n# Delete # to uncomment your local mirror.\n# # # # # # # # # # # # # # # # # # # # # # # # # # #' $installdir/etc/pacman.d/mirrorlist
 	fi
 }
 	
@@ -115,7 +115,7 @@ mainblock ()
 	termux-wake-unlock
 	printdone 
 	printfooter
-	$HOME$rootdir/$bin 
+	$installdir/$bin 
 	printfooter2
 }
 
@@ -202,11 +202,11 @@ makesetupbin ()
 	EOM
 	if [[ "$kid" -eq 1 ]]; then
 		cat >> root/bin/setupbin.sh <<- EOM
-		exec proot --kill-on-exit --kernel-release=4.14.15 --link2symlink -0 -r $HOME$rootdir/ -b /dev/ -b /sys/ -b /proc/ -b /storage/ -b $HOME -w $HOME /bin/env -i HOME=/root TERM="$TERM" $HOME$rootdir/root/bin/finishsetup.sh 
+		exec proot --kill-on-exit --kernel-release=4.14.15 --link2symlink -0 -r $installdir/ -b /dev/ -b /sys/ -b /proc/ -b /storage/ -b $HOME -w $HOME /bin/env -i HOME=/root TERM="$TERM" $installdir/root/bin/finishsetup.sh 
 		EOM
 	else
 		cat >> root/bin/setupbin.sh <<- EOM
-		exec proot --kill-on-exit --link2symlink -0 -r $HOME$rootdir/ -b /dev/ -b /sys/ -b /proc/ -b /storage/ -b $HOME -w $HOME /bin/env -i HOME=/root TERM="$TERM" $HOME$rootdir/root/bin/finishsetup.sh 
+		exec proot --kill-on-exit --link2symlink -0 -r $installdir/ -b /dev/ -b /sys/ -b /proc/ -b /storage/ -b $HOME -w $HOME /bin/env -i HOME=/root TERM="$TERM" $installdir/root/bin/finishsetup.sh 
 		EOM
 	fi
 	chmod 700 root/bin/setupbin.sh
@@ -227,38 +227,38 @@ makestartbin ()
 		cat >> $bin <<- EOM
 		# [command args] Execute a command in BASH as root.
 		if [[ \$1 = [Cc]* ]] || [[ \$1 = -[Cc]* ]] || [[ \$1 = --[Cc]* ]];then
-		exec proot --kill-on-exit --kernel-release=4.14.15 --link2symlink -0 -r \$HOME$rootdir/ -b /dev/ -b \$ANDROID_DATA -b \$EXTERNAL_STORAGE -b /proc/ -w "\$PWD" /bin/env -i HOME=/root TERM=\$TERM /bin/bash -lc  "\${@:2}"
+		exec proot --kill-on-exit --kernel-release=4.14.15 --link2symlink -0 -r $installdir/ -b /dev/ -b \$ANDROID_DATA -b \$EXTERNAL_STORAGE -b /proc/ -w "\$PWD" /bin/env -i HOME=/root TERM=\$TERM /bin/bash -lc  "\${@:2}"
 		# [login user command] Login as user and execute command.  Use \`addauser user\` first to create this user and the user home directory.
 		elif [[ \$1 = [Ll]* ]] || [[ \$1 = -[Ll]* ]] || [[ \$1 = --[Ll]* ]] ;then
-		exec proot --kill-on-exit --kernel-release=4.14.15 --link2symlink -0 -r \$HOME$rootdir/ -b /dev/ -b \$ANDROID_DATA -b \$EXTERNAL_STORAGE -b /proc/ -w "\$PWD" /bin/env -i HOME=/root TERM=\$TERM /bin/su - \$2 -c "\${@:3}"
+		exec proot --kill-on-exit --kernel-release=4.14.15 --link2symlink -0 -r $installdir/ -b /dev/ -b \$ANDROID_DATA -b \$EXTERNAL_STORAGE -b /proc/ -w "\$PWD" /bin/env -i HOME=/root TERM=\$TERM /bin/su - \$2 -c "\${@:3}"
 		# [raw args] Construct the \`startarch\` proot statement.  For example \`startarch r su - archuser\` will login as user archuser.  Use \`addauser archuser\` first to create this user and the user home directory.
 		elif [[ \$1 = [Rr]* ]] || [[ \$1 = -[Rr]* ]] || [[ \$1 = --[Rr]* ]];then
-		exec proot --kill-on-exit --kernel-release=4.14.15 --link2symlink -0 -r \$HOME$rootdir/ -b /dev/ -b \$ANDROID_DATA -b \$EXTERNAL_STORAGE -b /proc/ -w "\$PWD" /bin/env -i HOME=/root TERM=\$TERM /bin/"\${@:2}"
+		exec proot --kill-on-exit --kernel-release=4.14.15 --link2symlink -0 -r $installdir/ -b /dev/ -b \$ANDROID_DATA -b \$EXTERNAL_STORAGE -b /proc/ -w "\$PWD" /bin/env -i HOME=/root TERM=\$TERM /bin/"\${@:2}"
 		# [su user|su user -c command] Login as user.  Alternatively, login as user and execute command.  Use \`addauser user\` first to create this user and the user home directory.
 		elif [[ \$1 = [Ss]* ]] || [[ \$1 = -[Ss]* ]] || [[ \$1 = --[Ss]* ]];then
-		exec proot --kill-on-exit --kernel-release=4.14.15 --link2symlink -0 -r \$HOME$rootdir/ -b /dev/ -b \$ANDROID_DATA -b \$EXTERNAL_STORAGE -b /proc/ -w "\$PWD" /bin/env -i HOME=/root TERM=\$TERM /bin/su - \${@:2}"
+		exec proot --kill-on-exit --kernel-release=4.14.15 --link2symlink -0 -r $installdir/ -b /dev/ -b \$ANDROID_DATA -b \$EXTERNAL_STORAGE -b /proc/ -w "\$PWD" /bin/env -i HOME=/root TERM=\$TERM /bin/su - \${@:2}"
 		else
 		# [] Default Arch Linux in Termux PRoot root login.
-		exec proot --kill-on-exit --kernel-release=4.14.15 --link2symlink -0 -r \$HOME$rootdir/ -b /dev/ -b \$ANDROID_DATA -b \$EXTERNAL_STORAGE -b /proc/ -w "\$PWD" /bin/env -i HOME=/root TERM=\$TERM /bin/bash -l
+		exec proot --kill-on-exit --kernel-release=4.14.15 --link2symlink -0 -r $installdir/ -b /dev/ -b \$ANDROID_DATA -b \$EXTERNAL_STORAGE -b /proc/ -w "\$PWD" /bin/env -i HOME=/root TERM=\$TERM /bin/bash -l
 		fi
 		EOM
 	else
 		cat >> $bin <<- EOM
 		# [command args] Execute a command in BASH as root.
 		if [[ \$1 = [Cc]* ]] || [[ \$1 = -[Cc]* ]] || [[ \$1 = --[Cc]* ]];then
-		exec proot --kill-on-exit --link2symlink -0 -r \$HOME$rootdir/ -b /dev/ -b \$ANDROID_DATA -b \$EXTERNAL_STORAGE -b /proc/ -w "\$PWD" /bin/env -i HOME=/root TERM=\$TERM /bin/bash -lc "\${@:2}"
+		exec proot --kill-on-exit --link2symlink -0 -r $installdir/ -b /dev/ -b \$ANDROID_DATA -b \$EXTERNAL_STORAGE -b /proc/ -w "\$PWD" /bin/env -i HOME=/root TERM=\$TERM /bin/bash -lc "\${@:2}"
 		# [login user command] Login as user and execute command.  Use \`addauser user\` first to create this user and the user home directory.
 		elif [[ \$1 = [Ll]* ]] || [[ \$1 = -[Ll]* ]] || [[ \$1 = --[Ll]* ]] ;then
-		exec proot --kill-on-exit --link2symlink -0 -r \$HOME$rootdir/ -b /dev/ -b \$ANDROID_DATA -b \$EXTERNAL_STORAGE -b /proc/ -w "\$PWD" /bin/env -i HOME=/root TERM=\$TERM /bin/su - \$2 -c "\${@:3}"
+		exec proot --kill-on-exit --link2symlink -0 -r $installdir/ -b /dev/ -b \$ANDROID_DATA -b \$EXTERNAL_STORAGE -b /proc/ -w "\$PWD" /bin/env -i HOME=/root TERM=\$TERM /bin/su - \$2 -c "\${@:3}"
 		# [raw args] Construct the \`startarch\` proot statement.  For example \`startarch r su - archuser\` will login as user archuser.  Use \`addauser archuser\` first to create this user and the user's home directory.
 		elif [[ \$1 = [Rr]* ]] || [[ \$1 = -[Rr]* ]] || [[ \$1 = --[Rr]* ]];then
-		exec proot --kill-on-exit --link2symlink -0 -r \$HOME$rootdir/ -b /dev/ -b \$ANDROID_DATA -b \$EXTERNAL_STORAGE -b /proc/ -w "\$PWD" /bin/env -i HOME=/root TERM=\$TERM /bin/"\${@:2}"
+		exec proot --kill-on-exit --link2symlink -0 -r $installdir/ -b /dev/ -b \$ANDROID_DATA -b \$EXTERNAL_STORAGE -b /proc/ -w "\$PWD" /bin/env -i HOME=/root TERM=\$TERM /bin/"\${@:2}"
 		# [su user|su user -c command] Login as user.  Alternatively, login as user and execute command.  Use \`addauser user\` first to create this user and the user home directory.
 		elif [[ \$1 = [Ss]* ]] || [[ \$1 = -[Ss]* ]] || [[ \$1 = --[Ss]* ]];then
-		exec proot --kill-on-exit --link2symlink -0 -r \$HOME$rootdir/ -b /dev/ -b \$ANDROID_DATA -b \$EXTERNAL_STORAGE -b /proc/ -w "\$PWD" /bin/env -i HOME=/root TERM=\$TERM /bin/su - "\${@:2}"
+		exec proot --kill-on-exit --link2symlink -0 -r $installdir/ -b /dev/ -b \$ANDROID_DATA -b \$EXTERNAL_STORAGE -b /proc/ -w "\$PWD" /bin/env -i HOME=/root TERM=\$TERM /bin/su - "\${@:2}"
 		else
 		# [] Default Arch Linux in Termux PRoot root login.
-		exec proot --kill-on-exit --link2symlink -0 -r \$HOME$rootdir/ -b /dev/ -b \$ANDROID_DATA -b \$EXTERNAL_STORAGE -b /proc/ -w "\$PWD" /bin/env -i HOME=/root TERM=\$TERM /bin/bash -l
+		exec proot --kill-on-exit --link2symlink -0 -r $installdir/ -b /dev/ -b \$ANDROID_DATA -b \$EXTERNAL_STORAGE -b /proc/ -w "\$PWD" /bin/env -i HOME=/root TERM=\$TERM /bin/bash -l
 		fi
 		EOM
 	fi
@@ -295,11 +295,11 @@ makesystem ()
 
 preproot ()
 {
-	if [ $(du $HOME$rootdir/*z | awk {'print $1'}) -gt 112233 ];then
+	if [ $(du $installdir/*z | awk {'print $1'}) -gt 112233 ];then
 		if [ $(getprop ro.product.cpu.abi) = x86 ] || [ $(getprop ro.product.cpu.abi) = x86_64 ];then
 			#cd $HOME
-			#proot --link2symlink -0 $PREFIX/bin/applets/tar xf $HOME$rootdir$file 
-			#cd $HOME$rootdir
+			#proot --link2symlink -0 $PREFIX/bin/applets/tar xf $installdir$file 
+			#cd $installdir
 			proot --link2symlink -0 bsdtar -xpf $file --strip-components 1 
 		else
 			proot --link2symlink -0 $PREFIX/bin/applets/tar xf $file 
@@ -315,13 +315,13 @@ runfinishsetup ()
 	if [[ $ed = "" ]];then
 		editors 
 	fi
-	if [[ $(sed 1q  $HOME$rootdir/etc/pacman.d/mirrorlist) = "# # # # # # # # # # # # # # # # # # # # # # # # # # #" ]];then
+	if [[ $(sed 1q  $installdir/etc/pacman.d/mirrorlist) = "# # # # # # # # # # # # # # # # # # # # # # # # # # #" ]];then
 		:
 	else
 		editfiles
 	fi
 	printf "\033[0m"
-	$ed $HOME$rootdir/etc/pacman.d/mirrorlist
+	$ed $installdir/etc/pacman.d/mirrorlist
 	while true; do
 	printf "\033[1;34m  Add languages to the Arch Linux system? To edit \033[1;32m/etc/locale.gen\033[1;34m for your preferred language(s) before running \033[1;32mlocale-gen\033[1;34m choose edit.  Would you like to run \033[1;32mlocale-gen\033[1;34m with the English en_US.UTF-8 locale only?  "
 	read -p "Answer yes to generate the English en_US.UTF-8 locale only [Y|e] " ye
@@ -329,7 +329,7 @@ runfinishsetup ()
 		break
 	elif [[ $ye = [Ee]* ]] || [[ $ye = [Nn]* ]];then
 		printf "\033[0m"
-		$ed $HOME$rootdir/etc/locale.gen
+		$ed $installdir/etc/locale.gen
 		sleep 1
 		break
 	else
@@ -339,7 +339,7 @@ runfinishsetup ()
 	fi
 	done
 	printf "\n"
-	$HOME$rootdir/root/bin/setupbin.sh 
+	$installdir/root/bin/setupbin.sh 
 }
 
 runfinishsetupq ()
@@ -351,7 +351,7 @@ runfinishsetupq ()
 		runfinishsetup 
 		break
 	elif [[ $nl = [Nn]* ]];then
-		printf "\n\033[0;32mSet the geographically nearby mirror in \033[1;32m/etc/pacman.d/mirrorlist\033[0;32m first.  Then use \033[1;32m$HOME$rootdir/root/bin/setupbin.sh\033[0;32m in Termux to run \033[1;32mfinishsetup.sh\033[0;32m or simply \033[1;32mfinishsetup.sh\033[0;32m in Arch Linux Termux PRoot to complete the Arch Linux configuration and update."
+		printf "\n\033[0;32mSet the geographically nearby mirror in \033[1;32m/etc/pacman.d/mirrorlist\033[0;32m first.  Then use \033[1;32m$installdir/root/bin/setupbin.sh\033[0;32m in Termux to run \033[1;32mfinishsetup.sh\033[0;32m or simply \033[1;32mfinishsetup.sh\033[0;32m in Arch Linux Termux PRoot to complete the Arch Linux configuration and update."
 		break
 	else
 		printf "\nYou answered \033[1;36m$nl\033[1;32m.\n"
