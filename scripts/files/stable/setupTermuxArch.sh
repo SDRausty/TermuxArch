@@ -743,7 +743,8 @@ elif [[ $1 = [Rr][Ee]* ]] || [[ $1 = -[Rr][Ee]* ]] || [[ $1 = --[Rr][Ee]* ]];the
 elif [[ $1 = [Rr]* ]] || [[ $1 = -[Rr]* ]] || [[ $1 = --[Rr]* ]];then
 	runbloom 
 # [] Run default Arch Linux install.
-elif [[ $1 = "" ]] ;then
+elif [[ $1 = "" ]];then
+	rootdir=/arch
 	intro 
 	mainblock
 else
