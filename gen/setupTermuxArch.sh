@@ -377,7 +377,7 @@ namestartarch ()
 	#declare -g darch=$(echo ${rootdir%/}|awk '{print substr($1,2); }')
 	if [ "$darch" = "arch" ];then
 		aarch=""
-		startbin2=""
+		startbin2=arch
 	else
 		aarch=$(echo $darch |sed 's/\//\+/g')
 		startbin2=arch
@@ -683,7 +683,7 @@ dfl=/gen
 dmverbose="-q"
 #dmverbose="-v"
 stime=`date +%s|grep -o '....$'`
-versionid="gen.v1.3 id357295810"
+versionid="gen.v1.3 id476895881"
 
 # [curl debug|curl sysinfo] Get device system information using `curl`.
 if [[ $1 = [Cc][Dd]* ]] || [[ $1 = -[Cc][Dd]* ]] || [[ $1 = --[Cc][Dd]* ]] || [[ $1 = [Cc][Ss]* ]] || [[ $1 = -[Cc][Ss]* ]] || [[ $1 = --[Cc][Ss]* ]];then
