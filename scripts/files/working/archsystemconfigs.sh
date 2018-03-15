@@ -116,6 +116,12 @@ addbash_profile ()
 addbashrc ()
 {
 	cat > root/.bashrc <<- EOM
+	if [ ! -e \$HOME/.hushlogin ] && [ ! -e \$HOME/.chushlogin ];then
+		. /etc/motd
+	fi
+	if [ -e \$HOME/.chushlogin ];then
+		rm \$HOME/.chushlogin
+	fi
 	alias c='cd .. && pwd'
 	alias ..="cd ../.. && pwd"
 	alias ...="cd ../../.. && pwd"
@@ -137,14 +143,6 @@ addbashrc ()
 	alias pci='pacman  --noconfirm --color=always -Syu'
 	alias q='logout'
 	alias rf='rm -rf'
-	if [ -e \$HOME/.hushlogin ] || [ -e \$HOME/.chushlogin ];then
-		:
-	else
-		. /etc/motd
-	fi
-	if [ -e \$HOME/.chushlogin ];then
-		rm \$HOME/.chushlogin
-	fi
 	EOM
 	if [ -e $HOME/.bashrc ] ; then
 		grep proxy $HOME/.bashrc |grep "export" >>  root/.bashrc 2>/dev/null||:
