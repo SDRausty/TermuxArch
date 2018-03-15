@@ -27,7 +27,7 @@ echo "\$\0 expands to the name of the shell or shell script."
 echo $0
 echo "\$\_ the underscore variable is set at shell startup and contains the absolute file name of the shell or script being executed as passed in the argument list. Subsequently, it expands to the last argument to the previous command, after expansion. It is also set to the full pathname of each command executed and placed in the environment exported to that command. When checking mail, this parameter holds the name of the mail file."
 echo $_
-printf "\n\nNote	\$\* vs. \$\@\n\n\nThe implementation of "\$\*" has always been a problem and realistically should have been replaced with the behavior of "\$\@". In almost every case where coders use "\$\*", they mean "\$\@". "\$\*" Can cause bugs and even security holes in your software.\n\n\033[3mBased on https://www.tldp.org/LDP/Bash-Beginners-Guide/html/sect_03_02.html\n\n\033[0m"
+printf "\nNote	\$\* vs. \$\@\n\nThe implementation of "\$\*" has always been a problem and realistically should have been replaced with the behavior of "\$\@". In almost every case where coders use "\$\*", they mean "\$\@". "\$\*" Can cause bugs and even security holes in your software.\n\n\033[3mBased on https://www.tldp.org/LDP/Bash-Beginners-Guide/html/sect_03_02.html\n\n\033[0m"
 }
 
 sysinfo ()
