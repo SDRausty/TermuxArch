@@ -370,6 +370,7 @@ nameinstalldir ()
 		rootdir=arch
 	fi
 	declare -g installdir=$(echo $HOME/${rootdir%/} |sed s#//*#/#g)
+	echo $installdir
 }
 nameinstalldir
 
@@ -445,6 +446,7 @@ prootif ()
 rmarch ()
 {
 	namestartarch 
+	echo $installdir
 	while true; do
 		printf "\n\033[1;30m"
 		read -p "Uninstall $installdir? [Y|n] " ruanswer
@@ -477,6 +479,7 @@ rmarch ()
 
 rmarchrm ()
 {
+	echo $installdir
 	cd $installdir
 	rootdirexception 
 	rm -rf * 2>/dev/null ||:
