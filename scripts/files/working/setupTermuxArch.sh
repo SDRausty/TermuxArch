@@ -10,8 +10,10 @@ arg2dir ()
 	arg2=$(echo $args | awk '{print $2}')
 	if [[ $arg2 = "" ]] ;then
 		rootdir=/arch
+		nameinstalldir 
 	else
 		rootdir=/$arg2 
+		nameinstalldir 
 	fi
 }
 
@@ -20,8 +22,10 @@ arg3dir ()
 	arg3=$(echo $args | awk '{print $3}')
 	if [[ $arg3 = "" ]] ;then
 		rootdir=/arch
+		nameinstalldir 
 	else
 		rootdir=/$arg3
+		nameinstalldir 
 	fi
 }
 
@@ -294,7 +298,7 @@ intro ()
 #	rmarchq
 	rootdirexception 
 	spaceinfoq
-	printf "\n\033[0;34m 🕛 > 🕛 \033[1;34msetupTermuxArch $versionid will attempt to install Linux in \033[0;32m$HOME$rootdir\033[1;34m.  Arch Linux in Termux PRoot will be available upon successful completion.  To run this BASH script again, use \`!!\`.  Ensure background data is not restricted.  Check the wireless connection if you do not see one o'clock 🕐 below.  "
+	printf "\n\033[0;34m 🕛 > 🕛 \033[1;34msetupTermuxArch $versionid will attempt to install Linux in \033[0;32m$installdir\033[1;34m.  Arch Linux in Termux PRoot will be available upon successful completion.  To run this BASH script again, use \`!!\`.  Ensure background data is not restricted.  Check the wireless connection if you do not see one o'clock 🕐 below.  "
 	dependsblock 
 }
 
@@ -311,6 +315,15 @@ introdebug ()
 	spaceinfo
 	printf "\n\033[0;34m 🕛 > 🕛 \033[1;34msetupTermuxArch $versionid will create a system information file.  Ensure background data is not restricted.  Run \033[0;32mbash setupTermuxArch.sh help \033[1;34mfor additional information.  Check the wireless connection if you do not see one o'clock 🕐 below.  "
 	dependsblock 
+}
+
+introrefresh ()
+{
+	printf '\033]2;  Thank you for using `bash setupTermuxArch.sh refresh` 📲 \007'
+	spaceinfo
+	printf "\n\033[0;34m 🕛 > 🕛 \033[1;34msetupTermuxArch $versionid will refresh your TermuxArch files in \033[0;32m$installdir\033[1;34m.  Ensure background data is not restricted.  Run \033[0;32mbash setupTermuxArch.sh help \033[1;34mfor additional information.  Check the wireless connection if you do not see one o'clock 🕐 below.  "
+	dependsblock 
+	refreshsys
 }
 
 ldconf ()
@@ -351,6 +364,11 @@ nanoif ()
 	fi
 }
 
+nameinstalldir ()
+{
+	declare -g installdir=$(echo $HOME${rootdir%/} |sed s#//*#/#g)
+}
+
 namestartarch ()
 {
 	# echo ${@%/} removes trailing slash
@@ -362,7 +380,7 @@ namestartarch ()
 		startbin2=arch
 	else
 		aarch=$(echo $darch |sed 's/\//\+/g')
-		startbin2="arch+"
+		startbin2=arch
 	fi
 	bin=start$startbin2$aarch
 }
@@ -418,15 +436,6 @@ prootif ()
 	if [ ! -x $PREFIX/bin/proot ];then
 		pe
 	fi
-}
-
-refresh ()
-{
-	printf '\033]2;  Thank you for using `bash setupTermuxArch.sh refresh` 📲 \007'
-	spaceinfo
-	printf "\n\033[0;34m 🕛 > 🕛 \033[1;34msetupTermuxArch $versionid will refresh your TermuxArch files in \033[0;32m$HOME$rootdir\033[1;34m.  Ensure background data is not restricted.  Run \033[0;32mbash setupTermuxArch.sh help \033[1;34mfor additional information.  Check the wireless connection if you do not see one o'clock 🕐 below.  "
-	dependsblock 
-	refreshsys
 }
 
 rmarch ()
@@ -674,7 +683,7 @@ dfl=/gen
 dmverbose="-q"
 #dmverbose="-v"
 stime=`date +%s|grep -o '....$'`
-versionid="gen.v1.3 id368701589"
+versionid="gen.v1.3 id521798400"
 
 # [curl debug|curl sysinfo] Get device system information using `curl`.
 if [[ $1 = [Cc][Dd]* ]] || [[ $1 = -[Cc][Dd]* ]] || [[ $1 = --[Cc][Dd]* ]] || [[ $1 = [Cc][Ss]* ]] || [[ $1 = -[Cc][Ss]* ]] || [[ $1 = --[Cc][Ss]* ]];then
@@ -725,9 +734,8 @@ elif [[ $1 = [Ii]* ]] || [[ $1 = -[Ii]* ]] || [[ $1 = --[Ii]* ]] ||  [[ $1 = [Rr
 	mainblock
 # [refresh|refresh installdir] Refresh Arch Linux in Termux PRoot scripts created by TermuxArch.  Useful for refreshing TermuxArch generated scripts to the newest version.  
 elif [[ $1 = [Rr][Ee]* ]] || [[ $1 = -[Rr][Ee]* ]] || [[ $1 = --[Rr][Ee]* ]];then
-	printf '\033]2;  Thank you for using `bash setupTermuxArch.sh refresh`  🏁 \007'
 	arg2dir 
-	refresh 
+	introrefresh 
 # [run] Run local copy of TermuxArch from TermuxArchBloom.  Useful for running customized TermuxArch locally.  
 elif [[ $1 = [Rr]* ]] || [[ $1 = -[Rr]* ]] || [[ $1 = --[Rr]* ]];then
 	runbloom 
