@@ -296,7 +296,6 @@ edq2 ()
 intro ()
 {
 #	rmarchq
-	echo $installdir
 	rootdirexception 
 	spaceinfoq
 	printf "\n\033[0;34m 🕛 > 🕛 \033[1;34msetupTermuxArch $versionid will attempt to install Linux in \033[0;32m$installdir\033[1;34m.  Arch Linux in Termux PRoot will be available upon successful completion.  To run this BASH script again, use \`!!\`.  Ensure background data is not restricted.  Check the wireless connection if you do not see one o'clock 🕐 below.  "
@@ -320,7 +319,6 @@ introdebug ()
 
 introrefresh ()
 {
-	echo $installdir
 	printf '\033]2;  Thank you for using `bash setupTermuxArch.sh refresh` 📲 \007'
 	spaceinfo
 	printf "\n\033[0;34m 🕛 > 🕛 \033[1;34msetupTermuxArch $versionid will refresh your TermuxArch files in \033[0;32m$installdir\033[1;34m.  Ensure background data is not restricted.  Run \033[0;32mbash setupTermuxArch.sh help \033[1;34mfor additional information.  Check the wireless connection if you do not see one o'clock 🕐 below.  "
@@ -372,9 +370,7 @@ nameinstalldir ()
 		rootdir=arch
 	fi
 	declare -g installdir=$(echo $HOME/${rootdir%/} |sed s#//*#/#g)
-	echo $installdir
 }
-nameinstalldir
 
 namestartarch ()
 {
@@ -448,7 +444,6 @@ prootif ()
 rmarch ()
 {
 	namestartarch 
-	echo $installdir
 	while true; do
 		printf "\n\033[1;30m"
 		read -p "Uninstall $installdir? [Y|n] " ruanswer
@@ -481,7 +476,6 @@ rmarch ()
 
 rmarchrm ()
 {
-	echo $installdir
 	cd $installdir
 	rootdirexception 
 	rm -rf * 2>/dev/null ||:
