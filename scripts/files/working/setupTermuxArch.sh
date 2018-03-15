@@ -443,7 +443,6 @@ prootif ()
 
 rmarch ()
 {
-	namestartarch 
 	while true; do
 		printf "\n\033[1;30m"
 		read -p "Uninstall $installdir? [Y|n] " ruanswer

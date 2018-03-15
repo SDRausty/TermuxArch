@@ -324,9 +324,7 @@ runfinishsetup ()
 	if [[ $ed = "" ]];then
 		editors 
 	fi
-	if [[ $(sed 1q  $installdir/etc/pacman.d/mirrorlist) = "# # # # # # # # # # # # # # # # # # # # # # # # # # #" ]];then
-		:
-	else
+	if [[ ! $(sed 1q  $installdir/etc/pacman.d/mirrorlist) = "# # # # # # # # # # # # # # # # # # # # # # # # # # #" ]];then
 		editfiles
 	fi
 	printf "\033[0m"
