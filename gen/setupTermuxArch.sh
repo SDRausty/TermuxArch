@@ -354,7 +354,8 @@ nanoif ()
 namestartarch ()
 {
 	# echo ${@%/}
-	declare -g darch=${$(echo $rootdir|awk '{print substr($1,2); }')%/}
+	tmp=${$rootdir%/}
+	declare -g darch=$(echo $tmp|awk '{print substr($1,2); }')
 	if [ "$darch" = "arch" ];then
 		aarch=""
 		startbin2=arch
@@ -672,7 +673,7 @@ dfl=/gen
 dmverbose="-q"
 #dmverbose="-v"
 stime=`date +%s|grep -o '....$'`
-versionid="gen.v1.3 id131124331"
+versionid="gen.v1.3 id765937251"
 
 # [curl debug|curl sysinfo] Get device system information using `curl`.
 if [[ $1 = [Cc][Dd]* ]] || [[ $1 = -[Cc][Dd]* ]] || [[ $1 = --[Cc][Dd]* ]] || [[ $1 = [Cc][Ss]* ]] || [[ $1 = -[Cc][Ss]* ]] || [[ $1 = --[Cc][Ss]* ]];then
