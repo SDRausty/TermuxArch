@@ -60,7 +60,7 @@ addauserps ()
 	# https://sdrausty.github.io/TermuxArch/README has information about this project. 
 	################################################################################
 	unset LD_PRELOAD
-	exec proot --kill-on-exit --link2symlink -0 -r $HOME$rootdir/ -b /dev/ -b /sys/ -b /proc/ -b /storage/ -b $HOME -w $HOME /bin/env -i HOME=/root TERM="$TERM" PATH=/bin:/usr/bin:/sbin:/usr/sbin /bin/su - \$1 --login
+	exec proot --kill-on-exit --link2symlink -0 -r $installdir -b /dev/ -b \$ANDROID_DATA -b \$EXTERNAL_STORAGE -b /proc/ -w "\$PWD" /bin/env -i HOME=/root TERM=\$TERM /bin/su - \$1 --login
 	EOM
 	echo EOM >> root/bin/addauserps 
 	cat >> root/bin/addauserps <<- EOM
@@ -92,7 +92,7 @@ addauserpsc ()
 	# https://sdrausty.github.io/TermuxArch/README has information about this project. 
 	################################################################################
 	unset LD_PRELOAD
-	exec proot --kill-on-exit --link2symlink -0 -r $HOME$rootdir/ -b /dev/ -b /sys/ -b /proc/ -b /storage/ -b $HOME -w $HOME /bin/env -i HOME=/root TERM="$TERM" PATH=/bin:/usr/bin:/sbin:/usr/sbin /bin/su - \$1 --login
+	exec proot --kill-on-exit --link2symlink -0 -r $installdir -b /dev/ -b \$ANDROID_DATA -b \$EXTERNAL_STORAGE -b /proc/ -w "\$PWD" /bin/env -i HOME=/root TERM=\$TERM /bin/su - \$1 --login
 	EOM
 	echo EOM >> root/bin/addauserpsc 
 	cat >> root/bin/addauserpsc <<- EOM
@@ -116,6 +116,12 @@ addbash_profile ()
 addbashrc ()
 {
 	cat > root/.bashrc <<- EOM
+	if [ ! -e \$HOME/.hushlogin ] && [ ! -e \$HOME/.chushlogin ];then
+		. /etc/motd
+	fi
+	if [ -e \$HOME/.chushlogin ];then
+		rm \$HOME/.chushlogin
+	fi
 	alias c='cd .. && pwd'
 	alias ..="cd ../.. && pwd"
 	alias ...="cd ../../.. && pwd"
@@ -137,7 +143,6 @@ addbashrc ()
 	alias pci='pacman  --noconfirm --color=always -Syu'
 	alias q='logout'
 	alias rf='rm -rf'
-	. /etc/motd
 	EOM
 	if [ -e $HOME/.bashrc ] ; then
 		grep proxy $HOME/.bashrc |grep "export" >>  root/.bashrc 2>/dev/null||:
@@ -185,11 +190,11 @@ addces ()
 	EOM
 	if [[ "$kid" -eq 1 ]]; then
 		cat >> bin/ces <<- EOM
-		exec proot --kill-on-exit --kernel-release=4.14.15 --link2symlink -0 -r $HOME$rootdir/ -b /dev/ -b /sys/ -b /proc/ -b /storage/ -b $HOME -w $HOME /bin/env -i HOME=/root TERM="$TERM" PATH=/bin:/usr/bin:/sbin:/usr/sbin $rootdir/root/bin/ce 
+		exec proot --kill-on-exit --kernel-release=4.14.15 --link2symlink -0 -r $installdir -b /dev/ -b \$ANDROID_DATA -b \$EXTERNAL_STORAGE -b /proc/ -w "\$PWD" /bin/env -i HOME=/root TERM=\$TERM $installdir/root/bin/ce 
 		EOM
 	else
 		cat >> bin/ces <<- EOM
-		exec proot --kill-on-exit --link2symlink -0 -r $HOME$rootdir/ -b /dev/ -b /sys/ -b /proc/ -b /storage/ -b $HOME -w $HOME /bin/env -i HOME=/root TERM="$TERM" PATH=/bin:/usr/bin:/sbin:/usr/sbin /root/bin/ce 
+		exec proot --kill-on-exit --link2symlink -0 -r $installdir -b /dev/ -b \$ANDROID_DATA -b \$EXTERNAL_STORAGE -b /proc/ -w "\$PWD" /bin/env -i HOME=/root TERM=\$TERM $installdir/root/bin/ce 
 		EOM
 	fi
 	chmod 770 bin/ces 
@@ -362,7 +367,7 @@ addtour ()
 	# https://sdrausty.github.io/TermuxArch/README has information about this project. 
 	################################################################################
 	printf "\n\033[1;32m==> \033[1;37mRunning \033[1;32mlr ~\033[1;37m\n\n"
-	ls -alR ~
+	ls -R --color=always ~
 	sleep 1
 	printf "\n\033[1;32m==> \033[1;37mRunning \033[1;32mt ~\033[1;37m\n\n"
 	t ~
@@ -373,7 +378,7 @@ addtour ()
 	printf "\n\033[1;32m==> \033[1;37mRunning \033[1;32mcat ~/.bashrc\033[1;37m\n\n"
 	cat ~/.bashrc
 	sleep 1
-	printf "\n\033[1;32m==> \033[1;37mShort tour is complete.\n\n"
+	printf "\n\033[1;32m==> \033[1;37mShort tour is complete.  Run this script again at a later time and you might be surprised at how the environment changes.\n\n"
 	EOM
 	chmod 770 root/bin/tour 
 }
@@ -399,21 +404,26 @@ addv ()
 
 addwe ()
 {
-	cat > root/bin/we <<- EOM
+	cat > bin/we <<- EOM
 	#!/bin/bash -e
 	# Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
+	# cat /proc/sys/kernel/random/entropy_avail contributed by https://github.com/cb125
 	# Hosting https://sdrausty.github.io/TermuxArch courtesy https://pages.github.com
 	# https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.  
 	# https://sdrausty.github.io/TermuxArch/README has information about this project. 
 	# Watch available entropy on device.
 	################################################################################
 	printf "\033[1;32m"'\033]2;  Thank you for using \`we\` from TermuxArch 📲  \007'
-	for i in {1..1200}; do
+	for i in {1..4800}; do
 		printf %b \$(cat /proc/sys/kernel/random/entropy_avail 2>/dev/null) " "
-		sleep 0.2
+		entropy=\$(cat /proc/sys/kernel/random/entropy_avail 2>/dev/null) 
+		if [ \$entropy=0 ];then
+		entropy=2
+		fi
+		sleep \$((3/\$entropy))
 	done
 	EOM
-	chmod 770 root/bin/we 
+	chmod 770 bin/we 
 }
 
 addyt ()

@@ -10,8 +10,10 @@ arg2dir ()
 	arg2=$(echo $args | awk '{print $2}')
 	if [[ $arg2 = "" ]] ;then
 		rootdir=/arch
+		nameinstalldir 
 	else
 		rootdir=/$arg2 
+		nameinstalldir 
 	fi
 }
 
@@ -20,8 +22,10 @@ arg3dir ()
 	arg3=$(echo $args | awk '{print $3}')
 	if [[ $arg3 = "" ]] ;then
 		rootdir=/arch
+		nameinstalldir 
 	else
 		rootdir=/$arg3
+		nameinstalldir 
 	fi
 }
 
@@ -294,7 +298,7 @@ intro ()
 #	rmarchq
 	rootdirexception 
 	spaceinfoq
-	printf "\n\033[0;34m 🕛 > 🕛 \033[1;34msetupTermuxArch $versionid will attempt to install Linux in \033[0;32m$HOME$rootdir\033[1;34m.  Arch Linux in Termux PRoot will be available upon successful completion.  To run this BASH script again, use \`!!\`.  Ensure background data is not restricted.  Check the wireless connection if you do not see one o'clock 🕐 below.  "
+	printf "\n\033[0;34m 🕛 > 🕛 \033[1;34msetupTermuxArch $versionid will attempt to install Linux in \033[0;32m$installdir\033[1;34m.  Arch Linux in Termux PRoot will be available upon successful completion.  To run this BASH script again, use \`!!\`.  Ensure background data is not restricted.  Check the wireless connection if you do not see one o'clock 🕐 below.  "
 	dependsblock 
 }
 
@@ -311,6 +315,15 @@ introdebug ()
 	spaceinfo
 	printf "\n\033[0;34m 🕛 > 🕛 \033[1;34msetupTermuxArch $versionid will create a system information file.  Ensure background data is not restricted.  Run \033[0;32mbash setupTermuxArch.sh help \033[1;34mfor additional information.  Check the wireless connection if you do not see one o'clock 🕐 below.  "
 	dependsblock 
+}
+
+introrefresh ()
+{
+	printf '\033]2;  Thank you for using `bash setupTermuxArch.sh refresh` 📲 \007'
+	spaceinfo
+	printf "\n\033[0;34m 🕛 > 🕛 \033[1;34msetupTermuxArch $versionid will refresh your TermuxArch files in \033[0;32m$installdir\033[1;34m.  Ensure background data is not restricted.  Run \033[0;32mbash setupTermuxArch.sh help \033[1;34mfor additional information.  Check the wireless connection if you do not see one o'clock 🕐 below.  "
+	dependsblock 
+	refreshsys
 }
 
 ldconf ()
@@ -351,15 +364,25 @@ nanoif ()
 	fi
 }
 
+nameinstalldir ()
+{
+	declare -g installdir=$(echo $HOME${rootdir%/} |sed s#//*#/#g)
+}
+
 namestartarch ()
 {
-	declare -g darch=$(echo $rootdir|awk '{print substr($1,2); }')
+	# echo ${@%/} removes trailing slash
+	#declare -g darch=$(echo ${rootdir%/})
+	darch=$(echo ${rootdir%/} |sed s#//*#/#g)
+	#declare -g darch=$(echo ${rootdir%/}|awk '{print substr($1,2); }')
 	if [ "$darch" = "arch" ];then
 		aarch=""
+		startbin2=arch
 	else
-		aarch=$darch
+		aarch=$(echo $darch |sed 's/\//\+/g')
+		startbin2=arch
 	fi
-	bin=startarch$aarch
+	bin=start$startbin2$aarch
 }
 
 opt2 ()
@@ -415,25 +438,16 @@ prootif ()
 	fi
 }
 
-refresh ()
-{
-	printf '\033]2;  Thank you for using `bash setupTermuxArch.sh refresh` 📲 \007'
-	spaceinfo
-	printf "\n\033[0;34m 🕛 > 🕛 \033[1;34msetupTermuxArch $versionid will refresh your TermuxArch files in \033[0;32m$HOME$rootdir\033[1;34m.  Ensure background data is not restricted.  Run \033[0;32mbash setupTermuxArch.sh help \033[1;34mfor additional information.  Check the wireless connection if you do not see one o'clock 🕐 below.  "
-	dependsblock 
-	refreshsys
-}
-
 rmarch ()
 {
 	namestartarch 
 	while true; do
 		printf "\n\033[1;30m"
-		read -p "Uninstall $HOME$rootdir? [Y|n] " ruanswer
+		read -p "Uninstall $installdir? [Y|n] " ruanswer
 		if [[ $ruanswer = [Ee]* ]] || [[ $ruanswer = [Nn]* ]] || [[ $ruanswer = [Qq]* ]];then
 			break
 		elif [[ $ruanswer = [Yy]* ]] || [[ $ruanswer = "" ]];then
-			printf "\033[30mUninstalling $HOME$rootdir…\n"
+			printf "\033[30mUninstalling $installdir…\n"
 			if [ -e $PREFIX/bin/$bin ];then
 				rm $PREFIX/bin/$bin 
 			else 
@@ -444,12 +458,12 @@ rmarch ()
 			else 
 				printf "Uninstalling $HOME/bin/$bin: nothing to do for $HOME/bin/$bin.\n"
 			fi
-			if [ -d $HOME$rootdir ];then
+			if [ -d $installdir ];then
 				rmarchrm 
 			else 
-				printf "Uninstalling $HOME$rootdir: nothing to do for $HOME$rootdir.\n"
+				printf "Uninstalling $installdir: nothing to do for $installdir.\n"
 			fi
-			printf "Uninstalling $HOME$rootdir: \033[1;32mDone\n\033[30m"
+			printf "Uninstalling $installdir: \033[1;32mDone\n\033[30m"
 			break
 		else
 			printf "\nYou answered \033[33;1m$ruanswer\033[30m.\n\nAnswer \033[32mYes\033[30m or \033[1;31mNo\033[30m. [\033[32my\033[30m|\033[1;31mn\033[30m]\n"
@@ -459,18 +473,18 @@ rmarch ()
 
 rmarchrm ()
 {
-	cd $HOME$rootdir
+	cd $installdir
 	rootdirexception 
 	rm -rf * 2>/dev/null ||:
 	find -type d -exec chmod 700 {} \; 2>/dev/null ||:
 	cd ..
-	rm -rf $HOME$rootdir 2>/dev/null ||:
+	rm -rf $installdir 2>/dev/null ||:
 }
 
 rmarchq ()
 {
-	if [ -d $HOME$rootdir ];then
-		printf "\n\033[0;33mTermuxArch: \033[1;33mDIRECTORY WARNING!  $HOME$rootdir/ \033[0;33mdirectory detected.  \033[1;30mTermux Arch installation shall continue.  If in doubt, answer yes.\n"
+	if [ -d $installdir ];then
+		printf "\n\033[0;33mTermuxArch: \033[1;33mDIRECTORY WARNING!  $installdir/ \033[0;33mdirectory detected.  \033[1;30mTermux Arch installation shall continue.  If in doubt, answer yes.\n"
 		rmarch
 	fi
 }
@@ -489,7 +503,7 @@ rmbloomq ()
 				if [ -d $HOME/TermuxArchBloom ];then
 					rm -rf $HOME/TermuxArchBloom 
 				else 
-					printf "Uninstalling $HOME/TermuxArchBloom, nothing to do for $HOME$rootdir.\n"
+					printf "Uninstalling $HOME/TermuxArchBloom, nothing to do for $installdir.\n"
 				fi
 				printf "Uninstalling $HOME/TermuxArchBloom done.\n"
 				break
@@ -519,7 +533,7 @@ rmds ()
 
 rootdirexception ()
 {
-	if [[ $HOME$rootdir = $HOME ]] || [[ $HOME$rootdir = $HOME/ ]] || [[ $HOME$rootdir = $HOME/.. ]] || [[ $HOME$rootdir = $HOME/../ ]] || [[ $HOME$rootdir = $HOME/../.. ]] || [[ $HOME$rootdir = $HOME/../../ ]];then
+	if [[ $installdir = $HOME ]] || [[ $installdir = $HOME/ ]] || [[ $installdir = $HOME/.. ]] || [[ $installdir = $HOME/../ ]] || [[ $installdir = $HOME/../.. ]] || [[ $installdir = $HOME/../../ ]];then
 		printf "\n\033[1;31mRootdir exception.  Run the script again with different options…\n\n\033[0m"'\033]2;Rootdir exception.  Run `bash setupTermuxArch.sh` again with different options…\007'
 		exit
 	fi
@@ -664,7 +678,7 @@ setrootdir
 
 # User configurable variables such as mirrors and download manager options are in `setupTermuxArchConfigs.sh`.  Creating this file from `kownconfigurations.sh` in the working directory is simple, use `setupTermuxArch.sh manual` to create, edit and run `setupTermuxArchConfigs.sh`; `setupTermuxArch.sh help` has more information.  All options can be abbreviated to the first letter(s). 
 
-args=$@
+declare -g args=$@
 #dfl=/gen
 dmverbose="-q"
 #dmverbose="-v"
@@ -721,7 +735,7 @@ elif [[ $1 = [Ii]* ]] || [[ $1 = -[Ii]* ]] || [[ $1 = --[Ii]* ]] ||  [[ $1 = [Rr
 # [refresh|refresh installdir] Refresh Arch Linux in Termux PRoot scripts created by TermuxArch.  Useful for refreshing TermuxArch generated scripts to the newest version.  
 elif [[ $1 = [Rr][Ee]* ]] || [[ $1 = -[Rr][Ee]* ]] || [[ $1 = --[Rr][Ee]* ]];then
 	arg2dir 
-	refresh 
+	introrefresh 
 # [run] Run local copy of TermuxArch from TermuxArchBloom.  Useful for running customized TermuxArch locally.  
 elif [[ $1 = [Rr]* ]] || [[ $1 = -[Rr]* ]] || [[ $1 = --[Rr]* ]];then
 	runbloom 
