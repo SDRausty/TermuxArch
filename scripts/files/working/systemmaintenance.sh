@@ -112,15 +112,15 @@ refreshsys ()
 	rm root/bin/finishsetup.sh
 	rm root/bin/setupbin.sh 
 	printf "\033[1;34m  The following files have been updated to the newest version.\n\n\033[0m"
-	ls $HOME$rootdir/bin/ces |cut -f7- -d /
-	ls $HOME$rootdir/$bin |cut -f7- -d /
-	ls $HOME$rootdir/root/bin/* |cut -f7- -d /
+	ls $installdir/bin/ces |cut -f7- -d /
+	ls $installdir/$bin |cut -f7- -d /
+	ls $installdir/root/bin/* |cut -f7- -d /
 	printf "\n" 
 	printwld 
 	termux-wake-unlock
 	printdone 
 	printfooter 
-	$HOME$rootdir/$bin 
+	$installdir/$bin 
 	printf '\033]2;  Thank you for using `bash setupTermuxArch.sh refresh`  🏁 \007'
 	printfooter2
 	echoSpecialParameters $args
