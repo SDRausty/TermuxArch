@@ -415,12 +415,16 @@ addwe ()
 	################################################################################
 	printf "\033[1;32m"'\033]2;  Thank you for using \`we\` from TermuxArch 📲  \007'
 	for i in {1..4800}; do
-		printf %b \$(cat /proc/sys/kernel/random/entropy_avail 2>/dev/null) " "
-		entropy=\$(cat /proc/sys/kernel/random/entropy_avail 2>/dev/null) 
-		if [ \$entropy=0 ];then
-		entropy=2
-		fi
-		sleep \$((3/\$entropy))
+		entropy1=\$(cat /proc/sys/kernel/random/entropy_avail 2>/dev/null) 
+		printf %b "\033[1;32m\$entropy1" 
+		sleep \$(dc 1 \$entropy1 / p)
+		entropy4=\$(cat /proc/sys/kernel/random/uuid 2>/dev/null) 
+		printf %b "\033[0;32m\$entropy4" 
+		sleep \$(dc 1 \$entropy1 / p)
+		printf %b "\033[1;32m\$i" 
+		sleep \$(dc 1 \$entropy1 / p)
+		printf %b "\033[0;32m\$(dc 1 \$entropy1 / p)"
+		sleep \$(dc 1 \$entropy1 / p)
 	done
 	EOM
 	chmod 770 bin/we 
