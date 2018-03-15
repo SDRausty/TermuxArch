@@ -366,8 +366,12 @@ nanoif ()
 
 nameinstalldir ()
 {
+	if [[ $rootdir = "" ]] ;then
+		rootdir=arch
+	fi
 	declare -g installdir=$(echo $HOME${rootdir%/} |sed s#//*#/#g)
 }
+nameinstalldir
 
 namestartarch ()
 {
@@ -375,7 +379,7 @@ namestartarch ()
 	#declare -g darch=$(echo ${rootdir%/})
 	darch=$(echo ${rootdir%/} |sed s#//*#/#g)
 	#declare -g darch=$(echo ${rootdir%/}|awk '{print substr($1,2); }')
-	if [ "$darch" = "arch" ];then
+	if [[ "$darch" = "/arch" ]];then
 		aarch=""
 		startbin2=arch
 	else
