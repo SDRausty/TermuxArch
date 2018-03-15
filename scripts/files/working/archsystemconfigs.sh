@@ -420,7 +420,7 @@ addwe ()
 		if [ \$entropy=0 ];then
 		entropy=2
 		fi
-		sleep \$((3/\$entropy)
+		sleep \$((3/\$entropy))
 	done
 	EOM
 	chmod 770 bin/we 
