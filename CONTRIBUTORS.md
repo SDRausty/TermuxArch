@@ -28,7 +28,7 @@
 
 [cb125](https://github.com/cb125) commented and contributed: `watch cat /proc/sys/kernel/random/entropy_avail` to resolve `pacman-key --populate archlinux` in issue #33. 
 
-[cherryleafroad](https://github.com/cherryleafroad) opened and discussed issue [Ability for Scripts to Launch Commands for Arch Linux in Termux PRoot on Device #54](https://github.com/sdrausty/TermuxArch/issues/54) Result: setupTermuxArch.sh improved, option `setupTermuxArch.sh --refresh` added, user login and command options introduced to `startarch`! 
+[cherryleafroad](https://github.com/cherryleafroad) opened and discussed issue [Ability for Scripts to Launch Commands for Arch Linux in Termux PRoot on Device #54](https://github.com/sdrausty/TermuxArch/issues/54) Result: setupTermuxArch.sh improved, option `setupTermuxArch.sh refresh` added, user login and command options introduced to `startarch`!  Opened and discussed issue [Hush motd on login when using -c command #58](https://github.com/sdrausty/TermuxArch/issues/58) Result: setupTermuxArch.sh improved!
 
 [developer787](https://github.com/developer787) submitted an issue.  Result: setupTermuxArch.sh improved! 
 
