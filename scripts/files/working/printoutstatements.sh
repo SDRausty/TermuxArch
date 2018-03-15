@@ -91,7 +91,7 @@ printmismatch ()
 
 printfooter ()
 {
-	printf "\033[0;34m 🕛 > 🕥 \033[1;34mUse \033[1;32m~$rootdir/$bin\033[1;34min a BASH shell to launch Arch Linux in Termux PRoot for future sessions.  Alternatively copy \033[1;32m$bin\033[1;34m to the \033[32m\$PATH\033[1;34m which is, \033[37m$PATH\033[1;34m.\033[0m\n\n"'\033]2;  Thank you for using `setupTermuxArch.sh` to install Arch Linux in Termux 📲  \007'
+	printf "\033[0;34m 🕛 > 🕥 \033[1;34mUse \033[1;32m~$installdir/$bin\033[1;34min a BASH shell to launch Arch Linux in Termux PRoot for future sessions.  Alternatively copy \033[1;32m$bin\033[1;34m to the \033[32m\$PATH\033[1;34m which is, \033[37m$PATH\033[1;34m.\033[0m\n\n"'\033]2;  Thank you for using `setupTermuxArch.sh` to install Arch Linux in Termux 📲  \007'
 	copybin2path
 	printf "\033[0;32m 🕛 = 🕛 \033[1;34mAdd the \033[1;32mtzselect\033[1;34m output code to \033[1;32m.bash_profile\033[1;34m to set the system time in Arch Linux for future sessions correctly.  Information about \033[0;36m\"Starting Arch Linux from Termux?\"\033[1;34m at \033[1;34mhttps://github.com/sdrausty/TermuxArch/issues/25\033[1;34m.  Use \033[1;32mtour\033[1;34m to run a short tour, and get to know the new Arch Linux in Termux PRoot environment better you just set up.  If there was more than one error during the update procedure, run the TermuxArch command \033[1;32mpci \033[1;34mwithout any parameters to update Arch Linux again.\n\nIf there was more than one error during the update procedure and you would like to refresh the installation, use \033[1;32mbash setupTermuxArch.sh refresh\033[1;34m.  This will update and regenerate the configuration provided.\n"
 	printfooter2
@@ -100,5 +100,5 @@ printfooter ()
 
 printfooter2 ()
 {
-	printf "\n\033[1;34mArch Linux in Termux PRoot is installed in $installdir.  This project is in active development and contributions are welcome; See https://sdrausty.github.io/TermuxArch/CONTRIBUTORS for information.  The documentation repository for TermuxArch https://sdrausty.github.io/TermuxArch/docs/ is a Termux Arch submodule that is located at https://github.com/sdrausty/docsTermuxArch.  Pull requests and contributions through the issues pages are open to improve the ux and this Termux PRoot installation script.\n\nUse \033[1;32m~$rootdir/$bin\033[1;34min a BASH shell to launch Arch Linux in Termux PRoot for future sessions.\n\033[0m"
+	printf "\n\033[1;34mArch Linux in Termux PRoot is installed in $installdir.  This project is in active development and contributions are welcome; See https://sdrausty.github.io/TermuxArch/CONTRIBUTORS for information.  The documentation repository for TermuxArch https://sdrausty.github.io/TermuxArch/docs/ is a Termux Arch submodule that is located at https://github.com/sdrausty/docsTermuxArch.  Pull requests and contributions through the issues pages are open to improve the ux and this Termux PRoot installation script.\n\nUse \033[1;32m~$installdir/$bin\033[1;34min a BASH shell to launch Arch Linux in Termux PRoot for future sessions.\n\033[0m"
 }
