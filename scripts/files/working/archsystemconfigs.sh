@@ -416,7 +416,11 @@ addwe ()
 	printf "\033[1;32m"'\033]2;  Thank you for using \`we\` from TermuxArch 📲  \007'
 	for i in {1..4800}; do
 		printf %b \$(cat /proc/sys/kernel/random/entropy_avail 2>/dev/null) " "
-		sleep 0.2
+		entropy=\$(cat /proc/sys/kernel/random/entropy_avail 2>/dev/null) 
+		if [ \$entropy=0 ];then
+		entropy=2
+		fi
+		sleep \$((3/\$entropy)
 	done
 	EOM
 	chmod 770 bin/we 
