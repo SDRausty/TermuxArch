@@ -111,10 +111,10 @@ refreshsys ()
 	printconfigq
 	rm root/bin/finishsetup.sh
 	rm root/bin/setupbin.sh 
-	printf "\033[1;34mThe following files have been updated to the newest version.\n\n\033[0m"
-	ls $HOME$rootdir/bin/ces
-	ls $HOME$rootdir/$bin
-	ls $HOME$rootdir/root/bin/*
+	printf "\033[1;34m  The following files have been updated to the newest version.\n\n\033[0m"
+	ls $HOME$rootdir/bin/ces |cut -f7- -d /
+	ls $HOME$rootdir/$bin |cut -f7- -d /
+	ls $HOME$rootdir/root/bin/* |cut -f7- -d /
 	printf "\n" 
 	printwld 
 	termux-wake-unlock
