@@ -47,7 +47,7 @@ bloom ()
 	printf "\n"
 	dependsblock 
 	ls -agl
-	printf "\n\033[1;34mUse \033[1;32mcd ~/TermuxArchBloom\033[1;34m to continue.\n\n\033[0m"'\033]2;  Thank you for using TermuxArch Bloom option via `setupTermuxArch.sh bloom` 📲 \007'
+	printf "\n\033[1;34mUse \033[1;32mcd ~/TermuxArchBloom\033[1;34m to continue.  Edit any of these files.  Then use \033[1;32mbash $0 run \033[1;34mto run the files in \033[1;32m~/TermuxArchBloom\033[1;34m to continue.\n\n\033[0m"'\033]2;  Thank you for using TermuxArch Bloom option via `setupTermuxArch.sh bloom` 📲 \007'
 }
 
 bloomdependsblock ()
