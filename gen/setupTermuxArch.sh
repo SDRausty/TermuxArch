@@ -369,7 +369,7 @@ nameinstalldir ()
 	declare -g installdir=$(echo $HOME${rootdir%/} |sed s#//*#/#g)
 }
 nameinstalldir
-echo $installdir namestartarch ()
+echo $installdir 
 {
 	# echo ${@%/} removes trailing slash
 	#declare -g darch=$(echo ${rootdir%/})
@@ -686,7 +686,7 @@ dfl=/gen
 dmverbose="-q"
 #dmverbose="-v"
 stime=`date +%s|grep -o '....$'`
-versionid="gen.v1.3 id229148080"
+versionid="gen.v1.3 id541334680"
 
 # [curl debug|curl sysinfo] Get device system information using `curl`.
 if [[ $1 = [Cc][Dd]* ]] || [[ $1 = -[Cc][Dd]* ]] || [[ $1 = --[Cc][Dd]* ]] || [[ $1 = [Cc][Ss]* ]] || [[ $1 = -[Cc][Ss]* ]] || [[ $1 = --[Cc][Ss]* ]];then
