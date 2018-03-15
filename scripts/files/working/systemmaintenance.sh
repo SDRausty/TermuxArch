@@ -121,8 +121,7 @@ refreshsys ()
 	printdone 
 	printfooter 
 	$installdir/$bin 
-	printf '\033]2;  Thank you for using `bash setupTermuxArch.sh refresh`  🏁 \007'
 	printfooter2
-	exit
+	printtail
 }
 
