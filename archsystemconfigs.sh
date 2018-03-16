@@ -418,13 +418,17 @@ addwe ()
 		entropy1=\$(cat /proc/sys/kernel/random/entropy_avail 2>/dev/null) 
 		printf %b "\033[1;32m\$entropy1" 
 		sleep \$(dc 1 \$entropy1 / p)
+		sleep 0.2
 		entropy4=\$(cat /proc/sys/kernel/random/uuid 2>/dev/null) 
 		printf %b "\033[0;32m\$entropy4" 
 		sleep \$(dc 1 \$entropy1 / p)
+		sleep 0.1
 		printf %b "\033[1;32m\$i" 
 		sleep \$(dc 1 \$entropy1 / p)
+		sleep 0.2
 		printf %b "\033[0;32m\$(dc 1 \$entropy1 / p)"
 		sleep \$(dc 1 \$entropy1 / p)
+		sleep 0.1
 	done
 	EOM
 	chmod 770 bin/we 
