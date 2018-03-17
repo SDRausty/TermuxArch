@@ -447,7 +447,7 @@ addwe ()
 		printf %b "\033[0;32m√♪\$entropy1" 
 		esleep 
 		sleep \$int
-		printf %b "\033[1;32mπ™♪\${i}/\${n}| 
+		printf %b "\033[1;32mπ™♪\${i}/\${n}|" 
 		esleep 
 		sleep \$int
 		printf %b "\033[0;32m♪INT\${int}♪"
