@@ -383,6 +383,11 @@ addtour ()
 	chmod 770 root/bin/tour 
 }
 
+addtrim ()
+{
+	:#trim system mv /boot /usr/
+}
+
 addv ()
 {
 	cat > root/bin/v  <<- EOM
@@ -414,7 +419,7 @@ addwe ()
 	# Watch available entropy on device.
 	################################################################################
 	printf "\033[1;32m"'\033]2;  Thank you for using \`we\` from TermuxArch 📲  \007'
-	commandif=\$( command -v dc )
+	commandif=\$( command -v dc ) ||:
 	if [[ \$commandif = "" ]];then
 		pacman --noconfirm --color=always -Syu dc
 	fi
