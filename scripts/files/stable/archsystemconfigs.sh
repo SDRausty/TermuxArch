@@ -421,15 +421,23 @@ addwe ()
 
 	i=1
 	multi=16
+	entropy0=\$(cat /proc/sys/kernel/random/entropy_avail 2>/dev/null) 
+
 	printintro ()
 	{
-	printf "\n\033[1;32mWatch Entropy is initializing... \n\n"'\033]2; Watch Entropy from TermuxArch 📲  \007'
+		printf "\n\033[1;32mWatch Entropy is initializing... \n\n"'\033]2; Watch Entropy from TermuxArch 📲  \007'
 	}
+
 	printtail ()
 	{
 		printf "\n\033[1;32mWatch Entropy from TermuxArch 📲 \n\n"'\033]2; Watch Entropy courtesy TermuxArch 📲  \007'
 	}
-	entropy0=\$(cat /proc/sys/kernel/random/entropy_avail 2>/dev/null) 
+
+	printusage ()
+	{
+		printf "\n\033[0;32mUsage \033[1;32mwe simple\033[0;32m.\n\n"'\033]2; Watch Entropy courtesy TermuxArch 📲  \007'
+	}
+
 	infif ()
 	{
 		if [[ \$entropy0 = "inf" ]];then
@@ -437,30 +445,53 @@ addwe ()
 			printf "\033[1;32m∞^∞infifinfif2minfifinfifinfifinfif∞=1\033[0;32minfifinfifinfifinfif\033[0;32m∞==0infifinfifinfifinfif\033[0;32minfifinfifinfif∞"
 		fi
 	}
+
 	en0=\$((\${entropy0}*\$multi))
+
 	esleep ()
 	{
 		int=\$( echo "\$i/\$entropy0" | bc -l)
 	}
+
 	bcif ()
 	{
-	commandif=\$(command -v getprop) ||:
-	if [[ \$commandif = "" ]];then
-		abcif=\$(command -v bc) ||:
-		if [[ \$abcif = "" ]];then
-			pacman -Syu bc --noconfirm --color=always
+		commandif=\$(command -v getprop) ||:
+		if [[ \$commandif = "" ]];then
+			abcif=\$(command -v bc) ||:
+			if [[ \$abcif = "" ]];then
+				pacman -Syu bc --noconfirm --color=always
+			fi
+		else
+			tbcif=\$(command -v bc) ||:
+			if [[ \$tbcif = "" ]];then
+				pkg install bc --yes
+			fi
 		fi
-	else
-		tbcif=\$(command -v bc) ||:
-		if [[ \$tbcif = "" ]];then
-			pkg install bc --yes
-		fi
-	fi
 	}
-	entropy ()
+
+	entropysequential ()
 	{
-	:
+	for i in \$(seq 1 \$en0); do
+		printf "\033[0;32m\$i \033[1;30m\$en0 "
+		entropy0=\$(cat /proc/sys/kernel/random/entropy_avail 2>/dev/null) 
+		infif 
+		printf %b "\033[1;32m\${entropy0} " 
+		esleep 
+		sleep \$int
+	done
 	}
+
+	entropysimple ()
+	{
+	for i in \$(seq 1 \$en0); do
+		entropy0=\$(cat /proc/sys/kernel/random/entropy_avail 2>/dev/null) 
+		infif 
+		printf %b "\033[1;32m\${entropy0} " 
+		esleep 
+		sleep \$int
+	done
+	}
+
 	entropyverbose ()
 	{
 	for i in \$(seq 1 \$en0); do
@@ -482,11 +513,18 @@ addwe ()
 		sleep \$int
 	done
 	}
-	if [[ \$1 = [Vv]* ]] || [[ \$1 = -[Vv]* ]] || [[ \$1 = --[Vv]* ]];then
+
+	# [we verbose] Run simple watch entropy.
+	if [[ \$1 = [Ss]* ]] || [[ \$1 = -[Ss]* ]] || [[ \$1 = --[Ss]* ]];then
 		printintro 
 		bcif
-		entropy 
-	# [] Run default Arch Linux install.
+		entropysimple 
+	# [we verbose] Run verbose watch entropy.
+	elif [[ \$1 = [Vv]* ]] || [[ \$1 = -[Vv]* ]] || [[ \$1 = --[Vv]* ]];then
+		printintro 
+		bcif
+		entropyverbose 
+	# [] Run default watch entropy.
 	elif [[ \$1 = "" ]];then
 		printintro 
 		bcif
