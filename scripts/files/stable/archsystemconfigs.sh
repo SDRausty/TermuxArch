@@ -423,7 +423,7 @@ addwe ()
 		printf %b "\033[0;32m\$entropy4" 
 		sleep \$(dc 1 \$entropy1 / p)
 		sleep 0.1
-		printf %b "\033[1;32m\$i" 
+		printf %b "\033[1;32m\${i}e4800" 
 		sleep \$(dc 1 \$entropy1 / p)
 		sleep 0.2
 		printf %b "\033[0;32m\$(dc 1 \$entropy1 / p)"

@@ -88,7 +88,7 @@ lkernid ()
 	declare -i KERNEL_VERSION=$(echo $ur |awk -F'.' '{print $1}')
 	declare -i MAJOR_REVISION=$(echo $ur |awk -F'.' '{print $2}')
 	declare -- tmp=$(echo $ur |awk -F'.' '{print $3}')
-	declare -i MINOR_REVISION=$(echo ${tmp:0:3} |sed 's/[^0-9]*//g')
+	declare -- MINOR_REVISION=$(echo ${tmp:0:3} |sed 's/[^0-9]*//g')
 	if [ "$KERNEL_VERSION" -le 2 ]; then
 		kid=1
 	else
