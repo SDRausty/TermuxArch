@@ -433,6 +433,11 @@ addwe ()
 		printf "\n\033[1;32mWatch Entropy from TermuxArch 📲 \n\n"'\033]2; Watch Entropy courtesy TermuxArch 📲  \007'
 	}
 
+	printusage ()
+	{
+		printf "\n\033[0;32mUsage \033[1;32mwe simple\033[0;32m.\n\n"'\033]2; Watch Entropy courtesy TermuxArch 📲  \007'
+	}
+
 	infif ()
 	{
 		if [[ \$entropy0 = "inf" ]];then
@@ -497,11 +502,18 @@ addwe ()
 		sleep \$int
 	done
 	}
-	if [[ \$1 = [Vv]* ]] || [[ \$1 = -[Vv]* ]] || [[ \$1 = --[Vv]* ]];then
+
+	# [we verbose] Run simple watch entropy.
+	if [[ \$1 = [Ss]* ]] || [[ \$1 = -[Ss]* ]] || [[ \$1 = --[Ss]* ]];then
 		printintro 
 		bcif
-		entropy 
-	# [] Run default Arch Linux install.
+		entropysimple 
+	# [we verbose] Run verbose watch entropy.
+	elif [[ \$1 = [Vv]* ]] || [[ \$1 = -[Vv]* ]] || [[ \$1 = --[Vv]* ]];then
+		printintro 
+		bcif
+		entropyverbose 
+	# [] Run default watch entropy.
 	elif [[ \$1 = "" ]];then
 		printintro 
 		bcif
