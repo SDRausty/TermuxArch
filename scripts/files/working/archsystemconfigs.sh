@@ -420,7 +420,7 @@ addwe ()
 	################################################################################
 
 	i=1
-	multi=8
+	multi=64
 	printf "\n\033[1;32mWatch Entropy is initializing... \n\n"'\033]2; Watch Entropy courtesy TermuxArch 📲  \007'
 	entropy0=\$(cat /proc/sys/kernel/random/entropy_avail 2>/dev/null) 
 	infif ()
