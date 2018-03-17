@@ -421,7 +421,14 @@ addwe ()
 
 	i=1
 	multi=64
+	printintro ()
+	{
 	printf "\n\033[1;32mWatch Entropy is initializing... \n\n"'\033]2; Watch Entropy courtesy TermuxArch 📲  \007'
+	}
+	printtail ()
+	{
+		printf "\n\033[1;32mWatch Entropy courtesy TermuxArch 📲 \n\n"'\033]2; Watch Entropy courtesy TermuxArch 📲  \007'
+	}
 	entropy0=\$(cat /proc/sys/kernel/random/entropy_avail 2>/dev/null) 
 	infif ()
 	{
@@ -435,6 +442,8 @@ addwe ()
 	{
 		int=\$( echo "\$i/\$entropy0" | bc -l)
 	}
+	bcif ()
+	{
 	commandif=\$(command -v getprop) ||:
 	if [[ \$commandif = "" ]];then
 		abcif=\$(command -v bc) ||:
@@ -447,6 +456,13 @@ addwe ()
 			pkg install bc --yes
 		fi
 	fi
+	}
+	entropy ()
+	{
+	:
+	}
+	entropyverbose ()
+	{
 	for i in \$(seq 1 \$en0); do
 		entropy0=\$(cat /proc/sys/kernel/random/entropy_avail 2>/dev/null) 
 		infif 
@@ -465,7 +481,20 @@ addwe ()
 		esleep 
 		sleep \$int
 	done
-	printf "\n\033[1;32mWatch Entropy courtesy TermuxArch 📲 \n\n"'\033]2; Watch Entropy courtesy TermuxArch 📲  \007'
+	}
+	if [[ \$1 = [Vv]* ]] || [[ \$1 = -[Vv]* ]] || [[ \$1 = --[Vv]* ]];then
+		printintro 
+		bcif
+		entropy 
+	# [] Run default Arch Linux install.
+	elif [[ \$1 = "" ]];then
+		printintro 
+		bcif
+		entropyverbose 
+	else
+		printusage
+	fi
+	printtail 
 	EOM
 	chmod 770 bin/we 
 }
