@@ -420,21 +420,7 @@ addwe ()
 	################################################################################
 
 	i=1
-	multi=420
-	printf "\033[1;32m"'\033]2; Watch Entropy courtesy of TermuxArch 📲  \007'
-	entropy0=\$(cat /proc/sys/kernel/random/entropy_avail 2>/dev/null) 
-	infif ()
-	{
-		if [[ \$entropy0 = "inf" ]];then
-			entropy0=1
-			printf "\033[1;32m∞^∞infifinfif2minfifinfifinfifinfif∞=1\033[0;32minfifinfifinfifinfif\033[0;32m∞==0infifinfifinfifinfif\033[0;32minfifinfifinfif∞"
-		fi
-	}
-	en0=\$((\${entropy0}*\$multi))
-	esleep ()
-	{
-		int=\$( echo "\$i/\$entropy0" | bc -l)
-	}
+	printf "\033[1;32m"'\033]2; Watch Entropy courtesy TermuxArch 📲  \007'
 	commandif=\$(command -v getprop) ||:
 	if [[ \$commandif = "" ]];then
 		abcif=\$(command -v bc) ||:
@@ -447,23 +433,38 @@ addwe ()
 			pkg install bc --yes
 		fi
 	fi
-	for i in \$(seq 1 \$en0); do
+	entropy0=\$(cat /proc/sys/kernel/random/entropy_avail 2>/dev/null) 
+	entropya ()
+	{
 		entropy0=\$(cat /proc/sys/kernel/random/entropy_avail 2>/dev/null) 
-		infif 
-		printf %b "\033[1;32m\${entropy0}\033[0;32m#E&&√♪" 
-		esleep 
+		infif
+	}
+	infif ()
+	{
+		if [[ \$entropy0 = "inf" ]];then
+			entropy0="1"
+			printf "\033[1;32m∞^∞infifinfif2minfifinfifinfifinfif∞=1\033[0;32minfifinfifinfifinfif\033[0;32m∞==0infifinfifinfifinfif\033[0;32minfifinfifinfif∞"
+		fi
+	}
+	infif 
+	multi=\$(echo \${entropya:0:1} |sed 's/[^0-9]*//g')
+	en0=\$((\${entropya}*\$multi))
+	esleep ()
+	{
+		int=\$( echo "\$i/\$entropya" | bc -l)
 		sleep \$int
-		entropy1=\$(cat /proc/sys/kernel/random/uuid 2>/dev/null) 
-		infif 
-		printf %b "\$entropy1" 
-		esleep 
-		sleep \$int
+	}
+	for i in \$(seq 1 \$en0); do
 		printf %b "&&π™♪&#\033[1;32m\${i}\033[0;32mof\033[1;32m\${en0}\033[0;32m#|♪FLT" 
 		esleep 
-		sleep \$int
 		printf %b "\${int}♪||e"
 		esleep 
-		sleep \$int
+		entropya 
+		printf %b "\033[1;32m\${entropya}\033[0;32m#E&&√♪" 
+		esleep 
+		entropy1=\$(cat /proc/sys/kernel/random/uuid 2>/dev/null) 
+		printf %b "\$entropy1" 
+		esleep 
 	done
 	EOM
 	chmod 770 bin/we 
