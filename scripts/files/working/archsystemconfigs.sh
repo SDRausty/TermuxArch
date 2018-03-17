@@ -418,7 +418,7 @@ addwe ()
 	# https://sdrausty.github.io/TermuxArch/README has information about this project. 
 	# Watch available entropy on device.
 	################################################################################
-	printf "\033[1;32m"'\033]2; Watch Entropy courtesy of TermuxArch and Termux 📲  \007'
+	printf "\033[1;32m"'\033]2; Watch Entropy courtesy of TermuxArch 📲  \007'
 	i=1
 	entropy0=\$(cat /proc/sys/kernel/random/entropy_avail 2>/dev/null) 
 	en0=\$entropy0
