@@ -450,7 +450,11 @@ addwe ()
 
 	esleep ()
 	{
-		int=\$( echo "\$i/\$entropy0" | bc -l)
+		int=\$(echo "\$i/\$entropy0" | bc -l)
+		if (( \$int > 1 ));then
+			tmp=\$(echo "\${int}/100" | bc -l)
+			int=\$tmp
+		fi
 	}
 
 	bcif ()
