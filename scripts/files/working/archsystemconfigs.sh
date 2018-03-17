@@ -455,7 +455,7 @@ addwe ()
 		sleep \$int
 	done
 	EOM
-	chmod 770 we 
+	chmod 770 bin/we 
 }
 
 addyt ()
