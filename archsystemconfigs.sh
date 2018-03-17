@@ -419,7 +419,7 @@ addwe ()
 	# Watch available entropy on device.
 	################################################################################
 	printf "\033[1;32m"'\033]2;  Thank you for using \`we\` from TermuxArch 📲  \007'
-	commandif=\$( command -v bc ) ||:
+	commandif=\$( command -v dc ) ||:
 	if [[ \$commandif = "" ]];then
 		pacman --noconfirm --color=always -Syu bc
 	fi
