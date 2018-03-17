@@ -409,7 +409,7 @@ addv ()
 
 addwe ()
 {
-	cat > bin/we <<- EOM
+	cat > we <<- EOM
 	#!/bin/bash -e
 	# Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
 	# cat /proc/sys/kernel/random/entropy_avail contributed by https://github.com/cb125
@@ -418,29 +418,48 @@ addwe ()
 	# https://sdrausty.github.io/TermuxArch/README has information about this project. 
 	# Watch available entropy on device.
 	################################################################################
+	i=1
+	entropy0=\$(cat /proc/sys/kernel/random/entropy_avail 2>/dev/null) 
+	n=\$420\$entropy0
+	esleep ()
+	{
+		int=\$( echo "\$i/\$entropy0" | bc -l)
+	}
 	printf "\033[1;32m"'\033]2;  Thank you for using \`we\` from TermuxArch 📲  \007'
-	commandif=\$( command -v dc ) ||:
+	# Tests for Android specific command.
+	commandif=\$(command -v getprop) ||:
 	if [[ \$commandif = "" ]];then
-		pacman --noconfirm --color=always -Syu bc
+	# is not Android
+		abcif=\$(command -v bc) ||:
+		if [[ \$abcif = "" ]];then
+			pacman --noconfirm --color=always -S bc
+			#pacman --noconfirm --color=always -Syu bc
+		fi
+	else
+	# is Android
+		tbcif=\$(command -v bc) ||:
+		if [[ \$tbcif = "" ]];then
+			pkg install bc --yes
+		fi
 	fi
-	for i in {1..4800}; do
-		entropy1=\$(cat /proc/sys/kernel/random/entropy_avail 2>/dev/null) 
-		printf %b "\033[1;32m\$entropy1" 
-		sleep \$(dc 1 \$entropy1 / p)
-		sleep 0.2
-		entropy4=\$(cat /proc/sys/kernel/random/uuid 2>/dev/null) 
-		printf %b "\033[0;32m\$entropy4" 
-		sleep \$(dc 1 \$entropy1 / p)
-		sleep 0.1
-		printf %b "\033[1;32m\${i}e4800" 
-		sleep \$(dc 1 \$entropy1 / p)
-		sleep 0.2
-		printf %b "\033[0;32m\$(dc 1 \$entropy1 / p)"
-		sleep \$(dc 1 \$entropy1 / p)
-		sleep 0.1
+	for i in \$(seq 1 \$n); do
+		entropy0=\$(cat /proc/sys/kernel/random/entropy_avail 2>/dev/null) 
+		printf %b "\033[1;32m\$entropy0" 
+		esleep 
+		sleep \$int
+		entropy1=\$(cat /proc/sys/kernel/random/uuid 2>/dev/null) 
+		printf %b "\033[0;32m\$entropy1" 
+		esleep 
+		sleep \$int
+		printf %b "\033[1;32m\${i}/\${n}" 
+		esleep 
+		sleep \$int
+		printf %b "\033[0;32m\$int"
+		esleep 
+		sleep \$int
 	done
 	EOM
-	chmod 770 bin/we 
+	chmod 770 we 
 }
 
 addyt ()
