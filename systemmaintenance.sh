@@ -110,8 +110,9 @@ refreshsys ()
 	printconfigq
 	rm root/bin/finishsetup.sh
 	rm root/bin/setupbin.sh 
-	printf "\033[1;34m  The following files have been updated to the newest version.\n\n\033[0m"
+	printf "\033[1;34m  The following files have been updated to the newest version.\n\n\033[0;32m"
 	ls $installdir/bin/ces |cut -f7- -d /
+	ls $installdir/bin/we |cut -f7- -d /
 	ls $installdir/$bin |cut -f7- -d /
 	ls $installdir/root/bin/* |cut -f7- -d /
 	printf "\n" 
