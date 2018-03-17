@@ -115,7 +115,7 @@ mainblock ()
 	termux-wake-unlock
 	printdone 
 	printfooter
-	$installdir/$bin 
+	$installdir/$bin ||: 
 	printfooter2
 }
 
