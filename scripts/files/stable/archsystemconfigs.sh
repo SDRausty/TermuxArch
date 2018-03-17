@@ -421,7 +421,7 @@ addwe ()
 	printf "\033[1;32m"'\033]2; Watch Entropy courtesy of TermuxArch and Termux 📲  \007'
 	i=1
 	entropy0=\$(cat /proc/sys/kernel/random/entropy_avail 2>/dev/null) 
-	n=\$420\$entropy0
+	en0=\$entropy0
 	esleep ()
 	{
 		int=\$( echo "\$i/\$entropy0" | bc -l)
@@ -438,7 +438,7 @@ addwe ()
 			pkg install bc --yes
 		fi
 	fi
-	for i in \$(seq 1 \$n); do
+	for i in \$(seq 1 \$en0); do
 		entropy0=\$(cat /proc/sys/kernel/random/entropy_avail 2>/dev/null) 
 		printf %b "\033[1;32m\${entropy0}\033[0;32m#E&&√♪" 
 		esleep 
@@ -447,7 +447,7 @@ addwe ()
 		printf %b "\$entropy1" 
 		esleep 
 		sleep \$int
-		printf %b "&&π™♪&#\033[1;32m\${i}\033[0;32mof\033[1;32m\${n}\033[0;32m#|♪FLT" 
+		printf %b "&&π™♪&#\033[1;32m\${i}\033[0;32mof\033[1;32m\${en0}\033[0;32m#|♪FLT" 
 		esleep 
 		sleep \$int
 		printf %b "\${int}♪||e"
