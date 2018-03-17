@@ -411,22 +411,22 @@ addwe ()
 {
 	cat > bin/we <<- EOM
 	#!/bin/bash -e
+	# Watch available entropy on device.
 	# Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
-	# cat /proc/sys/kernel/random/entropy_avail contributed by https://github.com/cb125
 	# Hosting https://sdrausty.github.io/TermuxArch courtesy https://pages.github.com
 	# https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.  
 	# https://sdrausty.github.io/TermuxArch/README has information about this project. 
-	# Watch available entropy on device.
+	# cat /proc/sys/kernel/random/entropy_avail contributed by https://github.com/cb125
 	################################################################################
 
-	printf "\033[1;32m"'\033]2; Watch Entropy courtesy of TermuxArch 📲  \007'
 	i=1
+	printf "\033[1;32m"'\033]2; Watch Entropy courtesy of TermuxArch 📲  \007'
 	entropy0=\$(cat /proc/sys/kernel/random/entropy_avail 2>/dev/null) 
 	infif ()
 	{
 		if [[ \$entropy0 = "inf" ]];then
 			entropy0=1
-			printf "\033[1;32minfifinfif2minfifinfifinfifinfif\033[0;32minfifinfifinfifinfif\033[0;32minfifinfifinfifinfif\033[0;32minfifinfifinfifinfif"
+			printf "\033[1;32m∞^∞infifinfif2minfifinfifinfifinfif∞=1\033[0;32minfifinfifinfifinfif\033[0;32m∞==0infifinfifinfifinfif\033[0;32minfifinfifinfif∞"
 		fi
 	}
 	en0=\$entropy0
