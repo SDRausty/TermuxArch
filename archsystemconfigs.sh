@@ -423,11 +423,11 @@ addwe ()
 	multi=16
 	printintro ()
 	{
-	printf "\n\033[1;32mWatch Entropy is initializing... \n\n"'\033]2; Watch Entropy courtesy TermuxArch 📲  \007'
+	printf "\n\033[1;32mWatch Entropy is initializing... \n\n"'\033]2; Watch Entropy from TermuxArch 📲  \007'
 	}
 	printtail ()
 	{
-		printf "\n\033[1;32mWatch Entropy courtesy TermuxArch 📲 \n\n"'\033]2; Watch Entropy courtesy TermuxArch 📲  \007'
+		printf "\n\033[1;32mWatch Entropy from TermuxArch 📲 \n\n"'\033]2; Watch Entropy courtesy TermuxArch 📲  \007'
 	}
 	entropy0=\$(cat /proc/sys/kernel/random/entropy_avail 2>/dev/null) 
 	infif ()
