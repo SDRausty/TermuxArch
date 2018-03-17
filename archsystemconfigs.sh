@@ -418,6 +418,7 @@ addwe ()
 	# https://sdrausty.github.io/TermuxArch/README has information about this project. 
 	# Watch available entropy on device.
 	################################################################################
+	printf "\033[1;32m"'\033]2; Watch Entropy courtesy of TermuxArch and Termux 📲  \007'
 	i=1
 	entropy0=\$(cat /proc/sys/kernel/random/entropy_avail 2>/dev/null) 
 	n=\$420\$entropy0
@@ -425,18 +426,13 @@ addwe ()
 	{
 		int=\$( echo "\$i/\$entropy0" | bc -l)
 	}
-	printf "\033[1;32m"'\033]2;  Thank you for using \`we\` from TermuxArch 📲  \007'
-	# Tests for Android specific command.
 	commandif=\$(command -v getprop) ||:
 	if [[ \$commandif = "" ]];then
-	# is not Android
 		abcif=\$(command -v bc) ||:
 		if [[ \$abcif = "" ]];then
-			pacman --noconfirm --color=always -S bc
-			#pacman --noconfirm --color=always -Syu bc
+			pacman -Syu bc --noconfirm --color=always
 		fi
 	else
-	# is Android
 		tbcif=\$(command -v bc) ||:
 		if [[ \$tbcif = "" ]];then
 			pkg install bc --yes
@@ -444,17 +440,17 @@ addwe ()
 	fi
 	for i in \$(seq 1 \$n); do
 		entropy0=\$(cat /proc/sys/kernel/random/entropy_avail 2>/dev/null) 
-		printf %b "\033[1;32m\$entropy0" 
+		printf %b "\033[1;32me\$entropy0#&&" 
 		esleep 
 		sleep \$int
 		entropy1=\$(cat /proc/sys/kernel/random/uuid 2>/dev/null) 
-		printf %b "\033[0;32m\$entropy1" 
+		printf %b "\033[0;32m√♪\$entropy1" 
 		esleep 
 		sleep \$int
-		printf %b "\033[1;32m\${i}/\${n}" 
+		printf %b "\033[1;32mπ™♪\${i}/\${n}| 
 		esleep 
 		sleep \$int
-		printf %b "\033[0;32m\$int"
+		printf %b "\033[0;32m♪INT\${int}♪"
 		esleep 
 		sleep \$int
 	done
