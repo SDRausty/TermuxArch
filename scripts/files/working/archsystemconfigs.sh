@@ -420,7 +420,7 @@ addwe ()
 	################################################################################
 
 	i=1
-	multi=64
+	multi=16
 	printintro ()
 	{
 	printf "\n\033[1;32mWatch Entropy is initializing... \n\n"'\033]2; Watch Entropy courtesy TermuxArch 📲  \007'
