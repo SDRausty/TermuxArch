@@ -47,7 +47,7 @@ bloom ()
 	printf "\n"
 	dependsblock 
 	ls -agl
-	printf "\n\033[1;34mUse \033[1;32mcd ~/TermuxArchBloom\033[1;34m to continue.\n\n\033[0m"'\033]2;  Thank you for using TermuxArch Bloom option via `setupTermuxArch.sh bloom` 📲 \007'
+	printf "\n\033[1;34mUse \033[1;32mcd ~/TermuxArchBloom\033[1;34m to continue.  Edit any of these files.  Then use \033[1;32mbash $0 run \033[1;34mto run the files in \033[1;32m~/TermuxArchBloom\033[1;34m to continue.\n\n\033[0m"'\033]2;  Thank you for using TermuxArch Bloom option via `setupTermuxArch.sh bloom` 📲 \007'
 }
 
 bloomdependsblock ()
@@ -369,9 +369,8 @@ nameinstalldir ()
 	if [[ $rootdir = "" ]] ;then
 		rootdir=arch
 	fi
-	declare -g installdir=$(echo $HOME${rootdir%/} |sed s#//*#/#g)
+	declare -g installdir=$(echo $HOME/${rootdir%/} |sed s#//*#/#g)
 }
-nameinstalldir
 
 namestartarch ()
 {
@@ -444,7 +443,6 @@ prootif ()
 
 rmarch ()
 {
-	namestartarch 
 	while true; do
 		printf "\n\033[1;30m"
 		read -p "Uninstall $installdir? [Y|n] " ruanswer
@@ -679,6 +677,8 @@ wgetif ()
 }
 
 setrootdir 
+namestartarch 
+nameinstalldir
 
 # User configurable variables such as mirrors and download manager options are in `setupTermuxArchConfigs.sh`.  Creating this file from `kownconfigurations.sh` in the working directory is simple, use `setupTermuxArch.sh manual` to create, edit and run `setupTermuxArchConfigs.sh`; `setupTermuxArch.sh help` has more information.  All options can be abbreviated to the first letter(s). 
 
@@ -687,7 +687,7 @@ dfl=/gen
 dmverbose="-q"
 #dmverbose="-v"
 stime=`date +%s|grep -o '....$'`
-versionid="gen.v1.3 id673649991"
+versionid="gen.v1.3 id552390051"
 
 # [curl debug|curl sysinfo] Get device system information using `curl`.
 if [[ $1 = [Cc][Dd]* ]] || [[ $1 = -[Cc][Dd]* ]] || [[ $1 = --[Cc][Dd]* ]] || [[ $1 = [Cc][Ss]* ]] || [[ $1 = -[Cc][Ss]* ]] || [[ $1 = --[Cc][Ss]* ]];then
@@ -744,7 +744,7 @@ elif [[ $1 = [Rr][Ee]* ]] || [[ $1 = -[Rr][Ee]* ]] || [[ $1 = --[Rr][Ee]* ]];the
 elif [[ $1 = [Rr]* ]] || [[ $1 = -[Rr]* ]] || [[ $1 = --[Rr]* ]];then
 	runbloom 
 # [] Run default Arch Linux install.
-elif [[ $1 = "" ]] ;then
+elif [[ $1 = "" ]];then
 	intro 
 	mainblock
 else
