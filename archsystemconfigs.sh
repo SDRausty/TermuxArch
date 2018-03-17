@@ -440,17 +440,17 @@ addwe ()
 	fi
 	for i in \$(seq 1 \$n); do
 		entropy0=\$(cat /proc/sys/kernel/random/entropy_avail 2>/dev/null) 
-		printf %b "\033[1;32m\${entropy0}\033[0;32m#&&√♪" 
+		printf %b "\033[1;32m\${entropy0}\033[0;32m#E&&√♪" 
 		esleep 
 		sleep \$int
 		entropy1=\$(cat /proc/sys/kernel/random/uuid 2>/dev/null) 
 		printf %b "\$entropy1" 
 		esleep 
 		sleep \$int
-		printf %b "π™♪\033[1;32m\${i}/\${n}\033[0;32m|♪INT" 
+		printf %b "&&π™♪&#\033[1;32m\${i}/\${n}\033[0;32m#|♪INT" 
 		esleep 
 		sleep \$int
-		printf %b "\${int}♪e"
+		printf %b "\${int}♪||e"
 		esleep 
 		sleep \$int
 	done
