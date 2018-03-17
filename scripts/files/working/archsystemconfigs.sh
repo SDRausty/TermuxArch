@@ -418,9 +418,17 @@ addwe ()
 	# https://sdrausty.github.io/TermuxArch/README has information about this project. 
 	# Watch available entropy on device.
 	################################################################################
+
 	printf "\033[1;32m"'\033]2; Watch Entropy courtesy of TermuxArch 📲  \007'
 	i=1
 	entropy0=\$(cat /proc/sys/kernel/random/entropy_avail 2>/dev/null) 
+	infif ()
+	{
+		if [[ \$entropy0 = "inf" ]];then
+			entropy0=1
+			printf "\033[1;32minfifinfif2minfifinfifinfifinfif\033[0;32minfifinfifinfifinfif\033[0;32minfifinfifinfifinfif\033[0;32minfifinfifinfifinfif"
+		fi
+	}
 	en0=\$entropy0
 	esleep ()
 	{
@@ -440,10 +448,12 @@ addwe ()
 	fi
 	for i in \$(seq 1 \$en0); do
 		entropy0=\$(cat /proc/sys/kernel/random/entropy_avail 2>/dev/null) 
+		infif 
 		printf %b "\033[1;32m\${entropy0}\033[0;32m#E&&√♪" 
 		esleep 
 		sleep \$int
 		entropy1=\$(cat /proc/sys/kernel/random/uuid 2>/dev/null) 
+		infif 
 		printf %b "\$entropy1" 
 		esleep 
 		sleep \$int
