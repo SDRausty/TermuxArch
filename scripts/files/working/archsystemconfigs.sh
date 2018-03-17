@@ -420,8 +420,8 @@ addwe ()
 	################################################################################
 
 	i=1
-	multi=420
-	printf "\n\033[1;32mWatch Entropy is initializing; Please wait... \n\n"'\033]2; Watch Entropy courtesy TermuxArch 📲  \007'
+	multi=8
+	printf "\n\033[1;32mWatch Entropy is initializing... \n\n"'\033]2; Watch Entropy courtesy TermuxArch 📲  \007'
 	entropy0=\$(cat /proc/sys/kernel/random/entropy_avail 2>/dev/null) 
 	infif ()
 	{
@@ -465,6 +465,7 @@ addwe ()
 		esleep 
 		sleep \$int
 	done
+	printf "\n\033[1;32mWatch Entropy courtesy TermuxArch 📲 \n\n"'\033]2; Watch Entropy courtesy TermuxArch 📲  \007'
 	EOM
 	chmod 770 bin/we 
 }
