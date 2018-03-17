@@ -414,6 +414,10 @@ addwe ()
 	# Watch available entropy on device.
 	################################################################################
 	printf "\033[1;32m"'\033]2;  Thank you for using \`we\` from TermuxArch 📲  \007'
+	commandif=\$( command -v dc )
+	if [[ \$commandif = "" ]];then
+		pacman --noconfirm --color=always -Syu dc
+	fi
 	for i in {1..4800}; do
 		entropy1=\$(cat /proc/sys/kernel/random/entropy_avail 2>/dev/null) 
 		printf %b "\033[1;32m\$entropy1" 
