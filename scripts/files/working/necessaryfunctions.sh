@@ -155,7 +155,6 @@ makefinishsetup ()
 	fi
 	cat >> root/bin/$binfnstp <<- EOM
 	proc=$proc
-	declare -p proc
 	n=2
 	t=420
 	# This for loop generates entropy for \$t seconds.
