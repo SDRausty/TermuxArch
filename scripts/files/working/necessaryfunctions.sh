@@ -122,7 +122,7 @@ mainblock ()
 	termux-wake-unlock
 	printdone 
 	printfooter
-	$installdir/$bin ||:
+	$installdir/$bin
 	printfooter2
 }
 
@@ -209,7 +209,7 @@ makesetupbin ()
 	################################################################################
 	unset LD_PRELOAD
 	EOM
-	echo "$prootstmnt /root/bin/finishsetup.sh" >> root/bin/setupbin.sh 
+	echo "$prootstmnt /root/bin/finishsetup.sh||:" >> root/bin/setupbin.sh 
 	chmod 700 root/bin/setupbin.sh
 }
 
@@ -227,7 +227,7 @@ makestartbin ()
 	# [command args] Execute a command in BASH as root.
 	if [[ \$1 = [Cc]* ]] || [[ \$1 = -[Cc]* ]] || [[ \$1 = --[Cc]* ]];then
 	touch $installdir/root/.chushlogin
-	echo "$prootstmnt /bin/bash -lc  "\${@:2}"" >> $bin
+	echo "$prootstmnt /bin/bash -lc "\${@:2}"" >> $bin
 	rm $installdir/root/.chushlogin
 	# [login user command] Login as user and execute command.  Use \`addauser user\` first to create this user and the user home directory.
 	elif [[ \$1 = [Ll]* ]] || [[ \$1 = -[Ll]* ]] || [[ \$1 = --[Ll]* ]] ;then
