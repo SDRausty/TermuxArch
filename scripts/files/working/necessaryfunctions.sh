@@ -45,10 +45,10 @@ detectsystem ()
 	elif [ $(getprop ro.product.cpu.abi) = arm64-v8a ];then
 		aarch64
 	elif [ $(getprop ro.product.cpu.abi) = x86 ];then
-		proc=x86
+		declare -g proc=x86
 		i686 
 	elif [ $(getprop ro.product.cpu.abi) = x86_64 ];then
-		proc=x86_64
+		declare -g proc=x86_64
 		x86_64
 	else
 		printmismatch 
