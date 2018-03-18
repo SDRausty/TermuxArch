@@ -178,7 +178,7 @@ addce ()
 
 addces ()
 {
-	cat > bin/ces<<- EOM
+	cat > bin/ce <<- EOM
 	#!/bin/bash -e
 	# Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
 	# Hosting https://sdrausty.github.io/TermuxArch courtesy https://pages.github.com
@@ -189,15 +189,15 @@ addces ()
 	unset LD_PRELOAD
 	EOM
 	if [[ "$kid" -eq 1 ]]; then
-		cat >> bin/ces <<- EOM
+		cat >> bin/ce <<- EOM
 		exec proot --kill-on-exit --kernel-release=4.14.15 --link2symlink -0 -r $installdir -b /dev/ -b \$ANDROID_DATA -b \$EXTERNAL_STORAGE -b /proc/ -w "\$PWD" /bin/env -i HOME=/root TERM=\$TERM $installdir/root/bin/ce 
 		EOM
 	else
-		cat >> bin/ces <<- EOM
+		cat >> bin/ce <<- EOM
 		exec proot --kill-on-exit --link2symlink -0 -r $installdir -b /dev/ -b \$ANDROID_DATA -b \$EXTERNAL_STORAGE -b /proc/ -w "\$PWD" /bin/env -i HOME=/root TERM=\$TERM $installdir/root/bin/ce 
 		EOM
 	fi
-	chmod 770 bin/ces 
+	chmod 770 bin/ce 
 }
 
 adddfa ()
