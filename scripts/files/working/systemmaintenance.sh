@@ -101,9 +101,9 @@ refreshsys ()
 	addv 
 	echo echo0
 	makefinishsetup
-	echo echo0
+	echo echo2
 	makesetupbin 
-	echo echo0
+	echo echo2
 	makestartbin 
 	setlocalegen
 	printf "\n" 

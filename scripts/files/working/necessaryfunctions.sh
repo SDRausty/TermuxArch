@@ -149,13 +149,13 @@ makefinishsetup ()
 	################################################################################
 	EOM
 	if [ -e $HOME/.bash_profile ]; then
-		grep "proxy" $HOME/.bash_profile | grep "export" >>  root/bin/$binfnstp 2>/dev/null
+		grep "proxy" $HOME/.bash_profile | grep "export" >>  root/bin/$binfnstp 2>/dev/null ||:
 	fi
 	if [ -e $HOME/.bashrc ]; then
-		grep "proxy" $HOME/.bashrc  | grep "export" >>  root/bin/$binfnstp 2>/dev/null 
+		grep "proxy" $HOME/.bashrc  | grep "export" >>  root/bin/$binfnstp 2>/dev/null ||:
 	fi
 	if [ -e $HOME/.profile ]; then
-		grep "proxy" $HOME/.profile | grep "export" >>  root/bin/$binfnstp 2>/dev/null 
+		grep "proxy" $HOME/.profile | grep "export" >>  root/bin/$binfnstp 2>/dev/null ||:
 	fi
 	cat >> root/bin/$binfnstp <<- EOM
 	proc=$proc
