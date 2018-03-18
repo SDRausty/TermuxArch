@@ -10,8 +10,6 @@ callsystem ()
 	mkdir -p $installdir
 	cd $installdir
 	detectsystem ret 
-	echo "proc"
-	echo "$proc"
 }
 
 copybin2path ()
