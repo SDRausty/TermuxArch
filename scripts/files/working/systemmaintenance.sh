@@ -69,7 +69,6 @@ sysinfo ()
 refreshsys ()
 {
 	printf '\033]2; setupTermuxArch.sh refresh 📲 \007'
-	echo echo0
 	if [ ! -d $installdir ] || [ ! -f $installdir/bin/we ];then
 		printf "\n\033[30mThe root directory structure is incorrect.  Refusing to continue \033[33mbash setupTermuxArch.sh refresh\033[30m.\033[0m\n"
 		printtail 
@@ -99,11 +98,8 @@ refreshsys ()
 	addyt 
 	addwe  
 	addv 
-	echo echo0
 	makefinishsetup
-	echo echo2
 	makesetupbin 
-	echo echo2
 	makestartbin 
 	setlocalegen
 	printf "\n" 

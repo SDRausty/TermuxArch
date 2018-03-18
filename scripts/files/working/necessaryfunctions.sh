@@ -138,7 +138,6 @@ makebin ()
 
 makefinishsetup ()
 {
-	echo echow1mfs
 	binfnstp=finishsetup.sh  
 	cat > root/bin/$binfnstp <<- EOM
 	#!/bin/bash -e
@@ -200,7 +199,6 @@ makefinishsetup ()
 	printf '\033]2; 🕛 > 🕤 Arch Linux in Termux is installed and configured 📲 \007'
 	EOM
 	chmod 770 root/bin/finishsetup.sh 
-	echo echow1mfs
 }
 
 makesetupbin ()
