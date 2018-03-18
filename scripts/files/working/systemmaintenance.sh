@@ -67,7 +67,7 @@ sysinfo ()
 }
 
 refreshsys ()
-
+{
 	printf '\033]2; `bash setupTermuxArch.sh refresh` 📲🏁 \007'
 	if [ ! -d $installdir ] || [ ! -f $installdir/bin/we ];then
 		printf "\n\033[30mThe root directory structure is incorrect.  Refusing to continue \033[33mbash setupTermuxArch.sh refresh\033[30m.\033[0m\n"
@@ -123,7 +123,6 @@ refreshsys ()
 	printfooter 
 	$installdir/$bin 
 	printfooter2
-	printf "\n\033[0;32msetupTermuxArch.sh refresh\033[0m$versionid: \033[0;32mDONE 🏁  \n\n\033[0m"'\033]2; `setupTermuxArch.sh refresh` 🏁 \007'
+	printf "\n\033[0;32msetupTermuxArch.sh refresh \033[0m$versionid: \033[0;32mDONE 🏁  \n\n\033[0m"'\033]2; `setupTermuxArch.sh refresh` 🏁 \007'
 	exit
 }
-
