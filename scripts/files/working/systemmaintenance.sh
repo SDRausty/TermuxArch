@@ -106,7 +106,7 @@ refreshsys ()
 	printwla 
 	termux-wake-lock 
 	printdone 
-	printf '\033]2;  Thank you for using `bash setupTermuxArch.sh refresh`  🏁 \007'
+	printf '\033]2;  Thank you for using `bash setupTermuxArch.sh refresh` 📲 \007'
 	$installdir/root/bin/setupbin.sh 
 	printconfigq
 	rm root/bin/finishsetup.sh
