@@ -9,7 +9,12 @@ callsystem ()
 {
 	mkdir -p $installdir
 	cd $installdir
-	detectsystem
+echo "$prootstmnt "
+echo "prootstimnt "
+echo "prootstimnt "
+	detectsystem ret 
+	echo "proc"
+	echo "$proc"
 }
 
 copybin2path ()
@@ -39,14 +44,19 @@ detectsystem ()
 {
 	printdetectedsystem
 	if [ $(getprop ro.product.cpu.abi) = armeabi ];then
+		proc=armv5
 		armv5l
 	elif [ $(getprop ro.product.cpu.abi) = armeabi-v7a ];then
+		proc=armv7
 		detectsystem2 
 	elif [ $(getprop ro.product.cpu.abi) = arm64-v8a ];then
+		proc=aarch64
 		aarch64
 	elif [ $(getprop ro.product.cpu.abi) = x86 ];then
+		proc=x86
 		i686 
 	elif [ $(getprop ro.product.cpu.abi) = x86_64 ];then
+		proc=x86_64
 		x86_64
 	else
 		printmismatch 
@@ -103,7 +113,7 @@ lkernid ()
 		fi
 	fi
 }
-lkernid
+lkernid ret
 
 mainblock ()
 { 
@@ -115,7 +125,7 @@ mainblock ()
 	termux-wake-unlock
 	printdone 
 	printfooter
-	$installdir/$bin 
+	$installdir/$bin
 	printfooter2
 }
 
@@ -128,8 +138,8 @@ makebin ()
 
 makefinishsetup ()
 {
-	binfs=finishsetup.sh  
-	cat > root/bin/$binfs <<- EOM
+	binfnstp=finishsetup.sh  
+	cat > root/bin/$binfnstp <<- EOM
 	#!/bin/bash -e
 	# Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
 	# Hosting https://sdrausty.github.io/TermuxArch courtesy https://pages.github.com
@@ -138,30 +148,32 @@ makefinishsetup ()
 	################################################################################
 	EOM
 	if [ -e $HOME/.bash_profile ]; then
-		grep "proxy" $HOME/.bash_profile | grep "export" >>  root/bin/$binfs 2>/dev/null ||:
+		grep "proxy" $HOME/.bash_profile | grep "export" >>  root/bin/$binfnstp 2>/dev/null ||:
 	fi
 	if [ -e $HOME/.bashrc ]; then
-		grep "proxy" $HOME/.bashrc  | grep "export" >>  root/bin/$binfs 2>/dev/null ||:
+		grep "proxy" $HOME/.bashrc  | grep "export" >>  root/bin/$binfnstp 2>/dev/null ||:
 	fi
 	if [ -e $HOME/.profile ]; then
-		grep "proxy" $HOME/.profile | grep "export" >>  root/bin/$binfs 2>/dev/null ||:
+		grep "proxy" $HOME/.profile | grep "export" >>  root/bin/$binfnstp 2>/dev/null ||:
 	fi
-	cat >> root/bin/$binfs <<- EOM
+	cat >> root/bin/$binfnstp <<- EOM
+	proc=$proc
+	echo $proc
 	n=2
 	t=420
 	# This for loop generates entropy for \$t seconds.
-	for i in $(seq 1 $n); do
+	for i in \$(seq 1 \$n); do
 		\$(nice -n 20 find / -type f -exec cat {} \\; >/dev/null 2>/dev/null & sleep \$t ; kill \$! 2>/dev/null) &
 		\$(nice -n 20 ls -alR / >/dev/null 2>/dev/null & sleep \$t ; kill \$! 2>/dev/null) &
 		\$(nice -n 20 find / >/dev/null 2>/dev/null & sleep \$t ; kill \$! 2>/dev/null) &
 		\$(nice -n 20 cat /dev/urandom >/dev/null & sleep \$t ; kill \$! 2>/dev/null) &
 	done
-	if [ $(getprop ro.product.cpu.abi) = x86 ] || [ $(getprop ro.product.cpu.abi) = x86_64 ];then
-	if [ $(getprop ro.product.cpu.abi) = x86 ];then
-		pacman -Syu sed archlinux32-keyring-transition --noconfirm --color always ||: 
-	else
-		pacman -Syu sed archlinux-keyring --noconfirm --color always ||: 
-	fi
+	if [ "\$proc" = "x86" ] || [ "\$proc" = "x86_64" ]; then
+		if [ "\$proc" = "x86" ]; then
+			pacman -Syu sed archlinux32-keyring-transition --noconfirm --color always ||: 
+		else
+			pacman -Syu sed archlinux-keyring --noconfirm --color always ||: 
+		fi
 	else
 		pacman -Syu archlinux-keyring --noconfirm --color always ||: 
 	fi
@@ -169,7 +181,7 @@ makefinishsetup ()
 	mv /usr/lib/gnupg/scdaemon{,_} 2>/dev/null ||: 
 	rm -rf /etc/pacman.d/gnupg ||: 
 	# This for loop generates entropy for \$t seconds.
-	for i in $(seq 1 $n); do
+	for i in \$(seq 1 \$n); do
 		\$(nice -n 20 find / -type f -exec cat {} \\; >/dev/null 2>/dev/null & sleep \$t ; kill \$! 2>/dev/null) &
 		\$(nice -n 20 ls -alR / >/dev/null 2>/dev/null & sleep \$t ; kill \$! 2>/dev/null) &
 		\$(nice -n 20 find / >/dev/null 2>/dev/null & sleep \$t ; kill \$! 2>/dev/null) &
@@ -182,7 +194,8 @@ makefinishsetup ()
 	printf "\n\033[1;32m==> \033[0m"
 	locale-gen ||:
 	printf "\n\033[1;32m==> \033[1;37mRunning \033[1;32mtzselect\033[1;37m...\n\n\033[1;34mAdd the \033[1;32mtzselect\033[1;34m output code to \033[1;32m.bash_profile\033[1;34m so the system time in Arch Linux for future sessions will be set correctly.\n\n\033[0;32m"
-	tzselect
+	tzselect ||:
+	echo echo
 	printf "\n"
 	printf '\033]2; 🕛 > 🕤 Arch Linux in Termux is installed and configured 📲 \007'
 	EOM
@@ -200,15 +213,7 @@ makesetupbin ()
 	################################################################################
 	unset LD_PRELOAD
 	EOM
-	if [[ "$kid" -eq 1 ]]; then
-		cat >> root/bin/setupbin.sh <<- EOM
-		exec proot --kill-on-exit --kernel-release=4.14.15 --link2symlink -0 -r $installdir/ -b /dev/ -b /sys/ -b /proc/ -b /storage/ -b $HOME -w $HOME /bin/env -i HOME=/root TERM="$TERM" $installdir/root/bin/finishsetup.sh 
-		EOM
-	else
-		cat >> root/bin/setupbin.sh <<- EOM
-		exec proot --kill-on-exit --link2symlink -0 -r $installdir/ -b /dev/ -b /sys/ -b /proc/ -b /storage/ -b $HOME -w $HOME /bin/env -i HOME=/root TERM="$TERM" $installdir/root/bin/finishsetup.sh 
-		EOM
-	fi
+	echo "$prootstmnt /root/bin/finishsetup.sh||:" >> root/bin/setupbin.sh 
 	chmod 700 root/bin/setupbin.sh
 }
 
@@ -223,52 +228,26 @@ makestartbin ()
 	################################################################################
 	unset LD_PRELOAD
 	EOM
-	if [[ "$kid" -eq 1 ]]; then
-		cat >> $bin <<- EOM
-		# [command args] Execute a command in BASH as root.
-		if [[ \$1 = [Cc]* ]] || [[ \$1 = -[Cc]* ]] || [[ \$1 = --[Cc]* ]];then
-		touch $installdir/root/.chushlogin
-		exec proot --kill-on-exit --kernel-release=4.14.15 --link2symlink -0 -r $installdir -b /dev/ -b \$ANDROID_DATA -b \$EXTERNAL_STORAGE -b /proc/ -w "\$PWD" /bin/env -i HOME=/root TERM=\$TERM /bin/bash -lc  "\${@:2}"
-		rm $installdir/root/.chushlogin
-		# [login user command] Login as user and execute command.  Use \`addauser user\` first to create this user and the user home directory.
-		elif [[ \$1 = [Ll]* ]] || [[ \$1 = -[Ll]* ]] || [[ \$1 = --[Ll]* ]] ;then
-		touch $installdir/root/.chushlogin
-		exec proot --kill-on-exit --kernel-release=4.14.15 --link2symlink -0 -r $installdir -b /dev/ -b \$ANDROID_DATA -b \$EXTERNAL_STORAGE -b /proc/ -w "\$PWD" /bin/env -i HOME=/root TERM=\$TERM /bin/su - \$2 -c "\${@:3}"
-		rm $installdir/root/.chushlogin
-		# [raw args] Construct the \`startarch\` proot statement.  For example \`startarch r su - archuser\` will login as user archuser.  Use \`addauser archuser\` first to create this user and the user home directory.
-		elif [[ \$1 = [Rr]* ]] || [[ \$1 = -[Rr]* ]] || [[ \$1 = --[Rr]* ]];then
-		exec proot --kill-on-exit --kernel-release=4.14.15 --link2symlink -0 -r $installdir -b /dev/ -b \$ANDROID_DATA -b \$EXTERNAL_STORAGE -b /proc/ -w "\$PWD" /bin/env -i HOME=/root TERM=\$TERM /bin/"\${@:2}"
-		# [su user|su user -c command] Login as user.  Alternatively, login as user and execute command.  Use \`addauser user\` first to create this user and the user home directory.
-		elif [[ \$1 = [Ss]* ]] || [[ \$1 = -[Ss]* ]] || [[ \$1 = --[Ss]* ]];then
-		exec proot --kill-on-exit --kernel-release=4.14.15 --link2symlink -0 -r $installdir -b /dev/ -b \$ANDROID_DATA -b \$EXTERNAL_STORAGE -b /proc/ -w "\$PWD" /bin/env -i HOME=/root TERM=\$TERM /bin/su - \${@:2}"
-		else
-		# [] Default Arch Linux in Termux PRoot root login.
-		exec proot --kill-on-exit --kernel-release=4.14.15 --link2symlink -0 -r $installdir -b /dev/ -b \$ANDROID_DATA -b \$EXTERNAL_STORAGE -b /proc/ -w "\$PWD" /bin/env -i HOME=/root TERM=\$TERM /bin/bash -l
-		fi
-		EOM
+	# [command args] Execute a command in BASH as root.
+	if [[ \$1 = [Cc]* ]] || [[ \$1 = -[Cc]* ]] || [[ \$1 = --[Cc]* ]];then
+	touch $installdir/root/.chushlogin
+	echo "$prootstmnt /bin/bash -lc "\${@:2}"" >> $bin
+	rm $installdir/root/.chushlogin
+	# [login user command] Login as user and execute command.  Use \`addauser user\` first to create this user and the user home directory.
+	elif [[ \$1 = [Ll]* ]] || [[ \$1 = -[Ll]* ]] || [[ \$1 = --[Ll]* ]] ;then
+	touch $installdir/root/.chushlogin
+	echo "$prootstmnt /bin/su - \$2 -c "\${@:3}"" >> $bin
+	rm $installdir/root/.chushlogin
+	# [raw args] Construct the \`startarch\` proot statement.  For example \`startarch r su - archuser\` will login as user archuser.  Use \`addauser archuser\` first to create this user and the user home directory.
+	elif [[ \$1 = [Rr]* ]] || [[ \$1 = -[Rr]* ]] || [[ \$1 = --[Rr]* ]];then
+	echo "$prootstmnt  /bin/"\${@:2}"" >> $bin
+	# [su user|su user -c command] Login as user.  Alternatively, login as user and execute command.  Use \`addauser user\` first to create this user and the user home directory.
+	elif [[ \$1 = [Ss]* ]] || [[ \$1 = -[Ss]* ]] || [[ \$1 = --[Ss]* ]];then
+	echo "$prootstmnt /bin/su - "\${@:2}" -c "\${@:3}"" >> $bin
 	else
-		cat >> $bin <<- EOM
-		# [command args] Execute a command in BASH as root.
-		if [[ \$1 = [Cc]* ]] || [[ \$1 = -[Cc]* ]] || [[ \$1 = --[Cc]* ]];then
-		touch $installdir/root/.chushlogin
-		exec proot --kill-on-exit --link2symlink -0 -r $installdir -b /dev/ -b \$ANDROID_DATA -b \$EXTERNAL_STORAGE -b /proc/ -w "\$PWD" /bin/env -i HOME=/root TERM=\$TERM /bin/bash -lc "\${@:2}"
-		rm $installdir/root/.chushlogin
-		# [login user command] Login as user and execute command.  Use \`addauser user\` first to create this user and the user home directory.
-		elif [[ \$1 = [Ll]* ]] || [[ \$1 = -[Ll]* ]] || [[ \$1 = --[Ll]* ]] ;then
-		touch $installdir/root/.chushlogin
-		exec proot --kill-on-exit --link2symlink -0 -r $installdir -b /dev/ -b \$ANDROID_DATA -b \$EXTERNAL_STORAGE -b /proc/ -w "\$PWD" /bin/env -i HOME=/root TERM=\$TERM /bin/su - \$2 -c "\${@:3}"
-		rm $installdir/root/.chushlogin
-		# [raw args] Construct the \`startarch\` proot statement.  For example \`startarch r su - archuser\` will login as user archuser.  Use \`addauser archuser\` first to create this user and the user's home directory.
-		elif [[ \$1 = [Rr]* ]] || [[ \$1 = -[Rr]* ]] || [[ \$1 = --[Rr]* ]];then
-		exec proot --kill-on-exit --link2symlink -0 -r $installdir -b /dev/ -b \$ANDROID_DATA -b \$EXTERNAL_STORAGE -b /proc/ -w "\$PWD" /bin/env -i HOME=/root TERM=\$TERM /bin/"\${@:2}"
-		# [su user|su user -c command] Login as user.  Alternatively, login as user and execute command.  Use \`addauser user\` first to create this user and the user home directory.
-		elif [[ \$1 = [Ss]* ]] || [[ \$1 = -[Ss]* ]] || [[ \$1 = --[Ss]* ]];then
-		exec proot --kill-on-exit --link2symlink -0 -r $installdir -b /dev/ -b \$ANDROID_DATA -b \$EXTERNAL_STORAGE -b /proc/ -w "\$PWD" /bin/env -i HOME=/root TERM=\$TERM /bin/su - "\${@:2}"
-		else
-		# [] Default Arch Linux in Termux PRoot root login.
-		exec proot --kill-on-exit --link2symlink -0 -r $installdir -b /dev/ -b \$ANDROID_DATA -b \$EXTERNAL_STORAGE -b /proc/ -w "\$PWD" /bin/env -i HOME=/root TERM=\$TERM /bin/bash -l
-		fi
-		EOM
+	# [] Default Arch Linux in Termux PRoot root login.
+	echo "$prootstmnt /bin/bash -l " >> $bin
+	# exec proot --kill-on-exit --kernel-release=4.14.15 --link2symlink -0 -r $installdir -b /dev/ -b \$ANDROID_DATA -b \$EXTERNAL_STORAGE -b /proc/ -w "\$PWD" /bin/env -i HOME=/root TERM=\$TERM /bin/bash -l
 	fi
 	chmod 700 $bin
 }
@@ -408,6 +387,7 @@ touchupsys ()
 	addresolvconf 
 	addt 
 	addtour
+	addtrim 
 	addyt
 	addwe  
 	addv 

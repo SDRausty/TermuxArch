@@ -178,7 +178,7 @@ addce ()
 
 addces ()
 {
-	cat > bin/ces<<- EOM
+	cat > bin/ce <<- EOM
 	#!/bin/bash -e
 	# Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
 	# Hosting https://sdrausty.github.io/TermuxArch courtesy https://pages.github.com
@@ -189,15 +189,15 @@ addces ()
 	unset LD_PRELOAD
 	EOM
 	if [[ "$kid" -eq 1 ]]; then
-		cat >> bin/ces <<- EOM
+		cat >> bin/ce <<- EOM
 		exec proot --kill-on-exit --kernel-release=4.14.15 --link2symlink -0 -r $installdir -b /dev/ -b \$ANDROID_DATA -b \$EXTERNAL_STORAGE -b /proc/ -w "\$PWD" /bin/env -i HOME=/root TERM=\$TERM $installdir/root/bin/ce 
 		EOM
 	else
-		cat >> bin/ces <<- EOM
+		cat >> bin/ce <<- EOM
 		exec proot --kill-on-exit --link2symlink -0 -r $installdir -b /dev/ -b \$ANDROID_DATA -b \$EXTERNAL_STORAGE -b /proc/ -w "\$PWD" /bin/env -i HOME=/root TERM=\$TERM $installdir/root/bin/ce 
 		EOM
 	fi
-	chmod 770 bin/ces 
+	chmod 770 bin/ce 
 }
 
 adddfa ()
@@ -385,7 +385,7 @@ addtour ()
 
 addtrim ()
 {
-	:#trim system mv /boot /usr/
+	: #trim system mv /boot /usr/
 }
 
 addv ()
@@ -425,12 +425,12 @@ addwe ()
 
 	printintro ()
 	{
-		printf "\n\033[1;32mWatch Entropy is initializing... \n\n"'\033]2; Watch Entropy from TermuxArch 📲  \007'
+		printf "\n\033[1;32mTermuxArch Watch Entropy is initializing... \n\n"'\033]2; TermuxArch Watch Entropy 📲  \007'
 	}
 
 	printtail ()
 	{
-		printf "\n\033[1;32mWatch Entropy from TermuxArch 📲 \n\n"'\033]2; Watch Entropy courtesy TermuxArch 📲  \007'
+		printf "\n\n\033[1;32mWatch Entropy from TermuxArch 🏁 \n\n"'\033]2; Watch Entropy courtesy TermuxArch 🏁 \007'
 	}
 
 	printusage ()
@@ -450,7 +450,16 @@ addwe ()
 
 	esleep ()
 	{
-		int=\$( echo "\$i/\$entropy0" | bc -l)
+		int=\$(echo "\$i/\$entropy0" | bc -l)
+		for i in {1..5}; do
+			if (( \$(echo "\$int > 0.1"|bc -l) ));then
+				tmp=\$(echo "\${int}/100" | bc -l)
+				int=\$tmp
+			fi
+			if (( \$(echo "\$int > 0.1"|bc -l) ));then
+				break
+			fi
+		done
 	}
 
 	bcif ()
