@@ -415,7 +415,7 @@ touchupsys ()
 	setlocaleconf 
 	makefinishsetup
 	makesetupbin 
-	runfinishsetup ||:
+	runfinishsetup 
 	rm root/bin/finishsetup.sh
 	rm root/bin/setupbin.sh 
 }
