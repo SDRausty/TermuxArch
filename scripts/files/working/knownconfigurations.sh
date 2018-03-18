@@ -72,6 +72,7 @@ prs ()
 {
 prootstmnt="exec proot"
 echo koe
+export keo=1
 echo $koe
 if ! $koe; then
 	prootstmnt+=" --kill-on-exit"
