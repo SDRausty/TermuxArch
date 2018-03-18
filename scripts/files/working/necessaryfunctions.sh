@@ -238,7 +238,7 @@ makestartbin ()
 	echo "$prootstmnt  /bin/"\${@:2}"" >> $bin
 	# [su user|su user -c command] Login as user.  Alternatively, login as user and execute command.  Use \`addauser user\` first to create this user and the user home directory.
 	elif [[ \$1 = [Ss]* ]] || [[ \$1 = -[Ss]* ]] || [[ \$1 = --[Ss]* ]];then
-	echo "$prootstmnt /bin/su - "\${@:2}"" >> $bin
+	echo "$prootstmnt /bin/su - "\${@:2}" -c "\${@:3}"" >> $bin
 	else
 	# [] Default Arch Linux in Termux PRoot root login.
 	echo "$prootstmnt /bin/bash -lc "\${@:2}"" >> $bin
