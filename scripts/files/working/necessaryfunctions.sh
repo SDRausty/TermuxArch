@@ -110,7 +110,7 @@ lkernid ()
 		fi
 	fi
 }
-lkernid
+lkernid ret
 
 mainblock ()
 { 
@@ -122,7 +122,7 @@ mainblock ()
 	termux-wake-unlock
 	printdone 
 	printfooter
-	$installdir/$bin
+	$installdir/$bin ||:
 	printfooter2
 }
 
@@ -145,16 +145,17 @@ makefinishsetup ()
 	################################################################################
 	EOM
 	if [ -e $HOME/.bash_profile ]; then
-		grep "proxy" $HOME/.bash_profile | grep "export" >>  root/bin/$binfnstp 2>/dev/null ||:
+		grep "proxy" $HOME/.bash_profile | grep "export" >>  root/bin/$binfnstp 2>/dev/null
 	fi
 	if [ -e $HOME/.bashrc ]; then
-		grep "proxy" $HOME/.bashrc  | grep "export" >>  root/bin/$binfnstp 2>/dev/null ||:
+		grep "proxy" $HOME/.bashrc  | grep "export" >>  root/bin/$binfnstp 2>/dev/null 
 	fi
 	if [ -e $HOME/.profile ]; then
-		grep "proxy" $HOME/.profile | grep "export" >>  root/bin/$binfnstp 2>/dev/null ||:
+		grep "proxy" $HOME/.profile | grep "export" >>  root/bin/$binfnstp 2>/dev/null 
 	fi
 	cat >> root/bin/$binfnstp <<- EOM
 	proc=$proc
+	echo $proc
 	n=2
 	t=420
 	# This for loop generates entropy for \$t seconds.
@@ -208,7 +209,7 @@ makesetupbin ()
 	################################################################################
 	unset LD_PRELOAD
 	EOM
-	echo "$prootstmnt /root/bin/finishsetup.sh ||:" >> root/bin/setupbin.sh 
+	echo "$prootstmnt /root/bin/finishsetup.sh" >> root/bin/setupbin.sh 
 	chmod 700 root/bin/setupbin.sh
 }
 
@@ -319,7 +320,7 @@ runfinishsetup ()
 	fi
 	done
 	printf "\n"
-	$installdir/root/bin/setupbin.sh ||: 
+	$installdir/root/bin/setupbin.sh 
 }
 
 runfinishsetupq ()
