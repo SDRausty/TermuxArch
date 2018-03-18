@@ -68,8 +68,8 @@ x86_64 ()
 
 fun ()
 {
-prs ret
 echo "$prootstmnt "
+prs ret
 }
 
 prs ()
@@ -87,7 +87,6 @@ prootstmnt+=" --link2symlink -0 -r $installdir -b $ANDROID_DATA -b /dev/ -b $EXT
 fun ret 
 #prs ret 
 echo "$prootstmnt "
-echo "${prootstmnt}bash -lc"
 echo "prootstimnt "
-sleep 12
+sleep 8
 #$prootstmnt
