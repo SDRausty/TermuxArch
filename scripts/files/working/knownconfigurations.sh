@@ -68,7 +68,7 @@ x86_64 ()
 
 fun ()
 {
-prc ret
+prs ret
 echo "$prootstmnt "
 }
 
