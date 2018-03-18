@@ -9,9 +9,6 @@ callsystem ()
 {
 	mkdir -p $installdir
 	cd $installdir
-echo "$prootstmnt "
-echo "prootstimnt "
-echo "prootstimnt "
 	detectsystem ret 
 	echo "proc"
 	echo "$proc"
