@@ -149,6 +149,7 @@ makefinishsetup ()
 		grep "proxy" $HOME/.profile | grep "export" >>  root/bin/$binfs 2>/dev/null ||:
 	fi
 	cat >> root/bin/$binfs <<- EOM
+	proc=$proc
 	n=2
 	t=420
 	# This for loop generates entropy for \$t seconds.
@@ -410,6 +411,7 @@ touchupsys ()
 	addresolvconf 
 	addt 
 	addtour
+	addtrim 
 	addyt
 	addwe  
 	addv 

@@ -15,10 +15,6 @@ cmirror="http://mirror.archlinuxarm.org/"
 #dm=wget
 #dmverbose="-q"
 #dmverbose="-v"
-prootops="--kill-on-exit"
-prootopskid="--kernel-release=4.14.15"
-prootopsaliases="-b /data -b /storage -b /sdcard"
-#exec proot --kill-on-exit --kernel-release=4.14.15 --link2symlink -0 -r $installdir/ -b /dev/ -b /sys/ -b /proc/ -b /storage/ -b $HOME -w $HOME /bin/env -i HOME=/root TERM="$TERM" $installdir/root/bin/finishsetup.sh 
 
 aarch64 ()
 {
