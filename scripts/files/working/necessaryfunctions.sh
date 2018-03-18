@@ -182,9 +182,12 @@ makefinishsetup ()
 	printf "\n\033[1;32m==> \033[0m"
 	locale-gen ||:
 	printf "\n\033[1;32m==> \033[1;37mRunning \033[1;32mtzselect\033[1;37m...\n\n\033[1;34mAdd the \033[1;32mtzselect\033[1;34m output code to \033[1;32m.bash_profile\033[1;34m so the system time in Arch Linux for future sessions will be set correctly.\n\n\033[0;32m"
+	echo hello
 	tzselect
 	printf "\n"
 	printf '\033]2; 🕛 > 🕤 Arch Linux in Termux is installed and configured 📲 \007'
+	echo hello
+	exit
 	EOM
 	chmod 770 root/bin/finishsetup.sh 
 }
