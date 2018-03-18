@@ -345,7 +345,7 @@ runfinishsetup ()
 	fi
 	done
 	printf "\n"
-	$installdir/root/bin/setupbin.sh 
+	$installdir/root/bin/setupbin.sh ||: 
 }
 
 runfinishsetupq ()
@@ -415,7 +415,7 @@ touchupsys ()
 	setlocaleconf 
 	makefinishsetup
 	makesetupbin 
-	runfinishsetup ||: 
+	runfinishsetup  
 	rm root/bin/finishsetup.sh
 	rm root/bin/setupbin.sh 
 }
