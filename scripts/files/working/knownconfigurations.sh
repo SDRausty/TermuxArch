@@ -16,7 +16,7 @@ cmirror="http://mirror.archlinuxarm.org/"
 #dmverbose="-q"
 #dmverbose="-v"
 # PRoot 
-keo=1
+export keo=1
 
 aarch64 ()
 {
