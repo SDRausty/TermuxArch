@@ -16,8 +16,8 @@ cmirror="http://mirror.archlinuxarm.org/"
 #dmverbose="-q"
 #dmverbose="-v"
 # PRoot 
-kid=1
-koe=1
+kid=
+koe=
 
 aarch64 ()
 {
