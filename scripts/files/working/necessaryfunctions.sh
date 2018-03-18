@@ -150,6 +150,7 @@ makefinishsetup ()
 	fi
 	cat >> root/bin/$binfnstp <<- EOM
 	proc=$proc
+	declare -p proc
 	n=2
 	t=420
 	# This for loop generates entropy for \$t seconds.
@@ -159,8 +160,8 @@ makefinishsetup ()
 		\$(nice -n 20 find / >/dev/null 2>/dev/null & sleep \$t ; kill \$! 2>/dev/null) &
 		\$(nice -n 20 cat /dev/urandom >/dev/null & sleep \$t ; kill \$! 2>/dev/null) &
 	done
-	if [[ "\$proc" -eq "x86" ]] || [[ "\$proc" -eq "x86_64" ]]; then
-		if [[ "\$proc" -eq "x86" ]]; then
+	if [ "\$proc" = "x86" ] || [ "\$proc" = "x86_64" ]; then
+		if [ "\$proc" = "x86" ]; then
 			pacman -Syu sed archlinux32-keyring-transition --noconfirm --color always ||: 
 		else
 			pacman -Syu sed archlinux-keyring --noconfirm --color always ||: 
