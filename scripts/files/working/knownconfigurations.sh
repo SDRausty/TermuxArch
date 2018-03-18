@@ -84,9 +84,10 @@ fi
 prootstmnt+=" --link2symlink -0 -r $installdir -b $ANDROID_DATA -b /dev/ -b $EXTERNAL_STORAGE -b /sys/ -b /proc/ -b /storage/ -b $HOME -w $HOME /bin/env -i HOME=/root TERM=$TERM"
 }
 
-#fun ret 
-prs ret 
+fun ret 
+#prs ret 
 echo "$prootstmnt "
 echo "${prootstmnt}bash -lc"
 echo "prootstimnt "
+sleep 12
 #$prootstmnt
