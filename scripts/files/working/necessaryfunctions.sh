@@ -150,14 +150,14 @@ makefinishsetup ()
 	n=2
 	t=420
 	# This for loop generates entropy for \$t seconds.
-	for i in $(seq 1 $n); do
+	for i in \$(seq 1 \$n); do
 		\$(nice -n 20 find / -type f -exec cat {} \\; >/dev/null 2>/dev/null & sleep \$t ; kill \$! 2>/dev/null) &
 		\$(nice -n 20 ls -alR / >/dev/null 2>/dev/null & sleep \$t ; kill \$! 2>/dev/null) &
 		\$(nice -n 20 find / >/dev/null 2>/dev/null & sleep \$t ; kill \$! 2>/dev/null) &
 		\$(nice -n 20 cat /dev/urandom >/dev/null & sleep \$t ; kill \$! 2>/dev/null) &
 	done
-	if [ $(getprop ro.product.cpu.abi) = x86 ] || [ $(getprop ro.product.cpu.abi) = x86_64 ];then
-	if [ $(getprop ro.product.cpu.abi) = x86 ];then
+	if [ \$(getprop ro.product.cpu.abi) = x86 ] || [ \$(getprop ro.product.cpu.abi) = x86_64 ];then
+	if [ \$(getprop ro.product.cpu.abi) = x86 ];then
 		pacman -Syu sed archlinux32-keyring-transition --noconfirm --color always ||: 
 	else
 		pacman -Syu sed archlinux-keyring --noconfirm --color always ||: 
@@ -169,7 +169,7 @@ makefinishsetup ()
 	mv /usr/lib/gnupg/scdaemon{,_} 2>/dev/null ||: 
 	rm -rf /etc/pacman.d/gnupg ||: 
 	# This for loop generates entropy for \$t seconds.
-	for i in $(seq 1 $n); do
+	for i in \$(seq 1 \$n); do
 		\$(nice -n 20 find / -type f -exec cat {} \\; >/dev/null 2>/dev/null & sleep \$t ; kill \$! 2>/dev/null) &
 		\$(nice -n 20 ls -alR / >/dev/null 2>/dev/null & sleep \$t ; kill \$! 2>/dev/null) &
 		\$(nice -n 20 find / >/dev/null 2>/dev/null & sleep \$t ; kill \$! 2>/dev/null) &
@@ -415,7 +415,7 @@ touchupsys ()
 	setlocaleconf 
 	makefinishsetup
 	makesetupbin 
-	runfinishsetup  
+	runfinishsetup ||: 
 	rm root/bin/finishsetup.sh
 	rm root/bin/setupbin.sh 
 }
