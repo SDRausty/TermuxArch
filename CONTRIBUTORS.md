@@ -40,7 +40,7 @@
 
 [fornwall](https://github.com/fornwall) contributed: Created Termux, Termux PRoot… Pushed wget v1.19.4 fixing wget v1.19.3 errors immediatly…  Result: TermuxArch improved!
 
-[https://github.com/greenfork](https://github.com/greenfork) contributed key dubug information to resolve issue [Declare error: value too great for base (error token is: 08) #60](https://github.com/sdrausty/TermuxArch/issues/60)  Result: TermuxArch improved! 
+[Dmitry Matveyev](https://github.com/greenfork) contributed key debug information to resolve issue [Declare error: value too great for base (error token is: 08) #60](https://github.com/sdrausty/TermuxArch/issues/60)  Result: TermuxArch improved! 
 
 [Hax4us](https://github.com/Hax4us) provided insight regarding open issues. Submitted pull request.  Result: TermuxArch improved! 
 
