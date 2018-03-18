@@ -451,10 +451,15 @@ addwe ()
 	esleep ()
 	{
 		int=\$(echo "\$i/\$entropy0" | bc -l)
-		if (( \$(echo "\$int > 0.1"|bc -l) ));then
-			tmp=\$(echo "\${int}/100" | bc -l)
-			int=\$tmp
-		fi
+		for i in {1..5}; do
+			if (( \$(echo "\$int > 0.1"|bc -l) ));then
+				tmp=\$(echo "\${int}/100" | bc -l)
+				int=\$tmp
+			fi
+			if (( \$(echo "\$int > 0.1"|bc -l) ));then
+				break
+			fi
+		done
 	}
 
 	bcif ()
