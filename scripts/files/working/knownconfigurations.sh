@@ -15,7 +15,6 @@ cmirror="http://mirror.archlinuxarm.org/"
 #dm=wget
 #dmverbose="-q"
 #dmverbose="-v"
-# PRoot 
 kid=1
 koe=1
 
@@ -70,21 +69,13 @@ x86_64 ()
 prs ()
 {
 prootstmnt="exec proot"
-echo koe
-echo $koe
 if [ $koe ]; then
-echo $koe
 	prootstmnt+=" --kill-on-exit"
 fi
-echo kid
-echo $kid
 if [ $kid ]; then
-echo $kid
 	prootstmnt+=" --kernel-release=4.14.15"
 fi
 prootstmnt+=" --link2symlink -0 -r $installdir -b $ANDROID_DATA -b /dev/ -b $EXTERNAL_STORAGE -b /sys/ -b /proc/ -b /storage/ -b $HOME -w $HOME /bin/env -i HOME=/root TERM=$TERM"
 }
 
 prs ret 
-
-echo "$prootstmnt "
