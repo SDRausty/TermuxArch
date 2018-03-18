@@ -16,7 +16,7 @@
 
 ## Contributions have helped in the successful development of this script and project immensely.  The following contributors have helped to refine [setupTermuxArch.sh](https://raw.githubusercontent.com/sdrausty/TermuxArch/master/setupTermuxArch.tar.gz) 📲 __Thank you for contributing and collaborating!__  
 
-[![Join the chat at https://gitter.im/termux](https://badges.gitter.im/termux/termux.svg)](https://gitter.im/termux)  Termux developer questions welcome.   
+[![Join the chat at https://gitter.im/termux](https://badges.gitter.im/termux/termux.svg)](https://gitter.im/termux)  Termux developers welcome.   
 
 [AccountsDept](https://github.com/accountsdept) submitted issue [#49](https://github.com/sdrausty/TermuxArch/issues/49), "Every Mirror Returning 404".  Result: TermuxArch instructions improved!
 
@@ -42,7 +42,7 @@
 
 [fornwall](https://github.com/fornwall) contributed: Created Termux, Termux PRoot… Pushed wget v1.19.4 fixing wget v1.19.3 errors immediatly…  Result: TermuxArch improved!
 
-[![Dmitry Matveyev](https://avatars0.githubusercontent.com/u/20167110?s=400&v=4)](https://github.com/greenfork) contributed key debug information to resolve issue [Declare error: value too great for base (error token is: 08) #60](https://github.com/sdrausty/TermuxArch/issues/60)  Result: TermuxArch improved! 
+[![Dmitry Matveyev](https://avatars0.githubusercontent.com/u/20167110?s=400&v=4)](https://github.com/greenfork) Contributed key debug information to resolve issue [Declare error: value too great for base (error token is: 08) #60](https://github.com/sdrausty/TermuxArch/issues/60)  Result: TermuxArch improved! 
 
 [Hax4us](https://github.com/Hax4us) provided insight regarding open issues. Submitted pull request.  Result: TermuxArch improved! 
 
