@@ -17,6 +17,7 @@ cmirror="http://mirror.archlinuxarm.org/"
 #dmverbose="-v"
 # PRoot 
 export keo=1
+echo $keo
 
 aarch64 ()
 {
@@ -87,4 +88,3 @@ prs ret
 echo "$prootstmnt "
 echo "prootstimnt "
 sleep 8
-#$prootstmnt
