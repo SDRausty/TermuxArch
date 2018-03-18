@@ -85,7 +85,7 @@ prootstmnt+=" --link2symlink -0 -r $installdir -b $ANDROID_DATA -b /dev/ -b $EXT
 }
 
 #fun ret 
-prc ret 
+prs ret 
 echo "$prootstmnt "
 echo "${prootstmnt}bash -lc"
 echo "prootstimnt "
