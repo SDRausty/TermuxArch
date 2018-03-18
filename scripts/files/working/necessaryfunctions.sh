@@ -246,7 +246,7 @@ makestartbin ()
 	echo "$prootstmnt /bin/su - "\${@:2}" -c "\${@:3}"" >> $bin
 	else
 	# [] Default Arch Linux in Termux PRoot root login.
-	echo "$prootstmnt /bin/bash -lc "\${@:2}"" >> $bin
+	echo "$prootstmnt /bin/bash -l " >> $bin
 	# exec proot --kill-on-exit --kernel-release=4.14.15 --link2symlink -0 -r $installdir -b /dev/ -b \$ANDROID_DATA -b \$EXTERNAL_STORAGE -b /proc/ -w "\$PWD" /bin/env -i HOME=/root TERM=\$TERM /bin/bash -l
 	fi
 	chmod 700 $bin
