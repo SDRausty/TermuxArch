@@ -451,7 +451,7 @@ addwe ()
 	esleep ()
 	{
 		int=\$(echo "\$i/\$entropy0" | bc -l)
-		if (( \$(echo "\$int" > 1"|bc -l) ));then
+		if (( \$(echo "\$int > 1"|bc -l) ));then
 			tmp=\$(echo "\${int}/100" | bc -l)
 			int=\$tmp
 		fi
