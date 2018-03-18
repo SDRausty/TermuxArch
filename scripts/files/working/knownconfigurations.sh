@@ -16,9 +16,7 @@ cmirror="http://mirror.archlinuxarm.org/"
 #dmverbose="-q"
 #dmverbose="-v"
 # PRoot 
-export keo=1
-echo $keo
-echo keo
+export koe=1
 
 aarch64 ()
 {
@@ -72,7 +70,6 @@ prs ()
 {
 prootstmnt="exec proot"
 echo koe
-export keo=1
 echo $koe
 if ! $koe; then
 	prootstmnt+=" --kill-on-exit"
