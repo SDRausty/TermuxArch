@@ -15,6 +15,8 @@ cmirror="http://mirror.archlinuxarm.org/"
 #dm=wget
 #dmverbose="-q"
 #dmverbose="-v"
+# PRoot 
+keo=1
 
 aarch64 ()
 {
@@ -63,3 +65,32 @@ x86_64 ()
 	path=/archlinux/iso/latest/
 	makesystem 
 }
+
+fun ()
+{
+echo "$prootstmnt "
+prs ret
+}
+
+prs ()
+{
+prootstmnt="exec proot"
+echo koe
+echo $koe
+if ! $koe; then
+	prootstmnt+=" --kill-on-exit"
+fi
+if ! $kid; then
+echo kid
+echo $kid
+	prootstmnt+=" --kernel-release=4.14.15"
+fi
+prootstmnt+=" --link2symlink -0 -r $installdir -b $ANDROID_DATA -b /dev/ -b $EXTERNAL_STORAGE -b /sys/ -b /proc/ -b /storage/ -b $HOME -w $HOME /bin/env -i HOME=/root TERM=$TERM"
+}
+
+fun ret 
+#prs ret 
+echo "$prootstmnt "
+echo "prootstimnt "
+sleep 8
+#$prootstmnt
