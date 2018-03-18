@@ -18,6 +18,7 @@ cmirror="http://mirror.archlinuxarm.org/"
 # PRoot 
 export keo=1
 echo $keo
+echo keo
 
 aarch64 ()
 {
