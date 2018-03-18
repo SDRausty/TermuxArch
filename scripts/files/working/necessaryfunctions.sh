@@ -39,10 +39,13 @@ detectsystem ()
 {
 	printdetectedsystem
 	if [ $(getprop ro.product.cpu.abi) = armeabi ];then
+		declare -g proc=armv5
 		armv5l
 	elif [ $(getprop ro.product.cpu.abi) = armeabi-v7a ];then
+		declare -g proc=armv7
 		detectsystem2 
 	elif [ $(getprop ro.product.cpu.abi) = arm64-v8a ];then
+		declare -g proc=aarch64
 		aarch64
 	elif [ $(getprop ro.product.cpu.abi) = x86 ];then
 		declare -g proc=x86
