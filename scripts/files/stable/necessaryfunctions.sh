@@ -39,14 +39,19 @@ detectsystem ()
 {
 	printdetectedsystem
 	if [ $(getprop ro.product.cpu.abi) = armeabi ];then
+		declare -g proc=armv5
 		armv5l
 	elif [ $(getprop ro.product.cpu.abi) = armeabi-v7a ];then
+		declare -g proc=armv7
 		detectsystem2 
 	elif [ $(getprop ro.product.cpu.abi) = arm64-v8a ];then
+		declare -g proc=aarch64
 		aarch64
 	elif [ $(getprop ro.product.cpu.abi) = x86 ];then
+		declare -g proc=x86
 		i686 
 	elif [ $(getprop ro.product.cpu.abi) = x86_64 ];then
+		declare -g proc=x86_64
 		x86_64
 	else
 		printmismatch 
@@ -128,8 +133,8 @@ makebin ()
 
 makefinishsetup ()
 {
-	binfs=finishsetup.sh  
-	cat > root/bin/$binfs <<- EOM
+	binfnstp=finishsetup.sh  
+	cat > root/bin/$binfnstp <<- EOM
 	#!/bin/bash -e
 	# Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
 	# Hosting https://sdrausty.github.io/TermuxArch courtesy https://pages.github.com
@@ -138,30 +143,31 @@ makefinishsetup ()
 	################################################################################
 	EOM
 	if [ -e $HOME/.bash_profile ]; then
-		grep "proxy" $HOME/.bash_profile | grep "export" >>  root/bin/$binfs 2>/dev/null ||:
+		grep "proxy" $HOME/.bash_profile | grep "export" >>  root/bin/$binfnstp 2>/dev/null ||:
 	fi
 	if [ -e $HOME/.bashrc ]; then
-		grep "proxy" $HOME/.bashrc  | grep "export" >>  root/bin/$binfs 2>/dev/null ||:
+		grep "proxy" $HOME/.bashrc  | grep "export" >>  root/bin/$binfnstp 2>/dev/null ||:
 	fi
 	if [ -e $HOME/.profile ]; then
-		grep "proxy" $HOME/.profile | grep "export" >>  root/bin/$binfs 2>/dev/null ||:
+		grep "proxy" $HOME/.profile | grep "export" >>  root/bin/$binfnstp 2>/dev/null ||:
 	fi
-	cat >> root/bin/$binfs <<- EOM
+	cat >> root/bin/$binfnstp <<- EOM
+	proc=$proc
 	n=2
 	t=420
 	# This for loop generates entropy for \$t seconds.
-	for i in $(seq 1 $n); do
+	for i in \$(seq 1 \$n); do
 		\$(nice -n 20 find / -type f -exec cat {} \\; >/dev/null 2>/dev/null & sleep \$t ; kill \$! 2>/dev/null) &
 		\$(nice -n 20 ls -alR / >/dev/null 2>/dev/null & sleep \$t ; kill \$! 2>/dev/null) &
 		\$(nice -n 20 find / >/dev/null 2>/dev/null & sleep \$t ; kill \$! 2>/dev/null) &
 		\$(nice -n 20 cat /dev/urandom >/dev/null & sleep \$t ; kill \$! 2>/dev/null) &
 	done
-	if [ $(getprop ro.product.cpu.abi) = x86 ] || [ $(getprop ro.product.cpu.abi) = x86_64 ];then
-	if [ $(getprop ro.product.cpu.abi) = x86 ];then
-		pacman -Syu sed archlinux32-keyring-transition --noconfirm --color always ||: 
-	else
-		pacman -Syu sed archlinux-keyring --noconfirm --color always ||: 
-	fi
+	if [ "\$proc" = "x86" ] || [ "\$proc" = "x86_64" ]; then
+		if [ "\$proc" = "x86" ]; then
+			pacman -Syu sed archlinux32-keyring-transition --noconfirm --color always ||: 
+		else
+			pacman -Syu sed archlinux-keyring --noconfirm --color always ||: 
+		fi
 	else
 		pacman -Syu archlinux-keyring --noconfirm --color always ||: 
 	fi
@@ -169,7 +175,7 @@ makefinishsetup ()
 	mv /usr/lib/gnupg/scdaemon{,_} 2>/dev/null ||: 
 	rm -rf /etc/pacman.d/gnupg ||: 
 	# This for loop generates entropy for \$t seconds.
-	for i in $(seq 1 $n); do
+	for i in \$(seq 1 \$n); do
 		\$(nice -n 20 find / -type f -exec cat {} \\; >/dev/null 2>/dev/null & sleep \$t ; kill \$! 2>/dev/null) &
 		\$(nice -n 20 ls -alR / >/dev/null 2>/dev/null & sleep \$t ; kill \$! 2>/dev/null) &
 		\$(nice -n 20 find / >/dev/null 2>/dev/null & sleep \$t ; kill \$! 2>/dev/null) &
@@ -202,11 +208,11 @@ makesetupbin ()
 	EOM
 	if [[ "$kid" -eq 1 ]]; then
 		cat >> root/bin/setupbin.sh <<- EOM
-		exec proot \$prootops --kernel-release=4.14.15 --link2symlink -0 -r $installdir/ -b /dev/ -b /sys/ -b /proc/ -b /storage/ -b $HOME -w $HOME /bin/env -i HOME=/root TERM="$TERM" $installdir/root/bin/finishsetup.sh  
+		exec proot --kill-on-exit --kernel-release=4.14.15 --link2symlink -0 -r $installdir/ -b /dev/ -b /sys/ -b /proc/ -b /storage/ -b $HOME -w $HOME /bin/env -i HOME=/root TERM="$TERM" $installdir/root/bin/finishsetup.sh ||: 
 		EOM
 	else
 		cat >> root/bin/setupbin.sh <<- EOM
-		exec proot \$prootops --link2symlink -0 -r $installdir/ -b /dev/ -b /sys/ -b /proc/ -b /storage/ -b $HOME -w $HOME /bin/env -i HOME=/root TERM="$TERM" $installdir/root/bin/finishsetup.sh 
+		exec proot --kill-on-exit --link2symlink -0 -r $installdir/ -b /dev/ -b /sys/ -b /proc/ -b /storage/ -b $HOME -w $HOME /bin/env -i HOME=/root TERM="$TERM" $installdir/root/bin/finishsetup.sh  ||: 
 		EOM
 	fi
 	chmod 700 root/bin/setupbin.sh
@@ -345,7 +351,7 @@ runfinishsetup ()
 	fi
 	done
 	printf "\n"
-	$installdir/root/bin/setupbin.sh 
+	$installdir/root/bin/setupbin.sh ||: 
 }
 
 runfinishsetupq ()
@@ -408,6 +414,7 @@ touchupsys ()
 	addresolvconf 
 	addt 
 	addtour
+	addtrim 
 	addyt
 	addwe  
 	addv 
@@ -415,7 +422,7 @@ touchupsys ()
 	setlocaleconf 
 	makefinishsetup
 	makesetupbin 
-	runfinishsetup 
+	runfinishsetup ||: 
 	rm root/bin/finishsetup.sh
 	rm root/bin/setupbin.sh 
 }
