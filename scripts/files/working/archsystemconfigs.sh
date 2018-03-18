@@ -385,7 +385,7 @@ addtour ()
 
 addtrim ()
 {
-	:#trim system mv /boot /usr/
+	: #trim system mv /boot /usr/
 }
 
 addv ()
