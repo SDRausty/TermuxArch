@@ -75,7 +75,6 @@ refreshsys ()
 	else
 		cd $installdir
 	fi
-	makestartbin 
 	addae
 	addauser
 	addauserps
@@ -99,13 +98,15 @@ refreshsys ()
 	addyt 
 	addwe  
 	addv 
-	setlocalegen
 	makefinishsetup
 	makesetupbin 
+	makestartbin 
+	setlocalegen
 	printf "\n" 
 	printwla 
 	termux-wake-lock 
 	printdone 
+	printf '\033]2; `bash setupTermuxArch.sh refresh` 🏁 \007'
 	$installdir/root/bin/setupbin.sh 
 	printconfigq
 	rm root/bin/finishsetup.sh
