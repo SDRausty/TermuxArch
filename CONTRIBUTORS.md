@@ -30,6 +30,8 @@
 
 [cherryleafroad](https://github.com/cherryleafroad) opened and discussed issue [Ability for Scripts to Launch Commands for Arch Linux in Termux PRoot on Device #54](https://github.com/sdrausty/TermuxArch/issues/54) Result: TermuxArch improved, option `setupTermuxArch.sh refresh` added, user login and command options introduced to `startarch`!  Opened and presented issue [Hush motd on login when using -c command #58](https://github.com/sdrausty/TermuxArch/issues/58) Result: TermuxArch improved!
 
+[David xu](https://github.com/xqdoo00o) contributed [Shared: NO such file or directory! #61](https://github.com/sdrausty/TermuxArch/issues/61).  Result: TermuxArch improved!
+
 [developer787](https://github.com/developer787) submitted an issue.  Result: TermuxArch improved! 
 
 [EsdrasTarsis](https://github.com/EsdrasTarsis) contributed insightful comments regarding `pacman-key` https://github.com/sdrausty/TermuxArch/issues/28 Result: TermuxArch improved!
@@ -66,7 +68,7 @@ jlam: contributed `getprop ro.product.device` Chromebook detection, `getprop ro.
 
 [staymetal](https://github.com/staymetal) contributed: debugging wget v1.19.3 errors Result: TermuxArch improved!
 
-[tomty89](https://github.com/tomty89) commented on issue [No such file or directory when setting Arch Linux up in Termux PRoot #37](https://github.com/sdrausty/TermuxArch/issues/37), helped debug this issue, `curl`, `proot bsdtar` statements and other script statements, discussed issue [Ability for Scripts to Launch Commands for Arch Linux in Termux PRoot on Device #54](https://github.com/sdrausty/TermuxArch/issues/54) with many examples.  Results: [https://github.com/sdrausty/dfa](https://github.com/sdrausty/dfa) created, TermuxArch improved: `TermuxArch: FREE SPACE WARNING` added, `bsdtar` depreceated for `busybox tar` trimming install dependencies for all arm architectures.  Suggested `-b \$ANDROID_DATA -b \$EXTERNAL_STORAGE` and other improovements: Result `proot` statements improved.  User login and command options introduced to `startarch`!
+[tomty89](https://github.com/tomty89) commented on issue [No such file or directory when setting Arch Linux up in Termux PRoot #37](https://github.com/sdrausty/TermuxArch/issues/37), helped debug this issue, `curl`, `proot bsdtar` statements and other script statements, discussed issue [Ability for Scripts to Launch Commands for Arch Linux in Termux PRoot on Device #54](https://github.com/sdrausty/TermuxArch/issues/54) with many examples.  Results: [https://github.com/sdrausty/dfa](https://github.com/sdrausty/dfa) created, TermuxArch improved: `TermuxArch: FREE SPACE WARNING` added, `bsdtar` depreceated for `busybox tar` trimming install dependencies for all arm architectures.  Suggested `-b \$ANDROID_DATA -b \$EXTERNAL_STORAGE` and other improovements: Result `proot` statements improved.  User login and command options introduced to `startarch`!  Contibuted solution to [Shared: NO such file or directory! #61](https://github.com/sdrausty/TermuxArch/issues/61).  Result: TermuxArch improved!
 
 [Ublimjo](https://github.com/Ublimjo) submitted issue [#37](https://github.com/sdrausty/TermuxArch/issues/37), No such or file directory when setting Arch Linux up in Termux PRoot and commented.  Result: [https://github.com/sdrausty/dfa](https://github.com/sdrausty/dfa) created and TermuxArch improved!  TermuxArch space warnings added.
 
