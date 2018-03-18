@@ -130,8 +130,8 @@ makebin ()
 
 makefinishsetup ()
 {
-	binfs=finishsetup.sh  
-	cat > root/bin/$binfs <<- EOM
+	binfnstp=finishsetup.sh  
+	cat > root/bin/$binfnstp <<- EOM
 	#!/bin/bash -e
 	# Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
 	# Hosting https://sdrausty.github.io/TermuxArch courtesy https://pages.github.com
@@ -140,15 +140,15 @@ makefinishsetup ()
 	################################################################################
 	EOM
 	if [ -e $HOME/.bash_profile ]; then
-		grep "proxy" $HOME/.bash_profile | grep "export" >>  root/bin/$binfs 2>/dev/null ||:
+		grep "proxy" $HOME/.bash_profile | grep "export" >>  root/bin/$binfnstp 2>/dev/null ||:
 	fi
 	if [ -e $HOME/.bashrc ]; then
-		grep "proxy" $HOME/.bashrc  | grep "export" >>  root/bin/$binfs 2>/dev/null ||:
+		grep "proxy" $HOME/.bashrc  | grep "export" >>  root/bin/$binfnstp 2>/dev/null ||:
 	fi
 	if [ -e $HOME/.profile ]; then
-		grep "proxy" $HOME/.profile | grep "export" >>  root/bin/$binfs 2>/dev/null ||:
+		grep "proxy" $HOME/.profile | grep "export" >>  root/bin/$binfnstp 2>/dev/null ||:
 	fi
-	cat >> root/bin/$binfs <<- EOM
+	cat >> root/bin/$binfnstp <<- EOM
 	proc=$proc
 	n=2
 	t=420
