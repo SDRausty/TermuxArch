@@ -87,4 +87,3 @@ prs ret
 
 echo "$prootstmnt "
 echo "prootstimnt "
-sleep 8
