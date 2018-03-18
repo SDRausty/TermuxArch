@@ -430,7 +430,7 @@ addwe ()
 
 	printtail ()
 	{
-		printf "\n\033[1;32mWatch Entropy from TermuxArch 📲 \n\n"'\033]2; Watch Entropy courtesy TermuxArch 📲  \007'
+		printf "\n\n\033[1;32mWatch Entropy from TermuxArch 🏁 \n\n"'\033]2; Watch Entropy courtesy TermuxArch 🏁 \007'
 	}
 
 	printusage ()
