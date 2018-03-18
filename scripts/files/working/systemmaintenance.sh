@@ -101,11 +101,11 @@ refreshsys ()
 	addv 
 	echo echo0
 	makefinishsetup
+	echo echo0
 	makesetupbin 
 	echo echo0
 	makestartbin 
 	setlocalegen
-	echo echo0
 	printf "\n" 
 	printwla 
 	termux-wake-lock 
