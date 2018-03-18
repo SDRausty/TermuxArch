@@ -16,7 +16,8 @@ cmirror="http://mirror.archlinuxarm.org/"
 #dmverbose="-q"
 #dmverbose="-v"
 # PRoot 
-export koe=1
+kid=1
+koe=1
 
 aarch64 ()
 {
