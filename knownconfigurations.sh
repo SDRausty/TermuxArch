@@ -15,7 +15,6 @@ cmirror="http://mirror.archlinuxarm.org/"
 #dm=wget
 #dmverbose="-q"
 #dmverbose="-v"
-kid=1
 koe=1
 
 aarch64 ()
