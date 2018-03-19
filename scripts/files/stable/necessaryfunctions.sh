@@ -152,8 +152,6 @@ makefinishsetup ()
 		grep "proxy" $HOME/.profile | grep "export" >>  root/bin/$binfnstp 2>/dev/null ||:
 	fi
 	cat >> root/bin/$binfnstp <<- EOM
-	proc=$proc
-	echo $proc
 	n=2
 	t=256
 	# This for loop generates entropy for \$t seconds.

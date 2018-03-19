@@ -65,6 +65,8 @@ x86_64 ()
 	makesystem 
 }
 
+# See `info proot` and `man proot` for more information about what you can configure in this proot statement.  If you find a more suitable confirmation, share it https://github.com/sdrausty/TermuxArch/issues
+
 prs ()
 {
 prootstmnt="exec proot"
