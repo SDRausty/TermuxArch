@@ -360,6 +360,7 @@ addt ()
 
 add${startbin}testharness ()
 {
+	echo add${startbin}testharness ()
 	cat > root/bin/${startbin}testharness <<- EOM
 	#!/bin/bash -e
 	# Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
