@@ -112,7 +112,7 @@ refreshsys ()
 	rm root/bin/finishsetup.sh
 	rm root/bin/setupbin.sh 
 	printf "\033[1;34m  The following files have been updated to the newest version.\n\n\033[0;32m"
-	ls $installdir/$bin |cut -f7- -d /
+	ls $installdir/$startbin |cut -f7- -d /
 	ls $installdir/bin/ce |cut -f7- -d /
 	ls $installdir/bin/we |cut -f7- -d /
 	ls $installdir/root/bin/* |cut -f7- -d /
@@ -121,8 +121,8 @@ refreshsys ()
 	termux-wake-unlock
 	printdone 
 	printfooter 
-	$installdir/$bin 
+	$installdir/$startbin ||:
 	printfooter2
-	printf "\n\033[0;32msetupTermuxArch.sh refresh \033[0m$versionid: \033[0;32mDONE 🏁  \n\n\033[0m"'\033]2; setupTermuxArch.sh refresh 🏁 \007'
+	printf "\033[0;32msetupTermuxArch.sh refresh \033[0m$versionid: \033[0;32mDONE 🏁  \n\n\033[0m"'\033]2; setupTermuxArch.sh refresh 🏁 \007'
 	exit
 }
