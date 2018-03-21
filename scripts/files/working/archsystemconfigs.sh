@@ -358,14 +358,10 @@ addt ()
 	chmod 770 root/bin/t 
 }
 
-	echo add${startbin}testharness 
-#	addth=echo add${startbin}testharness 
-	echo $addth
-#addstartbintestharness ()
 addstartarchtestharness ()
 {
-	echo $addth
-	echo add${startbin}testharness 
+	echo $addth archsystemconfigs.sh
+	echo add${startbin}testharness archsystemconfigs.sh
 	cat > root/bin/${startbin}testharness <<- EOM
 	#!/bin/bash -e
 	# Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
