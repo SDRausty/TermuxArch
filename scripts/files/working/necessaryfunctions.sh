@@ -236,7 +236,6 @@ makestartbin ()
 	echo "$prootstmnt /bin/su - "\${@:2}" -c "\${@:3}"" >> $startbin
 	cat >> $startbin <<- EOM
 	rm $installdir/root/.chushlogin
-	else
 	# [] Default Arch Linux in Termux PRoot root login.
 	elif [[ \$1 = "" ]];then
 	EOM
