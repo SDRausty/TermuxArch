@@ -380,12 +380,12 @@ namestartarch ()
 	#declare -g darch=$(echo ${rootdir%/}|awk '{print substr($1,2); }')
 	if [[ "$darch" = "/arch" ]];then
 		aarch=""
-		startbin2=arch
+		startbi2=arch
 	else
 		aarch=$(echo $darch |sed 's/\//\+/g')
-		startbin2=arch
+		startbi2=arch
 	fi
-	bin=start$startbin2$aarch
+	startbin=start$startbi2$aarch
 }
 
 opt2 ()
@@ -450,15 +450,15 @@ rmarch ()
 			break
 		elif [[ $ruanswer = [Yy]* ]] || [[ $ruanswer = "" ]];then
 			printf "\033[30mUninstalling $installdir…\n"
-			if [ -e $PREFIX/bin/$bin ];then
-				rm $PREFIX/bin/$bin 
+			if [ -e $PREFIX/bin/$startbin ];then
+				rm $PREFIX/bin/$startbin 
 			else 
-				printf "Uninstalling $PREFIX/bin/$bin: nothing to do for $PREFIX/bin/$bin.\n"
+				printf "Uninstalling $PREFIX/bin/$startbin: nothing to do for $PREFIX/bin/$startbin.\n"
 			fi
-			if [ -e $HOME/bin/$bin ];then
-				rm $HOME/bin/$bin 
+			if [ -e $HOME/bin/$startbin ];then
+				rm $HOME/bin/$startbin 
 			else 
-				printf "Uninstalling $HOME/bin/$bin: nothing to do for $HOME/bin/$bin.\n"
+				printf "Uninstalling $HOME/bin/$startbin: nothing to do for $HOME/bin/$startbin.\n"
 			fi
 			if [ -d $installdir ];then
 				rmarchrm 
@@ -683,11 +683,11 @@ nameinstalldir
 # User configurable variables such as mirrors and download manager options are in `setupTermuxArchConfigs.sh`.  Creating this file from `kownconfigurations.sh` in the working directory is simple, use `setupTermuxArch.sh manual` to create, edit and run `setupTermuxArchConfigs.sh`; `setupTermuxArch.sh help` has more information.  All options can be abbreviated to the first letter(s). 
 
 declare -g args=$@
-#dfl=/gen
+dfl=/gen
 dmverbose="-q"
 #dmverbose="-v"
 stime=`date +%s|grep -o '....$'`
-versionid="v1.4"
+versionid="gen.v1.4 id395896478"
 
 # [curl debug|curl sysinfo] Get device system information using `curl`.
 if [[ $1 = [Cc][Dd]* ]] || [[ $1 = -[Cc][Dd]* ]] || [[ $1 = --[Cc][Dd]* ]] || [[ $1 = [Cc][Ss]* ]] || [[ $1 = -[Cc][Ss]* ]] || [[ $1 = --[Cc][Ss]* ]];then

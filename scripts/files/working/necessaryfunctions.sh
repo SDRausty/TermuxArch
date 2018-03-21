@@ -12,7 +12,7 @@ callsystem ()
 	detectsystem ret 
 }
 
-copybin2path ()
+copystartbin2path ()
 {
 	if [[ ":$PATH:" == *":$HOME/bin:"* ]] && [ -d $HOME/bin ]; then
 		BPATH=$HOME/bin
@@ -20,11 +20,11 @@ copybin2path ()
 		BPATH=$PREFIX/bin
 	fi
 	while true; do
-	printf "\033[0;34m 🕛 > 🕚 \033[0mCopy \033[1m$bin\033[0m to \033[1m$BPATH\033[0m?  "'\033]2; 🕛 > 🕚 Copy to $PATH [Y|n]?\007'
+	printf "\033[0;34m 🕛 > 🕚 \033[0mCopy \033[1m$startbin\033[0m to \033[1m$BPATH\033[0m?  "'\033]2; 🕛 > 🕚 Copy to $PATH [Y|n]?\007'
 	read -p "Answer yes or no [Y|n] " answer
 	if [[ $answer = [Yy]* ]] || [[ $answer = "" ]];then
-		cp $installdir/$bin $BPATH
-		printf "\n\033[0;34m 🕛 > 🕦 \033[0mCopied \033[1m$bin\033[0m to \033[1m$BPATH\033[0m.\n\n"
+		cp $installdir/$startbin $BPATH
+		printf "\n\033[0;34m 🕛 > 🕦 \033[0mCopied \033[1m$startbin\033[0m to \033[1m$BPATH\033[0m.\n\n"
 		break
 	elif [[ $answer = [Nn]* ]] || [[ $answer = [Qq]* ]];then
 		printf "\n"
@@ -120,15 +120,8 @@ mainblock ()
 	termux-wake-unlock
 	printdone 
 	printfooter
-	$installdir/$bin
+	$installdir/$startbin ||:
 	printfooter2
-}
-
-makebin ()
-{
-	makestartbin 
-	printconfigq 
-	touchupsys 
 }
 
 makefinishsetup ()
@@ -211,7 +204,7 @@ makesetupbin ()
 
 makestartbin ()
 {
-	cat > $bin <<- EOM
+	cat > $startbin <<- EOM
 	#!$PREFIX/bin/bash -e
 	# Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
 	# Hosting https://sdrausty.github.io/TermuxArch courtesy https://pages.github.com
@@ -219,29 +212,41 @@ makestartbin ()
 	# https://sdrausty.github.io/TermuxArch/README has information about this project. 
 	################################################################################
 	unset LD_PRELOAD
-	EOM
 	# [command args] Execute a command in BASH as root.
 	if [[ \$1 = [Cc]* ]] || [[ \$1 = -[Cc]* ]] || [[ \$1 = --[Cc]* ]];then
 	touch $installdir/root/.chushlogin
-	echo "$prootstmnt /bin/bash -lc "\${@:2}"" >> $bin
+	EOM
+	echo "$prootstmnt /bin/bash -lc "\${@:2}"" >> $startbin
+	cat >> $startbin <<- EOM
 	rm $installdir/root/.chushlogin
 	# [login user command] Login as user and execute command.  Use \`addauser user\` first to create this user and the user home directory.
 	elif [[ \$1 = [Ll]* ]] || [[ \$1 = -[Ll]* ]] || [[ \$1 = --[Ll]* ]] ;then
 	touch $installdir/root/.chushlogin
-	echo "$prootstmnt /bin/su - \$2 -c "\${@:3}"" >> $bin
+	EOM
+	echo "$prootstmnt /bin/su - \$2 -c "\${@:3}"" >> $startbin
+	cat >> $startbin <<- EOM
 	rm $installdir/root/.chushlogin
 	# [raw args] Construct the \`startarch\` proot statement.  For example \`startarch r su - archuser\` will login as user archuser.  Use \`addauser archuser\` first to create this user and the user home directory.
 	elif [[ \$1 = [Rr]* ]] || [[ \$1 = -[Rr]* ]] || [[ \$1 = --[Rr]* ]];then
-	echo "$prootstmnt  /bin/"\${@:2}"" >> $bin
+	EOM
+	echo "$prootstmnt  /bin/"\${@:2}"" >> $startbin
+	cat >> $startbin <<- EOM
+	rm $installdir/root/.chushlogin
 	# [su user|su user -c command] Login as user.  Alternatively, login as user and execute command.  Use \`addauser user\` first to create this user and the user home directory.
 	elif [[ \$1 = [Ss]* ]] || [[ \$1 = -[Ss]* ]] || [[ \$1 = --[Ss]* ]];then
-	echo "$prootstmnt /bin/su - "\${@:2}" -c "\${@:3}"" >> $bin
+	EOM
+	echo "$prootstmnt /bin/su - "\${@:2}" -c "\${@:3}"" >> $startbin
+	cat >> $startbin <<- EOM
+	rm $installdir/root/.chushlogin
 	else
 	# [] Default Arch Linux in Termux PRoot root login.
-	echo "$prootstmnt /bin/bash -l " >> $bin
-	# exec proot --kill-on-exit --kernel-release=4.14.15 --link2symlink -0 -r $installdir -b /dev/ -b \$ANDROID_DATA -b \$EXTERNAL_STORAGE -b /proc/ -w "\$PWD" /bin/env -i HOME=/root TERM=\$TERM /bin/bash -l
+	EOM
+	echo "$prootstmnt /bin/bash -l " >> $startbin
+	cat >> $startbin <<- EOM
+	rm $installdir/root/.chushlogin
 	fi
-	chmod 700 $bin
+	EOM
+	chmod 700 $startbin
 }
 
 makesystem ()
@@ -269,7 +274,9 @@ makesystem ()
 	printcu 
 	rm *.tar.gz *.tar.gz.md5
 	printdone 
-	makebin 
+	makestartbin 
+	printconfigq 
+	touchupsys 
 }
 
 preproot ()
