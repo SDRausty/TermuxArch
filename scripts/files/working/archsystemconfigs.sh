@@ -358,7 +358,8 @@ addt ()
 	chmod 770 root/bin/t 
 }
 
-add${startbin}testharness ()
+	echo add${startbin}testharness 
+add($startbin)testharness ()
 {
 	echo add${startbin}testharness 
 	cat > root/bin/${startbin}testharness <<- EOM
