@@ -295,6 +295,7 @@ edq2 ()
 
 intro ()
 {
+	printf '\033]2;  bash setupTermuxArch.sh 📲 \007'
 #	rmarchq
 	rootdirexception 
 	spaceinfoq
@@ -304,14 +305,14 @@ intro ()
 
 intrbloom ()
 {
-	printf '\033]2;  Thank you for using `bash setupTermuxArch.sh bloom` 📲 \007'
+	printf '\033]2;  bash setupTermuxArch.sh bloom 📲 \007'
 	spaceinfo
 	printf "\n\033[0;34m 🕛 > 🕛 \033[1;34msetupTermuxArch $versionid bloom option.  Run \033[1;32mbash setupTermuxArch.sh help \033[1;34mfor additional information.  Ensure background data is not restricted.  Check the wireless connection if you do not see one o'clock 🕐 below.  "
 }
 
 introdebug ()
 {
-	printf '\033]2;  Thank you for using `bash setupTermuxArch.sh sysinfo` 📲 \007'
+	printf '\033]2;  bash setupTermuxArch.sh sysinfo 📲 \007'
 	spaceinfo
 	printf "\n\033[0;34m 🕛 > 🕛 \033[1;34msetupTermuxArch $versionid will create a system information file.  Ensure background data is not restricted.  Run \033[0;32mbash setupTermuxArch.sh help \033[1;34mfor additional information.  Check the wireless connection if you do not see one o'clock 🕐 below.  "
 	dependsblock 
@@ -319,7 +320,7 @@ introdebug ()
 
 introrefresh ()
 {
-	printf '\033]2;  Thank you for using `bash setupTermuxArch.sh refresh` 📲 \007'
+	printf '\033]2;  bash setupTermuxArch.sh refresh 📲 \007'
 	spaceinfo
 	printf "\n\033[0;34m 🕛 > 🕛 \033[1;34msetupTermuxArch $versionid will refresh your TermuxArch files in \033[0;32m$installdir\033[1;34m.  Ensure background data is not restricted.  Run \033[0;32mbash setupTermuxArch.sh help \033[1;34mfor additional information.  Check the wireless connection if you do not see one o'clock 🕐 below.  "
 	dependsblock 
@@ -687,7 +688,7 @@ dfl=/gen
 dmverbose="-q"
 #dmverbose="-v"
 stime=`date +%s|grep -o '....$'`
-versionid="gen.v1.4 id477637268"
+versionid="gen.v1.4 id791628438"
 
 # [curl debug|curl sysinfo] Get device system information using `curl`.
 if [[ $1 = [Cc][Dd]* ]] || [[ $1 = -[Cc][Dd]* ]] || [[ $1 = --[Cc][Dd]* ]] || [[ $1 = [Cc][Ss]* ]] || [[ $1 = -[Cc][Ss]* ]] || [[ $1 = --[Cc][Ss]* ]];then
