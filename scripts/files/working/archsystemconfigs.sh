@@ -385,7 +385,25 @@ addtour ()
 
 addtrim ()
 {
-	: #trim system mv /boot /usr/
+	cat > root/bin/trim <<- EOM
+	#!/bin/bash -e
+	# Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
+	# Hosting https://sdrausty.github.io/TermuxArch courtesy https://pages.github.com
+	# https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.  
+	# Contributed by @cswl 
+	# https://sdrausty.github.io/TermuxArch/README has information about this project. 
+	################################################################################
+	du -hs /
+	rm -rf /boot/
+	du -hs /
+	rm -rf /usr/lib/firmware
+	du -hs /
+	rm -rf /usr/lib/modules
+du -hs /
+	pacman -Scc --noconfirm --color=always
+	du -hs /
+	EOM
+	chmod 770 root/bin/trim 
 }
 
 addv ()
