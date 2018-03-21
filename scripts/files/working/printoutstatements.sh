@@ -100,7 +100,7 @@ printfooter ()
 
 printfooter2 ()
 {
-	printf "\n\033[1;34mArch Linux in Termux PRoot is installed in $installdir.  This project is in active development and contributions are welcome; See https://sdrausty.github.io/TermuxArch/CONTRIBUTORS for information.  The documentation repository for TermuxArch https://sdrausty.github.io/TermuxArch/docs/ is a Termux Arch submodule that is located at https://github.com/sdrausty/docsTermuxArch.  Pull requests and contributions through the issues pages are open to improve the ux and this Termux PRoot installation script.\n\nUse \033[1;32m~$printrootdir/$startbin \033[1;34mor \033[1;32m$startbin \033[1;34mif copied to your \$PATH in a BASH shell to launch Arch Linux in Termux PRoot for future sessions.\n\n\033[0m"
+	printf "\n\033[1;34mArch Linux in Termux PRoot is installed in $installdir.  This project is in active development and contributions are welcome; See https://sdrausty.github.io/TermuxArch/CONTRIBUTORS for information.  The documentation repository for TermuxArch https://sdrausty.github.io/TermuxArch/docs/ is a Termux Arch submodule that is located at https://github.com/sdrausty/docsTermuxArch.  Pull requests and contributions through the issues pages are open to improve the ux and this Termux PRoot installation script.\n\nUse \033[1;32m~$printrootdir/$startbin \033[1;34mor \033[1;32m$startbin \033[1;34mif copied to your \$PATH in a BASH shell to launch Arch Linux in Termux PRoot for future sessions.\n\033[0m"
 }
 
 printrootdirfunction ()

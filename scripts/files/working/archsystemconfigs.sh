@@ -435,7 +435,7 @@ addwe ()
 
 	printusage ()
 	{
-		printf "\n\033[0;32mUsage: \033[1;32mwe \033[0;32m Watch Entropy simple.\n\n	\033[1;32mwe sequential\033[0;32m Watch Entropy sequential.\n\n	\033[1;32mwe simple\033[0;32m Watch Entropy simple.\n\n	\033[1;32mwe verbose\033[0;32m Watch Entropy verbose.\n\n"'\033]2; Watch Entropy courtesy TermuxArch 📲  \007'
+		printf "\n\033[0;32mUsage:  \033[1;32mwe \033[0;32m Watch Entropy simple.\n\n	\033[1;32mwe sequential\033[0;32m Watch Entropy sequential.\n\n	\033[1;32mwe simple\033[0;32m Watch Entropy simple.\n\n	\033[1;32mwe verbose\033[0;32m Watch Entropy verbose.\n\n"'\033]2; Watch Entropy courtesy TermuxArch 📲  \007'
 	}
 
 	infif ()
@@ -515,6 +515,7 @@ addwe ()
 		esleep 
 		sleep \$int
 		printf %b "&&π™♪&#\033[1;32m\$i\033[0;32mof\033[1;32m\$en0\033[0;32m#|♪FLT" 
+		printf "\033[0;32m\$i \033[1;30m\$en0 "
 		esleep 
 		sleep \$int
 		printf %b "\$int♪||e"
