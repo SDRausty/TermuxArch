@@ -219,31 +219,29 @@ makestartbin ()
 	echo "$prootstmnt /bin/bash -lc "\${@:2}"" >> $startbin
 	cat >> $startbin <<- EOM
 	rm $installdir/root/.chushlogin
-	# [login user command] Login as user and execute command.  Use \`addauser user\` first to create this user and the user home directory.
+	# [su user|su user -c command] Login as user.  Use \`addauser user\` first to create this user and the user's home directory.
 	elif [[ \$1 = [Ll]* ]] || [[ \$1 = -[Ll]* ]] || [[ \$1 = --[Ll]* ]] ;then
-	touch $installdir/root/.chushlogin
 	EOM
 	echo "$prootstmnt /bin/su - \$2 -c "\${@:3}"" >> $startbin
 	cat >> $startbin <<- EOM
-	rm $installdir/root/.chushlogin
 	# [raw args] Construct the \`startarch\` proot statement.  For example \`startarch r su - archuser\` will login as user archuser.  Use \`addauser archuser\` first to create this user and the user home directory.
 	elif [[ \$1 = [Rr]* ]] || [[ \$1 = -[Rr]* ]] || [[ \$1 = --[Rr]* ]];then
 	EOM
 	echo "$prootstmnt  /bin/"\${@:2}"" >> $startbin
 	cat >> $startbin <<- EOM
-	rm $installdir/root/.chushlogin
-	# [su user|su user -c command] Login as user.  Alternatively, login as user and execute command.  Use \`addauser user\` first to create this user and the user home directory.
+	# [su user|su user -c command] Login as user and execute command.  Use \`addauser user\` first to create this user and the user's home directory.
 	elif [[ \$1 = [Ss]* ]] || [[ \$1 = -[Ss]* ]] || [[ \$1 = --[Ss]* ]];then
+	touch $installdir/root/.chushlogin
 	EOM
 	echo "$prootstmnt /bin/su - "\${@:2}" -c "\${@:3}"" >> $startbin
 	cat >> $startbin <<- EOM
 	rm $installdir/root/.chushlogin
 	else
 	# [] Default Arch Linux in Termux PRoot root login.
+	elif [[ \$1 = "" ]];then
 	EOM
 	echo "$prootstmnt /bin/bash -l " >> $startbin
 	cat >> $startbin <<- EOM
-	rm $installdir/root/.chushlogin
 	fi
 	EOM
 	chmod 700 $startbin

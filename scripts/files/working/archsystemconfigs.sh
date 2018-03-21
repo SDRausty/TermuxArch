@@ -526,12 +526,10 @@ addwe ()
 	# [we sequential] Run sequential watch entropy.
 	if [[ \$1 = [Ss][Ee]* ]] || [[ \$1 = -[Ss][Ee]* ]] || [[ \$1 = --[Ss][Ee]* ]];then
 		printintro 
-		bcif
 		entropysequential 
 	# [we simple] Run simple watch entropy.
 	elif [[ \$1 = [Ss]* ]] || [[ \$1 = -[Ss]* ]] || [[ \$1 = --[Ss]* ]];then
 		printintro 
-		bcif
 		entropysimple 
 	# [we verbose] Run verbose watch entropy.
 	elif [[ \$1 = [Vv]* ]] || [[ \$1 = -[Vv]* ]] || [[ \$1 = --[Vv]* ]];then
@@ -541,7 +539,6 @@ addwe ()
 	# [] Run default watch entropy.
 	elif [[ \$1 = "" ]];then
 		printintro 
-		bcif
 		entropysimple 
 	else
 		printusage
