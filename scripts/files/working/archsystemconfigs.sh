@@ -465,7 +465,7 @@ addwe ()
 	1sleep ()
 	{
 		sleep 0.1
-	{
+	}
 	
 	bcif ()
 	{
@@ -493,7 +493,7 @@ addwe ()
 		entropy0=\$(cat /proc/sys/kernel/random/entropy_avail 2>/dev/null) 
 		infif 
 		printf %b "\033[1;32m\${entropy0} \033[0;32m\$i \033[1;30m\$en0 "
-		tsleep 
+		1sleep 
 	done
 	}
 
@@ -503,7 +503,7 @@ addwe ()
 		entropy0=\$(cat /proc/sys/kernel/random/entropy_avail 2>/dev/null) 
 		infif 
 		printf %b "\033[1;32m\${entropy0} " 
-		tsleep 
+		1sleep 
 	done
 	}
 
