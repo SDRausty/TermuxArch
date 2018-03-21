@@ -459,8 +459,8 @@ addwe ()
 
 	infif ()
 	{
-		if [[ \$entropy0 = "inf" ]] || [[ \$entropy0 = "inf" ]];then
-			entropy0=1
+		if [[ \$entropy0 = "inf" ]] || [[ \$entropy0 = "" ]] || [[ \$entropy0 = "0" ]];then
+			entropy0=1000
 			printf "\033[1;32m∞^∞infifinfif2minfifinfifinfifinfif∞=1\033[0;32minfifinfifinfifinfif\033[0;32m∞==0infifinfifinfifinfif\033[0;32minfifinfifinfif∞"
 		fi
 	}
