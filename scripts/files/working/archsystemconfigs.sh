@@ -360,9 +360,11 @@ addt ()
 
 	echo add${startbin}testharness 
 	addth=echo add${startbin}testharness 
+	echo $addth
 #addstartbintestharness ()
 $addth ()
 {
+	echo $addth
 	echo add${startbin}testharness 
 	cat > root/bin/${startbin}testharness <<- EOM
 	#!/bin/bash -e
