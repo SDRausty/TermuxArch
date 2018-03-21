@@ -401,6 +401,7 @@ addtrim ()
 	rm -rf /usr/lib/modules
 	echo [4/4] pacman -Scc --noconfirm --color=always
 	pacman -Scc --noconfirm --color=always
+	echo trim:done
 	EOM
 	chmod 770 root/bin/trim 
 }
