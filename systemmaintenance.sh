@@ -92,8 +92,6 @@ refreshsys ()
 	addmotd
 	addprofile 
 	addresolvconf 
-	#add${startbin}testharness 
-	echo add${startbin}testharness systemmaintenance.sh
 	addstartarchtestharness 
 	addt 
 	addtour
