@@ -393,15 +393,10 @@ addtrim ()
 	# Contributed by @cswl 
 	# https://sdrausty.github.io/TermuxArch/README has information about this project. 
 	################################################################################
-	du -hs /
 	rm -rf /boot/
-	du -hs /
 	rm -rf /usr/lib/firmware
-	du -hs /
 	rm -rf /usr/lib/modules
-du -hs /
 	pacman -Scc --noconfirm --color=always
-	du -hs /
 	EOM
 	chmod 770 root/bin/trim 
 }
