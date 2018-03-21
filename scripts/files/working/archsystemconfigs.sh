@@ -534,7 +534,7 @@ addwe ()
 	for i in \$(seq 1 \$en0); do
 		entropy0=\$(cat /proc/sys/kernel/random/entropy_avail 2>/dev/null) 
 		infif 
-		printf "\033[1;30m \$en0 \033[0;32m\$i \033[1;32m\${entropy0}#E&&√♪"
+		printf "\033[1;30m \$en0 \033[0;32m\$i \033[1;32m\${entropy0} #E&&√♪"
 		esleep 
 		sleep \$int
 		entropy1=\$(cat /proc/sys/kernel/random/uuid 2>/dev/null) 
