@@ -362,7 +362,7 @@ addt ()
 	addth=echo add${startbin}testharness 
 	echo $addth
 #addstartbintestharness ()
-$addth ()
+addstartarchtestharness ()
 {
 	echo $addth
 	echo add${startbin}testharness 
