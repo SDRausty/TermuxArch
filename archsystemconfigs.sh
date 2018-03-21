@@ -360,8 +360,6 @@ addt ()
 
 addstartarchtestharness ()
 {
-	echo $addth archsystemconfigs.sh
-	echo add${startbin}testharness archsystemconfigs.sh
 	cat > root/bin/${startbin}testharness <<- EOM
 	#!/bin/bash -e
 	# Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
