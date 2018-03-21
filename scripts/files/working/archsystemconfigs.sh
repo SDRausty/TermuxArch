@@ -359,8 +359,9 @@ addt ()
 }
 
 	echo add${startbin}testharness 
+	addth=echo add${startbin}testharness 
 #addstartbintestharness ()
-$(echo add${startbin}testharness) ()
+$addth ()
 {
 	echo add${startbin}testharness 
 	cat > root/bin/${startbin}testharness <<- EOM
