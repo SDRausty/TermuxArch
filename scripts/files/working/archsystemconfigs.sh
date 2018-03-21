@@ -481,10 +481,10 @@ addwe ()
 	entropysequential ()
 	{
 	for i in \$(seq 1 \$en0); do
-		printf "\033[0;32m\$i \033[1;30m\$en0 "
 		entropy0=\$(cat /proc/sys/kernel/random/entropy_avail 2>/dev/null) 
 		infif 
 		printf %b "\033[1;32m\${entropy0} " 
+		printf "\033[0;32m\$i \033[1;30m\$en0 "
 		esleep 
 		sleep \$int
 	done
