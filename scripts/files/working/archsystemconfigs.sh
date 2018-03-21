@@ -515,7 +515,6 @@ addwe ()
 		esleep 
 		sleep \$int
 		printf %b "&&π™♪&#\033[1;32m\$i\033[0;32mof\033[1;32m\$en0\033[0;32m#|♪FLT" 
-		printf "\033[0;32m\$i \033[1;30m\$en0 "
 		esleep 
 		sleep \$int
 		printf %b "\$int♪||e"
