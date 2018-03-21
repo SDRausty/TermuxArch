@@ -438,7 +438,7 @@ addwe ()
 
 	printintro ()
 	{
-		printf "\n\033[1;32mTermuxArch Watch Entropy is initializing... \n\n"'\033]2; TermuxArch Watch Entropy 📲  \007'
+		printf "\n\033[1;32mTermuxArch Watch Entropy:\n\n"'\033]2; TermuxArch Watch Entropy 📲  \007'
 	}
 
 	printtail ()
