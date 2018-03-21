@@ -435,12 +435,12 @@ addwe ()
 
 	printusage ()
 	{
-		printf "\n\033[0;32mUsage \033[1;32mwe simple\033[0;32m.\n\n"'\033]2; Watch Entropy courtesy TermuxArch 📲  \007'
+		printf "\n\033[0;32mUsage: \033[1;32mwe \033[0;32m Watch Entropy simple.\n\n	\033[1;32mwe sequential\033[0;32m Watch Entropy sequential.\n\n	\033[1;32mwe simple\033[0;32m Watch Entropy simple.\n\n	\033[1;32mwe verbose\033[0;32m Watch Entropy verbose.\n\n"'\033]2; Watch Entropy courtesy TermuxArch 📲  \007'
 	}
 
 	infif ()
 	{
-		if [[ \$entropy0 = "inf" ]];then
+		if [[ \$entropy0 = "inf" ]] || [[ \$entropy0 = "inf" ]];then
 			entropy0=1
 			printf "\033[1;32m∞^∞infifinfif2minfifinfifinfifinfif∞=1\033[0;32minfifinfifinfifinfif\033[0;32m∞==0infifinfifinfifinfif\033[0;32minfifinfifinfif∞"
 		fi
@@ -514,17 +514,22 @@ addwe ()
 		printf %b "\$entropy1" 
 		esleep 
 		sleep \$int
-		printf %b "&&π™♪&#\033[1;32m\${i}\033[0;32mof\033[1;32m\${en0}\033[0;32m#|♪FLT" 
+		printf %b "&&π™♪&#\033[1;32m\$i\033[0;32mof\033[1;32m\$en0\033[0;32m#|♪FLT" 
 		esleep 
 		sleep \$int
-		printf %b "\${int}♪||e"
+		printf %b "\$int♪||e"
 		esleep 
 		sleep \$int
 	done
 	}
 
-	# [we verbose] Run simple watch entropy.
-	if [[ \$1 = [Ss]* ]] || [[ \$1 = -[Ss]* ]] || [[ \$1 = --[Ss]* ]];then
+	# [we sequential] Run sequential watch entropy.
+	if [[ \$1 = [Ss][Ee]* ]] || [[ \$1 = -[Ss][Ee]* ]] || [[ \$1 = --[Ss][Ee]* ]];then
+		printintro 
+		bcif
+		entropysequential 
+	# [we simple] Run simple watch entropy.
+	elif [[ \$1 = [Ss]* ]] || [[ \$1 = -[Ss]* ]] || [[ \$1 = --[Ss]* ]];then
 		printintro 
 		bcif
 		entropysimple 
@@ -537,7 +542,7 @@ addwe ()
 	elif [[ \$1 = "" ]];then
 		printintro 
 		bcif
-		entropyverbose 
+		entropysimple 
 	else
 		printusage
 	fi
