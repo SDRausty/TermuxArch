@@ -295,6 +295,7 @@ edq2 ()
 
 intro ()
 {
+	printf '\033]2;  bash setupTermuxArch.sh 📲 \007'
 #	rmarchq
 	rootdirexception 
 	spaceinfoq
@@ -304,14 +305,14 @@ intro ()
 
 intrbloom ()
 {
-	printf '\033]2;  Thank you for using `bash setupTermuxArch.sh bloom` 📲 \007'
+	printf '\033]2;  bash setupTermuxArch.sh bloom 📲 \007'
 	spaceinfo
 	printf "\n\033[0;34m 🕛 > 🕛 \033[1;34msetupTermuxArch $versionid bloom option.  Run \033[1;32mbash setupTermuxArch.sh help \033[1;34mfor additional information.  Ensure background data is not restricted.  Check the wireless connection if you do not see one o'clock 🕐 below.  "
 }
 
 introdebug ()
 {
-	printf '\033]2;  Thank you for using `bash setupTermuxArch.sh sysinfo` 📲 \007'
+	printf '\033]2;  bash setupTermuxArch.sh sysinfo 📲 \007'
 	spaceinfo
 	printf "\n\033[0;34m 🕛 > 🕛 \033[1;34msetupTermuxArch $versionid will create a system information file.  Ensure background data is not restricted.  Run \033[0;32mbash setupTermuxArch.sh help \033[1;34mfor additional information.  Check the wireless connection if you do not see one o'clock 🕐 below.  "
 	dependsblock 
@@ -319,7 +320,7 @@ introdebug ()
 
 introrefresh ()
 {
-	printf '\033]2;  Thank you for using `bash setupTermuxArch.sh refresh` 📲 \007'
+	printf '\033]2;  bash setupTermuxArch.sh refresh 📲 \007'
 	spaceinfo
 	printf "\n\033[0;34m 🕛 > 🕛 \033[1;34msetupTermuxArch $versionid will refresh your TermuxArch files in \033[0;32m$installdir\033[1;34m.  Ensure background data is not restricted.  Run \033[0;32mbash setupTermuxArch.sh help \033[1;34mfor additional information.  Check the wireless connection if you do not see one o'clock 🕐 below.  "
 	dependsblock 
@@ -380,12 +381,12 @@ namestartarch ()
 	#declare -g darch=$(echo ${rootdir%/}|awk '{print substr($1,2); }')
 	if [[ "$darch" = "/arch" ]];then
 		aarch=""
-		startbin2=arch
+		startbi2=arch
 	else
 		aarch=$(echo $darch |sed 's/\//\+/g')
-		startbin2=arch
+		startbi2=arch
 	fi
-	bin=start$startbin2$aarch
+	startbin=start$startbi2$aarch
 }
 
 opt2 ()
@@ -450,15 +451,15 @@ rmarch ()
 			break
 		elif [[ $ruanswer = [Yy]* ]] || [[ $ruanswer = "" ]];then
 			printf "\033[30mUninstalling $installdir…\n"
-			if [ -e $PREFIX/bin/$bin ];then
-				rm $PREFIX/bin/$bin 
+			if [ -e $PREFIX/bin/$startbin ];then
+				rm $PREFIX/bin/$startbin 
 			else 
-				printf "Uninstalling $PREFIX/bin/$bin: nothing to do for $PREFIX/bin/$bin.\n"
+				printf "Uninstalling $PREFIX/bin/$startbin: nothing to do for $PREFIX/bin/$startbin.\n"
 			fi
-			if [ -e $HOME/bin/$bin ];then
-				rm $HOME/bin/$bin 
+			if [ -e $HOME/bin/$startbin ];then
+				rm $HOME/bin/$startbin 
 			else 
-				printf "Uninstalling $HOME/bin/$bin: nothing to do for $HOME/bin/$bin.\n"
+				printf "Uninstalling $HOME/bin/$startbin: nothing to do for $HOME/bin/$startbin.\n"
 			fi
 			if [ -d $installdir ];then
 				rmarchrm 

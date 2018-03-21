@@ -139,8 +139,9 @@ addbashrc ()
 	alias lr='ls -alR'
 	alias ls='ls --color=always'
 	alias p='pwd'
-	alias pc='pacman --noconfirm --color=always'
-	alias pci='pacman  --noconfirm --color=always -Syu'
+	alias pc='pacman --noconfirm --color=always && trim'
+	alias pci='pacman  --noconfirm --color=always -Syu && trim'
+	alias pcs='pacman  --Ss --color=always'
 	alias q='logout'
 	alias rf='rm -rf'
 	EOM
@@ -385,7 +386,25 @@ addtour ()
 
 addtrim ()
 {
-	: #trim system mv /boot /usr/
+	cat > root/bin/trim <<- EOM
+	#!/bin/bash -e
+	# Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
+	# Hosting https://sdrausty.github.io/TermuxArch courtesy https://pages.github.com
+	# https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.  
+	# Contributed by @cswl 
+	# https://sdrausty.github.io/TermuxArch/README has information about this project. 
+	################################################################################
+	echo [1/4] rm -rf /boot/
+	rm -rf /boot/
+	echo [2/4] rm -rf /usr/lib/firmware
+	rm -rf /usr/lib/firmware
+	echo [3/4] rm -rf /usr/lib/modules
+	rm -rf /usr/lib/modules
+	echo [4/4] pacman -Scc --noconfirm --color=always
+	pacman -Scc --noconfirm --color=always
+	echo trim:done
+	EOM
+	chmod 770 root/bin/trim 
 }
 
 addv ()
@@ -425,7 +444,7 @@ addwe ()
 
 	printintro ()
 	{
-		printf "\n\033[1;32mTermuxArch Watch Entropy is initializing... \n\n"'\033]2; TermuxArch Watch Entropy 📲  \007'
+		printf "\n\033[1;32mTermuxArch Watch Entropy:\n\n"'\033]2; TermuxArch Watch Entropy 📲  \007'
 	}
 
 	printtail ()
@@ -435,12 +454,12 @@ addwe ()
 
 	printusage ()
 	{
-		printf "\n\033[0;32mUsage \033[1;32mwe simple\033[0;32m.\n\n"'\033]2; Watch Entropy courtesy TermuxArch 📲  \007'
+		printf "\n\033[0;32mUsage:  \033[1;32mwe \033[0;32m Watch Entropy simple.\n\n	\033[1;32mwe sequential\033[0;32m Watch Entropy sequential.\n\n	\033[1;32mwe simple\033[0;32m Watch Entropy simple.\n\n	\033[1;32mwe verbose\033[0;32m Watch Entropy verbose.\n\n"'\033]2; Watch Entropy courtesy TermuxArch 📲  \007'
 	}
 
 	infif ()
 	{
-		if [[ \$entropy0 = "inf" ]];then
+		if [[ \$entropy0 = "inf" ]] || [[ \$entropy0 = "inf" ]];then
 			entropy0=1
 			printf "\033[1;32m∞^∞infifinfif2minfifinfifinfifinfif∞=1\033[0;32minfifinfifinfifinfif\033[0;32m∞==0infifinfifinfifinfif\033[0;32minfifinfifinfif∞"
 		fi
@@ -462,47 +481,56 @@ addwe ()
 		done
 	}
 
+	1sleep ()
+	{
+		sleep 0.1
+	}
+	
 	bcif ()
 	{
 		commandif=\$(command -v getprop) ||:
 		if [[ \$commandif = "" ]];then
 			abcif=\$(command -v bc) ||:
 			if [[ \$abcif = "" ]];then
+				printf "\033[1;34mInstalling \033[0;32mbc\033[1;34m…\n\n\033[1;32m"
 				pacman -Syu bc --noconfirm --color=always
+				printf "\n\033[1;34mInstalling \033[0;32mbc\033[1;34m: \033[1;32mDONE\n\033[0m"
 			fi
 		else
 			tbcif=\$(command -v bc) ||:
 			if [[ \$tbcif = "" ]];then
+				printf "\033[1;34mInstalling \033[0;32mbc\033[1;34m…\n\n\033[1;32m"
 				pkg install bc --yes
+				printf "\n\033[1;34mInstalling \033[0;32mbc\033[1;34m: \033[1;32mDONE\n\033[0m"
 			fi
 		fi
 	}
 
 	entropysequential ()
 	{
+	printf "\n\033[1;32mWatch Entropy Sequential:\n\n"'\033]2; Watch Entropy Sequential 📲  \007'
 	for i in \$(seq 1 \$en0); do
-		printf "\033[0;32m\$i \033[1;30m\$en0 "
 		entropy0=\$(cat /proc/sys/kernel/random/entropy_avail 2>/dev/null) 
 		infif 
-		printf %b "\033[1;32m\${entropy0} " 
-		esleep 
-		sleep \$int
+		printf "\033[1;30m \$en0 \033[0;32m\$i \033[1;32m\${entropy0}\n"
+		1sleep 
 	done
 	}
 
 	entropysimple ()
 	{
+	printf "\n\033[1;32mWatch Entropy Simple:\n\n"'\033]2; Watch Entropy Simple 📲  \007'
 	for i in \$(seq 1 \$en0); do
 		entropy0=\$(cat /proc/sys/kernel/random/entropy_avail 2>/dev/null) 
 		infif 
 		printf %b "\033[1;32m\${entropy0} " 
-		esleep 
-		sleep \$int
+		1sleep 
 	done
 	}
 
 	entropyverbose ()
 	{
+	printf "\n\033[1;32mWatch Entropy Verbose:\n\n"'\033]2; Watch Entropy Verbose 📲  \007'
 	for i in \$(seq 1 \$en0); do
 		entropy0=\$(cat /proc/sys/kernel/random/entropy_avail 2>/dev/null) 
 		infif 
@@ -514,19 +542,22 @@ addwe ()
 		printf %b "\$entropy1" 
 		esleep 
 		sleep \$int
-		printf %b "&&π™♪&#\033[1;32m\${i}\033[0;32mof\033[1;32m\${en0}\033[0;32m#|♪FLT" 
+		printf %b "&&π™♪&#\033[1;32m\$i\033[0;32mof\033[1;32m\$en0\033[0;32m#|♪FLT" 
 		esleep 
 		sleep \$int
-		printf %b "\${int}♪||e"
+		printf %b "\$int♪||e"
 		esleep 
 		sleep \$int
 	done
 	}
 
-	# [we verbose] Run simple watch entropy.
-	if [[ \$1 = [Ss]* ]] || [[ \$1 = -[Ss]* ]] || [[ \$1 = --[Ss]* ]];then
+	# [we sequential] Run sequential watch entropy.
+	if [[ \$1 = [Ss][Ee]* ]] || [[ \$1 = -[Ss][Ee]* ]] || [[ \$1 = --[Ss][Ee]* ]];then
 		printintro 
-		bcif
+		entropysequential 
+	# [we simple] Run simple watch entropy.
+	elif [[ \$1 = [Ss]* ]] || [[ \$1 = -[Ss]* ]] || [[ \$1 = --[Ss]* ]];then
+		printintro 
 		entropysimple 
 	# [we verbose] Run verbose watch entropy.
 	elif [[ \$1 = [Vv]* ]] || [[ \$1 = -[Vv]* ]] || [[ \$1 = --[Vv]* ]];then
@@ -536,8 +567,7 @@ addwe ()
 	# [] Run default watch entropy.
 	elif [[ \$1 = "" ]];then
 		printintro 
-		bcif
-		entropyverbose 
+		entropysequential 
 	else
 		printusage
 	fi
