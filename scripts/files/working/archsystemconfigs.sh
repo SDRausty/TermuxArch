@@ -358,6 +358,33 @@ addt ()
 	chmod 770 root/bin/t 
 }
 
+add${startbin}testharness ()
+{
+	cat > root/bin/${startbin}testharness <<- EOM
+addtour ()
+{
+	#!/bin/bash -e
+	# Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
+	# Hosting https://sdrausty.github.io/TermuxArch courtesy https://pages.github.com
+	# https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.  
+	# https://sdrausty.github.io/TermuxArch/README has information about this project. 
+	################################################################################
+	echo $startbin help
+	$startbin help
+	sleep 1
+	echo $startbin command pwd && whoami && addauser user
+	$startbin command pwd && whoami && addauser user
+	sleep 1
+	echo $startbin login pwd && whoami && addauser user
+	$startbin login pwd && whoami && addauser user
+	sleep 1
+	echo $startbin raw pwd && whoami && addauser user
+	$startbin raw pwd && whoami && addauser user
+	echo ${startbin}testharness done
+	EOM
+	chmod 770 root/bin/${startbin}testharness 
+}
+
 addtour ()
 {
 	cat > root/bin/tour <<- EOM

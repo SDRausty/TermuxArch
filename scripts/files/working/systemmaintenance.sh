@@ -92,6 +92,7 @@ refreshsys ()
 	addmotd
 	addprofile 
 	addresolvconf 
+	add${startbin}testharness 
 	addt 
 	addtour
 	addtrim 
