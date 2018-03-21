@@ -492,14 +492,14 @@ addwe ()
 		if [[ \$commandif = "" ]];then
 			abcif=\$(command -v bc) ||:
 			if [[ \$abcif = "" ]];then
-				printf "\n\033[1;34mInstalling \033[0;32mbc\033[1;34m…\n\n\033[1;32m"
+				printf "\033[1;34mInstalling \033[0;32mbc\033[1;34m…\n\n\033[1;32m"
 				pacman -Syu bc --noconfirm --color=always
 				printf "\n\033[1;34mInstalling \033[0;32mbc\033[1;34m: \033[1;32mDONE\n\033[0m"
 			fi
 		else
 			tbcif=\$(command -v bc) ||:
 			if [[ \$tbcif = "" ]];then
-				printf "\n\033[1;34mInstalling \033[0;32mbc\033[1;34m…\n\n\033[1;32m"
+				printf "\033[1;34mInstalling \033[0;32mbc\033[1;34m…\n\n\033[1;32m"
 				pkg install bc --yes
 				printf "\n\033[1;34mInstalling \033[0;32mbc\033[1;34m: \033[1;32mDONE\n\033[0m"
 			fi
@@ -512,7 +512,7 @@ addwe ()
 	for i in \$(seq 1 \$en0); do
 		entropy0=\$(cat /proc/sys/kernel/random/entropy_avail 2>/dev/null) 
 		infif 
-		printf %b "\033[1;30m\$\@ \$\# \$\- \$\$ \$\0 \$\_ \$en0 \033[0;32m\$i \033[1;32m\${entropy0}\n"
+		printf %b "\033[1;30m \$en0 \033[0;32m\$i \033[1;32m\${entropy0}\n"
 		1sleep 
 	done
 	}
