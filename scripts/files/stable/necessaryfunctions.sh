@@ -212,17 +212,25 @@ makestartbin ()
 	# https://sdrausty.github.io/TermuxArch/README has information about this project. 
 	################################################################################
 	unset LD_PRELOAD
+	printusage ()
+	{
+		printf "\n\033[0;32mUsage:  \033[1;32m$startbin \033[0;32mStart Arch Linux as root.  This account should only be reserved for system administration.\n\n	\033[1;32m$startbin command\033[0;32mRun Arch Linux command from Termux as root.\n\n	\033[1;32m$startbin login user \033[0;32mLogin as user [plus options].  Use \033[1;32maddauser user \033[0;32mfirst to create this user and the user's home directory.\n\n	\033[1;32m$startbin raw \033[0;32mConstruct the \033[1;32mstartarch \033[0;32mproot statement.  For example \033[1;32mstartarch r su - archuser \033[0;32mwill login as user archuser.  Use \033[1;32maddauser archuser \033[0;32mfirst to create this user and the user home directory.\n\n	\033[1;32m$startbin su user [-c command] \033[0;32mLogin as user and execute command.  Use \033[1;32maddauser user \033[0;32mfirst to create this user and the user's home directory.\n\n"'\033]2; '$startbin' courtesy TermuxArch 📲  \007'
+	}
+
+	# [?|help] Displays usage information. .
+	if [[ \$1 = [?]* ]] || [[ \$1 = -[?]* ]] || [[ \$1 = --[?]* ]] || [[ \$1 = [Hh]* ]] || [[ \$1 = -[Hh]* ]] || [[ \$1 = --[Hh]* ]];then
+	printusage
 	# [command args] Execute a command in BASH as root.
-	if [[ \$1 = [Cc]* ]] || [[ \$1 = -[Cc]* ]] || [[ \$1 = --[Cc]* ]];then
+	elif [[ \$1 = [Cc]* ]] || [[ \$1 = -[Cc]* ]] || [[ \$1 = --[Cc]* ]];then
 	touch $installdir/root/.chushlogin
 	EOM
 	echo "$prootstmnt /bin/bash -lc "\${@:2}"" >> $startbin
 	cat >> $startbin <<- EOM
 	rm $installdir/root/.chushlogin
-	# [su user|su user -c command] Login as user.  Use \`addauser user\` first to create this user and the user's home directory.
+	# [login user|login user [options]] Login as user [plus options].  Use \`addauser user\` first to create this user and the user's home directory.
 	elif [[ \$1 = [Ll]* ]] || [[ \$1 = -[Ll]* ]] || [[ \$1 = --[Ll]* ]] ;then
 	EOM
-	echo "$prootstmnt /bin/su - \$2 -c "\${@:3}"" >> $startbin
+	echo "$prootstmnt /bin/su - \$2 "\${@:3}"" >> $startbin
 	cat >> $startbin <<- EOM
 	# [raw args] Construct the \`startarch\` proot statement.  For example \`startarch r su - archuser\` will login as user archuser.  Use \`addauser archuser\` first to create this user and the user home directory.
 	elif [[ \$1 = [Rr]* ]] || [[ \$1 = -[Rr]* ]] || [[ \$1 = --[Rr]* ]];then
@@ -241,6 +249,8 @@ makestartbin ()
 	EOM
 	echo "$prootstmnt /bin/bash -l " >> $startbin
 	cat >> $startbin <<- EOM
+	else
+		printusage
 	fi
 	EOM
 	chmod 700 $startbin

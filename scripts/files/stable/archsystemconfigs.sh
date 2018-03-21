@@ -358,6 +358,33 @@ addt ()
 	chmod 770 root/bin/t 
 }
 
+addstartarchtestharness ()
+{
+	echo $addth archsystemconfigs.sh
+	echo add${startbin}testharness archsystemconfigs.sh
+	cat > root/bin/${startbin}testharness <<- EOM
+	#!/bin/bash -e
+	# Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
+	# Hosting https://sdrausty.github.io/TermuxArch courtesy https://pages.github.com
+	# https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.  
+	# https://sdrausty.github.io/TermuxArch/README has information about this project. 
+	################################################################################
+	echo $startbin help
+	$startbin help
+	sleep 1
+	echo $startbin command pwd && whoami && addauser user
+	$startbin command pwd && whoami && addauser user
+	sleep 1
+	echo $startbin login pwd && whoami && addauser user
+	$startbin login pwd && whoami && addauser user
+	sleep 1
+	echo $startbin raw pwd && whoami && addauser user
+	$startbin raw pwd && whoami && addauser user
+	echo ${startbin}testharness done
+	EOM
+	chmod 770 root/bin/${startbin}testharness 
+}
+
 addtour ()
 {
 	cat > root/bin/tour <<- EOM
@@ -444,7 +471,7 @@ addwe ()
 
 	printintro ()
 	{
-		printf "\n\033[1;32mTermuxArch Watch Entropy:\n\n"'\033]2; TermuxArch Watch Entropy 📲  \007'
+		printf "\n\033[1;32mTermuxArch Watch Entropy:\n"'\033]2; TermuxArch Watch Entropy 📲  \007'
 	}
 
 	printtail ()
@@ -459,8 +486,8 @@ addwe ()
 
 	infif ()
 	{
-		if [[ \$entropy0 = "inf" ]] || [[ \$entropy0 = "inf" ]];then
-			entropy0=1
+		if [[ \$entropy0 = "inf" ]] || [[ \$entropy0 = "" ]] || [[ \$entropy0 = "0" ]];then
+			entropy0=1000
 			printf "\033[1;32m∞^∞infifinfif2minfifinfifinfifinfif∞=1\033[0;32minfifinfifinfifinfif\033[0;32m∞==0infifinfifinfifinfif\033[0;32minfifinfifinfif∞"
 		fi
 	}
@@ -523,7 +550,7 @@ addwe ()
 	for i in \$(seq 1 \$en0); do
 		entropy0=\$(cat /proc/sys/kernel/random/entropy_avail 2>/dev/null) 
 		infif 
-		printf %b "\033[1;32m\${entropy0} " 
+		printf "\033[1;32m\${entropy0} " 
 		1sleep 
 	done
 	}
@@ -534,18 +561,18 @@ addwe ()
 	for i in \$(seq 1 \$en0); do
 		entropy0=\$(cat /proc/sys/kernel/random/entropy_avail 2>/dev/null) 
 		infif 
-		printf %b "\033[1;32m\${entropy0}\033[0;32m#E&&√♪" 
+		printf "\033[1;30m \$en0 \033[0;32m\$i \033[1;32m\${entropy0} \033[0;32m#E&&√♪"
 		esleep 
 		sleep \$int
 		entropy1=\$(cat /proc/sys/kernel/random/uuid 2>/dev/null) 
 		infif 
-		printf %b "\$entropy1" 
+		printf "\$entropy1" 
 		esleep 
 		sleep \$int
-		printf %b "&&π™♪&#\033[1;32m\$i\033[0;32mof\033[1;32m\$en0\033[0;32m#|♪FLT" 
+		printf "&&π™♪&##|♪FLT" 
 		esleep 
 		sleep \$int
-		printf %b "\$int♪||e"
+		printf "\$int♪||e"
 		esleep 
 		sleep \$int
 	done

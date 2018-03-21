@@ -376,9 +376,7 @@ nameinstalldir ()
 namestartarch ()
 {
 	# echo ${@%/} removes trailing slash
-	#declare -g darch=$(echo ${rootdir%/})
 	darch=$(echo ${rootdir%/} |sed s#//*#/#g)
-	#declare -g darch=$(echo ${rootdir%/}|awk '{print substr($1,2); }')
 	if [[ "$darch" = "/arch" ]];then
 		aarch=""
 		startbi2=arch
@@ -386,7 +384,7 @@ namestartarch ()
 		aarch=$(echo $darch |sed 's/\//\+/g')
 		startbi2=arch
 	fi
-	startbin=start$startbi2$aarch
+	declare -g startbin=start$startbi2$aarch
 }
 
 opt2 ()
@@ -677,8 +675,8 @@ wgetif ()
 	fi
 }
 
-setrootdir 
-namestartarch 
+setrootdir  
+namestartarch ret 
 nameinstalldir
 
 # User configurable variables such as mirrors and download manager options are in `setupTermuxArchConfigs.sh`.  Creating this file from `kownconfigurations.sh` in the working directory is simple, use `setupTermuxArch.sh manual` to create, edit and run `setupTermuxArchConfigs.sh`; `setupTermuxArch.sh help` has more information.  All options can be abbreviated to the first letter(s). 
