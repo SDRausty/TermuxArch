@@ -507,6 +507,7 @@ addwe ()
 
 	entropysequential ()
 	{
+	printf "\n\033[1;32mWatch Entropy Sequential:\n\n"'\033]2; Watch Entropy Sequential 📲  \007'
 	for i in \$(seq 1 \$en0); do
 		entropy0=\$(cat /proc/sys/kernel/random/entropy_avail 2>/dev/null) 
 		infif 
@@ -517,6 +518,7 @@ addwe ()
 
 	entropysimple ()
 	{
+	printf "\n\033[1;32mWatch Entropy Simple:\n\n"'\033]2; Watch Entropy Simple 📲  \007'
 	for i in \$(seq 1 \$en0); do
 		entropy0=\$(cat /proc/sys/kernel/random/entropy_avail 2>/dev/null) 
 		infif 
@@ -527,6 +529,7 @@ addwe ()
 
 	entropyverbose ()
 	{
+	printf "\n\033[1;32mWatch Entropy Verbose:\n\n"'\033]2; Watch Entropy Verbose 📲  \007'
 	for i in \$(seq 1 \$en0); do
 		entropy0=\$(cat /proc/sys/kernel/random/entropy_avail 2>/dev/null) 
 		infif 
@@ -563,7 +566,7 @@ addwe ()
 	# [] Run default watch entropy.
 	elif [[ \$1 = "" ]];then
 		printintro 
-		entropysimple 
+		entropysequential 
 	else
 		printusage
 	fi
