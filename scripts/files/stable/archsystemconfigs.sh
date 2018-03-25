@@ -139,9 +139,10 @@ addbashrc ()
 	alias lr='ls -alR'
 	alias ls='ls --color=always'
 	alias p='pwd'
-	alias pc='pacman --noconfirm --color=always && trim'
-	alias pci='pacman  --noconfirm --color=always -Syu && trim'
-	alias pcs='pacman  --Ss --color=always'
+	alias pc='pacman --noconfirm --color=always'
+	alias pci='pacman  --noconfirm --color=always -Syu'
+	alias pcs='pacman  -S --color=always'
+	alias pcss='pacman  -Ss --color=always'
 	alias q='logout'
 	alias rf='rm -rf'
 	EOM
