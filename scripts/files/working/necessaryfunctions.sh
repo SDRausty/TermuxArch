@@ -230,14 +230,14 @@ makestartbin ()
 	# [login user|login user [options]] Login as user [plus options].  Use \`addauser user\` first to create this user and the user's home directory.
 	elif [[ \$1 = [Ll]* ]] || [[ \$1 = -[Ll]* ]] || [[ \$1 = --[Ll]* ]] ;then
 	EOM
-		echo "$prootstmnt /bin/su - \$2 \"\${@:3}\"" >> $startbin
+		echo "$prootstmnt /bin/su - \"\${@:2}\"" >> $startbin
 	cat >> $startbin <<- EOM
 	# [raw args] Construct the \`startarch\` proot statement.  For example \`startarch r su - archuser\` will login as user archuser.  Use \`addauser archuser\` first to create this user and the user home directory.
 	elif [[ \$1 = [Rr]* ]] || [[ \$1 = -[Rr]* ]] || [[ \$1 = --[Rr]* ]];then
 	EOM
 		echo "$prootstmnt  /bin/\"\${@:2}\"" >> $startbin
 	cat >> $startbin <<- EOM
-	# [su user|su user -c command] Login as user and execute command.  Use \`addauser user\` first to create this user and the user's home directory.
+	# [su user command] Login as user and execute command.  Use \`addauser user\` first to create this user and the user's home directory.
 	elif [[ \$1 = [Ss]* ]] || [[ \$1 = -[Ss]* ]] || [[ \$1 = --[Ss]* ]];then
 	touch $installdir/root/.chushlogin
 	EOM
