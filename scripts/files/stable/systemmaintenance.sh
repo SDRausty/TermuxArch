@@ -90,6 +90,8 @@ refreshsys ()
 	addgp
 	addgpl
 	addmotd
+	addpc
+	addpci
 	addprofile 
 	addresolvconf 
 	addstartarchtestharness 

@@ -389,6 +389,8 @@ touchupsys ()
 	addgp
 	addgpl
 	addmotd
+	addpc
+	addpci
 	addprofile 
 	addresolvconf 
 	addt 
