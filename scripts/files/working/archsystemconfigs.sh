@@ -330,7 +330,7 @@ addpc () {
 	pacman --noconfirm --color=always -Syu \$@ 
 	trim
 	EOM
-	chmod 700 root/bin/pci 
+	chmod 700 root/bin/pc 
 }
 
 addpci () {
