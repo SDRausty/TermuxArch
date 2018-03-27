@@ -397,14 +397,14 @@ addstartarchtestharness ()
 	echo $startbin help
 	$startbin help
 	sleep 1
-	echo $startbin command pwd && whoami && addauser user
-	$startbin command pwd && whoami && addauser user
+	echo $startbin command "pwd && whoami && addauser user"
+	$startbin command "pwd && whoami && addauser user"
 	sleep 1
-	echo $startbin login pwd && whoami && addauser user
-	$startbin login pwd && whoami && addauser user
+	echo $startbin login "user && pwd && whoami"
+	$startbin login "user && pwd && whoami"
 	sleep 1
-	echo $startbin raw pwd && whoami && addauser user
-	$startbin raw pwd && whoami && addauser user
+	echo $startbin raw su user -c "user && pwd && whoami"
+	$startbin raw su user -c "user && pwd && whoami"
 	echo ${startbin}testharness done
 	EOM
 	chmod 770 root/bin/${startbin}testharness 
