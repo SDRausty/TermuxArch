@@ -200,8 +200,20 @@ addces ()
 	chmod 770 bin/ce 
 }
 
-adddfa ()
-{
+addexd () {
+	cat > bin/exd <<- EOM
+	#!/bin/bash -e
+	# Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
+	# Hosting https://sdrausty.github.io/TermuxArch courtesy https://pages.github.com
+	# https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.  
+	# https://sdrausty.github.io/TermuxArch/README has information about this project. 
+	################################################################################
+	export DISPLAY=:0 PULSE_SERVER=tcp:127.0.0.1:4712
+	EOM
+	chmod 770 bin/exd 
+}
+
+adddfa () {
 	cat > root/bin/dfa <<- EOM
 	#!/bin/bash -e
 	# Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
@@ -407,7 +419,7 @@ addthstartarch ()
 	sleep 1
 	echo $startbin su user "pwd && whoami"
 	$startbin su user "pwd && whoami"
-	echo testharness$startbin done
+	echo th$startbin done
 	EOM
 	chmod 770 root/bin/th$startbin
 }

@@ -84,6 +84,7 @@ refreshsys ()
 	addce 
 	addces
 	adddfa
+	addexd
 	addga
 	addgcl
 	addgcm
