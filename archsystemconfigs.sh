@@ -129,10 +129,13 @@ addbashrc ()
 	alias .....="cd ../../../../.. && pwd"
 	alias d='du -hs'
 	alias e='logout'
+	alias egrep='egrep --color=auto'
+	alias fgrep='fgrep --color=auto'
 	alias g='ga; gcm; gp'
 	alias gca='git commit -a'
 	alias gcam='git commit -am'
 	#alias gp='git push https://username:password@github.com/username/repository.git master'
+	alias grep='grep --color=auto'
 	alias h='history >> \$HOME/.historyfile'
 	alias j='jobs'
 	alias l='ls -alG'
