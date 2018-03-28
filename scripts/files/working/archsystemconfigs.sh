@@ -385,9 +385,9 @@ addt ()
 	chmod 770 root/bin/t 
 }
 
-addstartarchtestharness ()
+addthstartarch ()
 {
-	cat > root/bin/${startbin}testharness <<- EOM
+	cat > root/bin/th$startbin <<- EOM
 	#!/bin/bash -e
 	# Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
 	# Hosting https://sdrausty.github.io/TermuxArch courtesy https://pages.github.com
@@ -397,17 +397,19 @@ addstartarchtestharness ()
 	echo $startbin help
 	$startbin help
 	sleep 1
-	echo $startbin command "pwd && whoami && addauser user"
-	$startbin command "pwd && whoami && addauser user"
+	echo $startbin command "pwd && whoami"
+	$startbin command "pwd && whoami"
 	sleep 1
-	echo $startbin login "user && pwd && whoami"
-	$startbin login "user && pwd && whoami"
+	echo $startbin login user 
+	$startbin login user 
+	echo $startbin raw su user -c "pwd && whoami"
+	$startbin raw su user -c "pwd && whoami"
 	sleep 1
-	echo $startbin raw su user -c "user && pwd && whoami"
-	$startbin raw su user -c "user && pwd && whoami"
-	echo ${startbin}testharness done
+	echo $startbin su user "pwd && whoami"
+	$startbin su user "pwd && whoami"
+	echo testharness$startbin done
 	EOM
-	chmod 770 root/bin/${startbin}testharness 
+	chmod 770 root/bin/th$startbin
 }
 
 addtour ()

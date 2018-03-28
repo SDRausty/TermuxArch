@@ -94,8 +94,8 @@ refreshsys ()
 	addpci
 	addprofile 
 	addresolvconf 
-	addstartarchtestharness 
 	addt 
+	addthstartarch
 	addtour
 	addtrim 
 	addyt 
