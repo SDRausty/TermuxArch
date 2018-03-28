@@ -200,8 +200,20 @@ addces ()
 	chmod 770 bin/ce 
 }
 
-adddfa ()
-{
+addexd () {
+	cat > bin/exd <<- EOM
+	#!/bin/bash -e
+	# Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
+	# Hosting https://sdrausty.github.io/TermuxArch courtesy https://pages.github.com
+	# https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.  
+	# https://sdrausty.github.io/TermuxArch/README has information about this project. 
+	################################################################################
+	export DISPLAY=:0 PULSE_SERVER=tcp:127.0.0.1:4712
+	EOM
+	chmod 770 bin/exd 
+}
+
+adddfa () {
 	cat > root/bin/dfa <<- EOM
 	#!/bin/bash -e
 	# Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
@@ -385,9 +397,9 @@ addt ()
 	chmod 770 root/bin/t 
 }
 
-addstartarchtestharness ()
+addthstartarch ()
 {
-	cat > root/bin/${startbin}testharness <<- EOM
+	cat > root/bin/th$startbin <<- EOM
 	#!/bin/bash -e
 	# Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
 	# Hosting https://sdrausty.github.io/TermuxArch courtesy https://pages.github.com
@@ -397,17 +409,19 @@ addstartarchtestharness ()
 	echo $startbin help
 	$startbin help
 	sleep 1
-	echo $startbin command pwd && whoami && addauser user
-	$startbin command pwd && whoami && addauser user
+	echo $startbin command "pwd && whoami"
+	$startbin command "pwd && whoami"
 	sleep 1
-	echo $startbin login pwd && whoami && addauser user
-	$startbin login pwd && whoami && addauser user
+	echo $startbin login user 
+	$startbin login user 
+	echo $startbin raw su user -c "pwd && whoami"
+	$startbin raw su user -c "pwd && whoami"
 	sleep 1
-	echo $startbin raw pwd && whoami && addauser user
-	$startbin raw pwd && whoami && addauser user
-	echo ${startbin}testharness done
+	echo $startbin su user "pwd && whoami"
+	$startbin su user "pwd && whoami"
+	echo th$startbin done
 	EOM
-	chmod 770 root/bin/${startbin}testharness 
+	chmod 770 root/bin/th$startbin
 }
 
 addtour ()

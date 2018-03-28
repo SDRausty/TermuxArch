@@ -84,6 +84,7 @@ refreshsys ()
 	addce 
 	addces
 	adddfa
+	addexd
 	addga
 	addgcl
 	addgcm
@@ -94,8 +95,8 @@ refreshsys ()
 	addpci
 	addprofile 
 	addresolvconf 
-	addstartarchtestharness 
 	addt 
+	addthstartarch
 	addtour
 	addtrim 
 	addyt 
