@@ -416,7 +416,7 @@ addthstartarch ()
 	$startbin command "pwd && whoami"
 	sleep 1
 	echo $startbin login user 
-	$startbin login user 
+	$startbin login user ||:
 	echo $startbin raw su user -c "pwd && whoami"
 	$startbin raw su user -c "pwd && whoami"
 	sleep 1

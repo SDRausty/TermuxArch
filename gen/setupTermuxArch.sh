@@ -172,12 +172,21 @@ depends ()
 dependsblock ()
 {
 	depends 
-	dwnl
-	if [ -f "setupTermuxArch.sh" ];then
-		cp setupTermuxArch.sh setupTermuxArch.tmp
+	if [ -f archsystemconfigs.sh ] && [ -f getimagefunctions.sh ] && [ -f knownconfigurations.sh ] && [ -f necessaryfunctions.sh ] && [ -f printoutstatements.sh ] && [ -f systemmaintenance.sh ];then
+		. archsystemconfigs.sh
+		. getimagefunctions.sh
+		. knownconfigurations.sh
+		. necessaryfunctions.sh
+		. printoutstatements.sh
+		. systemmaintenance.sh
+	else
+		dwnl
+		if [ -f "setupTermuxArch.sh" ];then
+			cp setupTermuxArch.sh setupTermuxArch.tmp
+		fi
+		chkdwn
+		chk
 	fi
-	chkdwn
-	chk
 }
 
 dependbp ()
@@ -686,7 +695,7 @@ dfl=/gen
 dmverbose="-q"
 #dmverbose="-v"
 stime=`date +%s|grep -o '....$'`
-versionid="gen.v1.5 id530473555"
+versionid="gen.v1.5 id572456785"
 
 # [curl debug|curl sysinfo] Get device system information using `curl`.
 if [[ $1 = [Cc][Dd]* ]] || [[ $1 = -[Cc][Dd]* ]] || [[ $1 = --[Cc][Dd]* ]] || [[ $1 = [Cc][Ss]* ]] || [[ $1 = -[Cc][Ss]* ]] || [[ $1 = --[Cc][Ss]* ]];then

@@ -172,12 +172,21 @@ depends ()
 dependsblock ()
 {
 	depends 
-	dwnl
-	if [ -f "setupTermuxArch.sh" ];then
-		cp setupTermuxArch.sh setupTermuxArch.tmp
+	if [ -f archsystemconfigs.sh ] && [ -f getimagefunctions.sh ] && [ -f knownconfigurations.sh ] && [ -f necessaryfunctions.sh ] && [ -f printoutstatements.sh ] && [ -f systemmaintenance.sh ];then
+		. archsystemconfigs.sh
+		. getimagefunctions.sh
+		. knownconfigurations.sh
+		. necessaryfunctions.sh
+		. printoutstatements.sh
+		. systemmaintenance.sh
+	else
+		dwnl
+		if [ -f "setupTermuxArch.sh" ];then
+			cp setupTermuxArch.sh setupTermuxArch.tmp
+		fi
+		chkdwn
+		chk
 	fi
-	chkdwn
-	chk
 }
 
 dependbp ()
@@ -682,11 +691,11 @@ nameinstalldir
 # User configurable variables such as mirrors and download manager options are in `setupTermuxArchConfigs.sh`.  Creating this file from `kownconfigurations.sh` in the working directory is simple, use `setupTermuxArch.sh manual` to create, edit and run `setupTermuxArchConfigs.sh`; `setupTermuxArch.sh help` has more information.  All options can be abbreviated to the first letter(s). 
 
 declare -g args=$@
-#dfl=/gen
+dfl=/gen
 dmverbose="-q"
 #dmverbose="-v"
 stime=`date +%s|grep -o '....$'`
-versionid="v1.5"
+versionid="gen.v1.5 id572456785"
 
 # [curl debug|curl sysinfo] Get device system information using `curl`.
 if [[ $1 = [Cc][Dd]* ]] || [[ $1 = -[Cc][Dd]* ]] || [[ $1 = --[Cc][Dd]* ]] || [[ $1 = [Cc][Ss]* ]] || [[ $1 = -[Cc][Ss]* ]] || [[ $1 = --[Cc][Ss]* ]];then
