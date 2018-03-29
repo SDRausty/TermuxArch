@@ -204,7 +204,7 @@ addces ()
 }
 
 addexd () {
-	cat > bin/exd <<- EOM
+	cat > root/bin/exd <<- EOM
 	#!/bin/bash -e
 	# Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
 	# Hosting https://sdrausty.github.io/TermuxArch courtesy https://pages.github.com
@@ -213,7 +213,7 @@ addexd () {
 	################################################################################
 	export DISPLAY=:0 PULSE_SERVER=tcp:127.0.0.1:4712
 	EOM
-	chmod 770 bin/exd 
+	chmod 770 root/bin/exd 
 }
 
 adddfa () {

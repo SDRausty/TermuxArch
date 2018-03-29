@@ -11,7 +11,7 @@ See https://sdrausty.github.io/TermuxArch/docs/install for options how to run [`
 This repository uses submodules.  To get all the pieces of this repository run [`scripts/maintenance/pullTermuxArchSubmodules.sh`](scripts/maintenance/pullTermuxArchSubmodules.sh)after cloning in the root directory of this repository.  
 
 * Comments are welcome at https://github.com/sdrausty/TermuxArch/issues ✍ 
-* Pull requests are welcome https://github.com/sdrausty/TermuxArch/pulls ✍ 
+* Pull requests are welcome at https://github.com/sdrausty/TermuxArch/pulls ✍ 
 
 Thank you for making this project work better and please contribute 🔆  [Contributors](CONTRIBUTORS.md) and [Notice to Contributors](NOTICE.md) have more information about this project.
 
