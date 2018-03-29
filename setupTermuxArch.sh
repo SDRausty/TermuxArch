@@ -172,12 +172,21 @@ depends ()
 dependsblock ()
 {
 	depends 
-	dwnl
-	if [ -f "setupTermuxArch.sh" ];then
-		cp setupTermuxArch.sh setupTermuxArch.tmp
+	if [ -f archsystemconfigs.sh ] && [ -f getimagefunctions.sh ] && [ -f knownconfigurations.sh ] && [ -f necessaryfunctions.sh ] && [ -f printoutstatements.sh ] && [ -f systemmaintenance.sh ];then
+		. archsystemconfigs.sh
+		. getimagefunctions.sh
+		. knownconfigurations.sh
+		. necessaryfunctions.sh
+		. printoutstatements.sh
+		. systemmaintenance.sh
+	else
+		dwnl
+		if [ -f "setupTermuxArch.sh" ];then
+			cp setupTermuxArch.sh setupTermuxArch.tmp
+		fi
+		chkdwn
+		chk
 	fi
-	chkdwn
-	chk
 }
 
 dependbp ()
