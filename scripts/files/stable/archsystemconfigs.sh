@@ -129,21 +129,22 @@ addbashrc ()
 	alias .....="cd ../../../../.. && pwd"
 	alias d='du -hs'
 	alias e='logout'
-	alias egrep='egrep --color=auto'
-	alias fgrep='fgrep --color=auto'
+	alias egrep='egrep --color=always'
+	alias fgrep='fgrep --color=always'
 	alias g='ga; gcm; gp'
 	alias gca='git commit -a'
 	alias gcam='git commit -am'
 	#alias gp='git push https://username:password@github.com/username/repository.git master'
-	alias grep='grep --color=auto'
+	alias grep='grep --color=always'
 	alias h='history >> \$HOME/.historyfile'
 	alias j='jobs'
 	alias l='ls -alG'
 	alias lr='ls -alR'
 	alias ls='ls --color=always'
 	alias p='pwd'
-	alias pcs='pacman  -S --color=always'
-	alias pcss='pacman  -Ss --color=always'
+	alias pacman='pacman --color=always'
+	alias pcs='pacman -S --color=always'
+	alias pcss='pacman -Ss --color=always'
 	alias q='logout'
 	alias rf='rm -rf'
 	EOM
@@ -460,17 +461,18 @@ addtrim ()
 	# Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
 	# Hosting https://sdrausty.github.io/TermuxArch courtesy https://pages.github.com
 	# https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.  
-	# Contributed by @cswl 
 	# https://sdrausty.github.io/TermuxArch/README has information about this project. 
 	################################################################################
-	echo [1/4] rm -rf /boot/
+	echo [1/5] rm -rf /boot/
 	rm -rf /boot/
-	echo [2/4] rm -rf /usr/lib/firmware
+	echo [2/5] rm -rf /usr/lib/firmware
 	rm -rf /usr/lib/firmware
-	echo [3/4] rm -rf /usr/lib/modules
+	echo [3/5] rm -rf /usr/lib/modules
 	rm -rf /usr/lib/modules
-	echo [4/4] pacman -Scc --noconfirm --color=always
+	echo [4/5] pacman -Scc --noconfirm --color=always
 	pacman -Scc --noconfirm --color=always
+	echo [5/5] rm /var/cache/pacman/pkg/*xz
+	rm /var/cache/pacman/pkg/*xz
 	echo trim:done
 	EOM
 	chmod 770 root/bin/trim 
