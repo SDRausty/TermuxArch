@@ -28,9 +28,11 @@
 
 [Codimiracle](https://github.com/Codimiracle) submitted and discussed issue [#46](https://github.com/sdrausty/TermuxArch/issues/46), "TermuxArch setup scripts has some error in Android x86_64(RemixOS 2.0.513) in Termux" and suggested solutions resolving this matter.  Result: TermuxArch improved! 
 
-[cb125](https://github.com/cb125) commented and contributed: `watch cat /proc/sys/kernel/random/entropy_avail` to resolve `pacman-key --populate archlinux` in issue #33. 
+[cb125](https://github.com/cb125) commented and contributed: `watch cat /proc/sys/kernel/random/entropy_avail` to resolve `pacman-key --populate archlinux` in issue #33. Result: addwe () created and TermuxArch improved! 
 
 [cherryleafroad](https://github.com/cherryleafroad) opened and discussed issue [Ability for Scripts to Launch Commands for Arch Linux in Termux PRoot on Device #54](https://github.com/sdrausty/TermuxArch/issues/54) Result: TermuxArch improved, option `setupTermuxArch.sh refresh` added, user login and command options introduced to `startarch`!  Opened and presented issue [Hush motd on login when using -c command #58](https://github.com/sdrausty/TermuxArch/issues/58) Result: TermuxArch improved!
+
+[cswl](https://github.com/cswl) suggested, "I dont have time to tinker around with TermuxArch... but could we make an stub package for linux-aarch64 and linux-firmware... since we're just using proot...  I dont think we'd need the kernel and firmware... wasting space"  Result: addtrim () created and TermuxArch improved! 
 
 [David xu](https://github.com/xqdoo00o) contributed [Shared: NO such file or directory! #61](https://github.com/sdrausty/TermuxArch/issues/61).  Result: TermuxArch improved!
 
