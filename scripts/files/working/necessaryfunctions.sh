@@ -314,9 +314,9 @@ runfinishsetup ()
 	fi
 	printf "\033[0m"
 	if [ $fstnd ]; then
-		echo $nmirror
+		nmir=$(echo $nmirror |awk -F'/' '{print $3}')
 		sed -e '/http\:\/\/mir/ s/^#*/# /' -i $installdir/etc/pacman.d/mirrorlist
-		sed -e "/$nmirror/ s/^# *//" -i $installdir/etc/pacman.d/mirrorlist
+		sed -e "/$nmir/ s/^# *//" -i $installdir/etc/pacman.d/mirrorlist
 	else
 		$ed $installdir/etc/pacman.d/mirrorlist
 	fi
