@@ -320,6 +320,11 @@ runfinishsetup ()
 	else
 		$ed $installdir/etc/pacman.d/mirrorlist
 	fi
+	printf "\n"
+	$installdir/root/bin/setupbin.sh 
+}
+
+addlangq () {	
 	while true; do
 	printf "\033[1;34m  Add languages to the Arch Linux system? To edit \033[1;32m/etc/locale.gen\033[1;34m for your preferred language(s) before running \033[1;32mlocale-gen\033[1;34m choose edit.  Would you like to run \033[1;32mlocale-gen\033[1;34m with the English en_US.UTF-8 locale only?  "
 	read -p "Answer yes to generate the English en_US.UTF-8 locale only [Y|e] " ye
@@ -336,8 +341,6 @@ runfinishsetup ()
 		printf "\nAnswer yes to run, or edit to edit the file [Y|e]\n"
 	fi
 	done
-	printf "\n"
-	$installdir/root/bin/setupbin.sh 
 }
 
 runfinishsetupq ()
