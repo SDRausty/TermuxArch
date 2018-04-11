@@ -125,6 +125,7 @@ chkself ()
 		if [[ "$(<setupTermuxArch.sh)" != "$(<setupTermuxArch.tmp)" ]];then
 			printf "\033[0;32msetupTermuxArch.sh: \033[1;32mUPDATED\n\033[0;32mTermuxArch: \033[1;32mRESTARTED\n\033[0m"
 			rm setupTermuxArch.tmp
+			rmdsc 
 			. setupTermuxArch.sh $args
 		fi
 		rm setupTermuxArch.tmp
