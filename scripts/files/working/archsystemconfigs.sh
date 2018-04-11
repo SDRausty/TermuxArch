@@ -107,6 +107,7 @@ addbash_profile ()
 	PATH=\$HOME/bin:\$PATH
 	. \$HOME/.bashrc
 	PS1="[\A\[\033[0;32m\] \W \[\033[0m\]]\\$ "
+	export TZ=$(getprop persist.sys.timezone)
 	EOM
 	if [ -e $HOME/.bash_profile ] ; then
 		grep proxy $HOME/.bash_profile |grep "export" >>  root/.bash_profile 2>/dev/null||:
