@@ -20,7 +20,7 @@ copystartbin2path ()
 		BPATH=$PREFIX/bin
 	fi
 	cp $installdir/$startbin $BPATH
-	printf "\n\033[0;34m 🕛 > 🕦 \033[1;32m$startbin \033[0mcopied to \033[1m$BPATH\033[0m.\n"
+	printf "\033[0;34m 🕛 > 🕦 \033[1;32m$startbin \033[0mcopied to \033[1m$BPATH\033[0m.\n\n"
 }
 
 copystartbin2pathq ()
