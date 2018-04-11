@@ -265,8 +265,9 @@ makesystem ()
 		getimage
 	else
 		if [ "$mirror" = "os.archlinuxarm.org" ] || [ "$mirror" = "mirror.archlinuxarm.org" ]; then
-			while ftchstnd ; (($?)) ;do
-				ftchstnd 
+			until ftchstnd;do
+				ftchstnd||: 
+				sleep 2
 			done
 		else
 			ftchit
