@@ -264,7 +264,7 @@ makesystem ()
 	else
 		if [ "$mirror" = "os.archlinuxarm.org" ] || [ "$mirror" = "mirror.archlinuxarm.org" ]; then
 			until ftchstnd;do
-				ftchstnd||: 
+				ftchstnd ret||: 
 				sleep 2
 			done
 		else
@@ -313,7 +313,13 @@ runfinishsetup ()
 		editfiles
 	fi
 	printf "\033[0m"
-	$ed $installdir/etc/pacman.d/mirrorlist
+	if [ $fstnd ]; then
+		echo $nmirror
+		sed -e '/http\:\/\/mir/ s/^#*/# /' -i $installdir/etc/pacman.d/mirrorlist
+		sed -e "/$nmirror/ s/^# *//" -i $installdir/etc/pacman.d/mirrorlist
+	else
+		$ed $installdir/etc/pacman.d/mirrorlist
+	fi
 	while true; do
 	printf "\033[1;34m  Add languages to the Arch Linux system? To edit \033[1;32m/etc/locale.gen\033[1;34m for your preferred language(s) before running \033[1;32mlocale-gen\033[1;34m choose edit.  Would you like to run \033[1;32mlocale-gen\033[1;34m with the English en_US.UTF-8 locale only?  "
 	read -p "Answer yes to generate the English en_US.UTF-8 locale only [Y|e] " ye
