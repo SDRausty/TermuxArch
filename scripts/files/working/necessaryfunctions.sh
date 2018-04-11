@@ -19,6 +19,12 @@ copystartbin2path ()
 	else
 		BPATH=$PREFIX/bin
 	fi
+	cp $installdir/$startbin $BPATH
+	printf "\n\033[0;34m 🕛 > 🕦 \033[1m$startbin \033[0mcopied to \033[1m$BPATH\033[0m.\n\n"
+}
+
+copystartbin2pathq ()
+{
 	while true; do
 	printf "\033[0;34m 🕛 > 🕚 \033[0mCopy \033[1m$startbin\033[0m to \033[1m$BPATH\033[0m?  "'\033]2; 🕛 > 🕚 Copy to $PATH [Y|n]?\007'
 	read -p "Answer yes or no [Y|n] " answer
