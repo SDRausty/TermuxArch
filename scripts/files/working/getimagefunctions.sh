@@ -18,7 +18,7 @@ ftchit ()
 
 ftchstnd ()
 {
-	#fstnd=1
+	fstnd=1
 	printcontacting 
 	if [[ $dm = wget ]];then 
 		wget -v -O/dev/null $cmirror 2>gmirror
