@@ -243,11 +243,11 @@ makestartbin ()
 	cat >> $startbin <<- EOM
 	# [su user command] Login as user and execute command.  Use \`addauser user\` first to create this user and the user's home directory.
 	elif [[ \$1 = [Ss]* ]] || [[ \$1 = -[Ss]* ]] || [[ \$1 = --[Ss]* ]];then
-		touch $installdir/\$HOME/.chushlogin
+		touch $installdir/root/.chushlogin
 	EOM
 		echo "$prootstmnt /bin/su - \${@:2} -c \"\${@:3}\"" >> $startbin
 	cat >> $startbin <<- EOM
-		rm $installdir/\$HOME/.chushlogin
+		rm $installdir/root/.chushlogin
 	# [] Default Arch Linux in Termux PRoot root login.
 	elif [[ \$1 = "" ]];then
 	EOM
