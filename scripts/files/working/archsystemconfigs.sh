@@ -521,12 +521,12 @@ addwe ()
 
 	printtail ()
 	{
-		printf "\n\n\033[1;32mWatch Entropy from TermuxArch 🏁 \n\n"'\033]2; Watch Entropy courtesy TermuxArch 🏁 \007'
+		printf "\n\n\033[1;32mTermuxArch Watch Entropy 🏁 \n\n"'\033]2; TermuxArch Watch Entropy 🏁 \007'
 	}
 
 	printusage ()
 	{
-		printf "\n\033[0;32mUsage:  \033[1;32mwe \033[0;32m Watch Entropy simple.\n\n	\033[1;32mwe sequential\033[0;32m Watch Entropy sequential.\n\n	\033[1;32mwe simple\033[0;32m Watch Entropy simple.\n\n	\033[1;32mwe verbose\033[0;32m Watch Entropy verbose.\n\n"'\033]2; Watch Entropy courtesy TermuxArch 📲  \007'
+		printf "\n\033[0;32mUsage:  \033[1;32mwe \033[0;32m Watch Entropy simple.\n\n	\033[1;32mwe sequential\033[0;32m Watch Entropy sequential.\n\n	\033[1;32mwe simple\033[0;32m Watch Entropy simple.\n\n	\033[1;32mwe verbose\033[0;32m Watch Entropy verbose.\n\n"'\033]2; TermuxArch Watch Entropy 📲  \007'
 	}
 
 	infif ()
