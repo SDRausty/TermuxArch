@@ -325,6 +325,9 @@ addsetupkeys () {
 	# https://sdrausty.github.io/TermuxArch/README has information about this project. 
 	################################################################################
 	unset LD_PRELOAD
+	if [ \$(getprop ro.product.cpu.abi) = x86 ]; then
+		productcpuabi=x86
+	fi
 	EOM
 	echo "$prootstmnt $installdir/root/bin/keys||:" >> root/bin/setupkeys
 	chmod 700 root/bin/setupkeys
@@ -347,12 +350,8 @@ addkeys () {
 		\$(nice -n 20 find / >/dev/null 2>/dev/null & sleep \$t ; kill \$! 2>/dev/null) &
 		\$(nice -n 20 cat /dev/urandom >/dev/null & sleep \$t ; kill \$! 2>/dev/null) &
 	done
-	if [ \$(getprop ro.product.cpu.abi) = x86 ] || [ \$(getprop ro.product.cpu.abi) = x86_64 ];then
-		if [ \$(getprop ro.product.cpu.abi) = x86 ]; then
-			pacman -Syu archlinux32-keyring-transition --noconfirm --color always ||: 
-		else
-			pacman -Syu archlinux-keyring --noconfirm --color always ||: 
-		fi
+	if [ \$productcpuabi = x86 ]; then
+		pacman -Syu archlinux32-keyring-transition --noconfirm --color always ||: 
 	else
 		pacman -Syu archlinux-keyring --noconfirm --color always ||: 
 	fi
