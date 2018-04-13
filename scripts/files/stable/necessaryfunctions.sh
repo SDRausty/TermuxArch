@@ -230,7 +230,7 @@ makestartbin ()
 	EOM
 		echo "$prootstmnt /bin/bash -lc \"\${@:2}\"" >> $startbin
 	cat >> $startbin <<- EOM
-	rm $installdir/root/.chushlogin
+		rm $installdir/root/.chushlogin
 	# [login user|login user [options]] Login as user [plus options].  Use \`addauser user\` first to create this user and the user's home directory.
 	elif [[ \$1 = [Ll]* ]] || [[ \$1 = -[Ll]* ]] || [[ \$1 = --[Ll]* ]] ;then
 	EOM
@@ -243,11 +243,11 @@ makestartbin ()
 	cat >> $startbin <<- EOM
 	# [su user command] Login as user and execute command.  Use \`addauser user\` first to create this user and the user's home directory.
 	elif [[ \$1 = [Ss]* ]] || [[ \$1 = -[Ss]* ]] || [[ \$1 = --[Ss]* ]];then
-	touch $installdir/root/.chushlogin
+		touch $installdir/home/\$2/.chushlogin
 	EOM
-		echo "$prootstmnt /bin/su - \${@:2} -c \"\${@:3}\"" >> $startbin
+		echo "$prootstmnt /bin/su - \$2 -c \"\${@:3}\"" >> $startbin
 	cat >> $startbin <<- EOM
-	rm $installdir/root/.chushlogin
+		rm $installdir/home/\$2/.chushlogin
 	# [] Default Arch Linux in Termux PRoot root login.
 	elif [[ \$1 = "" ]];then
 	EOM
