@@ -393,6 +393,7 @@ touchupsys ()
 	addgcm
 	addgp
 	addgpl
+	addkeys
 	addmotd
 	addpc
 	addpci
