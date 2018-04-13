@@ -106,7 +106,7 @@ lkernid ret
 mainblock () { 
 	namestartarch 
 	nameinstalldir
-	spaceinfoq
+	spaceinfo
 	callsystem 
 	printwld 
 	termux-wake-unlock
@@ -187,7 +187,7 @@ makestartbin () {
 		printf '\033]2; '$startbin' command args 📲  \007'
 		touch $installdir/root/.chushlogin
 	EOM
-		echo "$prootstmnt /bin/bash -lc \"\${@:2}\"" >> $startbin
+		echo "$prootstmnt /bin/bash -lc \"\${@:2}\" ||:" >> $startbin
 	cat >> $startbin <<- EOM
 		printf '\033]2; '$startbin' command args 📲  \007'
 		rm $installdir/root/.chushlogin
@@ -195,14 +195,14 @@ makestartbin () {
 	elif [[ \$1 = [Ll]* ]] || [[ \$1 = -[Ll]* ]] || [[ \$1 = --[Ll]* ]] ;then
 		printf '\033]2; '$startbin' login user [options] 📲  \007'
 	EOM
-		echo "$prootstmnt /bin/su - \"\${@:2}\"" >> $startbin
+		echo "$prootstmnt /bin/su - \"\${@:2}\" ||:" >> $startbin
 	cat >> $startbin <<- EOM
 		printf '\033]2; '$startbin' login user [options] 📲  \007'
 	# [raw args] Construct the \`startarch\` proot statement.  For example \`startarch r su - archuser\` will login as user archuser.  Use \`addauser archuser\` first to create this user and the user home directory.
 	elif [[ \$1 = [Rr]* ]] || [[ \$1 = -[Rr]* ]] || [[ \$1 = --[Rr]* ]];then
 		printf '\033]2; '$startbin' raw args 📲  \007'
 	EOM
-		echo "$prootstmnt  /bin/\"\${@:2}\"" >> $startbin
+		echo "$prootstmnt  /bin/\"\${@:2}\" ||:" >> $startbin
 	cat >> $startbin <<- EOM
 		printf '\033]2; '$startbin' raw args 📲  \007'
 	# [su user command] Login as user and execute command.  Use \`addauser user\` first to create this user and the user's home directory.
@@ -214,7 +214,7 @@ makestartbin () {
 			touch $installdir/home/\$2/.chushlogin
 		fi
 	EOM
-		echo "$prootstmnt /bin/su - \$2 -c \"\${@:3}\"" >> $startbin
+		echo "$prootstmnt /bin/su - \$2 -c \"\${@:3}\" ||:" >> $startbin
 	cat >> $startbin <<- EOM
 		printf '\033]2; '$startbin' su user command 📲  \007'
 		if [[ \$2 = root ]];then
@@ -225,7 +225,7 @@ makestartbin () {
 	# [] Default Arch Linux in Termux PRoot root login.
 	elif [[ \$1 = "" ]];then
 	EOM
-		echo "$prootstmnt /bin/bash -l " >> $startbin
+		echo "$prootstmnt /bin/bash -l ||: " >> $startbin
 	cat >> $startbin <<- EOM
 		printf '\033]2; TermuxArch '$startbin' 📲  \007'
 	else
