@@ -75,6 +75,8 @@ refreshsys ()
 	else
 		cd $installdir
 	fi
+	namestartarch 
+	nameinstalldir
 	addae
 	addauser
 	addauserps
