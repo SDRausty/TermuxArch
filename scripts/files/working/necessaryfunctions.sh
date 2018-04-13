@@ -151,7 +151,7 @@ makefinishsetup () {
 
 makesetupbin () {
 	cat > root/bin/setupbin.sh <<- EOM
-	#!$PREFIX/bin/bash -e
+	#!/bin/bash -e
 	# Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
 	# Hosting https://sdrausty.github.io/TermuxArch courtesy https://pages.github.com
 	# https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.  
@@ -160,13 +160,13 @@ makesetupbin () {
 	export PROOT_NO_SECCOMP=1
 	unset LD_PRELOAD
 	EOM
-	echo "$prootstmnt /root/bin/finishsetup.sh||:" >> root/bin/setupbin.sh 
+	echo "$prootstmnt /root/bin/finishsetup.sh ||:" >> root/bin/setupbin.sh 
 	chmod 700 root/bin/setupbin.sh
 }
 
 makestartbin () {
 	cat > $startbin <<- EOM
-	#!$PREFIX/bin/bash -e
+	#!/bin/bash -e
 	# Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
 	# Hosting https://sdrausty.github.io/TermuxArch courtesy https://pages.github.com
 	# https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.  
