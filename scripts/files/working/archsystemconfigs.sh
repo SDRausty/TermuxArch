@@ -325,9 +325,9 @@ addsetupkeys () {
 	# https://sdrausty.github.io/TermuxArch/README has information about this project. 
 	################################################################################
 	unset LD_PRELOAD
-	commandif=\$(command -v getprop)
-	if [[ \$commandif = "" ]];then
-		echo Run \`setupkeys\` from the Android system in Termux.
+	commandis=\$(command -v getprop) ||:
+	if [[ \$commandis = "" ]];then
+		echo Run \\`setupkeys\\` from the Android system in Termux.
 		exit
 	fi
 	if [ \$(getprop ro.product.cpu.abi) = x86 ]; then
@@ -347,9 +347,9 @@ addkeys () {
 	# https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.  
 	# https://sdrausty.github.io/TermuxArch/README has information about this project. 
 	################################################################################
-	commandif=\$(command -v getprop)
+	commandif=\$(command -v getprop) ||:
 	if [[ \$commandif = "" ]];then
-		echo Run \`setupkeys\` from the Android system in Termux.
+		echo Run \\`setupkeys\\` from the Android system in Termux.
 		exit
 	fi
 	n=2
