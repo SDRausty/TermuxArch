@@ -5,8 +5,7 @@
 # https://sdrausty.github.io/TermuxArch/README has information about this project. 
 ################################################################################
 
-ftchit ()
-{
+ftchit () {
 	printdownloadingftchit 
 	if [[ $dm = wget ]];then 
 		wget $dmverbose -N --show-progress http://$mirror$path$file.md5 
@@ -16,8 +15,7 @@ ftchit ()
 	fi
 }
 
-ftchstnd ()
-{
+ftchstnd () {
 	fstnd=1
 	printcontacting 
 	if [[ $dm = wget ]];then 
@@ -38,8 +36,7 @@ ftchstnd ()
 	fi
 }
 
-getimage ()
-{
+getimage () {
 	printdownloadingx86 
 	if [[ $dm = wget ]];then 
 		wget $dmverbose -N --show-progress http://$mirror${path}md5sums.txt

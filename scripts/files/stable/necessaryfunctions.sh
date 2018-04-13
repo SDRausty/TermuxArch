@@ -175,7 +175,8 @@ makestartbin () {
 	################################################################################
 	export PROOT_NO_SECCOMP=1
 	unset LD_PRELOAD
-	printusage () { printf "\n\033[0;32mUsage:  \033[1;32m$startbin \033[0;32mStart Arch Linux as root.  This account should only be reserved for system administration.\n\n	\033[1;32m$startbin command command \033[0;32mRun Arch Linux command from Termux as root user.\n\n	\033[1;32m$startbin login user \033[0;32mLogin as user.  Use \033[1;32maddauser user \033[0;32mfirst to create a user and the user's home directory.\n\n	\033[1;32m$startbin raw \033[0;32mConstruct the \033[1;32mstartarch \033[0;32mproot statement.  For example \033[1;32mstartarch raw su - user \033[0;32mwill login to Arch Linux as user.  Use \033[1;32maddauser user \033[0;32mfirst to create a user and the user's home directory.\n\n	\033[1;32m$startbin su user command \033[0;32mLogin as user and execute command.  Use \033[1;32maddauser user \033[0;32mfirst to create a user and the user's home directory.\n\n\033[0m"'\033]2; TermuxArch '$startbin' help 📲  \007'
+	printusage () { 
+		printf "\n\033[0;32mUsage:  \033[1;32m$startbin \033[0;32mStart Arch Linux as root.  This account should only be reserved for system administration.\n\n	\033[1;32m$startbin command command \033[0;32mRun Arch Linux command from Termux as root user.\n\n	\033[1;32m$startbin login user \033[0;32mLogin as user.  Use \033[1;32maddauser user \033[0;32mfirst to create a user and the user's home directory.\n\n	\033[1;32m$startbin raw \033[0;32mConstruct the \033[1;32mstartarch \033[0;32mproot statement.  For example \033[1;32mstartarch raw su - user \033[0;32mwill login to Arch Linux as user.  Use \033[1;32maddauser user \033[0;32mfirst to create a user and the user's home directory.\n\n	\033[1;32m$startbin su user command \033[0;32mLogin as user and execute command.  Use \033[1;32maddauser user \033[0;32mfirst to create a user and the user's home directory.\n\n\033[0m"'\033]2; TermuxArch '$startbin' help 📲  \007'
 	}
 
 	# [?|help] Displays usage information. .
@@ -307,21 +308,22 @@ runfinishsetup () {
 	$installdir/root/bin/setupbin.sh 
 }
 
-addlangq () {	while true; do
-	printf "\033[1;34m  Add languages to the Arch Linux system? To edit \033[1;32m/etc/locale.gen\033[1;34m for your preferred language(s) before running \033[1;32mlocale-gen\033[1;34m choose edit.  Would you like to run \033[1;32mlocale-gen\033[1;34m with the English en_US.UTF-8 locale only?  "
-	read -p "Answer yes to generate the English en_US.UTF-8 locale only [Y|e] " ye
-	if [[ $ye = [Yy]* ]] || [[ $ye = "" ]];then
-		break
-	elif [[ $ye = [Ee]* ]] || [[ $ye = [Nn]* ]];then
-		printf "\033[0m"
-		$ed $installdir/etc/locale.gen
-		sleep 1
-		break
-	else
-		printf "\nYou answered \033[1;36m$ye\033[1;32m.\n"
-		sleep 1
-		printf "\nAnswer yes to run, or edit to edit the file [Y|e]\n"
-	fi
+addlangq () {
+	while true; do
+		printf "\033[1;34m  Add languages to the Arch Linux system? To edit \033[1;32m/etc/locale.gen\033[1;34m for your preferred language(s) before running \033[1;32mlocale-gen\033[1;34m choose edit.  Would you like to run \033[1;32mlocale-gen\033[1;34m with the English en_US.UTF-8 locale only?  "
+		read -p "Answer yes to generate the English en_US.UTF-8 locale only [Y|e] " ye
+		if [[ $ye = [Yy]* ]] || [[ $ye = "" ]];then
+			break
+		elif [[ $ye = [Ee]* ]] || [[ $ye = [Nn]* ]];then
+			printf "\033[0m"
+			$ed $installdir/etc/locale.gen
+			sleep 1
+			break
+		else
+			printf "\nYou answered \033[1;36m$ye\033[1;32m.\n"
+			sleep 1
+			printf "\nAnswer yes to run, or edit to edit the file [Y|e]\n"
+		fi
 	done
 }
 
