@@ -689,12 +689,12 @@ wgetif ()
 
 commandif=$(command -v getprop) ||:
 declare -g args=$@
-#dfl=/gen
+dfl=/gen
 dmverbose="-q"
 #dmverbose="-v"
 export PROOT_NO_SECCOMP=1
 stime=`date +%s|grep -o '....$'`
-versionid="v1.5"
+versionid="gen.v1.5 id588348922"
 
 if [[ $commandif = "" ]];then
 	echo This is not an Android.
