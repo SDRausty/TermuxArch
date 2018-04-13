@@ -56,6 +56,7 @@ addauserps () {
 	# https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.  
 	# https://sdrausty.github.io/TermuxArch/README has information about this project. 
 	################################################################################
+	export PROOT_NO_SECCOMP=1
 	unset LD_PRELOAD
 	exec proot --kill-on-exit --link2symlink -0 -r $installdir -b /dev/ -b \$ANDROID_DATA -b \$EXTERNAL_STORAGE -b /proc/ -w "\$PWD" /bin/env -i HOME=/root TERM=\$TERM /bin/su - \$1 --login
 	EOM
@@ -87,6 +88,7 @@ addauserpsc () {
 	# https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.  
 	# https://sdrausty.github.io/TermuxArch/README has information about this project. 
 	################################################################################
+	export PROOT_NO_SECCOMP=1
 	unset LD_PRELOAD
 	exec proot --kill-on-exit --link2symlink -0 -r $installdir -b /dev/ -b \$ANDROID_DATA -b \$EXTERNAL_STORAGE -b /proc/ -w "\$PWD" /bin/env -i HOME=/root TERM=\$TERM /bin/su - \$1 --login
 	EOM
@@ -183,6 +185,7 @@ addces () {
 	# https://sdrausty.github.io/TermuxArch/README has information about this project. 
 	# Create entropy Termux startup file.
 	################################################################################
+	export PROOT_NO_SECCOMP=1
 	unset LD_PRELOAD
 	EOM
 	if [[ "$kid" -eq 1 ]]; then
@@ -316,6 +319,32 @@ addgp () {
 	chmod 700 root/bin/gp 
 }
 
+addsetupkeys () {
+	cat > root/bin/setupkeys <<- EOM
+	#!/bin/bash -e
+	# Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
+	# Hosting https://sdrausty.github.io/TermuxArch courtesy https://pages.github.com
+	# https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.  
+	# https://sdrausty.github.io/TermuxArch/README has information about this project. 
+	################################################################################
+	export PROOT_NO_SECCOMP=1
+	unset LD_PRELOAD
+	commandis=\$(command -v getprop) ||:
+	if [[ \$commandis = "" ]];then
+		echo Run $installdir/root/bin/setupkeys from the Android system in Termux.
+		exit
+	fi
+	if [ \$(getprop ro.product.cpu.abi) = x86 ]; then
+		productcpuabi=x86
+	fi
+	cd $installdir
+	EOM
+	echo "$prootstmnt $installdir/root/bin/keys ||:" >> root/bin/setupkeys
+	cat >> root/bin/setupkeys <<- EOM
+	EOM
+	chmod 700 root/bin/setupkeys
+}
+
 addkeys () {
 	cat > root/bin/keys <<- EOM
 	#!/bin/bash -e
@@ -333,14 +362,10 @@ addkeys () {
 		\$(nice -n 20 find / >/dev/null 2>/dev/null & sleep \$t ; kill \$! 2>/dev/null) &
 		\$(nice -n 20 cat /dev/urandom >/dev/null & sleep \$t ; kill \$! 2>/dev/null) &
 	done
-	if [ "\$proc" = "x86" ] || [ "\$proc" = "x86_64" ]; then
-		if [ "\$proc" = "x86" ]; then
-			pacman -Syu archlinux32-keyring-transition --noconfirm --color always ||: 
-		else
-			pacman -Syu archlinux-keyring --noconfirm --color always ||: 
-		fi
+	if [[ \$productcpuabi = x86 ]] || [[ \$1 = x86 ]]; then
+		pacman -Syu archlinux32-keyring-transition --noconfirm --color=always ||: 
 	else
-		pacman -Syu archlinux-keyring --noconfirm --color always ||: 
+		pacman -Syu archlinux-keyring --noconfirm --color=always ||: 
 	fi
 	printf "\n\033[36m"
 	mv /usr/lib/gnupg/scdaemon{,_} 2>/dev/null ||: 
