@@ -693,13 +693,14 @@ dfl=/gen
 dmverbose="-q"
 #dmverbose="-v"
 export PROOT_NO_SECCOMP=1
+cpuabi=$(getprop ro.product.cpu.abi)
 cpuabi5="armeabi"
 cpuabi7="armeabi-v7a"
 cpuabi8="arm64-v8a"
 cpuabix86="x86"
 cpuabix8664="x86_64"
 stime=`date +%s|grep -o '....$'`
-versionid="gen.v1.5 id960336693"
+versionid="gen.v1.5 id877475918"
 
 if [[ $commandif = "" ]];then
 	echo This is not an Android.

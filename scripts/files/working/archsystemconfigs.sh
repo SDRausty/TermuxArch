@@ -333,8 +333,8 @@ addkeys () {
 		\$(nice -n 20 find / >/dev/null 2>/dev/null & sleep \$t ; kill \$! 2>/dev/null) &
 		\$(nice -n 20 cat /dev/urandom >/dev/null & sleep \$t ; kill \$! 2>/dev/null) &
 	done
-	if [ "\$proc" = "x86" ] || [ "\$proc" = "x86_64" ]; then
-		if [ "\$proc" = "x86" ]; then
+	if [ \$(getprop ro.product.cpu.abi) = x86 ] || [ \$(getprop ro.product.cpu.abi) = x86_64 ];then
+		if [ \$(getprop ro.product.cpu.abi) = x86 ]; then
 			pacman -Syu archlinux32-keyring-transition --noconfirm --color always ||: 
 		else
 			pacman -Syu archlinux-keyring --noconfirm --color always ||: 

@@ -44,20 +44,15 @@ copystartbin2pathq ()
 detectsystem ()
 {
 	printdetectedsystem
-	if [ $(getprop ro.product.cpu.abi) = $cpuabi5 ];then
-		proc=armv5
+	if [ $cpuabi = $cpuabi5 ];then
 		armv5l
-	elif [ $(getprop ro.product.cpu.abi) = $cpuabi7 ];then
-		proc=armv7
+	elif [ $cpuabi = $cpuabi7 ];then
 		detectsystem2 
-	elif [ $(getprop ro.product.cpu.abi) = $cpuabi8 ];then
-		proc=aarch64
+	elif [ $cpuabi = $cpuabi8 ];then
 		aarch64
-	elif [ $(getprop ro.product.cpu.abi) = $cpuabix86 ];then
-		proc=x86
+	elif [ $cpuabi = $cpuabix86 ];then
 		i686 
-	elif [ $(getprop ro.product.cpu.abi) = $cpuabix8664 ];then
-		proc=x86_64
+	elif [ $cpuabi = $cpuabix8664 ];then
 		x86_64
 	else
 		printmismatch 
@@ -151,7 +146,7 @@ makefinishsetup ()
 		grep "proxy" $HOME/.profile | grep "export" >>  root/bin/$binfnstp 2>/dev/null ||:
 	fi
 	cat >> root/bin/$binfnstp <<- EOM
-	if [ "\$proc" = "x86" ] || [ "\$proc" = "x86_64" ]; then
+	if [ \$cpuabi = \$cpuabix86 ] || [ \$cpuabi = \$cpuabix8664 ];then
 		pacman -Syu sed --noconfirm --color always ||: 
 	else
 		pacman -Syu --noconfirm --color always ||: 
