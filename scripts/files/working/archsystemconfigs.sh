@@ -330,7 +330,6 @@ addsetupkeys () {
 	export PROOT_NO_SECCOMP=1
 	unset LD_PRELOAD
 	commandis=\$(command -v getprop) ||:
-	sid=1
 	if [[ \$commandis = "" ]];then
 		echo Run $installdir/root/bin/setupkeys from the Android system in Termux.
 		exit
@@ -354,15 +353,6 @@ addkeys () {
 	# https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.  
 	# https://sdrausty.github.io/TermuxArch/README has information about this project. 
 	################################################################################
-	commandit=\$(command -v getprop) ||:
-	if [[ \$commandit = "" ]];then
-		if [ \$sid ]; then
-			:
-		else
-			echo Run $installdir/root/bin/setupkeys from the Android system in Termux.
-			exit
-		fi
-	fi
 	n=2
 	t=256
 	# This for loop generates entropy for \$t seconds.
