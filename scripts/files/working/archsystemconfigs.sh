@@ -341,8 +341,8 @@ addkeys () {
 	# https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.  
 	# https://sdrausty.github.io/TermuxArch/README has information about this project. 
 	################################################################################
-	iscommand=\$(command -v getprop)
-	if [[ \$iscommand = "" ]];then
+	acommand=\$(command -v getprop)
+	if [[ \$acommand = "" ]];then
 		echo Run $installdir/root/bin/setupkeys from the Android system in Termux.
 		exit
 	fi
