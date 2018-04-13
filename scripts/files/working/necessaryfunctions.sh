@@ -243,7 +243,7 @@ makestartbin ()
 	cat >> $startbin <<- EOM
 	# [su user command] Login as user and execute command.  Use \`addauser user\` first to create this user and the user's home directory.
 	elif [[ \$1 = [Ss]* ]] || [[ \$1 = -[Ss]* ]] || [[ \$1 = --[Ss]* ]];then
-		elif [[ \$2 = root ]];then
+		if [[ \$2 = root ]];then
 			touch $installdir/root/.chushlogin
 		else
 			touch $installdir/home/\$2/.chushlogin
@@ -251,7 +251,7 @@ makestartbin ()
 	EOM
 		echo "$prootstmnt /bin/su - \$2 -c \"\${@:3}\"" >> $startbin
 	cat >> $startbin <<- EOM
-		elif [[ \$2 = root ]];then
+		if [[ \$2 = root ]];then
 			touch $installdir/root/.chushlogin
 		else
 			rm $installdir/home/\$2/.chushlogin
