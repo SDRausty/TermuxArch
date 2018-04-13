@@ -352,7 +352,7 @@ addkeys () {
 	printf "\n"
 	printf '\033]2; 🕛 > 🕤 TermuxArch Keys 📲 \007'
 	EOM
-	chmod 770 root/bin/keys.sh 
+	chmod 770 root/bin/keys 
 }
 
 addmotd () {
