@@ -316,6 +316,20 @@ addgp () {
 	chmod 700 root/bin/gp 
 }
 
+addsetupkeys () {
+	cat > root/bin/setupkeys <<- EOM
+	#!$PREFIX/bin/bash -e
+	# Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
+	# Hosting https://sdrausty.github.io/TermuxArch courtesy https://pages.github.com
+	# https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.  
+	# https://sdrausty.github.io/TermuxArch/README has information about this project. 
+	################################################################################
+	unset LD_PRELOAD
+	EOM
+	echo "$prootstmnt $installdir/root/bin/keys||:" >> root/bin/setupkeys
+	chmod 700 root/bin/setupkeys
+}
+
 addkeys () {
 	cat > root/bin/keys <<- EOM
 	#!/bin/bash -e

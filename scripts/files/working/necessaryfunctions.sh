@@ -1,19 +1,16 @@
-#!/bin/bash -e
-# Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
+#!/bin/bash -e # Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
 # Hosting https://sdrausty.github.io/TermuxArch courtesy https://pages.github.com
 # https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.  
 # https://sdrausty.github.io/TermuxArch/README has information about this project. 
 ################################################################################
 
-callsystem ()
-{
+callsystem () {
 	mkdir -p $installdir
 	cd $installdir
 	detectsystem ret 
 }
 
-copystartbin2path ()
-{
+copystartbin2path () {
 	if [[ ":$PATH:" == *":$HOME/bin:"* ]] && [ -d $HOME/bin ]; then
 		BPATH=$HOME/bin
 	else
@@ -23,8 +20,7 @@ copystartbin2path ()
 	printf "\033[0;34m 🕛 > 🕦 \033[1;32m$startbin \033[0mcopied to \033[1m$BPATH\033[0m.\n\n"
 }
 
-copystartbin2pathq ()
-{
+copystartbin2pathq () {
 	while true; do
 	printf "\033[0;34m 🕛 > 🕚 \033[0mCopy \033[1m$startbin\033[0m to \033[1m$BPATH\033[0m?  "'\033]2; 🕛 > 🕚 Copy to $PATH [Y|n]?\007'
 	read -p "Answer yes or no [Y|n] " answer
@@ -41,8 +37,7 @@ copystartbin2pathq ()
 	done
 }
 
-detectsystem ()
-{
+detectsystem () {
 	printdetectedsystem
 	if [ $cpuabi = $cpuabi5 ];then
 		armv5l
@@ -59,8 +54,7 @@ detectsystem ()
 	fi
 }
 
-detectsystem2 ()
-{
+detectsystem2 () {
 	if [[ $(getprop ro.product.device) == *_cheets ]];then
 		armv7lChrome 
 	else
@@ -68,8 +62,7 @@ detectsystem2 ()
 	fi
 }
 
-editfiles ()
-{
+editfiles () {
 	if [[ ${ceds[$i]} = "applets/vi" ]];then
 		sed -i -e 1,4d $installdir/etc/pacman.d/mirrorlist
 		sed -i '1i# # # # # # # # # # # # # # # # # # # # # # # # # # #\n# TermuxArch vi instructions:	CTR+r is redo.\n# Use the hjkl keys to navigate. <h down j up k l>\n# Numbers are multipliers.  The u is undelete/undo.\n# 17j then i opens edit mode for the Geo-IP mirror.\n# Enter the # hash/num/pounds symbol to comment it out: \n# Server = http://mirror.archlinuxarm.org/$arch/$repo.\n# Long tap KEYBOARD in the side pane to see ESC, CTR...\n# Tap ESC to return to command mode in vi.\n# CTRL+d and CTRL+b to find your local mirror.\n# / for search, N and n for next match.\n# Tap x to delete # to uncomment your local mirror.\n# Choose only one mirror.  Use :x to save your work.\n# Comment out the Geo-IP mirror	end G	top gg\n# # # # # # # # # # # # # # # # # # # # # # # # # # #' $installdir/etc/pacman.d/mirrorlist
@@ -87,8 +80,7 @@ editfiles ()
 	fi
 }
 	
-lkernid ()
-{
+lkernid () {
 	ur="$($PREFIX/bin/applets/uname -r)"
 	declare -g kid=0
 	declare -i KERNEL_VERSION=$(echo $ur |awk -F'.' '{print $1}')
@@ -111,8 +103,7 @@ lkernid ()
 }
 lkernid ret
 
-mainblock ()
-{ 
+mainblock () { 
 	namestartarch 
 	nameinstalldir
 	spaceinfoq
@@ -125,8 +116,7 @@ mainblock ()
 	printfooter2
 }
 
-makefinishsetup ()
-{
+makefinishsetup () {
 	binfnstp=finishsetup.sh  
 	cat > root/bin/$binfnstp <<- EOM
 	#!/bin/bash -e
@@ -159,8 +149,7 @@ makefinishsetup ()
 	chmod 770 root/bin/finishsetup.sh 
 }
 
-makesetupbin ()
-{
+makesetupbin () {
 	cat > root/bin/setupbin.sh <<- EOM
 	#!$PREFIX/bin/bash -e
 	# Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
@@ -174,8 +163,7 @@ makesetupbin ()
 	chmod 700 root/bin/setupbin.sh
 }
 
-makestartbin ()
-{
+makestartbin () {
 	cat > $startbin <<- EOM
 	#!$PREFIX/bin/bash -e
 	# Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
@@ -184,8 +172,7 @@ makestartbin ()
 	# https://sdrausty.github.io/TermuxArch/README has information about this project. 
 	################################################################################
 	unset LD_PRELOAD
-	printusage () {
-		printf "\n\033[0;32mUsage:  \033[1;32m$startbin \033[0;32mStart Arch Linux as root.  This account should only be reserved for system administration.\n\n	\033[1;32m$startbin command command \033[0;32mRun Arch Linux command from Termux as root user.\n\n	\033[1;32m$startbin login user \033[0;32mLogin as user.  Use \033[1;32maddauser user \033[0;32mfirst to create a user and the user's home directory.\n\n	\033[1;32m$startbin raw \033[0;32mConstruct the \033[1;32mstartarch \033[0;32mproot statement.  For example \033[1;32mstartarch raw su - user \033[0;32mwill login to Arch Linux as user.  Use \033[1;32maddauser user \033[0;32mfirst to create a user and the user's home directory.\n\n	\033[1;32m$startbin su user command \033[0;32mLogin as user and execute command.  Use \033[1;32maddauser user \033[0;32mfirst to create a user and the user's home directory.\n\n\033[0m"'\033]2; TermuxArch '$startbin' help 📲  \007'
+	printusage () { printf "\n\033[0;32mUsage:  \033[1;32m$startbin \033[0;32mStart Arch Linux as root.  This account should only be reserved for system administration.\n\n	\033[1;32m$startbin command command \033[0;32mRun Arch Linux command from Termux as root user.\n\n	\033[1;32m$startbin login user \033[0;32mLogin as user.  Use \033[1;32maddauser user \033[0;32mfirst to create a user and the user's home directory.\n\n	\033[1;32m$startbin raw \033[0;32mConstruct the \033[1;32mstartarch \033[0;32mproot statement.  For example \033[1;32mstartarch raw su - user \033[0;32mwill login to Arch Linux as user.  Use \033[1;32maddauser user \033[0;32mfirst to create a user and the user's home directory.\n\n	\033[1;32m$startbin su user command \033[0;32mLogin as user and execute command.  Use \033[1;32maddauser user \033[0;32mfirst to create a user and the user's home directory.\n\n\033[0m"'\033]2; TermuxArch '$startbin' help 📲  \007'
 	}
 
 	# [?|help] Displays usage information. .
@@ -244,8 +231,7 @@ makestartbin ()
 	chmod 700 $startbin
 }
 
-makesystem ()
-{
+makesystem () {
 	printwla 
 	termux-wake-lock 
 	printdone 
@@ -282,8 +268,7 @@ makesystem ()
 	touchupsys 
 }
 
-preproot ()
-{
+preproot () {
 	if [ $(du $installdir/*z | awk {'print $1'}) -gt 112233 ];then
 		if [ $cpuabi = $cpuabix86 ] || [ $cpuabi = $cpuabix8664 ];then
 			#cd $HOME
@@ -299,8 +284,7 @@ preproot ()
 	fi
 }
 
-runfinishsetup ()
-{
+runfinishsetup () {
 	if [[ $ed = "" ]];then
 		editors 
 	fi
@@ -319,8 +303,7 @@ runfinishsetup ()
 	$installdir/root/bin/setupbin.sh 
 }
 
-addlangq () {	
-	while true; do
+addlangq () {	while true; do
 	printf "\033[1;34m  Add languages to the Arch Linux system? To edit \033[1;32m/etc/locale.gen\033[1;34m for your preferred language(s) before running \033[1;32mlocale-gen\033[1;34m choose edit.  Would you like to run \033[1;32mlocale-gen\033[1;34m with the English en_US.UTF-8 locale only?  "
 	read -p "Answer yes to generate the English en_US.UTF-8 locale only [Y|e] " ye
 	if [[ $ye = [Yy]* ]] || [[ $ye = "" ]];then
@@ -338,8 +321,7 @@ addlangq () {
 	done
 }
 
-runfinishsetupq ()
-{
+runfinishsetupq () {
 	while true; do
 		printf "\n\033[0;32mWould you like to run \033[1;32mfinishsetup.sh\033[0;32m to complete the Arch Linux configuration and update now, or at a later time?  \033[1;32mNow is recommended.  \033[0;32m"
 		read -p "Answer yes to complete the Arch Linux configuration and update now; Or answer no for later [Y|n] " nl
@@ -358,15 +340,13 @@ runfinishsetupq ()
 	printf "\n"
 }
 
-setlocaleconf ()
-{
+setlocaleconf () {
 	if ! grep en_US etc/locale.conf 2>/dev/null ; then
 		echo LANG=en_US.UTF-8 >> etc/locale.conf 
 	fi
 }
 
-setlocalegen ()
-{
+setlocalegen () {
 	if [ -e etc/locale.gen ]; then
 		sed -i '/\#en_US.UTF-8 UTF-8/{s/#//g;s/@/-at-/g;}' etc/locale.gen 
 	else
@@ -376,8 +356,7 @@ setlocalegen ()
 	fi
 }
 
-touchupsys ()
-{
+touchupsys () {
 	mkdir -p root/bin
 	addae
 	addauser
@@ -399,6 +378,7 @@ touchupsys ()
 	addpci
 	addprofile 
 	addresolvconf 
+	addsetupkeys 
 	addt 
 	addtour
 	addtrim 
