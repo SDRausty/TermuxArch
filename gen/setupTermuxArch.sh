@@ -192,7 +192,7 @@ dependsblock ()
 
 dependbp ()
 {
-	if [ $(getprop ro.product.cpu.abi) = x86 ] || [ $(getprop ro.product.cpu.abi) = x86_64 ];then
+	if [ $cpuabi = $cpuabix86 ] || [ $cpuabi = $cpuabix8664 ];then
 		bsdtarif 
 		prootif 
 	else
@@ -563,10 +563,10 @@ runbloom ()
 
 setrootdir ()
 {
-	if [ $(getprop ro.product.cpu.abi) = x86 ];then 
+	if [ $cpuabi = $cpuabix86 ];then
 	#	rootdir=/root.i686
 		rootdir=/arch
-	elif [ $(getprop ro.product.cpu.abi) = x86_64 ];then 
+	elif [ $cpuabi = $cpuabix8664 ];then
 	#	rootdir=/root.x86_64
 		rootdir=/arch
 	else
@@ -589,7 +589,7 @@ spaceinfo ()
 spaceinfogsize ()
 {
 	usrspace=$(df /data 2>/dev/null | awk 'FNR == 2 {print $4}')
-	if [ $(getprop ro.product.cpu.abi) = x86 ] || [ $(getprop ro.product.cpu.abi) = x86_64 ];then
+	if [ $cpuabi = $cpuabix86 ] || [ $cpuabi = $cpuabix8664 ];then
 		if [[ $usrspace = *G ]];then 
 			spaceMessage=""
 		elif [[ $usrspace = *M ]];then
@@ -600,13 +600,13 @@ spaceinfogsize ()
 		fi
 	elif [[ $usrspace = *G ]];then
 		usspace="${usrspace: : -1}"
-		if [ $(getprop ro.product.cpu.abi) = arm64-v8a ];then
+		if [ $cpuabi = $cpuabi8 ];then
 			if [[ "$usspace" < "1.5" ]];then
 				spaceMessage="\n\033[0;33mTermuxArch: \033[1;33mFREE SPACE WARNING!  \033[1;30mStart thinking about cleaning out some stuff.  \033[33m$usrspace of free user space is available on this device.  \033[1;30mThe recommended minimum to install Arch Linux in Termux PRoot for aarch64 is 1.5G of free user space.\n\033[0m"
 			else
 				spaceMessage=""
 			fi
-		elif [ $(getprop ro.product.cpu.abi) = armeabi-v7a ];then
+		elif [ $cpuabi = $cpuabi7 ];then
 			if [[ "$usspace" < "1.23" ]];then
 				spaceMessage="\n\033[0;33mTermuxArch: \033[1;33mFREE SPACE WARNING!  \033[1;30mStart thinking about cleaning out some stuff.  \033[33m$usrspace of free user space is available on this device.  \033[1;30mThe recommended minimum to install Arch Linux in Termux PRoot for armv7 is 1.23G of free user space.\n\033[0m"
 			else
@@ -645,19 +645,19 @@ spaceinfoq ()
 spaceinfoksize ()
 {
 	usrspace=$(df 2>/dev/null | grep "/data"| awk 'NR==1' | awk {'print $4'})
-	if [ $(getprop ro.product.cpu.abi) = arm64-v8a ];then
+	if [ $cpuabi = $cpuabi8 ];then
 		if [[ "$usrspace" -lt "1500000" ]];then
 			spaceMessage="\n\033[0;33mTermuxArch: \033[1;33mFREE SPACE WARNING!  \033[1;30mStart thinking about cleaning out some stuff.  \033[33m$usrspace $units of free user space is available on this device.  \033[1;30mThe recommended minimum to install Arch Linux in Termux PRoot for aarch64 is 1.5G of free user space.\n\033[0m"
 		else
 			spaceMessage=""
 		fi
-	elif [ $(getprop ro.product.cpu.abi) = armeabi-v7a ];then
+	elif [ $cpuabi = $cpuabi7 ];then
 		if [[ "$usrspace" -lt "1250000" ]];then
 			spaceMessage="\n\033[0;33mTermuxArch: \033[1;33mFREE SPACE WARNING!  \033[1;30mStart thinking about cleaning out some stuff.  \033[33m$usrspace $units of free user space is available on this device.  \033[1;30mThe recommended minimum to install Arch Linux in Termux PRoot for armv7 is 1.25G of free user space.\n\033[0m"
 		else
 			spaceMessage=""
 		fi
-	elif [ $(getprop ro.product.cpu.abi) = x86 ] || [ $(getprop ro.product.cpu.abi) = x86_64 ];then
+	elif [ $cpuabi = $cpuabix86 ] || [ $cpuabi = $cpuabix8664 ];then
 		if [[ "$usrspace" -lt "800000" ]];then
 			spaceMessage="\n\033[0;33mTermuxArch: \033[1;33mFREE SPACE WARNING!  \033[1;30mStart thinking about cleaning out some stuff.  \033[33m$usrspace $units of free user space is available on this device.  \033[1;30mThe recommended minimum to install Arch Linux in Termux PRoot for x86 and x86_64 is 800M of free user space.\n\033[0m"
 		else
@@ -700,7 +700,7 @@ cpuabi8="arm64-v8a"
 cpuabix86="x86"
 cpuabix8664="x86_64"
 stime=`date +%s|grep -o '....$'`
-versionid="gen.v1.5 id877475918"
+versionid="gen.v1.5 id426229574"
 
 if [[ $commandif = "" ]];then
 	echo This is not an Android.

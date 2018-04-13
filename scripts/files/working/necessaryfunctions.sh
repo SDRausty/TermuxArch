@@ -249,10 +249,10 @@ makesystem ()
 	printwla 
 	termux-wake-lock 
 	printdone 
-	if [ $(getprop ro.product.cpu.abi) = x86 ] || [ $(getprop ro.product.cpu.abi) = x86_64 ];then
+	if [ $cpuabi = $cpuabix86 ] || [ $cpuabi = $cpuabix8664 ];then
 		getimage
 	else
-		if [ "$mirror" = "os.archlinuxarm.org" ] || [ "$mirror" = "mirror.archlinuxarm.org" ]; then
+		if [ $mirror = "os.archlinuxarm.org" ] || [ $mirror = "mirror.archlinuxarm.org" ]; then
 			until ftchstnd;do
 				ftchstnd ret||: 
 				sleep 2
@@ -285,7 +285,7 @@ makesystem ()
 preproot ()
 {
 	if [ $(du $installdir/*z | awk {'print $1'}) -gt 112233 ];then
-		if [ $(getprop ro.product.cpu.abi) = x86 ] || [ $(getprop ro.product.cpu.abi) = x86_64 ];then
+		if [ $cpuabi = $cpuabix86 ] || [ $cpuabi = $cpuabix8664 ];then
 			#cd $HOME
 			#proot --link2symlink -0 $PREFIX/bin/applets/tar xf $installdir$file 
 			#cd $installdir
