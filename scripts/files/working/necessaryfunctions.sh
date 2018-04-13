@@ -125,6 +125,7 @@ makefinishsetup () {
 	# https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.  
 	# https://sdrausty.github.io/TermuxArch/README has information about this project. 
 	################################################################################
+	printf "\n"
 	EOM
 	if [ -e $HOME/.bash_profile ]; then
 		grep "proxy" $HOME/.bash_profile | grep "export" >> root/bin/$binfnstp 2>/dev/null ||:

@@ -362,7 +362,7 @@ addkeys () {
 		\$(nice -n 20 find / >/dev/null 2>/dev/null & sleep \$t ; kill \$! 2>/dev/null) &
 		\$(nice -n 20 cat /dev/urandom >/dev/null & sleep \$t ; kill \$! 2>/dev/null) &
 	done
-	if [[ \$productcpuabi = x86 ]]; then
+	if [[ \$productcpuabi = x86 ]] || [[ \$1 = x86 ]]; then
 		pacman -Syu archlinux32-keyring-transition --noconfirm --color=always ||: 
 	else
 		pacman -Syu archlinux-keyring --noconfirm --color=always ||: 
