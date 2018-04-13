@@ -318,13 +318,14 @@ addgp () {
 
 addsetupkeys () {
 	cat > root/bin/setupkeys <<- EOM
-	#!$PREFIX/bin/bash -e
+	#!/bin/bash -e
 	# Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
 	# Hosting https://sdrausty.github.io/TermuxArch courtesy https://pages.github.com
 	# https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.  
 	# https://sdrausty.github.io/TermuxArch/README has information about this project. 
 	################################################################################
 	unset LD_PRELOAD
+	export PROOT_NO_SECCOMP=1
 	commandis=\$(command -v getprop) ||:
 	if [[ \$commandis = "" ]];then
 		if [ \$(getprop ro.product.cpu.abi) = x86 ]; then
@@ -350,8 +351,8 @@ addkeys () {
 	# https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.  
 	# https://sdrausty.github.io/TermuxArch/README has information about this project. 
 	################################################################################
-	commandif=\$(command -v getprop) ||:
-	if [[ \$commandif = "" ]];then
+	commandit=\$(command -v getprop) ||:
+	if [[ \$commandit = "" ]];then
 		echo Run $installdir/root/bin/setupkeys from the Android system in Termux.
 		exit
 	fi
