@@ -53,7 +53,7 @@ getimage ()
 		printdownloadingx86two 
 		wget $dmverbose -c --show-progress http://$mirror$path$file 
 	else
-		curl $dmverbose --fail --retry 4 -O http://$mirror${path}md5sums.txt
+		curl $dmverbose --fail --retry 4 -OL http://$mirror${path}md5sums.txt
 		if [ $cpuabi = $cpuabix86 ];then
 			file=$(grep i686 md5sums.txt | awk {'print $2'})
 		else
@@ -62,7 +62,7 @@ getimage ()
 		sed '2q;d' md5sums.txt > $file.md5
 		rm md5sums.txt
 		printdownloadingx86two 
-		curl $dmverbose -C - --fail --retry 4 -O http://$mirror$path$file 
+		curl $dmverbose -C - --fail --retry 4 -OL http://$mirror$path$file 
 	fi
 }
 
