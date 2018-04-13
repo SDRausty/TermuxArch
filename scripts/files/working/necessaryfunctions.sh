@@ -261,6 +261,11 @@ makesystem ()
 			until ftchstnd;do
 				ftchstnd ret||: 
 				sleep 2
+				printf "\n"
+				COUNTER=$((COUNTER + 1))
+				if [ $COUNTER = 12 ];then 
+					exit
+				fi
 			done
 		else
 			ftchit
