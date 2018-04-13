@@ -325,9 +325,15 @@ addsetupkeys () {
 	# https://sdrausty.github.io/TermuxArch/README has information about this project. 
 	################################################################################
 	unset LD_PRELOAD
+	commandif=\$(command -v getprop)
+	if [[ \$commandif = "" ]];then
+		echo Run \`setupkeys\` from the Android system in Termux.
+		exit
+	fi
 	if [ \$(getprop ro.product.cpu.abi) = x86 ]; then
 		productcpuabi=x86
 	fi
+	cd $installdir
 	EOM
 	echo "$prootstmnt $installdir/root/bin/keys||:" >> root/bin/setupkeys
 	chmod 700 root/bin/setupkeys
@@ -341,6 +347,11 @@ addkeys () {
 	# https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.  
 	# https://sdrausty.github.io/TermuxArch/README has information about this project. 
 	################################################################################
+	commandif=\$(command -v getprop)
+	if [[ \$commandif = "" ]];then
+		echo Run \`setupkeys\` from the Android system in Termux.
+		exit
+	fi
 	n=2
 	t=256
 	# This for loop generates entropy for \$t seconds.
