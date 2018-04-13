@@ -327,7 +327,7 @@ addsetupkeys () {
 	unset LD_PRELOAD
 	commandis=\$(command -v getprop) ||:
 	if [[ \$commandis = "" ]];then
-		echo Run \\`setupkeys\\` from the Android system in Termux.
+		echo Run $installdir/root/bin/setupkeys from the Android system in Termux.
 		exit
 	fi
 	if [ \$(getprop ro.product.cpu.abi) = x86 ]; then
@@ -349,7 +349,7 @@ addkeys () {
 	################################################################################
 	commandif=\$(command -v getprop) ||:
 	if [[ \$commandif = "" ]];then
-		echo Run \\`setupkeys\\` from the Android system in Termux.
+		echo Run $installdir/root/bin/setupkeys from the Android system in Termux.
 		exit
 	fi
 	n=2
