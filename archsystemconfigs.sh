@@ -5,8 +5,7 @@
 # https://sdrausty.github.io/TermuxArch/README has information about this project. 
 ################################################################################
 
-addae ()
-{
+addae () {
 	cat > root/bin/ae <<- EOM
 	#!/bin/bash -e
 	# Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
@@ -20,8 +19,7 @@ addae ()
 	chmod 770 root/bin/ae 
 }
 
-addauser ()
-{
+addauser () {
 	# Add Arch Linux user.
 	cat > root/bin/addauser <<- EOM
 	#!/bin/bash -e
@@ -37,8 +35,7 @@ addauser ()
 	chmod 770 root/bin/addauser 
 }
 
-addauserps ()
-{
+addauserps () {
 	# Add Arch Linux user and create user login Termux startup script. 
 	cat > root/bin/addauserps <<- EOM
 	#!/bin/bash -e
@@ -69,8 +66,7 @@ addauserps ()
 	chmod 770 root/bin/addauserps 
 }
 
-addauserpsc ()
-{
+addauserpsc () {
 	# Add Arch Linux user and create user login Termux startup script. 
 	cat > root/bin/addauserpsc <<- EOM
 	#!/bin/bash -e
@@ -101,8 +97,7 @@ addauserpsc ()
 	chmod 770 root/bin/addauserpsc 
 }
 
-addbash_profile ()
-{
+addbash_profile () {
 	cat > root/.bash_profile <<- EOM
 	PATH=\$HOME/bin:\$PATH
 	. \$HOME/.bashrc
@@ -114,8 +109,7 @@ addbash_profile ()
 	fi
 }
 
-addbashrc ()
-{
+addbashrc () {
 	cat > root/.bashrc <<- EOM
 	if [ ! -e \$HOME/.hushlogin ] && [ ! -e \$HOME/.chushlogin ];then
 		. /etc/motd
@@ -154,8 +148,7 @@ addbashrc ()
 	fi
 }
 
-addce ()
-{
+addce () {
 	cat > root/bin/ce <<- EOM
 	#!/bin/bash -e
 	# Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
@@ -181,8 +174,7 @@ addce ()
 	chmod 770 root/bin/ce 
 }
 
-addces ()
-{
+addces () {
 	cat > bin/ce <<- EOM
 	#!/bin/bash -e
 	# Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
@@ -233,8 +225,7 @@ adddfa () {
 	chmod 770 root/bin/dfa 
 }
 
-addga ()
-{
+addga () {
 	cat > root/bin/ga  <<- EOM
 	#!/bin/bash -e
 	# Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
@@ -252,8 +243,7 @@ addga ()
 	chmod 770 root/bin/ga 
 }
 
-addgcl ()
-{
+addgcl () {
 	cat > root/bin/gcl  <<- EOM
 	#!/bin/bash -e
 	# Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
@@ -271,8 +261,7 @@ addgcl ()
 	chmod 770 root/bin/gcl 
 }
 
-addgcm ()
-{
+addgcm () {
 	cat > root/bin/gcm  <<- EOM
 	#!/bin/bash -e
 	# Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
@@ -290,8 +279,7 @@ addgcm ()
 	chmod 770 root/bin/gcm 
 }
 
-addgpl ()
-{
+addgpl () {
 	cat > root/bin/gpl  <<- EOM
 	#!/bin/bash -e
 	# Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
@@ -309,8 +297,7 @@ addgpl ()
 	chmod 770 root/bin/gpl 
 }
 
-addgp ()
-{
+addgp () {
 	cat > root/bin/gp  <<- EOM
 	#!/bin/bash -e
 	# Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
@@ -329,8 +316,46 @@ addgp ()
 	chmod 700 root/bin/gp 
 }
 
-addmotd ()
-{
+addkeys () {
+	cat > root/bin/keys <<- EOM
+	#!/bin/bash -e
+	# Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
+	# Hosting https://sdrausty.github.io/TermuxArch courtesy https://pages.github.com
+	# https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.  
+	# https://sdrausty.github.io/TermuxArch/README has information about this project. 
+	################################################################################
+	n=2
+	t=256
+	# This for loop generates entropy for \$t seconds.
+	for i in \$(seq 1 \$n); do
+		\$(nice -n 20 find / -type f -exec cat {} \\; >/dev/null 2>/dev/null & sleep \$t ; kill \$! 2>/dev/null) &
+		\$(nice -n 20 ls -alR / >/dev/null 2>/dev/null & sleep \$t ; kill \$! 2>/dev/null) &
+		\$(nice -n 20 find / >/dev/null 2>/dev/null & sleep \$t ; kill \$! 2>/dev/null) &
+		\$(nice -n 20 cat /dev/urandom >/dev/null & sleep \$t ; kill \$! 2>/dev/null) &
+	done
+	if [ "\$proc" = "x86" ] || [ "\$proc" = "x86_64" ]; then
+		if [ "\$proc" = "x86" ]; then
+			pacman -Syu archlinux32-keyring-transition --noconfirm --color always ||: 
+		else
+			pacman -Syu archlinux-keyring --noconfirm --color always ||: 
+		fi
+	else
+		pacman -Syu archlinux-keyring --noconfirm --color always ||: 
+	fi
+	printf "\n\033[36m"
+	mv /usr/lib/gnupg/scdaemon{,_} 2>/dev/null ||: 
+	rm -rf /etc/pacman.d/gnupg ||: 
+	printf "\033[0;34mWhen \033[0;37mgpg: Generating pacman keyring master key\033[0;34m appears on the screen, the installation process can be accelerated.  The system desires a lot of entropy at this part of the install procedure.  To generate as much entropy as possible quickly, watch and listen to a file on your device.  \n\nThe program \033[1;32mpacman-key\033[0;34m will want as much entropy as possible when generating keys.  Entropy is also created through tapping, sliding, one, two and more fingers tapping with short and long taps.  When \033[0;37mgpg: Generating pacman keyring master key\033[0;34m appears on the screen, use any of these simple methods to accelerate the installation process if it is stalled.  Put even simpler, just do something on device.  Browsing files will create entropy on device.  Slowly swiveling the device in space and time will accelerate the installation process.  This method alone might not generate enough entropy (a measure of randomness in a closed system) for the process to complete quickly.  Use \033[1;32mbash ~${darch}/bin/we \033[0;34min a new Termux session to and watch entropy on device.\n\n\033[m"
+	pacman-key --init ||: 
+	printf "\n\033[0;34mWhen \033[1;37mAppending keys from archlinux.gpg\033[0;34m appears on the screen, the installation process can be accelerated.  The system desires a lot of entropy at this part of the install procedure.  To generate as much entropy as possible quickly, watch and listen to a file on your device.  \n\nThe program \033[1;32mpacman-key\033[0;34m will want as much entropy as possible when generating keys.  Entropy is also created through tapping, sliding, one, two and more fingers tapping with short and long taps.  When \033[1;37mAppending keys from archlinux.gpg\033[0;34m appears on the screen, use any of these simple methods to accelerate the installation process if it is stalled.  Put even simpler, just do something on device.  Browsing files will create entropy on device.  Slowly swiveling the device in space and time will accelerate the installation process.  This method alone might not generate enough entropy (a measure of randomness in a closed system) for the process to complete quickly.  Use \033[1;32mbash ~${darch}/bin/we \033[0;34min a new Termux session to watch entropy on device.\n\n"
+	pacman-key --populate archlinux ||: 
+	printf "\n"
+	printf '\033]2; 🕛 > 🕤 TermuxArch Keys 📲 \007'
+	EOM
+	chmod 770 root/bin/keys 
+}
+
+addmotd () {
 	cat > etc/motd  <<- EOM
 	printf "\033[1;34mWelcome to Arch Linux in Termux!  Enjoy!\nChat:    \033[0mhttps://gitter.im/termux/termux/\n\033[1;34mHelp:    \033[0;34minfo query \033[1;34mand \033[0;34mman query\n\033[1;34mPortal:  \033[0mhttps://wiki.termux.com/wiki/Community\n\n\033[1;34mInstall a package: \033[0;34mpacman -S package\n\033[1;34mMore  information: \033[0;34mpacman [-D|F|Q|R|S|T|U]h\n\033[1;34mSearch   packages: \033[0;34mpacman -Ss query\n\033[1;34mUpgrade  packages: \033[0;34mpacman -Syu\n\n\033[0m"
 	EOM
@@ -364,8 +389,7 @@ addpci () {
 	chmod 700 root/bin/pci 
 }
 
-addprofile ()
-{
+addprofile () {
 	cat > root/.profile <<- EOM
 	. \$HOME/.bash_profile
 	EOM
@@ -374,8 +398,7 @@ addprofile ()
 	fi
 }
 
-addresolvconf ()
-{
+addresolvconf () {
 	rm etc/resolv* 2>/dev/null||:
 	cat > etc/resolv.conf <<- EOM
 	nameserver 8.8.8.8
@@ -383,8 +406,7 @@ addresolvconf ()
 	EOM
 }
 
-addt ()
-{
+addt () {
 	cat > root/bin/t  <<- EOM
 	#!/bin/bash -e
 	# Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
@@ -402,8 +424,7 @@ addt ()
 	chmod 770 root/bin/t 
 }
 
-addthstartarch ()
-{
+addthstartarch () {
 	cat > root/bin/th$startbin <<- EOM
 	#!/bin/bash -e
 	# Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
@@ -429,8 +450,7 @@ addthstartarch ()
 	chmod 770 root/bin/th$startbin
 }
 
-addtour ()
-{
+addtour () {
 	cat > root/bin/tour <<- EOM
 	#!/bin/bash -e
 	# Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
@@ -455,8 +475,7 @@ addtour ()
 	chmod 770 root/bin/tour 
 }
 
-addtrim ()
-{
+addtrim () {
 	cat > root/bin/trim <<- EOM
 	#!/bin/bash -e
 	# Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
@@ -479,8 +498,7 @@ addtrim ()
 	chmod 770 root/bin/trim 
 }
 
-addv ()
-{
+addv () {
 	cat > root/bin/v  <<- EOM
 	#!/bin/bash -e
 	# Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
@@ -498,8 +516,7 @@ addv ()
 	chmod 770 root/bin/v 
 }
 
-addwe ()
-{
+addwe () {
 	cat > bin/we <<- EOM
 	#!/bin/bash -e
 	# Watch available entropy on device.
@@ -648,8 +665,7 @@ addwe ()
 	chmod 770 bin/we 
 }
 
-addyt ()
-{
+addyt () {
 	cat > root/bin/yt  <<- EOM
 	#!/bin/bash -e
 	# Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺

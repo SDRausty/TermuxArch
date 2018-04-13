@@ -151,38 +151,11 @@ makefinishsetup ()
 		grep "proxy" $HOME/.profile | grep "export" >>  root/bin/$binfnstp 2>/dev/null ||:
 	fi
 	cat >> root/bin/$binfnstp <<- EOM
-	n=2
-	t=256
-	# This for loop generates entropy for \$t seconds.
-	for i in \$(seq 1 \$n); do
-		\$(nice -n 20 find / -type f -exec cat {} \\; >/dev/null 2>/dev/null & sleep \$t ; kill \$! 2>/dev/null) &
-		\$(nice -n 20 ls -alR / >/dev/null 2>/dev/null & sleep \$t ; kill \$! 2>/dev/null) &
-		\$(nice -n 20 find / >/dev/null 2>/dev/null & sleep \$t ; kill \$! 2>/dev/null) &
-		\$(nice -n 20 cat /dev/urandom >/dev/null & sleep \$t ; kill \$! 2>/dev/null) &
-	done
 	if [ "\$proc" = "x86" ] || [ "\$proc" = "x86_64" ]; then
-		if [ "\$proc" = "x86" ]; then
-			pacman -Syu sed archlinux32-keyring-transition --noconfirm --color always ||: 
-		else
-			pacman -Syu sed archlinux-keyring --noconfirm --color always ||: 
-		fi
+		pacman -Syu sed --noconfirm --color always ||: 
 	else
-		pacman -Syu archlinux-keyring --noconfirm --color always ||: 
+		pacman -Syu --noconfirm --color always ||: 
 	fi
-	printf "\n\033[36m"
-	mv /usr/lib/gnupg/scdaemon{,_} 2>/dev/null ||: 
-	rm -rf /etc/pacman.d/gnupg ||: 
-	# This for loop generates entropy for \$t seconds.
-	for i in \$(seq 1 \$n); do
-		\$(nice -n 20 find / -type f -exec cat {} \\; >/dev/null 2>/dev/null & sleep \$t ; kill \$! 2>/dev/null) &
-		\$(nice -n 20 ls -alR / >/dev/null 2>/dev/null & sleep \$t ; kill \$! 2>/dev/null) &
-		\$(nice -n 20 find / >/dev/null 2>/dev/null & sleep \$t ; kill \$! 2>/dev/null) &
-		\$(nice -n 20 cat /dev/urandom >/dev/null & sleep \$t ; kill \$! 2>/dev/null) &
-	done
-	printf "\033[0;34mWhen \033[0;37mgpg: Generating pacman keyring master key\033[0;34m appears on the screen, the installation process can be accelerated.  The system desires a lot of entropy at this part of the install procedure.  To generate as much entropy as possible quickly, watch and listen to a file on your device.  \n\nThe program \033[1;32mpacman-key\033[0;34m will want as much entropy as possible when generating keys.  Entropy is also created through tapping, sliding, one, two and more fingers tapping with short and long taps.  When \033[0;37mgpg: Generating pacman keyring master key\033[0;34m appears on the screen, use any of these simple methods to accelerate the installation process if it is stalled.  Put even simpler, just do something on device.  Browsing files will create entropy on device.  Slowly swiveling the device in space and time will accelerate the installation process.  This method alone might not generate enough entropy (a measure of randomness in a closed system) for the process to complete quickly.  Use \033[1;32mbash ~${darch}/bin/we \033[0;34min a new Termux session to and watch entropy on device.\n\n\033[m"
-	pacman-key --init ||: 
-	printf "\n\033[0;34mWhen \033[1;37mAppending keys from archlinux.gpg\033[0;34m appears on the screen, the installation process can be accelerated.  The system desires a lot of entropy at this part of the install procedure.  To generate as much entropy as possible quickly, watch and listen to a file on your device.  \n\nThe program \033[1;32mpacman-key\033[0;34m will want as much entropy as possible when generating keys.  Entropy is also created through tapping, sliding, one, two and more fingers tapping with short and long taps.  When \033[1;37mAppending keys from archlinux.gpg\033[0;34m appears on the screen, use any of these simple methods to accelerate the installation process if it is stalled.  Put even simpler, just do something on device.  Browsing files will create entropy on device.  Slowly swiveling the device in space and time will accelerate the installation process.  This method alone might not generate enough entropy (a measure of randomness in a closed system) for the process to complete quickly.  Use \033[1;32mbash ~${darch}/bin/we \033[0;34min a new Termux session to watch entropy on device.\n\n"
-	pacman-key --populate archlinux ||: 
 	printf "\n\033[1;32m==> \033[0m"
 	locale-gen ||:
 	printf "\n"
@@ -216,9 +189,8 @@ makestartbin ()
 	# https://sdrausty.github.io/TermuxArch/README has information about this project. 
 	################################################################################
 	unset LD_PRELOAD
-	printusage ()
-	{
-		printf "\n\033[0;32mUsage:  \033[1;32m$startbin \033[0;32mStart Arch Linux as root.  This account should only be reserved for system administration.\n\n	\033[1;32m$startbin command command \033[0;32mRun Arch Linux command from Termux as root user.\n\n	\033[1;32m$startbin login user \033[0;32mLogin as user.  Use \033[1;32maddauser user \033[0;32mfirst to create a user and the user's home directory.\n\n	\033[1;32m$startbin raw \033[0;32mConstruct the \033[1;32mstartarch \033[0;32mproot statement.  For example \033[1;32mstartarch raw su - user \033[0;32mwill login to Arch Linux as user.  Use \033[1;32maddauser user \033[0;32mfirst to create a user and the user's home directory.\n\n	\033[1;32m$startbin su user command \033[0;32mLogin as user and execute command.  Use \033[1;32maddauser user \033[0;32mfirst to create a user and the user's home directory.\n\n\033[0m"'\033]2; '$startbin' courtesy TermuxArch 📲  \007'
+	printusage () {
+		printf "\n\033[0;32mUsage:  \033[1;32m$startbin \033[0;32mStart Arch Linux as root.  This account should only be reserved for system administration.\n\n	\033[1;32m$startbin command command \033[0;32mRun Arch Linux command from Termux as root user.\n\n	\033[1;32m$startbin login user \033[0;32mLogin as user.  Use \033[1;32maddauser user \033[0;32mfirst to create a user and the user's home directory.\n\n	\033[1;32m$startbin raw \033[0;32mConstruct the \033[1;32mstartarch \033[0;32mproot statement.  For example \033[1;32mstartarch raw su - user \033[0;32mwill login to Arch Linux as user.  Use \033[1;32maddauser user \033[0;32mfirst to create a user and the user's home directory.\n\n	\033[1;32m$startbin su user command \033[0;32mLogin as user and execute command.  Use \033[1;32maddauser user \033[0;32mfirst to create a user and the user's home directory.\n\n\033[0m"'\033]2; TermuxArch '$startbin' help 📲  \007'
 	}
 
 	# [?|help] Displays usage information. .
@@ -226,33 +198,50 @@ makestartbin ()
 		printusage
 	# [command args] Execute a command in BASH as root.
 	elif [[ \$1 = [Cc]* ]] || [[ \$1 = -[Cc]* ]] || [[ \$1 = --[Cc]* ]];then
+		printf '\033]2; '$startbin' command args 📲  \007'
 		touch $installdir/root/.chushlogin
 	EOM
 		echo "$prootstmnt /bin/bash -lc \"\${@:2}\"" >> $startbin
 	cat >> $startbin <<- EOM
+		printf '\033]2; '$startbin' command args 📲  \007'
 		rm $installdir/root/.chushlogin
 	# [login user|login user [options]] Login as user [plus options].  Use \`addauser user\` first to create this user and the user's home directory.
 	elif [[ \$1 = [Ll]* ]] || [[ \$1 = -[Ll]* ]] || [[ \$1 = --[Ll]* ]] ;then
+		printf '\033]2; '$startbin' login user [options] 📲  \007'
 	EOM
 		echo "$prootstmnt /bin/su - \"\${@:2}\"" >> $startbin
 	cat >> $startbin <<- EOM
+		printf '\033]2; '$startbin' login user [options] 📲  \007'
 	# [raw args] Construct the \`startarch\` proot statement.  For example \`startarch r su - archuser\` will login as user archuser.  Use \`addauser archuser\` first to create this user and the user home directory.
 	elif [[ \$1 = [Rr]* ]] || [[ \$1 = -[Rr]* ]] || [[ \$1 = --[Rr]* ]];then
+		printf '\033]2; '$startbin' raw args 📲  \007'
 	EOM
 		echo "$prootstmnt  /bin/\"\${@:2}\"" >> $startbin
 	cat >> $startbin <<- EOM
+		printf '\033]2; '$startbin' raw args 📲  \007'
 	# [su user command] Login as user and execute command.  Use \`addauser user\` first to create this user and the user's home directory.
 	elif [[ \$1 = [Ss]* ]] || [[ \$1 = -[Ss]* ]] || [[ \$1 = --[Ss]* ]];then
-		touch $installdir/home/\$2/.chushlogin
+		printf '\033]2; '$startbin' su user command 📲  \007'
+		if [[ \$2 = root ]];then
+			touch $installdir/root/.chushlogin
+		else
+			touch $installdir/home/\$2/.chushlogin
+		fi
 	EOM
 		echo "$prootstmnt /bin/su - \$2 -c \"\${@:3}\"" >> $startbin
 	cat >> $startbin <<- EOM
-		rm $installdir/home/\$2/.chushlogin
+		printf '\033]2; '$startbin' su user command 📲  \007'
+		if [[ \$2 = root ]];then
+			rm $installdir/root/.chushlogin
+		else
+			rm $installdir/home/\$2/.chushlogin
+		fi
 	# [] Default Arch Linux in Termux PRoot root login.
 	elif [[ \$1 = "" ]];then
 	EOM
 		echo "$prootstmnt /bin/bash -l " >> $startbin
 	cat >> $startbin <<- EOM
+		printf '\033]2; TermuxArch '$startbin' 📲  \007'
 	else
 		printusage
 	fi
@@ -272,6 +261,11 @@ makesystem ()
 			until ftchstnd;do
 				ftchstnd ret||: 
 				sleep 2
+				printf "\n"
+				COUNTER=$((COUNTER + 1))
+				if [ $COUNTER = 12 ];then 
+					exit
+				fi
 			done
 		else
 			ftchit
@@ -404,6 +398,7 @@ touchupsys ()
 	addgcm
 	addgp
 	addgpl
+	addkeys
 	addmotd
 	addpc
 	addpci

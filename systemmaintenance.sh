@@ -90,6 +90,7 @@ refreshsys ()
 	addgcm
 	addgp
 	addgpl
+	addkeys
 	addmotd
 	addpc
 	addpci
