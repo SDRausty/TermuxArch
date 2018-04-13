@@ -127,13 +127,13 @@ makefinishsetup () {
 	################################################################################
 	EOM
 	if [ -e $HOME/.bash_profile ]; then
-		grep "proxy" $HOME/.bash_profile | grep "export" >>  root/bin/$binfnstp 2>/dev/null ||:
+		grep "proxy" $HOME/.bash_profile | grep "export" >> root/bin/$binfnstp 2>/dev/null ||:
 	fi
 	if [ -e $HOME/.bashrc ]; then
-		grep "proxy" $HOME/.bashrc  | grep "export" >>  root/bin/$binfnstp 2>/dev/null ||:
+		grep "proxy" $HOME/.bashrc  | grep "export" >> root/bin/$binfnstp 2>/dev/null ||:
 	fi
 	if [ -e $HOME/.profile ]; then
-		grep "proxy" $HOME/.profile | grep "export" >>  root/bin/$binfnstp 2>/dev/null ||:
+		grep "proxy" $HOME/.profile | grep "export" >> root/bin/$binfnstp 2>/dev/null ||:
 	fi
 	cat >> root/bin/$binfnstp <<- EOM
 	if [ \$cpuabi = \$cpuabix86 ] || [ \$cpuabi = \$cpuabix8664 ];then
@@ -146,7 +146,7 @@ makefinishsetup () {
 	printf "\n"
 	printf '\033]2; 🕛 > 🕤 Arch Linux in Termux is installed and configured 📲 \007'
 	EOM
-	chmod 770 root/bin/finishsetup.sh 
+	chmod 770 root/bin/$binfnstp 
 }
 
 makesetupbin () {
@@ -157,6 +157,7 @@ makesetupbin () {
 	# https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.  
 	# https://sdrausty.github.io/TermuxArch/README has information about this project. 
 	################################################################################
+	export PROOT_NO_SECCOMP=1
 	unset LD_PRELOAD
 	EOM
 	echo "$prootstmnt /root/bin/finishsetup.sh||:" >> root/bin/setupbin.sh 
@@ -171,6 +172,7 @@ makestartbin () {
 	# https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.  
 	# https://sdrausty.github.io/TermuxArch/README has information about this project. 
 	################################################################################
+	export PROOT_NO_SECCOMP=1
 	unset LD_PRELOAD
 	printusage () { printf "\n\033[0;32mUsage:  \033[1;32m$startbin \033[0;32mStart Arch Linux as root.  This account should only be reserved for system administration.\n\n	\033[1;32m$startbin command command \033[0;32mRun Arch Linux command from Termux as root user.\n\n	\033[1;32m$startbin login user \033[0;32mLogin as user.  Use \033[1;32maddauser user \033[0;32mfirst to create a user and the user's home directory.\n\n	\033[1;32m$startbin raw \033[0;32mConstruct the \033[1;32mstartarch \033[0;32mproot statement.  For example \033[1;32mstartarch raw su - user \033[0;32mwill login to Arch Linux as user.  Use \033[1;32maddauser user \033[0;32mfirst to create a user and the user's home directory.\n\n	\033[1;32m$startbin su user command \033[0;32mLogin as user and execute command.  Use \033[1;32maddauser user \033[0;32mfirst to create a user and the user's home directory.\n\n\033[0m"'\033]2; TermuxArch '$startbin' help 📲  \007'
 	}
