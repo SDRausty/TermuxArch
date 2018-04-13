@@ -308,7 +308,7 @@ intro ()
 	printf '\033]2;  bash setupTermuxArch.sh 📲 \007'
 #	rmarchq
 	rootdirexception 
-	spaceinfoq
+	spaceinfo
 	printf "\n\033[0;34m 🕛 > 🕛 \033[1;34mTermuxArch $versionid will attempt to install Linux in \033[0;32m$installdir\033[1;34m.  Arch Linux in Termux PRoot will be available upon successful completion.  To run this BASH script again, use \`!!\`.  Ensure background data is not restricted.  Check the wireless connection if you do not see one o'clock 🕐 below.  "
 	dependsblock 
 }
@@ -576,7 +576,7 @@ setrootdir ()
 
 spaceinfo ()
 {
-	units=`df 2>/dev/null | awk 'FNR == 1 {print $2}'`
+	units=$(df 2>/dev/null | awk 'FNR == 1 {print $2}')
 	if [[ $units = Size ]];then
 		spaceinfogsize 
 		printf "$spaceMessage"
@@ -588,7 +588,7 @@ spaceinfo ()
 
 spaceinfogsize ()
 {
-	usrspace=`df /data 2>/dev/null | awk 'FNR == 2 {print $4}'`
+	usrspace=$(df /data 2>/dev/null | awk 'FNR == 2 {print $4}')
 	if [ $(getprop ro.product.cpu.abi) = x86 ] || [ $(getprop ro.product.cpu.abi) = x86_64 ];then
 		if [[ $usrspace = *G ]];then 
 			spaceMessage=""
@@ -644,7 +644,7 @@ spaceinfoq ()
 
 spaceinfoksize ()
 {
-	usrspace=`df 2>/dev/null | grep "/data"| awk 'NR==1' | awk {'print $4'}`
+	usrspace=$(df 2>/dev/null | grep "/data"| awk 'NR==1' | awk {'print $4'})
 	if [ $(getprop ro.product.cpu.abi) = arm64-v8a ];then
 		if [[ "$usrspace" -lt "1500000" ]];then
 			spaceMessage="\n\033[0;33mTermuxArch: \033[1;33mFREE SPACE WARNING!  \033[1;30mStart thinking about cleaning out some stuff.  \033[33m$usrspace $units of free user space is available on this device.  \033[1;30mThe recommended minimum to install Arch Linux in Termux PRoot for aarch64 is 1.5G of free user space.\n\033[0m"
@@ -687,14 +687,19 @@ wgetif ()
 
 # User configurable variables such as mirrors and download manager options are in `setupTermuxArchConfigs.sh`.  Creating this file from `kownconfigurations.sh` in the working directory is simple, use `setupTermuxArch.sh manual` to create, edit and run `setupTermuxArchConfigs.sh`; `setupTermuxArch.sh help` has more information.  All options can be abbreviated to the first letter(s). 
 
-commandif=$(command -v getprop) ||:
+commandif=$(command -v getprop)
 declare -g args=$@
 dfl=/gen
 dmverbose="-q"
 #dmverbose="-v"
 export PROOT_NO_SECCOMP=1
+cpuabi5="armeabi"
+cpuabi7="armeabi-v7a"
+cpuabi8="arm64-v8a"
+cpuabix86="x86"
+cpuabix8664="x86_64"
 stime=`date +%s|grep -o '....$'`
-versionid="gen.v1.5 id588348922"
+versionid="gen.v1.5 id960336693"
 
 if [[ $commandif = "" ]];then
 	echo This is not an Android.

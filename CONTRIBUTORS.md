@@ -34,11 +34,15 @@
 
 [cswl](https://github.com/cswl) suggested, "I dont have time to tinker around with TermuxArch... but could we make an stub package for linux-aarch64 and linux-firmware... since we're just using proot...  I dont think we'd need the kernel and firmware... wasting space"  Result: addtrim () created and TermuxArch improved! 
 
+[Jezwin](https://github.com/Jezwin) submitted an issue.  Result: TermuxArch improved! 
+
 [David xu](https://github.com/xqdoo00o) contributed [Shared: NO such file or directory! #61](https://github.com/sdrausty/TermuxArch/issues/61).  Result: TermuxArch improved!
 
 [developer787](https://github.com/developer787) submitted an issue.  Result: TermuxArch improved! 
 
 [EsdrasTarsis](https://github.com/EsdrasTarsis) contributed insightful comments regarding `pacman-key` https://github.com/sdrausty/TermuxArch/issues/28 Result: TermuxArch improved!
+
+[emoryy](https://github.com/emoryy) submitted https://github.com/sdrausty/TermuxArch/issues/64  Result cleanliness in git repository added: TermuxArch improved!
 
 [evg-zhabotinsky](https://github.com/evg-zhabotinsky) Contributed standard output terminal benchmark information.  Result: `stdoutbench.sh` created.
 
@@ -58,7 +62,7 @@ jlam: contributed `getprop ro.product.device` Chromebook detection, `getprop ro.
 
 [markfelt](https://github.com/markfelt) contributed [Succesfully Modified Stock 'makepkg'... #38](https://github.com/sdrausty/TermuxArch/issues/38) with instructions.  Result: pending 
 
-[michalbednarski](https://github.com/michalbednarski) contributed Termux PRoot, discussed PRoot, contributed: `pacman-key --init` && `echo disable-scdaemon > /etc/pacman.d/gnupg/gpg-agent.conf` which resolved `pacman-key --populate archlinux` issuses.  Result: TermuxArch improved! 
+[michalbednarski](https://github.com/michalbednarski) contributed Termux PRoot, discussed PRoot, contributed: `pacman-key --init` && `echo disable-scdaemon > /etc/pacman.d/gnupg/gpg-agent.conf` which resolved `pacman-key --populate archlinux` issuses, `export PROOT_NO_SECCOMP=1` resolving Android 8 installation issues.  Result: TermuxArch greatly improved! 
 
 [mjskoneg](https://github.com/mjskoneg) submitted issues.  Result: TermuxArch improved! 
 

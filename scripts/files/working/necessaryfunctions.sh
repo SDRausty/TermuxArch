@@ -44,19 +44,19 @@ copystartbin2pathq ()
 detectsystem ()
 {
 	printdetectedsystem
-	if [ $(getprop ro.product.cpu.abi) = armeabi ];then
+	if [ $(getprop ro.product.cpu.abi) = $cpuabi5 ];then
 		proc=armv5
 		armv5l
-	elif [ $(getprop ro.product.cpu.abi) = armeabi-v7a ];then
+	elif [ $(getprop ro.product.cpu.abi) = $cpuabi7 ];then
 		proc=armv7
 		detectsystem2 
-	elif [ $(getprop ro.product.cpu.abi) = arm64-v8a ];then
+	elif [ $(getprop ro.product.cpu.abi) = $cpuabi8 ];then
 		proc=aarch64
 		aarch64
-	elif [ $(getprop ro.product.cpu.abi) = x86 ];then
+	elif [ $(getprop ro.product.cpu.abi) = $cpuabix86 ];then
 		proc=x86
 		i686 
-	elif [ $(getprop ro.product.cpu.abi) = x86_64 ];then
+	elif [ $(getprop ro.product.cpu.abi) = $cpuabix8664 ];then
 		proc=x86_64
 		x86_64
 	else
