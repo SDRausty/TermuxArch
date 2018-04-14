@@ -655,7 +655,7 @@ dmverbose="-q"
 #dmverbose="-v"
 export PROOT_NO_SECCOMP=1
 stime=`date +%s|grep -o '....$'`
-versionid="gen.v1.5 id485158794"
+versionid="gen.v1.5 id806005138"
 
 if [[ $commandif = "" ]];then
 	echo Run \`setupTermuxArch.sh\` from the Android system in Termux.
