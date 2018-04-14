@@ -182,7 +182,7 @@ makestartbin () {
 	printusage () { printf "\n\033[0;32mUsage:  \033[1;32m$startbin \033[0;32mStart Arch Linux as root.  This account should only be reserved for system administration.\n\n	\033[1;32m$startbin command command \033[0;32mRun Arch Linux command from Termux as root user.\n\n	\033[1;32m$startbin login user \033[0;32mLogin as user.  Use \033[1;32maddauser user \033[0;32mfirst to create a user and the user's home directory.\n\n	\033[1;32m$startbin raw \033[0;32mConstruct the \033[1;32mstartarch \033[0;32mproot statement.  For example \033[1;32mstartarch raw su - user \033[0;32mwill login to Arch Linux as user.  Use \033[1;32maddauser user \033[0;32mfirst to create a user and the user's home directory.\n\n	\033[1;32m$startbin su user command \033[0;32mLogin as user and execute command.  Use \033[1;32maddauser user \033[0;32mfirst to create a user and the user's home directory.\n\n\033[0m"'\033]2; TermuxArch '$startbin' help 📲  \007' }
 
 	if [[ \$1 = [?]* ]] || [[ \$1 = -[?]* ]] || [[ \$1 = --[?]* ]] || [[ \$1 = [Hh]* ]] || [[ \$1 = -[Hh]* ]] || [[ \$1 = --[Hh]* ]];then
-	# [?|help] Displays usage information. .
+	# [?|help] Displays usage information.
 		printusage
 	elif [[ \$1 = [Cc]* ]] || [[ \$1 = -[Cc]* ]] || [[ \$1 = --[Cc]* ]];then
 	# [command args] Execute a command in BASH as root.
@@ -204,7 +204,7 @@ makestartbin () {
 	# [raw args] Construct the \`startarch\` proot statement.  For example \`startarch r su - archuser\` will login as user archuser.  Use \`addauser archuser\` first to create this user and the user home directory.
 		printf '\033]2; '$startbin' raw args 📲  \007'
 	EOM
-		echo "$prootstmnt  /bin/\"\$ar2ar\" ||:" >> $startbin
+		echo "$prootstmnt /bin/\"\$ar2ar\" ||:" >> $startbin
 	cat >> $startbin <<- EOM
 		printf '\033]2; '$startbin' raw args 📲  \007'
 	elif [[ \$1 = [Ss]* ]] || [[ \$1 = -[Ss]* ]] || [[ \$1 = --[Ss]* ]];then
