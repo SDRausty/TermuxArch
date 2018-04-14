@@ -365,7 +365,7 @@ addkeys () {
 	if [[ \$productcpuabi = x86 ]] || [[ \$1 = x86 ]]; then
 		pacman -Syu archlinux32-keyring-transition --noconfirm --color=always ||: 
 	else
-		pacman -Syu archlinux-keyring --noconfirm --color=always ||: 
+		pacman -Syu archlinux-keyring archlinuxarm-keyring --noconfirm --color=always ||: 
 	fi
 	printf "\n\033[36m"
 	mv /usr/lib/gnupg/scdaemon{,_} 2>/dev/null ||: 

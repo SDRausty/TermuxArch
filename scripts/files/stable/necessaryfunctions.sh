@@ -173,40 +173,44 @@ makestartbin () {
 	# https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.  
 	# https://sdrausty.github.io/TermuxArch/README has information about this project. 
 	################################################################################
+	ar2ar=\${@:2}
+	ar3ar=\${@:3}
+	declare -g ar2ar
+	declare -g ar3ar
 	export PROOT_NO_SECCOMP=1
 	unset LD_PRELOAD
 	printusage () { 
-		printf "\n\033[0;32mUsage:  \033[1;32m$startbin \033[0;32mStart Arch Linux as root.  This account should only be reserved for system administration.\n\n	\033[1;32m$startbin command command \033[0;32mRun Arch Linux command from Termux as root user.\n\n	\033[1;32m$startbin login user \033[0;32mLogin as user.  Use \033[1;32maddauser user \033[0;32mfirst to create a user and the user's home directory.\n\n	\033[1;32m$startbin raw \033[0;32mConstruct the \033[1;32mstartarch \033[0;32mproot statement.  For example \033[1;32mstartarch raw su - user \033[0;32mwill login to Arch Linux as user.  Use \033[1;32maddauser user \033[0;32mfirst to create a user and the user's home directory.\n\n	\033[1;32m$startbin su user command \033[0;32mLogin as user and execute command.  Use \033[1;32maddauser user \033[0;32mfirst to create a user and the user's home directory.\n\n\033[0m"'\033]2; TermuxArch '$startbin' help 📲  \007'
+	printf "\n\033[0;32mUsage:  \033[1;32m$startbin \033[0;32mStart Arch Linux as root.  This account should only be reserved for system administration.\n\n	\033[1;32m$startbin command command \033[0;32mRun Arch Linux command from Termux as root user.\n\n	\033[1;32m$startbin login user \033[0;32mLogin as user.  Use \033[1;32maddauser user \033[0;32mfirst to create a user and the user's home directory.\n\n	\033[1;32m$startbin raw \033[0;32mConstruct the \033[1;32mstartarch \033[0;32mproot statement.  For example \033[1;32mstartarch raw su - user \033[0;32mwill login to Arch Linux as user.  Use \033[1;32maddauser user \033[0;32mfirst to create a user and the user's home directory.\n\n	\033[1;32m$startbin su user command \033[0;32mLogin as user and execute command.  Use \033[1;32maddauser user \033[0;32mfirst to create a user and the user's home directory.\n\n\033[0m"'\033]2; TermuxArch '$startbin' help 📲  \007' 
 	}
 
-	# [?|help] Displays usage information. .
 	if [[ \$1 = [?]* ]] || [[ \$1 = -[?]* ]] || [[ \$1 = --[?]* ]] || [[ \$1 = [Hh]* ]] || [[ \$1 = -[Hh]* ]] || [[ \$1 = --[Hh]* ]];then
+	# [?|help] Displays usage information.
 		printusage
-	# [command args] Execute a command in BASH as root.
 	elif [[ \$1 = [Cc]* ]] || [[ \$1 = -[Cc]* ]] || [[ \$1 = --[Cc]* ]];then
+	# [command args] Execute a command in BASH as root.
 		printf '\033]2; '$startbin' command args 📲  \007'
 		touch $installdir/root/.chushlogin
 	EOM
-		echo "$prootstmnt /bin/bash -lc \"\${@:2}\" ||:" >> $startbin
+		echo "$prootstmnt /bin/bash -lc \"\$ar2ar\" ||:" >> $startbin
 	cat >> $startbin <<- EOM
 		printf '\033]2; '$startbin' command args 📲  \007'
 		rm $installdir/root/.chushlogin
-	# [login user|login user [options]] Login as user [plus options].  Use \`addauser user\` first to create this user and the user's home directory.
 	elif [[ \$1 = [Ll]* ]] || [[ \$1 = -[Ll]* ]] || [[ \$1 = --[Ll]* ]] ;then
+	# [login user|login user [options]] Login as user [plus options].  Use \`addauser user\` first to create this user and the user's home directory.
 		printf '\033]2; '$startbin' login user [options] 📲  \007'
 	EOM
-		echo "$prootstmnt /bin/su - \"\${@:2}\" ||:" >> $startbin
+		echo "$prootstmnt /bin/su - \"\$ar2ar\" ||:" >> $startbin
 	cat >> $startbin <<- EOM
 		printf '\033]2; '$startbin' login user [options] 📲  \007'
-	# [raw args] Construct the \`startarch\` proot statement.  For example \`startarch r su - archuser\` will login as user archuser.  Use \`addauser archuser\` first to create this user and the user home directory.
 	elif [[ \$1 = [Rr]* ]] || [[ \$1 = -[Rr]* ]] || [[ \$1 = --[Rr]* ]];then
+	# [raw args] Construct the \`startarch\` proot statement.  For example \`startarch r su - archuser\` will login as user archuser.  Use \`addauser archuser\` first to create this user and the user home directory.
 		printf '\033]2; '$startbin' raw args 📲  \007'
 	EOM
-		echo "$prootstmnt  /bin/\"\${@:2}\" ||:" >> $startbin
+		echo "$prootstmnt /bin/\"\$ar2ar\" ||:" >> $startbin
 	cat >> $startbin <<- EOM
 		printf '\033]2; '$startbin' raw args 📲  \007'
-	# [su user command] Login as user and execute command.  Use \`addauser user\` first to create this user and the user's home directory.
 	elif [[ \$1 = [Ss]* ]] || [[ \$1 = -[Ss]* ]] || [[ \$1 = --[Ss]* ]];then
+	# [su user command] Login as user and execute command.  Use \`addauser user\` first to create this user and the user's home directory.
 		printf '\033]2; '$startbin' su user command 📲  \007'
 		if [[ \$2 = root ]];then
 			touch $installdir/root/.chushlogin
@@ -214,7 +218,7 @@ makestartbin () {
 			touch $installdir/home/\$2/.chushlogin
 		fi
 	EOM
-		echo "$prootstmnt /bin/su - \$2 -c \"\${@:3}\" ||:" >> $startbin
+		echo "$prootstmnt /bin/su - \$2 -c \"\$ar3ar\" ||:" >> $startbin
 	cat >> $startbin <<- EOM
 		printf '\033]2; '$startbin' su user command 📲  \007'
 		if [[ \$2 = root ]];then
@@ -222,8 +226,8 @@ makestartbin () {
 		else
 			rm $installdir/home/\$2/.chushlogin
 		fi
-	# [] Default Arch Linux in Termux PRoot root login.
 	elif [[ \$1 = "" ]];then
+	# [] Default Arch Linux in Termux PRoot root login.
 	EOM
 		echo "$prootstmnt /bin/bash -l ||: " >> $startbin
 	cat >> $startbin <<- EOM
