@@ -643,7 +643,7 @@ wgetif ()
 # User configurable variables such as mirrors and download manager options are in `setupTermuxArchConfigs.sh`.  Creating this file from `kownconfigurations.sh` in the working directory is simple, use `setupTermuxArch.sh manual` to create, edit and run `setupTermuxArchConfigs.sh`; `setupTermuxArch.sh help` has more information.  All options can be abbreviated to the first letter(s). 
 
 commandif=$(command -v getprop) ||:
-cpuabi=$(getprop ro.product.cpu.abi) ||:
+cpuabi=$(getprop ro.product.cpu.abi) 2>/dev/null ||:
 cpuabi5="armeabi"
 cpuabi7="armeabi-v7a"
 cpuabi8="arm64-v8a"
@@ -655,7 +655,7 @@ dmverbose="-q"
 #dmverbose="-v"
 export PROOT_NO_SECCOMP=1
 stime=`date +%s|grep -o '....$'`
-versionid="gen.v1.5 id816096534"
+versionid="gen.v1.5 id817336538"
 
 if [[ $commandif = "" ]];then
 	echo Run \`setupTermuxArch.sh\` from the Android system in Termux.
