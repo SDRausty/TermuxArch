@@ -319,32 +319,6 @@ addgp () {
 	chmod 700 root/bin/gp 
 }
 
-addsetupkeys () {
-	cat > root/bin/setupkeys <<- EOM
-	#!/bin/bash -e
-	# Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
-	# Hosting https://sdrausty.github.io/TermuxArch courtesy https://pages.github.com
-	# https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.  
-	# https://sdrausty.github.io/TermuxArch/README has information about this project. 
-	################################################################################
-	export PROOT_NO_SECCOMP=1
-	unset LD_PRELOAD
-	commandis=\$(command -v getprop) ||:
-	if [[ \$commandis = "" ]];then
-		echo Run $installdir/root/bin/setupkeys from the Android system in Termux.
-		exit
-	fi
-	if [ \$(getprop ro.product.cpu.abi) = x86 ]; then
-		productcpuabi=x86
-	fi
-	cd $installdir
-	EOM
-	echo "$prootstmnt $installdir/root/bin/keys ||:" >> root/bin/setupkeys
-	cat >> root/bin/setupkeys <<- EOM
-	EOM
-	chmod 700 root/bin/setupkeys
-}
-
 addkeys () {
 	cat > root/bin/keys <<- EOM
 	#!/bin/bash -e
@@ -362,20 +336,23 @@ addkeys () {
 		\$(nice -n 20 find / >/dev/null 2>/dev/null & sleep \$t ; kill \$! 2>/dev/null) &
 		\$(nice -n 20 cat /dev/urandom >/dev/null & sleep \$t ; kill \$! 2>/dev/null) &
 	done
-	if [[ \$productcpuabi = x86 ]] || [[ \$1 = x86 ]]; then
-		pacman -Syu archlinux32-keyring-transition --noconfirm --color=always ||: 
+	if [[ \$1 = x86 ]]; then
+		keyrings="archlinux32-keyring-transition"
 	else
-		pacman -Syu archlinux-keyring archlinuxarm-keyring --noconfirm --color=always ||: 
+		keyrings="archlinux-keyring archlinuxarm-keyring"
 	fi
-	printf "\n\033[36m"
-	mv /usr/lib/gnupg/scdaemon{,_} 2>/dev/null ||: 
-	printf "\033[0;34mWhen \033[0;37mgpg: Generating pacman keyring master key\033[0;34m appears on the screen, the installation process can be accelerated.  The system desires a lot of entropy at this part of the install procedure.  To generate as much entropy as possible quickly, watch and listen to a file on your device.  \n\nThe program \033[1;32mpacman-key\033[0;34m will want as much entropy as possible when generating keys.  Entropy is also created through tapping, sliding, one, two and more fingers tapping with short and long taps.  When \033[0;37mgpg: Generating pacman keyring master key\033[0;34m appears on the screen, use any of these simple methods to accelerate the installation process if it is stalled.  Put even simpler, just do something on device.  Browsing files will create entropy on device.  Slowly swiveling the device in space and time will accelerate the installation process.  This method alone might not generate enough entropy (a measure of randomness in a closed system) for the process to complete quickly.  Use \033[1;32mbash ~${darch}/bin/we \033[0;34min a new Termux session to and watch entropy on device.\n\n\033[m"
+	mv usr/lib/gnupg/scdaemon{,_} 2>/dev/null ||: 
+	printf "\n\033[0;34mWhen \033[0;37mgpg: Generating pacman keyring master key\033[0;34m appears on the screen, the installation process can be accelerated.  The system desires a lot of entropy at this part of the install procedure.  To generate as much entropy as possible quickly, watch and listen to a file on your device.  \n\nThe program \033[1;32mpacman-key\033[0;34m will want as much entropy as possible when generating keys.  Entropy is also created through tapping, sliding, one, two and more fingers tapping with short and long taps.  When \033[0;37mgpg: Generating pacman keyring master key\033[0;34m appears on the screen, use any of these simple methods to accelerate the installation process if it is stalled.  Put even simpler, just do something on device.  Browsing files will create entropy on device.  Slowly swiveling the device in space and time will accelerate the installation process.  This method alone might not generate enough entropy (a measure of randomness in a closed system) for the process to complete quickly.  Use \033[1;32mbash ~${darch}/bin/we \033[0;34min a new Termux session to and watch entropy on device.\n\n\033[m"'\033]2;  🔑🗝 TermuxArch Keys 📲 \007'
+	printf "\n\033[1;32m==>\033[0m Running \033[1mpacman-key --init\033[0m...\n"
 	pacman-key --init ||: 
+	printf "\n\033[1;32m==>\033[0m Running \033[1mpacman -Syu \$keyrings --noconfirm --color=always\033[0m...\n"
+	pacman -Syu \$keyrings --noconfirm --color=always ||: 
 	printf "\n\033[0;34mWhen \033[1;37mAppending keys from archlinux.gpg\033[0;34m appears on the screen, the installation process can be accelerated.  The system desires a lot of entropy at this part of the install procedure.  To generate as much entropy as possible quickly, watch and listen to a file on your device.  \n\nThe program \033[1;32mpacman-key\033[0;34m will want as much entropy as possible when generating keys.  Entropy is also created through tapping, sliding, one, two and more fingers tapping with short and long taps.  When \033[1;37mAppending keys from archlinux.gpg\033[0;34m appears on the screen, use any of these simple methods to accelerate the installation process if it is stalled.  Put even simpler, just do something on device.  Browsing files will create entropy on device.  Slowly swiveling the device in space and time will accelerate the installation process.  This method alone might not generate enough entropy (a measure of randomness in a closed system) for the process to complete quickly.  Use \033[1;32mbash ~${darch}/bin/we \033[0;34min a new Termux session to watch entropy on device.\n\n"
-	pacman-key --populate archlinux ||: 
+	printf "\n\033[1;32m==>\033[0m Running \033[1mpacman-key --populate\033[0m...\n"
+	pacman-key --populate ||: 
 	printf "\n\033[1;32m==>\033[0m Running \033[1mpacman -Ss keyring --color=always\033[0m...\n"
 	pacman -Ss keyring --color=always ||: 
-	printf "\n"'\033]2; 🕛 > 🕤 TermuxArch Keys 📲 \007'
+	printf "\n\033[1;32mTermuxArch Keys : DONE\n\033[0m"'\033]2;  🔑🗝 TermuxArch Keys 📱 \007'
 	EOM
 	chmod 770 root/bin/keys 
 }

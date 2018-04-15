@@ -102,7 +102,6 @@ refreshsys ()
 	addthstartarch
 	addtour
 	addtrim 
-	addsetupkeys 
 	addyt 
 	addwe  
 	addv 
