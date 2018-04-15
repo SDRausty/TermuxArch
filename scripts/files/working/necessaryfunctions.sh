@@ -375,8 +375,6 @@ touchupsys () {
 	addauserpsc
 	addbash_profile 
 	addbashrc 
-	addce 
-	addces
 	adddfa
 	addga
 	addgcl

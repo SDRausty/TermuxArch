@@ -80,8 +80,6 @@ refreshsys () {
 	addauserpsc
 	addbash_profile 
 	addbashrc 
-	addce 
-	addces
 	adddfa
 	addexd
 	addga
