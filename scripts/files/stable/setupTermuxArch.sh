@@ -655,6 +655,7 @@ dmverbose="-q"
 #dmverbose="-v"
 export PROOT_NO_SECCOMP=1
 stime=`date +%s|grep -o '....$'`
+unset LD_PRELOAD
 versionid="v1.6"
 
 if [[ $commandif = "" ]];then
