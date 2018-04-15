@@ -660,9 +660,9 @@ if [[ $commandif = "" ]];then
 	exit
 fi
 
-setrootdir ret 
-namestartarch ret 
 nameinstalldir ret 
+namestartarch ret 
+setrootdir ret 
 
 # [curl debug|curl sysinfo] Get device system information using `curl`.
 if [[ $1 = [Cc][Dd]* ]] || [[ $1 = -[Cc][Dd]* ]] || [[ $1 = --[Cc][Dd]* ]] || [[ $1 = [Cc][Ss]* ]] || [[ $1 = -[Cc][Ss]* ]] || [[ $1 = --[Cc][Ss]* ]];then

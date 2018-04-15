@@ -5,33 +5,31 @@
 # https://sdrausty.github.io/TermuxArch/README has information about this project. 
 ################################################################################
 
-echoSpecialParameters ()
-{
-# 3.2.5 Special parameters based on https://www.tldp.org/LDP/Bash-Beginners-Guide/html/sect_03_02.html
-printf "\n\nSpecial BASH Variables\n\nCharacter	Definition \n\n"
-echo "\$* expands to the positional parameters, starting from one. When the expansion occurs within double quotes, it expands to a single word with the value of each parameter separated by the first character of the IFS special variable."
-echo $*
-echo "\$@ expands to the positional parameters, starting from one. When the expansion occurs within double quotes, each parameter expands to a separate word."
-echo $@
-echo "\$# expands to the number of positional parameters in decimal."
-echo $#
-echo "\$? expands to the exit status of the most recently executed foreground pipeline."
-echo $?
-echo "\$- a hyphen expands to the current option flags as specified upon invocation, by the set built-in command, or those set by the shell itself (such as the -i)."
-echo $-
-echo "\$\$ expands to the process ID of the shell."
-echo $$
-echo "\$! expands to the process ID of the most recently executed background (asynchronous) command."
-echo $!
-echo "\$0 expands to the name of the shell or shell script."
-echo $0
-echo "\$_ the underscore variable is set at shell startup and contains the absolute file name of the shell or script being executed as passed in the argument list. Subsequently, it expands to the last argument to the previous command, after expansion. It is also set to the full pathname of each command executed and placed in the environment exported to that command. When checking mail, this parameter holds the name of the mail file."
-echo $_
-printf "\nNote	\$\* vs. \$\@\n\nThe implementation of "\$\*" has always been a problem and realistically should have been replaced with the behavior of "\$\@". In almost every case where coders use "\$\*", they mean "\$\@". "\$\*" Can cause bugs and even security holes in your software.\n\n\033[3mBased on https://www.tldp.org/LDP/Bash-Beginners-Guide/html/sect_03_02.html\n\n\033[0m"
+echoSpecialParameters () {
+	# 3.2.5 Special parameters based on https://www.tldp.org/LDP/Bash-Beginners-Guide/html/sect_03_02.html
+	printf "\n\nSpecial BASH Variables\n\nCharacter	Definition \n\n"
+	echo "\$* expands to the positional parameters, starting from one. When the expansion occurs within double quotes, it expands to a single word with the value of each parameter separated by the first character of the IFS special variable."
+	echo $*
+	echo "\$@ expands to the positional parameters, starting from one. When the expansion occurs within double quotes, each parameter expands to a separate word."
+	echo $@
+	echo "\$# expands to the number of positional parameters in decimal."
+	echo $#
+	echo "\$? expands to the exit status of the most recently executed foreground pipeline."
+	echo $?
+	echo "\$- a hyphen expands to the current option flags as specified upon invocation, by the set built-in command, or those set by the shell itself (such as the -i)."
+	echo $-
+	echo "\$\$ expands to the process ID of the shell."
+	echo $$
+	echo "\$! expands to the process ID of the most recently executed background (asynchronous) command."
+	echo $!
+	echo "\$0 expands to the name of the shell or shell script."
+	echo $0
+	echo "\$_ the underscore variable is set at shell startup and contains the absolute file name of the shell or script being executed as passed in the argument list. Subsequently, it expands to the last argument to the previous command, after expansion. It is also set to the full pathname of each command executed and placed in the environment exported to that command. When checking mail, this parameter holds the name of the mail file."
+	echo $_
+	printf "\nNote	\$\* vs. \$\@\n\nThe implementation of "\$\*" has always been a problem and realistically should have been replaced with the behavior of "\$\@". In almost every case where coders use "\$\*", they mean "\$\@". "\$\*" Can cause bugs and even security holes in your software.\n\n\033[3mBased on https://www.tldp.org/LDP/Bash-Beginners-Guide/html/sect_03_02.html\n\n\033[0m"
 }
 
-sysinfo ()
-{
+sysinfo () {
 	spaceinfo
 	printf "\n\033[1;32m"
 	printf "Begin setupTermuxArch debug information.\n" > setupTermuxArchDebug$stime.log
@@ -66,8 +64,7 @@ sysinfo ()
 	printf "\n\033[0mSubmit this information if you plan to open up an issue at https://github.com/sdrausty/TermuxArch/issues to improve this installation script along with a screenshot of your topic.  Include information about input and output.  \n"
 }
 
-refreshsys ()
-{
+refreshsys () {
 	printf '\033]2; setupTermuxArch.sh refresh 📲 \007'
 	if [ ! -d $installdir ] || [ ! -f $installdir/bin/we ];then
 		printf "\n\033[0;33mThe root directory structure is incorrect; Cannot continue \033[1;33msetupTermuxArch.sh refresh\033[0;33m.\033[0m\n"
