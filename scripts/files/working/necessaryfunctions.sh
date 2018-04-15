@@ -389,7 +389,6 @@ touchupsys () {
 	addpci
 	addprofile 
 	addresolvconf 
-	addsetupkeys 
 	addt 
 	addtour
 	addtrim 
