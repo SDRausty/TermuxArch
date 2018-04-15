@@ -337,9 +337,9 @@ addkeys () {
 		\$(nice -n 20 cat /dev/urandom >/dev/null & sleep \$t ; kill \$! 2>/dev/null) &
 	done
 	if [[ \$1 = x86 ]]; then
-		\$keyrings="archlinux32-keyring-transition"
+		keyrings="archlinux32-keyring-transition"
 	else
-		\$keyrings="archlinux-keyring archlinuxarm-keyring"
+		keyrings="archlinux-keyring archlinuxarm-keyring"
 	fi
 	pacman -Syu \$keyrings --noconfirm --color=always ||: 
 	printf "\n\033[36m"
