@@ -150,56 +150,6 @@ addbashrc () {
 	fi
 }
 
-addce () {
-	cat > root/bin/ce <<- EOM
-	#!/bin/bash -e
-	# Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
-	# Hosting https://sdrausty.github.io/TermuxArch courtesy https://pages.github.com
-	# https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.  
-	# https://sdrausty.github.io/TermuxArch/README has information about this project. 
-	# Create entropy by doing things on device.
-	################################################################################
-	printf "\033[1;32m"'\033]2;  Thank you for using \`ce\` from TermuxArch 📲  \007'
-	t=240
-	for i in {1..5}; do
-		\$(nice -n 20 find / -type f -exec cat {} \\; >/dev/null 2>/dev/null & sleep \$t ; kill \$! 2>/dev/null) &
-		\$(nice -n 20 ls -alR / >/dev/null 2>/dev/null & sleep \$t ; kill \$! 2>/dev/null) &
-		\$(nice -n 20 find / >/dev/null 2>/dev/null & sleep \$t ; kill \$! 2>/dev/null) &
-		\$(nice -n 20 cat /dev/urandom >/dev/null & sleep \$t ; kill \$! 2>/dev/null) &
-	done
-	for i in {1..1200}; do
-	#	printf "Available entropy reading \$i of \$t	"
-		printf %b \$(cat /proc/sys/kernel/random/entropy_avail 2>/dev/null) " "
-		sleep 0.2
-	done
-	EOM
-	chmod 770 root/bin/ce 
-}
-
-addces () {
-	cat > bin/ce <<- EOM
-	#!/bin/bash -e
-	# Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
-	# Hosting https://sdrausty.github.io/TermuxArch courtesy https://pages.github.com
-	# https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.  
-	# https://sdrausty.github.io/TermuxArch/README has information about this project. 
-	# Create entropy Termux startup file.
-	################################################################################
-	export PROOT_NO_SECCOMP=1
-	unset LD_PRELOAD
-	EOM
-	if [[ "$kid" -eq 1 ]]; then
-		cat >> bin/ce <<- EOM
-		exec proot --kill-on-exit --kernel-release=4.14.15 --link2symlink -0 -r $installdir -b /dev/ -b \$ANDROID_DATA -b \$EXTERNAL_STORAGE -b /proc/ -w "\$PWD" /bin/env -i HOME=/root TERM=\$TERM $installdir/root/bin/ce 
-		EOM
-	else
-		cat >> bin/ce <<- EOM
-		exec proot --kill-on-exit --link2symlink -0 -r $installdir -b /dev/ -b \$ANDROID_DATA -b \$EXTERNAL_STORAGE -b /proc/ -w "\$PWD" /bin/env -i HOME=/root TERM=\$TERM $installdir/root/bin/ce 
-		EOM
-	fi
-	chmod 770 bin/ce 
-}
-
 addexd () {
 	cat > root/bin/exd <<- EOM
 	#!/bin/bash -e
@@ -351,8 +301,6 @@ addkeys () {
 	pacman-key --populate ||: 
 	printf "\n\033[1;32m==>\033[0m Running \033[1mpacman -Ss keyring --color=always\033[0m...\n"
 	pacman -Ss keyring --color=always ||: 
-	printf "\n\033[1;32m==>\033[0m Running \033[1mgpg --homedir /etc/pacman.d/gnupg --list-keys\033[0m...\n"
-	gpg --homedir /etc/pacman.d/gnupg --list-keys
 	printf "\033[0;32mTermuxArch Keys: \033[1;32mDONE 🏁\n\n\033[0m"'\033]2;  🔑🗝 TermuxArch Keys 📱 \007'
 	EOM
 	chmod 770 root/bin/keys 
