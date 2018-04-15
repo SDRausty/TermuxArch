@@ -353,7 +353,7 @@ addkeys () {
 	pacman -Ss keyring --color=always ||: 
 	printf "\n\033[1;32m==>\033[0m Running \033[1mgpg --homedir /etc/pacman.d/gnupg --list-keys\033[0m...\n"
 	gpg --homedir /etc/pacman.d/gnupg --list-keys
-	printf "\n\033[0;32mTermuxArch Keys: \033[1;32mDONE\n\n\033[0m"'\033]2;  🔑🗝 TermuxArch Keys 📱 \007'
+	printf "\033[0;32mTermuxArch Keys: \033[1;32mDONE 🏁\n\n\033[0m"'\033]2;  🔑🗝 TermuxArch Keys 📱 \007'
 	EOM
 	chmod 770 root/bin/keys 
 }
