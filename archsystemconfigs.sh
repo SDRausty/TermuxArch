@@ -301,7 +301,7 @@ addkeys () {
 	pacman-key --populate ||: 
 	printf "\n\033[1;32m==>\033[0m Running \033[1mpacman -Ss keyring --color=always\033[0m...\n"
 	pacman -Ss keyring --color=always ||: 
-	printf "\033[0;32mTermuxArch Keys: \033[1;32mDONE 🏁\n\n\033[0m"'\033]2;  🔑🗝 TermuxArch Keys 📱 \007'
+	printf "\n\033[0;32mTermuxArch Keys: \033[1;32mDONE 🏁\n\n\033[0m"'\033]2;  🔑🗝 TermuxArch Keys 📱 \007'
 	EOM
 	chmod 770 root/bin/keys 
 }
