@@ -400,6 +400,7 @@ touchupsys () {
 	makefinishsetup
 	makesetupbin 
 	mv usr/lib/gnupg/scdaemon{,_} 2>/dev/null ||: 
+	chmod 700 etc/pacman.d/gnupg
 	runfinishsetup
 	rm root/bin/finishsetup.sh
 	rm root/bin/setupbin.sh 
