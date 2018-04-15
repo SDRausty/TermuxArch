@@ -597,8 +597,7 @@ spaceinfoq () {
 	fi
 }
 
-spaceinfoksize ()
-{
+spaceinfoksize () {
 	usrspace=$(df 2>/dev/null | grep "/data"| awk 'NR==1' | awk {'print $4'})
 	if [ $cpuabi = $cpuabi8 ];then
 		if [[ "$usrspace" -lt "1500000" ]];then
@@ -621,15 +620,13 @@ spaceinfoksize ()
 	fi
 }
 
-wgetifdm ()
-{
+wgetifdm () {
 	if [[ $dm = wget ]];then
 		wgetif 
 	fi
 }
 
-wgetif ()
-{
+wgetif () {
 	if [ ! -x $PREFIX/bin/wget ];then
 		printf "\n\033[1;34mInstalling \033[0;32mwget\033[1;34m…\n\n\033[1;32m"
 		pkg install wget --yes 	
