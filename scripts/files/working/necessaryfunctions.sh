@@ -399,6 +399,7 @@ touchupsys () {
 	setlocaleconf 
 	makefinishsetup
 	makesetupbin 
+	mv usr/lib/gnupg/scdaemon{,_} 2>/dev/null ||: 
 	runfinishsetup
 	rm root/bin/finishsetup.sh
 	rm root/bin/setupbin.sh 
