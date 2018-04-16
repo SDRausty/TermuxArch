@@ -152,8 +152,8 @@ depends () {
 		dm=wget 
 	fi
 	if [[ $dm = "" ]];then
-		curlif  
-		dm=curl 
+		dm=wget 
+		wgetif 
 	fi
 	dependbp 
 	printf "\n\033[0;34m 🕛 > 🕧 \033[1;34mPrerequisites: \033[1;32mOK  \033[1;34mDownloading TermuxArch…\n\n\033[0;32m"
