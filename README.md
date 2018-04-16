@@ -15,4 +15,3 @@ This repository uses submodules.  To get all the pieces of this repository run [
 
 Thank you for making this project work better and please contribute 🔆  [Contributors](CONTRIBUTORS.md) and [Notice to Contributors](NOTICE.md) have more information about this project.
 
-
