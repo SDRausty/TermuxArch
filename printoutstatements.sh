@@ -77,7 +77,7 @@ printmismatch () {
 printfooter () {
 	printf "\033[0;34m 🕛 > 🕥 \033[1;34mUse \033[1;32m$startbin\033[1;34m to launch Arch Linux in Termux PRoot.  Alternatively, run \033[1;32m~$printrootdir/$startbin \033[1;34min a BASH shell to start Arch Linux in Termux PRoot for future sessions also.\033[0m\n\n"'\033]2;  Thank you for using `setupTermuxArch.sh` to install Arch Linux in Termux 📲  \007'
 	copystartbin2path
-	printf "\033[0;32m 🕛 = 🕛 \033[1;34mInformation about \033[0;36m\"Starting Arch Linux from Termux?\"\033[1;34m at \033[1;34mhttps://github.com/sdrausty/TermuxArch/issues/25\033[1;34m.  Use \033[1;32mtour\033[1;34m to run a short tour, and get to know the new Arch Linux in Termux PRoot environment better you just set up.  If there was more than one error during the update procedure and you would like to refresh the installation, use \033[1;32msetupTermuxArch.sh refresh\033[1;34m.  This will update and recreate the configuration provided.  Use the TermuxArch command \033[1;32mkeys \033[1;34mto install and generate Arch Linux keyring keys.\n"
+	printf "\033[0;32m 🕛 = 🕛 \033[1;34mInformation about \033[0;36m\"Starting Arch Linux from Termux?\"\033[1;34m at \033[1;34mhttps://github.com/sdrausty/TermuxArch/issues/25\033[1;34m.  Use \033[1;32mtour\033[1;34m to run a short tour, and get to know the new Arch Linux in Termux PRoot environment you just set up better.  If there was more than one error during the update procedure and you would like to refresh the installation, use \033[1;32msetupTermuxArch.sh refresh\033[1;34m.  This will update and recreate the configuration provided.  Use the TermuxArch command \033[1;32mkeys \033[1;34mto install and generate Arch Linux keyring keys.\n"
 	printfooter2
 	printf "\n"
 }
