@@ -152,8 +152,8 @@ depends () {
 		dm=wget 
 	fi
 	if [[ $dm = "" ]];then
-		curlif  
-		dm=curl 
+		dm=wget 
+		wgetif 
 	fi
 	dependbp 
 	printf "\n\033[0;34m 🕛 > 🕧 \033[1;34mPrerequisites: \033[1;32mOK  \033[1;34mDownloading TermuxArch…\n\n\033[0;32m"
@@ -653,7 +653,7 @@ dmverbose="-q"
 export PROOT_NO_SECCOMP=1
 stime=`date +%s|grep -o '....$'`
 unset LD_PRELOAD
-versionid="gen.v1.6 id136616160"
+versionid="gen.v1.6 id269438304"
 
 if [[ $commandif = "" ]];then
 	echo Run \`setupTermuxArch.sh\` from the Android system in Termux.
