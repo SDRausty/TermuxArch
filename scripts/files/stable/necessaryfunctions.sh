@@ -376,6 +376,7 @@ touchupsys () {
 	addbash_profile 
 	addbashrc 
 	adddfa
+	addexd
 	addga
 	addgcl
 	addgcm
