@@ -103,7 +103,7 @@ chk () {
 chkdwn () {
 	if $PREFIX/bin/applets/sha512sum -c setupTermuxArch.sha512 1>/dev/null ;then
 		printf "\033[0;34m 🕛 > 🕐 \033[1;34mTermuxArch download: \033[1;32mOK\n\n"
-		$PREFIX/bin/applets/tar	xf setupTermuxArch.tar.gz
+			exec proot --link2symlink -0 $PREFIX/bin/applets/tar xf setupTermuxArch.tar.gz ||:
 		rmds 
 	else
 		rm setupTermuxArch.tmp
@@ -640,7 +640,7 @@ wgetif () {
 # User configurable variables such as mirrors and download manager options are in `setupTermuxArchConfigs.sh`.  Creating this file from `kownconfigurations.sh` in the working directory is simple, use `setupTermuxArch.sh manual` to create, edit and run `setupTermuxArchConfigs.sh`; `setupTermuxArch.sh help` has more information.  All options can be abbreviated to the first letter(s). 
 
 commandif=$(command -v getprop) ||:
-cpuabi=$(getprop ro.product.cpu.abi) 2>/dev/null ||:
+cpuabi=$(getprop ro.product.cpu.abi 2>/dev/null) ||:
 cpuabi5="armeabi"
 cpuabi7="armeabi-v7a"
 cpuabi8="arm64-v8a"
@@ -653,7 +653,7 @@ dmverbose="-q"
 export PROOT_NO_SECCOMP=1
 stime=`date +%s|grep -o '....$'`
 unset LD_PRELOAD
-versionid="gen.v1.6 id249756027"
+versionid="gen.v1.6 id950230733"
 
 if [[ $commandif = "" ]];then
 	echo Run \`setupTermuxArch.sh\` from the Android system in Termux.
