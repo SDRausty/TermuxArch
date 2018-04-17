@@ -103,8 +103,8 @@ chk () {
 chkdwn () {
 	if $PREFIX/bin/applets/sha512sum -c setupTermuxArch.sha512 1>/dev/null ;then
 		printf "\033[0;34m 🕛 > 🕐 \033[1;34mTermuxArch download: \033[1;32mOK\n\n"
-			exec proot --link2symlink $PREFIX/bin/applets/tar xf setupTermuxArch.tar.gz ||:
 			#exec proot --link2symlink -0 $PREFIX/bin/applets/tar xf setupTermuxArch.tar.gz ||:
+			exec proot -0 $PREFIX/bin/applets/tar xf setupTermuxArch.tar.gz ||:
 		rmds 
 	else
 		rm setupTermuxArch.tmp
@@ -654,7 +654,7 @@ dmverbose="-q"
 export PROOT_NO_SECCOMP=1
 stime=`date +%s|grep -o '....$'`
 unset LD_PRELOAD
-versionid="gen.v1.6 id184242891"
+versionid="gen.v1.6 id411477778"
 
 if [[ $commandif = "" ]];then
 	echo Run \`setupTermuxArch.sh\` from the Android system in Termux.
