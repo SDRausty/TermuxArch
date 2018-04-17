@@ -53,6 +53,8 @@ sysinfo () {
 	ls -al ~/downloads 2>>setupTermuxArchDebug$stime.log  >> setupTermuxArchDebug$stime.log 2>/dev/null ||:
 	if [ -d /sdcard/Download ]; then echo "/sdcard/Download exists"; else echo "/sdcard/Download not found"; fi >> setupTermuxArchDebug$stime.log 
 	if [ -d /storage/emulated/0/Download ]; then echo "/storage/emulated/0/Download exists"; else echo "/storage/emulated/0/Download not found"; fi >> setupTermuxArchDebug$stime.log
+	printf "\ndf $installdir results:\n\n" >> setupTermuxArchDebug$stime.log
+	df $installdir >> setupTermuxArchDebug$stime.log 2>/dev/null ||:
 	printf "\ndu -hs $installdir results:\n\n" >> setupTermuxArchDebug$stime.log
 	du -hs $installdir >> setupTermuxArchDebug$stime.log 2>/dev/null ||:
 	printf "\nls -al $installdir results:\n\n" >> setupTermuxArchDebug$stime.log
