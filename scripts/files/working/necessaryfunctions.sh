@@ -286,8 +286,8 @@ preproot () {
 			#cd $installdir
 			proot --link2symlink -0 bsdtar -xpf $file --strip-components 1 
 		else
-			#proot --link2symlink -0 $PREFIX/bin/applets/tar xf $file 
-			proot --link2symlink -0 bsdtar -xpf $file --strip-components 1 
+			proot --link2symlink -0 $PREFIX/bin/applets/tar xf $file 
+			#proot --link2symlink -0 bsdtar -xpf $file --strip-components 1 
 		fi
 	else
 		printf "\n\n\033[1;31mDownload Exception!  Execute \033[0;32mbash setupTermuxArch.sh\033[1;31m again…\n"'\033]2;  Thank you for using setupTermuxArch.sh.  Execute `bash setupTermuxArch.sh` again…\007'
