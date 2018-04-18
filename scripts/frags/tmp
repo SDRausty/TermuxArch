@@ -8,3 +8,8 @@
  / / / -_) __/  ' \/ // /\ \ / / ___/ , _/ _ \/ _ \/ __/
 /_/  \__/_/ /_/_/_/\_,_//_\_\ /_/  /_/|_|\___/\___/\__/ 
                                                         
+###############################################################################
+pacman --noconfirm --color=always -Syu base base-devel emacs jdk8-openjdk
+#pc enlightenment enlightenment16
+#pc gradle
+trim
