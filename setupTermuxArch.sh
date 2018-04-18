@@ -185,6 +185,7 @@ dependbp () {
 		prootif 
 	else
 		prootif 
+		bsdtarif 
 	fi
 }
 
@@ -727,3 +728,4 @@ else
 	printusage
 fi
 printtail 
+
