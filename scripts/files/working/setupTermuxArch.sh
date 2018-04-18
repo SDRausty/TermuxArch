@@ -184,6 +184,7 @@ dependbp () {
 		bsdtarif 
 		prootif 
 	else
+		bsdtarif 
 		prootif 
 	fi
 }
@@ -648,13 +649,13 @@ cpuabi8="arm64-v8a"
 cpuabix86="x86"
 cpuabix8664="x86_64"
 declare -g args=$@
-#dfl=/gen
+dfl=/gen
 dmverbose="-q"
 #dmverbose="-v"
 export PROOT_NO_SECCOMP=1
 stime=`date +%s|grep -o '....$'`
 unset LD_PRELOAD
-versionid="v1.6"
+versionid="gen.v1.6 id161704780"
 
 if [[ $commandif = "" ]];then
 	echo Run \`setupTermuxArch.sh\` from the Android system in Termux.
