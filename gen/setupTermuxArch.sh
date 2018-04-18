@@ -185,7 +185,6 @@ dependbp () {
 		prootif 
 	else
 		prootif 
-		bsdtarif 
 	fi
 }
 
@@ -288,7 +287,7 @@ edq2 () {
 
 intro () {
 	printf '\033]2;  bash setupTermuxArch.sh 📲 \007'
-#	rmarchq
+	rmarchq
 	rootdirexception 
 	spaceinfo
 	printf "\n\033[0;34m 🕛 > 🕛 \033[1;34mTermuxArch $versionid will attempt to install Linux in \033[0;32m$installdir\033[1;34m.  Arch Linux in Termux PRoot will be available upon successful completion.  To run this BASH script again, use \`!!\`.  Ensure background data is not restricted.  Check the wireless connection if you do not see one o'clock 🕐 below.  "
@@ -655,7 +654,7 @@ dmverbose="-q"
 export PROOT_NO_SECCOMP=1
 stime=`date +%s|grep -o '....$'`
 unset LD_PRELOAD
-versionid="gen.v1.6 id861910287"
+versionid="gen.v1.6 id574480718"
 
 if [[ $commandif = "" ]];then
 	echo Run \`setupTermuxArch.sh\` from the Android system in Termux.
