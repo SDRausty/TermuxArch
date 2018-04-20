@@ -14,6 +14,7 @@
 
 ##### -r--r--r-- [systemmaintenance.sh](https://raw.githubusercontent.com/sdrausty/TermuxArch/master/scripts/files/stable/systemmaintenance.sh)
 
+![screenshot_20180413-172406](https://user-images.githubusercontent.com/27742457/38758637-ec0ff0dc-3f3f-11e8-802c-82bc511cde88.png)
 ## Contributions have helped in the successful development of this script and project immensely.  The following contributors have helped to refine [setupTermuxArch.sh](https://raw.githubusercontent.com/sdrausty/TermuxArch/master/setupTermuxArch.tar.gz) 📲 __Thank you for contributing and collaborating!__  
 
 [![Join the chat at https://gitter.im/termux](https://badges.gitter.im/termux/termux.svg)](https://gitter.im/termux)  Termux developers welcome.   
