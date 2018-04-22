@@ -355,6 +355,8 @@ runfinishsetupq () {
 setlocaleconf () {
 	if ! grep en_US etc/locale.conf 2>/dev/null ; then
 		echo LANG=en_US.UTF-8 >> etc/locale.conf 
+		echo LANGUAGE=en_US >> etc/locale.conf 
+		
 	fi
 }
 

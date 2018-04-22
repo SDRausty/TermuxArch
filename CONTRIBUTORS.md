@@ -65,7 +65,7 @@ jlam: contributed `getprop ro.product.device` Chromebook detection, `getprop ro.
 
 [markfelt](https://github.com/markfelt) contributed [Succesfully Modified Stock 'makepkg'... #38](https://github.com/sdrausty/TermuxArch/issues/38) with instructions.  Result: pending 
 
-[michalbednarski](https://github.com/michalbednarski) contributed Termux PRoot, discussed PRoot, contributed: `pacman-key --init` && `echo disable-scdaemon > /etc/pacman.d/gnupg/gpg-agent.conf` which resolved `pacman-key --populate archlinux` issuses, `export PROOT_NO_SECCOMP=1` resolving Android 8 installation issues.  Result: TermuxArch greatly improved! 
+[michalbednarski](https://github.com/michalbednarski) contributed Termux PRoot, discussed PRoot, contributed: `pacman-key --init` && `echo disable-scdaemon > /etc/pacman.d/gnupg/gpg-agent.conf` which resolved `pacman-key --populate archlinux` issuses, `export PROOT_NO_SECCOMP=1` resolving Android 8 installation issues.  Contributed kernel test for PRoot. Result: TermuxArch greatly improved! 
 
 [mjskoneg](https://github.com/mjskoneg) submitted issues.  Result: TermuxArch improved! 
 
