@@ -651,10 +651,9 @@ declare -g args=$@
 dfl=/gen
 dmverbose="-q"
 #dmverbose="-v"
-export PROOT_NO_SECCOMP=1
 stime=`date +%s|grep -o '....$'`
 unset LD_PRELOAD
-versionid="gen.v1.6 id723736258"
+versionid="gen.v1.6 id317995951"
 
 if [[ $commandif = "" ]];then
 	echo Run \`setupTermuxArch.sh\` from the Android system in Termux.
@@ -727,4 +726,3 @@ else
 	printusage
 fi
 printtail 
-

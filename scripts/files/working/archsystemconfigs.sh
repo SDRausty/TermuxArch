@@ -56,7 +56,6 @@ addauserps () {
 	# https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.  
 	# https://sdrausty.github.io/TermuxArch/README has information about this project. 
 	################################################################################
-	export PROOT_NO_SECCOMP=1
 	unset LD_PRELOAD
 	exec proot --kill-on-exit --link2symlink -0 -r $installdir -b /dev/ -b \$ANDROID_DATA -b \$EXTERNAL_STORAGE -b /proc/ -w "\$PWD" /bin/env -i HOME=/root TERM=\$TERM /bin/su - \$1 --login
 	EOM
@@ -88,7 +87,6 @@ addauserpsc () {
 	# https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.  
 	# https://sdrausty.github.io/TermuxArch/README has information about this project. 
 	################################################################################
-	export PROOT_NO_SECCOMP=1
 	unset LD_PRELOAD
 	exec proot --kill-on-exit --link2symlink -0 -r $installdir -b /dev/ -b \$ANDROID_DATA -b \$EXTERNAL_STORAGE -b /proc/ -w "\$PWD" /bin/env -i HOME=/root TERM=\$TERM /bin/su - \$1 --login
 	EOM
