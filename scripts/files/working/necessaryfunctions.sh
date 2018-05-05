@@ -137,15 +137,19 @@ makefinishsetup () {
 	if [ -e $HOME/.profile ];then
 		grep "proxy" $HOME/.profile | grep "export" >> root/bin/$binfnstp 2>/dev/null ||:
 	fi
-	cat >> root/bin/$binfnstp <<- EOM
-	if [ \$cpuabi = \$cpuabi8 ];then
-		pacman -R dhcpcd linux-aarch64 linux-firmware mkinitcpio netctl systemd systemd-sysvcompat --noconfirm --color always ||: 
+	if [ \$cpuabi = \$cpuabi5 ];then
+		printf "pacman -R dhcpcd linux-armv5 linux-firmware mkinitcpio netctl systemd systemd-sysvcompat --noconfirm --color always ||:\n" >> root/bin/$binfnstp ||:
+	elif [ \$cpuabi = \$cpuabi7 ];then
+		printf "pacman -R dhcpcd linux-armv7 linux-firmware mkinitcpio netctl systemd systemd-sysvcompat --noconfirm --color always ||:\n" >> root/bin/$binfnstp ||:
+	elif [ \$cpuabi = \$cpuabi8 ];then
+		printf "pacman -R dhcpcd linux-aarch64 linux-firmware mkinitcpio netctl systemd systemd-sysvcompat --noconfirm --color always ||:\n" >> root/bin/$binfnstp ||:
 	fi
 	if [ \$cpuabi = \$cpuabix86 ] || [ \$cpuabi = \$cpuabix8664 ];then
-		pacman -Syu sed --noconfirm --color always ||: 
+		printf "pacman -Syu sed --noconfirm --color always ||:\n" >> root/bin/$binfnstp 2>/dev/null ||:
 	else
-		pacman -Syu --noconfirm --color always ||: 
+		printf "pacman -Syu --noconfirm --color always ||:\n" >> root/bin/$binfnstp 2>/dev/null ||:
 	fi
+	cat >> root/bin/$binfnstp <<- EOM
 	printf "\n\033[1;32m==> \033[0m"
 	locale-gen ||:
 	printf "\n"
