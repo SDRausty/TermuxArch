@@ -128,17 +128,19 @@ makefinishsetup () {
 	################################################################################
 	printf "\n"
 	EOM
-	if [ -e $HOME/.bash_profile ]; then
+	if [ -e $HOME/.bash_profile ];then
 		grep "proxy" $HOME/.bash_profile | grep "export" >> root/bin/$binfnstp 2>/dev/null ||:
 	fi
-	if [ -e $HOME/.bashrc ]; then
+	if [ -e $HOME/.bashrc ];then
 		grep "proxy" $HOME/.bashrc  | grep "export" >> root/bin/$binfnstp 2>/dev/null ||:
 	fi
-	if [ -e $HOME/.profile ]; then
+	if [ -e $HOME/.profile ];then
 		grep "proxy" $HOME/.profile | grep "export" >> root/bin/$binfnstp 2>/dev/null ||:
 	fi
 	cat >> root/bin/$binfnstp <<- EOM
-	pacman -R linux-aarch64 linux-firmware --noconfirm --color always ||: 
+	if [ \$cpuabi = \$cpuabi8 ];then
+		pacman -R dhcpcd linux-aarch64 linux-firmware mkinitcpio netctl systemd systemd-sysvcompat --noconfirm --color always ||: 
+	fi
 	if [ \$cpuabi = \$cpuabix86 ] || [ \$cpuabi = \$cpuabix8664 ];then
 		pacman -Syu sed --noconfirm --color always ||: 
 	else
