@@ -138,6 +138,7 @@ makefinishsetup () {
 		grep "proxy" $HOME/.profile | grep "export" >> root/bin/$binfnstp 2>/dev/null ||:
 	fi
 	cat >> root/bin/$binfnstp <<- EOM
+	pacman -R linux-aarch64 linux-firmware --noconfirm --color always ||: 
 	if [ \$cpuabi = \$cpuabix86 ] || [ \$cpuabi = \$cpuabix8664 ];then
 		pacman -Syu sed --noconfirm --color always ||: 
 	else
