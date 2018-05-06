@@ -138,17 +138,19 @@ makefinishsetup () {
 		grep "proxy" $HOME/.profile | grep "export" >> root/bin/$binfnstp 2>/dev/null ||:
 	fi
 	if [ $cpuabi = $cpuabi5 ];then
-		printf "pacman -R dhcpcd linux-armv5 linux-firmware mkinitcpio netctl systemd systemd-sysvcompat --noconfirm --color always ||:\n" >> root/bin/$binfnstp ||:
+		printf "pacman -Rc linux-armv5 linux-firmware systemd --noconfirm --color always 2>/dev/null ||:\n" >> root/bin/$binfnstp ||:
 	elif [ $cpuabi = $cpuabi7 ];then
-		printf "pacman -R dhcpcd linux-armv7 linux-firmware mkinitcpio netctl systemd systemd-sysvcompat --noconfirm --color always ||:\n" >> root/bin/$binfnstp ||:
+		printf "pacman -Rc linux-armv7 linux-firmware systemd --noconfirm --color always 2>/dev/null ||:\n" >> root/bin/$binfnstp ||:
 	elif [ $cpuabi = $cpuabi8 ];then
-#		printf "pacman -R dhcpcd linux-aarch64 linux-firmware mkinitcpio netctl systemd systemd-sysvcompat --noconfirm --color always ||:\n" >> root/bin/$binfnstp ||:
+#		printf "pacman -Rc linux-aarch64 linux-firmware systemd --noconfirm --color always 2>/dev/null ||:\n" >> root/bin/$binfnstp ||:
 		:
+	elif [ $cpuabi = $cpuabix86 ] || [ $cpuabi = $cpuabix8664 ];then
+		printf "pacman -Rc systemd --noconfirm --color always ||:\n" >> root/bin/$binfnstp ||:
 	fi
 	if [ $cpuabi = $cpuabix86 ] || [ $cpuabi = $cpuabix8664 ];then
-		printf "pacman -Syu sed --noconfirm --color always ||:\n" >> root/bin/$binfnstp 2>/dev/null ||:
+		printf "pacman -Syu sed --noconfirm --color always 2>/dev/null ||:\n" >> root/bin/$binfnstp ||:
 	else
-		printf "pacman -Syu --noconfirm --color always ||:\n" >> root/bin/$binfnstp 2>/dev/null ||:
+		printf "pacman -Syu --noconfirm --color always 2>/dev/null ||:\n" >> root/bin/$binfnstp ||:
 	fi
 	cat >> root/bin/$binfnstp <<- EOM
 	printf "\n\033[1;32m==> \033[0m"
