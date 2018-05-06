@@ -144,7 +144,7 @@ makefinishsetup () {
 	elif [ $cpuabi = $cpuabi8 ];then
 		printf "pacman -Rc linux-aarch64 linux-firmware systemd --noconfirm --color always 2>/dev/null ||:\n" >> root/bin/$binfnstp ||:
 	elif [ $cpuabi = $cpuabix86 ] || [ $cpuabi = $cpuabix8664 ];then
-		printf "pacman -Rc systemd --noconfirm --color always ||:\n" >> root/bin/$binfnstp ||:
+		printf "pacman -Rc systemd --noconfirm --color always 2>/dev/null ||:\n" >> root/bin/$binfnstp ||:
 	fi
 	if [ $cpuabi = $cpuabix86 ] || [ $cpuabi = $cpuabix8664 ];then
 		printf "pacman -Syu sed --noconfirm --color always 2>/dev/null ||:\n" >> root/bin/$binfnstp ||:
