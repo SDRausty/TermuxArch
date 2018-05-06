@@ -428,7 +428,7 @@ addtour () {
 	printf "\n\033[1;32m==> \033[1;37mRunning \033[1;32mcat ~/.bashrc\033[1;37m\n\n"
 	cat ~/.bashrc
 	sleep 1
-	printf "\n\033[1;32m==> \033[1;37mShort tour is complete.  Run this script again at a later time and you might be surprised at how the environment changes.\n\n"
+	printf "\n\033[1;32m==> \033[1;37mShort tour is complete.  Run this script again at a later time, and you might be surprised at how the environment changes over time.  See http://tldp.org for information about Linux.\n\n"
 	EOM
 	chmod 770 root/bin/tour 
 }
