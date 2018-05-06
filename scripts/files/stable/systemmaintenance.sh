@@ -128,6 +128,6 @@ refreshsys () {
 	printfooter 
 	$installdir/$startbin ||:
 	printfooter2
-	printf "\n\033[0;32msetupTermuxArch.sh refresh \033[0m$versionid: \033[0;32mDONE 🏁  \n\n\033[0m"'\033]2; setupTermuxArch.sh refresh 🏁 \007'
+	printf "\n\033[0;32msetupTermuxArch.sh refresh \033[0m$versionid\033[1;32m: \033[0;32mDONE 🏁\n\n\033[0m"'\033]2; setupTermuxArch.sh refresh 🏁 \007'
 	exit
 }
