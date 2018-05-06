@@ -83,7 +83,7 @@ printfooter () {
 }
 
 printfooter2 () {
-	printf "\n\033[1;34mArch Linux in Termux PRoot is installed in $installdir.  This project is in active development and contributions are welcome; See https://sdrausty.github.io/TermuxArch/CONTRIBUTORS for information.  The documentation repository for TermuxArch https://sdrausty.github.io/TermuxArch/docs/ is a Termux Arch submodule that is located at https://github.com/sdrausty/docsTermuxArch.  Pull requests and contributions through the issues pages are open to improve the ux and this Termux PRoot installation script.\n\nUse \033[1;32m~$printrootdir/$startbin \033[1;34mand \033[1;32m$startbin \033[1;34min a BASH shell to launch Arch Linux in Termux PRoot for future sessions.  See https://wiki.archlinux.org/index.php/IRC_channel for available Arch Linux IRC channels.\n\033[0m"
+	printf "\n\033[1;34mArch Linux in Termux PRoot is installed in $installdir.  This project is in active development and contributions are welcome; See https://sdrausty.github.io/TermuxArch/CONTRIBUTORS for information.  The documentation repository for TermuxArch https://sdrausty.github.io/TermuxArch/docs/ is a Termux Arch submodule that is located at https://github.com/sdrausty/docsTermuxArch.  Pull requests and contributions through the issues pages are open to improve the ux and this Termux PRoot installation script.\n\nUse \033[1;32m~$printrootdir/$startbin \033[1;34mand \033[1;32m$startbin \033[1;34min a BASH shell to launch Arch Linux in Termux PRoot for future sessions.  If you are new to *nix, http://tldp.org has *nix documentation.  See https://wiki.archlinux.org/index.php/IRC_channel for available Arch Linux IRC channels.\n\033[0m"
 }
 
 printrootdirfunction () {
