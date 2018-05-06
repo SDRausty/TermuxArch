@@ -281,7 +281,7 @@ makesystem () {
 	rm *.tar.gz *.tar.gz.md5
 	printdone 
 	makestartbin 
-	printconfigq 
+	printconfigup 
 	touchupsys 
 }
 

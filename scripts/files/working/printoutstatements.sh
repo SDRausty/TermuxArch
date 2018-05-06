@@ -52,7 +52,7 @@ printdownloadingftchit () {
 	printf "\033[0;34m 🕛 > 🕓 \033[0;34mDownloading the checksum file and \033[0;32m$file \033[0;34m from \033[0;32mhttp://$mirror\033[0;34m…  \033[1;37mThis may take a long time pending connection.\n\n\033[0;32m"'\033]2; 🕛 > 🕓 Downloading the checksum and Arch Linux system image file…  \007'
 }
 
-printconfigq () {
+printconfigup () {
 	printf "\033[0;34m 🕛 > 🕤 \033[1;34mArch Linux in Termux PRoot is installed.  Configuring and updating Arch Linux 📲"'\033]2; 🕛 > 🕤 Arch Linux is installed!  Configuring and updating Arch Linux 📲 \007'
 }
 
