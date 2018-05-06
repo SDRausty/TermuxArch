@@ -65,13 +65,15 @@ jlam: contributed `getprop ro.product.device` Chromebook detection, `getprop ro.
 
 [markfelt](https://github.com/markfelt) contributed [Succesfully Modified Stock 'makepkg'... #38](https://github.com/sdrausty/TermuxArch/issues/38) with instructions.  Result: pending 
 
-[michalbednarski](https://github.com/michalbednarski) contributed Termux PRoot, discussed PRoot, contributed: `pacman-key --init` && `echo disable-scdaemon > /etc/pacman.d/gnupg/gpg-agent.conf` which resolved `pacman-key --populate archlinux` issuses, `export PROOT_NO_SECCOMP=1` resolving Android 8 installation issues.  Contributed kernel test for PRoot. Result: TermuxArch greatly improved! 
+[michalbednarski](https://github.com/michalbednarski) contributed Termux PRoot, discussed PRoot, contributed: `pacman-key --init` && `echo disable-scdaemon > /etc/pacman.d/gnupg/gpg-agent.conf` which resolved `pacman-key --populate archlinux` issuses, `export PROOT_NO_SECCOMP=1` resolving Android 8 installation issues.  Contributed kernel test and updated PRoot for Android 8.  Contributed `pacman -R linux-aarch64 linux-firmware` easing free space concerns.  Result: TermuxArch greatly improved! 
 
 [mjskoneg](https://github.com/mjskoneg) submitted issues.  Result: TermuxArch improved! 
 
 [Neo-Oli](https://github.com/Neo-Oli) suggested `unset LD_PRELOAD` to resolve an issue when using `termux-exec`.  Result: TermuxArch improved! 
 
 [rootconfig27](https://github.com/rootconfig27) contributed to `printoutstatements.sh` with this [9cd505a](https://github.com/rootconfig27/TermuxArch/commit/5c5f1de746731b2f98dc11064fbfd7f8c9cd505a) commit.
+
+[Root-voidX](https://github.com/Root-voidX) contributed great discourse which resulted in instructions and diagnostic information about Arch Linux [#59](https://github.com/sdrausty/TermuxArch/issues/59) for GUI users and improvements for Android 8 user.  Result: TermuxArch improved! 
 
 [Soph1a7](https://github.com/Soph1a7) contributed to issues and submitted pull requests (locale-gen, printf, quiet, mirrors, `wget -A tar.gz -m -nd -np http://mirrors.evowise.com/archlinux/iso/latest`, et al ).  Also provided numerous constructive suggestions.  Result: TermuxArch greatly improved, and working with this project improved too! 
 
