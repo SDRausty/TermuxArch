@@ -319,6 +319,8 @@ addpc () {
 	# https://sdrausty.github.io/TermuxArch/README has information about this project. 
 	################################################################################
 	if [[ \$1 = "a" ]];then
+	pacman --noconfirm --color=always -Syu base base-devel \${@:2} 
+	elif [[ \$1 = "ae" ]];then
 	pacman --noconfirm --color=always -Syu base base-devel emacs \${@:2} 
 	elif [[ \$1 = "a8" ]];then
 	pacman --noconfirm --color=always -Syu base base-devel emacs jdk8-openjdk \${@:2} 
