@@ -302,9 +302,6 @@ preproot () {
 }
 
 runfinishsetup () {
-	if [[ ! $(sed 1q  $installdir/etc/pacman.d/mirrorlist) = "# # # # # # # # # # # # # # # # # # # # # # # # # # #" ]];then
-		editfiles
-	fi
 	printf "\033[0m"
 	if [ $fstnd ]; then
 		nmir=$(echo $nmirror |awk -F'/' '{print $3}')
@@ -313,6 +310,9 @@ runfinishsetup () {
 	else
 	if [[ $ed = "" ]];then
 		editors 
+	fi
+	if [[ ! $(sed 1q  $installdir/etc/pacman.d/mirrorlist) = "# # # # # # # # # # # # # # # # # # # # # # # # # # #" ]];then
+		editfiles
 	fi
 		$ed $installdir/etc/pacman.d/mirrorlist
 	fi
