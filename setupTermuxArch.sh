@@ -397,6 +397,8 @@ printsha512syschker () {
 }
 
 printtail () {
+	namestartarch
+        $startbin help
 	printf "\n\033[0mThank you for using \033[0;32msetupTermuxArch.sh \033[0m$versionid 🏁  \n\n\033[0m"'\033]2;  Thank you for using setupTermuxArch.sh  🏁 \007'
 	exit
 }
