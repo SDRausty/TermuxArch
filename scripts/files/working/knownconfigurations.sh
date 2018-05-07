@@ -9,8 +9,9 @@
 # Change mirror to desired geographic location in `setupTermuxArchConfigs.sh` to resolve 404 and checksum errors.
 # The following user configurable variables are available in this file:
 ################################################################################
-cmirror="http://mirror.archlinuxarm.org/"
-#cmirror="http://os.archlinuxarm.org/"
+#cmirror="http://mirror.archlinuxarm.org/"
+cmirror="http://os.archlinuxarm.org/"
+#dm=axel tba
 #dm=curl
 #dm=wget
 #dmverbose="-q"
