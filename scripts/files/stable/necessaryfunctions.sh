@@ -302,9 +302,6 @@ preproot () {
 }
 
 runfinishsetup () {
-	if [[ $ed = "" ]];then
-		editors 
-	fi
 	if [[ ! $(sed 1q  $installdir/etc/pacman.d/mirrorlist) = "# # # # # # # # # # # # # # # # # # # # # # # # # # #" ]];then
 		editfiles
 	fi
@@ -314,6 +311,9 @@ runfinishsetup () {
 		sed -e '/http\:\/\/mir/ s/^#*/# /' -i $installdir/etc/pacman.d/mirrorlist
 		sed -e "/$nmir/ s/^# *//" -i $installdir/etc/pacman.d/mirrorlist
 	else
+	if [[ $ed = "" ]];then
+		editors 
+	fi
 		$ed $installdir/etc/pacman.d/mirrorlist
 	fi
 	printf "\n"
