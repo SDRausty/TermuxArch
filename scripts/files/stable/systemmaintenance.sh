@@ -114,7 +114,7 @@ refreshsys () {
 	printdone 
 	printf '\033]2; setupTermuxArch.sh refresh 📲 \007'
 	$installdir/root/bin/setupbin.sh 
-	printconfigq
+	printconfigup
 	rm root/bin/finishsetup.sh
 	rm root/bin/setupbin.sh 
 	printf "\033[1;34m  The following files have been updated to the newest version.\n\n\033[0;32m"
