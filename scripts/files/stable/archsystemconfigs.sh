@@ -125,7 +125,7 @@ addbashrc () {
 	alias d='du -hs'
 	alias e='logout'
 	alias egrep='egrep --color=always'
-	alias fgrep='fgrep --color=always'
+	alias f='fgrep --color=always'
 	alias g='ga; gcm; gp'
 	alias gca='git commit -a'
 	alias gcam='git commit -am'
