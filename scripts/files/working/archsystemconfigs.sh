@@ -449,8 +449,8 @@ addtrim () {
 	rm -rf /usr/lib/firmware
 	echo [3/5] rm -rf /usr/lib/modules
 	rm -rf /usr/lib/modules
-	echo [4/5] pacman -Scc --noconfirm --color=always
-	pacman -Scc --noconfirm --color=always
+	echo [4/5] pacman -Sc --noconfirm --color=always
+	pacman -Sc --noconfirm --color=always
 	echo [5/5] rm /var/cache/pacman/pkg/*xz
 	rm /var/cache/pacman/pkg/*xz
 	echo trim:done
