@@ -1,0 +1,87 @@
+make: *** [Makefile:19: testcase-error-codes] Error 127
+[06:52 test ]$ make gnulinux
+make: *** No rule to make target 'gnulinux'.  Stop.
+[07:03 test ]$ c
+/data/data/com.termux/files/home/archi/home/user/libandroid-shmem-gnu
+[07:03 libandroid-shmem-gnu ]$ make gnulinux
+cc -fpic -shared -std=c11 -Wall -Wextra -Wl,--version-script=exports.txt  shmem.c -o libandroid-shmem.so
+[07:03 libandroid-shmem-gnu ]$ make install
+install -D libandroid-shmem.so /data/data/com.termux/files/usr/lib/libandroid-shmem.so
+install -D shm.h /data/data/com.termux/files/usr/include/sys/shm.h
+[07:03 libandroid-shmem-gnu ]$ !star
+startarch+archi
+Welcome to Arch Linux in Termux!
+Install a package: pacman -S package
+More  information: pacman [-D|F|Q|R|S|T|U]h
+Search   packages: pacman -Ss query
+Upgrade  packages: pacman -Syu
+
+Chat: https://gitter.im/termux
+Help: info query and man query
+IRC:  wiki.archlinux.org/index.php/IRC_channel
+
+[07:07 libandroid-shmem-gnu ]$ make gnulinux
+cc -fpic -shared -std=c11 -Wall -Wextra -Wl,--version-script=exports.txt  shmem.c -o libandroid-shmem.so
+shmem.c: In function ‘ashmem_get_size_region’:
+shmem.c:120:9: warning: implicit declaration of function ‘TEMP_FAILURE_RETRY’ [-Wimplicit-function-declaration]
+  return TEMP_FAILURE_RETRY(ioctl(fd, ASHMEM_GET_SIZE, NULL));
+         ^~~~~~~~~~~~~~~~~~
+shmem.c:120:28: warning: implicit declaration of function ‘ioctl’; did you mean ‘shmctl’? [-Wimplicit-function-declaration]
+  return TEMP_FAILURE_RETRY(ioctl(fd, ASHMEM_GET_SIZE, NULL));
+                            ^~~~~
+                            shmctl
+shmem.c: In function ‘ashmem_create_region’:
+shmem.c:138:2: warning: implicit declaration of function ‘strncpy’ [-Wimplicit-function-declaration]
+  strncpy(name_buffer, name, sizeof(name_buffer));
+  ^~~~~~~
+shmem.c:138:2: warning: incompatible implicit declaration of built-in function ‘strncpy’
+shmem.c:138:2: note: include ‘<string.h>’ or provide a declaration of ‘strncpy’
+shmem.c: In function ‘android_shmem_delete’:
+shmem.c:232:2: warning: implicit declaration of function ‘memmove’ [-Wimplicit-function-declaration]
+  memmove(&shmem[idx], &shmem[idx+1], (shmem_amount - idx) * sizeof(shmem_t));
+  ^~~~~~~
+shmem.c:232:2: warning: incompatible implicit declaration of built-in function ‘memmove’
+shmem.c:232:2: note: include ‘<string.h>’ or provide a declaration of ‘memmove’
+shmem.c: In function ‘ashv_read_remote_segment’:
+shmem.c:238:2: warning: implicit declaration of function ‘memset’ [-Wimplicit-function-declaration]
+  memset(&addr, 0, sizeof(addr));
+  ^~~~~~
+shmem.c:238:2: warning: incompatible implicit declaration of built-in function ‘memset’
+shmem.c:238:2: note: include ‘<string.h>’ or provide a declaration of ‘memset’
+shmem.c:241:42: warning: implicit declaration of function ‘strlen’ [-Wimplicit-function-declaration]
+  int addrlen = sizeof(addr.sun_family) + strlen(&addr.sun_path[1]) + 1;
+                                          ^~~~~~
+shmem.c:241:42: warning: incompatible implicit declaration of built-in function ‘strlen’
+shmem.c:241:42: note: include ‘<string.h>’ or provide a declaration of ‘strlen’
+shmem.c: In function ‘shmget’:
+shmem.c:314:4: warning: incompatible implicit declaration of built-in function ‘memset’
+    memset (&addr, 0, sizeof(addr));
+    ^~~~~~
+shmem.c:314:4: note: include ‘<string.h>’ or provide a declaration of ‘memset’
+shmem.c:318:36: warning: incompatible implicit declaration of built-in function ‘strlen’
+    len = sizeof(addr.sun_family) + strlen(&addr.sun_path[1]) + 1;
+                                    ^~~~~~
+shmem.c:318:36: note: include ‘<string.h>’ or provide a declaration of ‘strlen’
+shmem.c:353:22: warning: implicit declaration of function ‘readlink’; did you mean ‘unlink’? [-Wimplicit-function-declaration]
+    int path_length = readlink(symlink_path, path_buffer, sizeof(path_buffer) - 1);
+                      ^~~~~~~~
+                      unlink
+shmem.c:376:8: warning: implicit declaration of function ‘symlink’; did you mean ‘unlink’? [-Wimplicit-function-declaration]
+    if (symlink(num_buffer, symlink_path) == 0) break;
+        ^~~~~~~
+        unlink
+shmem.c:392:24: warning: implicit declaration of function ‘getpagesize’ [-Wimplicit-function-declaration]
+  size = ROUND_UP(size, getpagesize());
+                        ^
+shmem.c:30:34: note: in definition of macro ‘ROUND_UP’
+ #define ROUND_UP(N, S) ((((N) + (S) - 1) / (S)) * (S))
+                                  ^
+shmem.c: In function ‘shmctl’:
+shmem.c:539:3: warning: incompatible implicit declaration of built-in function ‘memset’
+   memset(buf, 0, sizeof(struct shmid_ds));
+   ^~~~~~
+shmem.c:539:3: note: include ‘<string.h>’ or provide a declaration of ‘memset’
+[07:08 libandroid-shmem-gnu ]$ cd test/
+[07:14 test ]$ make gnulinux
+make: *** No rule to make target 'gnulinux'.  Stop.
+[07:14 test ]$
