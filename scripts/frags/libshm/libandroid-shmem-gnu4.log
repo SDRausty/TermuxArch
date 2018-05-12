@@ -1,4 +1,36 @@
-[08:40 libandroid-shmem-gnu ]$ whoami                                                                       user                                                                                                        [08:40 libandroid-shmem-gnu ]$ make clean                                                                   rm -f libandroid-shmem.so                                                                                   [08:40 libandroid-shmem-gnu ]$ make gnulinux                                                                cc -fpic -shared -std=c11 -Wall -Wextra -Wl,--version-script=exports.txt  shmem.c -o libandroid-shmem.so    shmem.c: In function ‘ashmem_get_size_region’:                                                              shmem.c:121:9: warning: implicit declaration of function ‘TEMP_FAILURE_RETRY’ [-Wimplicit-function-declaration]
-  return TEMP_FAILURE_RETRY(shmctl(fd, ASHMEM_GET_SIZE, NULL));                                                      ^~~~~~~~~~~~~~~~~~                                                                                 shmem.c: In function ‘ashmem_create_region’:                                                                shmem.c:142:40: warning: passing argument 3 of ‘shmctl’ from incompatible pointer type [-Wincompatible-pointer-types]                                                                                                     int ret = shmctl(fd, ASHMEM_SET_NAME, name_buffer);                                                                                               ^~~~~~~~~~~                                                         In file included from shmem.c:27:0:                                                                         shm.h:15:12: note: expected ‘struct shmid64_ds *’ but argument is of type ‘char *’                           extern int shmctl(int shmid, int cmd, struct shmid_ds* buf);
-            ^~~~~~                                                                                          shmem.c:145:36: warning: passing argument 3 of ‘shmctl’ makes pointer from integer without a cast [-Wint-conversion]                                                                                                      ret = shmctl(fd, ASHMEM_SET_SIZE, size);                                                                                                      ^~~~                                                                    In file included from shmem.c:27:0:                                                                         shm.h:15:12: note: expected ‘struct shmid64_ds *’ but argument is of type ‘size_t {aka long unsigned int}’   extern int shmctl(int shmid, int cmd, struct shmid_ds* buf);                                                           ^~~~~~                                                                                          shmem.c: In function ‘shmget’:                                                                              shmem.c:354:22: warning: implicit declaration of function ‘readlink’; did you mean ‘unlink’? [-Wimplicit-function-declaration]                                                                                              int path_length = readlink(symlink_path, path_buffer, sizeof(path_buffer) - 1);                                               ^~~~~~~~                                                                                                    unlink                                                                                shmem.c:377:8: warning: implicit declaration of function ‘symlink’; did you mean ‘unlink’? [-Wimplicit-function-declaration]                                                                                                if (symlink(num_buffer, symlink_path) == 0) break;                                                              ^~~~~~~                                                                                                     unlink
-shmem.c:393:24: warning: implicit declaration of function ‘getpagesize’ [-Wimplicit-function-declaration]     size = ROUND_UP(size, getpagesize());                                                                                             ^                                                                                   shmem.c:31:34: note: in definition of macro ‘ROUND_UP’                                                       #define ROUND_UP(N, S) ((((N) + (S) - 1) / (S)) * (S))                                                                                       ^
+[08:50 libandroid-shmem-gnu ]$ make gnulinux
+cc -fpic -shared -std=c11 -Wall -Wextra -Wl,--version-script=exports.txt  shmem.c -o libandroid-shmem.so
+shmem.c: In function ‘ashmem_get_size_region’:
+shmem.c:121:9: warning: implicit declaration of function ‘TEMP_FAILURE_RETRY’ [-Wimplicit-function-declaration]
+  return TEMP_FAILURE_RETRY(shmctl(fd, ASHMEM_GET_SIZE, NULL));
+         ^~~~~~~~~~~~~~~~~~
+shmem.c: In function ‘ashmem_create_region’:
+shmem.c:142:40: warning: passing argument 3 of ‘shmctl’ from incompatible pointer type [-Wincompatible-pointer-types]
+  int ret = shmctl(fd, ASHMEM_SET_NAME, name_buffer);
+                                        ^~~~~~~~~~~
+In file included from shmem.c:27:0:
+shm.h:15:12: note: expected ‘struct shmid64_ds *’ but argument is of type ‘char *’
+ extern int shmctl(int shmid, int cmd, struct shmid_ds* buf);
+            ^~~~~~
+shmem.c:145:36: warning: passing argument 3 of ‘shmctl’ makes pointer from integer without a cast [-Wint-conversion]
+  ret = shmctl(fd, ASHMEM_SET_SIZE, size);
+                                    ^~~~
+In file included from shmem.c:27:0:
+shm.h:15:12: note: expected ‘struct shmid64_ds *’ but argument is of type ‘size_t {aka long unsigned int}’
+ extern int shmctl(int shmid, int cmd, struct shmid_ds* buf);
+            ^~~~~~
+shmem.c: In function ‘shmget’:
+shmem.c:354:22: warning: implicit declaration of function ‘readlink’; did you mean ‘unlink’? [-Wimplicit-function-declaration]
+    int path_length = readlink(symlink_path, path_buffer, sizeof(path_buffer) - 1);
+                      ^~~~~~~~
+                      unlink
+shmem.c:377:8: warning: implicit declaration of function ‘symlink’; did you mean ‘unlink’? [-Wimplicit-function-declaration]
+    if (symlink(num_buffer, symlink_path) == 0) break;
+        ^~~~~~~
+        unlink
+shmem.c:393:24: warning: implicit declaration of function ‘getpagesize’ [-Wimplicit-function-declaration]
+  size = ROUND_UP(size, getpagesize());
+                        ^
+shmem.c:31:34: note: in definition of macro ‘ROUND_UP’
+ #define ROUND_UP(N, S) ((((N) + (S) - 1) / (S)) * (S))
+                                  ^
