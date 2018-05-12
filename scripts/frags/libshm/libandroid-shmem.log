@@ -1,0 +1,15 @@
+[09:02 ~ ]$ gcl https://github.com/termux/libandroid-shmem
+Cloning into 'libandroid-shmem'...
+remote: Counting objects: 39, done.
+remote: Total 39 (delta 0), reused 0 (delta 0), pack-reused 39
+Unpacking objects: 100% (39/39), done.
+[09:03 ~ ]$ cd libandroid-shmem
+[09:03 libandroid-shmem ]$ make gnulinux
+make: *** No rule to make target 'gnulinux'.  Stop.
+[09:04 libandroid-shmem ]$ make install
+cc -fpic -shared -std=c11 -Wall -Wextra -Wl,--version-script=exports.txt  shmem.c -llog -o libandroid-shmem.so
+shmem.c:1:10: fatal error: android/log.h: No such file or directory
+ #include <android/log.h>
+          ^~~~~~~~~~~~~~~
+compilation terminated.
+make: *** [Makefile:4: libandroid-shmem.so] Error 1
