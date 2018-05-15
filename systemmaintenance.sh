@@ -86,6 +86,7 @@ refreshsys () {
 	addbashrc 
 	adddfa
 	addexd
+	addfibs
 	addga
 	addgcl
 	addgcm

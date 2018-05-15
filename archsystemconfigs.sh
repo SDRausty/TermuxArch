@@ -176,6 +176,19 @@ adddfa () {
 	chmod 770 root/bin/dfa 
 }
 
+addfibs () {
+	cat > root/bin/fibs  <<- EOM
+	#!/bin/bash -e
+	# Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
+	# Hosting https://sdrausty.github.io/TermuxArch courtesy https://pages.github.com
+	# https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.  
+	# https://sdrausty.github.io/TermuxArch/README has information about this project. 
+	################################################################################
+	find /proc/ -name maps 2>/dev/null |xargs awk '{print i\$6}' 2>/dev/null| grep '\.so' | sort | uniq
+	EOM
+	chmod 770 root/bin/fibs 
+}
+
 addga () {
 	cat > root/bin/ga  <<- EOM
 	#!/bin/bash -e
