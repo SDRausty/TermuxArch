@@ -1,0 +1,8 @@
+#!/bin/bash -e
+# Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
+# Hosting https://sdrausty.github.io/TermuxArch courtesy https://pages.github.com
+# https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.  
+# https://sdrausty.github.io/TermuxArch/README has information about this project. 
+# https://www.bing.com/search?q=grey+music+cognition
+################################################################################
+while true;do echo playing play-audio "$@";play-audio "$@";snooze="$(cat /proc/sys/kernel/random/uuid | sed 's/[^0-9]//g'|sed 's/^\(...\).*/\1/')";echo snoozing play-audio "$@" for $snooze seconds;sleep $snooze;done
