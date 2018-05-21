@@ -382,6 +382,8 @@ touchupsys () {
 	addauser
 	addauserps
 	addauserpsc
+	addcdtd
+	addcdth
 	addbash_profile 
 	addbashrc 
 	adddfa

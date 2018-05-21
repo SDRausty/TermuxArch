@@ -97,6 +97,34 @@ addauserpsc () {
 	chmod 770 root/bin/addauserpsc 
 }
 
+addcdtd () {
+	cat >> root/bin/addcdtd <<- EOM
+	#!/bin/bash -e
+	# Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
+	# Hosting https://sdrausty.github.io/TermuxArch courtesy https://pages.github.com
+	# https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.  
+	# https://sdrausty.github.io/TermuxArch/README has information about this project. 
+	# Usage: `. cdtd`  The dot sources `cdtd` which makes this shortcut script work.
+	################################################################################
+	cd /data/data/com.termux/files/home/storage/downloads
+	EOM
+	chmod 770 root/bin/addcdtd 
+}
+
+addcdth () {
+	cat >> root/bin/addcdth <<- EOM
+	#!/bin/bash -e
+	# Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
+	# Hosting https://sdrausty.github.io/TermuxArch courtesy https://pages.github.com
+	# https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.  
+	# https://sdrausty.github.io/TermuxArch/README has information about this project. 
+	# Usage: `. cdth`  The dot sources `cdth` which makes this shortcut script work. 
+	################################################################################
+	cd /data/data/com.termux/files/home
+	EOM
+	chmod 770 root/bin/addcdth 
+}
+
 addbash_profile () {
 	cat > root/.bash_profile <<- EOM
 	PATH=\$HOME/bin:\$PATH
