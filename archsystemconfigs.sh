@@ -98,7 +98,7 @@ addauserpsc () {
 }
 
 addcdtd () {
-	cat >> root/bin/addcdtd <<- EOM
+	cat >> root/bin/cdtd <<- EOM
 	#!/bin/bash -e
 	# Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
 	# Hosting https://sdrausty.github.io/TermuxArch courtesy https://pages.github.com
@@ -108,11 +108,11 @@ addcdtd () {
 	################################################################################
 	cd /data/data/com.termux/files/home/storage/downloads
 	EOM
-	chmod 770 root/bin/addcdtd 
+	chmod 770 root/bin/cdtd 
 }
 
 addcdth () {
-	cat >> root/bin/addcdth <<- EOM
+	cat >> root/bin/cdth <<- EOM
 	#!/bin/bash -e
 	# Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
 	# Hosting https://sdrausty.github.io/TermuxArch courtesy https://pages.github.com
@@ -122,7 +122,7 @@ addcdth () {
 	################################################################################
 	cd /data/data/com.termux/files/home
 	EOM
-	chmod 770 root/bin/addcdth 
+	chmod 770 root/bin/cdth 
 }
 
 addbash_profile () {
