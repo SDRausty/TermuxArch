@@ -4,16 +4,6 @@
 # https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.  
 # https://sdrausty.github.io/TermuxArch/README has information about TermuxArch. 
 ################################################################################
-clangif () {
-	if [ ! -x $PREFIX/bin/clang ];then
-		printf "\n\033[1;34mInstalling \033[0;32mclang\033[1;34m…\n\n\033[1;32m"
-		pkg install clang --yes 
-		printf "\n\033[1;34mInstalling \033[0;32mclang\033[1;34m: \033[1;32mDONE\n\n\033[0m"
-	fi
-	if [ ! -x $PREFIX/bin/clang ];then
-		pe
-	fi
-}
 
 addtestapp () {
 cat > testapp.c <<- EOM
@@ -31,6 +21,22 @@ int main() {
 }
 	EOM
 	chmod 770 testapp.c 
+}
+
+clangif () {
+	if [ ! -x $PREFIX/bin/clang ];then
+		printf "\n\033[1;34mInstalling \033[0;32mclang\033[1;34m…\n\n\033[1;32m"
+		pkg install clang --yes 
+		printf "\n\033[1;34mInstalling \033[0;32mclang\033[1;34m: \033[1;32mDONE\n\n\033[0m"
+	fi
+	if [ ! -x $PREFIX/bin/clang ];then
+		pe
+	fi
+}
+
+pe () {
+	printf "\n\033[1;31mPrerequisites exception.  Run the script again…\n\n\033[0m"'\033]2;  Thank you for using setupTermuxArch.sh.  Run `bash setupTermuxArch.sh` again…\007'
+	exit
 }
 
 clangif 
