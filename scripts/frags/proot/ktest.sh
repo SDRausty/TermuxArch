@@ -35,7 +35,7 @@ clangif () {
 }
 
 pe () {
-	printf "\n\033[1;31mPrerequisites exception.  Run the script again…\n\n\033[0m"'\033]2;  Thank you for using setupTermuxArch.sh.  Run `bash setupTermuxArch.sh` again…\007'
+	printf "\n\033[1;31mPrerequisite exception;  Run the script again…\n\n\033[0m"'\033]2;  Thank you for using TermuxArch ktest.sh.  Run `bash ktest.sh` again…\007'
 	exit
 }
 
