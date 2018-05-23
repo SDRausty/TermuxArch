@@ -46,4 +46,4 @@ printf "\n\033[1;32mPRoot test results:\n\n\033[0m"
 clang testapp.c -o testapp
 PROOT_NO_SECCOMP=1 proot ./testapp
 rm test*
-printf "\n\033[0m"
+printf "\n\033[0m"'\033]2;  Thank you for using TermuxArch ktest.sh.\007'
