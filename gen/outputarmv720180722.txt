@@ -79,26 +79,6 @@ ArchLinuxARM-armv7-  69%[+++++++++++++       ] 253.29M  14.7KB/s    in 8m 34s
 ArchLinuxARM-armv7-  71%[+++++++++++++>      ] 260.70M  15.1KB/s    in 8m 36s
 ArchLinuxARM-armv7-  73%[++++++++++++++      ] 268.10M  15.0KB/s    in 8m 36s
 ArchLinuxARM-armv7-  75%[++++++++++++++>     ] 275.51M  14.7KB/s    in 8m 32s
-ArchLinuxARM-armv7-  77%[+++++++++++++++     ] 282.92M  14.9KB/s    in 8m 31sxARM-armv7-  44%[++++++++            ] 164.27M  15.2KB/s    in 8m 34s
-ArchLinuxARM-armv7-  46%[++++++++>           ] 171.67M  15.1KB/s    in 8m 34s
-ArchLinuxARM-armv7-  48%[+++++++++           ] 179.08M  15.5KB/s    in 8m 35s
-ArchLinuxARM-armv7-  50%[+++++++++>          ] 186.62M  14.6KB/s    in 8m 42s
-ArchLinuxARM-armv7-  52%[++++++++++          ] 194.02M  14.7KB/s    in 8m 33s
-ArchLinuxARM-armv7-  54%[++++++++++          ] 201.43M  15.3KB/s    in 8m 33s
-ArchLinuxARM-armv7-  56%[++++++++++>         ] 208.83M  15.1KB/s    in 8m 35s
-ArchLinuxARM-armv7-  58%[+++++++++++         ] 216.23M  14.6KB/s    in 8m 32s
-ArchLinuxARM-armv7-  60%[+++++++++++>        ] 223.64M  14.9KB/s    in 8m 34s
-ArchLinuxARM-armv7-  63%[++++++++++++        ] 231.06M  15.0KB/s    in 8m 34s
-ArchLinuxARM-armv7-  65%[++++++++++++>       ] 238.47M  14.9KB/s    in 8m 33s
-ArchLinuxARM-armv7-  67%[+++++++++++++       ] 245.88M  14.5KB/s    in 8m 36s
- 🕛 > 🕞 Contacting worldwide mirror http://os.archlinuxarm.org/: DONE
-
- 🕛 > 🕓 Downloading the checksum file and ArchLinuxARM-armv7-latest.tar.gz from the geographically local mirror http://fl.us.mirror.archlinuxarm.org/.  If contact with the local mirror is not successful, run bash setupTermuxArch.sh again.  Should the worldwide mirror not provide another geographically nearby server after a couple of attempts, use bash setupTermuxArch.sh manual after locating a local mirror from the Internet; See bash setupTermuxArch.sh help for additional options.  Download of ArchLinuxARM-armv7-latest.tar.gz pending Internet connection:
-
-ArchLinuxARM-armv7-  69%[+++++++++++++       ] 253.29M  14.7KB/s    in 8m 34s
-ArchLinuxARM-armv7-  71%[+++++++++++++>      ] 260.70M  15.1KB/s    in 8m 36s
-ArchLinuxARM-armv7-  73%[++++++++++++++      ] 268.10M  15.0KB/s    in 8m 36s
-ArchLinuxARM-armv7-  75%[++++++++++++++>     ] 275.51M  14.7KB/s    in 8m 32s
 ArchLinuxARM-armv7-  77%[+++++++++++++++     ] 282.92M  14.9KB/s    in 8m 31s
 ArchLinuxARM-armv7-  79%[+++++++++++++++     ] 290.33M  14.9KB/s    in 8m 33s
 ArchLinuxARM-armv7-  81%[+++++++++++++++>    ] 297.74M  15.3KB/s    in 8m 34s
