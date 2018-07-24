@@ -147,8 +147,12 @@ makefinishsetup () {
 	elif [ $cpuabi = $cpuabix86 ] || [ $cpuabi = $cpuabix8664 ];then
 		printf "pacman -Rc systemd --noconfirm --color=always 2>/dev/null ||:\n" >> root/bin/$binfnstp
 	fi
-	printf "printf \"\\\e[1;32m==> Running ./root/bin/keys\\\e[0m\"\n" >> root/bin/$binfnstp
-	printf "./root/bin/keys\n" >> root/bin/$binfnstp
+	printf "printf \"\\\e[1;32m==> \\\e[0mRunning ./root/bin/keys…\"\n" >> root/bin/$binfnstp
+	if [ $cpuabi = $cpuabix86 ];then
+		printf "./root/bin/keys x86\n" >> root/bin/$binfnstp
+	else
+		printf "./root/bin/keys\n" >> root/bin/$binfnstp
+	fi
 	if [ $cpuabi = $cpuabix86 ] || [ $cpuabi = $cpuabix8664 ];then
 		printf "pacman -Syu sed --noconfirm --color=always 2>/dev/null ||:\n" >> root/bin/$binfnstp
 	else
