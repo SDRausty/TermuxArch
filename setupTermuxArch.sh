@@ -453,6 +453,7 @@ rmarch () {
 			printf "\nYou answered \033[33;1m$ruanswer\033[30m.\n\nAnswer \033[32mYes\033[30m or \033[1;31mNo\033[30m. [\033[32my\033[30m|\033[1;31mn\033[30m]\n"
 		fi
 	done
+	printf "\e[0m\n"
 }
 
 rmarchrm () {
