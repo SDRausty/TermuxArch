@@ -655,7 +655,7 @@ dmverbose="-q"
 #dmverbose="-v"
 stime=`date +%s|grep -o '....$'`
 unset LD_PRELOAD
-versionid="gen.v1.6 id%N"
+versionid="gen.v1.6 idN"
 
 if [[ $commandif = "" ]];then
 	echo Run \`setupTermuxArch.sh\` from the Android system in Termux.
