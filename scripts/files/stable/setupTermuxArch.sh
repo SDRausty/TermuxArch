@@ -285,6 +285,10 @@ edq2 () {
 	printf "\n"
 }
 
+finish () {
+printf "\e[?25h\e[0mint caught\n"
+}
+
 intro () {
 	printf '\033]2;  bash setupTermuxArch.sh 📲 \007'
 	rmarchq
@@ -661,6 +665,7 @@ declare -g args=$@
 dmverbose="-q"
 #dmverbose="-v"
 stime=`date +%s|grep -o '....$'`
+trap finish EXIT 
 unset LD_PRELOAD
 versionid="v1.6"
 
