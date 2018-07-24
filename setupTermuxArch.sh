@@ -1,15 +1,9 @@
-#!/bin/bash 
-set -e
+#!/bin/bash -e
 # Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
 # Hosting https://sdrausty.github.io/TermuxArch courtesy https://pages.github.com
 # https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.  
 # https://sdrausty.github.io/TermuxArch/README has information about TermuxArch. 
 ################################################################################
-
-finish () {
-printf "\e[?25h\e[0mint caught\n"
-}
-trap finish EXIT 
 
 arg2dir () {
 	arg2=$(echo $args | awk '{print $2}')
