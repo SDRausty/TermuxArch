@@ -665,7 +665,7 @@ declare -g args=$@
 dmverbose="-q"
 #dmverbose="-v"
 stime=`date +%s|grep -o '....$'`
-trap finish EXIT 
+trap finish SIGINT SIGTERM 
 unset LD_PRELOAD
 versionid="v1.6"
 
