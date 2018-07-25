@@ -84,6 +84,7 @@ refreshsys () {
 	addauserpsc
 	addcdtd
 	addcdth
+	addbash_logout 
 	addbash_profile 
 	addbashrc 
 	adddfa
@@ -96,6 +97,7 @@ refreshsys () {
 	addgpl
 	addkeys
 	addmotd
+	addmoto
 	addpc
 	addpci
 	addprofile 

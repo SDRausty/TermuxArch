@@ -390,6 +390,7 @@ touchupsys () {
 	addauserpsc
 	addcdtd
 	addcdth
+	addbash_logout 
 	addbash_profile 
 	addbashrc 
 	adddfa
@@ -401,6 +402,7 @@ touchupsys () {
 	addgpl
 	addkeys
 	addmotd
+	addmoto
 	addpc
 	addpci
 	addprofile 

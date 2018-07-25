@@ -666,13 +666,13 @@ cpuabi8="arm64-v8a"
 cpuabix86="x86"
 cpuabix8664="x86_64"
 declare -g args=$@
-dfl=/gen
+#dfl=/gen
 dmverbose="-q"
 #dmverbose="-v"
 stime=`date +%s|grep -o '....$'`
 trap finish SIGINT SIGTERM 
 unset LD_PRELOAD
-versionid="gen.v1.6 id398376910"
+versionid="v1.6"
 
 if [[ $commandif = "" ]];then
 	echo Run \`setupTermuxArch.sh\` from the Android system in Termux.
