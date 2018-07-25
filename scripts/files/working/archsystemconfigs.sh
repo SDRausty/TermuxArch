@@ -97,32 +97,15 @@ addauserpsc () {
 	chmod 770 root/bin/addauserpsc 
 }
 
-addcdtd () {
-	cat >> root/bin/cdtd <<- EOM
-	#!/bin/bash -e
-	# Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
-	# Hosting https://sdrausty.github.io/TermuxArch courtesy https://pages.github.com
-	# https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.  
-	# https://sdrausty.github.io/TermuxArch/README has information about this project. 
-	# Usage: \`. cdtd\`  The dot sources \`cdtd\` which makes this shortcut script work.
-	################################################################################
-	cd /data/data/com.termux/files/home/storage/downloads
+addbash_logout () {
+	cat > root/.bash_logout <<- EOM
+	if [ ! -e $HOME/.hushlogout ] && [ ! -e $HOME/.chushlogout ];then
+		. /etc/moto
+	fi
+	if [ -e $HOME/.chushlogout ];then
+		rm $HOME/.chushlogout
+	fi
 	EOM
-	chmod 770 root/bin/cdtd 
-}
-
-addcdth () {
-	cat >> root/bin/cdth <<- EOM
-	#!/bin/bash -e
-	# Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
-	# Hosting https://sdrausty.github.io/TermuxArch courtesy https://pages.github.com
-	# https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.  
-	# https://sdrausty.github.io/TermuxArch/README has information about this project. 
-	# Usage: \`. cdth\`  The dot sources \`cdth\` which makes this shortcut script work. 
-	################################################################################
-	cd /data/data/com.termux/files/home
-	EOM
-	chmod 770 root/bin/cdth 
 }
 
 addbash_profile () {
@@ -174,6 +157,34 @@ addbashrc () {
 	if [ -e $HOME/.bashrc ] ; then
 		grep proxy $HOME/.bashrc |grep "export" >>  root/.bashrc 2>/dev/null||:
 	fi
+}
+
+addcdtd () {
+	cat >> root/bin/cdtd <<- EOM
+	#!/bin/bash -e
+	# Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
+	# Hosting https://sdrausty.github.io/TermuxArch courtesy https://pages.github.com
+	# https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.  
+	# https://sdrausty.github.io/TermuxArch/README has information about this project. 
+	# Usage: \`. cdtd\`  The dot sources \`cdtd\` which makes this shortcut script work.
+	################################################################################
+	cd /data/data/com.termux/files/home/storage/downloads
+	EOM
+	chmod 770 root/bin/cdtd 
+}
+
+addcdth () {
+	cat >> root/bin/cdth <<- EOM
+	#!/bin/bash -e
+	# Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
+	# Hosting https://sdrausty.github.io/TermuxArch courtesy https://pages.github.com
+	# https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.  
+	# https://sdrausty.github.io/TermuxArch/README has information about this project. 
+	# Usage: \`. cdth\`  The dot sources \`cdth\` which makes this shortcut script work. 
+	################################################################################
+	cd /data/data/com.termux/files/home
+	EOM
+	chmod 770 root/bin/cdth 
 }
 
 addexd () {
@@ -348,6 +359,12 @@ addkeys () {
 addmotd () {
 	cat > etc/motd  <<- EOM
 	printf "\033[1;34mWelcome to Arch Linux in Termux!\nInstall a package: \033[0;34mpacman -S package\n\033[1;34mMore  information: \033[0;34mpacman -[D|F|Q|R|S|T|U]h\n\033[1;34mSearch   packages: \033[0;34mpacman -Ss query\n\033[1;34mUpgrade  packages: \033[0;34mpacman -Syu\n\n\033[1;34mChat: \033[0mhttps://webchat.freenode.net/ #termux\n\033[1;34mHelp: \033[0;34minfo query \033[1;34mand \033[0;34mman query\n\033[1;34mIRC:  \033[0mwiki.archlinux.org/index.php/IRC_channel\n\n\033[0m"
+	EOM
+}
+
+addmoto () {
+	cat > etc/moto  <<- EOM
+	printf "\033[1;34mThank you for experiencing Arch Linux in Termux!\nInstall a package: \033[0;34mpacman -S package\n\033[1;34mMore  information: \033[0;34mpacman -[D|F|Q|R|S|T|U]h\n\033[1;34mSearch   packages: \033[0;34mpacman -Ss query\n\033[1;34mUpgrade  packages: \033[0;34mpacman -Syu\n\n\033[1;34mChat: \033[0mhttps://webchat.freenode.net/ #termux\n\033[1;34mHelp: \033[0;34minfo query \033[1;34mand \033[0;34mman query\n\033[1;34mIRC:  \033[0mwiki.archlinux.org/index.php/IRC_channel\n\n\033[0m"
 	EOM
 }
 
