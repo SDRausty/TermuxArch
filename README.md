@@ -2,9 +2,9 @@ TermuxArch
 ===============
 [![Join the chat at https://gitter.im/termux](https://badges.gitter.im/termux/termux.svg)](https://gitter.im/termux)
 
-This Termux bash shell script will set up Arch Linux in an Android device or Chromebook running Termux.
+This Termux bash shell script will set up Arch Linux on Amazon Fire OS, Android device and Chromebook running Termux.
 
-Install Arch Linux into the Termux PRoot container with [`bash setupTermuxArch.sh`](setupTermuxArch.sh). 
+Install Arch Linux into a Termux PRoot container with [`bash setupTermuxArch.sh`](setupTermuxArch.sh). 
 
 See https://sdrausty.github.io/TermuxArch/docs/install for options how to run [`setupTermuxArch.sh`](https://sdrausty.github.io/TermuxArch/setupTermuxArch.sh) on device.  
 
