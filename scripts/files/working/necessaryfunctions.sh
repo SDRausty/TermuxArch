@@ -154,9 +154,9 @@ makefinishsetup () {
 		printf "./root/bin/keys\n" >> root/bin/$binfnstp
 	fi
 	if [ $cpuabi = $cpuabix86 ] || [ $cpuabi = $cpuabix8664 ];then
-		printf "pacman -Syu sed --noconfirm --color=always 2>/dev/null ||:\n" >> root/bin/$binfnstp
+		printf "./root/bin/pc gzip sed 2>/dev/null ||:\n" >> root/bin/$binfnstp
 	else
-		printf "pacman -Syu --noconfirm --color=always 2>/dev/null ||:\n" >> root/bin/$binfnstp
+		printf "./root/bin/pc 2>/dev/null ||:\n" >> root/bin/$binfnstp
 	fi
 	cat >> root/bin/$binfnstp <<- EOM
 	printf "\n\033[1;32m==> \033[0m"
