@@ -285,6 +285,10 @@ edq2 () {
 	printf "\n"
 }
 
+finish () {
+printf "\e[?25h\e[0mint caught\n"
+}
+
 intro () {
 	printf '\033]2;  bash setupTermuxArch.sh 📲 \007'
 	rmarchq
@@ -398,7 +402,7 @@ printsha512syschker () {
 
 printtail () {
 	namestartarch
-        $startbin help
+        $startbin help 2>/dev/null
 	printf "\n\033[0mThank you for using \033[0;32msetupTermuxArch.sh \033[0m$versionid 🏁  \n\n\033[0m"'\033]2;  Thank you for using setupTermuxArch.sh  🏁 \007'
 	exit
 }
@@ -449,6 +453,7 @@ rmarch () {
 			printf "\nYou answered \033[33;1m$ruanswer\033[30m.\n\nAnswer \033[32mYes\033[30m or \033[1;31mNo\033[30m. [\033[32my\033[30m|\033[1;31mn\033[30m]\n"
 		fi
 	done
+	printf "\e[0m\n"
 }
 
 rmarchrm () {
@@ -547,7 +552,7 @@ spaceinfo () {
 }
 
 spaceinfogsize () {
-	usrspace=$(df /data 2>/dev/null | awk 'FNR == 2 {print $4}')
+	userspace return
 	if [ $cpuabi = $cpuabix86 ] || [ $cpuabi = $cpuabix8664 ];then
 		if [[ $usrspace = *G ]];then 
 			spaceMessage=""
@@ -601,7 +606,7 @@ spaceinfoq () {
 }
 
 spaceinfoksize () {
-	usrspace=$(df 2>/dev/null | grep "/data"| awk 'NR==1' | awk {'print $4'})
+	userspace return
 	if [ $cpuabi = $cpuabi8 ];then
 		if [[ "$usrspace" -lt "1500000" ]];then
 			spaceMessage="\n\033[0;33mTermuxArch: \033[1;33mFREE SPACE WARNING!  \033[1;30mStart thinking about cleaning out some stuff.  \033[33m$usrspace $units of free user space is available on this device.  \033[1;30mThe recommended minimum to install Arch Linux in Termux PRoot for aarch64 is 1.5G of free user space.\n\033[0m"
@@ -620,6 +625,13 @@ spaceinfoksize () {
 		else
 			spaceMessage=""
 		fi
+	fi
+}
+
+userspace () {
+	usrspace=$(df /data 2>/dev/null | awk 'FNR == 2 {print $4}')
+	if [[ $usrspace = "" ]];then
+		usrspace=$(df /data 2>/dev/null | awk 'FNR == 3 {print $3}')
 	fi
 }
 
@@ -654,8 +666,9 @@ dfl=/gen
 dmverbose="-q"
 #dmverbose="-v"
 stime=`date +%s|grep -o '....$'`
+trap finish SIGINT SIGTERM 
 unset LD_PRELOAD
-versionid="gen.v1.6 id629803261"
+versionid="gen.v1.6 id727688967"
 
 if [[ $commandif = "" ]];then
 	echo Run \`setupTermuxArch.sh\` from the Android system in Termux.
