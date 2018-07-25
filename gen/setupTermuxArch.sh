@@ -54,6 +54,7 @@ bloomdependsblock () {
 	ls -al
 	printf "\n"
 	pwd
+	. animationfunctions.sh
 	. archsystemconfigs.sh
 	. getimagefunctions.sh
 	. knownconfigurations.sh
@@ -84,6 +85,7 @@ chk () {
 		else 
 			ldconf
 		fi
+		. animationfunctions.sh
 		. archsystemconfigs.sh
 		. getimagefunctions.sh
 		. necessaryfunctions.sh
@@ -162,7 +164,8 @@ depends () {
 
 dependsblock () {
 	depends 
-	if [ -f archsystemconfigs.sh ] && [ -f getimagefunctions.sh ] && [ -f knownconfigurations.sh ] && [ -f necessaryfunctions.sh ] && [ -f printoutstatements.sh ] && [ -f systemmaintenance.sh ];then
+	if [ -f animationfunctions.sh ] && [ -f archsystemconfigs.sh ] && [ -f getimagefunctions.sh ] && [ -f knownconfigurations.sh ] && [ -f necessaryfunctions.sh ] && [ -f printoutstatements.sh ] && [ -f systemmaintenance.sh ];then
+		. animationfunctions.sh
 		. archsystemconfigs.sh
 		. getimagefunctions.sh
 		. knownconfigurations.sh
@@ -497,6 +500,7 @@ rmbloomq () {
 }
 
 rmdsc () {
+	rm animationfunctions.sh
 	rm archsystemconfigs.sh
 	rm getimagefunctions.sh
 	rm knownconfigurations.sh
@@ -668,7 +672,7 @@ dmverbose="-q"
 stime=`date +%s|grep -o '....$'`
 trap finish SIGINT SIGTERM 
 unset LD_PRELOAD
-versionid="gen.v1.6 id727688967"
+versionid="gen.v1.6 id528117284"
 
 if [[ $commandif = "" ]];then
 	echo Run \`setupTermuxArch.sh\` from the Android system in Termux.
