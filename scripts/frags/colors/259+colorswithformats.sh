@@ -9,10 +9,10 @@ for attr3 in 38 48 ; do # Foreground / Background
 	for attr0 in {0..258} ; do # Colors
 		for attr2 in {0..4} {7..9} ; do 
 #			Display the color
-			printf "\e[1;$attr2;$attr3;5;%sm  %s %-3s  \e[0m" "$attr0" "$attr2" "$attr0" 
+			printf "\\e[1;$attr2;$attr3;5;%sm  %s %-3s  \\e[0m" "$attr0" "$attr2" "$attr0" 
 #		Display 10 colors per lines
-			if [ $((($attr0 + 1) % 10)) == 10 ] ; then
-				printf "\e[0m\n\n" # New line
+			if [ $(((attr0 + 1) % 10)) == 10 ] ; then
+				printf "\\e[0m\\n\\n" # New line
 			fi
 		done
 		echo # New line
