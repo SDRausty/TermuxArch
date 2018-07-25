@@ -23,9 +23,13 @@
 
 [AccountsDept](https://github.com/accountsdept) submitted issue [#49](https://github.com/sdrausty/TermuxArch/issues/49), "Every Mirror Returning 404".  Result: TermuxArch instructions improved!
 
-[abicorios](https://github.com/abicorios) opened issue [#27](https://github.com/sdrausty/TermuxArch/issues/27), How to use Xorg in TermuxArch? Contributed important XServer XSDL information.
+[abicorios](https://github.com/abicorios) opened issue [#27](https://github.com/sdrausty/TermuxArch/issues/27), How to use Xorg in TermuxArch? Contributed important XServer XSDL information.  Made [#95](https://github.com/sdrausty/TermuxArch/pull/95) that enchanced rapid code streamlining from newly arisen keyring errors that, at times, uninstalled entire Arch Linux in Termux PRoot installations. 
 
 [BearChavez](https://github.com/BearChavez) submitted an issue.  Result: TermuxArch improved!
+
+[Ben Shaji](https://github.com/bensh4) composed [#94]( https://github.com/sdrausty/TermuxArch/issues/94) that enchanced rapid code streamlining from newly arisen keyring errors that, at times, uninstalled entire Arch Linux in Termux PRoot installations. 
+
+[FreshMosh](https://github.com/FreshMosh) suplied [#94]( https://github.com/sdrausty/TermuxArch/issues/94) information that resolved newly arisen keyring errors manually that, at times, uninstalled entire Arch Linux in Termux PRoot installations. 
 
 [brysgo](https://github.com/brysgo) helped debug Chromebook.  Result: TermuxArch improved!
 
