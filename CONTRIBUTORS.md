@@ -29,7 +29,7 @@
 
 [Ben Shaji](https://github.com/bensh4) composed [#94]( https://github.com/sdrausty/TermuxArch/issues/94) that enchanced rapid code streamlining from newly arisen keyring errors that, at times, uninstalled entire Arch Linux in Termux PRoot installations. 
 
-[FreshMosh](https://github.com/FreshMosh) suplied [#94]( https://github.com/sdrausty/TermuxArch/issues/94) information that resolved newly arisen keyring errors manually that, at times, uninstalled entire Arch Linux in Termux PRoot installations. 
+[FreshMosh](https://github.com/FreshMosh) supplied [#94]( https://github.com/sdrausty/TermuxArch/issues/94) including information that resolved newly arisen keyring errors manually that, at times, uninstalled entire Arch Linux in Termux PRoot installations. 
 
 [brysgo](https://github.com/brysgo) helped debug Chromebook.  Result: TermuxArch improved!
 
