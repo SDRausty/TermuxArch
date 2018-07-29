@@ -160,7 +160,7 @@ addbashrc () {
 }
 
 addcdtd () {
-	cat >> root/bin/cdtd <<- EOM
+	cat > root/bin/cdtd <<- EOM
 	#!/bin/bash -e
 	# Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
 	# Hosting https://sdrausty.github.io/TermuxArch courtesy https://pages.github.com
@@ -168,13 +168,13 @@ addcdtd () {
 	# https://sdrausty.github.io/TermuxArch/README has information about this project. 
 	# Usage: \`. cdtd\`  The dot sources \`cdtd\` which makes this shortcut script work.
 	################################################################################
-	cd /data/data/com.termux/files/home/storage/downloads
+	cd /data/data/com.termux/files/home/storage/downloads && ped
 	EOM
 	chmod 770 root/bin/cdtd 
 }
 
 addcdth () {
-	cat >> root/bin/cdth <<- EOM
+	cat > root/bin/cdth <<- EOM
 	#!/bin/bash -e
 	# Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
 	# Hosting https://sdrausty.github.io/TermuxArch courtesy https://pages.github.com
@@ -182,7 +182,7 @@ addcdth () {
 	# https://sdrausty.github.io/TermuxArch/README has information about this project. 
 	# Usage: \`. cdth\`  The dot sources \`cdth\` which makes this shortcut script work. 
 	################################################################################
-	cd /data/data/com.termux/files/home
+	cd /data/data/com.termux/files/home && ped
 	EOM
 	chmod 770 root/bin/cdth 
 }

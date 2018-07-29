@@ -5,4 +5,4 @@
 # https://sdrausty.github.io/TermuxArch/README has information about this project. 
 # https://www.bing.com/search?q=grey+music+cognition
 ################################################################################
-while true;do echo playing play-audio "$@";play-audio "$@";snooze="$(cat /proc/sys/kernel/random/uuid | sed 's/[^0-9]//g'|sed 's/^\(...\).*/\1/')";echo snoozing play-audio "$@" for $snooze seconds;sleep $snooze;done
+while true;do printplay "$@";play-audio "$@" 1>/dev/null; (( snooze="$(sed 's/[^0-9]//g' /proc/sys/kernel/random/uuid |sed 's/^\(...\).*/\1/')" )) ;printsnooze "$@";sleep "$snooze";done
