@@ -168,7 +168,7 @@ addcdtd () {
 	# https://sdrausty.github.io/TermuxArch/README has information about this project. 
 	# Usage: \`. cdtd\`  The dot sources \`cdtd\` which makes this shortcut script work.
 	################################################################################
-	cd /data/data/com.termux/files/home/storage/downloads && ped
+	cd /data/data/com.termux/files/home/storage/downloads && pwd
 	EOM
 	chmod 770 root/bin/cdtd 
 }
@@ -182,7 +182,7 @@ addcdth () {
 	# https://sdrausty.github.io/TermuxArch/README has information about this project. 
 	# Usage: \`. cdth\`  The dot sources \`cdth\` which makes this shortcut script work. 
 	################################################################################
-	cd /data/data/com.termux/files/home && ped
+	cd /data/data/com.termux/files/home && pwd
 	EOM
 	chmod 770 root/bin/cdth 
 }
