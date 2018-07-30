@@ -99,11 +99,11 @@ addauserpsc () {
 
 addbash_logout () {
 	cat > root/.bash_logout <<- EOM
-	if [ ! -e $HOME/.hushlogout ] && [ ! -e $HOME/.chushlogout ];then
+	if [ ! -e \$HOME/.hushlogout ] && [ ! -e \$HOME/.chushlogout ];then
 		. /etc/moto
 	fi
-	if [ -e $HOME/.chushlogout ];then
-		rm $HOME/.chushlogout
+	if [ -e \$HOME/.chushlogout ];then
+		rm \$HOME/.chushlogout
 	fi
 	EOM
 }
