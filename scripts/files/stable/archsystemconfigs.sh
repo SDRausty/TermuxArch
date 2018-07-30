@@ -364,7 +364,7 @@ addmotd () {
 
 addmoto () {
 	cat > etc/moto  <<- EOM
-	printf "\033[1;34mThank you for experiencing Arch Linux in Termux!\n\n\033[1;34mChat: \033[0mhttps://webchat.freenode.net/ #termux\n\033[1;34mHelp: \033[0;34minfo query \033[1;34mand \033[0;34mman query\n\033[1;34mIRC:  \033[0mwiki.archlinux.org/index.php/IRC_channel\n\n\033[0m"
+	printf "\n\033[1;34mThank you for experiencing Arch Linux in Termux!\n\n\033[1;34mChat: \033[0mhttps://webchat.freenode.net/ #termux\n\033[1;34mHelp: \033[0;34minfo query \033[1;34mand \033[0;34mman query\n\033[1;34mIRC:  \033[0mwiki.archlinux.org/index.php/IRC_channel\n\n\033[0m"
 	EOM
 }
 
