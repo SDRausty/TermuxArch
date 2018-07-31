@@ -12,7 +12,7 @@ callsystem () {
 }
 
 copystartbin2path () {
-	if [[ ":$PATH:" == *":$HOME/bin:"* ]] && [ -d $HOME/bin ]; then
+	if [[ ":$PATH:" == *":$HOME/bin:"* ]] && [[ -d $HOME/bin ]]; then
 		BPATH=$HOME/bin
 	else
 		BPATH=$PREFIX/bin
@@ -40,15 +40,15 @@ copystartbin2pathq () {
 
 detectsystem () {
 	printdetectedsystem
-	if [ $cpuabi = $cpuabi5 ];then
+	if [[ $cpuabi = $cpuabi5 ]];then
 		armv5l
-	elif [ $cpuabi = $cpuabi7 ];then
+	elif [[ $cpuabi = $cpuabi7 ]];then
 		detectsystem2 
-	elif [ $cpuabi = $cpuabi8 ];then
+	elif [[ $cpuabi = $cpuabi8 ]];then
 		aarch64
-	elif [ $cpuabi = $cpuabix86 ];then
+	elif [[ $cpuabi = $cpuabix86 ]];then
 		i686 
-	elif [ $cpuabi = $cpuabix8664 ];then
+	elif [[ $cpuabi = $cpuabix8664 ]];then
 		x86_64
 	else
 		printmismatch 
@@ -88,14 +88,14 @@ lkernid () {
 	declare -i MAJOR_REVISION=$(echo $ur |awk -F'.' '{print $2}')
 	declare -- tmp=$(echo $ur |awk -F'.' '{print $3}')
 	declare -- MINOR_REVISION=$(echo ${tmp:0:3} |sed 's/[^0-9]*//g')
-	if [ "$KERNEL_VERSION" -le 2 ]; then
+	if [[ "$KERNEL_VERSION" -le 2 ]]; then
 		kid=1
 	else
-		if [ "$KERNEL_VERSION" -eq 3 ]; then
-			if [ "$MAJOR_REVISION" -lt 2 ]; then
+		if [[ "$KERNEL_VERSION" -eq 3 ]]; then
+			if [[ "$MAJOR_REVISION" -lt 2 ]]; then
 				kid=1
 			else
-				if [ "$MAJOR_REVISION" -eq 2 ] && [ $MINOR_REVISION -eq 0 ]; then
+				if [[ "$MAJOR_REVISION" -eq 2 ]] && [[ $MINOR_REVISION -eq 0 ]]; then
 					kid=1
 				fi
 			fi
@@ -129,31 +129,31 @@ makefinishsetup () {
 	################################################################################
 	printf "\\n\\e[1;34m:: \\e[1;37mRemoving redundant packages...\\n"
 	EOM
-	if [ -e $HOME/.bash_profile ];then
+	if [[ -e $HOME/.bash_profile ]];then
 		grep "proxy" $HOME/.bash_profile | grep "export" >> root/bin/$binfnstp 2>/dev/null ||:
 	fi
-	if [ -e $HOME/.bashrc ];then
+	if [[ -e $HOME/.bashrc ]];then
 		grep "proxy" $HOME/.bashrc  | grep "export" >> root/bin/$binfnstp 2>/dev/null ||:
 	fi
-	if [ -e $HOME/.profile ];then
+	if [[ -e $HOME/.profile ]];then
 		grep "proxy" $HOME/.profile | grep "export" >> root/bin/$binfnstp 2>/dev/null ||:
 	fi
-	if [ $cpuabi = $cpuabi5 ];then
+	if [[ $cpuabi = $cpuabi5 ]];then
 		printf "pacman -Rc linux-armv5 linux-firmware systemd --noconfirm --color=always 2>/dev/null ||:\\n" >> root/bin/$binfnstp
-	elif [ $cpuabi = $cpuabi7 ];then
+	elif [[ $cpuabi = $cpuabi7 ]];then
 		printf "pacman -Rc linux-armv7 linux-firmware systemd --noconfirm --color=always 2>/dev/null ||:\\n" >> root/bin/$binfnstp
-	elif [ $cpuabi = $cpuabi8 ];then
+	elif [[ $cpuabi = $cpuabi8 ]];then
 		printf "pacman -Rc linux-aarch64 linux-firmware systemd --noconfirm --color=always 2>/dev/null ||:\\n" >> root/bin/$binfnstp
-	elif [ $cpuabi = $cpuabix86 ] || [ $cpuabi = $cpuabix8664 ];then
+	elif [[ $cpuabi = $cpuabix86 ]] || [[ $cpuabi = $cpuabix8664 ]];then
 		printf "pacman -Rc systemd --noconfirm --color=always 2>/dev/null ||:\\n" >> root/bin/$binfnstp
 	fi
 	printf "printf \"\\n\\\e[1;32m==> \\\e[0mRunning ./root/bin/keys…\"\\n" >> root/bin/$binfnstp
-	if [ $cpuabi = $cpuabix86 ];then
+	if [[ $cpuabi = $cpuabix86 ]];then
 		printf "./root/bin/keys x86\\n" >> root/bin/$binfnstp
 	else
 		printf "./root/bin/keys\\n" >> root/bin/$binfnstp
 	fi
-	if [ $cpuabi = $cpuabix86 ] || [ $cpuabi = $cpuabix8664 ];then
+	if [[ $cpuabi = $cpuabix86 ]] || [[ $cpuabi = $cpuabix8664 ]];then
 		printf "./root/bin/pc gzip sed 2>/dev/null ||:\\n" >> root/bin/$binfnstp
 	else
 		printf "./root/bin/pc 2>/dev/null ||:\\n" >> root/bin/$binfnstp
@@ -256,16 +256,16 @@ makesystem () {
 	printwla 
 	termux-wake-lock 
 	printdone 
-	if [ $cpuabi = $cpuabix86 ] || [ $cpuabi = $cpuabix8664 ];then
+	if [[ $cpuabi = $cpuabix86 ]] || [[ $cpuabi = $cpuabix8664 ]];then
 		getimage
 	else
-		if [ $mirror = "os.archlinuxarm.org" ] || [ $mirror = "mirror.archlinuxarm.org" ]; then
+		if [[ $mirror = "os.archlinuxarm.org" ]] || [[ $mirror = "mirror.archlinuxarm.org" ]]; then
 			until ftchstnd;do
 				ftchstnd ret||: 
 				sleep 2
 				printf "\\n"
 				COUNTER=$((COUNTER + 1))
-				if [ $COUNTER = 12 ];then 
+				if [[ $COUNTER = 12 ]];then 
 					printf "\\n\\e[07;1m\\e[31;1m 🔆 ERROR Maximum amount of attempts exceeded!\\e[34;1m\\e[30;1m  Run \`bash setupTermuxArch.sh\` again.  See \`bash setupTermuxArch.sh help\` to resolve download errors.  If this keeps repeating, copy \`knownconfigurations.sh\` to \`setupTermuxArchConfigs.sh\` with preferred mirror.  After editing \`setupTermuxArchConfigs.sh\`, run \`bash setupTermuxArch.sh\` and \`setupTermuxArchConfigs.sh\` loads automaticaly from the same directory.  Change mirror to desired geographic location to resolve md5sum errors.\\n\\nUser configurable variables are in \`setupTermuxArchConfigs.sh\`.  Create this file from \`kownconfigurations.sh\` in the working directory.  Use \`bash setupTermuxArch.sh manual\` to create and edit \`setupTermuxArchConfigs.sh\`.\\n\\n	Run \`bash setupTermuxArch.sh\` again…\\n\\e[0;0m\\n"'\033]2;  Thank you for using setupTermuxArch.sh.  Run `bash setupTermuxArch.sh` again…\007'
 					exit
 				fi
@@ -291,8 +291,8 @@ makesystem () {
 }
 
 preproot () {
-	if [ $(du $installdir/*z | awk {'print $1'}) -gt 112233 ];then
-		if [ $cpuabi = $cpuabix86 ] || [ $cpuabi = $cpuabix8664 ];then
+	if [[ $(du $installdir/*z | awk {'print $1'}) -gt 112233 ]];then
+		if [[ $cpuabi = $cpuabix86 ]] || [[ $cpuabi = $cpuabix8664 ]];then
 			#cd $HOME
 			#proot --link2symlink -0 $PREFIX/bin/applets/tar xf $installdir$file 
 			#cd $installdir
@@ -309,7 +309,7 @@ preproot () {
 
 runfinishsetup () {
 	printf "\\e[0m"
-	if [ $fstnd ]; then
+	if [[ $fstnd ]]; then
 		nmir=$(echo $nmirror |awk -F'/' '{print $3}')
 		sed -e '/http\:\/\/mir/ s/^#*/# /' -i $installdir/etc/pacman.d/mirrorlist
 		sed -e "/$nmir/ s/^# *//" -i $installdir/etc/pacman.d/mirrorlist
@@ -373,7 +373,7 @@ setlocaleconf () {
 }
 
 setlocalegen () {
-	if [ -e etc/locale.gen ]; then
+	if [[ -e etc/locale.gen ]]; then
 		sed -i '/\#en_US.UTF-8 UTF-8/{s/#//g;s/@/-at-/g;}' etc/locale.gen 
 	else
 		cat >  etc/locale.gen <<- EOM
