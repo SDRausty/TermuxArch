@@ -361,12 +361,12 @@ nameinstalldir () {
 	if [[ "$rootdir" = "" ]] ;then
 		rootdir=arch
 	fi
-	declare -g installdir="$(echo "$HOME/${rootdir%/}" |sed s#//*#/#g)"
+	declare -g installdir="$(echo "$HOME/${rootdir%/}" |sed 's#//*#/#g')"
 }
 
 namestartarch () {
 	# echo ${@%/} removes trailing slash
-	darch="$(echo "${rootdir%/}" |sed s#//*#/#g)"
+	darch="$(echo "${rootdir%/}" |sed 's#//*#/#g')"
 	if [[ "$darch" = "/arch" ]];then
 		aarch=""
 		startbi2=arch
@@ -666,13 +666,13 @@ cpuabi8="arm64-v8a"
 cpuabix86="x86"
 cpuabix8664="x86_64"
 declare -g args="$@"
-dfl=/gen
+# dfl=/gen
 dmverbose="-q"
 # dmverbose="-v"
 stime="$(date +%s|grep -o '....$')"
 trap finish SIGINT SIGTERM 
 unset LD_PRELOAD
-versionid="gen.v1.6 id202304850"
+versionid="gen.v1.6 id216674462"
 
 if [[ "$commandif" = "" ]];then
 	echo Run \`setupTermuxArch.sh\` from the Android system in Termux.
