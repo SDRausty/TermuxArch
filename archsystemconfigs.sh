@@ -501,6 +501,7 @@ addtrim () {
 	# https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.  
 	# https://sdrausty.github.io/TermuxArch/README has information about this project. 
 	################################################################################
+	printf "printf "\\n\\e[1;32m==> \\e[0mRunning ./root/bin/trim"\\n" 
 	echo [1/5] rm -rf /boot/
 	rm -rf /boot/
 	echo [2/5] rm -rf /usr/lib/firmware
