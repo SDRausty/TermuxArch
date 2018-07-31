@@ -8,7 +8,7 @@
 callsystem () {
 	mkdir -p $installdir
 	cd $installdir
-	detectsystem ret 
+	detectsystem 
 }
 
 copystartbin2path () {
@@ -103,7 +103,7 @@ lkernid () {
 	fi
 }
 
-lkernid ret
+lkernid 
 
 mainblock () { 
 	namestartarch 
@@ -204,7 +204,7 @@ makestartbin () {
 		printf '\033]2; '$startbin' command args 📲  \007'
 		touch $installdir/root/.chushlogin
 	EOM
-		echo "$prootstmnt /bin/bash -lc \"\$ar2ar\" ||:" >> $startbin
+		echo "$prootstmnt /bin/bash -lc \"\$ar2ar\" " >> $startbin
 	cat >> $startbin <<- EOM
 		printf '\033]2; '$startbin' command args 📲  \007'
 		rm $installdir/root/.chushlogin
@@ -212,14 +212,14 @@ makestartbin () {
 	# [login user|login user [options]] Login as user [plus options].  Use \`addauser user\` first to create this user and the user's home directory.
 		printf '\033]2; '$startbin' login user [options] 📲  \007'
 	EOM
-		echo "$prootstmnt /bin/su - \"\$ar2ar\" ||:" >> $startbin
+		echo "$prootstmnt /bin/su - \"\$ar2ar\" " >> $startbin
 	cat >> $startbin <<- EOM
 		printf '\033]2; '$startbin' login user [options] 📲  \007'
 	elif [[ \$1 = [Rr]* ]] || [[ \$1 = -[Rr]* ]] || [[ \$1 = --[Rr]* ]];then
 	# [raw args] Construct the \`startarch\` proot statement.  For example \`startarch r su - archuser\` will login as user archuser.  Use \`addauser archuser\` first to create this user and the user home directory.
 		printf '\033]2; '$startbin' raw args 📲  \007'
 	EOM
-		echo "$prootstmnt /bin/\"\$ar2ar\" ||:" >> $startbin
+		echo "$prootstmnt /bin/\"\$ar2ar\" " >> $startbin
 	cat >> $startbin <<- EOM
 		printf '\033]2; '$startbin' raw args 📲  \007'
 	elif [[ \$1 = [Ss]* ]] || [[ \$1 = -[Ss]* ]] || [[ \$1 = --[Ss]* ]];then
@@ -231,7 +231,7 @@ makestartbin () {
 			touch $installdir/home/\$2/.chushlogin
 		fi
 	EOM
-		echo "$prootstmnt /bin/su - \$2 -c \"\$ar3ar\" ||:" >> $startbin
+		echo "$prootstmnt /bin/su - \$2 -c \"\$ar3ar\" " >> $startbin
 	cat >> $startbin <<- EOM
 		printf '\033]2; '$startbin' su user command 📲  \007'
 		if [[ \$2 = root ]];then
@@ -242,7 +242,7 @@ makestartbin () {
 	elif [[ \$1 = "" ]];then
 	# [] Default Arch Linux in Termux PRoot root login.
 	EOM
-		echo "$prootstmnt /bin/bash -l ||: " >> $startbin
+		echo "$prootstmnt /bin/bash -l  " >> $startbin
 	cat >> $startbin <<- EOM
 		printf '\033]2; TermuxArch '$startbin' 📲  \007'
 	else
@@ -261,7 +261,7 @@ makesystem () {
 	else
 		if [[ $mirror = "os.archlinuxarm.org" ]] || [[ $mirror = "mirror.archlinuxarm.org" ]]; then
 			until ftchstnd;do
-				ftchstnd ret||: 
+				ftchstnd ||: 
 				sleep 2
 				printf "\\n"
 				COUNTER=$((COUNTER + 1))
