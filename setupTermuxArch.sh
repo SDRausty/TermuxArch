@@ -361,12 +361,12 @@ nameinstalldir () {
 	if [[ "$rootdir" = "" ]] ;then
 		rootdir=arch
 	fi
-	declare -g installdir="$(echo "$HOME/${rootdir%/}" |sed s#//*#/#g)"
+	declare -g installdir="$(echo "$HOME/${rootdir%/}" |sed 's#//*#/#g')"
 }
 
 namestartarch () {
 	# echo ${@%/} removes trailing slash
-	darch="$(echo "${rootdir%/}" |sed s#//*#/#g)"
+	darch="$(echo "${rootdir%/}" |sed 's#//*#/#g')"
 	if [[ "$darch" = "/arch" ]];then
 		aarch=""
 		startbi2=arch

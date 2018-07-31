@@ -9,13 +9,13 @@
 # Change mirror to desired geographic location in `setupTermuxArchConfigs.sh` to resolve 404 and checksum errors.
 # The following user configurable variables are available in this file:
 ################################################################################
-#cmirror="http://mirror.archlinuxarm.org/"
+# cmirror="http://mirror.archlinuxarm.org/"
 cmirror="http://os.archlinuxarm.org/"
-#dm=axel tba
-#dm=curl
-#dm=wget
-#dmverbose="-q"
-#dmverbose="-v"
+# dm=axel tba
+# dm=curl
+# dm=wget
+# dmverbose="-q"
+# dmverbose="-v"
 koe=1
 
 aarch64 () {
@@ -64,10 +64,10 @@ x86_64 () {
 
 prs () {
 prootstmnt="exec proot"
-if [[ $kid ]]; then
+if [[ "$kid" ]]; then
 	prootstmnt+=" --kernel-release=4.14.15"
 fi
-if [[ $koe ]]; then
+if [[ "$koe" ]]; then
 	prootstmnt+=" --kill-on-exit"
 fi
 prootstmnt+=" --link2symlink -0 -r $installdir -b \$ANDROID_DATA -b /dev/ -b \$EXTERNAL_STORAGE -b \$HOME -b /proc/ -b /storage/ -b /sys/ -w \"\$PWD\" /usr/bin/env -i HOME=/root TERM=$TERM"
