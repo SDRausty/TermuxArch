@@ -110,6 +110,9 @@ addbash_logout () {
 
 addbash_profile () {
 	cat > root/.bash_profile <<- EOM
+	if [ ! -e \$HOME/.hushlogin ] && [ ! -e \$HOME/.chushlogin ];then
+		. /etc/motd
+	fi
 	PATH=\$HOME/bin:\$PATH
 	. \$HOME/.bashrc
 	PS1="[\A\[\033[0;32m\] \W \[\033[0m\]]\\$ "
@@ -122,12 +125,6 @@ addbash_profile () {
 
 addbashrc () {
 	cat > root/.bashrc <<- EOM
-	if [ ! -e \$HOME/.hushlogin ] && [ ! -e \$HOME/.chushlogin ];then
-		. /etc/motd
-	fi
-	if [ -e \$HOME/.chushlogin ];then
-		rm \$HOME/.chushlogin
-	fi
 	alias c='cd .. && pwd'
 	alias ..="cd ../.. && pwd"
 	alias ...="cd ../../.. && pwd"
