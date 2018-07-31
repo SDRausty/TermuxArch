@@ -49,10 +49,10 @@ sysinfo () {
 	printf "\\ngetprop ro.product.device result:\\n\\n" >> setupTermuxArchDebug$stime.log
 	getprop ro.product.device >> setupTermuxArchDebug$stime.log
 	printf "\\nDownload directory information results.\\n\\n" >> setupTermuxArchDebug$stime.log
-	if [ -d /sdcard/Download ]; then echo "/sdcard/Download exists"; else echo "/sdcard/Download not found"; fi >> setupTermuxArchDebug$stime.log 
-	if [ -d /storage/emulated/0/Download ]; then echo "/storage/emulated/0/Download exists"; else echo "/storage/emulated/0/Download not found"; fi >> setupTermuxArchDebug$stime.log
-	if [ -d ~/downloads ]; then echo "~/downloads exists"; else echo "~/downloads not found"; fi >> setupTermuxArchDebug$stime.log 
-	if [ -d ~/storage/downloads ]; then echo "~/storage/downloads exists"; else echo "~/storage/downloads not found"; fi >> setupTermuxArchDebug$stime.log 
+	if [[ -d /sdcard/Download ]]; then echo "/sdcard/Download exists"; else echo "/sdcard/Download not found"; fi >> setupTermuxArchDebug$stime.log 
+	if [[ -d /storage/emulated/0/Download ]]; then echo "/storage/emulated/0/Download exists"; else echo "/storage/emulated/0/Download not found"; fi >> setupTermuxArchDebug$stime.log
+	if [[ -d ~/downloads ]]; then echo "~/downloads exists"; else echo "~/downloads not found"; fi >> setupTermuxArchDebug$stime.log 
+	if [[ -d ~/storage/downloads ]]; then echo "~/storage/downloads exists"; else echo "~/storage/downloads not found"; fi >> setupTermuxArchDebug$stime.log 
 	printf "\\ndf $installdir results:\\n\\n" >> setupTermuxArchDebug$stime.log
 	df $installdir >> setupTermuxArchDebug$stime.log 2>/dev/null ||:
 	printf "\\ndf results:\\n\\n" >> setupTermuxArchDebug$stime.log
@@ -70,7 +70,7 @@ sysinfo () {
 
 refreshsys () {
 	printf '\033]2; setupTermuxArch.sh refresh 📲 \007'
-	if [ ! -d $installdir ] || [ ! -f $installdir/bin/we ];then
+	if [[ ! -d $installdir ]] || [[ ! -f $installdir/bin/we ]];then
 		printf "\\n\\e[0;33mThe root directory structure is incorrect; Cannot continue \\e[1;33msetupTermuxArch.sh refresh\\e[0;33m.\\e[0m\\n"
 		printtail 
 	else

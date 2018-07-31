@@ -64,13 +64,13 @@ x86_64 () {
 
 prs () {
 prootstmnt="exec proot"
-if [ $kid ]; then
+if [[ $kid ]]; then
 	prootstmnt+=" --kernel-release=4.14.15"
 fi
-if [ $koe ]; then
+if [[ $koe ]]; then
 	prootstmnt+=" --kill-on-exit"
 fi
 prootstmnt+=" --link2symlink -0 -r $installdir -b \$ANDROID_DATA -b /dev/ -b \$EXTERNAL_STORAGE -b \$HOME -b /proc/ -b /storage/ -b /sys/ -w \"\$PWD\" /usr/bin/env -i HOME=/root TERM=$TERM"
 }
 
-prs ret 
+prs 

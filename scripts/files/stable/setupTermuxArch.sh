@@ -30,10 +30,10 @@ arg3dir () {
 bloom () {
 	opt=bloom 
 	intrbloom 
-	if [ -d "$HOME"/TermuxArchBloom ];then 
+	if [[ -d "$HOME"/TermuxArchBloom ]];then 
 		rmbloomq 
 	fi
-	if [ ! -d "$HOME"/TermuxArchBloom ];then 
+	if [[ ! -d "$HOME"/TermuxArchBloom ]];then 
 		mkdir "$HOME"/TermuxArchBloom
 	fi
 	cd "$HOME"/TermuxArchBloom
@@ -66,12 +66,12 @@ bloomdependsblock () {
 }
 
 bsdtarif () {
-	if [ ! -x "$PREFIX"/bin/bsdtar ];then
+	if [[ ! -x "$PREFIX"/bin/bsdtar ]];then
 		printf "\\n\\e[1;34mInstalling \\e[0;32mbsdtar\\e[1;34m…\\n\\n\\e[1;32m"
 		pkg install bsdtar --yes
 		printf "\\n\\e[1;34mInstalling \\e[0;32mbsdtar\\e[1;34m: \\e[1;32mDONE\\n\\e[0m"
 	fi
-	if [ ! -x "$PREFIX"/bin/bsdtar ];then
+	if [[ ! -x "$PREFIX"/bin/bsdtar ]];then
 		pe
 	fi
 }
@@ -116,7 +116,7 @@ chkdwn () {
 }
 
 chkself () {
-	if [ -f "setupTermuxArch.tmp" ];then
+	if [[ -f "setupTermuxArch.tmp" ]];then
 		if [[ "$(<setupTermuxArch.sh)" != "$(<setupTermuxArch.tmp)" ]];then
 			printf "\\e[0;32msetupTermuxArch.sh: \\e[1;32mUPDATED\\n\\e[0;32mTermuxArch: \\e[1;32mRESTARTED\\n\\e[0m"
 			rm setupTermuxArch.tmp
@@ -128,12 +128,12 @@ chkself () {
 }
 
 curlif () {
-	if [ ! -x "$PREFIX"/bin/curl ];then
+	if [[ ! -x "$PREFIX"/bin/curl ]];then
 		printf "\\n\\e[1;34mInstalling \\e[0;32mcurl\\e[1;34m…\\n\\n\\e[1;32m"
 		pkg install curl --yes 
 		printf "\\n\\e[1;34mInstalling \\e[0;32mcurl\\e[1;34m: \\e[1;32mDONE\\n\\e[0m"
 	fi
-	if [ ! -x "$PREFIX"/bin/curl ];then
+	if [[ ! -x "$PREFIX"/bin/curl ]];then
 		pe
 	fi
 }
@@ -148,10 +148,10 @@ depends () {
 	printf "\\e[1;34mChecking prerequisites…\\n\\e[1;32m"
 	curlifdm 
 	wgetifdm 
-	if [ -x "$PREFIX"/bin/curl ];then
+	if [[ -x "$PREFIX"/bin/curl ]];then
 		dm=curl 
 	fi
-	if [ -x "$PREFIX"/bin/wget ];then
+	if [[ -x "$PREFIX"/bin/wget ]];then
 		dm=wget 
 	fi
 	if [[ "$dm" = "" ]];then
@@ -164,7 +164,7 @@ depends () {
 
 dependsblock () {
 	depends 
-	if [ -f animationfunctions.sh ] && [ -f archsystemconfigs.sh ] && [ -f getimagefunctions.sh ] && [ -f knownconfigurations.sh ] && [ -f necessaryfunctions.sh ] && [ -f printoutstatements.sh ] && [ -f systemmaintenance.sh ];then
+	if [[ -f animationfunctions.sh ]] && [[ -f archsystemconfigs.sh ]] && [[ -f getimagefunctions.sh ]] && [[ -f knownconfigurations.sh ]] && [[ -f necessaryfunctions.sh ]] && [[ -f printoutstatements.sh ]] && [[ -f systemmaintenance.sh ]];then
 		. animationfunctions.sh
 		. archsystemconfigs.sh
 		. getimagefunctions.sh
@@ -174,7 +174,7 @@ dependsblock () {
 		. systemmaintenance.sh
 	else
 		dwnl
-		if [ -f "setupTermuxArch.sh" ];then
+		if [[ -f "setupTermuxArch.sh" ]];then
 			cp setupTermuxArch.sh setupTermuxArch.tmp
 		fi
 		chkdwn
@@ -183,7 +183,7 @@ dependsblock () {
 }
 
 dependbp () {
-	if [ "$cpuabi" = "$cpuabix86" ] || [ "$cpuabi" = "$cpuabix8664" ];then
+	if [[ "$cpuabi" = "$cpuabix86" ]] || [[ "$cpuabi" = "$cpuabix8664" ]];then
 		bsdtarif 
 		prootif 
 	else
@@ -205,7 +205,7 @@ dwnl () {
 editors () {
 	aeds=("zile" "nano" "nvim" "vi" "emacs" "joe" "jupp" "micro" "ne" "applets/vi")
 	for i in "${!aeds[@]}"; do
-		if [ -e "$PREFIX/bin/${aeds[$i]}" ];then
+		if [[ -e "$PREFIX/bin/${aeds[$i]}" ]];then
 			ceds+=("${aeds[$i]}")
 		fi
 	done
@@ -323,7 +323,7 @@ introrefresh () {
 }
 
 ldconf () {
-	if [ -f "setupTermuxArchConfigs.sh" ];then
+	if [[ -f "setupTermuxArchConfigs.sh" ]];then
 		. setupTermuxArchConfigs.sh
 		printconfloaded 
 	else
@@ -334,7 +334,7 @@ ldconf () {
 manual () {
 	printf '\033]2;  Thank you for using `bash setupTermuxArch.sh manual` 📲 \007'
 	editors
-	if [ -f "setupTermuxArchConfigs.sh" ];then
+	if [[ -f "setupTermuxArchConfigs.sh" ]];then
 		"$ed" setupTermuxArchConfigs.sh
 		. setupTermuxArchConfigs.sh
 		printconfloaded 
@@ -347,12 +347,12 @@ manual () {
 }
 
 nanoif () {
-	if [ ! -x "$PREFIX"/bin/nano ];then
+	if [[ ! -x "$PREFIX"/bin/nano ]];then
 		printf "\\n\\e[1;34mInstalling \\e[0;32mnano\\e[1;34m…\\n\\n\\e[1;32m"
 		pkg install nano --yes 
 		printf "\\n\\e[1;34mInstalling \\e[0;32mnano\\e[1;34m: \\e[1;32mDONE\\n\\e[0m"
 	fi
-	if [ ! -x "$PREFIX"/bin/nano ];then
+	if [[ ! -x "$PREFIX"/bin/nano ]];then
 		pe
 	fi
 }
@@ -415,12 +415,12 @@ printusage () {
 }
 
 prootif () {
-	if [ ! -x "$PREFIX"/bin/proot ];then
+	if [[ ! -x "$PREFIX"/bin/proot ]];then
 		printf "\\n\\e[1;34mInstalling \\e[0;32mproot\\e[1;34m…\\n\\n\\e[1;32m"
 		pkg install proot --yes 
 		printf "\\n\\e[1;34mInstalling \\e[0;32mproot\\e[1;34m: \\e[1;32mDONE\\n\\e[0m"
 	fi
-	if [ ! -x "$PREFIX"/bin/proot ];then
+	if [[ ! -x "$PREFIX"/bin/proot ]];then
 		pe
 	fi
 }
@@ -435,17 +435,17 @@ rmarch () {
 			break
 		elif [[ "$ruanswer" = [Yy]* ]] || [[ "$ruanswer" = "" ]];then
 			printf "\\e[30mUninstalling $installdir…\\n"
-			if [ -e "$PREFIX/bin/$startbin" ];then
+			if [[ -e "$PREFIX/bin/$startbin" ]];then
 				rm "$PREFIX/bin/$startbin" 
 			else 
 				printf "Uninstalling $PREFIX/bin/$startbin: nothing to do for $PREFIX/bin/$startbin.\\n"
 			fi
-			if [ -e "$HOME/bin/$startbin" ];then
+			if [[ -e "$HOME/bin/$startbin" ]];then
 				rm "$HOME/bin/$startbin" 
 			else 
 				printf "Uninstalling $HOME/bin/$startbin: nothing to do for $HOME/bin/$startbin.\\n"
 			fi
-			if [ -d "$installdir" ];then
+			if [[ -d "$installdir" ]];then
 				rmarchrm 
 			else 
 				printf "Uninstalling $installdir: nothing to do for $installdir.\\n"
@@ -469,14 +469,14 @@ rmarchrm () {
 }
 
 rmarchq () {
-	if [ -d "$installdir" ];then
+	if [[ -d "$installdir" ]];then
 		printf "\\n\\e[0;33mTermuxArch: \\e[1;33mDIRECTORY WARNING!  $installdir/ \\e[0;33mdirectory detected.  \\e[1;30mTermux Arch installation shall continue.  If in doubt, answer yes.\\n"
 		rmarch
 	fi
 }
 
 rmbloomq () {
-	if [ -d "$HOME"/TermuxArchBloom ];then
+	if [[ -d "$HOME"/TermuxArchBloom ]];then
 		printf "\\n\\n\\e[0;33mTermuxArch: \\e[1;33mDIRECTORY WARNING!  $HOME/TermuxArchBloom/ \\e[0;33mdirectory detected.  \\e[1;30msetupTermuxArch.sh bloom will continue.\\n"
 		while true; do
 			printf "\\n\\e[1;30m"
@@ -485,7 +485,7 @@ rmbloomq () {
 				printtail 
 			elif [[ "$rbuanswer" = [Yy]* ]] || [[ "$rbuanswer" = "" ]];then
 				printf "\\e[30mUninstalling $HOME/TermuxArchBloom…\\n"
-				if [ -d "$HOME"/TermuxArchBloom ];then
+				if [[ -d "$HOME"/TermuxArchBloom ]];then
 					rm -rf "$HOME"/TermuxArchBloom 
 				else 
 					printf "Uninstalling $HOME/TermuxArchBloom, nothing to do for $installdir.\\n"
@@ -523,7 +523,7 @@ rootdirexception () {
 }
 
 runbloom () {
-	if [ -d "$HOME"/TermuxArchBloom ];then 
+	if [[ -d "$HOME"/TermuxArchBloom ]];then 
 		opt=bloom
 		bloomdependsblock 
 	else
@@ -533,10 +533,10 @@ runbloom () {
 }
 
 setrootdir () {
-	if [ "$cpuabi" = "$cpuabix86" ];then
+	if [[ "$cpuabi" = "$cpuabix86" ]];then
 	#	rootdir=/root.i686
 		rootdir=/arch
-	elif [ "$cpuabi" = "$cpuabix8664" ];then
+	elif [[ "$cpuabi" = "$cpuabix8664" ]];then
 	#	rootdir=/root.x86_64
 		rootdir=/arch
 	else
@@ -557,7 +557,7 @@ spaceinfo () {
 
 spaceinfogsize () {
 	userspace return
-	if [ "$cpuabi" = "$cpuabix86" ] || [ "$cpuabi" = "$cpuabix8664" ];then
+	if [[ "$cpuabi" = "$cpuabix86" ]] || [[ "$cpuabi" = "$cpuabix8664" ]];then
 		if [[ "$usrspace" = *G ]];then 
 			spaceMessage=""
 		elif [[ "$usrspace" = *M ]];then
@@ -568,13 +568,13 @@ spaceinfogsize () {
 		fi
 	elif [[ "$usrspace" = *G ]];then
 		usspace="${usrspace: : -1}"
-		if [ "$cpuabi" = "$cpuabi8" ];then
+		if [[ "$cpuabi" = "$cpuabi8" ]];then
 			if [[ "$usspace" < "1.5" ]];then
 				spaceMessage="\\n\\e[0;33mTermuxArch: \\e[1;33mFREE SPACE WARNING!  \\e[1;30mStart thinking about cleaning out some stuff.  \\e[33m$usrspace of free user space is available on this device.  \\e[1;30mThe recommended minimum to install Arch Linux in Termux PRoot for aarch64 is 1.5G of free user space.\\n\\e[0m"
 			else
 				spaceMessage=""
 			fi
-		elif [ "$cpuabi" = "$cpuabi7" ];then
+		elif [[ "$cpuabi" = "$cpuabi7" ]];then
 			if [[ "$usspace" < "1.23" ]];then
 				spaceMessage="\\n\\e[0;33mTermuxArch: \\e[1;33mFREE SPACE WARNING!  \\e[1;30mStart thinking about cleaning out some stuff.  \\e[33m$usrspace of free user space is available on this device.  \\e[1;30mThe recommended minimum to install Arch Linux in Termux PRoot for armv7 is 1.23G of free user space.\\n\\e[0m"
 			else
@@ -591,7 +591,7 @@ spaceinfogsize () {
 spaceinfoq () {
 	if [[ "$suanswer" != [Yy]* ]];then
 		spaceinfo
-		if [ -n "$spaceMessage" ];then
+		if [[ -n "$spaceMessage" ]];then
 			while true; do
 				printf "\\n\\e[1;30m"
 				read -p "Continue with setupTermuxArch.sh? [Y|n] " suanswer
@@ -611,19 +611,19 @@ spaceinfoq () {
 
 spaceinfoksize () {
 	userspace return
-	if [ "$cpuabi" = "$cpuabi8" ];then
+	if [[ "$cpuabi" = "$cpuabi8" ]];then
 		if [[ "$usrspace" -lt "1500000" ]];then
 			spaceMessage="\\n\\e[0;33mTermuxArch: \\e[1;33mFREE SPACE WARNING!  \\e[1;30mStart thinking about cleaning out some stuff.  \\e[33m$usrspace $units of free user space is available on this device.  \\e[1;30mThe recommended minimum to install Arch Linux in Termux PRoot for aarch64 is 1.5G of free user space.\\n\\e[0m"
 		else
 			spaceMessage=""
 		fi
-	elif [ "$cpuabi" = "$cpuabi7" ];then
+	elif [[ "$cpuabi" = "$cpuabi7" ]];then
 		if [[ "$usrspace" -lt "1250000" ]];then
 			spaceMessage="\\n\\e[0;33mTermuxArch: \\e[1;33mFREE SPACE WARNING!  \\e[1;30mStart thinking about cleaning out some stuff.  \\e[33m$usrspace $units of free user space is available on this device.  \\e[1;30mThe recommended minimum to install Arch Linux in Termux PRoot for armv7 is 1.25G of free user space.\\n\\e[0m"
 		else
 			spaceMessage=""
 		fi
-	elif [ "$cpuabi" = "$cpuabix86" ] || [ "$cpuabi" = "$cpuabix8664" ];then
+	elif [[ "$cpuabi" = "$cpuabix86" ]] || [[ "$cpuabi" = "$cpuabix8664" ]];then
 		if [[ "$usrspace" -lt "800000" ]];then
 			spaceMessage="\\n\\e[0;33mTermuxArch: \\e[1;33mFREE SPACE WARNING!  \\e[1;30mStart thinking about cleaning out some stuff.  \\e[33m$usrspace $units of free user space is available on this device.  \\e[1;30mThe recommended minimum to install Arch Linux in Termux PRoot for x86 and x86_64 is 800M of free user space.\\n\\e[0m"
 		else
@@ -646,12 +646,12 @@ wgetifdm () {
 }
 
 wgetif () {
-	if [ ! -x "$PREFIX"/bin/wget ];then
+	if [[ ! -x "$PREFIX"/bin/wget ]];then
 		printf "\\n\\e[1;34mInstalling \\e[0;32mwget\\e[1;34m…\\n\\n\\e[1;32m"
 		pkg install wget --yes 	
 		printf "\\n\\e[1;34mInstalling \\e[0;32mwget\\e[1;34m: \\e[1;32mDONE\\n\\e[0m"
 	fi
-	if [ ! -x "$PREFIX"/bin/wget ];then
+	if [[ ! -x "$PREFIX"/bin/wget ]];then
 		pe
 	fi
 }
