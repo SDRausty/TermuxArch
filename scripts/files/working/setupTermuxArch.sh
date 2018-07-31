@@ -406,7 +406,7 @@ printsha512syschker () {
 printtail () {
 	namestartarch
         "$startbin" help 2>/dev/null
-	printf "\\n\\e[0mThank you for using \\e[0;32msetupTermuxArch.sh \\e[0m$versionid 🏁  \\n\\n\\e[0m"'\033]2;  Thank you for using setupTermuxArch.sh  🏁 \007'
+	printf "\\a\\n\\e[0mThank you for using \\e[0;32msetupTermuxArch.sh \\e[0m$versionid 🏁  \\n\\n\\a\\e[0m"'\033]2;  Thank you for using setupTermuxArch.sh  🏁 \007'
 	exit
 }
 
@@ -672,7 +672,7 @@ dmverbose="-q"
 stime="$(date +%s|grep -o '....$')"
 trap finish SIGINT SIGTERM 
 unset LD_PRELOAD
-versionid="gen.v1.6 id082305109"
+versionid="gen.v1.6 id415137663"
 
 if [[ "$commandif" = "" ]];then
 	echo Run \`setupTermuxArch.sh\` from the Android system in Termux.
