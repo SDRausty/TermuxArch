@@ -501,7 +501,7 @@ addtrim () {
 	# https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.  
 	# https://sdrausty.github.io/TermuxArch/README has information about this project. 
 	################################################################################
-	printf "\\\\n\\\\e[1;32m==> \\\\e[1mRunning ./root/bin/trim… \\\\n\\\\n" 
+	printf "\\\\n\\\\e[1;32m==> \\\\e[1;0mRunning ./root/bin/trim… \\\\e[0m\\\\n\\\\n" 
 	echo [1/5] rm -rf /boot/
 	rm -rf /boot/
 	echo [2/5] rm -rf /usr/lib/firmware
@@ -511,8 +511,8 @@ addtrim () {
 	echo [4/5] pacman -Sc --noconfirm --color=always
 	pacman -Sc --noconfirm --color=always
 	echo [5/5] rm /var/cache/pacman/pkg/*xz
-	rm /var/cache/pacman/pkg/*xz
-	echo trim:done
+	rm /var/cache/pacman/pkg/*xz ||: 
+	printf "\\\\n\\\\e[1;32mtrim: Done \\\\e[0m\\\\n\\\\n" 
 	EOM
 	chmod 770 root/bin/trim 
 }
