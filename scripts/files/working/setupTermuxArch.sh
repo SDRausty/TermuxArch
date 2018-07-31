@@ -672,7 +672,7 @@ dmverbose="-q"
 stime="$(date +%s|grep -o '....$')"
 trap finish SIGINT SIGTERM 
 unset LD_PRELOAD
-versionid="gen.v1.6 id970146864"
+versionid="gen.v1.6 id908195519"
 
 if [[ "$commandif" = "" ]];then
 	echo Run \`setupTermuxArch.sh\` from the Android system in Termux.
