@@ -23,7 +23,7 @@ copystartbin2path () {
 
 copystartbin2pathq () {
 	while true; do
-	printf "\\e[0;34m 🕛 > 🕚 \\e[0mCopy \\e[1m$startbin\\e[0m to \\e[1m$BPATH\\e[0m?  "'\\e]2; 🕛 > 🕚 Copy to $PATH [Y|n]?\007'
+	printf "\\e[0;34m 🕛 > 🕚 \\e[0mCopy \\e[1m$startbin\\e[0m to \\e[1m$BPATH\\e[0m?  "'\\033]2; 🕛 > 🕚 Copy to $PATH [Y|n]?\007'
 	read -p "Answer yes or no [Y|n] " answer
 	if [[ $answer = [Yy]* ]] || [[ $answer = "" ]];then
 		cp $installdir/$startbin $BPATH
@@ -162,7 +162,7 @@ makefinishsetup () {
 	printf "\\n\\e[1;32m==> \\e[0m"
 	locale-gen ||:
 	printf "\\n"
-	printf '\\e]2; 🕛 > 🕤 Arch Linux in Termux is installed and configured 📲 \007'
+	printf '\\033]2; 🕛 > 🕤 Arch Linux in Termux is installed and configured 📲 \007'
 	EOM
 	chmod 770 root/bin/$binfnstp 
 }
@@ -193,7 +193,7 @@ makestartbin () {
 	declare -g ar3ar=\${@:3}
 	unset LD_PRELOAD
 	printusage () { 
-	printf "\\n\\e[0;32mUsage:  \\e[1;32m$startbin \\e[0;32mStart Arch Linux as root.  This account should only be reserved for system administration.\\n\\n	\\e[1;32m$startbin command command \\e[0;32mRun Arch Linux command from Termux as root user.\\n\\n	\\e[1;32m$startbin login user \\e[0;32mLogin as user.  Use \\e[1;32maddauser user \\e[0;32mfirst to create a user and the user's home directory.\\n\\n	\\e[1;32m$startbin raw \\e[0;32mConstruct the \\e[1;32mstartarch \\e[0;32mproot statement.  For example \\e[1;32mstartarch raw su - user \\e[0;32mwill login to Arch Linux as user.  Use \\e[1;32maddauser user \\e[0;32mfirst to create a user and the user's home directory.\\n\\n	\\e[1;32m$startbin su user command \\e[0;32mLogin as user and execute command.  Use \\e[1;32maddauser user \\e[0;32mfirst to create a user and the user's home directory.\\n\\n\\e[0m"'\\e]2; TermuxArch '$startbin' help 📲  \007' 
+	printf "\\n\\e[0;32mUsage:  \\e[1;32m$startbin \\e[0;32mStart Arch Linux as root.  This account should only be reserved for system administration.\\n\\n	\\e[1;32m$startbin command command \\e[0;32mRun Arch Linux command from Termux as root user.\\n\\n	\\e[1;32m$startbin login user \\e[0;32mLogin as user.  Use \\e[1;32maddauser user \\e[0;32mfirst to create a user and the user's home directory.\\n\\n	\\e[1;32m$startbin raw \\e[0;32mConstruct the \\e[1;32mstartarch \\e[0;32mproot statement.  For example \\e[1;32mstartarch raw su - user \\e[0;32mwill login to Arch Linux as user.  Use \\e[1;32maddauser user \\e[0;32mfirst to create a user and the user's home directory.\\n\\n	\\e[1;32m$startbin su user command \\e[0;32mLogin as user and execute command.  Use \\e[1;32maddauser user \\e[0;32mfirst to create a user and the user's home directory.\\n\\n\\e[0m"'\\033]2; TermuxArch '$startbin' help 📲  \007' 
 	}
 
 	if [[ \$1 = [?]* ]] || [[ \$1 = -[?]* ]] || [[ \$1 = --[?]* ]] || [[ \$1 = [Hh]* ]] || [[ \$1 = -[Hh]* ]] || [[ \$1 = --[Hh]* ]];then
@@ -201,30 +201,30 @@ makestartbin () {
 		printusage
 	elif [[ \$1 = [Cc]* ]] || [[ \$1 = -[Cc]* ]] || [[ \$1 = --[Cc]* ]];then
 	# [command args] Execute a command in BASH as root.
-		printf '\\e]2; '$startbin' command args 📲  \007'
+		printf '\\033]2; '$startbin' command args 📲  \007'
 		touch $installdir/root/.chushlogin
 	EOM
 		echo "$prootstmnt /bin/bash -lc \"\$ar2ar\" ||:" >> $startbin
 	cat >> $startbin <<- EOM
-		printf '\\e]2; '$startbin' command args 📲  \007'
+		printf '\\033]2; '$startbin' command args 📲  \007'
 		rm $installdir/root/.chushlogin
 	elif [[ \$1 = [Ll]* ]] || [[ \$1 = -[Ll]* ]] || [[ \$1 = --[Ll]* ]] ;then
 	# [login user|login user [options]] Login as user [plus options].  Use \`addauser user\` first to create this user and the user's home directory.
-		printf '\\e]2; '$startbin' login user [options] 📲  \007'
+		printf '\\033]2; '$startbin' login user [options] 📲  \007'
 	EOM
 		echo "$prootstmnt /bin/su - \"\$ar2ar\" ||:" >> $startbin
 	cat >> $startbin <<- EOM
-		printf '\\e]2; '$startbin' login user [options] 📲  \007'
+		printf '\\033]2; '$startbin' login user [options] 📲  \007'
 	elif [[ \$1 = [Rr]* ]] || [[ \$1 = -[Rr]* ]] || [[ \$1 = --[Rr]* ]];then
 	# [raw args] Construct the \`startarch\` proot statement.  For example \`startarch r su - archuser\` will login as user archuser.  Use \`addauser archuser\` first to create this user and the user home directory.
-		printf '\\e]2; '$startbin' raw args 📲  \007'
+		printf '\\033]2; '$startbin' raw args 📲  \007'
 	EOM
 		echo "$prootstmnt /bin/\"\$ar2ar\" ||:" >> $startbin
 	cat >> $startbin <<- EOM
-		printf '\\e]2; '$startbin' raw args 📲  \007'
+		printf '\\033]2; '$startbin' raw args 📲  \007'
 	elif [[ \$1 = [Ss]* ]] || [[ \$1 = -[Ss]* ]] || [[ \$1 = --[Ss]* ]];then
 	# [su user command] Login as user and execute command.  Use \`addauser user\` first to create this user and the user's home directory.
-		printf '\\e]2; '$startbin' su user command 📲  \007'
+		printf '\\033]2; '$startbin' su user command 📲  \007'
 		if [[ \$2 = root ]];then
 			touch $installdir/root/.chushlogin
 		else
@@ -233,7 +233,7 @@ makestartbin () {
 	EOM
 		echo "$prootstmnt /bin/su - \$2 -c \"\$ar3ar\" ||:" >> $startbin
 	cat >> $startbin <<- EOM
-		printf '\\e]2; '$startbin' su user command 📲  \007'
+		printf '\\033]2; '$startbin' su user command 📲  \007'
 		if [[ \$2 = root ]];then
 			rm $installdir/root/.chushlogin
 		else
@@ -244,7 +244,7 @@ makestartbin () {
 	EOM
 		echo "$prootstmnt /bin/bash -l ||: " >> $startbin
 	cat >> $startbin <<- EOM
-		printf '\\e]2; TermuxArch '$startbin' 📲  \007'
+		printf '\\033]2; TermuxArch '$startbin' 📲  \007'
 	else
 		printusage
 	fi
@@ -266,7 +266,7 @@ makesystem () {
 				printf "\\n"
 				COUNTER=$((COUNTER + 1))
 				if [ $COUNTER = 12 ];then 
-					printf "\\n\\e[07;1m\\e[31;1m 🔆 ERROR Maximum amount of attempts exceeded!\\e[34;1m\\e[30;1m  Run \`bash setupTermuxArch.sh\` again.  See \`bash setupTermuxArch.sh help\` to resolve download errors.  If this keeps repeating, copy \`knownconfigurations.sh\` to \`setupTermuxArchConfigs.sh\` with preferred mirror.  After editing \`setupTermuxArchConfigs.sh\`, run \`bash setupTermuxArch.sh\` and \`setupTermuxArchConfigs.sh\` loads automaticaly from the same directory.  Change mirror to desired geographic location to resolve md5sum errors.\\n\\nUser configurable variables are in \`setupTermuxArchConfigs.sh\`.  Create this file from \`kownconfigurations.sh\` in the working directory.  Use \`bash setupTermuxArch.sh manual\` to create and edit \`setupTermuxArchConfigs.sh\`.\\n\\n	Run \`bash setupTermuxArch.sh\` again…\\n\\e[0;0m\\n"'\\e]2;  Thank you for using setupTermuxArch.sh.  Run `bash setupTermuxArch.sh` again…\007'
+					printf "\\n\\e[07;1m\\e[31;1m 🔆 ERROR Maximum amount of attempts exceeded!\\e[34;1m\\e[30;1m  Run \`bash setupTermuxArch.sh\` again.  See \`bash setupTermuxArch.sh help\` to resolve download errors.  If this keeps repeating, copy \`knownconfigurations.sh\` to \`setupTermuxArchConfigs.sh\` with preferred mirror.  After editing \`setupTermuxArchConfigs.sh\`, run \`bash setupTermuxArch.sh\` and \`setupTermuxArchConfigs.sh\` loads automaticaly from the same directory.  Change mirror to desired geographic location to resolve md5sum errors.\\n\\nUser configurable variables are in \`setupTermuxArchConfigs.sh\`.  Create this file from \`kownconfigurations.sh\` in the working directory.  Use \`bash setupTermuxArch.sh manual\` to create and edit \`setupTermuxArchConfigs.sh\`.\\n\\n	Run \`bash setupTermuxArch.sh\` again…\\n\\e[0;0m\\n"'\\033]2;  Thank you for using setupTermuxArch.sh.  Run `bash setupTermuxArch.sh` again…\007'
 					exit
 				fi
 			done
@@ -302,7 +302,7 @@ preproot () {
 			#proot --link2symlink -0 bsdtar -xpf $file --strip-components 1 
 		fi
 	else
-		printf "\\n\\n\\e[1;31mDownload Exception!  Execute \\e[0;32mbash setupTermuxArch.sh\\e[1;31m again…\\n"'\\e]2;  Thank you for using setupTermuxArch.sh.  Execute `bash setupTermuxArch.sh` again…\007'
+		printf "\\n\\n\\e[1;31mDownload Exception!  Execute \\e[0;32mbash setupTermuxArch.sh\\e[1;31m again…\\n"'\\033]2;  Thank you for using setupTermuxArch.sh.  Execute `bash setupTermuxArch.sh` again…\007'
 		exit
 	fi
 }

@@ -69,7 +69,7 @@ sysinfo () {
 }
 
 refreshsys () {
-	printf '\\e]2; setupTermuxArch.sh refresh 📲 \007'
+	printf '\\033]2; setupTermuxArch.sh refresh 📲 \007'
 	if [ ! -d $installdir ] || [ ! -f $installdir/bin/we ];then
 		printf "\\n\\e[0;33mThe root directory structure is incorrect; Cannot continue \\e[1;33msetupTermuxArch.sh refresh\\e[0;33m.\\e[0m\\n"
 		printtail 
@@ -117,7 +117,7 @@ refreshsys () {
 	printwla 
 	termux-wake-lock 
 	printdone 
-	printf '\\e]2; setupTermuxArch.sh refresh 📲 \007'
+	printf '\\033]2; setupTermuxArch.sh refresh 📲 \007'
 	$installdir/root/bin/setupbin.sh 
 	printconfigup
 	rm root/bin/finishsetup.sh
@@ -134,6 +134,6 @@ refreshsys () {
 	$installdir/$startbin ||:
 	printfooter2
         $startbin help
-	printf "\\n\\e[0;32msetupTermuxArch.sh refresh \\e[0m$versionid\\e[1;32m: \\e[0;32mDONE 🏁\\n\\n\\e[0m"'\\e]2; setupTermuxArch.sh refresh 🏁 \007'
+	printf "\\n\\e[0;32msetupTermuxArch.sh refresh \\e[0m$versionid\\e[1;32m: \\e[0;32mDONE 🏁\\n\\n\\e[0m"'\\033]2; setupTermuxArch.sh refresh 🏁 \007'
 	exit
 }
