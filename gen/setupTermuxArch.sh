@@ -672,6 +672,7 @@ declare bin=""
 declare dfl=""
 declare dm=""
 declare kid=""
+declare opt=""
 declare rootdir=""
 dfl=/gen
 dmverbose="-q"
@@ -679,7 +680,7 @@ dmverbose="-q"
 stime="$(date +%s|grep -o '....$')"
 trap finish SIGINT SIGTERM 
 unset LD_PRELOAD
-versionid="gen.v1.6 id088067740"
+versionid="gen.v1.6 id646292497"
 
 if [[ "$commandif" = "" ]];then
 	echo Run \`setupTermuxArch.sh\` from the Android system in Termux.
