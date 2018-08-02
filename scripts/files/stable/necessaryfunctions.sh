@@ -5,6 +5,8 @@
 # https://sdrausty.github.io/TermuxArch/README has information about this project. 
 ################################################################################
 
+declare COUNTER=""
+
 callsystem () {
 	mkdir -p $installdir
 	cd $installdir

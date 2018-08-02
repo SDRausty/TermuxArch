@@ -1,9 +1,11 @@
-#!/bin/bash -e
+#!/bin/env bash
 # Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
 # Hosting https://sdrausty.github.io/TermuxArch courtesy https://pages.github.com
 # https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.  
 # https://sdrausty.github.io/TermuxArch/README has information about TermuxArch. 
 ################################################################################
+
+set -eu
 
 arg2dir () {
 	arg2="$(echo "$args" | awk '{print $2}')"
@@ -666,6 +668,12 @@ cpuabi8="arm64-v8a"
 cpuabix86="x86"
 cpuabix8664="x86_64"
 declare -g args="$@"
+declare bin=""
+declare dfl=""
+declare dm=""
+declare kid=""
+declare opt=""
+declare rootdir=""
 # dfl=/gen
 dmverbose="-q"
 # dmverbose="-v"
@@ -679,9 +687,9 @@ if [[ "$commandif" = "" ]];then
 	exit
 fi
 
-nameinstalldir ret 
-namestartarch ret 
-setrootdir ret 
+nameinstalldir 
+namestartarch  
+setrootdir  
 
 # [curl debug|curl sysinfo] Get device system information using `curl`.
 if [[ "$1" = [Cc][Dd]* ]] || [[ "$1" = -[Cc][Dd]* ]] || [[ "$1" = --[Cc][Dd]* ]] || [[ "$1" = [Cc][Ss]* ]] || [[ "$1" = -[Cc][Ss]* ]] || [[ "$1" = --[Cc][Ss]* ]];then
