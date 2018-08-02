@@ -668,22 +668,28 @@ cpuabi7="armeabi-v7a"
 cpuabi8="arm64-v8a"
 cpuabix86="x86"
 cpuabix8664="x86_64"
+
+declare COUNTER=""
 declare -g args="$@"
 declare bin=""
 declare dfl=""
 declare dm=""
+declare installdir=""
 declare kid=""
 declare opt=""
 declare rootdir=""
+declare spaceMessage""
+
 dfl=/gen
 dmverbose="-q"
 # dmverbose="-v"
 stime="$(date +%s|grep -o '....$')"
 trap finish SIGINT SIGTERM 
-versionid="gen.v1.6 id465388090"
+versionid="gen.v1.6 id820483293"
 
-if [[ "$1" = "" ]];then
-	declare "$1="
+if [[ -z "${1+}" ]];then
+	intro 
+	mainblock
 fi
 
 if [[ "$commandif" = "" ]];then
