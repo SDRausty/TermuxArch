@@ -689,7 +689,7 @@ stim="$(date +%s)"
 stime="${stim:0:4}"
 # trap finish SIGINT SIGTERM 
 trap finish EXIT
-versionid="gen.v1.6 id%N"
+versionid="gen.v1.6 id"
 
 if [[ "$commandif" = "" ]];then
 	echo Run \`setupTermuxArch.sh\` from the Android system in Termux.
