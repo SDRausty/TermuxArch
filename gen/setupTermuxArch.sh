@@ -5,7 +5,8 @@
 # https://sdrausty.github.io/TermuxArch/README has information about TermuxArch. 
 ################################################################################
 
-set -eu
+set -euo pipeline
+# set -euo pipeline
 unset LD_PRELOAD
 
 arg2dir () {
@@ -676,7 +677,7 @@ declare bin=""
 declare dfl=""
 declare dm=""
 declare installdir=""
-declare kid=""
+declare -g kid="0"
 declare opt=""
 declare rootdir=""
 declare spaceMessage""
@@ -684,9 +685,11 @@ declare spaceMessage""
 dfl=/gen
 dmverbose="-q"
 # dmverbose="-v"
-stime="$(date +%s|grep -o '....$')"
-trap finish SIGINT SIGTERM 
-versionid="gen.v1.6 id342221169"
+stim="$(date +%s)"
+stime="${stim:0:4}"
+# trap finish SIGINT SIGTERM 
+trap finish EXIT
+versionid="gen.v1.6 id%N"
 
 if [[ "$commandif" = "" ]];then
 	echo Run \`setupTermuxArch.sh\` from the Android system in Termux.
