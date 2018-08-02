@@ -685,12 +685,7 @@ dmverbose="-q"
 # dmverbose="-v"
 stime="$(date +%s|grep -o '....$')"
 trap finish SIGINT SIGTERM 
-versionid="gen.v1.6 id820483293"
-
-if [[ -z "${1+}" ]];then
-	intro 
-	mainblock
-fi
+versionid="gen.v1.6 id038058294"
 
 if [[ "$commandif" = "" ]];then
 	echo Run \`setupTermuxArch.sh\` from the Android system in Termux.
@@ -700,6 +695,12 @@ fi
 nameinstalldir 
 namestartarch  
 setrootdir  
+
+# [] Run default Arch Linux install.
+if [[ -z "${1+x}" ]];then
+	intro 
+	mainblock
+fi
 
 # [curl debug|curl sysinfo] Get device system information using `curl`.
 if [[ "$1" = [Cc][Dd]* ]] || [[ "$1" = -[Cc][Dd]* ]] || [[ "$1" = --[Cc][Dd]* ]] || [[ "$1" = [Cc][Ss]* ]] || [[ "$1" = -[Cc][Ss]* ]] || [[ "$1" = --[Cc][Ss]* ]];then
@@ -756,9 +757,9 @@ elif [[ "$1" = [Rr][Ee]* ]] || [[ "$1" = -[Rr][Ee]* ]] || [[ "$1" = --[Rr][Ee]* 
 elif [[ "$1" = [Rr]* ]] || [[ "$1" = -[Rr]* ]] || [[ "$1" = --[Rr]* ]];then
 	runbloom 
 # [] Run default Arch Linux install.
-elif [[ "$1" = "" ]];then
-	intro 
-	mainblock
+# elif [[ "$1" = "" ]];then
+# 	intro 
+# 	mainblock
 else
 	printusage
 fi
