@@ -4,8 +4,7 @@
 # https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.  
 # https://sdrausty.github.io/TermuxArch/README has information about TermuxArch. 
 ################################################################################
-# set -euox pipefail 
-set -eu
+set -euox pipefail 
 unset LD_PRELOAD
 
 arg2dir () {
@@ -549,15 +548,19 @@ setrootdir () {
 }
 
 spaceinfo () {
-	units="$(df 2>/dev/null | awk 'FNR == 1 {print $2}')"
-	if [[ "$units" = Size ]];then
-		spaceinfogsize 
-		printf "$spaceMessage"
-	elif [[ "$units" = 1K-blocks ]];then
-		spaceinfoksize 
-		printf "$spaceMessage"
-	fi
+	:
 }
+
+# spaceinfo () {
+# 	units="$(df 2>/dev/null | awk 'FNR == 1 {print $2}')"
+# 	if [[ "$units" = Size ]];then
+# 		spaceinfogsize 
+# 		printf "$spaceMessage"
+# 	elif [[ "$units" = 1K-blocks ]];then
+# 		spaceinfoksize 
+# 		printf "$spaceMessage"
+# 	fi
+# }
 
 spaceinfogsize () {
 	userspace return
@@ -688,7 +691,7 @@ stim="$(date +%s)"
 stime="${stim:0:4}"
 # trap finish SIGINT SIGTERM 
 trap finish EXIT
-versionid="gen.v1.6 id088532064228"
+versionid="gen.v1.6 id760864720455"
 
 if [[ "$commandif" = "" ]];then
 	echo Run \`setupTermuxArch.sh\` from the Android system in Termux.
