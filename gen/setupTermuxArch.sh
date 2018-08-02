@@ -292,7 +292,8 @@ edq2 () {
 }
 
 finish () {
-printf "\e[?25h\e[0mint caught\\n"
+	printf "\e[?25h\e[0mint caught\\n"
+	printtail 
 }
 
 intro () {
@@ -685,7 +686,7 @@ dmverbose="-q"
 # dmverbose="-v"
 stime="$(date +%s|grep -o '....$')"
 trap finish SIGINT SIGTERM 
-versionid="gen.v1.6 id038058294"
+versionid="gen.v1.6 id342221169"
 
 if [[ "$commandif" = "" ]];then
 	echo Run \`setupTermuxArch.sh\` from the Android system in Termux.
