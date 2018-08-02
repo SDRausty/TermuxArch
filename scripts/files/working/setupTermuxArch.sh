@@ -5,7 +5,8 @@
 # https://sdrausty.github.io/TermuxArch/README has information about TermuxArch. 
 ################################################################################
 
-set -eu
+set -e
+unset LD_PRELOAD
 
 arg2dir () {
 	arg2="$(echo "$args" | awk '{print $2}')"
@@ -679,8 +680,7 @@ dmverbose="-q"
 # dmverbose="-v"
 stime="$(date +%s|grep -o '....$')"
 trap finish SIGINT SIGTERM 
-unset LD_PRELOAD
-versionid="v1.6"
+versionid="gen.v1.6 id340715594"
 
 if [[ "$commandif" = "" ]];then
 	echo Run \`setupTermuxArch.sh\` from the Android system in Termux.
