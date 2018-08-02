@@ -5,7 +5,7 @@
 # https://sdrausty.github.io/TermuxArch/README has information about TermuxArch. 
 ################################################################################
 
-set -e
+set -eu
 unset LD_PRELOAD
 
 arg2dir () {
@@ -675,12 +675,16 @@ declare dm=""
 declare kid=""
 declare opt=""
 declare rootdir=""
-# dfl=/gen
+dfl=/gen
 dmverbose="-q"
 # dmverbose="-v"
 stime="$(date +%s|grep -o '....$')"
 trap finish SIGINT SIGTERM 
-versionid="v1.6"
+versionid="gen.v1.6 id465388090"
+
+if [[ "$1" = "" ]];then
+	declare "$1="
+fi
 
 if [[ "$commandif" = "" ]];then
 	echo Run \`setupTermuxArch.sh\` from the Android system in Termux.
