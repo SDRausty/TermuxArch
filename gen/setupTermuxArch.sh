@@ -31,7 +31,7 @@ arg3dir () {
 
 bloom () {
 	opt=bloom 
-	intrbloom 
+	introbloom 
 	if [[ -d "$HOME"/TermuxArchBloom ]];then 
 		rmbloomq 
 	fi
@@ -44,13 +44,13 @@ bloom () {
 	printf "\\n"
 	pwd
 	printf "\\n"
-	dependsblock 
+	dependsblock "$@" 
 	ls -agl
 	printf "\\n\\e[1;34mUse \\e[1;32mcd ~/TermuxArchBloom\\e[1;34m to continue.  Edit any of these files.  Then use \\e[1;32mbash $0 run \\e[1;34mto run the files in \\e[1;32m~/TermuxArchBloom\\e[1;34m to continue.\\n\\n\\e[0m"'\033]2;  Thank you for using TermuxArch Bloom option via `setupTermuxArch.sh bloom` 📲 \007'
 }
 
 bloomdependsblock () {
-	intrbloom 
+	introbloom 
 	cd "$HOME"/TermuxArchBloom
 	printf "\\e[1;34mTermuxArch Bloom option via \\e[1;32mbash setupTermuxArch.sh run\\e[0m 📲\\n\\n\\e[0m"'\033]2;  Thank you for using TermuxArch Bloom option via `bash setupTermuxArch.sh run` 📲 \007'
 	ls -al
@@ -180,7 +180,7 @@ dependsblock () {
 			cp setupTermuxArch.sh setupTermuxArch.tmp
 		fi
 		chkdwn
-		chk
+		chk "$@"
 	fi
 }
 
@@ -314,10 +314,10 @@ intro () {
 	rootdirexception 
 	spaceinfo
 	printf "\\n\\e[0;34m 🕛 > 🕛 \\e[1;34mTermuxArch $versionid will attempt to install Linux in \\e[0;32m$installdir\\e[1;34m.  Arch Linux in Termux PRoot will be available upon successful completion.  To run this BASH script again, use \`!!\`.  Ensure background data is not restricted.  Check the wireless connection if you do not see one o'clock 🕐 below.  "
-	dependsblock 
+	dependsblock "$@"
 }
 
-intrbloom () {
+introbloom () {
 	printf '\033]2;  bash setupTermuxArch.sh bloom 📲 \007'
 	spaceinfo
 	printf "\\n\\e[0;34m 🕛 > 🕛 \\e[1;34mTermuxArch $versionid bloom option.  Run \\e[1;32mbash setupTermuxArch.sh help \\e[1;34mfor additional information.  Ensure background data is not restricted.  Check the wireless connection if you do not see one o'clock 🕐 below.  "
@@ -327,14 +327,14 @@ introdebug () {
 	printf '\033]2;  bash setupTermuxArch.sh sysinfo 📲 \007'
 	spaceinfo
 	printf "\\n\\e[0;34m 🕛 > 🕛 \\e[1;34msetupTermuxArch $versionid will create a system information file.  Ensure background data is not restricted.  Run \\e[0;32mbash setupTermuxArch.sh help \\e[1;34mfor additional information.  Check the wireless connection if you do not see one o'clock 🕐 below.  "
-	dependsblock 
+	dependsblock "$@"
 }
 
 introrefresh () {
 	printf '\033]2;  bash setupTermuxArch.sh refresh 📲 \007'
 	spaceinfo
 	printf "\\n\\e[0;34m 🕛 > 🕛 \\e[1;34msetupTermuxArch $versionid will refresh your TermuxArch files in \\e[0;32m$installdir\\e[1;34m.  Ensure background data is not restricted.  Run \\e[0;32mbash setupTermuxArch.sh help \\e[1;34mfor additional information.  Check the wireless connection if you do not see one o'clock 🕐 below.  "
-	dependsblock 
+	dependsblock "$@"
 	refreshsys
 }
 
@@ -395,7 +395,7 @@ namestartarch () {
 
 opt2 () {
 	if [[ "$2" = [Dd]* ]] || [[ "$2" = [Ss]* ]] ;then
-		introdebug 
+		introdebug "$@"  
 		sysinfo 
 		printtail
 	elif [[ "$2" = [Ii]* ]] ;then
@@ -478,7 +478,7 @@ rmarch () {
 rmarchrm () {
 	cd "$installdir"
 	rootdirexception 
-	rm -rf * 2>/dev/null ||:
+	rm -rf ./* 2>/dev/null ||:
 	find . -type d -exec chmod 700 {} \; 2>/dev/null ||:
 	cd ..
 	rm -rf "$installdir" 2>/dev/null ||:
@@ -496,7 +496,7 @@ rmbloomq () {
 		printf "\\n\\n\\e[0;33mTermuxArch: \\e[1;33mDIRECTORY WARNING!  $HOME/TermuxArchBloom/ \\e[0;33mdirectory detected.  \\e[1;30msetupTermuxArch.sh bloom will continue.\\n"
 		while true; do
 			printf "\\n\\e[1;30m"
-			read -p "Refresh $HOME/TermuxArchBloom? [Y|n] " -r rbuanswer
+			read -p "Refresh $HOME/TermuxArchBloom? [Y|n] " rbuanswer
 			if [[ "$rbuanswer" = [Ee]* ]] || [[ "$rbuanswer" = [Nn]* ]] || [[ "$rbuanswer" = [Qq]* ]];then
 				printtail 
 			elif [[ "$rbuanswer" = [Yy]* ]] || [[ "$rbuanswer" = "" ]];then
@@ -543,7 +543,7 @@ runbloom () {
 		opt=bloom
 		bloomdependsblock 
 	else
-		dependsblock
+		dependsblock "$@"
 		bloom 
 	fi
 }
@@ -701,7 +701,7 @@ stime="${stim:0:4}"
 trap finishs SIGINT SIGTERM 
 trap finisher ERR
 trap finishe EXIT
-versionid="gen.v1.6 id868553779144"
+versionid="gen.v1.6 id894915952907"
 
 if [[ "$commandif" = "" ]];then
 	echo Run \`setupTermuxArch.sh\` from the Android system in Termux.
@@ -714,23 +714,23 @@ setrootdir
 
 # [] Run default Arch Linux install.
 if [[ -z "${1:-}" ]];then
-	intro 
+	intro "$@" 
 	mainblock
 # [curl debug|curl sysinfo] Get device system information using `curl`.
 elif [[ "$1" = [Cc][Dd]* ]] || [[ "$1" = -[Cc][Dd]* ]] || [[ "$1" = --[Cc][Dd]* ]] || [[ "$1" = [Cc][Ss]* ]] || [[ "$1" = -[Cc][Ss]* ]] || [[ "$1" = --[Cc][Ss]* ]];then
 	dm=curl
-	introdebug 
+	introdebug "$@" 
 	sysinfo 
 # [curl installdir|curl install installdir] Install Arch Linux using `curl`.
 elif [[ "$1" = [Cc]* ]] || [[ "$1" = -[Cc]* ]] || [[ "$1" = --[Cc]* ]] || [[ "$1" = [Cc][Ii]* ]] || [[ "$1" = -[Cc][Ii]* ]] || [[ "$1" = --[Cc][Ii]* ]];then
 	dm=curl
 	opt2 "$@" 
-	intro 
+	intro "$@" 
 	mainblock
 # [wget debug|wget sysinfo] Get device system information using `wget`.
 elif [[ "$1" = [Ww][Dd]* ]] || [[ "$1" = -[Ww][Dd]* ]] || [[ "$1" = --[Ww][Dd]* ]] || [[ "$1" = [Ww][Ss]* ]] || [[ "$1" = -[Ww][Ss]* ]] || [[ "$1" = --[Ww][Ss]* ]];then
 	dm=wget
-	introdebug 
+	introdebug "$@" 
 	sysinfo 
 # [wget installdir|wget install installdir] Install Arch Linux using `wget`.
 elif [[ "$1" = [Ww]* ]] || [[ "$1" = -[Ww]* ]] || [[ "$1" = --[Ww]* ]] || [[ "$1" = [Ww][Ii]* ]] || [[ "$1" = -[Ww][Ii]* ]] || [[ "$1" = --[Ww][Ii]* ]];then
@@ -740,11 +740,11 @@ elif [[ "$1" = [Ww]* ]] || [[ "$1" = -[Ww]* ]] || [[ "$1" = --[Ww]* ]] || [[ "$1
 	mainblock
 # [bloom] Create local copy of TermuxArch in TermuxArchBloom.  Useful for hacking and customizing TermuxArch.  
 elif [[ "$1" = [Bb]* ]] || [[ "$1" = -[Bb]* ]] || [[ "$1" = --[Bb]* ]];then
-	dependsblock
+	dependsblock "$@"
 	bloom
 # [debug|sysinfo] Get system information.
 elif [[ "$1" = [Dd]* ]] || [[ "$1" = -[Dd]* ]] || [[ "$1" = --[Dd]* ]] || [[ "$1" = [Ss]* ]] || [[ "$1" = -[Ss]* ]] || [[ "$1" = --[Ss]* ]];then
-	introdebug 
+	introdebug "$@" 
 	sysinfo 
 # [help|?] Display built-in help.
 elif [[ "$1" = [Hh]* ]] || [[ "$1" = -[Hh]* ]] || [[ "$1" = --[Hh]* ]]  || [[ "$1" = [?]* ]] || [[ "$1" = -[?]* ]] || [[ "$1" = --[?]* ]];then
@@ -752,12 +752,12 @@ elif [[ "$1" = [Hh]* ]] || [[ "$1" = -[Hh]* ]] || [[ "$1" = --[Hh]* ]]  || [[ "$
 # [manual] Manual Arch Linux install, useful for resolving download issues.
 elif [[ "$1" = [Mm]* ]] || [[ "$1" = -[Mm]* ]] || [[ "$1" = --[Mm]* ]];then
 	opt=manual
-	intro 
+	intro "$@" 
 	mainblock
 # [purge |uninstall] Remove Arch Linux.
 elif [[ "$1" = [Pp]* ]] || [[ "$1" = -[Pp]* ]] || [[ "$1" = --[Pp]* ]] || [[ "$1" = [Uu]* ]] || [[ "$1" = -[Uu]* ]] || [[ "$1" = --[Uu]* ]];then
 	arg2dir "$@" 
-	rmarch
+	mmarch
 # [install installdir|rootdir installdir] Install Arch Linux in custom directory.  Instructions: Install in userspace. $HOME is appended to installation directory. To install Arch Linux in $HOME/installdir use `bash setupTermuxArch.sh install installdir`. In bash shell use `./setupTermuxArch.sh install installdir`.  All options can be abbreviated to one or two letters.  Hence `./setupTermuxArch.sh install installdir` can be run as `./setupTermuxArch.sh i installdir` in BASH.
 elif [[ "$1" = [Ii]* ]] || [[ "$1" = -[Ii]* ]] || [[ "$1" = --[Ii]* ]] ||  [[ "$1" = [Rr][Oo]* ]] || [[ "$1" = -[Rr][Oo]* ]] || [[ "$1" = --[Rr][Oo]* ]];then
 	arg2dir "$@" 
@@ -766,7 +766,7 @@ elif [[ "$1" = [Ii]* ]] || [[ "$1" = -[Ii]* ]] || [[ "$1" = --[Ii]* ]] ||  [[ "$
 # [refresh|refresh installdir] Refresh Arch Linux in Termux PRoot scripts created by TermuxArch.  Useful for refreshing TermuxArch generated scripts to the newest version.  
 elif [[ "$1" = [Rr][Ee]* ]] || [[ "$1" = -[Rr][Ee]* ]] || [[ "$1" = --[Rr][Ee]* ]];then
 	arg2dir "$@" 
-	introrefresh 
+	introrefresh "$@"  
 # [run] Run local copy of TermuxArch from TermuxArchBloom.  Useful for running customized TermuxArch locally.  
 elif [[ "$1" = [Rr]* ]] || [[ "$1" = -[Rr]* ]] || [[ "$1" = --[Rr]* ]];then
 	runbloom 
