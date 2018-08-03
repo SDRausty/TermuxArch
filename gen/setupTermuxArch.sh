@@ -9,7 +9,7 @@ set -eu
 unset LD_PRELOAD
 
 arg2dir () {
-	arg2="$(echo "$args" | awk '{print $2}')"
+	arg2="$(echo "$@" | awk '{print $2}')"
 	if [[ "$arg2" = "" ]] ;then
 		rootdir=/arch
 		nameinstalldir 
@@ -20,7 +20,7 @@ arg2dir () {
 }
 
 arg3dir () {
-	arg3="$(echo "$args" | awk '{print $3}')"
+	arg3="$(echo "$@" | awk '{print $3}')"
 	if [[ "$arg3" = "" ]] ;then
 		rootdir=/arch
 		nameinstalldir 
@@ -124,7 +124,7 @@ chkself () {
 			printf "\\e[0;32msetupTermuxArch.sh: \\e[1;32mUPDATED\\n\\e[0;32mTermuxArch: \\e[1;32mRESTARTED\\n\\e[0m"
 			rm setupTermuxArch.tmp
 			rmdsc 
-			. setupTermuxArch.sh "$args"
+			. setupTermuxArch.sh "$@"
 		fi
 		rm setupTermuxArch.tmp
 	fi
@@ -671,7 +671,7 @@ cpuabix86="x86"
 cpuabix8664="x86_64"
 
 declare COUNTER=""
-declare -ga args="$@"
+# declare -ga args="$@"
 declare bin=""
 declare dfl=""
 declare dm=""
@@ -689,7 +689,7 @@ stime="${stim:0:4}"
 trap finish SIGINT SIGTERM 
 # trap "echo Program error. Exiting!" ERR
 trap finish EXIT
-versionid="gen.v1.6 id211544695259"
+versionid="gen.v1.6 id723057989428"
 
 if [[ "$commandif" = "" ]];then
 	echo Run \`setupTermuxArch.sh\` from the Android system in Termux.
@@ -714,7 +714,7 @@ if [[ "$1" = [Cc][Dd]* ]] || [[ "$1" = -[Cc][Dd]* ]] || [[ "$1" = --[Cc][Dd]* ]]
 # [curl installdir|curl install installdir] Install Arch Linux using `curl`.
 elif [[ "$1" = [Cc]* ]] || [[ "$1" = -[Cc]* ]] || [[ "$1" = --[Cc]* ]] || [[ "$1" = [Cc][Ii]* ]] || [[ "$1" = -[Cc][Ii]* ]] || [[ "$1" = --[Cc][Ii]* ]];then
 	dm=curl
-	opt2 "$args" 
+	opt2 "$@" 
 	intro 
 	mainblock
 # [wget debug|wget sysinfo] Get device system information using `wget`.
@@ -725,7 +725,7 @@ elif [[ "$1" = [Ww][Dd]* ]] || [[ "$1" = -[Ww][Dd]* ]] || [[ "$1" = --[Ww][Dd]* 
 # [wget installdir|wget install installdir] Install Arch Linux using `wget`.
 elif [[ "$1" = [Ww]* ]] || [[ "$1" = -[Ww]* ]] || [[ "$1" = --[Ww]* ]] || [[ "$1" = [Ww][Ii]* ]] || [[ "$1" = -[Ww][Ii]* ]] || [[ "$1" = --[Ww][Ii]* ]];then
 	dm=wget
-	opt2 "$args" 
+	opt2 "$@" 
 	intro 
 	mainblock
 # [bloom] Create local copy of TermuxArch in TermuxArchBloom.  Useful for hacking and customizing TermuxArch.  
