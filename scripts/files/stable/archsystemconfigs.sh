@@ -348,7 +348,7 @@ addkeys () {
 	pacman-key --populate 2>/dev/null ||: 
 	printf "\n\033[1;32m==>\033[0m Running \033[1mpacman -Ss keyring --color=always\033[0m…\n"
 	pacman -Ss keyring --color=always ||: 
-	printf "\\\\n\\\\e[0;32mTermuxArch keys: \\\\e[1;32mDONE 🏁\\\\n\\\\n\\\\e[0m"'\033]2;  🔑🗝 TermuxArch keys 📱 \007'
+	printf "\\\\n\\\\e[0;32mTermuxArch keys \$@ \\\\a\\\\e[1;34m: \\\\e[1;32mDONE 🏁\\\\n\\\\n\\\\e[0m"'\033]2;  🔑🗝 TermuxArch keys 📱 \007'
 	EOM
 	chmod 770 root/bin/keys 
 }
@@ -394,7 +394,7 @@ addpc () { # pacman install packages shortcut
 	}
 	
 	printtail () { "\$@"
-		printf "\\\\a\\\\n\\\\e[0;32mTermuxArch pc \$@ \\\\a\\\\e[1;34m: \\\\a\\\\e[1;32mDONE\\e[0m 🏁  \\\\n\\\\n\\\\a\\\\e[0m"
+		printf "\\\\a\\\\n\\\\e[0;32mTermuxArch pc \$@ \\\\a\\\\e[1;34m: \\\\a\\\\e[1;32mDONE\\e[0m 🏁  \\\\n\\\\n\\\\a\\\\e[0m"'\033]2;  🔑🗝 TermuxArch pc 📱 \007'
 	}
 
 	trap finisher ERR
@@ -445,7 +445,7 @@ addpci () { # system update with pacman install packages shortcut
 	}
 	
 	printtail () { "\$@"
-		printf "\\\\a\\\\n\\\\e[0;32mTermuxArch pc \%s \\\\a\\\\e[1;34m: \\\\a\\\\e[1;32mDONE\\e[0m 🏁  \\\\n\\\\n\\\\a\\\\e[0m" "\$@"
+		printf "\\\\a\\\\n\\\\e[0;32mTermuxArch pci \$@ \\\\a\\\\e[1;34m: \\\\a\\\\e[1;32mDONE\\e[0m 🏁  \\\\n\\\\n\\\\a\\\\e[0m"'\033]2;  🔑🗝 TermuxArch pci 📱 \007'
 	}
 
 	trap finisher ERR
