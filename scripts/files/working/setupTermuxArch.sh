@@ -671,7 +671,7 @@ cpuabix86="x86"
 cpuabix8664="x86_64"
 
 declare COUNTER=""
-declare -g args="$@"
+declare -ga args="$@"
 declare bin=""
 declare dfl=""
 declare dm=""
@@ -689,7 +689,7 @@ stime="${stim:0:4}"
 trap finish SIGINT SIGTERM 
 # trap "echo Program error. Exiting!" ERR
 trap finish EXIT
-versionid="gen.v1.6 id179647274301"
+versionid="gen.v1.6 id211544695259"
 
 if [[ "$commandif" = "" ]];then
 	echo Run \`setupTermuxArch.sh\` from the Android system in Termux.
