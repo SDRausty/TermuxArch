@@ -377,19 +377,17 @@ nameinstalldir () {
 	if [[ "$rootdir" = "" ]] ;then
 		rootdir=arch
 	fi
-	installdir="$(sed 's#//*#/#g' "$HOME/${rootdir%/}")"
+	installdir="$(echo "$HOME/${rootdir%/}" |sed 's#//*#/#g')"
 }
 
 namestartarch () {
 # 	echo ${@%/} removes trailing slash
-	darch="$(sed 's#//*#/#g' "${rootdir%/}")"
-# 	darch="$(echo "${rootdir%/}" |sed 's#//*#/#g')"
+ 	darch="$(echo "${rootdir%/}" |sed 's#//*#/#g')"
 	if [[ "$darch" = "/arch" ]];then
 		aarch=""
 		startbi2=arch
 	else
-		aarch="$(sed 's/\//\+/g' "$darch")"
-# 		aarch="$(echo "$darch" |sed 's/\//\+/g')"
+ 		aarch="$(echo "$darch" |sed 's/\//\+/g')"
 		startbi2=arch
 	fi
 	declare -g startbin=start"$startbi2$aarch"
@@ -481,7 +479,7 @@ rmarchrm () {
 	cd "$installdir"
 	rootdirexception 
 	rm -rf * 2>/dev/null ||:
-	find -type d -exec chmod 700 {} \; 2>/dev/null ||:
+	find . -type d -exec chmod 700 {} \; 2>/dev/null ||:
 	cd ..
 	rm -rf "$installdir" 2>/dev/null ||:
 }
@@ -703,7 +701,7 @@ stime="${stim:0:4}"
 trap finishs SIGINT SIGTERM 
 trap finisher ERR
 trap finishe EXIT
-versionid="gen.v1.6 id717493344528"
+versionid="gen.v1.6 id682973397546"
 
 if [[ "$commandif" = "" ]];then
 	echo Run \`setupTermuxArch.sh\` from the Android system in Termux.
