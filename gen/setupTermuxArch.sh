@@ -690,7 +690,7 @@ stime="${stim:0:4}"
 trap finish SIGINT SIGTERM 
 # trap "echo Program error. Exiting!" ERR
 # trap finish EXIT
-versionid="gen.v1.6 id319881654309"
+versionid="gen.v1.6 id722582943488"
 
 if [[ "$commandif" = "" ]];then
 	echo Run \`setupTermuxArch.sh\` from the Android system in Termux.
