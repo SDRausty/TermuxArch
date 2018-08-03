@@ -46,7 +46,7 @@ bloom () {
 	printf "\\n"
 	dependsblock "$@" 
 	ls -agl
-	printf "\\n\\e[1;34mUse \\e[1;32mcd ~/TermuxArchBloom\\e[1;34m to continue.  Edit any of these files.  Then use \\e[1;32mbash $0 run \\e[1;34mto run the files in \\e[1;32m~/TermuxArchBloom\\e[1;34m to continue.\\n\\n\\e[0m"'\033]2;  TermuxArch Bloom option via `setupTermuxArch.sh bloom` 📲 \007'
+	printf "\\n\\e[1;34mUse \\e[1;32mcd ~/TermuxArchBloom\\e[1;34m to continue.  Edit any of these files.  Then use \\e[1;32mbash $0 run \\e[1;34mto run the files in \\e[1;32m~/TermuxArchBloom\\e[1;34m to continue.\\n\\e[0m"'\033]2;  TermuxArch Bloom option via `setupTermuxArch.sh bloom` 📲 \007'
 }
 
 bloomdependsblock () {
@@ -506,9 +506,9 @@ rmbloomq () {
 				if [[ -d "$HOME"/TermuxArchBloom ]];then
 					rm -rf "$HOME"/TermuxArchBloom 
 				else 
-					printf "Uninstalling $HOME/TermuxArchBloom, nothing to do for $installdir.\\n"
+					printf "Uninstalling $HOME/TermuxArchBloom, nothing to do for $installdir.\\n\\n"
 				fi
-				printf "Uninstalling $HOME/TermuxArchBloom done.\\n"
+				printf "Uninstalling $HOME/TermuxArchBloom done.\\n\\n"
 				break
 			else
 				printf "\\nYou answered \\e[33;1m$rbuanswer\\e[30m.\\n\\nAnswer \\e[32mYes\\e[30m or \\e[1;31mNo\\e[30m. [\\e[32mY\\e[30m|\\e[1;31mn\\e[30m]\\n"
@@ -704,7 +704,7 @@ stime="${stim:0:4}"
 trap finishs SIGINT SIGTERM 
 trap finisher ERR
 trap finishe EXIT
-versionid="gen.v1.6 id572292482643"
+versionid="gen.v1.6 id141040347991"
 
 if [[ "$commandif" = "" ]];then
 	echo Run \`setupTermuxArch.sh\` from the Android system in Termux.
