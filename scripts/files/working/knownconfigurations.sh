@@ -63,14 +63,14 @@ x86_64 () {
 # See `info proot` and `man proot` for more information about what you can configure in this proot statement.  If you find a more suitable configuration, share it https://github.com/sdrausty/TermuxArch/issues
 
 prs () {
-prootstmnt="exec proot"
+prootstmnt="exec proot 2>/dev/null"
 if [[ "$kid" ]]; then
 	prootstmnt+=" --kernel-release=4.14.15"
 fi
 if [[ "$koe" ]]; then
 	prootstmnt+=" --kill-on-exit"
 fi
-prootstmnt+=" --link2symlink -0 -r $installdir -b \$ANDROID_DATA -b /dev/ -b \$EXTERNAL_STORAGE -b \$HOME -b /proc/ -b /storage/ -b /sys/ -w \"\$PWD\" /usr/bin/env -i HOME=/root TERM=$TERM 2>/dev/null"
+prootstmnt+=" --link2symlink -0 -r $installdir -b \$ANDROID_DATA -b /dev/ -b \$EXTERNAL_STORAGE -b \$HOME -b /proc/ -b /storage/ -b /sys/ -w \"\$PWD\" /usr/bin/env -i HOME=/root TERM=$TERM "
 }
 
 prs 
