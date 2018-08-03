@@ -5,7 +5,7 @@
 # https://sdrausty.github.io/TermuxArch/README has information about TermuxArch. 
 ################################################################################
 # set -Eeuo pipefail 
-set -eu
+set -Eeuo pipefail 
 unset LD_PRELOAD
 
 arg2dir () {
@@ -293,6 +293,11 @@ edq2 () {
 
 finish () {
 	printf "\e[?25h\e[0mint caught\\n"
+	printtail 
+}
+
+finishe () {
+	printf "\e[?25h\e[0mexit found\\n"
 	printtail 
 }
 
@@ -687,9 +692,9 @@ dmverbose="-q"
 stim="$(date +%s)"
 stime="${stim:0:4}"
 trap finish SIGINT SIGTERM 
-# trap "echo Program error. Exiting!" ERR
-trap finish EXIT
-versionid="gen.v1.6 id097122174656"
+trap "echo Program error. Exiting!" ERR
+trap finishe EXIT
+versionid="gen.v1.6 id125150151459"
 
 if [[ "$commandif" = "" ]];then
 	echo Run \`setupTermuxArch.sh\` from the Android system in Termux.
