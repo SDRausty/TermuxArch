@@ -420,11 +420,11 @@ printsha512syschker () {
 	exit 
 }
 
-printtail () {
- 	namestartarch
+printtail () { "$@"  
+ 	namestartarch "$@"  
 	"$startbin" help 2>/dev/null
-	printf "\\a\\n\\e[0;32msetupTermuxArch.sh $@ \\a\\e[0m$versionid \\e[1;34m: \\a\\e[1;32mDONE\\e[0m 🏁  \\n\\n\\a\\e[0m"'\033]2;  setupTermuxArch.sh '"$@"' : DONE 🏁 \007'
-# 	exit $?
+	printf "\\a\\n\\e[0;32m%s %s \\a\\e[0m$versionid \\e[1;34m: \\a\\e[1;32mDONE\\e[0m 🏁  \\n\\n\\a\\e[0m" "$(echo $0)" "$(echo $@)"
+	printf '\033]2;  setupTermuxArch.sh '"$(echo $@)"' : DONE 🏁 \007'
 }
 
 printusage () {
