@@ -499,6 +499,7 @@ rmbloomq () {
 			printf "\\n\\e[1;30m"
 			read -n 1 -p "Refresh $HOME/TermuxArchBloom? [Y|n] " rbuanswer
 			if [[ "$rbuanswer" = [Ee]* ]] || [[ "$rbuanswer" = [Nn]* ]] || [[ "$rbuanswer" = [Qq]* ]];then
+				printf "\\n" 
 				exit $? 
 			elif [[ "$rbuanswer" = [Yy]* ]] || [[ "$rbuanswer" = "" ]];then
 				printf "\\e[30mUninstalling $HOME/TermuxArchBloom…\\n"
@@ -613,6 +614,7 @@ spaceinfoq () {
 				printf "\\n\\e[1;30m"
 				read -n 1 -p "Continue with setupTermuxArch.sh? [Y|n] " suanswer
 				if [[ "$suanswer" = [Ee]* ]] || [[ "$suanswer" = [Nn]* ]] || [[ "$suanswer" = [Qq]* ]];then
+					printf "\\n" 
 					exit $?
 				elif [[ "$suanswer" = [Yy]* ]] || [[ "$suanswer" = "" ]];then
 					suanswer=yes
@@ -702,7 +704,7 @@ stime="${stim:0:4}"
 trap finishs SIGINT SIGTERM 
 trap finisher ERR
 trap finishe EXIT
-versionid="gen.v1.6 id930979434927"
+versionid="gen.v1.6 id336805453443"
 
 if [[ "$commandif" = "" ]];then
 	echo Run \`setupTermuxArch.sh\` from the Android system in Termux.
