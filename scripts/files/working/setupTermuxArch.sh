@@ -293,7 +293,7 @@ edq2 () {
 finishe () { # on exit
 	printf "\\e[?25h\\e[0mProgram warning.  Exit found!\\n"
 	set +Eeuo pipefail 
- 	printtail 
+ 	printtail "$@"  
 }
 
 finisher () { # on trap signal
@@ -397,7 +397,7 @@ opt2 () {
 	if [[ "$2" = [Dd]* ]] || [[ "$2" = [Ss]* ]] ;then
 		introdebug "$@"  
 		sysinfo 
-		printtail
+		exit $?  
 	elif [[ "$2" = [Ii]* ]] ;then
 		arg3dir "$@" 
 	else
@@ -700,8 +700,8 @@ stim="$(date +%s)"
 stime="${stim:0:4}"
 trap finishs SIGINT SIGTERM 
 trap finisher ERR
-trap finishe EXIT
-versionid="gen.v1.6 id125591480914"
+trap finishe "$@" EXIT
+versionid="gen.v1.6 id446927104367"
 
 if [[ "$commandif" = "" ]];then
 	echo Run \`setupTermuxArch.sh\` from the Android system in Termux.
