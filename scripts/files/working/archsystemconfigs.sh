@@ -374,8 +374,9 @@ addpc () {
 	# https://sdrausty.github.io/TermuxArch/README has information about this project. 
 	################################################################################
 	set -eou pipefail 
+
 	if [[ -z "\${1:-}" ]];then
-	pacman --noconfirm --color=always -S "\$@" 
+	pacman --noconfirm --color=always -S 
 	elif [[ "\$1" = "a" ]];then
 	pacman --noconfirm --color=always -S base base-devel "\${@:2}" 
 	elif [[ "\$1" = "ae" ]];then
@@ -398,6 +399,7 @@ addpci () {
 	# https://sdrausty.github.io/TermuxArch/README has information about this project. 
 	################################################################################
 	set -eou pipefail 
+
 	if [[ -z "\${1:-}" ]];then
 	pacman --noconfirm --color=always -Syu
 	elif [[ \$1 = "a" ]];then
