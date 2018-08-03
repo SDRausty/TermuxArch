@@ -682,6 +682,7 @@ declare rootdir=""
 declare spaceMessage""
 
 dfl=/gen
+# dfl=/gen
 dmverbose="-q"
 # dmverbose="-v"
 stim="$(date +%s)"
@@ -689,7 +690,7 @@ stime="${stim:0:4}"
 trap finish SIGINT SIGTERM 
 # trap "echo Program error. Exiting!" ERR
 # trap finish EXIT
-versionid="gen.v1.6 id902363614485"
+versionid="gen.v1.6 id855562248271"
 
 if [[ "$commandif" = "" ]];then
 	echo Run \`setupTermuxArch.sh\` from the Android system in Termux.
