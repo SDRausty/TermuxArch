@@ -72,7 +72,7 @@ refreshsys () {
 	printf '\033]2; setupTermuxArch.sh refresh 📲 \007'
 	if [[ ! -d "$installdir" ]] || [[ ! -f "$installdir"/bin/we ]];then
 		printf "\\n\\e[0;33mThe root directory structure is incorrect; Cannot continue \\e[1;33msetupTermuxArch.sh refresh\\e[0;33m.\\e[0m\\n"
-		printtail 
+		exit $?
 	else
 		cd "$installdir"
 	fi
