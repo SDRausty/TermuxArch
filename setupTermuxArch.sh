@@ -4,10 +4,11 @@
 # https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.  
 # https://sdrausty.github.io/TermuxArch/README has information about TermuxArch. 
 ################################################################################
-set -Eeuo pipefail 
+# set -Eeuox pipefail 
+set -Eeo pipefail 
 unset LD_PRELOAD
 
-arg2dir () {
+arg2dir () { "$@" 
 	arg2="$(echo "$@" | awk '{print $2}')"
 	if [[ "$arg2" = "" ]] ;then
 		rootdir=/arch
@@ -18,7 +19,7 @@ arg2dir () {
 	fi
 }
 
-arg3dir () {
+arg3dir () { "$@" 
 	arg3="$(echo "$@" | awk '{print $3}')"
 	if [[ "$arg3" = "" ]] ;then
 		rootdir=/arch
@@ -393,7 +394,7 @@ namestartarch () {
 	declare -g startbin=start"$startbi2$aarch"
 }
 
-opt2 () {
+opt2 () { "$@" 
 	if [[ "$2" = [Dd]* ]] || [[ "$2" = [Ss]* ]] ;then
 		introdebug "$@"  
 		sysinfo 
@@ -539,7 +540,7 @@ rootdirexception () {
 	fi
 }
 
-runbloom () {
+runbloom () { "$@" 
 	if [[ -d "$HOME"/TermuxArchBloom ]];then 
 		opt=bloom
 		bloomdependsblock 
@@ -726,7 +727,7 @@ elif [[ "$1" = [Cc][Dd]* ]] || [[ "$1" = -[Cc][Dd]* ]] || [[ "$1" = --[Cc][Dd]* 
 # [curl installdir|curl install installdir] Install Arch Linux using `curl`.
 elif [[ "$1" = [Cc]* ]] || [[ "$1" = -[Cc]* ]] || [[ "$1" = --[Cc]* ]] || [[ "$1" = [Cc][Ii]* ]] || [[ "$1" = -[Cc][Ii]* ]] || [[ "$1" = --[Cc][Ii]* ]];then
 	dm=curl
-	opt2 "$@" 
+	opt2 
 	intro "$@" 
 	mainblock
 # [wget debug|wget sysinfo] Get device system information using `wget`.
@@ -737,7 +738,7 @@ elif [[ "$1" = [Ww][Dd]* ]] || [[ "$1" = -[Ww][Dd]* ]] || [[ "$1" = --[Ww][Dd]* 
 # [wget installdir|wget install installdir] Install Arch Linux using `wget`.
 elif [[ "$1" = [Ww]* ]] || [[ "$1" = -[Ww]* ]] || [[ "$1" = --[Ww]* ]] || [[ "$1" = [Ww][Ii]* ]] || [[ "$1" = -[Ww][Ii]* ]] || [[ "$1" = --[Ww][Ii]* ]];then
 	dm=wget
-	opt2 "$@" 
+	opt2
 	intro 
 	mainblock
 # [bloom] Create local copy of TermuxArch in TermuxArchBloom.  Useful for hacking and customizing TermuxArch.  
@@ -758,20 +759,20 @@ elif [[ "$1" = [Mm]* ]] || [[ "$1" = -[Mm]* ]] || [[ "$1" = --[Mm]* ]];then
 	mainblock
 # [purge |uninstall] Remove Arch Linux.
 elif [[ "$1" = [Pp]* ]] || [[ "$1" = -[Pp]* ]] || [[ "$1" = --[Pp]* ]] || [[ "$1" = [Uu]* ]] || [[ "$1" = -[Uu]* ]] || [[ "$1" = --[Uu]* ]];then
-	arg2dir "$@" 
+	arg2dir
 	rmarch
 # [install installdir|rootdir installdir] Install Arch Linux in custom directory.  Instructions: Install in userspace. $HOME is appended to installation directory. To install Arch Linux in $HOME/installdir use `bash setupTermuxArch.sh install installdir`. In bash shell use `./setupTermuxArch.sh install installdir`.  All options can be abbreviated to one or two letters.  Hence `./setupTermuxArch.sh install installdir` can be run as `./setupTermuxArch.sh i installdir` in BASH.
 elif [[ "$1" = [Ii]* ]] || [[ "$1" = -[Ii]* ]] || [[ "$1" = --[Ii]* ]] ||  [[ "$1" = [Rr][Oo]* ]] || [[ "$1" = -[Rr][Oo]* ]] || [[ "$1" = --[Rr][Oo]* ]];then
-	arg2dir "$@" 
+	arg2dir 
 	intro 
 	mainblock
 # [refresh|refresh installdir] Refresh Arch Linux in Termux PRoot scripts created by TermuxArch.  Useful for refreshing TermuxArch generated scripts to the newest version.  
 elif [[ "$1" = [Rr][Ee]* ]] || [[ "$1" = -[Rr][Ee]* ]] || [[ "$1" = --[Rr][Ee]* ]];then
-	arg2dir "$@" 
+	arg2dir "$@"  
 	introrefresh "$@"  
 # [run] Run local copy of TermuxArch from TermuxArchBloom.  Useful for running customized TermuxArch locally.  
 elif [[ "$1" = [Rr]* ]] || [[ "$1" = -[Rr]* ]] || [[ "$1" = --[Rr]* ]];then
-	runbloom "$@"   
+	runbloom 
 else
 	printusage
 fi
