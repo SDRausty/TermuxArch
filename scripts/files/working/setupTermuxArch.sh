@@ -686,7 +686,7 @@ dmverbose="-q"
 # dmverbose="-v"
 stim="$(date +%s)"
 stime="${stim:0:4}"
-# trap finish SIGINT SIGTERM 
+trap finish SIGINT SIGTERM 
 # trap "echo Program error. Exiting!" ERR
 trap finish EXIT
 versionid="v1.6"
