@@ -16,7 +16,7 @@ cmirror="http://os.archlinuxarm.org/"
 # dm=wget
 # dmverbose="-q"
 # dmverbose="-v"
-koe=0
+koe=1
 
 aarch64 () {
 	file=ArchLinuxARM-aarch64-latest.tar.gz
