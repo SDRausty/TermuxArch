@@ -548,7 +548,7 @@ setrootdir () {
 }
 
 spaceinfo () {
-	units="$(df $installdir 2>/dev/null | awk 'FNR == 1 {print $2}')" 
+	units="$(df "$installdir" 2>/dev/null | awk 'FNR == 1 {print $2}')" 
 	if [[ "$units" = Size ]];then
 		spaceinfogsize 
 		printf "$spaceMessage"
@@ -636,9 +636,9 @@ spaceinfoksize () {
 }
 
 userspace () {
-	usrspace="$(df $installdir 2>/dev/null | awk 'FNR == 2 {print $4}')"
+	usrspace="$(df "$installdir" 2>/dev/null | awk 'FNR == 2 {print $4}')"
 	if [[ "$usrspace" = "" ]];then
-		usrspace="$(df $installdir 2>/dev/null | awk 'FNR == 3 {print $3}')"
+		usrspace="$(df "$installdir" 2>/dev/null | awk 'FNR == 3 {print $3}')"
 	fi
 }
 
