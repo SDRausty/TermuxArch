@@ -548,7 +548,7 @@ setrootdir () {
 }
 
 spaceinfo () {
-	units="$(df $installdir 2>/dev/null | awk 'FNR == 1 {print $2}')" 
+	units="$(df "$installdir" 2>/dev/null | awk 'FNR == 1 {print $2}')" 
 	if [[ "$units" = Size ]];then
 		spaceinfogsize 
 		printf "$spaceMessage"
@@ -636,9 +636,9 @@ spaceinfoksize () {
 }
 
 userspace () {
-	usrspace="$(df $installdir 2>/dev/null | awk 'FNR == 2 {print $4}')"
+	usrspace="$(df "$installdir" 2>/dev/null | awk 'FNR == 2 {print $4}')"
 	if [[ "$usrspace" = "" ]];then
-		usrspace="$(df $installdir 2>/dev/null | awk 'FNR == 3 {print $3}')"
+		usrspace="$(df "$installdir" 2>/dev/null | awk 'FNR == 3 {print $3}')"
 	fi
 }
 
@@ -688,7 +688,7 @@ stime="${stim:0:4}"
 trap finish SIGINT SIGTERM 
 trap "echo ERR trap fired!" ERR
 # trap finish EXIT
-versionid="gen.v1.6 id931006704087"
+versionid="gen.v1.6 id260264009476"
 
 if [[ "$commandif" = "" ]];then
 	echo Run \`setupTermuxArch.sh\` from the Android system in Termux.
