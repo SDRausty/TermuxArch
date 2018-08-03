@@ -375,22 +375,22 @@ addpc () {
 	################################################################################
 	set -eou pipefail 
 
-	finishe () {
+	finishe () { # on exit
 		printf "\\e[?25h\\e[0m"
 		set +Eeuo pipefail 
-		printtail 
+	 	printtail "$@"  
 	}
 	
-	finisher () {
-		printf "\\e[?25h\\e[0mProgram error. Exiting!\\n"
-		set +Eeuo pipefail 
-		printtail 
+	finisher () { # on trap signal
+		printf "\\n\\e[?25h\\e[0mProgram warning.  \\n"
+	 	set +Eeuo pipefail 
+	 	exit $? 
 	}
 	
-	finishs () {
-		printf "\\e[?25h\\e[0mint caught\\n"
+	finishs () { # on signal
+		printf "\\n\\e[?25h\\e[0mProgram warning.  Signal caught!\\n"
 		set +Eeuo pipefail 
-		printtail 
+	 	exit $? 
 	}
 	
 	printtail () {
@@ -400,7 +400,6 @@ addpc () {
 	trap finisher ERR
 	trap finishe EXIT
 	trap finishs SIGINT SIGTERM 
-	if [[ -z "\${1:-}" ]];then
 	if [[ -z "\${1:-}" ]];then
 	pacman --noconfirm --color=always -S 
 	elif [[ "\$1" = "a" ]];then
@@ -426,22 +425,22 @@ addpci () {
 	################################################################################
 	set -eou pipefail 
 
-	finishe () {
+	finishe () { # on exit
 		printf "\\e[?25h\\e[0m"
 		set +Eeuo pipefail 
-		printtail 
+	 	printtail "$@"  
 	}
 	
-	finisher () {
-		printf "\\e[?25h\\e[0mProgram error. Exiting!\\n"
-		set +Eeuo pipefail 
-		printtail 
+	finisher () { # on trap signal
+		printf "\\n\\e[?25h\\e[0mProgram warning.  \\n"
+	 	set +Eeuo pipefail 
+	 	exit $? 
 	}
 	
-	finishs () {
-		printf "\\e[?25h\\e[0mint caught\\n"
+	finishs () { # on signal
+		printf "\\n\\e[?25h\\e[0mProgram warning.  Signal caught!\\n"
 		set +Eeuo pipefail 
-		printtail 
+	 	exit $? 
 	}
 	
 	printtail () {
