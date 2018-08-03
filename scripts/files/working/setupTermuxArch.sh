@@ -421,7 +421,7 @@ printsha512syschker () {
 
 printtail () {
  	namestartarch
-       "$startbin" help 2>/dev/null
+	"$startbin" help 2>/dev/null
 	printf "\\a\\n\\e[0;32msetupTermuxArch.sh \\e[0m$versionid \\e[1;34m: \\e[1;32mDONE\\e[0m 🏁  \\n\\n\\a\\e[0m"'\033]2;  setupTermuxArch.sh : DONE 🏁 \007'
 	exit $?
 }
@@ -498,7 +498,7 @@ rmbloomq () {
 			printf "\\n\\e[1;30m"
 			read -n 1 -p "Refresh $HOME/TermuxArchBloom? [Y|n] " rbuanswer
 			if [[ "$rbuanswer" = [Ee]* ]] || [[ "$rbuanswer" = [Nn]* ]] || [[ "$rbuanswer" = [Qq]* ]];then
-				printtail 
+				exit $? 
 			elif [[ "$rbuanswer" = [Yy]* ]] || [[ "$rbuanswer" = "" ]];then
 				printf "\\e[30mUninstalling $HOME/TermuxArchBloom…\\n"
 				if [[ -d "$HOME"/TermuxArchBloom ]];then
@@ -612,7 +612,7 @@ spaceinfoq () {
 				printf "\\n\\e[1;30m"
 				read -n 1 -p "Continue with setupTermuxArch.sh? [Y|n] " suanswer
 				if [[ "$suanswer" = [Ee]* ]] || [[ "$suanswer" = [Nn]* ]] || [[ "$suanswer" = [Qq]* ]];then
-					printtail
+					exit $?
 				elif [[ "$suanswer" = [Yy]* ]] || [[ "$suanswer" = "" ]];then
 					suanswer=yes
 					printf "Continuing with setupTermuxArch.sh.\\n"
@@ -701,7 +701,7 @@ stime="${stim:0:4}"
 trap finishs SIGINT SIGTERM 
 trap finisher ERR
 trap finishe EXIT
-versionid="gen.v1.6 id848539840028"
+versionid="gen.v1.6 id030702804520"
 
 if [[ "$commandif" = "" ]];then
 	echo Run \`setupTermuxArch.sh\` from the Android system in Termux.
@@ -770,12 +770,7 @@ elif [[ "$1" = [Rr][Ee]* ]] || [[ "$1" = -[Rr][Ee]* ]] || [[ "$1" = --[Rr][Ee]* 
 # [run] Run local copy of TermuxArch from TermuxArchBloom.  Useful for running customized TermuxArch locally.  
 elif [[ "$1" = [Rr]* ]] || [[ "$1" = -[Rr]* ]] || [[ "$1" = --[Rr]* ]];then
 	runbloom "$@"   
-# [] Run default Arch Linux install.
-# elif [[ "$1" = "" ]];then
-# 	intro 
-# 	mainblock
 else
 	printusage
 fi
-# printtail 
 
