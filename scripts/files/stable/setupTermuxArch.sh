@@ -298,13 +298,13 @@ finishe () { # on exit
 }
 
 finisher () { # on script signal
-	printf "\\n\\e[?25h\\e[0mProgram warning.  \\n"
+	printf "\\n\\e[?25h\\e[0mBASH script warning.  \\n"
  	set +Eeuo pipefail 
  	exit $? 
 }
 
 finishs () { # on signal
-	printf "\\n\\e[?25h\\e[0mProgram warning.  Signal caught!\\n"
+	printf "\\n\\e[?25h\\e[0mBASH script warning.  Signal caught!\\n"
 	set +Eeuo pipefail 
  	exit $? 
 }
