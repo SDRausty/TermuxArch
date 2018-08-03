@@ -394,7 +394,7 @@ addpc () {
 	}
 	
 	printtail () {
-		printf "\\a\\n\\e[0;32msetupTermuxArch.sh $@ \\a\\e[0m$versionid \\e[1;34m: \\a\\e[1;32mDONE\\e[0m 🏁  \\n\\n\\a\\e[0m"'\033]2;  setupTermuxArch.sh '"$@"' : DONE 🏁 \007'
+		printf "\\a\\n\\e[0;32mTermuxArch pc \$@ \\a\\e[1;34m: \\a\\e[1;32mDONE\\e[0m 🏁  \\n\\n\\a\\e[0m"'\033]2;  TermuxArch pc '"$@"' : DONE 🏁 \007'
 	}
 
 	trap finisher ERR
@@ -445,7 +445,7 @@ addpci () {
 	}
 	
 	printtail () {
-		printf "\\a\\n\\e[0;32msetupTermuxArch.sh $@ \\a\\e[0m$versionid \\e[1;34m: \\a\\e[1;32mDONE\\e[0m 🏁  \\n\\n\\a\\e[0m"'\033]2;  setupTermuxArch.sh '"$@"' : DONE 🏁 \007'
+		printf "\\a\\n\\e[0;32mTermuxArch pci \$@ \\a\\e[1;34m: \\a\\e[1;32mDONE\\e[0m 🏁  \\n\\n\\a\\e[0m"'\033]2;  TermuxArch pci '"$@"' : DONE 🏁 \007'
 	}
 
 	trap finisher ERR
