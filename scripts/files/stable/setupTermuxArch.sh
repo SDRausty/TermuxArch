@@ -4,8 +4,8 @@
 # https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.  
 # https://sdrausty.github.io/TermuxArch/README has information about TermuxArch. 
 ################################################################################
-# set -Eeou pipefail 
-set -eou pipefail 
+# set -Eeuo pipefail 
+set -eu
 unset LD_PRELOAD
 
 arg2dir () {
@@ -686,9 +686,9 @@ dmverbose="-q"
 # dmverbose="-v"
 stim="$(date +%s)"
 stime="${stim:0:4}"
-trap finish SIGINT SIGTERM 
+# trap finish SIGINT SIGTERM 
 # trap "echo Program error. Exiting!" ERR
-# trap finish EXIT
+trap finish EXIT
 versionid="v1.6"
 
 if [[ "$commandif" = "" ]];then
@@ -768,3 +768,4 @@ else
 	printusage
 fi
 printtail 
+
