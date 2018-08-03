@@ -1,4 +1,4 @@
-#!/bin/bash -e
+#!/bin/env bash
 # Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
 # Hosting https://sdrausty.github.io/TermuxArch courtesy https://pages.github.com
 # https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.  
@@ -17,7 +17,7 @@ printcu () {
 
 printdetectedsystem () {
 	printf "\n\033[0;34m 🕛 > 🕝 \033[1;34mDetected $(uname -m) " 
-	if [[ $(getprop ro.product.device) == *_cheets ]];then
+	if [[ "$(getprop ro.product.device)" == *_cheets ]];then
 		printf "Chromebook.\n\n\033[0m"
 	else
 		printf "$(uname -o) operating system.\n\n\033[0m"
@@ -87,7 +87,7 @@ printfooter2 () {
 }
 
 printrootdirfunction () {
-	declare -g printrootdir=$(echo ${rootdir%/} |sed s#//*#/#g)
+	declare -g printrootdir="$(echo "${rootdir%/}" |sed 's#//*#/#g')"
 }
 
-printrootdirfunction ret
+printrootdirfunction 

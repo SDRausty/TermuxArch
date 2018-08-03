@@ -4,7 +4,6 @@
 # https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.  
 # https://sdrausty.github.io/TermuxArch/README has information about TermuxArch. 
 ################################################################################
-# set -Eeoux pipefail 
 set -Eeou pipefail 
 unset LD_PRELOAD
 
@@ -681,7 +680,7 @@ declare opt=""
 declare rootdir=""
 declare spaceMessage""
 
-dfl=/gen
+# dfl=/gen
 dmverbose="-q"
 # dmverbose="-v"
 stim="$(date +%s)"
@@ -689,7 +688,7 @@ stime="${stim:0:4}"
 trap finish SIGINT SIGTERM 
 trap "echo ERR trap fired!" ERR
 # trap finish EXIT
-versionid="gen.v1.6 id861883244820"
+versionid="v1.6"
 
 if [[ "$commandif" = "" ]];then
 	echo Run \`setupTermuxArch.sh\` from the Android system in Termux.

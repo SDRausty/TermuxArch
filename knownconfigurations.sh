@@ -1,4 +1,4 @@
-#!/bin/bash -e
+#!/bin/env bash
 # Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
 # Hosting https://sdrausty.github.io/TermuxArch courtesy https://pages.github.com
 # https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.
@@ -16,7 +16,7 @@ cmirror="http://os.archlinuxarm.org/"
 # dm=wget
 # dmverbose="-q"
 # dmverbose="-v"
-koe=1
+koe=0
 
 aarch64 () {
 	file=ArchLinuxARM-aarch64-latest.tar.gz
