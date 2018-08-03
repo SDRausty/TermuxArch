@@ -536,15 +536,15 @@ addtour () {
 	################################################################################
 	printf "\n\033[1;32m==> \033[1;37mRunning \033[1;32mlr ~\033[1;37m\n\n"
 	ls -R --color=always \$HOME
-	sleep 2
+	sleep 4
 	printf "\n\033[1;32m==> \033[1;37mRunning \033[1;32mcat ~/.bash_profile\033[1;37m\n\n"
 	cat \$HOME/.bash_profile
-	sleep 2
+	sleep 8
 	printf "\n\033[1;32m==> \033[1;37mRunning \033[1;32mcat ~/.bashrc\033[1;37m\n\n"
 	cat \$HOME/.bashrc
-	sleep 2
-	printf "\n\033[1;32m==> \033[1;37mRunning \033[1;32mcat ~/bin/pc\033[1;37m\n\n"
-	cat \$HOME/bin/pc
+	sleep 4
+	printf "\n\033[1;32m==> \033[1;37mRunning \033[1;32mcat ~/bin/pci\033[1;37m\n\n"
+	cat \$HOME/bin/pci
 	sleep 2
 	printf "\n\033[1;32m==> \033[1;37mShort tour is complete; Run this script again at a later time, and it might be surprising at how this environment changes over time.  If you are new to *nix, see http://tldp.org for documentation.  \033[1;34mIRC:  \033[0mhttps://wiki.archlinux.org/index.php/IRC_channel\n\n"
 	EOM
