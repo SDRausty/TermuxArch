@@ -6,7 +6,6 @@
 ################################################################################
 # set -Eeuox pipefail 
 set -Eeuo pipefail 
-set -Eeu
 unset LD_PRELOAD
 
 arg2dir () {
@@ -682,7 +681,7 @@ declare opt=""
 declare rootdir=""
 declare spaceMessage""
 
- dfl=/gen
+dfl=/gen
 dmverbose="-q"
 # dmverbose="-v"
 stim="$(date +%s)"
@@ -690,7 +689,7 @@ stime="${stim:0:4}"
 trap finish SIGINT SIGTERM 
 trap "echo ERR trap fired!" ERR
 # trap finish EXIT
-versionid="gen.v1.6 id135444924333"
+versionid="gen.v1.6 id664466674895"
 
 if [[ "$commandif" = "" ]];then
 	echo Run \`setupTermuxArch.sh\` from the Android system in Termux.
