@@ -40,7 +40,7 @@ getimage () {
 	printdownloadingx86 
 	if [[ "$dm" = wget ]];then 
 		wget "$dmverbose" -N --show-progress http://"$mirror${path}"md5sums.txt
-		if [ "$cpuabi" = "$cpuabix86" ];then
+		if [[ "$cpuabi" = "$cpuabix86" ]];then
 			file="$(grep i686 md5sums.txt | awk {'print $2'})"
 		else
 			file="$(grep boot md5sums.txt | awk {'print $2'})"
@@ -51,7 +51,7 @@ getimage () {
 		wget "$dmverbose" -c --show-progress http://"$mirror$path$file" 
 	else
 		curl "$dmverbose" --fail --retry 4 -OL http://"$mirror${path}"md5sums.txt
-		if [ "$cpuabi" = "$cpuabix86" ];then
+		if [[ "$cpuabi" = "$cpuabix86" ]];then
 			file="$(grep i686 md5sums.txt | awk {'print $2'})"
 		else
 			file="$(grep boot md5sums.txt | awk {'print $2'})"
