@@ -70,7 +70,7 @@ fi
 if [[ "$koe" ]]; then
 	prootstmnt+=" --kill-on-exit"
 fi
-prootstmnt+=" --link2symlink -0 -r $installdir -b \$ANDROID_DATA -b /dev/ -b \$EXTERNAL_STORAGE -b \$HOME -b /proc/ -b /storage/ -b /sys/ -w \"\$PWD\" /usr/bin/env -i HOME=/root TERM=$TERM 1>/dev/null"
+prootstmnt+=" --link2symlink -0 -r $installdir -b \$ANDROID_DATA -b /dev/ -b \$EXTERNAL_STORAGE -b \$HOME -b /proc/ -b /storage/ -b /sys/ -w \"\$PWD\" /usr/bin/env -i HOME=/root TERM=$TERM 2>/dev/null"
 }
 
 prs 
