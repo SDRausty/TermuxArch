@@ -39,20 +39,20 @@ bloom () {
 		mkdir "$HOME"/TermuxArchBloom
 	fi
 	cd "$HOME"/TermuxArchBloom
-	printf "\\e[1;34mTermuxArch Bloom option via \\e[1;32msetupTermuxArch.sh bloom\\e[0m 📲\\n\\n\\e[0m"'\033]2;  Thank you for using TermuxArch Bloom option via `setupTermuxArch.sh bloom` 📲 \007'
+	printf "\\e[1;34mTermuxArch Bloom option via \\e[1;32msetupTermuxArch.sh bloom\\e[0m 📲\\n\\n\\e[0m"'\033]2; TermuxArch Bloom option via `setupTermuxArch.sh bloom` 📲 \007'
 	ls -agl
 	printf "\\n"
 	pwd
 	printf "\\n"
 	dependsblock "$@" 
 	ls -agl
-	printf "\\n\\e[1;34mUse \\e[1;32mcd ~/TermuxArchBloom\\e[1;34m to continue.  Edit any of these files.  Then use \\e[1;32mbash $0 run \\e[1;34mto run the files in \\e[1;32m~/TermuxArchBloom\\e[1;34m to continue.\\n\\n\\e[0m"'\033]2;  Thank you for using TermuxArch Bloom option via `setupTermuxArch.sh bloom` 📲 \007'
+	printf "\\n\\e[1;34mUse \\e[1;32mcd ~/TermuxArchBloom\\e[1;34m to continue.  Edit any of these files.  Then use \\e[1;32mbash $0 run \\e[1;34mto run the files in \\e[1;32m~/TermuxArchBloom\\e[1;34m to continue.\\n\\n\\e[0m"'\033]2;  TermuxArch Bloom option via `setupTermuxArch.sh bloom` 📲 \007'
 }
 
 bloomdependsblock () {
 	introbloom 
 	cd "$HOME"/TermuxArchBloom
-	printf "\\e[1;34mTermuxArch Bloom option via \\e[1;32mbash setupTermuxArch.sh run\\e[0m 📲\\n\\n\\e[0m"'\033]2;  Thank you for using TermuxArch Bloom option via `bash setupTermuxArch.sh run` 📲 \007'
+	printf "\\e[1;34mTermuxArch Bloom option via \\e[1;32mbash setupTermuxArch.sh run\\e[0m 📲\\n\\n\\e[0m"'\033]2; TermuxArch Bloom option via `bash setupTermuxArch.sh run` 📲 \007'
 	ls -al
 	printf "\\n"
 	pwd
@@ -348,7 +348,7 @@ ldconf () {
 }
 
 manual () {
-	printf '\033]2;  Thank you for using `bash setupTermuxArch.sh manual` 📲 \007'
+	printf '\033]2; `bash setupTermuxArch.sh manual` 📲 \007'
 	editors
 	if [[ -f "setupTermuxArchConfigs.sh" ]];then
 		"$ed" setupTermuxArchConfigs.sh
@@ -406,7 +406,7 @@ opt2 () {
 }
 
 pe () {
-	printf "\\n\\e[1;31mPrerequisites exception.  Run the script again…\\n\\n\\e[0m"'\033]2;  Thank you for using setupTermuxArch.sh.  Run `bash setupTermuxArch.sh` again…\007'
+	printf "\\n\\e[1;31mPrerequisites exception.  Run the script again…\\n\\n\\e[0m"'\033]2; Run `bash setupTermuxArch.sh` again…\007'
 	exit
 }
 
@@ -415,14 +415,14 @@ printconfloaded () {
 }
 
 printsha512syschker () {
-	printf "\\n\\e[07;1m\\e[31;1m\\n 🔆 WARNING sha512sum mismatch!  Setup initialization mismatch!\\e[34;1m\\e[30;1m  Try again, initialization was not successful this time.  Wait a little while.  Then run \`bash setupTermuxArch.sh\` again…\\n\\e[0;0m\\n"'\033]2;  Thank you for using setupTermuxArch.sh.  Run `bash setupTermuxArch.sh` again…\007'
+	printf "\\n\\e[07;1m\\e[31;1m\\n 🔆 WARNING sha512sum mismatch!  Setup initialization mismatch!\\e[34;1m\\e[30;1m  Try again, initialization was not successful this time.  Wait a little while.  Then run \`bash setupTermuxArch.sh\` again…\\n\\e[0;0m\\n"'\033]2; Run `bash setupTermuxArch.sh` again…\007'
 	exit 
 }
 
 printtail () {
  	namestartarch
        "$startbin" help 2>/dev/null
-	printf "\\a\\n\\e[0mThank you for using \\e[0;32msetupTermuxArch.sh \\e[0m$versionid 🏁  \\n\\n\\a\\e[0m"'\033]2;  Thank you for using setupTermuxArch.sh  🏁 \007'
+	printf "\\a\\n\\e[0;32msetupTermuxArch.sh \\e[0m$versionid \\e[1:32m: DONE\\e[0m 🏁  \\n\\n\\a\\e[0m"'\033]2;  setupTermuxArch.sh : DONE 🏁 \007'
 	exit $?
 }
 
@@ -701,7 +701,7 @@ stime="${stim:0:4}"
 trap finishs SIGINT SIGTERM 
 trap finisher ERR
 trap finishe EXIT
-versionid="gen.v1.6 id373674584961"
+versionid="gen.v1.6 id203135079424"
 
 if [[ "$commandif" = "" ]];then
 	echo Run \`setupTermuxArch.sh\` from the Android system in Termux.
