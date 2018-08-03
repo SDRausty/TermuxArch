@@ -377,17 +377,19 @@ nameinstalldir () {
 	if [[ "$rootdir" = "" ]] ;then
 		rootdir=arch
 	fi
-	declare -g installdir="$(echo "$HOME/${rootdir%/}" |sed 's#//*#/#g')"
+	declare -g installdir="$(sed 's#//*#/#g' "$HOME/${rootdir%/}")"
 }
 
 namestartarch () {
-	# echo ${@%/} removes trailing slash
-	darch="$(echo "${rootdir%/}" |sed 's#//*#/#g')"
+# 	echo ${@%/} removes trailing slash
+	darch="$(sed 's#//*#/#g' "${rootdir%/}")"
+# 	darch="$(echo "${rootdir%/}" |sed 's#//*#/#g')"
 	if [[ "$darch" = "/arch" ]];then
 		aarch=""
 		startbi2=arch
 	else
-		aarch="$(echo "$darch" |sed 's/\//\+/g')"
+		aarch="$(sed 's/\//\+/g' "$darch")"
+# 		aarch="$(echo "$darch" |sed 's/\//\+/g')"
 		startbi2=arch
 	fi
 	declare -g startbin=start"$startbi2$aarch"
@@ -701,7 +703,7 @@ stime="${stim:0:4}"
 trap finishs SIGINT SIGTERM 
 trap finisher ERR
 trap finishe EXIT
-versionid="gen.v1.6 idbbc976a6-242"
+versionid="gen.v1.6 id298240454581"
 
 if [[ "$commandif" = "" ]];then
 	echo Run \`setupTermuxArch.sh\` from the Android system in Termux.
