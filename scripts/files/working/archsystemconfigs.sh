@@ -393,8 +393,8 @@ addpc () { # pacman install packages shortcut
 	 	exit \$? 
 	}
 	
-	printtail () {
-		printf "\\a\\n\\e[0;32mTermuxArch pc \$@ \\a\\e[1;34m: \\a\\e[1;32mDONE\\e[0m 🏁  \\n\\n\\a\\e[0m"'\033]2;  TermuxArch pc '"\$@"' : DONE 🏁 \007'
+	printtail () { "\$@"
+		printf "\\\\a\\\\n\\\\e[0;32mTermuxArch pc \$@ \\\\a\\\\e[1;34m: \\\\a\\\\e[1;32mDONE\\e[0m 🏁  \\\\n\\\\n\\\\a\\\\e[0m"
 	}
 
 	trap finisher ERR
@@ -444,8 +444,8 @@ addpci () { # system update with pacman install packages shortcut
 	 	exit \$? 
 	}
 	
-	printtail () {
-		printf "\\a\\n\\e[0;32mTermuxArch pci \$@ \\a\\e[1;34m: \\a\\e[1;32mDONE\\e[0m 🏁  \\n\\n\\a\\e[0m"'\033]2;  TermuxArch pci '"\$@"' : DONE 🏁 \007'
+	printtail () { "\$@"
+		printf "\\\\a\\\\n\\\\e[0;32mTermuxArch pc \%s \\\\a\\\\e[1;34m: \\\\a\\\\e[1;32mDONE\\e[0m 🏁  \\\\n\\\\n\\\\a\\\\e[0m" "\$@"
 	}
 
 	trap finisher ERR
