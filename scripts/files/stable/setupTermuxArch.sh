@@ -4,8 +4,8 @@
 # https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.  
 # https://sdrausty.github.io/TermuxArch/README has information about TermuxArch. 
 ################################################################################
-
-set -e
+# set -euox pipefail 
+set -eu 
 unset LD_PRELOAD
 
 arg2dir () {
@@ -292,7 +292,8 @@ edq2 () {
 }
 
 finish () {
-printf "\e[?25h\e[0mint caught\\n"
+	printf "\e[?25h\e[0mint caught\\n"
+	printtail 
 }
 
 intro () {
@@ -407,8 +408,8 @@ printsha512syschker () {
 }
 
 printtail () {
-	namestartarch
-        "$startbin" help 2>/dev/null
+# 	namestartarch
+#         "$startbin" help 2>/dev/null
 	printf "\\a\\n\\e[0mThank you for using \\e[0;32msetupTermuxArch.sh \\e[0m$versionid 🏁  \\n\\n\\a\\e[0m"'\033]2;  Thank you for using setupTermuxArch.sh  🏁 \007'
 	exit
 }
@@ -668,18 +669,25 @@ cpuabi7="armeabi-v7a"
 cpuabi8="arm64-v8a"
 cpuabix86="x86"
 cpuabix8664="x86_64"
+
+declare COUNTER=""
 declare -g args="$@"
 declare bin=""
 declare dfl=""
 declare dm=""
-declare kid=""
+declare installdir=""
+declare -g kid="0"
 declare opt=""
 declare rootdir=""
+declare spaceMessage""
+
 # dfl=/gen
 dmverbose="-q"
 # dmverbose="-v"
-stime="$(date +%s|grep -o '....$')"
+stim="$(date +%s)"
+stime="${stim:0:4}"
 trap finish SIGINT SIGTERM 
+# trap finish EXIT
 versionid="v1.6"
 
 if [[ "$commandif" = "" ]];then
@@ -690,6 +698,12 @@ fi
 nameinstalldir 
 namestartarch  
 setrootdir  
+
+# [] Run default Arch Linux install.
+if [[ -z "${1+x}" ]];then
+	intro 
+	mainblock
+fi
 
 # [curl debug|curl sysinfo] Get device system information using `curl`.
 if [[ "$1" = [Cc][Dd]* ]] || [[ "$1" = -[Cc][Dd]* ]] || [[ "$1" = --[Cc][Dd]* ]] || [[ "$1" = [Cc][Ss]* ]] || [[ "$1" = -[Cc][Ss]* ]] || [[ "$1" = --[Cc][Ss]* ]];then
@@ -746,9 +760,9 @@ elif [[ "$1" = [Rr][Ee]* ]] || [[ "$1" = -[Rr][Ee]* ]] || [[ "$1" = --[Rr][Ee]* 
 elif [[ "$1" = [Rr]* ]] || [[ "$1" = -[Rr]* ]] || [[ "$1" = --[Rr]* ]];then
 	runbloom 
 # [] Run default Arch Linux install.
-elif [[ "$1" = "" ]];then
-	intro 
-	mainblock
+# elif [[ "$1" = "" ]];then
+# 	intro 
+# 	mainblock
 else
 	printusage
 fi
