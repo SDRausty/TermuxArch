@@ -365,7 +365,7 @@ addmoto () {
 	EOM
 }
 
-addpc () {
+addpc () { # pacman install packages shortcut
 	cat > root/bin/pc  <<- EOM
 	#!/bin/env bash 
 	# Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
@@ -378,28 +378,29 @@ addpc () {
 	finishe () { # on exit
 		printf "\\e[?25h\\e[0m"
 		set +Eeuo pipefail 
-	 	printtail "$@"  
+	 	printtail "\$@"  
 	}
 	
-	finisher () { # on trap signal
+	finisher () { # on script signal
 		printf "\\n\\e[?25h\\e[0mProgram warning.  \\n"
 	 	set +Eeuo pipefail 
-	 	exit $? 
+	 	exit \$? 
 	}
 	
 	finishs () { # on signal
 		printf "\\n\\e[?25h\\e[0mProgram warning.  Signal caught!\\n"
 		set +Eeuo pipefail 
-	 	exit $? 
+	 	exit \$? 
 	}
 	
 	printtail () {
-		printf "\\a\\n\\e[0;32mTermuxArch pc \$@ \\a\\e[1;34m: \\a\\e[1;32mDONE\\e[0m 🏁  \\n\\n\\a\\e[0m"'\033]2;  TermuxArch pc '"$@"' : DONE 🏁 \007'
+		printf "\\a\\n\\e[0;32mTermuxArch pc \$@ \\a\\e[1;34m: \\a\\e[1;32mDONE\\e[0m 🏁  \\n\\n\\a\\e[0m"'\033]2;  TermuxArch pc '"\$@"' : DONE 🏁 \007'
 	}
 
 	trap finisher ERR
 	trap finishe EXIT
 	trap finishs SIGINT SIGTERM 
+
 	if [[ -z "\${1:-}" ]];then
 	pacman --noconfirm --color=always -S 
 	elif [[ "\$1" = "a" ]];then
@@ -415,7 +416,7 @@ addpc () {
 	chmod 700 root/bin/pc 
 }
 
-addpci () {
+addpci () { # system update with pacman install packages shortcut 
 	cat > root/bin/pci  <<- EOM
 	#!/bin/env bash 
 	# Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
@@ -428,28 +429,29 @@ addpci () {
 	finishe () { # on exit
 		printf "\\e[?25h\\e[0m"
 		set +Eeuo pipefail 
-	 	printtail "$@"  
+	 	printtail "\$@"  
 	}
 	
-	finisher () { # on trap signal
+	finisher () { # on script signal
 		printf "\\n\\e[?25h\\e[0mProgram warning.  \\n"
 	 	set +Eeuo pipefail 
-	 	exit $? 
+	 	exit \$? 
 	}
 	
 	finishs () { # on signal
 		printf "\\n\\e[?25h\\e[0mProgram warning.  Signal caught!\\n"
 		set +Eeuo pipefail 
-	 	exit $? 
+	 	exit \$? 
 	}
 	
 	printtail () {
-		printf "\\a\\n\\e[0;32mTermuxArch pci \$@ \\a\\e[1;34m: \\a\\e[1;32mDONE\\e[0m 🏁  \\n\\n\\a\\e[0m"'\033]2;  TermuxArch pci '"$@"' : DONE 🏁 \007'
+		printf "\\a\\n\\e[0;32mTermuxArch pci \$@ \\a\\e[1;34m: \\a\\e[1;32mDONE\\e[0m 🏁  \\n\\n\\a\\e[0m"'\033]2;  TermuxArch pci '"\$@"' : DONE 🏁 \007'
 	}
 
 	trap finisher ERR
 	trap finishe EXIT
 	trap finishs SIGINT SIGTERM 
+
 	if [[ -z "\${1:-}" ]];then
 	pacman --noconfirm --color=always -Syu
 	elif [[ \$1 = "a" ]];then
