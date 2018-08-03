@@ -686,7 +686,6 @@ cpuabix86="x86"
 cpuabix8664="x86_64"
 
 declare COUNTER=""
-# declare -ga args="$@"
 declare bin=""
 declare dfl=""
 declare dm=""
@@ -698,14 +697,13 @@ declare spaceMessage=""
 declare usrspace=""
 
 dfl=/gen
-dmverbose="-q"
-# dmverbose="-v"
+dmverbose="-q" # Use "-v" for verbose.  
 stim="$(date +%s)"
 stime="${stim:0:4}"
 trap finishs SIGINT SIGTERM 
 trap finisher ERR
 trap finishe EXIT
-versionid="gen.v1.6 id631830226"
+versionid="gen.v1.6 id812291716"
 
 if [[ "$commandif" = "" ]];then
 	echo Run \`setupTermuxArch.sh\` from the Android system in Termux.
