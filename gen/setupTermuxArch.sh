@@ -4,7 +4,6 @@
 # https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.  
 # https://sdrausty.github.io/TermuxArch/README has information about TermuxArch. 
 ################################################################################
-# set -Eeuo pipefail 
 set -Eeuo pipefail 
 unset LD_PRELOAD
 
@@ -291,13 +290,21 @@ edq2 () {
 	printf "\\n"
 }
 
-finish () {
-	printf "\e[?25h\e[0mint caught\\n"
+finishe () {
+	printf "\\e[?25h\\e[0m"
+	set +Eeuo pipefail 
 	printtail 
 }
 
-finishe () {
-	printf "\e[?25h\e[0mexit found\\n"
+finisher () {
+	printf "\\e[?25h\\e[0mProgram error. Exiting!\\n"
+	set +Eeuo pipefail 
+	printtail 
+}
+
+finishs () {
+	printf "\\e[?25h\\e[0mint caught\\n"
+	set +Eeuo pipefail 
 	printtail 
 }
 
@@ -414,7 +421,7 @@ printsha512syschker () {
 
 printtail () {
 # 	namestartarch
-#         "$startbin" help 2>/dev/null
+#       "$startbin" help 2>/dev/null
 	printf "\\a\\n\\e[0mThank you for using \\e[0;32msetupTermuxArch.sh \\e[0m$versionid 🏁  \\n\\n\\a\\e[0m"'\033]2;  Thank you for using setupTermuxArch.sh  🏁 \007'
 	exit
 }
@@ -691,10 +698,10 @@ dmverbose="-q"
 # dmverbose="-v"
 stim="$(date +%s)"
 stime="${stim:0:4}"
-trap finish SIGINT SIGTERM 
-trap "echo Program error. Exiting!" ERR
+trap finishs SIGINT SIGTERM 
+trap finisher ERR
 trap finishe EXIT
-versionid="gen.v1.6 id125150151459"
+versionid="gen.v1.6 idN"
 
 if [[ "$commandif" = "" ]];then
 	echo Run \`setupTermuxArch.sh\` from the Android system in Termux.
@@ -709,10 +716,8 @@ setrootdir
 if [[ -z "${1:-}" ]];then
 	intro 
 	mainblock
-fi
-
 # [curl debug|curl sysinfo] Get device system information using `curl`.
-if [[ "$1" = [Cc][Dd]* ]] || [[ "$1" = -[Cc][Dd]* ]] || [[ "$1" = --[Cc][Dd]* ]] || [[ "$1" = [Cc][Ss]* ]] || [[ "$1" = -[Cc][Ss]* ]] || [[ "$1" = --[Cc][Ss]* ]];then
+elif [[ "$1" = [Cc][Dd]* ]] || [[ "$1" = -[Cc][Dd]* ]] || [[ "$1" = --[Cc][Dd]* ]] || [[ "$1" = [Cc][Ss]* ]] || [[ "$1" = -[Cc][Ss]* ]] || [[ "$1" = --[Cc][Ss]* ]];then
 	dm=curl
 	introdebug 
 	sysinfo 

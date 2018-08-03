@@ -374,15 +374,19 @@ addpc () {
 	# https://sdrausty.github.io/TermuxArch/README has information about this project. 
 	################################################################################
 	set -eou pipefail 
+
 	if [[ -z "\${1:-}" ]];then
-	pacman --noconfirm --color=always -S "\$@" 
+	pacman --noconfirm --color=always -S 
 	elif [[ "\$1" = "a" ]];then
 	pacman --noconfirm --color=always -S base base-devel "\${@:2}" 
 	elif [[ "\$1" = "ae" ]];then
 	pacman --noconfirm --color=always -S base base-devel emacs "\${@:2}" 
 	elif [[ "\$1" = "a8" ]];then
 	pacman --noconfirm --color=always -S base base-devel emacs jdk8-openjdk "\${@:2}" 
+	else
+	pacman --noconfirm --color=always -S "\$@" 
 	fi
+	set +eou pipefail 
 	EOM
 	chmod 700 root/bin/pc 
 }
@@ -396,13 +400,17 @@ addpci () {
 	# https://sdrausty.github.io/TermuxArch/README has information about this project. 
 	################################################################################
 	set -eou pipefail 
+
 	if [[ -z "\${1:-}" ]];then
-	pacman --noconfirm --color=always -Syu \$@ 
+	pacman --noconfirm --color=always -Syu
 	elif [[ \$1 = "a" ]];then
-	pacman --noconfirm --color=always -Syu base base-devel emacs \${@:2} 
+	pacman --noconfirm --color=always -Syu base base-devel emacs "\${@:2}" 
 	elif [[ \$1 = "a8" ]];then
-	pacman --noconfirm --color=always -Syu base base-devel emacs jdk8-openjdk \${@:2} 
+	pacman --noconfirm --color=always -Syu base base-devel emacs jdk8-openjdk "\${@:2}" 
+	else
+	pacman --noconfirm --color=always -Syu  "\$@" 
 	fi
+	set +eou pipefail 
 	EOM
 	chmod 700 root/bin/pci 
 }

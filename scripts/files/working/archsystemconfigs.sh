@@ -375,6 +375,28 @@ addpc () {
 	################################################################################
 	set -eou pipefail 
 
+	finishe () {
+		printf "\\e[?25h\\e[0m"
+		set +Eeuo pipefail 
+		printtail 
+	}
+	
+	finisher () {
+		printf "\\e[?25h\\e[0mProgram error. Exiting!\\n"
+		set +Eeuo pipefail 
+		printtail 
+	}
+	
+	finishs () {
+		printf "\\e[?25h\\e[0mint caught\\n"
+		set +Eeuo pipefail 
+		printtail 
+	}
+	
+	trap finisher ERR
+	trap finishe EXIT
+	trap finishs SIGINT SIGTERM 
+	if [[ -z "\${1:-}" ]];then
 	if [[ -z "\${1:-}" ]];then
 	pacman --noconfirm --color=always -S 
 	elif [[ "\$1" = "a" ]];then
@@ -400,6 +422,27 @@ addpci () {
 	################################################################################
 	set -eou pipefail 
 
+	finishe () {
+		printf "\\e[?25h\\e[0m"
+		set +Eeuo pipefail 
+		printtail 
+	}
+	
+	finisher () {
+		printf "\\e[?25h\\e[0mProgram error. Exiting!\\n"
+		set +Eeuo pipefail 
+		printtail 
+	}
+	
+	finishs () {
+		printf "\\e[?25h\\e[0mint caught\\n"
+		set +Eeuo pipefail 
+		printtail 
+	}
+	
+	trap finisher ERR
+	trap finishe EXIT
+	trap finishs SIGINT SIGTERM 
 	if [[ -z "\${1:-}" ]];then
 	pacman --noconfirm --color=always -Syu
 	elif [[ \$1 = "a" ]];then
