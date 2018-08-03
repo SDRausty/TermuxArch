@@ -87,7 +87,8 @@ printfooter2 () {
 }
 
 printrootdirfunction () {
-	declare -g printrootdir="$(echo "${rootdir%/}" |sed 's#//*#/#g')"
+	declare -g printrootdir
+	printrootdir="$(echo "${rootdir%/}" |sed 's#//*#/#g')"
 }
 
 printrootdirfunction 
