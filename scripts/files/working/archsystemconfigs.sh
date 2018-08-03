@@ -375,13 +375,13 @@ addpc () {
 	################################################################################
 	set -eou pipefail 
 	if [[ -z "\${1:-}" ]];then
-	pacman --noconfirm --color=always -Syu "\$@" 
+	pacman --noconfirm --color=always -S "\$@" 
 	elif [[ "\$1" = "a" ]];then
-	pacman --noconfirm --color=always -Syu base base-devel "\${@:2}" 
+	pacman --noconfirm --color=always -S base base-devel "\${@:2}" 
 	elif [[ "\$1" = "ae" ]];then
-	pacman --noconfirm --color=always -Syu base base-devel emacs "\${@:2}" 
+	pacman --noconfirm --color=always -S base base-devel emacs "\${@:2}" 
 	elif [[ "\$1" = "a8" ]];then
-	pacman --noconfirm --color=always -Syu base base-devel emacs jdk8-openjdk "\${@:2}" 
+	pacman --noconfirm --color=always -S base base-devel emacs jdk8-openjdk "\${@:2}" 
 	fi
 	EOM
 	chmod 700 root/bin/pc 
@@ -389,18 +389,19 @@ addpc () {
 
 addpci () {
 	cat > root/bin/pci  <<- EOM
-	#!/bin/bash -e
+	#!/bin/env bash 
 	# Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
 	# Hosting https://sdrausty.github.io/TermuxArch courtesy https://pages.github.com
 	# https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.  
 	# https://sdrausty.github.io/TermuxArch/README has information about this project. 
 	################################################################################
-	if [[ \$1 = "a" ]];then
-	pacman --noconfirm --color=always -S base base-devel emacs \${@:2} 
+	set -eou pipefail 
+	if [[ -z "\${1:-}" ]];then
+	pacman --noconfirm --color=always -Syu \$@ 
+	elif [[ \$1 = "a" ]];then
+	pacman --noconfirm --color=always -Syu base base-devel emacs \${@:2} 
 	elif [[ \$1 = "a8" ]];then
-	pacman --noconfirm --color=always -S base base-devel emacs jdk8-openjdk \${@:2} 
-	else
-	pacman --noconfirm --color=always -S \$@ 
+	pacman --noconfirm --color=always -Syu base base-devel emacs jdk8-openjdk \${@:2} 
 	fi
 	EOM
 	chmod 700 root/bin/pci 
