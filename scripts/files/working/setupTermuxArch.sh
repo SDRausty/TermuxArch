@@ -496,7 +496,7 @@ rmbloomq () {
 		printf "\\n\\n\\e[0;33mTermuxArch: \\e[1;33mDIRECTORY WARNING!  $HOME/TermuxArchBloom/ \\e[0;33mdirectory detected.  \\e[1;30msetupTermuxArch.sh bloom will continue.\\n"
 		while true; do
 			printf "\\n\\e[1;30m"
-			read -n 1 -p -r "Refresh $HOME/TermuxArchBloom? [Y|n] " rbuanswer
+			read -n 1 -p "Refresh $HOME/TermuxArchBloom? [Y|n] " rbuanswer
 			if [[ "$rbuanswer" = [Ee]* ]] || [[ "$rbuanswer" = [Nn]* ]] || [[ "$rbuanswer" = [Qq]* ]];then
 				printtail 
 			elif [[ "$rbuanswer" = [Yy]* ]] || [[ "$rbuanswer" = "" ]];then
@@ -701,7 +701,7 @@ stime="${stim:0:4}"
 trap finishs SIGINT SIGTERM 
 trap finisher ERR
 trap finishe EXIT
-versionid="gen.v1.6 id228897487794"
+versionid="gen.v1.6 id218505637496"
 
 if [[ "$commandif" = "" ]];then
 	echo Run \`setupTermuxArch.sh\` from the Android system in Termux.
