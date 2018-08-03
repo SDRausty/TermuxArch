@@ -367,12 +367,13 @@ addmoto () {
 
 addpc () {
 	cat > root/bin/pc  <<- EOM
-	#!/bin/env bash -e
+	#!/bin/env bash 
 	# Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
 	# Hosting https://sdrausty.github.io/TermuxArch courtesy https://pages.github.com
 	# https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.  
 	# https://sdrausty.github.io/TermuxArch/README has information about this project. 
 	################################################################################
+	set -eou pipefail 
 	if [[ "\$1" = "a" ]];then
 	pacman --noconfirm --color=always -Syu base base-devel "\${@:2}" 
 	elif [[ "\$1" = "ae" ]];then
