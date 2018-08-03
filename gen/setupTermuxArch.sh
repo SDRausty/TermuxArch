@@ -298,13 +298,13 @@ finishe () { # on exit
 }
 
 finisher () { # on script signal
-	printf "\\n\\e[?25h\\e[0mProgram warning.  \\n"
+	printf "\\n\\e[?25h\\e[0mBASH script warning.  \\n"
  	set +Eeuo pipefail 
  	exit $? 
 }
 
 finishs () { # on signal
-	printf "\\n\\e[?25h\\e[0mProgram warning.  Signal caught!\\n"
+	printf "\\n\\e[?25h\\e[0mBASH script warning.  Signal caught!\\n"
 	set +Eeuo pipefail 
  	exit $? 
 }
@@ -705,7 +705,7 @@ stime="${stim:0:4}"
 trap finishs SIGINT SIGTERM 
 trap finisher ERR
 trap finishe EXIT
-versionid="gen.v1.6 id011801970415"
+versionid="gen.v1.6 id559997894350"
 
 if [[ "$commandif" = "" ]];then
 	echo Run \`setupTermuxArch.sh\` from the Android system in Termux.
