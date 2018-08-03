@@ -348,7 +348,7 @@ addkeys () {
 	pacman-key --populate 2>/dev/null ||: 
 	printf "\n\033[1;32m==>\033[0m Running \033[1mpacman -Ss keyring --color=always\033[0m…\n"
 	pacman -Ss keyring --color=always ||: 
-	printf "\n\n\033[0;32mTermuxArch Keys: \033[1;32mDONE 🏁\n\n\033[0m"'\033]2;  🔑🗝 TermuxArch Keys 📱 \007'
+	printf "\\\\n\\\\e[0;32mTermuxArch Keys: \\\\e[1;32mDONE 🏁\\\\n\\\\n\\\\e[0m"'\033]2;  🔑🗝 TermuxArch Keys 📱 \007'
 	EOM
 	chmod 770 root/bin/keys 
 }
@@ -365,7 +365,7 @@ addmoto () {
 	EOM
 }
 
-addpc () {
+addpc () { # pacman install packages shortcut
 	cat > root/bin/pc  <<- EOM
 	#!/bin/env bash 
 	# Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
@@ -373,7 +373,33 @@ addpc () {
 	# https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.  
 	# https://sdrausty.github.io/TermuxArch/README has information about this project. 
 	################################################################################
-	set -eou pipefail 
+	set -Eeou pipefail 
+
+	finishe () { # on exit
+		printf "\\e[?25h\\e[0m"
+		set +Eeuo pipefail 
+	 	printtail "\$@"  
+	}
+	
+	finisher () { # on script signal
+		printf "\\n\\e[?25h\\e[0mProgram warning.  \\n"
+	 	set +Eeuo pipefail 
+	 	exit \$? 
+	}
+	
+	finishs () { # on signal
+		printf "\\n\\e[?25h\\e[0mProgram warning.  Signal caught!\\n"
+		set +Eeuo pipefail 
+	 	exit \$? 
+	}
+	
+	printtail () { "\$@"
+		printf "\\\\a\\\\n\\\\e[0;32mTermuxArch pc \$@ \\\\a\\\\e[1;34m: \\\\a\\\\e[1;32mDONE\\e[0m 🏁  \\\\n\\\\n\\\\a\\\\e[0m"
+	}
+
+	trap finisher ERR
+	trap finishe EXIT
+	trap finishs SIGINT SIGTERM 
 
 	if [[ -z "\${1:-}" ]];then
 	pacman --noconfirm --color=always -S 
@@ -386,12 +412,11 @@ addpc () {
 	else
 	pacman --noconfirm --color=always -S "\$@" 
 	fi
-	set +eou pipefail 
 	EOM
 	chmod 700 root/bin/pc 
 }
 
-addpci () {
+addpci () { # system update with pacman install packages shortcut 
 	cat > root/bin/pci  <<- EOM
 	#!/bin/env bash 
 	# Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
@@ -399,7 +424,33 @@ addpci () {
 	# https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.  
 	# https://sdrausty.github.io/TermuxArch/README has information about this project. 
 	################################################################################
-	set -eou pipefail 
+	set -Eeou pipefail 
+
+	finishe () { # on exit
+		printf "\\e[?25h\\e[0m"
+		set +Eeuo pipefail 
+	 	printtail "\$@"  
+	}
+	
+	finisher () { # on script signal
+		printf "\\n\\e[?25h\\e[0mProgram warning.  \\n"
+	 	set +Eeuo pipefail 
+	 	exit \$? 
+	}
+	
+	finishs () { # on signal
+		printf "\\n\\e[?25h\\e[0mProgram warning.  Signal caught!\\n"
+		set +Eeuo pipefail 
+	 	exit \$? 
+	}
+	
+	printtail () { "\$@"
+		printf "\\\\a\\\\n\\\\e[0;32mTermuxArch pc \%s \\\\a\\\\e[1;34m: \\\\a\\\\e[1;32mDONE\\e[0m 🏁  \\\\n\\\\n\\\\a\\\\e[0m" "\$@"
+	}
+
+	trap finisher ERR
+	trap finishe EXIT
+	trap finishs SIGINT SIGTERM 
 
 	if [[ -z "\${1:-}" ]];then
 	pacman --noconfirm --color=always -Syu
@@ -410,7 +461,6 @@ addpci () {
 	else
 	pacman --noconfirm --color=always -Syu  "\$@" 
 	fi
-	set +eou pipefail 
 	EOM
 	chmod 700 root/bin/pci 
 }
@@ -485,16 +535,16 @@ addtour () {
 	# https://sdrausty.github.io/TermuxArch/README has information about this project. 
 	################################################################################
 	printf "\n\033[1;32m==> \033[1;37mRunning \033[1;32mlr ~\033[1;37m\n\n"
-	ls -R --color=always ~
-	sleep 2
+	ls -R --color=always \$HOME
+	sleep 4
 	printf "\n\033[1;32m==> \033[1;37mRunning \033[1;32mcat ~/.bash_profile\033[1;37m\n\n"
-	cat ~/.bash_profile
-	sleep 2
+	cat \$HOME/.bash_profile
+	sleep 8
 	printf "\n\033[1;32m==> \033[1;37mRunning \033[1;32mcat ~/.bashrc\033[1;37m\n\n"
-	cat ~/.bashrc
-	sleep 2
-	printf "\n\033[1;32m==> \033[1;37mRunning \033[1;32mcat ~/bin/pc\033[1;37m\n\n"
-	cat ~/bin/pc
+	cat \$HOME/.bashrc
+	sleep 4
+	printf "\n\033[1;32m==> \033[1;37mRunning \033[1;32mcat ~/bin/pci\033[1;37m\n\n"
+	cat \$HOME/bin/pci
 	sleep 2
 	printf "\n\033[1;32m==> \033[1;37mShort tour is complete; Run this script again at a later time, and it might be surprising at how this environment changes over time.  If you are new to *nix, see http://tldp.org for documentation.  \033[1;34mIRC:  \033[0mhttps://wiki.archlinux.org/index.php/IRC_channel\n\n"
 	EOM

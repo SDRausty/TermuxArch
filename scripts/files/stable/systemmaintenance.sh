@@ -72,7 +72,7 @@ refreshsys () {
 	printf '\033]2; setupTermuxArch.sh refresh 📲 \007'
 	if [[ ! -d "$installdir" ]] || [[ ! -f "$installdir"/bin/we ]];then
 		printf "\\n\\e[0;33mThe root directory structure is incorrect; Cannot continue \\e[1;33msetupTermuxArch.sh refresh\\e[0;33m.\\e[0m\\n"
-		printtail 
+		exit $?
 	else
 		cd "$installdir"
 	fi
@@ -119,7 +119,7 @@ refreshsys () {
 	printdone 
 	printf '\033]2; setupTermuxArch.sh refresh 📲 \007'
 	"$installdir"/root/bin/setupbin.sh 
-	printconfigup
+# 	printconfigup
 	rm root/bin/finishsetup.sh
 	rm root/bin/setupbin.sh 
 	printf "\\e[1;34m  The following files have been updated to the newest version.\\n\\n\\e[0;32m"
@@ -134,7 +134,7 @@ refreshsys () {
 	printf "\\a"
 	"$installdir/$startbin" ||:
 	printfooter2
-        "$startbin" help
-	printf "\\n\\e[0;32msetupTermuxArch.sh refresh \\e[0m$versionid\\e[1;32m: \\e[0;32mDONE 🏁\\n\\n\\e[0m"'\033]2; setupTermuxArch.sh refresh 🏁 \007'
-	exit
+#         "$startbin" help
+# 	printf "\\n\\e[0;32msetupTermuxArch.sh refresh \\e[0m$versionid\\e[1;32m: \\e[0;32mDONE 🏁\\n\\n\\e[0m"'\033]2; setupTermuxArch.sh refresh 🏁 \007'
+	exit $?
 }

@@ -31,7 +31,7 @@ arg3dir () {
 
 bloom () {
 	opt=bloom 
-	intrbloom 
+	introbloom 
 	if [[ -d "$HOME"/TermuxArchBloom ]];then 
 		rmbloomq 
 	fi
@@ -39,20 +39,20 @@ bloom () {
 		mkdir "$HOME"/TermuxArchBloom
 	fi
 	cd "$HOME"/TermuxArchBloom
-	printf "\\e[1;34mTermuxArch Bloom option via \\e[1;32msetupTermuxArch.sh bloom\\e[0m 📲\\n\\n\\e[0m"'\033]2;  Thank you for using TermuxArch Bloom option via `setupTermuxArch.sh bloom` 📲 \007'
+	printf "\\e[1;34mTermuxArch Bloom option via \\e[1;32msetupTermuxArch.sh bloom\\e[0m 📲\\n\\n\\e[0m"'\033]2; TermuxArch Bloom option via `setupTermuxArch.sh bloom` 📲 \007'
 	ls -agl
 	printf "\\n"
 	pwd
 	printf "\\n"
-	dependsblock 
+	dependsblock "$@" 
 	ls -agl
-	printf "\\n\\e[1;34mUse \\e[1;32mcd ~/TermuxArchBloom\\e[1;34m to continue.  Edit any of these files.  Then use \\e[1;32mbash $0 run \\e[1;34mto run the files in \\e[1;32m~/TermuxArchBloom\\e[1;34m to continue.\\n\\n\\e[0m"'\033]2;  Thank you for using TermuxArch Bloom option via `setupTermuxArch.sh bloom` 📲 \007'
+	printf "\\n\\e[1;34mUse \\e[1;32mcd ~/TermuxArchBloom\\e[1;34m to continue.  Edit any of these files.  Then use \\e[1;32mbash $0 run \\e[1;34mto run the files in \\e[1;32m~/TermuxArchBloom\\e[1;34m to continue.\\n\\e[0m"'\033]2;  TermuxArch Bloom option via `setupTermuxArch.sh bloom` 📲 \007'
 }
 
 bloomdependsblock () {
-	intrbloom 
+	introbloom 
 	cd "$HOME"/TermuxArchBloom
-	printf "\\e[1;34mTermuxArch Bloom option via \\e[1;32mbash setupTermuxArch.sh run\\e[0m 📲\\n\\n\\e[0m"'\033]2;  Thank you for using TermuxArch Bloom option via `bash setupTermuxArch.sh run` 📲 \007'
+	printf "\\e[1;34mTermuxArch Bloom option via \\e[1;32mbash setupTermuxArch.sh run\\e[0m 📲\\n\\n\\e[0m"'\033]2; TermuxArch Bloom option via `bash setupTermuxArch.sh run` 📲 \007'
 	ls -al
 	printf "\\n"
 	pwd
@@ -80,7 +80,7 @@ bsdtarif () {
 
 chk () {
 	if "$PREFIX"/bin/applets/sha512sum -c termuxarchchecksum.sha512 1>/dev/null ;then
-		chkself 
+		chkself "$@"
 		printf "\\e[0;34m 🕛 > 🕜 \\e[1;34mTermuxArch $versionid integrity: \\e[1;32mOK\\n"
 		if [[ "$opt" = manual ]];then
 			manual
@@ -180,7 +180,7 @@ dependsblock () {
 			cp setupTermuxArch.sh setupTermuxArch.tmp
 		fi
 		chkdwn
-		chk
+		chk "$@"
 	fi
 }
 
@@ -246,11 +246,11 @@ edqaquestion () {
 	while true; do
 		printf "\\n"
 		if [[ "$opt" = bloom ]] || [[ "$opt" = manual ]];then
-			printf "The following editor(s) $cedst\b\b are present.  Would you like to use \`\\e[1;32m${ceds[$i]}\\e[0;32m\` to edit \`\\e[1;32msetupTermuxArchConfigs.sh\\e[0;32m\`?  "
-			read -p "Answer yes or no [Y|n]. "  yn
+			printf "The following editor(s) $cedst\\b\\b are present.  Would you like to use \`\\e[1;32m${ceds[$i]}\\e[0;32m\` to edit \`\\e[1;32msetupTermuxArchConfigs.sh\\e[0;32m\`?  "
+			wead -n 1 -p "Answer yes or no [Y|n]. "  yn
 		else 
-			printf "Change the worldwide mirror to a mirror that is geographically nearby.  Choose only ONE active mirror in the mirrors file that you are about to edit.  The following editor(s) $cedst\b\b are present.  Would you like to use \`\\e[1;32m${ceds[$i]}\\e[0;32m\` to edit the Arch Linux configuration files?  "
-			read -p "Answer yes or no [Y|n]. "  yn
+			printf "Change the worldwide mirror to a mirror that is geographically nearby.  Choose only ONE active mirror in the mirrors file that you are about to edit.  The following editor(s) $cedst\\b\\b are present.  Would you like to use \`\\e[1;32m${ceds[$i]}\\e[0;32m\` to edit the Arch Linux configuration files?  "
+			read -n 1 -p "Answer yes or no [Y|n]. "  yn
 		fi
 		if [[ "$yn" = [Yy]* ]] || [[ "$yn" = "" ]];then
 			ed="${ceds[$i]}"
@@ -269,10 +269,10 @@ edq2 () {
 	while true; do
 		if [[ "$opt" = bloom ]] || [[ "$opt" = manual ]];then
 			printf "\\n\\e[1;34m  Would you like to use \\e[1;32mnano\\e[1;34m or \\e[1;32mvi\\e[1;34m to edit \\e[1;32msetupTermuxArchConfigs.sh\\e[1;34m?  "
-			read -p "Answer nano or vi [n|V]? "  nv
+			read -n 1 -p "Answer nano or vi [n|V]? "  nv
 		else 
 			printf "\\e[1;34m  Change the worldwide mirror to a mirror that is geographically nearby.  Choose only ONE active mirror in the mirrors file that you are about to edit.  Would you like to use \\e[1;32mnano\\e[1;34m or \\e[1;32mvi\\e[1;34m to edit the Arch Linux configuration files?  "
-			read -p "Answer nano or vi [n|V]? "  nv
+			read -n 1 -p "Answer nano or vi [n|V]? "  nv
 		fi
 		if [[ "$nv" = [Nn]* ]];then
 			ed=nano
@@ -290,22 +290,22 @@ edq2 () {
 	printf "\\n"
 }
 
-finishe () {
+finishe () { # on exit
 	printf "\\e[?25h\\e[0m"
 	set +Eeuo pipefail 
-	printtail 
+ 	printtail "$@"  
 }
 
-finisher () {
-	printf "\\e[?25h\\e[0mProgram error. Exiting!\\n"
-	set +Eeuo pipefail 
-	printtail 
+finisher () { # on script signal
+	printf "\\n\\e[?25h\\e[0mProgram warning.  \\n"
+ 	set +Eeuo pipefail 
+ 	exit $? 
 }
 
-finishs () {
-	printf "\\e[?25h\\e[0mint caught\\n"
+finishs () { # on signal
+	printf "\\n\\e[?25h\\e[0mProgram warning.  Signal caught!\\n"
 	set +Eeuo pipefail 
-	printtail 
+ 	exit $? 
 }
 
 intro () {
@@ -314,10 +314,10 @@ intro () {
 	rootdirexception 
 	spaceinfo
 	printf "\\n\\e[0;34m 🕛 > 🕛 \\e[1;34mTermuxArch $versionid will attempt to install Linux in \\e[0;32m$installdir\\e[1;34m.  Arch Linux in Termux PRoot will be available upon successful completion.  To run this BASH script again, use \`!!\`.  Ensure background data is not restricted.  Check the wireless connection if you do not see one o'clock 🕐 below.  "
-	dependsblock 
+	dependsblock "$@"
 }
 
-intrbloom () {
+introbloom () {
 	printf '\033]2;  bash setupTermuxArch.sh bloom 📲 \007'
 	spaceinfo
 	printf "\\n\\e[0;34m 🕛 > 🕛 \\e[1;34mTermuxArch $versionid bloom option.  Run \\e[1;32mbash setupTermuxArch.sh help \\e[1;34mfor additional information.  Ensure background data is not restricted.  Check the wireless connection if you do not see one o'clock 🕐 below.  "
@@ -327,14 +327,14 @@ introdebug () {
 	printf '\033]2;  bash setupTermuxArch.sh sysinfo 📲 \007'
 	spaceinfo
 	printf "\\n\\e[0;34m 🕛 > 🕛 \\e[1;34msetupTermuxArch $versionid will create a system information file.  Ensure background data is not restricted.  Run \\e[0;32mbash setupTermuxArch.sh help \\e[1;34mfor additional information.  Check the wireless connection if you do not see one o'clock 🕐 below.  "
-	dependsblock 
+	dependsblock "$@"
 }
 
 introrefresh () {
 	printf '\033]2;  bash setupTermuxArch.sh refresh 📲 \007'
 	spaceinfo
 	printf "\\n\\e[0;34m 🕛 > 🕛 \\e[1;34msetupTermuxArch $versionid will refresh your TermuxArch files in \\e[0;32m$installdir\\e[1;34m.  Ensure background data is not restricted.  Run \\e[0;32mbash setupTermuxArch.sh help \\e[1;34mfor additional information.  Check the wireless connection if you do not see one o'clock 🕐 below.  "
-	dependsblock 
+	dependsblock "$@"
 	refreshsys
 }
 
@@ -348,7 +348,7 @@ ldconf () {
 }
 
 manual () {
-	printf '\033]2;  Thank you for using `bash setupTermuxArch.sh manual` 📲 \007'
+	printf '\033]2; `bash setupTermuxArch.sh manual` 📲 \007'
 	editors
 	if [[ -f "setupTermuxArchConfigs.sh" ]];then
 		"$ed" setupTermuxArchConfigs.sh
@@ -377,17 +377,17 @@ nameinstalldir () {
 	if [[ "$rootdir" = "" ]] ;then
 		rootdir=arch
 	fi
-	declare -g installdir="$(echo "$HOME/${rootdir%/}" |sed 's#//*#/#g')"
+	installdir="$(echo "$HOME/${rootdir%/}" |sed 's#//*#/#g')"
 }
 
 namestartarch () {
-	# echo ${@%/} removes trailing slash
-	darch="$(echo "${rootdir%/}" |sed 's#//*#/#g')"
+# 	echo ${@%/} removes trailing slash
+ 	darch="$(echo "${rootdir%/}" |sed 's#//*#/#g')"
 	if [[ "$darch" = "/arch" ]];then
 		aarch=""
 		startbi2=arch
 	else
-		aarch="$(echo "$darch" |sed 's/\//\+/g')"
+ 		aarch="$(echo "$darch" |sed 's/\//\+/g')"
 		startbi2=arch
 	fi
 	declare -g startbin=start"$startbi2$aarch"
@@ -395,9 +395,9 @@ namestartarch () {
 
 opt2 () {
 	if [[ "$2" = [Dd]* ]] || [[ "$2" = [Ss]* ]] ;then
-		introdebug 
+		introdebug "$@"  
 		sysinfo 
-		printtail
+		exit $?  
 	elif [[ "$2" = [Ii]* ]] ;then
 		arg3dir "$@" 
 	else
@@ -406,7 +406,7 @@ opt2 () {
 }
 
 pe () {
-	printf "\\n\\e[1;31mPrerequisites exception.  Run the script again…\\n\\n\\e[0m"'\033]2;  Thank you for using setupTermuxArch.sh.  Run `bash setupTermuxArch.sh` again…\007'
+	printf "\\n\\e[1;31mPrerequisites exception.  Run the script again…\\n\\n\\e[0m"'\033]2; Run `bash setupTermuxArch.sh` again…\007'
 	exit
 }
 
@@ -415,15 +415,15 @@ printconfloaded () {
 }
 
 printsha512syschker () {
-	printf "\\n\\e[07;1m\\e[31;1m\\n 🔆 WARNING sha512sum mismatch!  Setup initialization mismatch!\\e[34;1m\\e[30;1m  Try again, initialization was not successful this time.  Wait a little while.  Then run \`bash setupTermuxArch.sh\` again…\\n\\e[0;0m\\n"'\033]2;  Thank you for using setupTermuxArch.sh.  Run `bash setupTermuxArch.sh` again…\007'
+	printf "\\n\\e[07;1m\\e[31;1m\\n 🔆 WARNING sha512sum mismatch!  Setup initialization mismatch!\\e[34;1m\\e[30;1m  Try again, initialization was not successful this time.  Wait a little while.  Then run \`bash setupTermuxArch.sh\` again…\\n\\e[0;0m\\n"'\033]2; Run `bash setupTermuxArch.sh` again…\007'
 	exit 
 }
 
 printtail () {
-# 	namestartarch
-#       "$startbin" help 2>/dev/null
-	printf "\\a\\n\\e[0mThank you for using \\e[0;32msetupTermuxArch.sh \\e[0m$versionid 🏁  \\n\\n\\a\\e[0m"'\033]2;  Thank you for using setupTermuxArch.sh  🏁 \007'
-	exit
+ 	namestartarch
+	"$startbin" help 2>/dev/null
+	printf "\\a\\n\\e[0;32msetupTermuxArch.sh $@ \\a\\e[0m$versionid \\e[1;34m: \\a\\e[1;32mDONE\\e[0m 🏁  \\n\\n\\a\\e[0m"'\033]2;  setupTermuxArch.sh '"$@"' : DONE 🏁 \007'
+# 	exit $?
 }
 
 printusage () {
@@ -446,7 +446,7 @@ rmarch () {
 	nameinstalldir
 	while true; do
 		printf "\\n\\e[1;30m"
-		read -p "Uninstall $installdir? [Y|n] " ruanswer
+		read -n 1 -p "Uninstall $installdir? [Y|n] " ruanswer
 		if [[ "$ruanswer" = [Ee]* ]] || [[ "$ruanswer" = [Nn]* ]] || [[ "$ruanswer" = [Qq]* ]];then
 			break
 		elif [[ "$ruanswer" = [Yy]* ]] || [[ "$ruanswer" = "" ]];then
@@ -472,14 +472,14 @@ rmarch () {
 			printf "\\nYou answered \\e[33;1m$ruanswer\\e[30m.\\n\\nAnswer \\e[32mYes\\e[30m or \\e[1;31mNo\\e[30m. [\\e[32my\\e[30m|\\e[1;31mn\\e[30m]\\n"
 		fi
 	done
-	printf "\e[0m\\n"
+	printf "\\e[0m\\n"
 }
 
 rmarchrm () {
 	cd "$installdir"
 	rootdirexception 
-	rm -rf * 2>/dev/null ||:
-	find -type d -exec chmod 700 {} \; 2>/dev/null ||:
+	rm -rf ./* 2>/dev/null ||:
+	find . -type d -exec chmod 700 {} \; 2>/dev/null ||:
 	cd ..
 	rm -rf "$installdir" 2>/dev/null ||:
 }
@@ -496,17 +496,18 @@ rmbloomq () {
 		printf "\\n\\n\\e[0;33mTermuxArch: \\e[1;33mDIRECTORY WARNING!  $HOME/TermuxArchBloom/ \\e[0;33mdirectory detected.  \\e[1;30msetupTermuxArch.sh bloom will continue.\\n"
 		while true; do
 			printf "\\n\\e[1;30m"
-			read -p "Refresh $HOME/TermuxArchBloom? [Y|n] " rbuanswer
+			read -n 1 -p "Refresh $HOME/TermuxArchBloom? [Y|n] " rbuanswer
 			if [[ "$rbuanswer" = [Ee]* ]] || [[ "$rbuanswer" = [Nn]* ]] || [[ "$rbuanswer" = [Qq]* ]];then
-				printtail 
+				printf "\\n" 
+				exit $? 
 			elif [[ "$rbuanswer" = [Yy]* ]] || [[ "$rbuanswer" = "" ]];then
 				printf "\\e[30mUninstalling $HOME/TermuxArchBloom…\\n"
 				if [[ -d "$HOME"/TermuxArchBloom ]];then
 					rm -rf "$HOME"/TermuxArchBloom 
 				else 
-					printf "Uninstalling $HOME/TermuxArchBloom, nothing to do for $installdir.\\n"
+					printf "Uninstalling $HOME/TermuxArchBloom, nothing to do for $installdir.\\n\\n"
 				fi
-				printf "Uninstalling $HOME/TermuxArchBloom done.\\n"
+				printf "Uninstalling $HOME/TermuxArchBloom done.\\n\\n"
 				break
 			else
 				printf "\\nYou answered \\e[33;1m$rbuanswer\\e[30m.\\n\\nAnswer \\e[32mYes\\e[30m or \\e[1;31mNo\\e[30m. [\\e[32mY\\e[30m|\\e[1;31mn\\e[30m]\\n"
@@ -543,7 +544,7 @@ runbloom () {
 		opt=bloom
 		bloomdependsblock 
 	else
-		dependsblock
+		dependsblock "$@"
 		bloom 
 	fi
 }
@@ -610,9 +611,10 @@ spaceinfoq () {
 		if [[ -n "$spaceMessage" ]];then
 			while true; do
 				printf "\\n\\e[1;30m"
-				read -p "Continue with setupTermuxArch.sh? [Y|n] " suanswer
+				read -n 1 -p "Continue with setupTermuxArch.sh? [Y|n] " suanswer
 				if [[ "$suanswer" = [Ee]* ]] || [[ "$suanswer" = [Nn]* ]] || [[ "$suanswer" = [Qq]* ]];then
-					printtail
+					printf "\\n" 
+					exit $?
 				elif [[ "$suanswer" = [Yy]* ]] || [[ "$suanswer" = "" ]];then
 					suanswer=yes
 					printf "Continuing with setupTermuxArch.sh.\\n"
@@ -687,13 +689,13 @@ declare COUNTER=""
 declare bin=""
 declare dfl=""
 declare dm=""
-declare installdir=""
+declare -g installdir=""
 declare -g kid="0"
 declare opt=""
 declare rootdir=""
 declare spaceMessage""
 
-dfl=/gen
+# dfl=/gen
 dmverbose="-q"
 # dmverbose="-v"
 stim="$(date +%s)"
@@ -714,23 +716,23 @@ setrootdir
 
 # [] Run default Arch Linux install.
 if [[ -z "${1:-}" ]];then
-	intro 
+	intro "$@" 
 	mainblock
 # [curl debug|curl sysinfo] Get device system information using `curl`.
 elif [[ "$1" = [Cc][Dd]* ]] || [[ "$1" = -[Cc][Dd]* ]] || [[ "$1" = --[Cc][Dd]* ]] || [[ "$1" = [Cc][Ss]* ]] || [[ "$1" = -[Cc][Ss]* ]] || [[ "$1" = --[Cc][Ss]* ]];then
 	dm=curl
-	introdebug 
+	introdebug "$@" 
 	sysinfo 
 # [curl installdir|curl install installdir] Install Arch Linux using `curl`.
 elif [[ "$1" = [Cc]* ]] || [[ "$1" = -[Cc]* ]] || [[ "$1" = --[Cc]* ]] || [[ "$1" = [Cc][Ii]* ]] || [[ "$1" = -[Cc][Ii]* ]] || [[ "$1" = --[Cc][Ii]* ]];then
 	dm=curl
 	opt2 "$@" 
-	intro 
+	intro "$@" 
 	mainblock
 # [wget debug|wget sysinfo] Get device system information using `wget`.
 elif [[ "$1" = [Ww][Dd]* ]] || [[ "$1" = -[Ww][Dd]* ]] || [[ "$1" = --[Ww][Dd]* ]] || [[ "$1" = [Ww][Ss]* ]] || [[ "$1" = -[Ww][Ss]* ]] || [[ "$1" = --[Ww][Ss]* ]];then
 	dm=wget
-	introdebug 
+	introdebug "$@" 
 	sysinfo 
 # [wget installdir|wget install installdir] Install Arch Linux using `wget`.
 elif [[ "$1" = [Ww]* ]] || [[ "$1" = -[Ww]* ]] || [[ "$1" = --[Ww]* ]] || [[ "$1" = [Ww][Ii]* ]] || [[ "$1" = -[Ww][Ii]* ]] || [[ "$1" = --[Ww][Ii]* ]];then
@@ -740,11 +742,11 @@ elif [[ "$1" = [Ww]* ]] || [[ "$1" = -[Ww]* ]] || [[ "$1" = --[Ww]* ]] || [[ "$1
 	mainblock
 # [bloom] Create local copy of TermuxArch in TermuxArchBloom.  Useful for hacking and customizing TermuxArch.  
 elif [[ "$1" = [Bb]* ]] || [[ "$1" = -[Bb]* ]] || [[ "$1" = --[Bb]* ]];then
-	dependsblock
-	bloom
+	dependsblock "$@"
+	bloom "$@"  
 # [debug|sysinfo] Get system information.
 elif [[ "$1" = [Dd]* ]] || [[ "$1" = -[Dd]* ]] || [[ "$1" = --[Dd]* ]] || [[ "$1" = [Ss]* ]] || [[ "$1" = -[Ss]* ]] || [[ "$1" = --[Ss]* ]];then
-	introdebug 
+	introdebug "$@" 
 	sysinfo 
 # [help|?] Display built-in help.
 elif [[ "$1" = [Hh]* ]] || [[ "$1" = -[Hh]* ]] || [[ "$1" = --[Hh]* ]]  || [[ "$1" = [?]* ]] || [[ "$1" = -[?]* ]] || [[ "$1" = --[?]* ]];then
@@ -752,7 +754,7 @@ elif [[ "$1" = [Hh]* ]] || [[ "$1" = -[Hh]* ]] || [[ "$1" = --[Hh]* ]]  || [[ "$
 # [manual] Manual Arch Linux install, useful for resolving download issues.
 elif [[ "$1" = [Mm]* ]] || [[ "$1" = -[Mm]* ]] || [[ "$1" = --[Mm]* ]];then
 	opt=manual
-	intro 
+	intro "$@" 
 	mainblock
 # [purge |uninstall] Remove Arch Linux.
 elif [[ "$1" = [Pp]* ]] || [[ "$1" = -[Pp]* ]] || [[ "$1" = --[Pp]* ]] || [[ "$1" = [Uu]* ]] || [[ "$1" = -[Uu]* ]] || [[ "$1" = --[Uu]* ]];then
@@ -766,16 +768,11 @@ elif [[ "$1" = [Ii]* ]] || [[ "$1" = -[Ii]* ]] || [[ "$1" = --[Ii]* ]] ||  [[ "$
 # [refresh|refresh installdir] Refresh Arch Linux in Termux PRoot scripts created by TermuxArch.  Useful for refreshing TermuxArch generated scripts to the newest version.  
 elif [[ "$1" = [Rr][Ee]* ]] || [[ "$1" = -[Rr][Ee]* ]] || [[ "$1" = --[Rr][Ee]* ]];then
 	arg2dir "$@" 
-	introrefresh 
+	introrefresh "$@"  
 # [run] Run local copy of TermuxArch from TermuxArchBloom.  Useful for running customized TermuxArch locally.  
 elif [[ "$1" = [Rr]* ]] || [[ "$1" = -[Rr]* ]] || [[ "$1" = --[Rr]* ]];then
-	runbloom 
-# [] Run default Arch Linux install.
-# elif [[ "$1" = "" ]];then
-# 	intro 
-# 	mainblock
+	runbloom "$@"   
 else
 	printusage
 fi
-printtail 
 
