@@ -703,7 +703,7 @@ stime="${stim:0:4}"
 trap finishs SIGINT SIGTERM 
 trap finisher ERR
 trap finishe EXIT
-versionid="gen.v1.6 id586514651251"
+versionid="gen.v1.6 id403454768474"
 
 if [[ "$commandif" = "" ]];then
 	echo Run \`setupTermuxArch.sh\` from the Android system in Termux.
@@ -767,7 +767,7 @@ elif [[ "$1" = [Ii]* ]] || [[ "$1" = -[Ii]* ]] || [[ "$1" = --[Ii]* ]] ||  [[ "$
 	mainblock
 # [refresh|refresh installdir] Refresh Arch Linux in Termux PRoot scripts created by TermuxArch.  Useful for refreshing TermuxArch generated scripts to the newest version.  
 elif [[ "$1" = [Rr][Ee]* ]] || [[ "$1" = -[Rr][Ee]* ]] || [[ "$1" = --[Rr][Ee]* ]];then
-	arg2dir 
+	arg2dir "$@"  
 	introrefresh "$@"  
 # [run] Run local copy of TermuxArch from TermuxArchBloom.  Useful for running customized TermuxArch locally.  
 elif [[ "$1" = [Rr]* ]] || [[ "$1" = -[Rr]* ]] || [[ "$1" = --[Rr]* ]];then
