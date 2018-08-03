@@ -4,8 +4,8 @@
 # https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.  
 # https://sdrausty.github.io/TermuxArch/README has information about TermuxArch. 
 ################################################################################
-# set -euox pipefail 
-set -eu
+# set -Eeuox pipefail 
+set -Eeu
 unset LD_PRELOAD
 
 arg2dir () {
@@ -687,6 +687,7 @@ dmverbose="-q"
 stim="$(date +%s)"
 stime="${stim:0:4}"
 trap finish SIGINT SIGTERM 
+trap "echo ERR trap fired!" ERR
 # trap finish EXIT
 versionid="v1.6"
 
@@ -700,7 +701,7 @@ namestartarch
 setrootdir  
 
 # [] Run default Arch Linux install.
-if [[ -z "${1+x}" ]];then
+if [[ -z "${1:-}" ]];then
 	intro 
 	mainblock
 fi

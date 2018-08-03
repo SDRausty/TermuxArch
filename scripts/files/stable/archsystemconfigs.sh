@@ -1,4 +1,4 @@
-#!/bin/bash -e
+#!/bin/env bash
 # Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
 # Hosting https://sdrausty.github.io/TermuxArch courtesy https://pages.github.com
 # https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.  
@@ -118,8 +118,8 @@ addbash_profile () {
 	PS1="[\A\[\033[0;32m\] \W \[\033[0m\]]\\$ "
 	export TZ=$(getprop persist.sys.timezone)
 	EOM
-	if [ -e $HOME/.bash_profile ] ; then
-		grep proxy $HOME/.bash_profile |grep "export" >>  root/.bash_profile 2>/dev/null||:
+	if [ -e "$HOME"/.bash_profile ] ; then
+		grep proxy "$HOME"/.bash_profile |grep "export" >>  root/.bash_profile 2>/dev/null||:
 	fi
 }
 
@@ -151,8 +151,8 @@ addbashrc () {
 	alias q='logout'
 	alias rf='rm -rf'
 	EOM
-	if [ -e $HOME/.bashrc ] ; then
-		grep proxy $HOME/.bashrc |grep "export" >>  root/.bashrc 2>/dev/null||:
+	if [ -e "$HOME"/.bashrc ] ; then
+		grep proxy "$HOME"/.bashrc |grep "export" >>  root/.bashrc 2>/dev/null||:
 	fi
 }
 
@@ -411,8 +411,8 @@ addprofile () {
 	cat > root/.profile <<- EOM
 	. \$HOME/.bash_profile
 	EOM
-	if [ -e $HOME/.profile ] ; then
-		grep "proxy" $HOME/.profile |grep "export" >>  root/.profile 2>/dev/null||:
+	if [ -e "$HOME"/.profile ] ; then
+		grep "proxy" "$HOME"/.profile |grep "export" >>  root/.profile 2>/dev/null||:
 	fi
 }
 
@@ -443,7 +443,7 @@ addt () {
 }
 
 addthstartarch () {
-	cat > root/bin/th$startbin <<- EOM
+	cat > root/bin/th"$startbin" <<- EOM
 	#!/bin/bash -e
 	# Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
 	# Hosting https://sdrausty.github.io/TermuxArch courtesy https://pages.github.com
@@ -465,7 +465,7 @@ addthstartarch () {
 	$startbin su user "pwd && whoami"
 	echo th$startbin done
 	EOM
-	chmod 770 root/bin/th$startbin
+	chmod 770 root/bin/th"$startbin"
 }
 
 addtour () {
