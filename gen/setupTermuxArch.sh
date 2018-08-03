@@ -296,8 +296,8 @@ finishe () { # on exit
 	printtail 
 }
 
-finisher () { # on error
-	printf "\\e[?25h\\e[0mProgram error.  Exiting!\\n"
+finisher () { # on trap signal
+	printf "\\e[?25h\\e[0mProgram warning.  Exiting to prompt!\\n"
 	set +Eeuo pipefail 
 	printtail 
 }
@@ -701,7 +701,7 @@ stime="${stim:0:4}"
 trap finishs SIGINT SIGTERM 
 trap finisher ERR
 trap finishe EXIT
-versionid="gen.v1.6 id942429538015"
+versionid="gen.v1.6 id228897487794"
 
 if [[ "$commandif" = "" ]];then
 	echo Run \`setupTermuxArch.sh\` from the Android system in Termux.
