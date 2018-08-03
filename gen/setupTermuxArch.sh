@@ -291,7 +291,7 @@ edq2 () {
 }
 
 finishe () { # on exit
-	printf "\\e[?25h\\e[0mExit found!\\n"
+	printf "\\e[?25h\\e[0mProgram warning.  Exit found!\\n"
 	set +Eeuo pipefail 
 	printtail 
 }
@@ -299,13 +299,13 @@ finishe () { # on exit
 finisher () { # on trap signal
 	printf "\\e[?25h\\e[0mProgram warning.  Exiting to prompt!\\n"
 	set +Eeuo pipefail 
-	printtail 
+	exit $? 
 }
 
 finishs () { # on signal
-	printf "\\e[?25h\\e[0mSignal caught!\\n"
+	printf "\\e[?25h\\e[0mProgram warning.  Signal caught!\\n"
 	set +Eeuo pipefail 
-	printtail 
+	exit $? 
 }
 
 intro () {
@@ -701,7 +701,7 @@ stime="${stim:0:4}"
 trap finishs SIGINT SIGTERM 
 trap finisher ERR
 trap finishe EXIT
-versionid="gen.v1.6 id385308541901"
+versionid="gen.v1.6 id943864890843"
 
 if [[ "$commandif" = "" ]];then
 	echo Run \`setupTermuxArch.sh\` from the Android system in Termux.
