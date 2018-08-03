@@ -374,16 +374,15 @@ addpc () {
 	# https://sdrausty.github.io/TermuxArch/README has information about this project. 
 	################################################################################
 	set -eou pipefail 
-	if [[ "\$1" = "a" ]];then
+	if [[ -z "\${1:-}" ]];then
+	pacman --noconfirm --color=always -Syu "\$@" 
+	elif [[ "\$1" = "a" ]];then
 	pacman --noconfirm --color=always -Syu base base-devel "\${@:2}" 
 	elif [[ "\$1" = "ae" ]];then
 	pacman --noconfirm --color=always -Syu base base-devel emacs "\${@:2}" 
 	elif [[ "\$1" = "a8" ]];then
 	pacman --noconfirm --color=always -Syu base base-devel emacs jdk8-openjdk "\${@:2}" 
-	else
-	pacman --noconfirm --color=always -Syu "\$@" 
 	fi
-	trim
 	EOM
 	chmod 700 root/bin/pc 
 }
@@ -403,7 +402,6 @@ addpci () {
 	else
 	pacman --noconfirm --color=always -S \$@ 
 	fi
-	trim
 	EOM
 	chmod 700 root/bin/pci 
 }

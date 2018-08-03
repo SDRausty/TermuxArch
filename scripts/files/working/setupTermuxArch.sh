@@ -5,7 +5,7 @@
 # https://sdrausty.github.io/TermuxArch/README has information about TermuxArch. 
 ################################################################################
 # set -Eeuo pipefail 
-set -euo pipefail 
+set -eu
 unset LD_PRELOAD
 
 arg2dir () {
@@ -690,7 +690,7 @@ stime="${stim:0:4}"
 trap finish SIGINT SIGTERM 
 # trap "echo Program error. Exiting!" ERR
 # trap finish EXIT
-versionid="gen.v1.6 id317986528412"
+versionid="gen.v1.6 id330357841417"
 
 if [[ "$commandif" = "" ]];then
 	echo Run \`setupTermuxArch.sh\` from the Android system in Termux.
@@ -769,3 +769,4 @@ else
 	printusage
 fi
 printtail 
+
