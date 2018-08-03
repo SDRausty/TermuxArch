@@ -387,9 +387,9 @@ opt2 () {
 		sysinfo 
 		printtail
 	elif [[ "$2" = [Ii]* ]] ;then
-		arg3dir 
+		arg3dir "$@" 
 	else
-		arg2dir 
+		arg2dir "$@" 
 	fi
 }
 
@@ -689,7 +689,7 @@ stime="${stim:0:4}"
 trap finish SIGINT SIGTERM 
 # trap "echo Program error. Exiting!" ERR
 trap finish EXIT
-versionid="gen.v1.6 id723057989428"
+versionid="gen.v1.6 id097122174656"
 
 if [[ "$commandif" = "" ]];then
 	echo Run \`setupTermuxArch.sh\` from the Android system in Termux.
@@ -746,16 +746,16 @@ elif [[ "$1" = [Mm]* ]] || [[ "$1" = -[Mm]* ]] || [[ "$1" = --[Mm]* ]];then
 	mainblock
 # [purge |uninstall] Remove Arch Linux.
 elif [[ "$1" = [Pp]* ]] || [[ "$1" = -[Pp]* ]] || [[ "$1" = --[Pp]* ]] || [[ "$1" = [Uu]* ]] || [[ "$1" = -[Uu]* ]] || [[ "$1" = --[Uu]* ]];then
-	arg2dir 
+	arg2dir "$@" 
 	rmarch
 # [install installdir|rootdir installdir] Install Arch Linux in custom directory.  Instructions: Install in userspace. $HOME is appended to installation directory. To install Arch Linux in $HOME/installdir use `bash setupTermuxArch.sh install installdir`. In bash shell use `./setupTermuxArch.sh install installdir`.  All options can be abbreviated to one or two letters.  Hence `./setupTermuxArch.sh install installdir` can be run as `./setupTermuxArch.sh i installdir` in BASH.
 elif [[ "$1" = [Ii]* ]] || [[ "$1" = -[Ii]* ]] || [[ "$1" = --[Ii]* ]] ||  [[ "$1" = [Rr][Oo]* ]] || [[ "$1" = -[Rr][Oo]* ]] || [[ "$1" = --[Rr][Oo]* ]];then
-	arg2dir 
+	arg2dir "$@" 
 	intro 
 	mainblock
 # [refresh|refresh installdir] Refresh Arch Linux in Termux PRoot scripts created by TermuxArch.  Useful for refreshing TermuxArch generated scripts to the newest version.  
 elif [[ "$1" = [Rr][Ee]* ]] || [[ "$1" = -[Rr][Ee]* ]] || [[ "$1" = --[Rr][Ee]* ]];then
-	arg2dir 
+	arg2dir "$@" 
 	introrefresh 
 # [run] Run local copy of TermuxArch from TermuxArchBloom.  Useful for running customized TermuxArch locally.  
 elif [[ "$1" = [Rr]* ]] || [[ "$1" = -[Rr]* ]] || [[ "$1" = --[Rr]* ]];then
