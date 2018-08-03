@@ -80,7 +80,7 @@ bsdtarif () {
 
 chk () {
 	if "$PREFIX"/bin/applets/sha512sum -c termuxarchchecksum.sha512 1>/dev/null ;then
-		chkself 
+		chkself "$@"
 		printf "\\e[0;34m 🕛 > 🕜 \\e[1;34mTermuxArch $versionid integrity: \\e[1;32mOK\\n"
 		if [[ "$opt" = manual ]];then
 			manual
@@ -377,18 +377,18 @@ nameinstalldir () {
 	if [[ "$rootdir" = "" ]] ;then
 		rootdir=arch
 	fi
-	declare -g installdir="$(sed -i 's#//*#/#g' "$HOME/${rootdir%/}")"
+	installdir="$(sed 's#//*#/#g' "$HOME/${rootdir%/}")"
 }
 
 namestartarch () {
 # 	echo ${@%/} removes trailing slash
-	darch="$(sed -i 's#//*#/#g' "${rootdir%/}")"
+	darch="$(sed 's#//*#/#g' "${rootdir%/}")"
 # 	darch="$(echo "${rootdir%/}" |sed 's#//*#/#g')"
 	if [[ "$darch" = "/arch" ]];then
 		aarch=""
 		startbi2=arch
 	else
-		aarch="$(sed -i 's/\//\+/g' "$darch")"
+		aarch="$(sed 's/\//\+/g' "$darch")"
 # 		aarch="$(echo "$darch" |sed 's/\//\+/g')"
 		startbi2=arch
 	fi
@@ -689,7 +689,7 @@ declare COUNTER=""
 declare bin=""
 declare dfl=""
 declare dm=""
-declare installdir=""
+declare -g installdir=""
 declare -g kid="0"
 declare opt=""
 declare rootdir=""
@@ -703,7 +703,7 @@ stime="${stim:0:4}"
 trap finishs SIGINT SIGTERM 
 trap finisher ERR
 trap finishe EXIT
-versionid="gen.v1.6 id842680584715"
+versionid="gen.v1.6 id717493344528"
 
 if [[ "$commandif" = "" ]];then
 	echo Run \`setupTermuxArch.sh\` from the Android system in Termux.
