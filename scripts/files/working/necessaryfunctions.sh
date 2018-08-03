@@ -24,7 +24,7 @@ copystartbin2path () {
 copystartbin2pathq () {
 	while true; do
 	printf "\\e[0;34m 🕛 > 🕚 \\e[0mCopy \\e[1m$startbin\\e[0m to \\e[1m$BPATH\\e[0m?  "'\033]2; 🕛 > 🕚 Copy to $PATH [Y|n]?\007'
-	read -n 1 -p -r "Answer yes or no [Y|n] " answer
+	read -n 1 -p "Answer yes or no [Y|n] " answer
 	if [[ "$answer" = [Yy]* ]] || [[ "$answer" = "" ]];then
 		cp "$installdir/$startbin" "$BPATH"
 		printf "\\n\\e[0;34m 🕛 > 🕦 \\e[0mCopied \\e[1m$startbin\\e[0m to \\e[1m$BPATH\\e[0m.\\n\\n"
@@ -328,7 +328,7 @@ runfinishsetup () {
 addlangq () {
 	while true; do
 		printf "\\e[1;34m  Add languages to the Arch Linux system? To edit \\e[1;32m/etc/locale.gen\\e[1;34m for your preferred language(s) before running \\e[1;32mlocale-gen\\e[1;34m choose edit.  Would you like to run \\e[1;32mlocale-gen\\e[1;34m with the English en_US.UTF-8 locale only?  "
-		read -n 1 -p -r "Answer yes to generate the English en_US.UTF-8 locale only [Y|e] " ye
+		read -n 1 -p "Answer yes to generate the English en_US.UTF-8 locale only [Y|e] " ye
 		if [[ "$ye" = [Yy]* ]] || [[ "$ye" = "" ]];then
 			break
 		elif [[ "$ye" = [Ee]* ]] || [[ "$ye" = [Nn]* ]];then
@@ -347,7 +347,7 @@ addlangq () {
 runfinishsetupq () {
 	while true; do
 		printf "\\n\\e[0;32mWould you like to run \\e[1;32mfinishsetup.sh\\e[0;32m to complete the Arch Linux configuration and update now, or at a later time?  \\e[1;32mNow is recommended.  \\e[0;32m"
-		read -n 1 -p -r "Answer yes to complete the Arch Linux configuration and update now; Or answer no for later [Y|n] " nl
+		read -n 1 -p "Answer yes to complete the Arch Linux configuration and update now; Or answer no for later [Y|n] " nl
 	if [[ "$nl" = [Yy]* ]] || [[ "$nl" = "" ]];then
 		runfinishsetup 
 		break

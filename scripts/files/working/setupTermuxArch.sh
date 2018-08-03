@@ -247,10 +247,10 @@ edqaquestion () {
 		printf "\\n"
 		if [[ "$opt" = bloom ]] || [[ "$opt" = manual ]];then
 			printf "The following editor(s) $cedst\\b\\b are present.  Would you like to use \`\\e[1;32m${ceds[$i]}\\e[0;32m\` to edit \`\\e[1;32msetupTermuxArchConfigs.sh\\e[0;32m\`?  "
-			read -n 1 -p -r "Answer yes or no [Y|n]. "  yn
+			wead -n 1 -p "Answer yes or no [Y|n]. "  yn
 		else 
 			printf "Change the worldwide mirror to a mirror that is geographically nearby.  Choose only ONE active mirror in the mirrors file that you are about to edit.  The following editor(s) $cedst\\b\\b are present.  Would you like to use \`\\e[1;32m${ceds[$i]}\\e[0;32m\` to edit the Arch Linux configuration files?  "
-			read -n 1 -p -r "Answer yes or no [Y|n]. "  yn
+			read -n 1 -p "Answer yes or no [Y|n]. "  yn
 		fi
 		if [[ "$yn" = [Yy]* ]] || [[ "$yn" = "" ]];then
 			ed="${ceds[$i]}"
@@ -269,10 +269,10 @@ edq2 () {
 	while true; do
 		if [[ "$opt" = bloom ]] || [[ "$opt" = manual ]];then
 			printf "\\n\\e[1;34m  Would you like to use \\e[1;32mnano\\e[1;34m or \\e[1;32mvi\\e[1;34m to edit \\e[1;32msetupTermuxArchConfigs.sh\\e[1;34m?  "
-			read -n 1 -p -r "Answer nano or vi [n|V]? "  nv
+			read -n 1 -p "Answer nano or vi [n|V]? "  nv
 		else 
 			printf "\\e[1;34m  Change the worldwide mirror to a mirror that is geographically nearby.  Choose only ONE active mirror in the mirrors file that you are about to edit.  Would you like to use \\e[1;32mnano\\e[1;34m or \\e[1;32mvi\\e[1;34m to edit the Arch Linux configuration files?  "
-			read -n 1 -p -r "Answer nano or vi [n|V]? "  nv
+			read -n 1 -p "Answer nano or vi [n|V]? "  nv
 		fi
 		if [[ "$nv" = [Nn]* ]];then
 			ed=nano
@@ -446,7 +446,7 @@ rmarch () {
 	nameinstalldir
 	while true; do
 		printf "\\n\\e[1;30m"
-		read -n 1 -p -r "Uninstall $installdir? [Y|n] " ruanswer
+		read -n 1 -p "Uninstall $installdir? [Y|n] " ruanswer
 		if [[ "$ruanswer" = [Ee]* ]] || [[ "$ruanswer" = [Nn]* ]] || [[ "$ruanswer" = [Qq]* ]];then
 			break
 		elif [[ "$ruanswer" = [Yy]* ]] || [[ "$ruanswer" = "" ]];then
@@ -610,7 +610,7 @@ spaceinfoq () {
 		if [[ -n "$spaceMessage" ]];then
 			while true; do
 				printf "\\n\\e[1;30m"
-				read -n 1 -p -r "Continue with setupTermuxArch.sh? [Y|n] " suanswer
+				read -n 1 -p "Continue with setupTermuxArch.sh? [Y|n] " suanswer
 				if [[ "$suanswer" = [Ee]* ]] || [[ "$suanswer" = [Nn]* ]] || [[ "$suanswer" = [Qq]* ]];then
 					printtail
 				elif [[ "$suanswer" = [Yy]* ]] || [[ "$suanswer" = "" ]];then
@@ -701,7 +701,7 @@ stime="${stim:0:4}"
 trap finishs SIGINT SIGTERM 
 trap finisher ERR
 trap finishe EXIT
-versionid="gen.v1.6 id035466476150"
+versionid="gen.v1.6 id848539840028"
 
 if [[ "$commandif" = "" ]];then
 	echo Run \`setupTermuxArch.sh\` from the Android system in Termux.
