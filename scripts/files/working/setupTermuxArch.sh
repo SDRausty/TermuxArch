@@ -696,14 +696,14 @@ declare rootdir=""
 declare spaceMessage=""
 declare usrspace=""
 
-# dfl=/gen
+dfl=/gen
 dmverbose="-q" # Use "-v" for verbose.  
 stim="$(date +%s)"
 stime="${stim:0:4}"
 trap finishs SIGINT SIGTERM 
 trap finisher ERR
 trap finishe EXIT
-versionid="v1.6"
+versionid="gen.v1.6 id405752464573"
 
 if [[ "$commandif" = "" ]];then
 	echo Run \`setupTermuxArch.sh\` from the Android system in Termux.
