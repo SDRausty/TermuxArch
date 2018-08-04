@@ -70,9 +70,21 @@ sysinfo () {
 
 refreshsys () {
 	printf '\033]2; setupTermuxArch.sh refresh 📲 \007'
-	if [[ ! -d "$installdir" ]] || [[ ! -f "$installdir"/bin/we ]];then
-		printf "\\n\\e[0;33mThe root directory structure is incorrect; Cannot continue \\e[1;33msetupTermuxArch.sh refresh\\e[0;33m.\\e[0m\\n"
+	if [[ ! -f "$installdir"/bin/we ]];then
+		if [[ -f "$installdir"/"*.tar.gz" ]];then
+			printmd5check
+			if "$PREFIX"/bin/applets/md5sum -c "$file".md5 1>/dev/null ; then
+				printmd5success
+				preproot 
+			else
+				rmarchrm 
+				printmd5error
+			fi
+		fi
+		if [[ ! -f "$installdir"/"*.tar.gz" ]];then
+			printf "\\n\\e[0;33mThe root directory structure is incorrect; Cannot continue \\e[1;33msetupTermuxArch.sh refresh\\e[0;33m.\\e[0m\\n"
 		exit $?
+		fi
 	else
 		cd "$installdir"
 	fi
