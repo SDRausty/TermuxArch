@@ -4,7 +4,6 @@
 # https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.  
 # https://sdrausty.github.io/TermuxArch/README has information about TermuxArch. 
 ################################################################################
-# set -Eeuox pipefail 
 set -Eeuo pipefail 
 unset LD_PRELOAD
 
@@ -298,7 +297,7 @@ finishe () { "$@" # on exit
 }
 
 finisher () { # on script signal
-	printf "\\n\\e[?25h\\e[0mTermuxArch warning.  Signal generated!\\\\n"
+	printf "\\n\\e[?25h\\e[0mTermuxArch warning.  Signal generated!\\n"
  	set +Eeuo pipefail 
  	exit $? 
 }
@@ -696,8 +695,8 @@ declare rootdir=""
 declare spaceMessage=""
 declare usrspace=""
 
-# dfl=/gen
-dmverbose="-q" # Use "-v" for verbose.  
+# dfl=/gen	# Used for debugging and development. 
+dmverbose="-q"	# Use "-v" for verbose.  Also change in `setupTermuxArchConfigs.sh` after running `setupTermuxArch.sh bloom` or `setupTermuxArch.sh manual`. 
 stim="$(date +%s)"
 stime="${stim:0:4}"
 trap finishs SIGINT SIGTERM 
