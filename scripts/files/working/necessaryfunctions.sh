@@ -281,7 +281,7 @@ makesystem () {
 		printmd5error
 	fi
 	printcu 
-	rm *.tar.gz *.tar.gz.md5
+	rm -f *.tar.gz *.tar.gz.md5
 	printdone 
 	makestartbin 
 	printconfigup 
