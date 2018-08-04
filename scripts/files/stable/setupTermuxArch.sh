@@ -112,7 +112,7 @@ chkdwn () {
 		"$PREFIX"/bin/applets/tar xf setupTermuxArch.tar.gz 
 		rmds 
 	else
-		rm setupTermuxArch.tmp
+		rm -f setupTermuxArch.tmp
 		rmds 
 		printsha512syschker
 	fi
@@ -122,11 +122,11 @@ chkself () {
 	if [[ -f "setupTermuxArch.tmp" ]];then
 		if [[ "$(<setupTermuxArch.sh)" != "$(<setupTermuxArch.tmp)" ]];then
 			printf "\\e[0;32msetupTermuxArch.sh: \\e[1;32mUPDATED\\n\\e[0;32mTermuxArch: \\e[1;32mRESTARTED\\n\\e[0m"
-			rm setupTermuxArch.tmp
+			rm -f setupTermuxArch.tmp
 			rmdsc 
 			. setupTermuxArch.sh "$@"
 		fi
-		rm setupTermuxArch.tmp
+		rm -f setupTermuxArch.tmp
 	fi
 }
 
@@ -291,20 +291,20 @@ edq2 () {
 	printf "\\n"
 }
 
-finishe () { # on exit
+finishe () { "$@" # on exit
 	printf "\\e[?25h\\e[0m"
 	set +Eeuo pipefail 
  	printtail "$@"  
 }
 
 finisher () { # on script signal
-	printf "\\n\\e[?25h\\e[0mBASH script warning.  \\n"
+	printf "\\n\\e[?25h\\e[0mTermuxArch warning.  Signal generated!\\\\n"
  	set +Eeuo pipefail 
  	exit $? 
 }
 
 finishs () { # on signal
-	printf "\\n\\e[?25h\\e[0mBASH script warning.  Signal caught!\\n"
+	printf "\\n\\e[?25h\\e[0mTermuxArch warning.  Signal received!\\n"
 	set +Eeuo pipefail 
  	exit $? 
 }
@@ -422,7 +422,7 @@ printsha512syschker () {
 
 printtail () { "$@"  
  	namestartarch "$@"  
-	"$startbin" help 2>/dev/null
+# 	"$startbin" help 2>/dev/null
 	printf "\\a\\n\\e[0;32m%s %s \\a\\e[0m$versionid \\e[1;34m: \\a\\e[1;32mDONE\\e[0m 🏁  \\n\\n\\a\\e[0m" "$(echo $0)" "$(echo $@)"
 	printf '\033]2;  setupTermuxArch.sh '"$(echo $@)"' : DONE 🏁 \007'
 }
@@ -686,7 +686,6 @@ cpuabix86="x86"
 cpuabix8664="x86_64"
 
 declare COUNTER=""
-# declare -ga args="$@"
 declare bin=""
 declare dfl=""
 declare dm=""
@@ -698,8 +697,7 @@ declare spaceMessage=""
 declare usrspace=""
 
 # dfl=/gen
-dmverbose="-q"
-# dmverbose="-v"
+dmverbose="-q" # Use "-v" for verbose.  
 stim="$(date +%s)"
 stime="${stim:0:4}"
 trap finishs SIGINT SIGTERM 

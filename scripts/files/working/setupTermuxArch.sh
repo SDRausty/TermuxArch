@@ -5,7 +5,7 @@
 # https://sdrausty.github.io/TermuxArch/README has information about TermuxArch. 
 ################################################################################
 # set -Eeuox pipefail 
-set -Eeuox pipefail 
+set -Eeuo pipefail 
 unset LD_PRELOAD
 
 arg2dir () { 
@@ -112,7 +112,7 @@ chkdwn () {
 		"$PREFIX"/bin/applets/tar xf setupTermuxArch.tar.gz 
 		rmds 
 	else
-		rm setupTermuxArch.tmp
+		rm -f setupTermuxArch.tmp
 		rmds 
 		printsha512syschker
 	fi
@@ -122,11 +122,11 @@ chkself () {
 	if [[ -f "setupTermuxArch.tmp" ]];then
 		if [[ "$(<setupTermuxArch.sh)" != "$(<setupTermuxArch.tmp)" ]];then
 			printf "\\e[0;32msetupTermuxArch.sh: \\e[1;32mUPDATED\\n\\e[0;32mTermuxArch: \\e[1;32mRESTARTED\\n\\e[0m"
-			rm setupTermuxArch.tmp
+			rm -f setupTermuxArch.tmp
 			rmdsc 
 			. setupTermuxArch.sh "$@"
 		fi
-		rm setupTermuxArch.tmp
+		rm -f setupTermuxArch.tmp
 	fi
 }
 
@@ -696,14 +696,14 @@ declare rootdir=""
 declare spaceMessage=""
 declare usrspace=""
 
-dfl=/gen
+# dfl=/gen
 dmverbose="-q" # Use "-v" for verbose.  
 stim="$(date +%s)"
 stime="${stim:0:4}"
 trap finishs SIGINT SIGTERM 
 trap finisher ERR
 trap finishe EXIT
-versionid="gen.v1.6 id380017264"
+versionid="v1.6"
 
 if [[ "$commandif" = "" ]];then
 	echo Run \`setupTermuxArch.sh\` from the Android system in Termux.
