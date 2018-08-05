@@ -118,7 +118,8 @@ refreshsys () {
 	termux-wake-lock 
 	printdone 
 	printf '\033]2; setupTermuxArch.sh refresh 📲 \007'
-	printf "\\n\\e[1;34m setupTermuxArch.sh refresh 📲 \\e[0m\\a\\n"
+	printf "\\n\\e[1;32m==>  \\e[1;34mRunning \`bash setupTermuxArch.sh refresh\` 📲 \\e[0m\\a\\n"
+	printf "\n\033[1;32m==> \033[1;37mRunning \033[1;32mlr ~\033[1;37m\n\n"
 	"$installdir"/root/bin/setupbin.sh 
 # 	printconfigup
 	rm -f root/bin/finishsetup.sh
