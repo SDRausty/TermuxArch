@@ -699,6 +699,7 @@ declare rootdir=""
 declare spaceMessage=""
 declare usrspace=""
 
+# Used for debugging and development. 
 dfl=/gen
 dmverbose="-q"	# Use "-v" for verbose download manager output; important, also change this setting in `setupTermuxArchConfigs.sh` after running `setupTermuxArch.sh bloom` or `setupTermuxArch.sh manual` for verbose download manager output throughout the execution of `setupTermuxArch.sh`. 
 stim="$(date +%s)"
@@ -706,7 +707,7 @@ stime="${stim:0:4}"
 trap finishs SIGINT SIGTERM 
 trap finisher ERR
 trap finishe EXIT
-versionid="gen.v1.6 id843256946704"
+versionid="gen.v1.6 id972868465883"
 
 if [[ "$commandif" = "" ]];then
 	echo Run \`setupTermuxArch.sh\` from the Android system in Termux.
