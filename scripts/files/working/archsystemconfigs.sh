@@ -359,9 +359,9 @@ addkeys () {
 	## keys begin ####################################################################
 	printf "\n\e[1;32m==> \e[0mRunning ./root/bin/keys…\n" '\033]2;  🔑🗝 TermuxArch keys 📲 \007'
 	if [[ -z "\${1:-}" ]];then
-	keyrings="( "archlinux-keyring" )"
+	keyrings="( [0]="archlinux-keyring" )"
 	elif [[ "\$1" = x86 ]]; then
-	keyrings="( "archlinux32-keyring-transition" )"
+	keyrings="( [0]="archlinux32-keyring-transition" )"
 	else
 	keyrings="( "\${@[@]}" )"
 	fi
