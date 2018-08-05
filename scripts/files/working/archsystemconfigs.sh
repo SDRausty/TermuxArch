@@ -355,13 +355,13 @@ addkeys () {
 
 addmotd () {
 	cat > etc/motd  <<- EOM
-	printf "\n\033[1;34mWelcome to Arch Linux in Termux!\nInstall a package: \033[0;34mpacman -S package\n\033[1;34mMore  information: \033[0;34mpacman -[D|F|Q|R|S|T|U]h\n\033[1;34mSearch   packages: \033[0;34mpacman -Ss query\n\033[1;34mUpgrade  packages: \033[0;34mpacman -Syu\n\n\033[1;34mChat: \033[0mhttps://webchat.freenode.net/ #termux\n\033[1;34mHelp: \033[0;34minfo query \033[1;34mand \033[0;34mman query\n\033[1;34mIRC:  \033[0mwiki.archlinux.org/index.php/IRC_channel\n\n\033[0m"
+	printf "\n\033[1;34mWelcome to Arch Linux in Termux!\nInstall a package: \033[0;34mpacman -S package\n\033[1;34mMore  information: \033[0;34mpacman -[D|F|Q|R|S|T|U]h\n\033[1;34mSearch   packages: \033[0;34mpacman -Ss query\n\033[1;34mUpgrade  packages: \033[0;34mpacman -Syu\n\n\033[1;34mChat: \033[0mwebchat.freenode.net/ #termux\n\033[1;34mHelp: \033[0;34minfo query \033[1;34mand \033[0;34mman query\n\033[1;34mIRC:  \033[0mwiki.archlinux.org/index.php/IRC_channel\n\n\033[0m"
 	EOM
 }
 
 addmoto () {
 	cat > etc/moto  <<- EOM
-	printf "\n\033[1;34mShare Your Arch Linux in Termux Experience!\n\n\033[1;34mChat: \033[0mhttps://webchat.freenode.net/ #termux\n\033[1;34mHelp: \033[0;34minfo query \033[1;34mand \033[0;34mman query\n\033[1;34mIRC:  \033[0mwiki.archlinux.org/index.php/IRC_channel\n\n\033[0m"
+	printf "\n\033[1;34mShare Your Arch Linux in Termux Experience!\n\n\033[1;34mChat: \033[0mwebchat.freenode.net/ #termux\n\033[1;34mHelp: \033[0;34minfo query \033[1;34mand \033[0;34mman query\n\033[1;34mIRC:  \033[0mwiki.archlinux.org/index.php/IRC_channel\n\n\033[0m"
 	EOM
 }
 
@@ -406,7 +406,7 @@ addpc () { # pacman install packages shortcut
 	trap finishs INT TERM 
 
 	if [[ -z "\${1:-}" ]];then
-	\tpacman --noconfirm --color=always -S 
+	pacman --noconfirm --color=always -S 
 	elif [[ "\$1" = "a" ]];then
 	pacman --noconfirm --color=always -S base base-devel "\${@:2}" 
 	elif [[ "\$1" = "ae" ]];then
