@@ -364,7 +364,7 @@ addkeys () {
 	}
 
 	printtail () {
-		printf "\\a\\n\\e[0;32mTermuxArch keys %s "$versionid" \\a\\e[1;34m: \\a\\e[1;32mDONE\\e[0m 🏁  \\n\\n\\a\\e[0m" "\${keyrings[@]}"
+		printf "\\a\\n\\e[0;32mTermuxArch keys %s $versionid \\a\\e[1;34m: \\a\\e[1;32mDONE 🏁 \\e[0m\\n\\n\\a" "\${keyrings[@]}"
 		printf '\033]2;  🔑🗝 TermuxArch keys : DONE 📱 \007'
 	}
 
