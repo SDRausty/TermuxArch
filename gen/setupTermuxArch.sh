@@ -706,11 +706,7 @@ stime="${stim:0:4}"
 trap finishs INT TERM 
 trap finisher ERR
 trap finishe EXIT
-<<<<<<< HEAD
-versionid="gen.v1.6 id780049803415"
-=======
-versionid="gen.v1.6 id780049803415"
->>>>>>> db7eac49fd7a685da6b5b72465976ae1c0ae4cc3
+versionid="gen.v1.6 id909058411993"
 
 if [[ "$commandif" = "" ]];then
 	echo Run \`setupTermuxArch.sh\` from the Android system in Termux.
