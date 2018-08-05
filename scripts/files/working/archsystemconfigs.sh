@@ -356,6 +356,7 @@ addkeys () {
 	trap finisher ERR
 	trap finishs SIGINT SIGTERM 
 	## keys begin ####################################################################
+	printf "\n\e[1;32m==> \e[0mRunning ./root/bin/keys…\n" '\033]2;  🔑🗝 TermuxArch keys 📲 \007'
 	n=2 # Number of loop generations for generating entropy.
 	t=256 # Maximum number of seconds loop shall run unless keys completes  sooner.
 

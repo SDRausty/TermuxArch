@@ -144,7 +144,6 @@ makefinishsetup () {
 	elif [[ "$cpuabi" = "$cpuabi8" ]];then
 		printf "pacman -Rc linux-aarch64 linux-firmware --noconfirm --color=always 2>/dev/null ||:\\n" >> root/bin/"$binfnstp"
 	fi
-	printf "printf \"\\n\\\e[1;32m==> \\\e[0mRunning ./root/bin/keys…\"\\n" >> root/bin/"$binfnstp"
 	if [[ "$cpuabi" = "$cpuabix86" ]];then
 		printf "./root/bin/keys x86\\n" >> root/bin/"$binfnstp"
 	else
