@@ -331,20 +331,20 @@ addkeys () {
 		printf "\\e[?25h\\e[0m"
 		set +Eeuo pipefail 
 	 	printtail "\$keyrings[@]"  
-	 	echo "[ \$0 completed (code \$?) ]" 
+	 	echo "[ \$0 done (\$?) ]" 
 	}
 	
 	finisher () { # on script signal
 		printf "\\n\\e[?25h\\e[0mTermuxArch keys warning.  \\n"
 	 	set +Eeuo pipefail 
-	 	echo "[ \$0 completed (code \$?) ]" 
+	 	echo "[ \$0 done (\$?) ]" 
 	 	exit "\$?" 
 	}
 	
 	finishs () { # on signal
 		printf "\\n\\e[?25h\\e[0mTermuxArch keys warning.  Signal caught!\\n"
 		set +Eeuo pipefail 
-	 	echo "[ \$0 completed (code \$?) ]" 
+	 	echo "[ \$0 done (\$?) ]" 
 	 	exit "\$?" 
 	}
 	
