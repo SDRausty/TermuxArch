@@ -75,8 +75,6 @@ refreshsys () {
 		printf "\\n\\e[0;33mThe root directory structure is incorrect; Cannot continue \\e[1;33msetupTermuxArch.sh refresh\\e[0;33m.\\e[0m\\n"
 		exit $?
 	fi
-	namestartarch 
-	nameinstalldir
 	addae
 	addauser
 	addauserps
@@ -117,10 +115,11 @@ refreshsys () {
 	termux-wake-lock 
 	printdone 
 	printf '\033]2; setupTermuxArch.sh refresh 📲 \007'
+	printf "\\n\\e[1;34 setupTermuxArch.sh refresh 📲 \\e[0m\\a\\n"
 	"$installdir"/root/bin/setupbin.sh 
 # 	printconfigup
-	rm root/bin/finishsetup.sh
-	rm root/bin/setupbin.sh 
+	rm -f root/bin/finishsetup.sh
+	rm -f root/bin/setupbin.sh 
 	printf "\\e[1;34m  The following files have been updated to the newest version.\\n\\n\\e[0;32m"
 	ls "$installdir/$startbin" |cut -f7- -d /
 	ls "$installdir"/bin/we |cut -f7- -d /
