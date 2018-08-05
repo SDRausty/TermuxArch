@@ -151,8 +151,9 @@ makefinishsetup () {
 		printf "./root/bin/keys\\n" >> root/bin/"$binfnstp"
 	fi
 	if [[ "$cpuabi" = "$cpuabix86" ]] || [[ "$cpuabi" = "$cpuabix8664" ]];then
-		printf "./root/bin/pc gzip sed ||:\\n" >> root/bin/"$binfnstp"
+		printf "./root/bin/pc gzip sed \\n" >> root/bin/"$binfnstp"
 	fi
+	printf "./root/bin/pci \\n" >> root/bin/"$binfnstp"
 	cat >> root/bin/"$binfnstp" <<- EOM
 	printf "\\n\\e[1;32m==> "
 	locale-gen ||:
