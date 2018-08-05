@@ -297,13 +297,17 @@ finishe () { "$@" # on exit
 }
 
 finisher () { # on script signal
-	printf "\\n\\e[?25h\\e[0mTermuxArch warning.  Signal generated!\\n"
+	printf "\\n\\e[?25h\\e[0;48;5;124mTermuxArch warning.  Signal generated!\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b"
+	sleep 0.2
+	printf "\\e[?25h\\e[1;7;38;5;0mTermuxArch warning.  Signal generated!\\e[0m\\n"
  	set +Eeuo pipefail 
  	exit $? 
 }
 
 finishs () { # on signal
-	printf "\\n\\e[?25h\\e[0mTermuxArch warning.  Signal received!\\n"
+	printf "\\n\\e[?25h\\e[0;48;5;124mTermuxArch warning.  Signal received!\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b"
+	sleep 0.2
+	printf "\\e[?25h\\e[1;7;38;5;0mTermuxArch warning.  Signal received!\\e[0m\\n"
 	set +Eeuo pipefail 
  	exit $? 
 }
@@ -695,14 +699,18 @@ declare rootdir=""
 declare spaceMessage=""
 declare usrspace=""
 
-# dfl=/gen	# Used for debugging and development. 
+dfl=/gen	# Used for debugging and development. 
 dmverbose="-q"	# Use "-v" for verbose download manager output; important, also change this setting in `setupTermuxArchConfigs.sh` after running `setupTermuxArch.sh bloom` or `setupTermuxArch.sh manual` for verbose download manager output throughout the execution of `setupTermuxArch.sh`. 
 stim="$(date +%s)"
 stime="${stim:0:4}"
 trap finishs INT TERM 
 trap finisher ERR
 trap finishe EXIT
-versionid="gen.v1.6 id274743747342"
+<<<<<<< HEAD
+versionid="gen.v1.6 id780049803415"
+=======
+versionid="gen.v1.6 id780049803415"
+>>>>>>> db7eac49fd7a685da6b5b72465976ae1c0ae4cc3
 
 if [[ "$commandif" = "" ]];then
 	echo Run \`setupTermuxArch.sh\` from the Android system in Termux.
