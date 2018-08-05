@@ -465,7 +465,7 @@ addpci () { # system update with pacman install packages shortcut
 	# https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.  
 	# https://sdrausty.github.io/TermuxArch/README has information about this project. 
 	################################################################################
-	set -Eeou pipefail 
+	set -Eeo pipefail 
 	declare -g args="\$@"
 
 	finishe () { # on exit
