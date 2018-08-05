@@ -426,8 +426,8 @@ printsha512syschker () {
 printtail () { "$@"  
  	namestartarch "$@"  
 # 	"$startbin" help 2>/dev/null
-	printf "\\a\\n\\e[0;32m%s %s \\a\\e[0m$versionid \\e[1;34m: \\a\\e[1;32mDONE\\e[0m 🏁  \\n\\n\\a\\e[0m" "$(echo $0)" "$(echo $@)"
-	printf '\033]2;  setupTermuxArch.sh '"$(echo $@)"' : DONE 🏁 \007'
+	printf "\\a\\n\\e[0;32m%s %s \\a\\e[0m$versionid \\e[1;34m: \\a\\e[1;32mDONE\\e[0m 🏁  \\n\\n\\a\\e[0m" "$(echo "$0")" "$(echo "$@")"
+	printf '\033]2;  setupTermuxArch.sh '"$(echo "$@")"' : DONE 🏁 \007'
 }
 
 printusage () {
@@ -699,7 +699,7 @@ declare rootdir=""
 declare spaceMessage=""
 declare usrspace=""
 
-# dfl=/gen	# Used for debugging and development. 
+# dfl=/gen
 dmverbose="-q"	# Use "-v" for verbose download manager output; important, also change this setting in `setupTermuxArchConfigs.sh` after running `setupTermuxArch.sh bloom` or `setupTermuxArch.sh manual` for verbose download manager output throughout the execution of `setupTermuxArch.sh`. 
 stim="$(date +%s)"
 stime="${stim:0:4}"
