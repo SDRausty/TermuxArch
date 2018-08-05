@@ -202,7 +202,7 @@ makestartbin () {
 	cat >> "$startbin" <<- EOM
 		printf '\033]2; '$startbin' command args 📲  \007'
 		rm $installdir/root/.chushlogin
-	elif [[ \$1 = [Ll]* ]] || [[ \$1 = -[Ll]* ]] || [[ \$1 = --[Ll]* ]] ;then
+	elif [[ \$1 = [Ll]* ]] || [[ \$1 = -[Ll]* ]] || [[ \$1 = --[Ll]* ]] || [[ \$1 = [Uu]* ]] || [[ \$1 = -[Uu]* ]] || [[ \$1 = --[Uu]* ]] ;then
 	# [login user|login user [options]] Login as user [plus options].  Use \`addauser user\` first to create this user and the user's home directory.
 		printf '\033]2; '$startbin' login user [options] 📲  \007'
 	EOM
