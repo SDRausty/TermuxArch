@@ -325,7 +325,8 @@ addkeys () {
 	# https://sdrausty.github.io/TermuxArch/README has information about this project. 
 	################################################################################
 	set -Eeuo pipefail 
-	declare -g args="\$@"
+	declare -a args
+	args="\$@"
 
 	finishe () { # on exit
 		printf "\\e[?25h\\e[0m"
@@ -365,6 +366,7 @@ addkeys () {
 	elif [[ "\$1" = x86 ]]; then
 	keyrings="archlinux32-keyring-transition"
 	else
+	declare -a keyrings
 	keyrings="\$@"
 	fi
 	mv usr/lib/gnupg/scdaemon{,_} 2>/dev/null ||: 
