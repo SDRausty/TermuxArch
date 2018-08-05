@@ -349,7 +349,7 @@ addkeys () {
 	}
 	
 	printtail () {
-		printf "\\\\a\\\\n\\\\e[0;32mTermuxArch pc \$args \$versionid\\\\a\\\\e[1;34m: \\\\a\\\\e[1;32mDONE\\e[0m 🏁  \\\\n\\\\n\\\\a\\\\e[0m"'\033]2;  🔑🗝 TermuxArch pc 📱 \007'
+		printf "\\\\a\\\\n\\\\e[0;32mTermuxArch keys \$args $versionid\\\\a\\\\e[1;34m: \\\\a\\\\e[1;32mDONE\\e[0m 🏁  \\\\n\\\\n\\\\a\\\\e[0m"'\033]2;  🔑🗝 TermuxArch keys: DONE 📱 \007'
 	}
 
 	trap finishe EXIT
