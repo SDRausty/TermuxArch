@@ -115,7 +115,7 @@ refreshsys () {
 	setlocalegen
 	printf "\\n" 
 	printwla 
-	termux-wake-lock 
+	am startservice --user 0 -a com.termux.service_wake_lock com.termux/com.termux.app.TermuxService > /dev/null
 	printdone 
 	printf '\033]2; setupTermuxArch.sh refresh 📲 \007'
 	printf "\\n\\e[1;32m==> \\e[0mRunning \`bash setupTermuxArch.sh refresh\` 📲 \\a\\n"
@@ -129,7 +129,7 @@ refreshsys () {
 	ls "$installdir"/root/bin/* |cut -f7- -d /
 	printf "\\n" 
 	printwld 
-	termux-wake-unlock
+	am startservice --user 0 -a com.termux.service_wake_unlock com.termux/com.termux.app.TermuxService > /dev/null
 	printdone 
 	printfooter 
 	printf "\\a"
