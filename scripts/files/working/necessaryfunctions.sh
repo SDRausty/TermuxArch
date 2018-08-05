@@ -126,7 +126,7 @@ makefinishsetup () {
 	# https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.  
 	# https://sdrausty.github.io/TermuxArch/README has information about this project. 
 	################################################################################
-	printf "\\n\\e[1;34m:: \\e[1;37mRemoving redundant packages...\\n"
+	printf "\\n\\e[1;34m:: \\e[1;37mRemoving redundant packages for Termux PRoot installation…\\n"
 	EOM
 	if [[ -e "$HOME"/.bash_profile ]];then
 		grep "proxy" "$HOME"/.bash_profile | grep "export" >> root/bin/"$binfnstp" 2>/dev/null ||:
@@ -143,8 +143,6 @@ makefinishsetup () {
 		printf "pacman -Rc linux-armv7 linux-firmware --noconfirm --color=always 2>/dev/null ||:\\n" >> root/bin/"$binfnstp"
 	elif [[ "$cpuabi" = "$cpuabi8" ]];then
 		printf "pacman -Rc linux-aarch64 linux-firmware --noconfirm --color=always 2>/dev/null ||:\\n" >> root/bin/"$binfnstp"
-	elif [[ "$cpuabi" = "$cpuabix86" ]] || [[ "$cpuabi" = "$cpuabix8664" ]];then
-		:
 	fi
 	printf "printf \"\\n\\\e[1;32m==> \\\e[0mRunning ./root/bin/keys…\"\\n" >> root/bin/"$binfnstp"
 	if [[ "$cpuabi" = "$cpuabix86" ]];then
@@ -153,12 +151,10 @@ makefinishsetup () {
 		printf "./root/bin/keys\\n" >> root/bin/"$binfnstp"
 	fi
 	if [[ "$cpuabi" = "$cpuabix86" ]] || [[ "$cpuabi" = "$cpuabix8664" ]];then
-		printf "./root/bin/pci gzip sed ||:\\n" >> root/bin/"$binfnstp"
-	else
-		printf "./root/bin/pci ||:\\n" >> root/bin/"$binfnstp"
+		printf "./root/bin/pc gzip sed ||:\\n" >> root/bin/"$binfnstp"
 	fi
 	cat >> root/bin/"$binfnstp" <<- EOM
-	printf "\\n\\e[1;32m==> \\e[0m"
+	printf "\\n\\e[1;32m==> "
 	locale-gen ||:
 	printf "\\n\\e[1;34m 🕛 > 🕤 Arch Linux in Termux is installed and configured 📲 \\n\\e[0m" '\033]2; 🕛 > 🕤 Arch Linux in Termux is installed and configured 📲 \007'
 	EOM

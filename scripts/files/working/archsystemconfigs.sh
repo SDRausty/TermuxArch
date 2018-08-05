@@ -361,7 +361,7 @@ addmotd () {
 
 addmoto () {
 	cat > etc/moto  <<- EOM
-	printf "\n\033[1;34mThank you for experiencing Arch Linux in Termux!\n\n\033[1;34mChat: \033[0mhttps://webchat.freenode.net/ #termux\n\033[1;34mHelp: \033[0;34minfo query \033[1;34mand \033[0;34mman query\n\033[1;34mIRC:  \033[0mwiki.archlinux.org/index.php/IRC_channel\n\n\033[0m"
+	printf "\n\033[1;34mShare Your Arch Linux in Termux Experience!\n\n\033[1;34mChat: \033[0mhttps://webchat.freenode.net/ #termux\n\033[1;34mHelp: \033[0;34minfo query \033[1;34mand \033[0;34mman query\n\033[1;34mIRC:  \033[0mwiki.archlinux.org/index.php/IRC_channel\n\n\033[0m"
 	EOM
 }
 
@@ -430,11 +430,12 @@ addpci () { # system update with pacman install packages shortcut
 	# https://sdrausty.github.io/TermuxArch/README has information about this project. 
 	################################################################################
 	set -Eeou pipefail 
+	declare -g args="\$@"
 
 	finishe () { # on exit
 		printf "\\e[?25h\\e[0m"
 		set +Eeuo pipefail 
-	 	printtail "\$@"  
+	 	printtail "\$args"  
 	}
 	
 	finisher () { # on script signal
@@ -449,8 +450,8 @@ addpci () { # system update with pacman install packages shortcut
 	 	exit \$? 
 	}
 	
-	printtail () { "\$@"
-		printf "\\\\a\\\\n\\\\e[0;32mTermuxArch pci \$@ \\\\a\\\\e[1;34m: \\\\a\\\\e[1;32mDONE\\e[0m 🏁  \\\\n\\\\n\\\\a\\\\e[0m"'\033]2;  🔑🗝 TermuxArch pci 📱 \007'
+	printtail () { 
+		printf "\\\\a\\\\n\\\\e[0;32mTermuxArch pci \$args \\\\a\\\\e[1;34m: \\\\a\\\\e[1;32mDONE\\e[0m 🏁  \\\\n\\\\n\\\\a\\\\e[0m"'\033]2;  🔑🗝 TermuxArch pci 📱 \007'
 	}
 
 	trap finisher ERR
