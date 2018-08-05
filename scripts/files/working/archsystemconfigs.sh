@@ -490,10 +490,11 @@ addpci () { # system update with pacman install packages shortcut
 	}
 	
 	printtail () { 
-		printf "\\\\a\\\\n\\\\e[0;32m%s\\\\a\\\\e[1;34m: \\\\a\\\\e[1;32mDONE\\e[0m 🏁  \\\\n\\\\n\\\\a\\\\e[0m" "TermuxArch pci " "\$args " '\033]2;  🔑🗝 TermuxArch pci 📱 \007'
+		printf "\\\\a\\\\n\\\\e[0;32m%s\\\\a\\\\e[1;34m: \\\\a\\\\e[1;32mDONE\\e[0m 🏁  \\\\n\\\\n\\\\a\\\\e[0m" "TermuxArch pci " "\$@" 
+		printf '\033]2;  🔑🗝 TermuxArch pci 📱 \007'
 	}
 
-	printf "\\\\n\\\\033[1;32m==> \\\\033[1;37m%s %s \\\\033[0m\\\\n\\\\n" "Running \\\\033[1;32mTermuxArch pci" "\$@" 
+	printf "\\\\n\\\\033[1;32m==> \\\\033[1;37m%s  \\\\033[1;32m%s %s \\\\033[0m\\\\n\\\\n" "Running" "TermuxArch pci" "\$@" 
 
 	trap finisher ERR
 	trap finishe EXIT
