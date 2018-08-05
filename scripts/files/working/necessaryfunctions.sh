@@ -110,7 +110,7 @@ mainblock () {
 	spaceinfo
 	callsystem 
 	printwld 
-	termux-wake-unlock
+	am startservice --user 0 -a com.termux.service_wake_unlock com.termux/com.termux.app.TermuxService > /dev/null
 	printdone 
 	printfooter
 	"$installdir/$startbin" ||:
@@ -250,7 +250,7 @@ makestartbin () {
 
 makesystem () {
 	printwla 
-	termux-wake-lock 
+	am startservice --user 0 -a com.termux.service_wake_lock com.termux/com.termux.app.TermuxService > /dev/null
 	printdone 
 	if [[ "$cpuabi" = "$cpuabix86" ]] || [[ "$cpuabi" = "$cpuabix8664" ]];then
 		getimage
