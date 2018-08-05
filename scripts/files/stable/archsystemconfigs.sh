@@ -336,9 +336,13 @@ addkeys () {
 	# This for loop generates entropy on device for \$t seconds.
 	for i in \$(seq 1 \$n); do
 		\$(nice -n 20 find / -type f -exec cat {} \; >/dev/null 2>/dev/null & sleep \$t ; kill \$! 2>/dev/null) &
+		sleep 0.2
 		\$(nice -n 20 ls -alR / >/dev/null 2>/dev/null & sleep \$t ; kill \$! 2>/dev/null) &
+		sleep 0.2
 		\$(nice -n 20 find / >/dev/null 2>/dev/null & sleep \$t ; kill \$! 2>/dev/null) &
+		sleep 0.2
 		\$(nice -n 20 cat /dev/urandom >/dev/null 2>/dev/null & sleep \$t ; kill \$! 2>/dev/null) &
+		sleep 0.2
 	done
 	pacman-key --init 2>/dev/null ||: 
 	chmod 700 /etc/pacman.d/gnupg
