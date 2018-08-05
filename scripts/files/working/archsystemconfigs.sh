@@ -331,21 +331,21 @@ addkeys () {
 		printf "\\e[?25h\\e[0m"
 		set +Eeuo pipefail 
 	 	printtail "\$keyrings[@]"  
-	 	echo "\$?" 
+	 	echo "[ \$0 completed (code \$?) ]" 
 	}
 	
 	finisher () { # on script signal
 		printf "\\n\\e[?25h\\e[0mTermuxArch keys warning.  \\n"
 	 	set +Eeuo pipefail 
+	 	echo "[ \$0 completed (code \$?) ]" 
 	 	exit "\$?" 
-	 	echo "\$?" 
 	}
 	
 	finishs () { # on signal
 		printf "\\n\\e[?25h\\e[0mTermuxArch keys warning.  Signal caught!\\n"
 		set +Eeuo pipefail 
+	 	echo "[ \$0 completed (code \$?) ]" 
 	 	exit "\$?" 
-	 	echo "\$?" 
 	}
 	
 	genen () { # This for loop generates entropy on device for \$t seconds.
