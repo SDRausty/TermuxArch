@@ -318,38 +318,73 @@ addgp () {
 
 addkeys () {
 	cat > root/bin/keys <<- EOM
-	#!/bin/bash -e
+	#!/bin/env bash 
 	# Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
 	# Hosting https://sdrausty.github.io/TermuxArch courtesy https://pages.github.com
 	# https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.  
 	# https://sdrausty.github.io/TermuxArch/README has information about this project. 
 	################################################################################
+	set -Eeuo pipefail 
+	declare -g args="\$@"
+
+	finishe () { # on exit
+		printf "\\e[?25h\\e[0m"
+		set +Eeuo pipefail 
+	 	printtail "\$args"  
+	 	echo "\$?" 
+	}
+	
+	finisher () { # on script signal
+		printf "\\n\\e[?25h\\e[0mTermuxArch keys warning.  \\n"
+	 	set +Eeuo pipefail 
+	 	exit "\$?" 
+	 	echo "\$?" 
+	}
+	
+	finishs () { # on signal
+		printf "\\n\\e[?25h\\e[0mTermuxArch keys warning.  Signal caught!\\n"
+		set +Eeuo pipefail 
+	 	exit "\$?" 
+	 	echo "\$?" 
+	}
+	
+	printtail () {
+		printf "\\\\a\\\\n\\\\e[0;32mTermuxArch pc \$args \$versionid\\\\a\\\\e[1;34m: \\\\a\\\\e[1;32mDONE\\e[0m 🏁  \\\\n\\\\n\\\\a\\\\e[0m"'\033]2;  🔑🗝 TermuxArch pc 📱 \007'
+	}
+
+	trap finishe EXIT
+	trap finisher ERR
+	trap finishs SIGINT SIGTERM 
+	## keys begin ####################################################################
 	n=2 # Number of loop generations for generating entropy.
 	t=256 # Maximum number of seconds loop shall run unless keys completes  sooner.
-	if [[ \$1 = x86 ]]; then
-		keyrings="archlinux32-keyring-transition"
+
+	if [[ -z "\${1:-}" ]];then
+	keyrings="archlinux-keyring"
+	elif [[ "\$1" = x86 ]]; then
+	keyrings="archlinux32-keyring-transition"
 	else
-		keyrings="archlinux-keyring"
+	keyrings="\$@"
 	fi
 	mv usr/lib/gnupg/scdaemon{,_} 2>/dev/null ||: 
 	printf '\033]2;  🔑🗝 TermuxArch keys 📲 \007'"\n\033[0;34mWhen \033[0;37mgpg: Generating pacman keyring master key\033[0;34m appears on the screen, the installation process can be accelerated.  The system desires a lot of entropy at this part of the install procedure.  To generate as much entropy as possible quickly, watch and listen to a file on your device.  \n\nThe program \033[1;32mpacman-key\033[0;34m will want as much entropy as possible when generating keys.  Entropy is also created through tapping, sliding, one, two and more fingers tapping with short and long taps.  When \033[0;37mgpg: Generating pacman keyring master key\033[0;34m appears on the screen, use any of these simple methods to accelerate the installation process if it is stalled.  Put even simpler, just do something on device.  Browsing files will create entropy on device.  Slowly swiveling the device in space and time will accelerate the installation process.  This method alone might not generate enough entropy (a measure of randomness in a closed system) for the process to complete quickly.  Use \033[1;32mbash ~${darch}/bin/we \033[0;34min a new Termux session to and watch entropy on device.\n\n\033[1;32m==>\033[0m Running \033[1mpacman-key --init\033[0;32m…\n"
 	# This for loop generates entropy on device for \$t seconds.
-	for i in \$(seq 1 \$n); do
-		\$(nice -n 20 find / -type f -exec cat {} \; >/dev/null 2>/dev/null & sleep \$t ; kill \$! 2>/dev/null) &
+	for i in "\$(seq 1 "\$n")"; do
+		"\$(nice -n 20 find / -type f -exec cat {} \; >/dev/null 2>/dev/null & sleep "\$t" ; kill \$! 2>/dev/null)" &
 		sleep 0.2
-		\$(nice -n 20 ls -alR / >/dev/null 2>/dev/null & sleep \$t ; kill \$! 2>/dev/null) &
+		"\$(nice -n 20 ls -alR / >/dev/null 2>/dev/null & sleep "\$t" ; kill \$! 2>/dev/null)" &
 		sleep 0.2
-		\$(nice -n 20 find / >/dev/null 2>/dev/null & sleep \$t ; kill \$! 2>/dev/null) &
+		"\$(nice -n 20 find / >/dev/null 2>/dev/null & sleep "\$t" ; kill \$! 2>/dev/null)" &
 		sleep 0.2
-		\$(nice -n 20 cat /dev/urandom >/dev/null 2>/dev/null & sleep \$t ; kill \$! 2>/dev/null) &
+		"\$(nice -n 20 cat /dev/urandom >/dev/null 2>/dev/null & sleep "\$t" ; kill \$! 2>/dev/null)" &
 		sleep 0.2
 	done
 	pacman-key --init 2>/dev/null ||: 
 	chmod 700 /etc/pacman.d/gnupg
 	printf "\n\033[1;32m==>\033[0m Running \033[1mpacman -S \$keyrings --noconfirm --color=always\033[0;32m…\n"
-	pacman -S \$keyrings --noconfirm --color=always 2>/dev/null ||: 
+	pacman -S "\$keyrings" "\$@" --noconfirm --color=always ||: 
 	printf "\n\033[0;34mWhen \033[1;37mAppending keys from archlinux.gpg\033[0;34m appears on the screen, the installation process can be accelerated.  The system desires a lot of entropy at this part of the install procedure.  To generate as much entropy as possible quickly, watch and listen to a file on your device.  \n\nThe program \033[1;32mpacman-key\033[0;34m will want as much entropy as possible when generating keys.  Entropy is also created through tapping, sliding, one, two and more fingers tapping with short and long taps.  When \033[1;37mAppending keys from archlinux.gpg\033[0;34m appears on the screen, use any of these simple methods to accelerate the installation process if it is stalled.  Put even simpler, just do something on device.  Browsing files will create entropy on device.  Slowly swiveling the device in space and time will accelerate the installation process.  This method alone might not generate enough entropy (a measure of randomness in a closed system) for the process to complete quickly.  Use \033[1;32mbash ~${darch}/bin/we \033[0;34min a new Termux session to watch entropy on device.\n\n\033[1;32m==>\033[0m Running \033[1mpacman-key --populate\033[0;32m…\n"
-	pacman-key --populate 2>/dev/null ||: 
+	pacman-key --populate ||: 
 	printf "\n\033[1;32m==>\033[0m Running \033[1mpacman -Ss keyring --color=always\033[0m…\n"
 	pacman -Ss keyring --color=always ||: 
 	printf "\\\\n\\\\e[0;32mTermuxArch keys \$@ \\\\a\\\\e[1;34m: \\\\e[1;32mDONE 🏁\\\\n\\\\n\\\\e[0m"'\033]2;  🔑🗝 TermuxArch keys 📱 \007'
@@ -388,14 +423,14 @@ addpc () { # pacman install packages shortcut
 	}
 	
 	finisher () { # on script signal
-		printf "\\n\\e[?25h\\e[0mProgram warning.  \\n"
+		printf "\\n\\e[?25h\\e[0mTermuxArch pc warning.  \\n"
 	 	set +Eeuo pipefail 
 	 	exit "\$?" 
 	 	echo "\$?" 
 	}
 	
 	finishs () { # on signal
-		printf "\\n\\e[?25h\\e[0mProgram warning.  Signal caught!\\n"
+		printf "\\n\\e[?25h\\e[0mTermuxArch pc warning.  Signal caught!\\n"
 		set +Eeuo pipefail 
 	 	exit "\$?" 
 	 	echo "\$?" 
@@ -433,7 +468,7 @@ addpci () { # system update with pacman install packages shortcut
 	# https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.  
 	# https://sdrausty.github.io/TermuxArch/README has information about this project. 
 	################################################################################
-	set -Eeou pipefail 
+	set -Eeuo pipefail 
 	declare -g args="\$@"
 
 	finishe () { # on exit
@@ -443,20 +478,23 @@ addpci () { # system update with pacman install packages shortcut
 	}
 	
 	finisher () { # on script signal
-		printf "\\n\\e[?25h\\e[0mProgram warning.  \\n"
+		printf "\\n\\e[?25h\\e[0mTermuxArch pci warning.  \\n"
 	 	set +Eeuo pipefail 
 	 	exit \$? 
 	}
 	
 	finishs () { # on signal
-		printf "\\n\\e[?25h\\e[0mProgram warning.  Signal caught!\\n"
+		printf "\\n\\e[?25h\\e[0mTermuxArch pci warning.  Signal caught!\\n"
 		set +Eeuo pipefail 
 	 	exit \$? 
 	}
 	
 	printtail () { 
-		printf "\\\\a\\\\n\\\\e[0;32mTermuxArch pci \$args \\\\a\\\\e[1;34m: \\\\a\\\\e[1;32mDONE\\e[0m 🏁  \\\\n\\\\n\\\\a\\\\e[0m"'\033]2;  🔑🗝 TermuxArch pci 📱 \007'
+		printf "\\\\a\\\\n\\\\e[0;32m%s\\\\a\\\\e[1;34m: \\\\a\\\\e[1;32mDONE\\e[0m 🏁  \\\\n\\\\n\\\\a\\\\e[0m" "TermuxArch pci " "\$@" 
+		printf '\033]2;  🔑🗝 TermuxArch pci 📱 \007'
 	}
+
+	printf "\\\\n\\\\033[1;32m==> \\\\033[1;37m%s  \\\\033[1;32m%s %s \\\\033[0m\\\\n\\\\n" "Running" "TermuxArch pci" "\$@" 
 
 	trap finisher ERR
 	trap finishe EXIT
