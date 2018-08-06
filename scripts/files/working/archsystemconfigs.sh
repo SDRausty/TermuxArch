@@ -331,7 +331,7 @@ addkeys () {
 		printf "\\e[?25h\\e[0m"
 		set +Eeuo pipefail 
 	 	printtail "\$keyrings[@]"  
-# 	 	echo "[ \$0 done (\$?) ]" 
+ 	 	echo "[ \$0 done (\$?) ]" 
 	}
 	
 	finisher () { # on script signal
@@ -422,7 +422,7 @@ addpc () { # pacman install packages shortcut
 		printf "\\e[?25h\\e[0m"
 		set +Eeuo pipefail 
 	 	printtail "\$args"  
-	 	echo "\$?" 
+ 	 	echo "[ \$0 done (\$?) ]" 
 	}
 	
 	finisher () { # on script signal
@@ -478,18 +478,21 @@ addpci () { # system update with pacman install packages shortcut
 		printf "\\e[?25h\\e[0m"
 		set +Eeuo pipefail 
 	 	printtail "\$args"  
+ 	 	echo "[ \$0 done (\$?) ]" 
 	}
 	
 	finisher () { # on script signal
 		printf "\\n\\e[?25h\\e[0mTermuxArch pci warning.  \\n"
 	 	set +Eeuo pipefail 
 	 	exit \$? 
+	 	echo "\$?" 
 	}
 	
 	finishs () { # on signal
 		printf "\\n\\e[?25h\\e[0mTermuxArch pci warning.  Signal caught!\\n"
 		set +Eeuo pipefail 
 	 	exit \$? 
+	 	echo "\$?" 
 	}
 	
 	printtail () { 
