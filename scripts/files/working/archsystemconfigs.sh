@@ -207,7 +207,6 @@ addch () { # Creates .hushlogin and .hushlogout file
 	################################################################################
 	set -Eeou pipefail 
 	declare -a args
-	declare -a keyrings
 
 	finishe () { # on exit
 		printf "\\e[?25h\\e[0m"
@@ -235,8 +234,8 @@ addch () { # Creates .hushlogin and .hushlogout file
 		printf '\033]2;  🔑🗝 TermuxArch \$0: DONE 📱 \007'
 	}
 
-	trap finishe EXIT
 	trap finisher ERR
+	trap finishe EXIT
 	trap finishs SIGINT SIGTERM 
 	## ch begin ####################################################################
 	touch \$HOME/.hushlogin \$HOME/.hushlogout
@@ -423,8 +422,11 @@ addkeys () {
 	printf "\n\e[1;32m==> \e[0mRunning TermuxArch \$0 …\n" '\033]2;  🔑🗝 TermuxArch keys 📲 \007'
 	if [[ -z "\${1:-}" ]];then
 	keyrings[0]="archlinux-keyring"
+	keyrings[1]="archlinuxarm-keyring"
 	elif [[ "\$1" = x86 ]]; then
 	keyrings[0]="archlinux32-keyring-transition"
+	elif [[ "\$1" = x86_64 ]]; then
+	keyrings[0]="archlinux-keyring"
 	else
 	keyrings[@]="\$@"
 	fi

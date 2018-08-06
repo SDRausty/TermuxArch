@@ -146,13 +146,15 @@ makefinishsetup () {
 	fi
 	if [[ "$cpuabi" = "$cpuabix86" ]];then
 		printf "./root/bin/keys x86\\n" >> root/bin/"$binfnstp"
+	elif [[ "$cpuabi" = "$cpuabix86_64" ]];then
+		printf "./root/bin/keys x86_64\\n" >> root/bin/"$binfnstp"
 	else
-: #		printf "./root/bin/keys\\n" >> root/bin/"$binfnstp"
+		printf "./root/bin/keys\\n" >> root/bin/"$binfnstp"
 	fi
 	if [[ "$cpuabi" = "$cpuabix86" ]] || [[ "$cpuabi" = "$cpuabix8664" ]];then
 		printf "./root/bin/pci gzip sed \\n" >> root/bin/"$binfnstp"
 	else
-: #		printf "./root/bin/pci \\n" >> root/bin/"$binfnstp"
+		printf "./root/bin/pci \\n" >> root/bin/"$binfnstp"
 	fi
 	cat >> root/bin/"$binfnstp" <<- EOM
 	printf "\\n\\e[1;32m==> "
