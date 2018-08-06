@@ -197,6 +197,54 @@ addexd () {
 	chmod 770 root/bin/exd 
 }
 
+addch () { # Creates .hushlogin and .hushlogout file
+	cat > root/bin/ch <<- EOM
+	#!/bin/env bash
+	# Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
+	# Hosting https://sdrausty.github.io/TermuxArch courtesy https://pages.github.com
+	# https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.  
+	# https://sdrausty.github.io/TermuxArch/README has information about this project. 
+	################################################################################
+	set -Eeou pipefail 
+	declare -a args
+	declare -a keyrings
+
+	finishe () { # on exit
+		printf "\\e[?25h\\e[0m"
+		set +Eeuo pipefail 
+	 	printtail "\$args[@]"  
+#  	 	echo "[ \$0 done (\$?) ]" 
+	}
+	
+	finisher () { # on script signal
+		printf "\\n\\e[?25h\\e[0m%s\\n" "TermuxArch \$0 warning." 
+	 	set +Eeuo pipefail 
+	 	echo "\$?" 
+	 	exit "\$?" 
+	}
+	
+	finishs () { # on signal
+		printf "\\n\\e[?25h\\e[0m%s\\n" "TermuxArch \$0 warning.  Signal caught!"
+		set +Eeuo pipefail 
+	 	echo "\$?" 
+	 	exit "\$?" 
+	}
+	
+	printtail () {
+		printf "\\a\\n\\e[0;32mTermuxArch %s %s %s\\a\\e[1;34m: \\a\\e[1;32mDONE 🏁 \\e[0m\\n\\n\\a" "\$0" "\${args[@]}" "$versionid" 
+		printf '\033]2;  🔑🗝 TermuxArch \$0: DONE 📱 \007'
+	}
+
+	trap finishe EXIT
+	trap finisher ERR
+	trap finishs SIGINT SIGTERM 
+	## ch begin ####################################################################
+	touch \$HOME/.hushlogin \$HOME/.hushlogout
+	ls \$HOME/.hushlogin \$HOME/.hushlogout
+	EOM
+	chmod 770 root/bin/ch 
+}
+
 adddfa () {
 	cat > root/bin/dfa <<- EOM
 	#!/bin/bash -e
