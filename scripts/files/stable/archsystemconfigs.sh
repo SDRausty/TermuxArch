@@ -331,7 +331,7 @@ addkeys () {
 		printf "\\e[?25h\\e[0m"
 		set +Eeuo pipefail 
 	 	printtail "\$keyrings[@]"  
-	 	echo "[ \$0 done (\$?) ]" 
+# 	 	echo "[ \$0 done (\$?) ]" 
 	}
 	
 	finisher () { # on script signal
