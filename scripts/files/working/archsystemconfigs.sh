@@ -399,13 +399,13 @@ addkeys () {
 		n=2 # Number of loop generations for generating entropy.
 		t=256 # Maximum number of seconds loop shall run unless keys completes earlier.
 		for i in "\$(seq 1 "\$n")"; do
-			"\$(nice -n 20 find / -type f -exec cat {} \; >/dev/null 2>/dev/null & sleep "\$t" ; kill \$! 2>/dev/null)" &
+			"\$(nice -n 20 find / -type f -exec cat {} \; >/dev/null 2>/dev/null & sleep "\$t" ; kill \$! 2>/dev/null)" 2>/dev/null &
 			sleep 0.2
-			"\$(nice -n 20 ls -alR / >/dev/null 2>/dev/null & sleep "\$t" ; kill \$! 2>/dev/null)" &
+			"\$(nice -n 20 ls -alR / >/dev/null 2>/dev/null & sleep "\$t" ; kill \$! 2>/dev/null)" 2>/dev/null &
 			sleep 0.2
-			"\$(nice -n 20 find / >/dev/null 2>/dev/null & sleep "\$t" ; kill \$! 2>/dev/null)" &
+			"\$(nice -n 20 find / >/dev/null 2>/dev/null & sleep "\$t" ; kill \$! 2>/dev/null)" 2>/dev/null &
 			sleep 0.2
-			"\$(nice -n 20 cat /dev/urandom >/dev/null 2>/dev/null & sleep "\$t" ; kill \$! 2>/dev/null)" &
+			"\$(nice -n 20 cat /dev/urandom >/dev/null 2>/dev/null & sleep "\$t" ; kill \$! 2>/dev/null)" 2>/dev/null &
 			sleep 0.2
 		done
 	}
