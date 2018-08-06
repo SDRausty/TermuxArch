@@ -331,20 +331,20 @@ addkeys () {
 		printf "\\e[?25h\\e[0m"
 		set +Eeuo pipefail 
 	 	printtail "\$keyrings[@]"  
-# 	 	echo "[ \$0 done (\$?) ]" 
+#  	 	echo "[ \$0 done (\$?) ]" 
 	}
 	
 	finisher () { # on script signal
 		printf "\\n\\e[?25h\\e[0mTermuxArch keys warning.  \\n"
 	 	set +Eeuo pipefail 
-	 	echo "[ \$0 done (\$?) ]" 
+	 	echo "\$?" 
 	 	exit "\$?" 
 	}
 	
 	finishs () { # on signal
 		printf "\\n\\e[?25h\\e[0mTermuxArch keys warning.  Signal caught!\\n"
 		set +Eeuo pipefail 
-	 	echo "[ \$0 done (\$?) ]" 
+	 	echo "\$?" 
 	 	exit "\$?" 
 	}
 	
@@ -372,7 +372,7 @@ addkeys () {
 	trap finisher ERR
 	trap finishs SIGINT SIGTERM 
 	## keys begin ####################################################################
-	printf "\n\e[1;32m==> \e[0mRunning ./root/bin/keys…\n" '\033]2;  🔑🗝 TermuxArch keys 📲 \007'
+	printf "\n\e[1;32m==> \e[0mRunning TermuxArch \$0 …\n" '\033]2;  🔑🗝 TermuxArch keys 📲 \007'
 	if [[ -z "\${1:-}" ]];then
 	keyrings[0]="archlinux-keyring"
 	elif [[ "\$1" = x86 ]]; then
@@ -422,21 +422,21 @@ addpc () { # pacman install packages shortcut
 		printf "\\e[?25h\\e[0m"
 		set +Eeuo pipefail 
 	 	printtail "\$args"  
-	 	echo "\$?" 
+#  	 	echo "[ \$0 done (\$?) ]" 
 	}
 	
 	finisher () { # on script signal
 		printf "\\n\\e[?25h\\e[0mTermuxArch pc warning.  \\n"
 	 	set +Eeuo pipefail 
-	 	exit "\$?" 
 	 	echo "\$?" 
+	 	exit "\$?" 
 	}
 	
 	finishs () { # on signal
 		printf "\\n\\e[?25h\\e[0mTermuxArch pc warning.  Signal caught!\\n"
 		set +Eeuo pipefail 
-	 	exit "\$?" 
 	 	echo "\$?" 
+	 	exit "\$?" 
 	}
 	
 	printtail () {
@@ -478,17 +478,20 @@ addpci () { # system update with pacman install packages shortcut
 		printf "\\e[?25h\\e[0m"
 		set +Eeuo pipefail 
 	 	printtail "\$args"  
+#  	 	echo "[ \$0 done (\$?) ]" 
 	}
 	
 	finisher () { # on script signal
 		printf "\\n\\e[?25h\\e[0mTermuxArch pci warning.  \\n"
 	 	set +Eeuo pipefail 
+	 	echo "\$?" 
 	 	exit \$? 
 	}
 	
 	finishs () { # on signal
 		printf "\\n\\e[?25h\\e[0mTermuxArch pci warning.  Signal caught!\\n"
 		set +Eeuo pipefail 
+	 	echo "\$?" 
 	 	exit \$? 
 	}
 	
@@ -497,7 +500,7 @@ addpci () { # system update with pacman install packages shortcut
 		printf '\033]2;  🔑🗝 TermuxArch pci 📱 \007'
 	}
 
-	printf "\\\\n\\\\033[1;32m==> \\\\033[1;37m%s  \\\\033[1;32m%s %s \\\\033[0m\\\\n\\\\n" "Running" "TermuxArch pci" "\$@" 
+	printf "\\\\n\\\\033[1;32m==> \\\\033[1;37m%s  \\\\033[1;32m%s %s \\\\033[0m\\\\n\\\\n" "Running" "TermuxArch \$0" "\$@" 
 
 	trap finisher ERR
 	trap finishe EXIT
@@ -610,7 +613,7 @@ addtrim () {
 	# https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.  
 	# https://sdrausty.github.io/TermuxArch/README has information about this project. 
 	################################################################################
-	printf "\\\\n\\\\e[1;32m==> \\\\e[1;0mRunning ./root/bin/trim… \\\\e[0m\\\\n\\\\n" 
+	printf "\\\\n\\\\e[1;32m==> \\\\e[1;0mRunning \$0 … \\\\e[0m\\\\n\\\\n" 
 	echo [1/5] rm -rf /boot/
 	rm -rf /boot/
 	echo [2/5] rm -rf /usr/lib/firmware
