@@ -8,7 +8,7 @@ set -Eeuo pipefail
 unset LD_PRELOAD
 
 arg2dir () { 
-	arg2="$(echo "$@" | awk '{print $2}')"
+	arg2="$(echo ${@:2:1})"
 	if [[ "$arg2" = "" ]] ;then
 		rootdir=/arch
 		nameinstalldir 
@@ -19,7 +19,7 @@ arg2dir () {
 }
 
 arg3dir () {
-	arg3="$(echo "$@" | awk '{print $3}')"
+	arg2="$(echo ${@:3:1})"
 	if [[ "$arg3" = "" ]] ;then
 		rootdir=/arch
 		nameinstalldir 
@@ -707,7 +707,7 @@ stime="${stim:0:4}"
 trap finishs SIGINT SIGTERM 
 trap finisher ERR
 trap finishe EXIT
-versionid="gen.v1.6 id591931174"
+ersionid="gen.v1.6 id914668164082"
 
 if [[ "$commandif" = "" ]];then
 	echo Run \`setupTermuxArch.sh\` from the Android system in Termux.
