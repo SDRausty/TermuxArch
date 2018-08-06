@@ -102,9 +102,6 @@ addbash_logout () {
 	if [ ! -e \$HOME/.hushlogout ] && [ ! -e \$HOME/.chushlogout ];then
 		. /etc/moto
 	fi
-	if [ -e \$HOME/.chushlogout ];then
-		rm \$HOME/.chushlogout
-	fi
 	EOM
 }
 
@@ -112,6 +109,9 @@ addbash_profile () {
 	cat > root/.bash_profile <<- EOM
 	if [ ! -e \$HOME/.hushlogin ] && [ ! -e \$HOME/.chushlogin ];then
 		. /etc/motd
+	fi
+	if [ -e \$HOME/.chushlogin ];then
+		rm \$HOME/.chushlogin 
 	fi
 	PATH=\$HOME/bin:\$PATH
 	. \$HOME/.bashrc
