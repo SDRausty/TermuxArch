@@ -48,7 +48,7 @@ detectsystem () {
 		aarch64
 	elif [[ "$cpuabi" = "$cpuabix86" ]];then
 		i686 
-	elif [[ "$cpuabi" = "$cpuabix8664" ]];then
+	elif [[ "$cpuabi" = "$cpuabix86_64" ]];then
 		x86_64
 	else
 		printmismatch 
@@ -146,10 +146,12 @@ makefinishsetup () {
 	fi
 	if [[ "$cpuabi" = "$cpuabix86" ]];then
 		printf "./root/bin/keys x86\\n" >> root/bin/"$binfnstp"
+	elif [[ "$cpuabi" = "$cpuabix86_64" ]];then
+		printf "./root/bin/keys x86_64\\n" >> root/bin/"$binfnstp"
 	else
 		printf "./root/bin/keys\\n" >> root/bin/"$binfnstp"
 	fi
-	if [[ "$cpuabi" = "$cpuabix86" ]] || [[ "$cpuabi" = "$cpuabix8664" ]];then
+	if [[ "$cpuabi" = "$cpuabix86" ]] || [[ "$cpuabi" = "$cpuabix86_64" ]];then
 		printf "./root/bin/pci gzip sed \\n" >> root/bin/"$binfnstp"
 	else
 		printf "./root/bin/pci \\n" >> root/bin/"$binfnstp"
@@ -251,7 +253,7 @@ makesystem () {
 	printwla 
 	am startservice --user 0 -a com.termux.service_wake_lock com.termux/com.termux.app.TermuxService > /dev/null
 	printdone 
-	if [[ "$cpuabi" = "$cpuabix86" ]] || [[ "$cpuabi" = "$cpuabix8664" ]];then
+	if [[ "$cpuabi" = "$cpuabix86" ]] || [[ "$cpuabi" = "$cpuabix86_64" ]];then
 		getimage
 	else
 		if [[ "$mirror" = "os.archlinuxarm.org" ]] || [[ "$mirror" = "mirror.archlinuxarm.org" ]]; then
@@ -287,7 +289,7 @@ makesystem () {
 
 preproot () {
 	if [[ "$(du "$installdir"/*z | awk {'print $1'})" -gt 112233 ]];then
-		if [[ "$cpuabi" = "$cpuabix86" ]] || [[ "$cpuabi" = "$cpuabix8664" ]];then
+		if [[ "$cpuabi" = "$cpuabix86" ]] || [[ "$cpuabi" = "$cpuabix86_64" ]];then
 			#cd $HOME
 			#proot --link2symlink -0 $PREFIX/bin/applets/tar xf $installdir$file 
 			#cd $installdir
@@ -383,11 +385,12 @@ touchupsys () {
 	addauser
 	addauserps
 	addauserpsc
-	addcdtd
-	addcdth
 	addbash_logout 
 	addbash_profile 
 	addbashrc 
+	addcdtd
+	addcdth
+	addch 
 	adddfa
 	addexd
 	addga

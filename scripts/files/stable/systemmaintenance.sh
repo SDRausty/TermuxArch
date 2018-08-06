@@ -82,11 +82,12 @@ refreshsys () {
 	addauser
 	addauserps
 	addauserpsc
-	addcdtd
-	addcdth
 	addbash_logout 
 	addbash_profile 
 	addbashrc 
+	addcdtd
+	addcdth
+	addch 
 	adddfa
 	addexd
 	addfibs

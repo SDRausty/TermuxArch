@@ -185,7 +185,7 @@ dependsblock () {
 }
 
 dependbp () {
-	if [[ "$cpuabi" = "$cpuabix86" ]] || [[ "$cpuabi" = "$cpuabix8664" ]];then
+	if [[ "$cpuabi" = "$cpuabix86" ]] || [[ "$cpuabi" = "$cpuabix86_64" ]];then
 		bsdtarif 
 		prootif 
 	else
@@ -557,7 +557,7 @@ setrootdir () {
 	if [[ "$cpuabi" = "$cpuabix86" ]];then
 	#	rootdir=/root.i686
 		rootdir=/arch
-	elif [[ "$cpuabi" = "$cpuabix8664" ]];then
+	elif [[ "$cpuabi" = "$cpuabix86_64" ]];then
 	#	rootdir=/root.x86_64
 		rootdir=/arch
 	else
@@ -578,7 +578,7 @@ spaceinfo () {
 
 spaceinfogsize () {
 	userspace return
-	if [[ "$cpuabi" = "$cpuabix86" ]] || [[ "$cpuabi" = "$cpuabix8664" ]];then
+	if [[ "$cpuabi" = "$cpuabix86" ]] || [[ "$cpuabi" = "$cpuabix86_64" ]];then
 		if [[ "$usrspace" = *G ]];then 
 			spaceMessage=""
 		elif [[ "$usrspace" = *M ]];then
@@ -645,7 +645,7 @@ spaceinfoksize () {
 		else
 			spaceMessage=""
 		fi
-	elif [[ "$cpuabi" = "$cpuabix86" ]] || [[ "$cpuabi" = "$cpuabix8664" ]];then
+	elif [[ "$cpuabi" = "$cpuabix86" ]] || [[ "$cpuabi" = "$cpuabix86_64" ]];then
 		if [[ "$usrspace" -lt "800000" ]];then
 			spaceMessage="\\n\\e[0;33mTermuxArch: \\e[1;33mFREE SPACE WARNING!  \\e[1;30mStart thinking about cleaning out some stuff.  \\e[33m$usrspace $units of free user space is available on this device.  \\e[1;30mThe recommended minimum to install Arch Linux in Termux PRoot for x86 and x86_64 is 800M of free user space.\\n\\e[0m"
 		else
@@ -686,7 +686,7 @@ cpuabi5="armeabi"
 cpuabi7="armeabi-v7a"
 cpuabi8="arm64-v8a"
 cpuabix86="x86"
-cpuabix8664="x86_64"
+cpuabix86_64="x86_64"
 
 declare COUNTER=""
 declare bin=""
