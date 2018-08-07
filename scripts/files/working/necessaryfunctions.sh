@@ -154,7 +154,7 @@ makefinishsetup () {
 	if [[ "$cpuabi" = "$cpuabix86" ]] || [[ "$cpuabi" = "$cpuabix86_64" ]];then
 		printf "./root/bin/pci gzip sed \\n" >> root/bin/"$binfnstp"
 	else
-		printf "./root/bin/pci \\n" >> root/bin/"$binfnstp"
+		printf "./root/bin/pc \\n" >> root/bin/"$binfnstp"
 	fi
 	cat >> root/bin/"$binfnstp" <<- EOM
 	printf "\\n\\e[1;32m==> "
