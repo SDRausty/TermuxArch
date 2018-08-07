@@ -468,7 +468,7 @@ addpc () { # pacman install packages shortcut
 	################################################################################
 	set -Eeou pipefail 
 	declare -g args="\$@"
-	versionid="gen.v1.6 id920533410"
+versionid="gen.v1.6 id447316274"
 
 	finishe () { # on exit
 		printf "\\e[?25h\\e[0m"
@@ -477,7 +477,7 @@ addpc () { # pacman install packages shortcut
 #  	 	echo "[ \$0 done (\$?) ]" 
 	}
 	
-	finisher () { # on script signal
+	inisher () { # on script signal
 		printf "\\n\\e[?25h\\e[0mTermuxArch pc warning.  \\n"
 	 	set +Eeuo pipefail 
 	 	echo "\$?" 
@@ -513,7 +513,6 @@ addpc () { # pacman install packages shortcut
 	else
 	pacman --noconfirm --color=always -S "\$@" 
 	fi
-	versionid="gen.v1.6 id502094774"
 	EOM
 	chmod 700 root/bin/pc 
 }
@@ -528,7 +527,7 @@ addpci () { # system update with pacman install packages shortcut
 	################################################################################
 	set -Eeuo pipefail 
 	declare args="\$@"
-	versionid="gen.v1.6 id920533410"
+versionid="gen.v1.6 id447316274"
 
 	finishe () { # on exit
 		printf "\\e[?25h\\e[0m"
