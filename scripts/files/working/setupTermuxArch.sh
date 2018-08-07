@@ -290,7 +290,7 @@ edq2 () {
 	printf "\\n"
 }
 
-finishe () { "$@" # on exit
+finishe () { # on exit
 	printf "\\e[?25h\\e[0m"
 	set +Eeuo pipefail 
  	printtail "$args"  
@@ -423,7 +423,7 @@ printsha512syschker () {
 	exit 
 }
 
-printtail () { "$@"  
+printtail () {   
 # 	namestartarch "$@"  
 # 	"$startbin" help 2>/dev/null
 	printf "\\a\\n\\e[0;32m%s %s \\a\\e[0m$versionid \\e[1;34m: \\a\\e[1;32mDONE\\e[0m 🏁  \\n\\n\\a\\e[0m" "$(basename "$0")" "$args"
@@ -543,7 +543,7 @@ rootdirexception () {
 	fi
 }
 
-runbloom () { "$@" 
+runbloom () {  
 	if [[ -d "$HOME"/TermuxArchBloom ]];then 
 		opt=bloom
 		bloomdependsblock 
@@ -707,7 +707,7 @@ stime="${stim:0:4}"
 trap finisher ERR
 trap finishe EXIT
 trap finishs INT TERM 
-versionid="gen.v1.6 id610400302419"
+versionid="gen.v1.6 id795359809465"
 
 if [[ "$commandif" = "" ]];then
 	echo Run \`setupTermuxArch.sh\` from the Android system in Termux.
