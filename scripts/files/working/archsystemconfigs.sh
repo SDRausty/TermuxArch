@@ -376,7 +376,7 @@ addkeys () {
 	set -Eeou pipefail 
 	shopt -s nullglob globstar
 	declare -a keyrings
-versionid="v1.6"
+versionid="gen.v1.6 id649309492386"
 
 	finishe () { # on exit
 		printf "\\e[?25h\\e[0m"
@@ -476,7 +476,7 @@ addpc () { # pacman install packages shortcut
 	set -Eeou pipefail 
 	shopt -s nullglob globstar
 	declare -g args="\$@"
-versionid="v1.6"
+versionid="gen.v1.6 id649309492386"
 
 	finishe () { # on exit
 		printf "\\e[?25h\\e[0m"
@@ -537,7 +537,7 @@ addpci () { # system update with pacman install packages shortcut
 	set -Eeuo pipefail 
 	shopt -s nullglob globstar
 	declare args="\$@"
-versionid="v1.6"
+versionid="gen.v1.6 id649309492386"
 
 	finishe () { # on exit
 		printf "\\e[?25h\\e[0m"
@@ -701,6 +701,13 @@ addv () {
 	# https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.  
 	# https://sdrausty.github.io/TermuxArch/README has information about this project. 
 	################################################################################
+	set -Eeou pipefail 
+	shopt -s nullglob globstar
+	if [[ -z "\${1:-}" ]];then
+		args="."
+	else
+		args="\$@"
+	fi
 	if [ ! -e /usr/bin/vim ] ; then
 		pacman --noconfirm --color=always -Syu vim 
 		vim \$@
