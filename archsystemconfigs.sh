@@ -12,7 +12,7 @@ addREADME () {
 	* Comments are welcome at https://github.com/sdrausty/TermuxArch/issues ✍ 
 	* Pull requests are welcome at https://github.com/sdrausty/TermuxArch/pulls ✍ 
 	
-	Thank you for making this project work better and please contribute 🔆  Contributors and Notice to Contributors have more information about this project.
+	Thank you for making this project work better and please contribute 🔆 
 	EOM
 }
 
@@ -447,7 +447,7 @@ versionid="v1.6"
 	fi
 	args="\${keyrings[@]}"
 	printf '\033]2;  🔑🗝 TermuxArch '"\$(basename "\$0") \$args"' 📲 \007'
-	printf "\\\\n\\\\033[1;32m==> \\\\033[1;37m%s \\\\033[0;32m%s \\\\033[1;32m%s %s \\\\033[0m%s…\\\\n\\\\n" "Running" "TermuxArch" "\$(basename "\$0")" "\$args" "\$versionid"  
+	printf "\\\\n\\\\033[1;32m==> \\\\033[1;37m%s \\\\033[0;32m%s \\\\033[1;32m%s %s \\\\033[0m%s…\\\\n" "Running" "TermuxArch" "\$(basename "\$0")" "\$args" "\$versionid"  
 	mv usr/lib/gnupg/scdaemon{,_} 2>/dev/null ||: 
 	printf "\n\033[0;34mWhen \033[0;37mgpg: Generating pacman keyring master key\033[0;34m appears on the screen, the installation process can be accelerated.  The system desires a lot of entropy at this part of the install procedure.  To generate as much entropy as possible quickly, watch and listen to a file on your device.  \n\nThe program \033[1;32mpacman-key\033[0;34m will want as much entropy as possible when generating keys.  Entropy is also created through tapping, sliding, one, two and more fingers tapping with short and long taps.  When \033[0;37mgpg: Generating pacman keyring master key\033[0;34m appears on the screen, use any of these simple methods to accelerate the installation process if it is stalled.  Put even simpler, just do something on device.  Browsing files will create entropy on device.  Slowly swiveling the device in space and time will accelerate the installation process.  This method alone might not generate enough entropy (a measure of randomness in a closed system) for the process to complete quickly.  Use \033[1;32mbash ~${darch}/bin/we \033[0;34min a new Termux session to and watch entropy on device.\n\n\033[1;32m==>\033[0m Running \033[1mpacman-key --init\033[0;32m…\n"
 	genen
