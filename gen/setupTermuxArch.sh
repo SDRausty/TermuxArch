@@ -704,10 +704,10 @@ dfl=/gen
 dmverbose="-q"	# Use "-v" for verbose download manager output; important, also change this setting in `knownconfigurations.sh` for verbose output from the download manager throughout runtime. 
 stim="$(date +%s)"
 stime="${stim:0:4}"
-trap finishs SIGINT SIGTERM 
 trap finisher ERR
 trap finishe EXIT
-versionid="gen.v1.6 id920533410"
+trap finishs INT TERM 
+versionid="gen.v1.6 id900053640"
 
 if [[ "$commandif" = "" ]];then
 	echo Run \`setupTermuxArch.sh\` from the Android system in Termux.

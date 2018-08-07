@@ -236,7 +236,7 @@ addch () { # Creates .hushlogin and .hushlogout file
 
 	trap finisher ERR
 	trap finishe EXIT
-	trap finishs SIGINT SIGTERM 
+	trap finishs INT TERM 
 	## ch begin ####################################################################
 	touch \$HOME/.hushlogin \$HOME/.hushlogout
 	ls \$HOME/.hushlogin \$HOME/.hushlogout
@@ -417,7 +417,7 @@ addkeys () {
 
 	trap finishe EXIT
 	trap finisher ERR
-	trap finishs SIGINT SIGTERM 
+	trap finishs INT TERM 
 	## keys begin ####################################################################
 	printf "\n\e[1;32m==> \e[0mRunning TermuxArch \$0 …\n" '\033]2;  🔑🗝 TermuxArch keys 📲 \007'
 	if [[ -z "\${1:-}" ]];then
@@ -468,6 +468,7 @@ addpc () { # pacman install packages shortcut
 	################################################################################
 	set -Eeou pipefail 
 	declare -g args="\$@"
+	versionid="gen.v1.6 id920533410"
 
 	finishe () { # on exit
 		printf "\\e[?25h\\e[0m"
@@ -491,8 +492,11 @@ addpc () { # pacman install packages shortcut
 	}
 	
 	printtail () {
-		printf "\\\\a\\\\n\\\\e[0;32mTermuxArch pc \$args \$versionid\\\\a\\\\e[1;34m: \\\\a\\\\e[1;32mDONE\\e[0m 🏁  \\\\n\\\\n\\\\a\\\\e[0m"'\033]2;  🔑🗝 TermuxArch pc 📱 \007'
+		printf "\\\\a\\\\n\\\\e[0;32m%s %s %s\\\\a\\\\e[1;34m: \\\\a\\\\e[1;32m%s\\\\e[0m 🏁  \\\\n\\\\n\\\\a\\\\e[0m" "TermuxArch \$(basename "\$0")" "\$args" "\$versionid" "DONE"
+		printf '\033]2;  🔑🗝 TermuxArch '"\$(basename "\$0") \$args"' 📱 \007'
 	}
+
+	printf "\\\\n\\\\033[1;32m==> \\\\033[1;37m%s \\\\033[1;32m%s %s \\\\033[0m\\\\n\\\\n" "Running" "TermuxArch \$(basename "\$0")" "\$args" "\$versionid"  
 
 	trap finishe EXIT
 	trap finisher ERR
@@ -524,6 +528,7 @@ addpci () { # system update with pacman install packages shortcut
 	################################################################################
 	set -Eeuo pipefail 
 	declare args="\$@"
+	versionid="gen.v1.6 id920533410"
 
 	finishe () { # on exit
 		printf "\\e[?25h\\e[0m"
@@ -546,15 +551,14 @@ addpci () { # system update with pacman install packages shortcut
 	}
 	
 	printtail () { 
-		printf "\\\\a\\\\n\\\\e[0;32m%s %s\\\\a\\\\e[1;34m: \\\\a\\\\e[1;32m%s\\\\e[0m 🏁  \\\\n\\\\n\\\\a\\\\e[0m" "TermuxArch \$(basename "\$0")" "\$args" "DONE"
+		printf "\\\\a\\\\n\\\\e[0;32m%s %s %s\\\\a\\\\e[1;34m: \\\\a\\\\e[1;32m%s\\\\e[0m 🏁  \\\\n\\\\n\\\\a\\\\e[0m" "TermuxArch \$(basename "\$0")" "\$args" "\$versionid" "DONE"
 		printf '\033]2;  🔑🗝 TermuxArch '"\$(basename "\$0") \$args"' 📱 \007'
 	}
 
-	printf "\\\\n\\\\033[1;32m==> \\\\033[1;37m%s \\\\033[1;32m%s %s \\\\033[0m\\\\n\\\\n" "Running" "TermuxArch \$(basename "\$0")" "\$args" 
-
+	printf "\\\\n\\\\033[1;32m==> \\\\033[1;37m%s \\\\033[1;32m%s %s \\\\033[0m\\\\n\\\\n" "Running" "TermuxArch \$(basename "\$0")" "\$args" "\$versionid"  
 	trap finisher ERR
 	trap finishe EXIT
-	trap finishs SIGINT SIGTERM 
+	trap finishs INT TERM 
 
 	if [[ -z "\${1:-}" ]];then
 	pacman --noconfirm --color=always -Syu
