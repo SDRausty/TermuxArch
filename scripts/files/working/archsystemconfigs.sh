@@ -441,7 +441,7 @@ versionid="gen.v1.6 id543540377"
 	genen
 	pacman-key --init 2>/dev/null ||: 
 	chmod 700 /etc/pacman.d/gnupg
-	printf "\n\033[1;32m==>\033[0m Running \033[1mpacman -S \$keyrings --noconfirm --color=always\033[0;32m…\n"
+	printf "\n\033[1;32m==>\033[0m Running \033[1mpacman -S \${keyrings[@]} --noconfirm --color=always\033[0;32m…\n"
 	pacman -S "\${keyrings[@]}" --noconfirm --color=always ||: 
 	genen
 	printf "\n\033[0;34mWhen \033[1;37mAppending keys from archlinux.gpg\033[0;34m appears on the screen, the installation process can be accelerated.  The system desires a lot of entropy at this part of the install procedure.  To generate as much entropy as possible quickly, watch and listen to a file on your device.  \n\nThe program \033[1;32mpacman-key\033[0;34m will want as much entropy as possible when generating keys.  Entropy is also created through tapping, sliding, one, two and more fingers tapping with short and long taps.  When \033[1;37mAppending keys from archlinux.gpg\033[0;34m appears on the screen, use any of these simple methods to accelerate the installation process if it is stalled.  Put even simpler, just do something on device.  Browsing files will create entropy on device.  Slowly swiveling the device in space and time will accelerate the installation process.  This method alone might not generate enough entropy (a measure of randomness in a closed system) for the process to complete quickly.  Use \033[1;32mbash ~${darch}/bin/we \033[0;34min a new Termux session to watch entropy on device.\n\n\033[1;32m==>\033[0m Running \033[1mpacman-key --populate\033[0;32m…\n"
