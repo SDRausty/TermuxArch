@@ -230,10 +230,11 @@ addch () { # Creates .hushlogin and .hushlogout file
 	}
 	
 	printtail () {
-		printf "\\a\\n\\e[0;32mTermuxArch %s %s %s\\a\\e[1;34m: \\a\\e[1;32mDONE 🏁 \\e[0m\\n\\n\\a" "\$0" "\${args[@]}" "$versionid" 
-		printf '\033]2;  🔑🗝 TermuxArch \$0: DONE 📱 \007'
+		printf "\\\\a\\\\n\\\\e[0;32m%s %s %s\\\\a\\\\e[1;34m: \\\\a\\\\e[1;32m%s\\\\e[0m 🏁  \\\\n\\\\n\\\\a\\\\e[0m" "TermuxArch \$(basename "\$0")" "\$args" "\$versionid" "DONE"
+		printf '\033]2;  🔑🗝 TermuxArch '"\$(basename "\$0") \$args"' 📱 \007'
 	}
 
+	printf "\\\\n\\\\033[1;32m==> \\\\033[1;37m%s \\\\033[1;32m%s %s %s\\\\033[0m\\\\n\\\\n" "Running" "TermuxArch \$(basename "\$0")" "\$args" "\$versionid"  
 	trap finisher ERR
 	trap finishe EXIT
 	trap finishs INT TERM 
@@ -411,7 +412,7 @@ addkeys () {
 	}
 
 	printtail () {
-		printf "\\a\\n\\e[0;32mTermuxArch keys %s $versionid \\a\\e[1;34m: \\a\\e[1;32mDONE 🏁 \\e[0m\\n\\n\\a" "\${keyrings[@]}"
+		printf "\\a\\n\\e[0;32mTermuxArch keys %s $versionid\\a\\e[1;34m: \\a\\e[1;32mDONE 🏁 \\e[0m\\n\\n\\a" "\${keyrings[@]}"
 		printf '\033]2;  🔑🗝 TermuxArch keys : DONE 📱 \007'
 	}
 
@@ -468,7 +469,7 @@ addpc () { # pacman install packages shortcut
 	################################################################################
 	set -Eeou pipefail 
 	declare -g args="\$@"
-versionid="gen.v1.6 id447316274"
+versionid="gen.v1.6 id431629579"
 
 	finishe () { # on exit
 		printf "\\e[?25h\\e[0m"
@@ -496,7 +497,7 @@ versionid="gen.v1.6 id447316274"
 		printf '\033]2;  🔑🗝 TermuxArch '"\$(basename "\$0") \$args"' 📱 \007'
 	}
 
-	printf "\\\\n\\\\033[1;32m==> \\\\033[1;37m%s \\\\033[1;32m%s %s \\\\033[0m\\\\n\\\\n" "Running" "TermuxArch \$(basename "\$0")" "\$args" "\$versionid"  
+	printf "\\\\n\\\\033[1;32m==> \\\\033[1;37m%s \\\\033[1;32m%s %s %s\\\\033[0m\\\\n\\\\n" "Running" "TermuxArch \$(basename "\$0")" "\$args" "\$versionid"  
 
 	trap finishe EXIT
 	trap finisher ERR
@@ -527,7 +528,7 @@ addpci () { # system update with pacman install packages shortcut
 	################################################################################
 	set -Eeuo pipefail 
 	declare args="\$@"
-versionid="gen.v1.6 id447316274"
+versionid="gen.v1.6 id431629579"
 
 	finishe () { # on exit
 		printf "\\e[?25h\\e[0m"
@@ -554,7 +555,7 @@ versionid="gen.v1.6 id447316274"
 		printf '\033]2;  🔑🗝 TermuxArch '"\$(basename "\$0") \$args"' 📱 \007'
 	}
 
-	printf "\\\\n\\\\033[1;32m==> \\\\033[1;37m%s \\\\033[1;32m%s %s \\\\033[0m\\\\n\\\\n" "Running" "TermuxArch \$(basename "\$0")" "\$args" "\$versionid"  
+	printf "\\\\n\\\\033[1;32m==> \\\\033[1;37m%s \\\\033[1;32m%s %s %s\\\\033[0m\\\\n\\\\n" "Running" "TermuxArch \$(basename "\$0")" "\$args" "\$versionid"  
 	trap finisher ERR
 	trap finishe EXIT
 	trap finishs INT TERM 
