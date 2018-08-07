@@ -551,7 +551,7 @@ addpci () { # system update with pacman install packages shortcut
 		printf '\033]2;  🔑🗝 TermuxArch '"\$(basename \$0) ""\$@"' 📱 \007'
 	}
 
-	printf "\\\\n\\\\033[1;32m==> \\\\033[1;37m%s  \\\\033[1;32m%s %s \\\\033[0m\\\\n\\\\n" "Running" "TermuxArch \$(basename \$0)" "\$@" 
+	printf "\\\\n\\\\033[1;32m==> \\\\033[1;37m%s \\\\033[1;32m%s %s \\\\033[0m\\\\n\\\\n" "Running" "TermuxArch \$(basename \$0)" "\$@" 
 
 	trap finisher ERR
 	trap finishe EXIT
