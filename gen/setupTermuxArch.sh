@@ -109,7 +109,7 @@ chkdwn () {
 	if "$PREFIX"/bin/applets/sha512sum -c setupTermuxArch.sha512 1>/dev/null ;then
 		printf "\\e[0;34m 🕛 > 🕐 \\e[1;34mTermuxArch download: \\e[1;32mOK\\n\\n"
 		#exec proot --link2symlink -0 $PREFIX/bin/applets/tar xf setupTermuxArch.tar.gz ||:
-		"$PREFIX"/bin/applets/tar xf setupTermuxArch.tar.gz 
+		proot --link2symlink -0 "$PREFIX"/bin/applets/tar xf setupTermuxArch.tar.gz 
 		rmds 
 	else
 		rm -f setupTermuxArch.tmp
@@ -425,8 +425,6 @@ printsha512syschker () {
 }
 
 printtail () {   
- 	namestartarch "$@"  
- 	"$startbin" help 2>/dev/null
 	printf "\\a\\n\\e[0;32m%s %s \\a\\e[0m$versionid\\e[1;34m: \\a\\e[1;32mDONE\\e[0m 🏁  \\n\\n\\a\\e[0m" "$(basename "$0")" "$args"
 	printf '\033]2; '"$(basename "$0") $args"': DONE 🏁 \007'
 }
@@ -708,7 +706,7 @@ stime="${stim:0:4}"
 trap finisher ERR
 trap finishe EXIT
 trap finishs INT TERM 
-versionid="gen.v1.6 id153253847278"
+versionid="gen.v1.6 id069276140399"
 
 if [[ "$commandif" = "" ]];then
 	echo Run \`setupTermuxArch.sh\` from the Android system in Termux.
