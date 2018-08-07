@@ -5,6 +5,17 @@
 # https://sdrausty.github.io/TermuxArch/README has information about this project. 
 ################################################################################
 
+addREADME () {
+	cat > root/bin/README.md <<- EOM
+	This directory contains shortcut commands to automate and ease using the command line in Arch Linux in Termux PRoot.
+	
+	* Comments are welcome at https://github.com/sdrausty/TermuxArch/issues ✍ 
+	* Pull requests are welcome at https://github.com/sdrausty/TermuxArch/pulls ✍ 
+	
+	Thank you for making this project work better and please contribute 🔆  Contributors and Notice to Contributors have more information about this project.
+	EOM
+}
+
 addae () {
 	cat > root/bin/ae <<- EOM
 	#!/bin/bash -e
@@ -701,6 +712,13 @@ addv () {
 	# https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.  
 	# https://sdrausty.github.io/TermuxArch/README has information about this project. 
 	################################################################################
+	set -Eeou pipefail 
+	shopt -s nullglob globstar
+	if [[ -z "\${1:-}" ]];then
+		args="."
+	else
+		args="\$@"
+	fi
 	if [ ! -e /usr/bin/vim ] ; then
 		pacman --noconfirm --color=always -Syu vim 
 		vim \$@
