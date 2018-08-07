@@ -425,8 +425,10 @@ printsha512syschker () {
 }
 
 printtail () {   
- 	namestartarch "$@"  
- 	"$startbin" help 2>/dev/null
+	if [[ "$args" = "" ]] ; then 
+	 	namestartarch "$args" 
+	 	"$startbin" help 2>/dev/null
+	fi
 	printf "\\a\\n\\e[0;32m%s %s \\a\\e[0m$versionid\\e[1;34m: \\a\\e[1;32mDONE\\e[0m 🏁  \\n\\n\\a\\e[0m" "$(basename "$0")" "$args"
 	printf '\033]2; '"$(basename "$0") $args"': DONE 🏁 \007'
 }
