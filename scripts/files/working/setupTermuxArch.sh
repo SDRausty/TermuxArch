@@ -707,7 +707,7 @@ stime="${stim:0:4}"
 trap finisher ERR
 trap finishe EXIT
 trap finishs INT TERM 
-versionid="gen.v1.6 id076610930409"
+versionid="gen.v1.6 id857554739439"
 
 if [[ "$commandif" = "" ]];then
 	echo Run \`setupTermuxArch.sh\` from the Android system in Termux.
@@ -715,9 +715,9 @@ if [[ "$commandif" = "" ]];then
 fi
 
 if [[ -z "${1:-}" ]];then
-	args="$@"
-else
 	args=""
+else
+	args="$@"
 fi
 
 nameinstalldir 
