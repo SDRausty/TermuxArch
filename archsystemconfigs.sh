@@ -374,6 +374,7 @@ addkeys () {
 	# https://sdrausty.github.io/TermuxArch/README has information about this project. 
 	################################################################################
 	set -Eeou pipefail 
+	shopt -s nullglob globstar
 	declare -a keyrings
 versionid="v1.6"
 
@@ -473,6 +474,7 @@ addpc () { # pacman install packages shortcut
 	# https://sdrausty.github.io/TermuxArch/README has information about this project. 
 	################################################################################
 	set -Eeou pipefail 
+	shopt -s nullglob globstar
 	declare -g args="\$@"
 versionid="v1.6"
 
@@ -533,6 +535,7 @@ addpci () { # system update with pacman install packages shortcut
 	# https://sdrausty.github.io/TermuxArch/README has information about this project. 
 	################################################################################
 	set -Eeuo pipefail 
+	shopt -s nullglob globstar
 	declare args="\$@"
 versionid="v1.6"
 

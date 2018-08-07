@@ -5,6 +5,7 @@
 # https://sdrausty.github.io/TermuxArch/README has information about TermuxArch. 
 ################################################################################
 set -Eeuo pipefail 
+shopt -s nullglob globstar
 unset LD_PRELOAD
 
 arg2dir () { 
