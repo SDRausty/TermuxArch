@@ -8,7 +8,7 @@ set -Eeuo pipefail
 unset LD_PRELOAD
 
 arg2dir () { 
-	arg2="$(echo "$@" | awk '{print $2}')"
+	arg2="$(echo "${@:2:1}")"
 	if [[ "$arg2" = "" ]] ;then
 		rootdir=/arch
 		nameinstalldir 
@@ -19,7 +19,7 @@ arg2dir () {
 }
 
 arg3dir () {
-	arg3="$(echo "$@" | awk '{print $3}')"
+	arg2="$(echo "${@:3:1}")"
 	if [[ "$arg3" = "" ]] ;then
 		rootdir=/arch
 		nameinstalldir 
@@ -290,10 +290,10 @@ edq2 () {
 	printf "\\n"
 }
 
-finishe () { "$@" # on exit
+finishe () { # on exit
 	printf "\\e[?25h\\e[0m"
 	set +Eeuo pipefail 
- 	printtail "$@"  
+ 	printtail "$args"  
 }
 
 finisher () { # on script signal
@@ -339,7 +339,7 @@ introrefresh () {
 	spaceinfo
 	printf "\\n\\e[0;34m 🕛 > 🕛 \\e[1;34msetupTermuxArch $versionid will refresh your TermuxArch files in \\e[0;32m$installdir\\e[1;34m.  Ensure background data is not restricted.  Run \\e[0;32mbash setupTermuxArch.sh help \\e[1;34mfor additional information.  Check the wireless connection if you do not see one o'clock 🕐 below.  "
 	dependsblock "$@"
-	refreshsys
+	refreshsys "$@"
 }
 
 ldconf () {
@@ -423,11 +423,11 @@ printsha512syschker () {
 	exit 
 }
 
-printtail () { "$@"  
+printtail () {   
  	namestartarch "$@"  
-# 	"$startbin" help 2>/dev/null
-	printf "\\a\\n\\e[0;32m%s %s \\a\\e[0m$versionid \\e[1;34m: \\a\\e[1;32mDONE\\e[0m 🏁  \\n\\n\\a\\e[0m" "$(echo "$0")" "$(echo "$@")"
-	printf '\033]2;  setupTermuxArch.sh '"$(echo "$@")"' : DONE 🏁 \007'
+ 	"$startbin" help 2>/dev/null
+	printf "\\a\\n\\e[0;32m%s %s \\a\\e[0m$versionid \\e[1;34m: \\a\\e[1;32mDONE\\e[0m 🏁  \\n\\n\\a\\e[0m" "$(basename "$0")" "$args"
+	printf '\033]2; '"$(basename "$0") $args"': DONE 🏁 \007'
 }
 
 printusage () {
@@ -543,7 +543,7 @@ rootdirexception () {
 	fi
 }
 
-runbloom () { "$@" 
+runbloom () {  
 	if [[ -d "$HOME"/TermuxArchBloom ]];then 
 		opt=bloom
 		bloomdependsblock 
@@ -704,14 +704,20 @@ declare usrspace=""
 dmverbose="-q"	# Use "-v" for verbose download manager output; important, also change this setting in `knownconfigurations.sh` for verbose output from the download manager throughout runtime. 
 stim="$(date +%s)"
 stime="${stim:0:4}"
-trap finishs SIGINT SIGTERM 
 trap finisher ERR
 trap finishe EXIT
+trap finishs INT TERM 
 versionid="v1.6"
 
 if [[ "$commandif" = "" ]];then
 	echo Run \`setupTermuxArch.sh\` from the Android system in Termux.
 	exit
+fi
+
+if [[ -z "${1:-}" ]];then
+	args=""
+else
+	args="$@"
 fi
 
 nameinstalldir 
