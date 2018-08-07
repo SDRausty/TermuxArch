@@ -13,6 +13,7 @@ addREADME () {
 	* Pull requests are welcome at https://github.com/sdrausty/TermuxArch/pulls ✍ 
 	
 	Thank you for making this project work better and please contribute 🔆 
+
 	EOM
 }
 
@@ -721,9 +722,9 @@ addv () {
 	fi
 	if [ ! -e /usr/bin/vim ] ; then
 		pacman --noconfirm --color=always -Syu vim 
-		vim \$@
+		vim \$args
 	else
-		vim \$@
+		vim \$args
 	fi
 	EOM
 	chmod 770 root/bin/v 
