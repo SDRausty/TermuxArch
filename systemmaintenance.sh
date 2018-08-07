@@ -119,7 +119,7 @@ refreshsys () {
 	am startservice --user 0 -a com.termux.service_wake_lock com.termux/com.termux.app.TermuxService > /dev/null
 	printdone 
 	printf '\033]2; setupTermuxArch.sh refresh 📲 \007'
-	printf "\\n\\e[1;32m==> \\e[1;37m%s \\e[1;32m%s %s 📲 \\a\\n" "Running" "$(basename $0)" "$@" 
+	printf "\\n\\e[1;32m==> \\e[1;37m%s \\e[1;32m%s %s 📲 \\a\\n" "Running" "$(basename $0)" "$args" 
 	"$installdir"/root/bin/setupbin.sh 
 	rm -f root/bin/finishsetup.sh
 	rm -f root/bin/setupbin.sh 
