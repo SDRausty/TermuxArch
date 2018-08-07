@@ -547,7 +547,7 @@ addpci () { # system update with pacman install packages shortcut
 	}
 	
 	printtail () { 
-		printf "\\\\a\\\\n\\\\e[0;32m%s %s\\\\a\\\\e[1;34m: \\\\a\\\\e[1;32m%s\\\\e[0m 🏁  \\\\n\\\\n\\\\a\\\\e[0m" "TermuxArch \$(basename \$0)" "\$args "DONE"
+		printf "\\\\a\\\\n\\\\e[0;32m%s %s\\\\a\\\\e[1;34m: \\\\a\\\\e[1;32m%s\\\\e[0m 🏁  \\\\n\\\\n\\\\a\\\\e[0m" "TermuxArch \$(basename \$0)" "\$args" "DONE"
 		printf '\033]2;  🔑🗝 TermuxArch '"\$(basename \$0) \$args"' 📱 \007'
 	}
 
