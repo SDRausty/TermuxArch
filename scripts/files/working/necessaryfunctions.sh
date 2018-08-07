@@ -381,6 +381,7 @@ setlocalegen () {
 
 touchupsys () {
 	mkdir -p root/bin
+	addREADME
 	addae
 	addauser
 	addauserps

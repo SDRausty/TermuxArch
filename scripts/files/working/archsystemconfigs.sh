@@ -5,6 +5,17 @@
 # https://sdrausty.github.io/TermuxArch/README has information about this project. 
 ################################################################################
 
+addREADME () {
+	cat > root/bin/README.md <<- EOM
+	This directory contains shortcut commands to automate and ease using the command line in Arch Linux in Termux PRoot.
+	
+	* Comments are welcome at https://github.com/sdrausty/TermuxArch/issues ✍ 
+	* Pull requests are welcome at https://github.com/sdrausty/TermuxArch/pulls ✍ 
+	
+	Thank you for making this project work better and please contribute 🔆  Contributors and Notice to Contributors have more information about this project.
+	EOM
+}
+
 addae () {
 	cat > root/bin/ae <<- EOM
 	#!/bin/bash -e
@@ -376,7 +387,7 @@ addkeys () {
 	set -Eeou pipefail 
 	shopt -s nullglob globstar
 	declare -a keyrings
-versionid="gen.v1.6 id649309492386"
+versionid="gen.v1.6 id153253847278"
 
 	finishe () { # on exit
 		printf "\\e[?25h\\e[0m"
@@ -476,7 +487,7 @@ addpc () { # pacman install packages shortcut
 	set -Eeou pipefail 
 	shopt -s nullglob globstar
 	declare -g args="\$@"
-versionid="gen.v1.6 id649309492386"
+versionid="gen.v1.6 id153253847278"
 
 	finishe () { # on exit
 		printf "\\e[?25h\\e[0m"
@@ -537,7 +548,7 @@ addpci () { # system update with pacman install packages shortcut
 	set -Eeuo pipefail 
 	shopt -s nullglob globstar
 	declare args="\$@"
-versionid="gen.v1.6 id649309492386"
+versionid="gen.v1.6 id153253847278"
 
 	finishe () { # on exit
 		printf "\\e[?25h\\e[0m"
