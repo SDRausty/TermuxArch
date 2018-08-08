@@ -233,7 +233,7 @@ versionid="gen.v1.6 id128361432700"
 		printf '\033]2;  🔑🗝 TermuxArch '"\$(basename "\$0")"' 📱 \007'
 	}
 
-	printf "\\\\n\\\\033[1;32m==> \\\\033[1;37m%s \\\\033[1;32m%s %s\\\033[0m%s…\\\\\n\\\\n" "Running" "TermuxArch \$(basename "\$0")" "\$versionid"  
+	printf "\\\\n\\\\033[1;32m==> \\\\033[1;37m%s \\\\033[1;32m%s %s\\\033[0m%s…\\\\n\\\\n" "Running" "TermuxArch \$(basename "\$0")" "\$versionid"  
 	trap finisher ERR
 	trap finishe EXIT
 	trap finishs INT TERM 
