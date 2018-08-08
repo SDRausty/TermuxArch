@@ -205,22 +205,13 @@ addch () { # Creates .hushlogin and .hushlogout file
 	# https://sdrausty.github.io/TermuxArch/README has information about this project. 
 	################################################################################
 	set -Eeou pipefail 
-<<<<<<< HEAD
 	declare -a args
-versionid="gen.v1.6 id443091316499"
-=======
-versionid="gen.v1.6 id443091316499"
->>>>>>> 565879883b6263c00d7539a0ca1c8af7fde47ac1
+versionid="gen.v1.6 id863047044631"
 
 	finishe () { # on exit
 		printf "\\e[?25h\\e[0m"
 		set +Eeuo pipefail 
-<<<<<<< HEAD
 	 	printtail "\$args[@]"  
-=======
-	 	printtail 
-#  	 	echo "[ \$0 done (\$?) ]" 
->>>>>>> 565879883b6263c00d7539a0ca1c8af7fde47ac1
 	}
 	
 	finisher () { # on script signal
@@ -242,10 +233,6 @@ versionid="gen.v1.6 id443091316499"
 		printf '\033]2;  🔑🗝 TermuxArch '"\$(basename "\$0")"' 📱 \007'
 	}
 
-<<<<<<< HEAD
-=======
-	printf "\\\\n\\\\033[1;32m==> \\\\033[1;37m%s \\\\033[1;32m%s %s\\\033[0m%s…\\\\n\\\\n" "Running" "TermuxArch \$(basename "\$0")" "\$versionid"  
->>>>>>> 565879883b6263c00d7539a0ca1c8af7fde47ac1
 	trap finisher ERR
 	trap finishe EXIT
 	trap finishs INT TERM 
@@ -408,11 +395,7 @@ addkeys () {
 	set -Eeou pipefail 
 	shopt -s nullglob globstar
 	declare -a keyrings
-<<<<<<< HEAD
-versionid="gen.v1.6 id443091316499"
-=======
-versionid="gen.v1.6 id443091316499"
->>>>>>> 565879883b6263c00d7539a0ca1c8af7fde47ac1
+versionid="gen.v1.6 id863047044631"
 
 	finishe () { # on exit
 		printf "\\e[?25h\\e[0m"
@@ -512,11 +495,7 @@ addpc () { # pacman install packages shortcut
 	set -Eeou pipefail 
 	shopt -s nullglob globstar
 	declare -g args="\$@"
-<<<<<<< HEAD
-versionid="gen.v1.6 id443091316499"
-=======
-versionid="gen.v1.6 id443091316499"
->>>>>>> 565879883b6263c00d7539a0ca1c8af7fde47ac1
+versionid="gen.v1.6 id863047044631"
 
 	finishe () { # on exit
 		printf "\\e[?25h\\e[0m"
@@ -550,11 +529,7 @@ versionid="gen.v1.6 id443091316499"
 	## pc begin ####################################################################
 
 	printf '\033]2;  🔑🗝 TermuxArch '"\$(basename "\$0") \$args"' 📲 \007'
-<<<<<<< HEAD
 	printf "\\\\n\\\\e[1;32m==> \\\\e[1;37m%s \\\\e[0;32m%s \\\\e[1;32m%s %s \\\e[0m%s…\\\\n\\\\n" "Running" "TermuxArch" "\$(basename "\$0")" "\$args" "\$versionid"  
-=======
-	printf "\\\\n\\\\033[1;32m==> \\\\033[1;37m%s \\\\033[0;32m%s \\\\033[1;32m%s %s \\\033[0m%s… \\\\n\\\\n" "Running" "TermuxArch" "\$(basename "\$0")" "\$args" "\$versionid"  
->>>>>>> 565879883b6263c00d7539a0ca1c8af7fde47ac1
 	if [[ -z "\${1:-}" ]];then
 	pacman --noconfirm --color=always -S 
 	elif [[ "\$1" = "a" ]];then
@@ -581,11 +556,7 @@ addpci () { # system update with pacman install packages shortcut
 	set -Eeuo pipefail 
 	shopt -s nullglob globstar
 	declare args="\$@"
-<<<<<<< HEAD
-versionid="gen.v1.6 id443091316499"
-=======
-versionid="gen.v1.6 id443091316499"
->>>>>>> 565879883b6263c00d7539a0ca1c8af7fde47ac1
+versionid="gen.v1.6 id863047044631"
 
 	finishe () { # on exit
 		printf "\\e[?25h\\e[0m"
@@ -612,16 +583,12 @@ versionid="gen.v1.6 id443091316499"
 		printf '\033]2;  🔑🗝 TermuxArch '"\$(basename "\$0") \$args"' 📱 \007'
 	}
 
-<<<<<<< HEAD
-	printf "\\\\n\\\\e[1;32m==> \\\\e[1;37m%s \\\\e[1;32m%s %s %s \\\e[0m%s…\\\\n\\\\n" "Running" "TermuxArch \$(basename "\$0")" "\$args" "\$versionid"  
-=======
-	printf "\\\\n\\\\033[1;32m==> \\\\033[1;37m%s \\\\033[1;32m%s %s %s \\\033[0m%s…\\\\n\\\\n" "Running" "TermuxArch \$(basename "\$0")" "\$args" "\$versionid"  
->>>>>>> 565879883b6263c00d7539a0ca1c8af7fde47ac1
 	trap finisher ERR
 	trap finishe EXIT
 	trap finishs INT TERM 
 	## pci begin ###################################################################
 
+	printf "\\\\n\\\\e[1;32m==> \\\\e[1;37m%s \\\\e[1;32m%s %s %s \\\e[0m%s…\\\\n\\\\n" "Running" "TermuxArch \$(basename "\$0")" "\$args" "\$versionid"  
 	if [[ -z "\${1:-}" ]];then
 	pacman --noconfirm --color=always -Syu
 	elif [[ \$1 = "a" ]];then
