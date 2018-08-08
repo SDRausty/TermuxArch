@@ -48,7 +48,7 @@ bloom () {
 	printf "\\n"
 	dependsblock "$@" 
 	ls -agl
-	printf "\\n\\e[1;34mUse \\e[1;32mcd ~/TermuxArchBloom\\e[1;34m to continue.  Edit any of these files.  Then use \\e[1;32mbash $0 run \\e[1;34mto run the files in \\e[1;32m~/TermuxArchBloom\\e[1;34m to continue.\\n\\e[0m"'\033]2;  TermuxArch Bloom option via `setupTermuxArch.sh bloom` 📲 \007'
+	printf "\\n\\e[1;34mUse \\e[1;32mcd ~/TermuxArchBloom\\e[1;34m to continue.  Edit any of these files.  Then use \\e[1;32mbash $0 [options] \\e[1;34mto run the files in \\e[1;32m~/TermuxArchBloom\\e[1;34m.\\n\\e[0m"'\033]2;  TermuxArch Bloom option via `setupTermuxArch.sh bloom` 📲 \007'
 }
 
 bloomdependsblock () {
@@ -706,7 +706,7 @@ stime="${stim:0:4}"
 trap finisher ERR
 trap finishe EXIT
 trap finishs INT TERM 
-versionid="gen.v1.6 id437642894366"
+versionid="gen.v1.6 id559636564735"
 
 if [[ "$commandif" = "" ]];then
 	echo Run \`setupTermuxArch.sh\` from the Android system in Termux.
@@ -749,9 +749,8 @@ elif [[ "$1" = [Ww]* ]] || [[ "$1" = -[Ww]* ]] || [[ "$1" = --[Ww]* ]] || [[ "$1
 	opt2 "$@" 
 	intro 
 	mainblock
-# [bloom] Create local copy of TermuxArch in TermuxArchBloom.  Useful for hacking and customizing TermuxArch.  
+# [bloom] Create and run a local copy of TermuxArch in TermuxArchBloom.  Useful for running a customized setupTermuxArch.sh locally, for hacking and customizing TermuxArch.  
 elif [[ "$1" = [Bb]* ]] || [[ "$1" = -[Bb]* ]] || [[ "$1" = --[Bb]* ]];then
-	dependsblock "$@"
 	bloom "$@"  
 # [debug|sysinfo] Get system information.
 elif [[ "$1" = [Dd]* ]] || [[ "$1" = -[Dd]* ]] || [[ "$1" = --[Dd]* ]] || [[ "$1" = [Ss]* ]] || [[ "$1" = -[Ss]* ]] || [[ "$1" = --[Ss]* ]];then
@@ -779,8 +778,8 @@ elif [[ "$1" = [Rr][Ee]* ]] || [[ "$1" = -[Rr][Ee]* ]] || [[ "$1" = --[Rr][Ee]* 
 	arg2dir "$@"  
 	introrefresh "$@"  
 # [run] Run local copy of TermuxArch from TermuxArchBloom.  Useful for running customized TermuxArch locally.  
-elif [[ "$1" = [Rr]* ]] || [[ "$1" = -[Rr]* ]] || [[ "$1" = --[Rr]* ]];then
-	runbloom  "$@"  
+# elif [[ "$1" = [Rr]* ]] || [[ "$1" = -[Rr]* ]] || [[ "$1" = --[Rr]* ]];then
+# 	runbloom  "$@"  
 else
 	printusage
 fi
