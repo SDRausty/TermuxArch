@@ -522,7 +522,7 @@ versionid="gen.v1.6 id128361432700"
 	## pc begin ####################################################################
 
 	printf '\033]2;  🔑🗝 TermuxArch '"\$(basename "\$0") \$args"' 📲 \007'
-	printf "\\\\n\\\\033[1;32m==> \\\\033[1;37m%s \\\\033[0;32m%s \\\\033[1;32m%s %s \\\033[0m%s…\\\\\n\\\\n" "Running" "TermuxArch" "\$(basename "\$0")" "\$args" "\$versionid"  
+	printf "\\\\n\\\\033[1;32m==> \\\\033[1;37m%s \\\\033[0;32m%s \\\\033[1;32m%s %s \\\033[0m%s… \\\\n\\\\n" "Running" "TermuxArch" "\$(basename "\$0")" "\$args" "\$versionid"  
 	if [[ -z "\${1:-}" ]];then
 	pacman --noconfirm --color=always -S 
 	elif [[ "\$1" = "a" ]];then
