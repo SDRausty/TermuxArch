@@ -206,7 +206,7 @@ addch () { # Creates .hushlogin and .hushlogout file
 	################################################################################
 	set -Eeou pipefail 
 	declare -a args
-versionid="gen.v1.6 id863047044631"
+
 
 	finishe () { # on exit
 		printf "\\e[?25h\\e[0m"
@@ -395,7 +395,7 @@ addkeys () {
 	set -Eeou pipefail 
 	shopt -s nullglob globstar
 	declare -a keyrings
-versionid="gen.v1.6 id863047044631"
+
 
 	finishe () { # on exit
 		printf "\\e[?25h\\e[0m"
@@ -495,7 +495,7 @@ addpc () { # pacman install packages shortcut
 	set -Eeou pipefail 
 	shopt -s nullglob globstar
 	declare -g args="\$@"
-versionid="gen.v1.6 id863047044631"
+
 
 	finishe () { # on exit
 		printf "\\e[?25h\\e[0m"
@@ -556,7 +556,7 @@ addpci () { # system update with pacman install packages shortcut
 	set -Eeuo pipefail 
 	shopt -s nullglob globstar
 	declare args="\$@"
-versionid="gen.v1.6 id863047044631"
+
 
 	finishe () { # on exit
 		printf "\\e[?25h\\e[0m"
