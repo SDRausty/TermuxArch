@@ -196,19 +196,6 @@ addcdth () {
 	chmod 770 root/bin/cdth 
 }
 
-addexd () {
-	cat > root/bin/exd <<- EOM
-	#!/bin/bash -e
-	# Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
-	# Hosting https://sdrausty.github.io/TermuxArch courtesy https://pages.github.com
-	# https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.  
-	# https://sdrausty.github.io/TermuxArch/README has information about this project. 
-	################################################################################
-	export DISPLAY=:0 PULSE_SERVER=tcp:127.0.0.1:4712
-	EOM
-	chmod 770 root/bin/exd 
-}
-
 addch () { # Creates .hushlogin and .hushlogout file
 	cat > root/bin/ch <<- EOM
 	#!/bin/env bash
@@ -218,6 +205,7 @@ addch () { # Creates .hushlogin and .hushlogout file
 	# https://sdrausty.github.io/TermuxArch/README has information about this project. 
 	################################################################################
 	set -Eeou pipefail 
+versionid="gen.v1.6 id128361432700"
 
 	finishe () { # on exit
 		printf "\\e[?25h\\e[0m"
@@ -255,6 +243,19 @@ addch () { # Creates .hushlogin and .hushlogout file
 	ls \$HOME/.hushlogin \$HOME/.hushlogout
 	EOM
 	chmod 770 root/bin/ch 
+}
+
+addexd () {
+	cat > root/bin/exd <<- EOM
+	#!/bin/bash -e
+	# Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
+	# Hosting https://sdrausty.github.io/TermuxArch courtesy https://pages.github.com
+	# https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.  
+	# https://sdrausty.github.io/TermuxArch/README has information about this project. 
+	################################################################################
+	export DISPLAY=:0 PULSE_SERVER=tcp:127.0.0.1:4712
+	EOM
+	chmod 770 root/bin/exd 
 }
 
 adddfa () {
