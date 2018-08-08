@@ -294,7 +294,7 @@ edq2 () {
 finishe () { # on exit
 	printf "\\e[?25h\\e[0m"
 	set +Eeuo pipefail 
-#  	printtail "$args"  
+  	printtail "$args"  
 }
 
 finisher () { # on script signal
@@ -425,8 +425,8 @@ printsha512syschker () {
 }
 
 printtail () {   
-	printf "\\a\\n\\e[0;32m%s %s \\a\\e[0m$versionid\\e[1;34m: \\a\\e[1;32mDONE\\e[0m 🏁  \\n\\n\\a\\e[0m" "$(basename "$0")" "$args"
-# 	printf '\033]2; '"$(basename "$0") $args"': DONE 🏁 \007'
+ 	printf "\\a\\n\\e[0;32m%s %s \\a\\e[0m$versionid\\e[1;34m: \\a\\e[1;32m%s\\e[0m\\n\\n\\a\\e[0m" "$(basename "$0")" "$args" "DONE 🏁 "
+	printf '\033]2; '"$(basename "$0") $args"': DONE 🏁 \007'
 }
 
 printusage () {
@@ -706,7 +706,7 @@ stime="${stim:0:4}"
 trap finisher ERR
 trap finishe EXIT
 trap finishs INT TERM 
-versionid="gen.v1.6 id561847185544"
+versionid="gen.v1.6 id437642894366"
 
 if [[ "$commandif" = "" ]];then
 	echo Run \`setupTermuxArch.sh\` from the Android system in Termux.
