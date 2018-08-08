@@ -206,6 +206,7 @@ addch () { # Creates .hushlogin and .hushlogout file
 	################################################################################
 	set -Eeou pipefail 
 	declare -a args
+	versionid="gen.v1.6 id565884114280"
 
 
 	finishe () { # on exit
@@ -394,7 +395,9 @@ addkeys () {
 	################################################################################
 	set -Eeou pipefail 
 	shopt -s nullglob globstar
+
 	declare -a keyrings
+	versionid="gen.v1.6 id565884114280"
 
 
 	finishe () { # on exit
@@ -494,7 +497,9 @@ addpc () { # pacman install packages shortcut
 	################################################################################
 	set -Eeou pipefail 
 	shopt -s nullglob globstar
+
 	declare -g args="\$@"
+	versionid="gen.v1.6 id565884114280"
 
 
 	finishe () { # on exit
@@ -555,7 +560,9 @@ addpci () { # system update with pacman install packages shortcut
 	################################################################################
 	set -Eeuo pipefail 
 	shopt -s nullglob globstar
+
 	declare args="\$@"
+	versionid="gen.v1.6 id565884114280"
 
 
 	finishe () { # on exit
@@ -722,6 +729,7 @@ addv () {
 	################################################################################
 	set -Eeou pipefail 
 	shopt -s nullglob globstar
+
 	if [[ -z "\${1:-}" ]];then
 		args="."
 	else
