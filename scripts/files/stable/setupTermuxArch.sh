@@ -4,6 +4,7 @@
 # https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.  
 # https://sdrausty.github.io/TermuxArch/README has information about TermuxArch. 
 ################################################################################
+IFS=$'\n\t'
 set -Eeuo pipefail 
 shopt -s nullglob globstar
 unset LD_PRELOAD
@@ -20,7 +21,7 @@ arg2dir () {
 }
 
 arg3dir () {
-	arg2="${@:3:1}"
+	arg3="${@:3:1}"
 	if [[ "$arg3" = "" ]] ;then
 		rootdir=/arch
 		nameinstalldir 
@@ -47,25 +48,7 @@ bloom () {
 	printf "\\n"
 	dependsblock "$@" 
 	ls -agl
-	printf "\\n\\e[1;34mUse \\e[1;32mcd ~/TermuxArchBloom\\e[1;34m to continue.  Edit any of these files.  Then use \\e[1;32mbash $0 run \\e[1;34mto run the files in \\e[1;32m~/TermuxArchBloom\\e[1;34m to continue.\\n\\e[0m"'\033]2;  TermuxArch Bloom option via `setupTermuxArch.sh bloom` 📲 \007'
-}
-
-bloomdependsblock () {
-	introbloom 
-	cd "$HOME"/TermuxArchBloom
-	printf "\\e[1;34mTermuxArch Bloom option via \\e[1;32mbash setupTermuxArch.sh run\\e[0m 📲\\n\\n\\e[0m"'\033]2; TermuxArch Bloom option via `bash setupTermuxArch.sh run` 📲 \007'
-	ls -al
-	printf "\\n"
-	pwd
-	. animationfunctions.sh
-	. archsystemconfigs.sh
-	. getimagefunctions.sh
-	. knownconfigurations.sh
-	. necessaryfunctions.sh
-	. printoutstatements.sh
-	. systemmaintenance.sh
-	printf "\\n\\e[0;34m 🕛 > 🕑 \\e[1;34mTermuxArch $versionid integrity: \\e[1;32mOK\\n"
-	mainblock
+	printf "\\n\\e[1;34mUse \\e[1;32mcd ~/TermuxArchBloom\\e[1;34m to continue.  Edit any of these files.  Then use \\e[1;32mbash $0 [options] \\e[1;34mto run the files in \\e[1;32m~/TermuxArchBloom\\e[1;34m.\\n\\e[0m"'\033]2;  TermuxArch Bloom option via `setupTermuxArch.sh bloom` 📲 \007'
 }
 
 bsdtarif () {
@@ -293,7 +276,7 @@ edq2 () {
 finishe () { # on exit
 	printf "\\e[?25h\\e[0m"
 	set +Eeuo pipefail 
- 	printtail "$args"  
+  	printtail "$args"  
 }
 
 finisher () { # on script signal
@@ -424,7 +407,7 @@ printsha512syschker () {
 }
 
 printtail () {   
-	printf "\\a\\n\\e[0;32m%s %s \\a\\e[0m$versionid\\e[1;34m: \\a\\e[1;32mDONE\\e[0m 🏁  \\n\\n\\a\\e[0m" "$(basename "$0")" "$args"
+ 	printf "\\a\\n\\e[0;32m%s %s \\a\\e[0m$versionid\\e[1;34m: \\a\\e[1;32m%s\\e[0m\\n\\n\\a\\e[0m" "$(basename "$0")" "$args" "DONE 🏁 "
 	printf '\033]2; '"$(basename "$0") $args"': DONE 🏁 \007'
 }
 
@@ -538,16 +521,6 @@ rootdirexception () {
 	if [[ "$installdir" = "$HOME" ]] || [[ "$installdir" = "$HOME"/ ]] || [[ "$installdir" = "$HOME"/.. ]] || [[ "$installdir" = "$HOME"/../ ]] || [[ "$installdir" = "$HOME"/../.. ]] || [[ "$installdir" = "$HOME"/../../ ]];then
 		printf "\\n\\e[1;31mRootdir exception.  Run the script again with different options…\\n\\n\\e[0m"'\033]2;Rootdir exception.  Run `bash setupTermuxArch.sh` again with different options…\007'
 		exit
-	fi
-}
-
-runbloom () {  
-	if [[ -d "$HOME"/TermuxArchBloom ]];then 
-		opt=bloom
-		bloomdependsblock 
-	else
-		dependsblock "$@"
-		bloom 
 	fi
 }
 
@@ -748,9 +721,8 @@ elif [[ "$1" = [Ww]* ]] || [[ "$1" = -[Ww]* ]] || [[ "$1" = --[Ww]* ]] || [[ "$1
 	opt2 "$@" 
 	intro 
 	mainblock
-# [bloom] Create local copy of TermuxArch in TermuxArchBloom.  Useful for hacking and customizing TermuxArch.  
+# [bloom] Create and run a local copy of TermuxArch in TermuxArchBloom.  Useful for running a customized setupTermuxArch.sh locally, for hacking and customizing TermuxArch.  
 elif [[ "$1" = [Bb]* ]] || [[ "$1" = -[Bb]* ]] || [[ "$1" = --[Bb]* ]];then
-	dependsblock "$@"
 	bloom "$@"  
 # [debug|sysinfo] Get system information.
 elif [[ "$1" = [Dd]* ]] || [[ "$1" = -[Dd]* ]] || [[ "$1" = --[Dd]* ]] || [[ "$1" = [Ss]* ]] || [[ "$1" = -[Ss]* ]] || [[ "$1" = --[Ss]* ]];then
@@ -777,9 +749,6 @@ elif [[ "$1" = [Ii]* ]] || [[ "$1" = -[Ii]* ]] || [[ "$1" = --[Ii]* ]] ||  [[ "$
 elif [[ "$1" = [Rr][Ee]* ]] || [[ "$1" = -[Rr][Ee]* ]] || [[ "$1" = --[Rr][Ee]* ]];then
 	arg2dir "$@"  
 	introrefresh "$@"  
-# [run] Run local copy of TermuxArch from TermuxArchBloom.  Useful for running customized TermuxArch locally.  
-elif [[ "$1" = [Rr]* ]] || [[ "$1" = -[Rr]* ]] || [[ "$1" = --[Rr]* ]];then
-	runbloom  "$@"  
 else
 	printusage
 fi

@@ -4,4 +4,3 @@
 # https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.  
 # https://sdrausty.github.io/TermuxArch/README has information about TermuxArch. 
 ################################################################################
-

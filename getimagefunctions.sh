@@ -62,4 +62,3 @@ getimage () {
 		curl "$dmverbose" -C - --fail --retry 4 -OL http://"$mirror$path$file" 
 	fi
 }
-
