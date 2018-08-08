@@ -51,24 +51,6 @@ bloom () {
 	printf "\\n\\e[1;34mUse \\e[1;32mcd ~/TermuxArchBloom\\e[1;34m to continue.  Edit any of these files.  Then use \\e[1;32mbash $0 [options] \\e[1;34mto run the files in \\e[1;32m~/TermuxArchBloom\\e[1;34m.\\n\\e[0m"'\033]2;  TermuxArch Bloom option via `setupTermuxArch.sh bloom` 📲 \007'
 }
 
-bloomdependsblock () {
-	introbloom 
-	cd "$HOME"/TermuxArchBloom
-	printf "\\e[1;34mTermuxArch Bloom option via \\e[1;32mbash setupTermuxArch.sh run\\e[0m 📲\\n\\n\\e[0m"'\033]2; TermuxArch Bloom option via `bash setupTermuxArch.sh run` 📲 \007'
-	ls -al
-	printf "\\n"
-	pwd
-	. animationfunctions.sh
-	. archsystemconfigs.sh
-	. getimagefunctions.sh
-	. knownconfigurations.sh
-	. necessaryfunctions.sh
-	. printoutstatements.sh
-	. systemmaintenance.sh
-	printf "\\n\\e[0;34m 🕛 > 🕑 \\e[1;34mTermuxArch $versionid integrity: \\e[1;32mOK\\n"
-	mainblock
-}
-
 bsdtarif () {
 	if [[ ! -x "$PREFIX"/bin/bsdtar ]];then
 		printf "\\n\\e[1;34mInstalling \\e[0;32mbsdtar\\e[1;34m…\\n\\n\\e[1;32m"
@@ -542,16 +524,6 @@ rootdirexception () {
 	fi
 }
 
-runbloom () {  
-	if [[ -d "$HOME"/TermuxArchBloom ]];then 
-		opt=bloom
-		bloomdependsblock 
-	else
-		dependsblock "$@"
-		bloom 
-	fi
-}
-
 setrootdir () {
 	if [[ "$cpuabi" = "$cpuabix86" ]];then
 	#	rootdir=/root.i686
@@ -706,7 +678,7 @@ stime="${stim:0:4}"
 trap finisher ERR
 trap finishe EXIT
 trap finishs INT TERM 
-versionid="gen.v1.6 id559636564735"
+versionid="gen.v1.6 id696470513147"
 
 if [[ "$commandif" = "" ]];then
 	echo Run \`setupTermuxArch.sh\` from the Android system in Termux.
@@ -777,9 +749,6 @@ elif [[ "$1" = [Ii]* ]] || [[ "$1" = -[Ii]* ]] || [[ "$1" = --[Ii]* ]] ||  [[ "$
 elif [[ "$1" = [Rr][Ee]* ]] || [[ "$1" = -[Rr][Ee]* ]] || [[ "$1" = --[Rr][Ee]* ]];then
 	arg2dir "$@"  
 	introrefresh "$@"  
-# [run] Run local copy of TermuxArch from TermuxArchBloom.  Useful for running customized TermuxArch locally.  
-# elif [[ "$1" = [Rr]* ]] || [[ "$1" = -[Rr]* ]] || [[ "$1" = --[Rr]* ]];then
-# 	runbloom  "$@"  
 else
 	printusage
 fi
