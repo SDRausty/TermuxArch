@@ -114,6 +114,7 @@ mainblock () {
 	printdone 
 	printfooter
 	"$installdir/$startbin" ||:
+	$startbin help
 	printfooter2
 }
 
@@ -128,7 +129,7 @@ makefinishsetup () {
 	################################################################################
  	set -Eeou pipefail 
 	shopt -s nullglob globstar
-	versionid="gen.v1.6 id696470513147"
+	versionid="gen.v1.6 id377024193715"
 
 	printf "\\n\\e[1;34m:: \\e[1;37mRemoving redundant packages for Termux PRoot installation…\\n"
 	EOM
@@ -178,7 +179,7 @@ makesetupbin () {
 	################################################################################
  	set -Eeou pipefail 
 	shopt -s nullglob globstar
-	versionid="gen.v1.6 id696470513147"
+	versionid="gen.v1.6 id377024193715"
 	unset LD_PRELOAD
 	EOM
 	echo "$prootstmnt /root/bin/finishsetup.sh ||:" >> root/bin/setupbin.sh 
@@ -195,7 +196,7 @@ makestartbin () {
 	################################################################################
  	set -Eeou pipefail 
 	shopt -s nullglob globstar
-	versionid="gen.v1.6 id696470513147"
+	versionid="gen.v1.6 id377024193715"
 	unset LD_PRELOAD
 	declare -g ar2ar="\${@:2}"
 	declare -g ar3ar="\${@:3}"
