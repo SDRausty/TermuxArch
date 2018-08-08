@@ -4,6 +4,7 @@
 # https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.  
 # https://sdrausty.github.io/TermuxArch/README has information about TermuxArch. 
 ################################################################################
+IFS=$'\n\t'
 set -Eeuo pipefail 
 shopt -s nullglob globstar
 unset LD_PRELOAD
@@ -705,7 +706,7 @@ stime="${stim:0:4}"
 trap finisher ERR
 trap finishe EXIT
 trap finishs INT TERM 
-versionid="gen.v1.6 id443630461943"
+versionid="gen.v1.6 id633656193454"
 
 if [[ "$commandif" = "" ]];then
 	echo Run \`setupTermuxArch.sh\` from the Android system in Termux.
