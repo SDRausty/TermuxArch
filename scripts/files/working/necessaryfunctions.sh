@@ -149,7 +149,7 @@ makefinishsetup () {
 	elif [[ "$cpuabi" = "$cpuabix86_64" ]];then
 		printf "./root/bin/keys x86_64\\n" >> root/bin/"$binfnstp"
 	else
-		printf "./root/bin/keys\\n" >> root/bin/"$binfnstp"
+: #		printf "./root/bin/keys\\n" >> root/bin/"$binfnstp"
 	fi
 	if [[ "$cpuabi" = "$cpuabix86" ]] || [[ "$cpuabi" = "$cpuabix86_64" ]];then
 		printf "./root/bin/pci gzip sed \\n" >> root/bin/"$binfnstp"
@@ -159,7 +159,7 @@ makefinishsetup () {
 	cat >> root/bin/"$binfnstp" <<- EOM
 	printf "\\n\\e[1;32m==> "
 	locale-gen ||:
-	printf "\\n\\e[1;34m 🕛 > 🕤 Arch Linux in Termux is installed and configured 📲 \\n\\e[0m" '\033]2; 🕛 > 🕤 Arch Linux in Termux is installed and configured 📲 \007'
+	printf "\\n\\e[1;34m 🕛 > 🕤 Arch Linux in Termux is installed and configured 📲  \\e[0m" '\033]2; 🕛 > 🕤 Arch Linux in Termux is installed and configured 📲 \007'
 	EOM
 	chmod 770 root/bin/"$binfnstp" 
 }
