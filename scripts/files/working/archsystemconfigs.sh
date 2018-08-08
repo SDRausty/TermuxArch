@@ -206,7 +206,7 @@ addch () { # Creates .hushlogin and .hushlogout file
 	################################################################################
 	set -Eeou pipefail 
 	declare -a args
-	versionid="gen.v1.6 id213005187478"
+	versionid="v1.6"
 
 
 	finishe () { # on exit
@@ -230,7 +230,7 @@ addch () { # Creates .hushlogin and .hushlogout file
 	}
 	
 	printtail () {
-		printf "\\\\a\\\\n\\\\e[0m%s \\\\e[0;32m%s %s\\\\a\\\\e[1;34m: \\\\a\\\\e[1;32m%s\\\\e[0m 🏁  \\\\n\\\\n\\\\a\\\\e[0m" "TermuxArch" "\$(basename "\$0")" "\$args"  "\$versionid" "DONE"
+		printf "\\\\a\\\\n\\\\e[0m%s \\\\e[0;32m%s %s %s\\\\a\\\\e[1;34m: \\\\a\\\\e[1;32m%s\\\\e[0m 🏁  \\\\n\\\\n\\\\a\\\\e[0m" "TermuxArch" "\$(basename "\$0")" "\$args"  "\$versionid" "DONE"
 		printf '\033]2;  🔑🗝 TermuxArch '"\$(basename "\$0")"':DONE 📱 \007'
 	}
 
@@ -397,7 +397,7 @@ addkeys () {
 	shopt -s nullglob globstar
 
 	declare -a keyrings
-	versionid="gen.v1.6 id213005187478"
+	versionid="v1.6"
 
 
 	finishe () { # on exit
@@ -499,7 +499,7 @@ addpc () { # pacman install packages shortcut
 	shopt -s nullglob globstar
 
 	declare -g args="\$@"
-	versionid="gen.v1.6 id213005187478"
+	versionid="v1.6"
 
 
 	finishe () { # on exit
@@ -562,7 +562,7 @@ addpci () { # system update with pacman install packages shortcut
 	shopt -s nullglob globstar
 
 	declare args="\$@"
-	versionid="gen.v1.6 id213005187478"
+	versionid="v1.6"
 
 
 	finishe () { # on exit

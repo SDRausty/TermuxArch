@@ -162,7 +162,7 @@ makefinishsetup () {
 	fi
 	cat >> root/bin/"$binfnstp" <<- EOM
 	printf "\\n\\e[1;32m==> "
- 	locale-gen ||:
+  	locale-gen ||:
 	printf "\\n\\e[1;34m 🕛 > 🕤 Arch Linux in Termux is installed and configured 📲  \\e[0m" '\033]2; 🕛 > 🕤 Arch Linux in Termux is installed and configured 📲 \007'
 	EOM
 	chmod 770 root/bin/"$binfnstp" 

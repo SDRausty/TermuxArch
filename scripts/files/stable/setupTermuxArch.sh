@@ -9,7 +9,7 @@ shopt -s nullglob globstar
 unset LD_PRELOAD
 
 arg2dir () { 
-	arg2="$(echo "${@:2:1}")"
+	arg2="${@:2:1}"
 	if [[ "$arg2" = "" ]] ;then
 		rootdir=/arch
 		nameinstalldir 
@@ -20,7 +20,7 @@ arg2dir () {
 }
 
 arg3dir () {
-	arg2="$(echo "${@:3:1}")"
+	arg2="${@:3:1}"
 	if [[ "$arg3" = "" ]] ;then
 		rootdir=/arch
 		nameinstalldir 
@@ -779,7 +779,7 @@ elif [[ "$1" = [Rr][Ee]* ]] || [[ "$1" = -[Rr][Ee]* ]] || [[ "$1" = --[Rr][Ee]* 
 	introrefresh "$@"  
 # [run] Run local copy of TermuxArch from TermuxArchBloom.  Useful for running customized TermuxArch locally.  
 elif [[ "$1" = [Rr]* ]] || [[ "$1" = -[Rr]* ]] || [[ "$1" = --[Rr]* ]];then
-	runbloom 
+	runbloom  "$@"  
 else
 	printusage
 fi
