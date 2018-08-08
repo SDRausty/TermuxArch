@@ -205,13 +205,14 @@ addch () { # Creates .hushlogin and .hushlogout file
 	# https://sdrausty.github.io/TermuxArch/README has information about this project. 
 	################################################################################
 	set -Eeou pipefail 
-versionid="v1.6"
+	declare -a args
+	versionid="v1.6"
+
 
 	finishe () { # on exit
 		printf "\\e[?25h\\e[0m"
 		set +Eeuo pipefail 
-	 	printtail 
-#  	 	echo "[ \$0 done (\$?) ]" 
+	 	printtail "\$args[@]"  
 	}
 	
 	finisher () { # on script signal
@@ -229,15 +230,22 @@ versionid="v1.6"
 	}
 	
 	printtail () {
-		printf "\\\\a\\\\n\\\\e[0;32m%s %s\\\\a\\\\e[1;34m: \\\\a\\\\e[1;32m%s\\\\e[0m 🏁  \\\\n\\\\n\\\\a\\\\e[0m" "TermuxArch \$(basename "\$0")" "\$versionid" "DONE"
-		printf '\033]2;  🔑🗝 TermuxArch '"\$(basename "\$0")"' 📱 \007'
+		printf "\\\\a\\\\n\\\\e[0m%s \\\\e[0;32m%s %s\\\\a\\\\e[1;34m: \\\\a\\\\e[1;32m%s\\\\e[0m 🏁  \\\\n\\\\n\\\\a\\\\e[0m" "TermuxArch" "\$(basename "\$0")" "\$args"  "\$versionid" "DONE"
+		printf '\033]2;  🔑🗝 TermuxArch '"\$(basename "\$0")"':DONE 📱 \007'
 	}
 
-	printf "\\\\n\\\\033[1;32m==> \\\\033[1;37m%s \\\\033[1;32m%s %s\\\033[0m%s…\\\\n\\\\n" "Running" "TermuxArch \$(basename "\$0")" "\$versionid"  
 	trap finisher ERR
 	trap finishe EXIT
 	trap finishs INT TERM 
 	## ch begin ####################################################################
+
+	if [[ -z "\${1:-}" ]];then
+		args=""
+	else
+		args="\$@"
+	fi
+
+	printf "\\\\n\\\\e[1;32m==> \\\\e[1;37m%s \\\\e[1;32m%s %s %s\\\e[0m%s\\\\b…\\\\n\\\\n" "Running" "TermuxArch \$(basename "\$0")" "\$args" "\$versionid"  
 
 	touch \$HOME/.hushlogin \$HOME/.hushlogout
 	ls \$HOME/.hushlogin \$HOME/.hushlogout
@@ -268,7 +276,7 @@ adddfa () {
 	################################################################################
 	units=\`df 2>/dev/null | awk 'FNR == 1 {print \$2}'\`
 	usrspace=\`df 2>/dev/null | grep "/data" | awk {'print \$4'}\`
-	printf "\033[0;33m\$usrspace \$units of free user space is available on this device.\n\033[0m"
+	printf "\e[0;33m\$usrspace \$units of free user space is available on this device.\n\e[0m"
 	EOM
 	chmod 770 root/bin/dfa 
 }
@@ -387,8 +395,10 @@ addkeys () {
 	################################################################################
 	set -Eeou pipefail 
 	shopt -s nullglob globstar
+
 	declare -a keyrings
-versionid="v1.6"
+	versionid="v1.6"
+
 
 	finishe () { # on exit
 		printf "\\e[?25h\\e[0m"
@@ -448,18 +458,18 @@ versionid="v1.6"
 	fi
 	args="\${keyrings[@]}"
 	printf '\033]2;  🔑🗝 TermuxArch '"\$(basename "\$0") \$args"' 📲 \007'
-	printf "\\\\n\\\\033[1;32m==> \\\\033[1;37m%s \\\\033[0;32m%s \\\\033[1;32m%s %s \\\\033[0m%s…\\\\n" "Running" "TermuxArch" "\$(basename "\$0")" "\$args" "\$versionid"  
+	printf "\\\\n\\\\e[1;32m==> \\\\e[1;37m%s \\\\e[0;32m%s \\\\e[1;32m%s %s \\\\e[0m%s…\\\\n" "Running" "TermuxArch" "\$(basename "\$0")" "\$args" "\$versionid"  
 	mv usr/lib/gnupg/scdaemon{,_} 2>/dev/null ||: 
-	printf "\n\033[0;34mWhen \033[0;37mgpg: Generating pacman keyring master key\033[0;34m appears on the screen, the installation process can be accelerated.  The system desires a lot of entropy at this part of the install procedure.  To generate as much entropy as possible quickly, watch and listen to a file on your device.  \n\nThe program \033[1;32mpacman-key\033[0;34m will want as much entropy as possible when generating keys.  Entropy is also created through tapping, sliding, one, two and more fingers tapping with short and long taps.  When \033[0;37mgpg: Generating pacman keyring master key\033[0;34m appears on the screen, use any of these simple methods to accelerate the installation process if it is stalled.  Put even simpler, just do something on device.  Browsing files will create entropy on device.  Slowly swiveling the device in space and time will accelerate the installation process.  This method alone might not generate enough entropy (a measure of randomness in a closed system) for the process to complete quickly.  Use \033[1;32mbash ~${darch}/bin/we \033[0;34min a new Termux session to and watch entropy on device.\n\n\033[1;32m==>\033[0m Running \033[1mpacman-key --init\033[0;32m…\n"
+	printf "\n\e[0;34mWhen \e[0;37mgpg: Generating pacman keyring master key\e[0;34m appears on the screen, the installation process can be accelerated.  The system desires a lot of entropy at this part of the install procedure.  To generate as much entropy as possible quickly, watch and listen to a file on your device.  \n\nThe program \e[1;32mpacman-key\e[0;34m will want as much entropy as possible when generating keys.  Entropy is also created through tapping, sliding, one, two and more fingers tapping with short and long taps.  When \e[0;37mgpg: Generating pacman keyring master key\e[0;34m appears on the screen, use any of these simple methods to accelerate the installation process if it is stalled.  Put even simpler, just do something on device.  Browsing files will create entropy on device.  Slowly swiveling the device in space and time will accelerate the installation process.  This method alone might not generate enough entropy (a measure of randomness in a closed system) for the process to complete quickly.  Use \e[1;32mbash ~${darch}/bin/we \e[0;34min a new Termux session to and watch entropy on device.\n\n\e[1;32m==>\e[0m Running \e[1mpacman-key --init\e[0;32m…\n"
 	genen
 	pacman-key --init 2>/dev/null ||: 
 	chmod 700 /etc/pacman.d/gnupg
-	printf "\n\033[1;32m==>\033[0m Running \033[1mpacman -S \$args --noconfirm --color=always\033[0;32m…\n"
+	printf "\n\e[1;32m==>\e[0m Running \e[1mpacman -S \$args --noconfirm --color=always\e[0;32m…\n"
 	pacman -S "\${keyrings[@]}" --noconfirm --color=always ||: 
 	genen
-	printf "\n\033[0;34mWhen \033[1;37mAppending keys from archlinux.gpg\033[0;34m appears on the screen, the installation process can be accelerated.  The system desires a lot of entropy at this part of the install procedure.  To generate as much entropy as possible quickly, watch and listen to a file on your device.  \n\nThe program \033[1;32mpacman-key\033[0;34m will want as much entropy as possible when generating keys.  Entropy is also created through tapping, sliding, one, two and more fingers tapping with short and long taps.  When \033[1;37mAppending keys from archlinux.gpg\033[0;34m appears on the screen, use any of these simple methods to accelerate the installation process if it is stalled.  Put even simpler, just do something on device.  Browsing files will create entropy on device.  Slowly swiveling the device in space and time will accelerate the installation process.  This method alone might not generate enough entropy (a measure of randomness in a closed system) for the process to complete quickly.  Use \033[1;32mbash ~${darch}/bin/we \033[0;34min a new Termux session to watch entropy on device.\n\n\033[1;32m==>\033[0m Running \033[1mpacman-key --populate\033[0;32m…\n"
+	printf "\n\e[0;34mWhen \e[1;37mAppending keys from archlinux.gpg\e[0;34m appears on the screen, the installation process can be accelerated.  The system desires a lot of entropy at this part of the install procedure.  To generate as much entropy as possible quickly, watch and listen to a file on your device.  \n\nThe program \e[1;32mpacman-key\e[0;34m will want as much entropy as possible when generating keys.  Entropy is also created through tapping, sliding, one, two and more fingers tapping with short and long taps.  When \e[1;37mAppending keys from archlinux.gpg\e[0;34m appears on the screen, use any of these simple methods to accelerate the installation process if it is stalled.  Put even simpler, just do something on device.  Browsing files will create entropy on device.  Slowly swiveling the device in space and time will accelerate the installation process.  This method alone might not generate enough entropy (a measure of randomness in a closed system) for the process to complete quickly.  Use \e[1;32mbash ~${darch}/bin/we \e[0;34min a new Termux session to watch entropy on device.\n\n\e[1;32m==>\e[0m Running \e[1mpacman-key --populate\e[0;32m…\n"
 	pacman-key --populate ||: 
-	printf "\n\033[1;32m==>\033[0m Running \033[1mpacman -Ss keyring --color=always\033[0m…\n"
+	printf "\n\e[1;32m==>\e[0m Running \e[1mpacman -Ss keyring --color=always\e[0m…\n"
 	pacman -Ss keyring --color=always ||: 
 	EOM
 	chmod 770 root/bin/keys 
@@ -467,13 +477,13 @@ versionid="v1.6"
 
 addmotd () {
 	cat > etc/motd  <<- EOM
-	printf "\n\033[1;34mWelcome to Arch Linux in Termux!\nInstall a package: \033[0;34mpacman -S package\n\033[1;34mMore  information: \033[0;34mpacman -[D|F|Q|R|S|T|U]h\n\033[1;34mSearch   packages: \033[0;34mpacman -Ss query\n\033[1;34mUpgrade  packages: \033[0;34mpacman -Syu\n\n\033[1;34mChat: \033[0mwebchat.freenode.net/ #termux\n\033[1;34mHelp: \033[0;34minfo query \033[1;34mand \033[0;34mman query\n\033[1;34mIRC:  \033[0mwiki.archlinux.org/index.php/IRC_channel\n\n\033[0m"
+	printf "\n\e[1;34mWelcome to Arch Linux in Termux!\nInstall a package: \e[0;34mpacman -S package\n\e[1;34mMore  information: \e[0;34mpacman -[D|F|Q|R|S|T|U]h\n\e[1;34mSearch   packages: \e[0;34mpacman -Ss query\n\e[1;34mUpgrade  packages: \e[0;34mpacman -Syu\n\n\e[1;34mChat: \e[0mwebchat.freenode.net/ #termux\n\e[1;34mHelp: \e[0;34minfo query \e[1;34mand \e[0;34mman query\n\e[1;34mIRC:  \e[0mwiki.archlinux.org/index.php/IRC_channel\n\n\e[0m"
 	EOM
 }
 
 addmoto () {
 	cat > etc/moto  <<- EOM
-	printf "\n\033[1;34mShare Your Arch Linux in Termux Experience!\n\n\033[1;34mChat: \033[0mwebchat.freenode.net/ #termux\n\033[1;34mHelp: \033[0;34minfo query \033[1;34mand \033[0;34mman query\n\033[1;34mIRC:  \033[0mwiki.archlinux.org/index.php/IRC_channel\n\n\033[0m"
+	printf "\n\e[1;34mShare Your Arch Linux in Termux Experience!\n\n\e[1;34mChat: \e[0mwebchat.freenode.net/ #termux\n\e[1;34mHelp: \e[0;34minfo query \e[1;34mand \e[0;34mman query\n\e[1;34mIRC:  \e[0mwiki.archlinux.org/index.php/IRC_channel\n\n\e[0m"
 	EOM
 }
 
@@ -487,8 +497,10 @@ addpc () { # pacman install packages shortcut
 	################################################################################
 	set -Eeou pipefail 
 	shopt -s nullglob globstar
+
 	declare -g args="\$@"
-versionid="v1.6"
+	versionid="v1.6"
+
 
 	finishe () { # on exit
 		printf "\\e[?25h\\e[0m"
@@ -522,7 +534,7 @@ versionid="v1.6"
 	## pc begin ####################################################################
 
 	printf '\033]2;  🔑🗝 TermuxArch '"\$(basename "\$0") \$args"' 📲 \007'
-	printf "\\\\n\\\\033[1;32m==> \\\\033[1;37m%s \\\\033[0;32m%s \\\\033[1;32m%s %s \\\033[0m%s… \\\\n\\\\n" "Running" "TermuxArch" "\$(basename "\$0")" "\$args" "\$versionid"  
+	printf "\\\\n\\\\e[1;32m==> \\\\e[1;37m%s \\\\e[0;32m%s \\\\e[1;32m%s %s \\\e[0m%s…\\\\n\\\\n" "Running" "TermuxArch" "\$(basename "\$0")" "\$args" "\$versionid"  
 	if [[ -z "\${1:-}" ]];then
 	pacman --noconfirm --color=always -S 
 	elif [[ "\$1" = "a" ]];then
@@ -548,8 +560,10 @@ addpci () { # system update with pacman install packages shortcut
 	################################################################################
 	set -Eeuo pipefail 
 	shopt -s nullglob globstar
+
 	declare args="\$@"
-versionid="v1.6"
+	versionid="v1.6"
+
 
 	finishe () { # on exit
 		printf "\\e[?25h\\e[0m"
@@ -576,12 +590,12 @@ versionid="v1.6"
 		printf '\033]2;  🔑🗝 TermuxArch '"\$(basename "\$0") \$args"' 📱 \007'
 	}
 
-	printf "\\\\n\\\\033[1;32m==> \\\\033[1;37m%s \\\\033[1;32m%s %s %s \\\033[0m%s…\\\\n\\\\n" "Running" "TermuxArch \$(basename "\$0")" "\$args" "\$versionid"  
 	trap finisher ERR
 	trap finishe EXIT
 	trap finishs INT TERM 
 	## pci begin ###################################################################
 
+	printf "\\\\n\\\\e[1;32m==> \\\\e[1;37m%s \\\\e[1;32m%s %s %s \\\e[0m%s…\\\\n\\\\n" "Running" "TermuxArch \$(basename "\$0")" "\$args" "\$versionid"  
 	if [[ -z "\${1:-}" ]];then
 	pacman --noconfirm --color=always -Syu
 	elif [[ \$1 = "a" ]];then
@@ -664,19 +678,19 @@ addtour () {
 	# https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.  
 	# https://sdrausty.github.io/TermuxArch/README has information about this project. 
 	################################################################################
-	printf "\n\033[1;32m==> \033[1;37mRunning \033[1;32mlr ~\033[1;37m\n\n"
+	printf "\n\e[1;32m==> \e[1;37mRunning \e[1;32mlr ~\e[1;37m\n\n"
 	ls -R --color=always \$HOME
 	sleep 4
-	printf "\n\033[1;32m==> \033[1;37mRunning \033[1;32mcat ~/.bash_profile\033[1;37m\n\n"
+	printf "\n\e[1;32m==> \e[1;37mRunning \e[1;32mcat ~/.bash_profile\e[1;37m\n\n"
 	cat \$HOME/.bash_profile
 	sleep 8
-	printf "\n\033[1;32m==> \033[1;37mRunning \033[1;32mcat ~/.bashrc\033[1;37m\n\n"
+	printf "\n\e[1;32m==> \e[1;37mRunning \e[1;32mcat ~/.bashrc\e[1;37m\n\n"
 	cat \$HOME/.bashrc
 	sleep 4
-	printf "\n\033[1;32m==> \033[1;37mRunning \033[1;32mcat ~/bin/pci\033[1;37m\n\n"
+	printf "\n\e[1;32m==> \e[1;37mRunning \e[1;32mcat ~/bin/pci\e[1;37m\n\n"
 	cat \$HOME/bin/pci
 	sleep 2
-	printf "\n\033[1;32m==> \033[1;37mShort tour is complete; Run this script again at a later time, and it might be surprising at how this environment changes over time.  If you are new to *nix, see http://tldp.org for documentation.  \033[1;34mIRC:  \033[0mhttps://wiki.archlinux.org/index.php/IRC_channel\n\n"
+	printf "\n\e[1;32m==> \e[1;37mShort tour is complete; Run this script again at a later time, and it might be surprising at how this environment changes over time.  If you are new to *nix, see http://tldp.org for documentation.  \e[1;34mIRC:  \e[0mhttps://wiki.archlinux.org/index.php/IRC_channel\n\n"
 	EOM
 	chmod 770 root/bin/tour 
 }
@@ -715,6 +729,7 @@ addv () {
 	################################################################################
 	set -Eeou pipefail 
 	shopt -s nullglob globstar
+
 	if [[ -z "\${1:-}" ]];then
 		args="."
 	else
@@ -747,24 +762,24 @@ addwe () {
 
 	printintro ()
 	{
-		printf "\n\033[1;32mTermuxArch Watch Entropy:\n"'\033]2; TermuxArch Watch Entropy 📲  \007'
+		printf "\n\e[1;32mTermuxArch Watch Entropy:\n"'\033]2; TermuxArch Watch Entropy 📲  \007'
 	}
 
 	printtail ()
 	{
-		printf "\n\n\033[1;32mTermuxArch Watch Entropy 🏁 \n\n"'\033]2; TermuxArch Watch Entropy 🏁 \007'
+		printf "\n\n\e[1;32mTermuxArch Watch Entropy 🏁 \n\n"'\033]2; TermuxArch Watch Entropy 🏁 \007'
 	}
 
 	printusage ()
 	{
-		printf "\n\033[0;32mUsage:  \033[1;32mwe \033[0;32m Watch Entropy simple.\n\n	\033[1;32mwe sequential\033[0;32m Watch Entropy sequential.\n\n	\033[1;32mwe simple\033[0;32m Watch Entropy simple.\n\n	\033[1;32mwe verbose\033[0;32m Watch Entropy verbose.\n\n"'\033]2; TermuxArch Watch Entropy 📲  \007'
+		printf "\n\e[0;32mUsage:  \e[1;32mwe \e[0;32m Watch Entropy simple.\n\n	\e[1;32mwe sequential\e[0;32m Watch Entropy sequential.\n\n	\e[1;32mwe simple\e[0;32m Watch Entropy simple.\n\n	\e[1;32mwe verbose\e[0;32m Watch Entropy verbose.\n\n"'\033]2; TermuxArch Watch Entropy 📲  \007'
 	}
 
 	infif ()
 	{
 		if [[ \$entropy0 = "inf" ]] || [[ \$entropy0 = "" ]] || [[ \$entropy0 = "0" ]];then
 			entropy0=1000
-			printf "\033[1;32m∞^∞infifinfif2minfifinfifinfifinfif∞=1\033[0;32minfifinfifinfifinfif\033[0;32m∞==0infifinfifinfifinfif\033[0;32minfifinfifinfif∞"
+			printf "\e[1;32m∞^∞infifinfif2minfifinfifinfifinfif∞=1\e[0;32minfifinfifinfifinfif\e[0;32m∞==0infifinfifinfifinfif\e[0;32minfifinfifinfif∞"
 		fi
 	}
 
@@ -795,49 +810,49 @@ addwe () {
 		if [[ \$commandif = "" ]];then
 			abcif=\$(command -v bc) ||:
 			if [[ \$abcif = "" ]];then
-				printf "\033[1;34mInstalling \033[0;32mbc\033[1;34m…\n\n\033[1;32m"
+				printf "\e[1;34mInstalling \e[0;32mbc\e[1;34m…\n\n\e[1;32m"
 				pacman -Syu bc --noconfirm --color=always
-				printf "\n\033[1;34mInstalling \033[0;32mbc\033[1;34m: \033[1;32mDONE\n\033[0m"
+				printf "\n\e[1;34mInstalling \e[0;32mbc\e[1;34m: \e[1;32mDONE\n\e[0m"
 			fi
 		else
 			tbcif=\$(command -v bc) ||:
 			if [[ \$tbcif = "" ]];then
-				printf "\033[1;34mInstalling \033[0;32mbc\033[1;34m…\n\n\033[1;32m"
+				printf "\e[1;34mInstalling \e[0;32mbc\e[1;34m…\n\n\e[1;32m"
 				pkg install bc --yes
-				printf "\n\033[1;34mInstalling \033[0;32mbc\033[1;34m: \033[1;32mDONE\n\033[0m"
+				printf "\n\e[1;34mInstalling \e[0;32mbc\e[1;34m: \e[1;32mDONE\n\e[0m"
 			fi
 		fi
 	}
 
 	entropysequential ()
 	{
-	printf "\n\033[1;32mWatch Entropy Sequential:\n\n"'\033]2; Watch Entropy Sequential 📲  \007'
+	printf "\n\e[1;32mWatch Entropy Sequential:\n\n"'\033]2; Watch Entropy Sequential 📲  \007'
 	for i in \$(seq 1 \$en0); do
 		entropy0=\$(cat /proc/sys/kernel/random/entropy_avail 2>/dev/null) 
 		infif 
-		printf "\033[1;30m \$en0 \033[0;32m\$i \033[1;32m\${entropy0}\n"
+		printf "\e[1;30m \$en0 \e[0;32m\$i \e[1;32m\${entropy0}\n"
 		1sleep 
 	done
 	}
 
 	entropysimple ()
 	{
-	printf "\n\033[1;32mWatch Entropy Simple:\n\n"'\033]2; Watch Entropy Simple 📲  \007'
+	printf "\n\e[1;32mWatch Entropy Simple:\n\n"'\e]2; Watch Entropy Simple 📲  \007'
 	for i in \$(seq 1 \$en0); do
 		entropy0=\$(cat /proc/sys/kernel/random/entropy_avail 2>/dev/null) 
 		infif 
-		printf "\033[1;32m\${entropy0} " 
+		printf "\e[1;32m\${entropy0} " 
 		1sleep 
 	done
 	}
 
 	entropyverbose ()
 	{
-	printf "\n\033[1;32mWatch Entropy Verbose:\n\n"'\033]2; Watch Entropy Verbose 📲  \007'
+	printf "\n\e[1;32mWatch Entropy Verbose:\n\n"'\033]2; Watch Entropy Verbose 📲  \007'
 	for i in \$(seq 1 \$en0); do
 		entropy0=\$(cat /proc/sys/kernel/random/entropy_avail 2>/dev/null) 
 		infif 
-		printf "\033[1;30m \$en0 \033[0;32m\$i \033[1;32m\${entropy0} \033[0;32m#E&&√♪"
+		printf "\e[1;30m \$en0 \e[0;32m\$i \e[1;32m\${entropy0} \e[0;32m#E&&√♪"
 		esleep 
 		sleep \$int
 		entropy1=\$(cat /proc/sys/kernel/random/uuid 2>/dev/null) 
