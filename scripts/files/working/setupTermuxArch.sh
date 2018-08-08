@@ -47,6 +47,7 @@ bloom () {
 	pwd
 	printf "\\n"
 	dependsblock "$@" 
+	printf "\\n"
 	ls -agl
 	printf "\\n\\e[1;34mUse \\e[1;32mcd ~/TermuxArchBloom\\e[1;34m to continue.  Edit any of these files.  Then use \\e[1;32mbash $0 [options] \\e[1;34mto run the files in \\e[1;32m~/TermuxArchBloom\\e[1;34m.\\n\\e[0m"'\033]2;  TermuxArch Bloom option via `setupTermuxArch.sh bloom` 📲 \007'
 }
@@ -65,7 +66,7 @@ bsdtarif () {
 chk () {
 	if "$PREFIX"/bin/applets/sha512sum -c termuxarchchecksum.sha512 1>/dev/null ;then
 		chkself "$@"
-		printf "\\e[0;34m 🕛 > 🕜 \\e[1;34mTermuxArch $versionid integrity: \\e[1;32mOK\\n"
+		printf "\\e[0;34m 🕛 > 🕜 \\e[1;34mTermuxArch $versionid integrity: \\e[1;32mOK\\e[0m\\n"
 		if [[ "$opt" = manual ]];then
 			manual
 		else 
@@ -678,7 +679,7 @@ stime="${stim:0:4}"
 trap finisher ERR
 trap finishe EXIT
 trap finishs INT TERM 
-versionid="gen.v1.6 id542600593425"
+versionid="gen.v1.6 id420436048587"
 
 if [[ "$commandif" = "" ]];then
 	echo Run \`setupTermuxArch.sh\` from the Android system in Termux.
