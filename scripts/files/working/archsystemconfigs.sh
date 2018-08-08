@@ -205,7 +205,7 @@ addch () { # Creates .hushlogin and .hushlogout file
 	# https://sdrausty.github.io/TermuxArch/README has information about this project. 
 	################################################################################
 	set -Eeou pipefail 
-versionid="gen.v1.6 id523500420"
+versionid="v1.6"
 
 	finishe () { # on exit
 		printf "\\e[?25h\\e[0m"
@@ -388,7 +388,7 @@ addkeys () {
 	set -Eeou pipefail 
 	shopt -s nullglob globstar
 	declare -a keyrings
-versionid="gen.v1.6 id523500420"
+versionid="v1.6"
 
 	finishe () { # on exit
 		printf "\\e[?25h\\e[0m"
@@ -488,7 +488,7 @@ addpc () { # pacman install packages shortcut
 	set -Eeou pipefail 
 	shopt -s nullglob globstar
 	declare -g args="\$@"
-versionid="gen.v1.6 id523500420"
+versionid="v1.6"
 
 	finishe () { # on exit
 		printf "\\e[?25h\\e[0m"
@@ -549,7 +549,7 @@ addpci () { # system update with pacman install packages shortcut
 	set -Eeuo pipefail 
 	shopt -s nullglob globstar
 	declare args="\$@"
-versionid="gen.v1.6 id523500420"
+versionid="v1.6"
 
 	finishe () { # on exit
 		printf "\\e[?25h\\e[0m"
