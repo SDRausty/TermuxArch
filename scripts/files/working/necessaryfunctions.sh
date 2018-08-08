@@ -126,10 +126,10 @@ makefinishsetup () {
 	# https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.  
 	# https://sdrausty.github.io/TermuxArch/README has information about this project. 
 	################################################################################
-# 	set -Eeou pipefail 
+ 	set -Eeou pipefail 
 	shopt -s nullglob globstar
 	# $binfnstp
-	versionid="gen.v1.6 id162886714804"
+	versionid="gen.v1.6 id890914287848"
 
 	printf "\\n\\e[1;34m:: \\e[1;37mRemoving redundant packages for Termux PRoot installation…\\n"
 	EOM
@@ -177,10 +177,10 @@ makesetupbin () {
 	# https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.  
 	# https://sdrausty.github.io/TermuxArch/README has information about this project. 
 	################################################################################
-# 	set -Eeou pipefail 
+ 	set -Eeou pipefail 
 	shopt -s nullglob globstar
 	# setupbin.sh 
-	versionid="gen.v1.6 id162886714804"
+	versionid="gen.v1.6 id890914287848"
 	unset LD_PRELOAD
 	EOM
 	echo "$prootstmnt /root/bin/finishsetup.sh ||:" >> root/bin/setupbin.sh 
@@ -195,10 +195,10 @@ makestartbin () {
 	# https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.  
 	# https://sdrausty.github.io/TermuxArch/README has information about this project. 
 	################################################################################
-# 	set -Eeou pipefail 
+ 	set -Eeou pipefail 
 	shopt -s nullglob globstar
 	# $startbin
-	versionid="gen.v1.6 id162886714804"
+	versionid="gen.v1.6 id890914287848"
 	unset LD_PRELOAD
 	declare -g ar2ar="\${@:2}"
 	declare -g ar3ar="\${@:3}"
@@ -207,11 +207,17 @@ makestartbin () {
 	printf "\\n\\e[0;32mUsage:  \\e[1;32m$startbin \\e[0;32mStart Arch Linux as root.  This account should only be reserved for system administration.\\n\\n	\\e[1;32m$startbin command command \\e[0;32mRun Arch Linux command from Termux as root user.\\n\\n	\\e[1;32m$startbin login user \\e[0;32mLogin as user.  Use \\e[1;32maddauser user \\e[0;32mfirst to create a user and the user's home directory.\\n\\n	\\e[1;32m$startbin raw \\e[0;32mConstruct the \\e[1;32mstartarch \\e[0;32mproot statement.  For example \\e[1;32mstartarch raw su - user \\e[0;32mwill login to Arch Linux as user.  Use \\e[1;32maddauser user \\e[0;32mfirst to create a user and the user's home directory.\\n\\n	\\e[1;32m$startbin su user command \\e[0;32mLogin as user and execute command.  Use \\e[1;32maddauser user \\e[0;32mfirst to create a user and the user's home directory.\\n\\n\\e[0m"'\033]2; TermuxArch '$startbin' help 📲  \007' 
 	}
 
-	if [[ "\$1" = [?]* ]] || [[ "\$1" = -[?]* ]] || [[ "\$1" = --[?]* ]] || [[ "\$1" = [Hh]* ]] || [[ "\$1" = -[Hh]* ]] || [[ "\$1" = --[Hh]* ]];then
+	# [] Default Arch Linux in Termux PRoot root login.
+	if [[ -z "\${1:-}" ]];then
+	EOM
+		echo "$prootstmnt /bin/bash -l  " >> "$startbin"
+	cat >> "$startbin" <<- EOM
+		printf '\033]2; TermuxArch '$startbin' 📲  \007'
 	# [?|help] Displays usage information.
+	elif [[ "\$1" = [?]* ]] || [[ "\$1" = -[?]* ]] || [[ "\$1" = --[?]* ]] || [[ "\$1" = [Hh]* ]] || [[ "\$1" = -[Hh]* ]] || [[ "\$1" = --[Hh]* ]];then
 		printusage
-	elif [[ "\$1" = [Cc]* ]] || [[ "\$1" = -[Cc]* ]] || [[ "\$1" = --[Cc]* ]];then
 	# [command args] Execute a command in BASH as root.
+	elif [[ "\$1" = [Cc]* ]] || [[ "\$1" = -[Cc]* ]] || [[ "\$1" = --[Cc]* ]];then
 		printf '\033]2; '$startbin' command args 📲  \007'
 		touch $installdir/root/.chushlogin
 	EOM
@@ -219,43 +225,37 @@ makestartbin () {
 	cat >> "$startbin" <<- EOM
 		printf '\033]2; '$startbin' command args 📲  \007'
 		rm $installdir/root/.chushlogin
-	elif [[ "\$1" = [Ll]* ]] || [[ "\$1" = -[Ll]* ]] || [[ "\$1" = --[Ll]* ]] || [[ "\$1" = [Uu]* ]] || [[ "\$1" = -[Uu]* ]] || [[ "\$1" = --[Uu]* ]] ;then
 	# [login user|login user [options]] Login as user [plus options].  Use \`addauser user\` first to create this user and the user's home directory.
+	elif [[ "\$1" = [Ll]* ]] || [[ "\$1" = -[Ll]* ]] || [[ "\$1" = --[Ll]* ]] || [[ "\$1" = [Uu]* ]] || [[ "\$1" = -[Uu]* ]] || [[ "\$1" = --[Uu]* ]] ;then
 		printf '\033]2; '$startbin' login user [options] 📲  \007'
 	EOM
 		echo "$prootstmnt /bin/su - \"\$ar2ar\" " >> "$startbin"
 	cat >> "$startbin" <<- EOM
 		printf '\033]2; '$startbin' login user [options] 📲  \007'
-	elif [[ \$1 = [Rr]* ]] || [[ \$1 = -[Rr]* ]] || [[ \$1 = --[Rr]* ]];then
 	# [raw args] Construct the \`startarch\` proot statement.  For example \`startarch r su - archuser\` will login as user archuser.  Use \`addauser archuser\` first to create this user and the user home directory.
+	elif [[ "\$1" = [Rr]* ]] || [[ "\$1" = -[Rr]* ]] || [[ "\$1" = --[Rr]* ]];then
 		printf '\033]2; '$startbin' raw args 📲  \007'
 	EOM
 		echo "$prootstmnt /bin/\"\$ar2ar\" " >> "$startbin"
 	cat >> "$startbin" <<- EOM
 		printf '\033]2; '$startbin' raw args 📲  \007'
-	elif [[ "\$1" = [Ss]* ]] || [[ "\$1" = -[Ss]* ]] || [[ "\$1" = --[Ss]* ]];then
 	# [su user command] Login as user and execute command.  Use \`addauser user\` first to create this user and the user's home directory.
+	elif [[ "\$1" = [Ss]* ]] || [[ "\$1" = -[Ss]* ]] || [[ "\$1" = --[Ss]* ]];then
 		printf '\033]2; '$startbin' su user command 📲  \007'
 		if [[ "\$2" = root ]];then
 			touch $installdir/root/.chushlogin
 		else
-			touch $installdir/home/\$2/.chushlogin
+			touch $installdir/home/"\$2"/.chushlogin
 		fi
 	EOM
-		echo "$prootstmnt /bin/su - \$2 -c \"\$ar3ar\" " >> "$startbin"
+		echo "$prootstmnt /bin/su - "\$2" -c \"\$ar3ar\" " >> "$startbin"
 	cat >> "$startbin" <<- EOM
 		printf '\033]2; '$startbin' su user command 📲  \007'
 		if [[ "\$2" = root ]];then
 			rm $installdir/root/.chushlogin
 		else
-			rm $installdir/home/\$2/.chushlogin
+			rm $installdir/home/"\$2"/.chushlogin
 		fi
-	elif [[ "\$1" = "" ]];then
-	# [] Default Arch Linux in Termux PRoot root login.
-	EOM
-		echo "$prootstmnt /bin/bash -l  " >> "$startbin"
-	cat >> "$startbin" <<- EOM
-		printf '\033]2; TermuxArch '$startbin' 📲  \007'
 	else
 		printusage
 	fi
@@ -310,7 +310,6 @@ preproot () {
 			proot --link2symlink -0 bsdtar -xpf "$file" --strip-components 1 
 		else
 			proot --link2symlink -0 "$PREFIX"/bin/applets/tar xf "$file" 
-			#proot --link2symlink -0 bsdtar -xpf $file --strip-components 1 
 		fi
 	else
 		printf "\\n\\n\\e[1;31mDownload Exception!  Execute \\e[0;32mbash setupTermuxArch.sh\\e[1;31m again…\\n"'\033]2;  Execute `bash setupTermuxArch.sh` again …\007'
