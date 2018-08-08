@@ -196,19 +196,6 @@ addcdth () {
 	chmod 770 root/bin/cdth 
 }
 
-addexd () {
-	cat > root/bin/exd <<- EOM
-	#!/bin/bash -e
-	# Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
-	# Hosting https://sdrausty.github.io/TermuxArch courtesy https://pages.github.com
-	# https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.  
-	# https://sdrausty.github.io/TermuxArch/README has information about this project. 
-	################################################################################
-	export DISPLAY=:0 PULSE_SERVER=tcp:127.0.0.1:4712
-	EOM
-	chmod 770 root/bin/exd 
-}
-
 addch () { # Creates .hushlogin and .hushlogout file
 	cat > root/bin/ch <<- EOM
 	#!/bin/env bash
@@ -218,12 +205,12 @@ addch () { # Creates .hushlogin and .hushlogout file
 	# https://sdrausty.github.io/TermuxArch/README has information about this project. 
 	################################################################################
 	set -Eeou pipefail 
-	declare -a args
+versionid="v1.6"
 
 	finishe () { # on exit
 		printf "\\e[?25h\\e[0m"
 		set +Eeuo pipefail 
-	 	printtail "\$args[@]"  
+	 	printtail 
 #  	 	echo "[ \$0 done (\$?) ]" 
 	}
 	
@@ -242,11 +229,11 @@ addch () { # Creates .hushlogin and .hushlogout file
 	}
 	
 	printtail () {
-		printf "\\\\a\\\\n\\\\e[0;32m%s %s %s\\\\a\\\\e[1;34m: \\\\a\\\\e[1;32m%s\\\\e[0m 🏁  \\\\n\\\\n\\\\a\\\\e[0m" "TermuxArch \$(basename "\$0")" "\$args" "\$versionid" "DONE"
-		printf '\033]2;  🔑🗝 TermuxArch '"\$(basename "\$0") \$args"' 📱 \007'
+		printf "\\\\a\\\\n\\\\e[0;32m%s %s\\\\a\\\\e[1;34m: \\\\a\\\\e[1;32m%s\\\\e[0m 🏁  \\\\n\\\\n\\\\a\\\\e[0m" "TermuxArch \$(basename "\$0")" "\$versionid" "DONE"
+		printf '\033]2;  🔑🗝 TermuxArch '"\$(basename "\$0")"' 📱 \007'
 	}
 
-	printf "\\\\n\\\\033[1;32m==> \\\\033[1;37m%s \\\\033[1;32m%s %s %s \\\033[0m%s…\\\\\n\\\\n" "Running" "TermuxArch \$(basename "\$0")" "\$args" "\$versionid"  
+	printf "\\\\n\\\\033[1;32m==> \\\\033[1;37m%s \\\\033[1;32m%s %s\\\033[0m%s…\\\\n\\\\n" "Running" "TermuxArch \$(basename "\$0")" "\$versionid"  
 	trap finisher ERR
 	trap finishe EXIT
 	trap finishs INT TERM 
@@ -256,6 +243,19 @@ addch () { # Creates .hushlogin and .hushlogout file
 	ls \$HOME/.hushlogin \$HOME/.hushlogout
 	EOM
 	chmod 770 root/bin/ch 
+}
+
+addexd () {
+	cat > root/bin/exd <<- EOM
+	#!/bin/bash -e
+	# Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
+	# Hosting https://sdrausty.github.io/TermuxArch courtesy https://pages.github.com
+	# https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.  
+	# https://sdrausty.github.io/TermuxArch/README has information about this project. 
+	################################################################################
+	export DISPLAY=:0 PULSE_SERVER=tcp:127.0.0.1:4712
+	EOM
+	chmod 770 root/bin/exd 
 }
 
 adddfa () {
@@ -522,7 +522,7 @@ versionid="v1.6"
 	## pc begin ####################################################################
 
 	printf '\033]2;  🔑🗝 TermuxArch '"\$(basename "\$0") \$args"' 📲 \007'
-	printf "\\\\n\\\\033[1;32m==> \\\\033[1;37m%s \\\\033[0;32m%s \\\\033[1;32m%s %s \\\033[0m%s…\\\\\n\\\\n" "Running" "TermuxArch" "\$(basename "\$0")" "\$args" "\$versionid"  
+	printf "\\\\n\\\\033[1;32m==> \\\\033[1;37m%s \\\\033[0;32m%s \\\\033[1;32m%s %s \\\033[0m%s… \\\\n\\\\n" "Running" "TermuxArch" "\$(basename "\$0")" "\$args" "\$versionid"  
 	if [[ -z "\${1:-}" ]];then
 	pacman --noconfirm --color=always -S 
 	elif [[ "\$1" = "a" ]];then
@@ -576,7 +576,7 @@ versionid="v1.6"
 		printf '\033]2;  🔑🗝 TermuxArch '"\$(basename "\$0") \$args"' 📱 \007'
 	}
 
-	printf "\\\\n\\\\033[1;32m==> \\\\033[1;37m%s \\\\033[1;32m%s %s %s \\\033[0m%s…\\\\\n\\\\n" "Running" "TermuxArch \$(basename "\$0")" "\$args" "\$versionid"  
+	printf "\\\\n\\\\033[1;32m==> \\\\033[1;37m%s \\\\033[1;32m%s %s %s \\\033[0m%s…\\\\n\\\\n" "Running" "TermuxArch \$(basename "\$0")" "\$args" "\$versionid"  
 	trap finisher ERR
 	trap finishe EXIT
 	trap finishs INT TERM 
