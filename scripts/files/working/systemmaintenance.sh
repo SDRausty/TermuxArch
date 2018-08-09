@@ -84,18 +84,16 @@ sysinfo () {
 }
 
 loadimage () { 
-	file="$1"
 	namestartarch 
 	nameinstalldir
  	spaceinfo
+	wakelock
 	makeinstalldir 
-	file=$(basename "$1") 
 	file="${1##/*/}" 
 	printf "%s %s" "Copying" "${file}.md5"
 	cp "$1".md5  "$installdir"
 	printf "%s %s" "Copying" "$file"
 	cp "$1" "$installdir"
-	wakelock
 	md5check 
 	printcu 
 	rm -f "$installdir*.tar.gz" "$installdir*.tar.gz.md5"

@@ -26,11 +26,6 @@ callsystem () {
 	fi
 }
 
-makeinstalldir () {
-	mkdir -p "$installdir"
-	cd "$installdir"
-}
-
 copystartbin2path () {
 	if [[ ":$PATH:" == *":$HOME/bin:"* ]] && [[ -d "$HOME"/bin ]]; then
 		BPATH="$HOME"/bin
@@ -128,7 +123,6 @@ mainblock () {
 	namestartarch 
 	nameinstalldir
 	spaceinfo
-	makeinstalldir
 	detectsystem 
 	wakeunlock 
 	printfooter
@@ -186,6 +180,11 @@ makefinishsetup () {
 	printf "\\n\\e[1;34m 🕛 > 🕤 Arch Linux in Termux is installed and configured 📲  \\e[0m" '\033]2; 🕛 > 🕤 Arch Linux in Termux is installed and configured 📲 \007'
 	EOM
 	chmod 770 root/bin/"$binfnstp" 
+}
+
+makeinstalldir () {
+	mkdir -p "$installdir"
+	cd "$installdir"
 }
 
 makesetupbin () {
@@ -282,6 +281,7 @@ makestartbin () {
 
 makesystem () {
 	wakelock
+	makeinstalldir
 	callsystem
 	md5check 
 	printcu 
