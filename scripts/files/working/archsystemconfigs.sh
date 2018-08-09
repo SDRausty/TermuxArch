@@ -692,8 +692,6 @@ addtour () {
 	sleep 4
 	printf "\n\e[1;32m==> \e[1;37mRunning \e[1;32mcat \$HOME/bin/pci\e[1;37m\n\n"
 	cat \$HOME/bin/pci
-	printf "\n\e[1;32m==> \e[1;37mRunning \e[1;32msleep 2 \$HOME \e[1;37m\n\n"
-	sleep 2
 	printf "\n\e[1;32m==> \e[1;37mShort tour is complete; Run this script again at a later time, and it might be surprising at how this environment changes over time.  If you are new to *nix, see http://tldp.org for documentation.  \e[1;34mIRC:  \e[0mhttps://wiki.archlinux.org/index.php/IRC_channel\n\n"
 	EOM
 	chmod 770 root/bin/tour 

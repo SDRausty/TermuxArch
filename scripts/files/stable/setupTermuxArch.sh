@@ -674,7 +674,7 @@ declare spaceMessage=""
 declare usrspace=""
 
 ################################################################################
-# dfl=/gen # Used for development ##############################################
+# dfl=/gen
 dmverbose="-q"	# Use "-v" for verbose download manager output;  for verbose output from downloads throughout runtime, change in `knownconfigurations.sh` also.  
 stim="$(date +%s)"
 stime="${stim:0:4}"
