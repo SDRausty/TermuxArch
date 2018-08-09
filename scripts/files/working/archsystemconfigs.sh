@@ -206,7 +206,7 @@ addch() { # Creates .hushlogin and .hushlogout file
 	################################################################################
 	set -Eeou pipefail 
 	declare -a args
-versionid="gen.v1.6 id626958427831"
+versionid="gen.v1.6 id915752400145"
 
 
 	finishe() { # on exit
@@ -397,7 +397,7 @@ addkeys() {
 	shopt -s nullglob globstar
 
 	declare -a keyrings
-versionid="gen.v1.6 id626958427831"
+versionid="gen.v1.6 id915752400145"
 
 
 	finishe() { # on exit
@@ -499,7 +499,7 @@ addpc() { # pacman install packages shortcut
 	shopt -s nullglob globstar
 
 	declare -g args="\$@"
-versionid="gen.v1.6 id626958427831"
+versionid="gen.v1.6 id915752400145"
 
 
 	finishe() { # on exit
@@ -562,7 +562,7 @@ addpci() { # system update with pacman install packages shortcut
 	shopt -s nullglob globstar
 
 	declare args="\$@"
-versionid="gen.v1.6 id626958427831"
+versionid="gen.v1.6 id915752400145"
 
 
 	finishe() { # on exit
@@ -605,6 +605,8 @@ versionid="gen.v1.6 id626958427831"
 	pacman --noconfirm --color=always -Syu base base-devel emacs jdk8-openjdk "\${@:2}" 
 	elif [[ \$1 = "e10" ]];then
 	pacman --noconfirm --color=always -Syu base base-devel emacs jdk10-openjdk "\${@:2}" 
+	else
+	pacman --noconfirm --color=always -Syu "\$@" 
 	fi
 	EOM
 	chmod 700 root/bin/pci 
