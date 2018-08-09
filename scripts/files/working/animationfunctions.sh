@@ -14,6 +14,6 @@ endspin() {
    printf "\r%s\n" "$@"
 }
 
-while : ;do
-   spin 
-done
+# while : ;do
+#    spin 
+# done
