@@ -20,7 +20,7 @@
 # 	echo ----
 # 	exit
 
-echoSpecialParameters () {
+echoSpecialParameters() {
 	# 3.2.5 Special parameters based on https://www.tldp.org/LDP/Bash-Beginners-Guide/html/sect_03_02.html
 	printf "\\n\\nSpecial BASH Variables\\n\\nCharacter	Definition \\n\\n"
 	echo "\$* expands to the positional parameters, starting from one. When the expansion occurs within double quotes, it expands to a single word with the value of each parameter separated by the first character of the IFS special variable."
@@ -44,7 +44,7 @@ echoSpecialParameters () {
 	printf "\\nNote	\$\* vs. \$\@\\n\\nThe implementation of "\$\*" has always been a problem and realistically should have been replaced with the behavior of "\$\@". In almost every case where coders use "\$\*", they mean "\$\@". "\$\*" Can cause bugs and even security holes in your software.\\n\\n\\e[3mBased on https://www.tldp.org/LDP/Bash-Beginners-Guide/html/sect_03_02.html\\n\\n\\e[0m"
 }
 
-sysinfo () {
+sysinfo() {
 	spaceinfo
 	printf "\\n\\e[1;32m"
 	printf "Begin setupTermuxArch debug information.\\n" > setupTermuxArchDebug"$stime".log
@@ -83,7 +83,7 @@ sysinfo () {
 	printf "\\n\\e[0mSubmit this information if you plan to open up an issue at https://github.com/sdrausty/TermuxArch/issues to improve this installation script along with a screenshot of your topic.  Include information about input and output.  \\n"
 }
 
-loadimage () { 
+loadimage() { 
 	namestartarch 
 	nameinstalldir
  	spaceinfo
@@ -108,7 +108,7 @@ loadimage () {
 	printfooter2
 }
 
-refreshsys () {
+refreshsys() {
 	# Refreshes
 	printf '\033]2; setupTermuxArch.sh refresh 📲 \007'
 	nameinstalldir 

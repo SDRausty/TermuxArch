@@ -5,7 +5,7 @@
 # https://sdrausty.github.io/TermuxArch/README has information about this project. 
 ################################################################################
 
-addREADME () {
+addREADME() {
 	cat > root/bin/README.md <<- EOM
 	This directory contains shortcut commands to automate and ease using the command line in Arch Linux in Termux PRoot.
 	
@@ -17,7 +17,7 @@ addREADME () {
 	EOM
 }
 
-addae () {
+addae() {
 	cat > root/bin/ae <<- EOM
 	#!/bin/bash -e
 	# Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
@@ -31,7 +31,7 @@ addae () {
 	chmod 770 root/bin/ae 
 }
 
-addauser () {
+addauser() {
 	# Add Arch Linux user.
 	cat > root/bin/addauser <<- EOM
 	#!/bin/bash -e
@@ -47,7 +47,7 @@ addauser () {
 	chmod 770 root/bin/addauser 
 }
 
-addauserps () {
+addauserps() {
 	# Add Arch Linux user and create user login Termux startup script. 
 	cat > root/bin/addauserps <<- EOM
 	#!/bin/bash -e
@@ -78,7 +78,7 @@ addauserps () {
 	chmod 770 root/bin/addauserps 
 }
 
-addauserpsc () {
+addauserpsc() {
 	# Add Arch Linux user and create user login Termux startup script. 
 	cat > root/bin/addauserpsc <<- EOM
 	#!/bin/bash -e
@@ -109,7 +109,7 @@ addauserpsc () {
 	chmod 770 root/bin/addauserpsc 
 }
 
-addbash_logout () {
+addbash_logout() {
 	cat > root/.bash_logout <<- EOM
 	if [ ! -e \$HOME/.hushlogout ] && [ ! -e \$HOME/.chushlogout ];then
 		. /etc/moto
@@ -117,7 +117,7 @@ addbash_logout () {
 	EOM
 }
 
-addbash_profile () {
+addbash_profile() {
 	cat > root/.bash_profile <<- EOM
 	if [ ! -e \$HOME/.hushlogin ] && [ ! -e \$HOME/.chushlogin ];then
 		. /etc/motd
@@ -135,7 +135,7 @@ addbash_profile () {
 	fi
 }
 
-addbashrc () {
+addbashrc() {
 	cat > root/.bashrc <<- EOM
 	alias c='cd .. && pwd'
 	alias ..="cd ../.. && pwd"
@@ -168,7 +168,7 @@ addbashrc () {
 	fi
 }
 
-addcdtd () {
+addcdtd() {
 	cat > root/bin/cdtd <<- EOM
 	#!/bin/bash -e
 	# Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
@@ -182,7 +182,7 @@ addcdtd () {
 	chmod 770 root/bin/cdtd 
 }
 
-addcdth () {
+addcdth() {
 	cat > root/bin/cdth <<- EOM
 	#!/bin/bash -e
 	# Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
@@ -196,7 +196,7 @@ addcdth () {
 	chmod 770 root/bin/cdth 
 }
 
-addch () { # Creates .hushlogin and .hushlogout file
+addch() { # Creates .hushlogin and .hushlogout file
 	cat > root/bin/ch <<- EOM
 	#!/bin/env bash
 	# Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
@@ -206,30 +206,30 @@ addch () { # Creates .hushlogin and .hushlogout file
 	################################################################################
 	set -Eeou pipefail 
 	declare -a args
-versionid="gen.v1.6 id488540644864"
+versionid="gen.v1.6 id236615366455"
 
 
-	finishe () { # on exit
+	finishe() { # on exit
 		printf "\\e[?25h\\e[0m"
 		set +Eeuo pipefail 
 	 	printtail "\$args[@]"  
 	}
 	
-	finisher () { # on script signal
+	finisher() { # on script signal
 		printf "\\n\\e[?25h\\e[0m%s\\n" "TermuxArch \$(basename "\$0") warning." 
 	 	set +Eeuo pipefail 
 	 	echo "\$?" 
 	 	exit "\$?" 
 	}
 	
-	finishs () { # on signal
+	finishs() { # on signal
 		printf "\\n\\e[?25h\\e[0m%s\\n" "TermuxArch \$(basename "\$0") warning.  Signal caught!"
 		set +Eeuo pipefail 
 	 	echo "\$?" 
 	 	exit "\$?" 
 	}
 	
-	printtail () {
+	printtail() {
 		printf "\\\\a\\\\n\\\\e[0m%s \\\\e[0;32m%s %s %s\\\\a\\\\e[1;34m: \\\\a\\\\e[1;32m%s\\\\e[0m 🏁  \\\\n\\\\n\\\\a\\\\e[0m" "TermuxArch" "\$(basename "\$0")" "\$args"  "\$versionid" "DONE"
 		printf '\033]2;  🔑🗝 TermuxArch '"\$(basename "\$0")"':DONE 📱 \007'
 	}
@@ -253,7 +253,7 @@ versionid="gen.v1.6 id488540644864"
 	chmod 770 root/bin/ch 
 }
 
-addexd () {
+addexd() {
 	cat > root/bin/exd <<- EOM
 	#!/bin/bash -e
 	# Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
@@ -266,7 +266,7 @@ addexd () {
 	chmod 770 root/bin/exd 
 }
 
-adddfa () {
+adddfa() {
 	cat > root/bin/dfa <<- EOM
 	#!/bin/bash -e
 	# Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
@@ -281,7 +281,7 @@ adddfa () {
 	chmod 770 root/bin/dfa 
 }
 
-addfibs () {
+addfibs() {
 	cat > root/bin/fibs  <<- EOM
 	#!/bin/bash -e
 	# Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
@@ -294,7 +294,7 @@ addfibs () {
 	chmod 770 root/bin/fibs 
 }
 
-addga () {
+addga() {
 	cat > root/bin/ga  <<- EOM
 	#!/bin/bash -e
 	# Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
@@ -312,7 +312,7 @@ addga () {
 	chmod 770 root/bin/ga 
 }
 
-addgcl () {
+addgcl() {
 	cat > root/bin/gcl  <<- EOM
 	#!/bin/bash -e
 	# Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
@@ -330,7 +330,7 @@ addgcl () {
 	chmod 770 root/bin/gcl 
 }
 
-addgcm () {
+addgcm() {
 	cat > root/bin/gcm  <<- EOM
 	#!/bin/bash -e
 	# Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
@@ -348,7 +348,7 @@ addgcm () {
 	chmod 770 root/bin/gcm 
 }
 
-addgpl () {
+addgpl() {
 	cat > root/bin/gpl  <<- EOM
 	#!/bin/bash -e
 	# Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
@@ -366,7 +366,7 @@ addgpl () {
 	chmod 770 root/bin/gpl 
 }
 
-addgp () {
+addgp() {
 	cat > root/bin/gp  <<- EOM
 	#!/bin/bash -e
 	# Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
@@ -385,7 +385,7 @@ addgp () {
 	chmod 700 root/bin/gp 
 }
 
-addkeys () {
+addkeys() {
 	cat > root/bin/keys <<- EOM
 	#!/bin/env bash 
 	# Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
@@ -397,31 +397,31 @@ addkeys () {
 	shopt -s nullglob globstar
 
 	declare -a keyrings
-versionid="gen.v1.6 id488540644864"
+versionid="gen.v1.6 id236615366455"
 
 
-	finishe () { # on exit
+	finishe() { # on exit
 		printf "\\e[?25h\\e[0m"
 		set +Eeuo pipefail 
 	 	printtail "\$keyrings[@]"  
 #  	 	echo "[ \$0 done (\$?) ]" 
 	}
 	
-	finisher () { # on script signal
+	finisher() { # on script signal
 		printf "\\n\\e[?25h\\e[0m%s\\n" "TermuxArch \$(basename "\$0") warning." 
 	 	set +Eeuo pipefail 
 	 	echo "\$?" 
 	 	exit "\$?" 
 	}
 	
-	finishs () { # on signal
+	finishs() { # on signal
 		printf "\\n\\e[?25h\\e[0m%s\\n" "TermuxArch \$(basename "\$0") warning.  Signal caught!"
 		set +Eeuo pipefail 
 	 	echo "\$?" 
 	 	exit "\$?" 
 	}
 	
-	genen () { # This for loop generates entropy on device for \$t seconds.
+	genen() { # This for loop generates entropy on device for \$t seconds.
 		n=2 # Number of loop generations for generating entropy.
 		t=256 # Maximum number of seconds loop shall run unless keys completes earlier.
 		for i in "\$(seq 1 "\$n")"; do
@@ -436,7 +436,7 @@ versionid="gen.v1.6 id488540644864"
 		done
 	}
 
-	printtail () {
+	printtail() {
 		printf "\\\\a\\\\n\\\\e[0;32m%s %s %s\\\\a\\\\e[1;34m: \\\\a\\\\e[1;32m%s\\\\e[0m 🏁  \\\\n\\\\n\\\\a\\\\e[0m" "TermuxArch \$(basename "\$0")" "\$args" "\$versionid" "DONE"
 		printf '\033]2;  🔑🗝 TermuxArch '"\$(basename "\$0") \$args"': DONE 📱 \007'
 	}
@@ -475,19 +475,19 @@ versionid="gen.v1.6 id488540644864"
 	chmod 770 root/bin/keys 
 }
 
-addmotd () {
+addmotd() {
 	cat > etc/motd  <<- EOM
 	printf "\n\e[1;34mWelcome to Arch Linux in Termux!\nInstall a package: \e[0;34mpacman -S package\n\e[1;34mMore  information: \e[0;34mpacman -[D|F|Q|R|S|T|U]h\n\e[1;34mSearch   packages: \e[0;34mpacman -Ss query\n\e[1;34mUpgrade  packages: \e[0;34mpacman -Syu\n\n\e[1;34mChat: \e[0mwebchat.freenode.net/ #termux\n\e[1;34mHelp: \e[0;34minfo query \e[1;34mand \e[0;34mman query\n\e[1;34mIRC:  \e[0mwiki.archlinux.org/index.php/IRC_channel\n\n\e[0m"
 	EOM
 }
 
-addmoto () {
+addmoto() {
 	cat > etc/moto  <<- EOM
 	printf "\n\e[1;34mShare Your Arch Linux in Termux Experience!\n\n\e[1;34mChat: \e[0mwebchat.freenode.net/ #termux\n\e[1;34mHelp: \e[0;34minfo query \e[1;34mand \e[0;34mman query\n\e[1;34mIRC:  \e[0mwiki.archlinux.org/index.php/IRC_channel\n\n\e[0m"
 	EOM
 }
 
-addpc () { # pacman install packages shortcut
+addpc() { # pacman install packages shortcut
 	cat > root/bin/pc  <<- EOM
 	#!/bin/env bash 
 	# Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
@@ -499,31 +499,31 @@ addpc () { # pacman install packages shortcut
 	shopt -s nullglob globstar
 
 	declare -g args="\$@"
-versionid="gen.v1.6 id488540644864"
+versionid="gen.v1.6 id236615366455"
 
 
-	finishe () { # on exit
+	finishe() { # on exit
 		printf "\\e[?25h\\e[0m"
 		set +Eeuo pipefail 
 	 	printtail "\$args"  
 #  	 	echo "[ \$0 done (\$?) ]" 
 	}
 	
-	finisher () { # on script signal
+	finisher() { # on script signal
 		printf "\\n\\e[?25h\\e[0mTermuxArch pc warning.  \\n"
 	 	set +Eeuo pipefail 
 	 	echo "\$?" 
 	 	exit "\$?" 
 	}
 	
-	finishs () { # on signal
+	finishs() { # on signal
 		printf "\\n\\e[?25h\\e[0mTermuxArch pc warning.  Signal caught!\\n"
 		set +Eeuo pipefail 
 	 	echo "\$?" 
 	 	exit "\$?" 
 	}
 	
-	printtail () {
+	printtail() {
 		printf "\\\\a\\\\n\\\\e[0;32m%s %s %s\\\\a\\\\e[1;34m: \\\\a\\\\e[1;32m%s\\\\e[0m 🏁  \\\\n\\\\n\\\\a\\\\e[0m" "TermuxArch \$(basename "\$0")" "\$args" "\$versionid" "DONE"
 		printf '\033]2;  🔑🗝 TermuxArch '"\$(basename "\$0") \$args"' 📱 \007'
 	}
@@ -550,7 +550,7 @@ versionid="gen.v1.6 id488540644864"
 	chmod 700 root/bin/pc 
 }
 
-addpci () { # system update with pacman install packages shortcut 
+addpci() { # system update with pacman install packages shortcut 
 	cat > root/bin/pci  <<- EOM
 	#!/bin/env bash 
 	# Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
@@ -562,30 +562,30 @@ addpci () { # system update with pacman install packages shortcut
 	shopt -s nullglob globstar
 
 	declare args="\$@"
-versionid="gen.v1.6 id488540644864"
+versionid="gen.v1.6 id236615366455"
 
 
-	finishe () { # on exit
+	finishe() { # on exit
 		printf "\\e[?25h\\e[0m"
 		set +Eeuo pipefail 
 	 	printtail "\$args"  
 	}
 	
-	finisher () { # on script signal
+	finisher() { # on script signal
 		printf "\\n\\e[?25h\\e[0mTermuxArch pci warning.  \\n"
 	 	set +Eeuo pipefail 
 	 	printf "[ \$(basename "\$0") done ("\$?") ]\n" 
 	 	exit \$? 
 	}
 	
-	finishs () { # on signal
+	finishs() { # on signal
 		printf "\\n\\e[?25h\\e[0mTermuxArch pci warning.  Signal caught!\\n"
 		set +Eeuo pipefail 
 	 	printf "[ \$(basename "\$0") done ("\$?") ]\n" 
 	 	exit \$? 
 	}
 	
-	printtail () { 
+	printtail() { 
 		printf "\\\\a\\\\n\\\\e[0;32m%s %s %s\\\\a\\\\e[1;34m: \\\\a\\\\e[1;32m%s\\\\e[0m 🏁  \\\\n\\\\n\\\\a\\\\e[0m" "TermuxArch \$(basename "\$0")" "\$args" "\$versionid" "DONE"
 		printf '\033]2;  🔑🗝 TermuxArch '"\$(basename "\$0") \$args"' 📱 \007'
 	}
@@ -610,7 +610,7 @@ versionid="gen.v1.6 id488540644864"
 	chmod 700 root/bin/pci 
 }
 
-addprofile () {
+addprofile() {
 	cat > root/.profile <<- EOM
 	. \$HOME/.bash_profile
 	EOM
@@ -619,7 +619,7 @@ addprofile () {
 	fi
 }
 
-addresolvconf () {
+addresolvconf() {
 	rm etc/resolv* 2>/dev/null||:
 	cat > etc/resolv.conf <<- EOM
 	nameserver 8.8.8.8
@@ -627,7 +627,7 @@ addresolvconf () {
 	EOM
 }
 
-addt () {
+addt() {
 	cat > root/bin/t  <<- EOM
 	#!/bin/bash -e
 	# Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
@@ -645,7 +645,7 @@ addt () {
 	chmod 770 root/bin/t 
 }
 
-addthstartarch () {
+addthstartarch() {
 	cat > root/bin/th"$startbin" <<- EOM
 	#!/bin/bash -e
 	# Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
@@ -671,7 +671,7 @@ addthstartarch () {
 	chmod 770 root/bin/th"$startbin"
 }
 
-addtour () {
+addtour() {
 	cat > root/bin/tour <<- EOM
 	#!/bin/bash -e
 	# Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
@@ -698,7 +698,7 @@ addtour () {
 	chmod 770 root/bin/tour 
 }
 
-addtrim () {
+addtrim() {
 	cat > root/bin/trim <<- EOM
 	#!/bin/bash -e
 	# Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
@@ -722,7 +722,7 @@ addtrim () {
 	chmod 770 root/bin/trim 
 }
 
-addv () {
+addv() {
 	cat > root/bin/v  <<- EOM
 	#!/bin/bash -e
 	# Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
@@ -748,7 +748,7 @@ addv () {
 	chmod 770 root/bin/v 
 }
 
-addwe () {
+addwe() {
 	cat > bin/we <<- EOM
 	#!/bin/bash -e
 	# Watch available entropy on device.
@@ -763,22 +763,22 @@ addwe () {
 	multi=16
 	entropy0=\$(cat /proc/sys/kernel/random/entropy_avail 2>/dev/null) 
 
-	printintro ()
+	printintro()
 	{
 		printf "\n\e[1;32mTermuxArch Watch Entropy:\n"'\033]2; TermuxArch Watch Entropy 📲  \007'
 	}
 
-	printtail ()
+	printtail()
 	{
 		printf "\n\n\e[1;32mTermuxArch Watch Entropy 🏁 \n\n"'\033]2; TermuxArch Watch Entropy 🏁 \007'
 	}
 
-	printusage ()
+	printusage()
 	{
 		printf "\n\e[0;32mUsage:  \e[1;32mwe \e[0;32m Watch Entropy simple.\n\n	\e[1;32mwe sequential\e[0;32m Watch Entropy sequential.\n\n	\e[1;32mwe simple\e[0;32m Watch Entropy simple.\n\n	\e[1;32mwe verbose\e[0;32m Watch Entropy verbose.\n\n"'\033]2; TermuxArch Watch Entropy 📲  \007'
 	}
 
-	infif ()
+	infif()
 	{
 		if [[ \$entropy0 = "inf" ]] || [[ \$entropy0 = "" ]] || [[ \$entropy0 = "0" ]];then
 			entropy0=1000
@@ -788,7 +788,7 @@ addwe () {
 
 	en0=\$((\${entropy0}*\$multi))
 
-	esleep ()
+	esleep()
 	{
 		int=\$(echo "\$i/\$entropy0" | bc -l)
 		for i in {1..5}; do
@@ -802,12 +802,12 @@ addwe () {
 		done
 	}
 
-	1sleep ()
+	1sleep()
 	{
 		sleep 0.1
 	}
 	
-	bcif ()
+	bcif()
 	{
 		commandif=\$(command -v getprop) ||:
 		if [[ \$commandif = "" ]];then
@@ -827,7 +827,7 @@ addwe () {
 		fi
 	}
 
-	entropysequential ()
+	entropysequential()
 	{
 	printf "\n\e[1;32mWatch Entropy Sequential:\n\n"'\033]2; Watch Entropy Sequential 📲  \007'
 	for i in \$(seq 1 \$en0); do
@@ -838,7 +838,7 @@ addwe () {
 	done
 	}
 
-	entropysimple ()
+	entropysimple()
 	{
 	printf "\n\e[1;32mWatch Entropy Simple:\n\n"'\e]2; Watch Entropy Simple 📲  \007'
 	for i in \$(seq 1 \$en0); do
@@ -849,7 +849,7 @@ addwe () {
 	done
 	}
 
-	entropyverbose ()
+	entropyverbose()
 	{
 	printf "\n\e[1;32mWatch Entropy Verbose:\n\n"'\033]2; Watch Entropy Verbose 📲  \007'
 	for i in \$(seq 1 \$en0); do
@@ -897,7 +897,7 @@ addwe () {
 	chmod 770 bin/we 
 }
 
-addyt () {
+addyt() {
 	cat > root/bin/yt  <<- EOM
 	#!/bin/bash -e
 	# Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
