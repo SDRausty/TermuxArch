@@ -206,7 +206,7 @@ addch () { # Creates .hushlogin and .hushlogout file
 	################################################################################
 	set -Eeou pipefail 
 	declare -a args
-versionid="gen.v1.6 id386461484826"
+versionid="gen.v1.6 id488540644864"
 
 
 	finishe () { # on exit
@@ -397,7 +397,7 @@ addkeys () {
 	shopt -s nullglob globstar
 
 	declare -a keyrings
-versionid="gen.v1.6 id386461484826"
+versionid="gen.v1.6 id488540644864"
 
 
 	finishe () { # on exit
@@ -499,7 +499,7 @@ addpc () { # pacman install packages shortcut
 	shopt -s nullglob globstar
 
 	declare -g args="\$@"
-versionid="gen.v1.6 id386461484826"
+versionid="gen.v1.6 id488540644864"
 
 
 	finishe () { # on exit
@@ -562,7 +562,7 @@ addpci () { # system update with pacman install packages shortcut
 	shopt -s nullglob globstar
 
 	declare args="\$@"
-versionid="gen.v1.6 id386461484826"
+versionid="gen.v1.6 id488540644864"
 
 
 	finishe () { # on exit
@@ -590,20 +590,21 @@ versionid="gen.v1.6 id386461484826"
 		printf '\033]2;  🔑🗝 TermuxArch '"\$(basename "\$0") \$args"' 📱 \007'
 	}
 
-	trap finisher ERR
 	trap finishe EXIT
+	trap finisher ERR
+	trap finisher QUIT
 	trap finishs INT TERM 
 	## pci begin ###################################################################
 
 	printf "\\\\n\\\\e[1;32m==> \\\\e[1;37m%s \\\\e[1;32m%s %s %s \\\e[0m%s…\\\\n\\\\n" "Running" "TermuxArch \$(basename "\$0")" "\$args" "\$versionid"  
 	if [[ -z "\${1:-}" ]];then
 	pacman --noconfirm --color=always -Syu
-	elif [[ \$1 = "a" ]];then
+	elif [[ \$1 = "e" ]];then
 	pacman --noconfirm --color=always -Syu base base-devel emacs "\${@:2}" 
-	elif [[ \$1 = "a8" ]];then
+	elif [[ \$1 = "e8" ]];then
 	pacman --noconfirm --color=always -Syu base base-devel emacs jdk8-openjdk "\${@:2}" 
-	else
-	pacman --noconfirm --color=always -Syu  "\$@" 
+	elif [[ \$1 = "e10" ]];then
+	pacman --noconfirm --color=always -Syu base base-devel emacs jdk10-openjdk "\${@:2}" 
 	fi
 	EOM
 	chmod 700 root/bin/pci 
