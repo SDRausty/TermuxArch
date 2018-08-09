@@ -6,9 +6,29 @@
 ################################################################################
 
 callsystem () {
+	if [[ "$cpuabi" = "$cpuabix86" ]] || [[ "$cpuabi" = "$cpuabix86_64" ]];then
+		getimage
+	else
+		if [[ "$mirror" = "os.archlinuxarm.org" ]] || [[ "$mirror" = "mirror.archlinuxarm.org" ]]; then
+			until ftchstnd;do
+				ftchstnd ||: 
+				sleep 2
+				printf "\\n"
+				COUNTER=$((COUNTER + 1))
+				if [[ "$COUNTER" = 12 ]];then 
+					printf "\\n\\e[07;1m\\e[31;1m 🔆 ERROR Maximum amount of attempts exceeded!\\e[34;1m\\e[30;1m  Run \`bash setupTermuxArch.sh\` again.  See \`bash setupTermuxArch.sh help\` to resolve download errors.  If this keeps repeating, copy \`knownconfigurations.sh\` to \`setupTermuxArchConfigs.sh\` with preferred mirror.  After editing \`setupTermuxArchConfigs.sh\`, run \`bash setupTermuxArch.sh\` and \`setupTermuxArchConfigs.sh\` loads automaticaly from the same directory.  Change mirror to desired geographic location to resolve md5sum errors.\\n\\nUser configurable variables are in \`setupTermuxArchConfigs.sh\`.  Create this file from \`kownconfigurations.sh\` in the working directory.  Use \`bash setupTermuxArch.sh manual\` to create and edit \`setupTermuxArchConfigs.sh\`.\\n\\n	Run \`bash setupTermuxArch.sh\` again…\\n\\e[0;0m\\n"'\033]2;  Thank you for using setupTermuxArch.sh.  Run `bash setupTermuxArch.sh` again…\007'
+					exit
+				fi
+			done
+		else
+			ftchit
+		fi
+	fi
+}
+
+makeinstalldir () {
 	mkdir -p "$installdir"
 	cd "$installdir"
-	detectsystem 
 }
 
 copystartbin2path () {
@@ -108,10 +128,9 @@ mainblock () {
 	namestartarch 
 	nameinstalldir
 	spaceinfo
-	callsystem 
-	printwld 
-	am startservice --user 0 -a com.termux.service_wake_unlock com.termux/com.termux.app.TermuxService > /dev/null
-	printdone 
+	makeinstalldir
+	detectsystem 
+	wakeunlock 
 	printfooter
 	"$installdir/$startbin" ||:
 	$startbin help
@@ -162,7 +181,7 @@ makefinishsetup () {
  		printf "./root/bin/pci \\n" >> root/bin/"$binfnstp"
 	fi
 	cat >> root/bin/"$binfnstp" <<- EOM
-	printf "\\n\\e[1;32m==> "
+	printf "\\n\\e[1;32m==> \\e[0;32m"
    	locale-gen ||:
 	printf "\\n\\e[1;34m 🕛 > 🕤 Arch Linux in Termux is installed and configured 📲  \\e[0m" '\033]2; 🕛 > 🕤 Arch Linux in Termux is installed and configured 📲 \007'
 	EOM
@@ -262,27 +281,18 @@ makestartbin () {
 }
 
 makesystem () {
-	printwla 
-	am startservice --user 0 -a com.termux.service_wake_lock com.termux/com.termux.app.TermuxService > /dev/null
+	wakelock
+	callsystem
+	md5check 
+	printcu 
+	rm -f "$installdir*.tar.gz" "$installdir*.tar.gz.md5"
 	printdone 
-	if [[ "$cpuabi" = "$cpuabix86" ]] || [[ "$cpuabi" = "$cpuabix86_64" ]];then
-		getimage
-	else
-		if [[ "$mirror" = "os.archlinuxarm.org" ]] || [[ "$mirror" = "mirror.archlinuxarm.org" ]]; then
-			until ftchstnd;do
-				ftchstnd ||: 
-				sleep 2
-				printf "\\n"
-				COUNTER=$((COUNTER + 1))
-				if [[ "$COUNTER" = 12 ]];then 
-					printf "\\n\\e[07;1m\\e[31;1m 🔆 ERROR Maximum amount of attempts exceeded!\\e[34;1m\\e[30;1m  Run \`bash setupTermuxArch.sh\` again.  See \`bash setupTermuxArch.sh help\` to resolve download errors.  If this keeps repeating, copy \`knownconfigurations.sh\` to \`setupTermuxArchConfigs.sh\` with preferred mirror.  After editing \`setupTermuxArchConfigs.sh\`, run \`bash setupTermuxArch.sh\` and \`setupTermuxArchConfigs.sh\` loads automaticaly from the same directory.  Change mirror to desired geographic location to resolve md5sum errors.\\n\\nUser configurable variables are in \`setupTermuxArchConfigs.sh\`.  Create this file from \`kownconfigurations.sh\` in the working directory.  Use \`bash setupTermuxArch.sh manual\` to create and edit \`setupTermuxArchConfigs.sh\`.\\n\\n	Run \`bash setupTermuxArch.sh\` again…\\n\\e[0;0m\\n"'\033]2;  Thank you for using setupTermuxArch.sh.  Run `bash setupTermuxArch.sh` again…\007'
-					exit
-				fi
-			done
-		else
-			ftchit
-		fi
-	fi
+	makestartbin 
+	printconfigup 
+	touchupsys 
+}
+
+md5check () {
 	printmd5check
 	if "$PREFIX"/bin/applets/md5sum -c "$file".md5 1>/dev/null ; then
 		printmd5success
@@ -291,12 +301,6 @@ makesystem () {
 		rmarchrm 
 		printmd5error
 	fi
-	printcu 
-	rm -f *.tar.gz *.tar.gz.md5
-	printdone 
-	makestartbin 
-	printconfigup 
-	touchupsys 
 }
 
 preproot () {
@@ -432,3 +436,14 @@ touchupsys () {
 	rm root/bin/setupbin.sh 
 }
 
+wakelock () {
+	printwla 
+	am startservice --user 0 -a com.termux.service_wake_lock com.termux/com.termux.app.TermuxService > /dev/null
+	printdone 
+}
+
+wakeunlock () {
+	printwld 
+	am startservice --user 0 -a com.termux.service_wake_unlock com.termux/com.termux.app.TermuxService > /dev/null
+	printdone 
+}

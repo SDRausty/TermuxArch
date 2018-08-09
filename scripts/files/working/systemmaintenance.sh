@@ -68,6 +68,41 @@ sysinfo () {
 	printf "\\n\\e[0mSubmit this information if you plan to open up an issue at https://github.com/sdrausty/TermuxArch/issues to improve this installation script along with a screenshot of your topic.  Include information about input and output.  \\n"
 }
 
+loadimage () { 
+	file="$1"
+	namestartarch 
+	nameinstalldir
+# 	spaceinfo
+	makeinstalldir 
+	cp "$1".md5  "$installdir"
+	cp "$1" "$installdir"
+	file=$(basename "$1") 
+# 	echo ----
+# 	echo $1
+# 	echo $file
+# 	echo $@
+# 	echo ----
+# 	echo $installdir
+# 	echo $startbin
+# 	echo ----
+# 	echo $(basename "$1") 
+# 	echo $(dirname "$1") 
+# 	echo ----
+	wakelock
+	md5check 
+	printcu 
+	rm -f "$installdir*.tar.gz" "$installdir*.tar.gz.md5"
+	printdone 
+	makestartbin 
+	printconfigup 
+	touchupsys 
+	wakeunlock 
+	printfooter
+	"$installdir/$startbin" ||:
+	$startbin help
+	printfooter2
+}
+
 refreshsys () {
 	printf '\033]2; setupTermuxArch.sh refresh 📲 \007'
 	nameinstalldir 

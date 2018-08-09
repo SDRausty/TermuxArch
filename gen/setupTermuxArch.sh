@@ -150,7 +150,7 @@ depends () {
 
 dependsblock () {
 	depends 
-	if [[ -f animationfunctions.sh ]] && [[ -f archsystemconfigs.sh ]] && [[ -f getimagefunctions.sh ]] && [[ -f knownconfigurations.sh ]] && [[ -f necessaryfunctions.sh ]] && [[ -f printoutstatements.sh ]] && [[ -f systemmaintenance.sh ]];then
+	if [[ -f animationfunctions.sh ]] && [[ -f archsystemconfigs.sh ]] && [[ -f getimagefunctions.sh ]] && [[ -f knownconfigurations.sh ]] && [[ -f necessaryfunctions.sh ]] && [[ -f printoutstatements.sh ]] && [[ -f setupTermuxArch.sh ]] && [[ -f systemmaintenance.sh ]];then
 		. animationfunctions.sh
 		. archsystemconfigs.sh
 		. getimagefunctions.sh
@@ -284,16 +284,16 @@ finisher () { # on script signal
 	printf "\\n\\e[?25h\\e[0;48;5;124mTermuxArch warning.  Signal generated!\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b"
 	sleep 0.2
 	printf "\\e[?25h\\e[1;7;38;5;0mTermuxArch warning.  Signal generated!\\e[0m\\n"
- 	set +Eeuo pipefail 
  	exit $? 
+ 	echo $? 
 }
 
 finishs () { # on signal
 	printf "\\n\\e[?25h\\e[0;48;5;124mTermuxArch warning.  Signal received!\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b"
 	sleep 0.2
 	printf "\\e[?25h\\e[1;7;38;5;0mTermuxArch warning.  Signal received!\\e[0m\\n"
-	set +Eeuo pipefail 
  	exit $? 
+ 	echo $? 
 }
 
 intro () {
@@ -462,11 +462,9 @@ rmarch () {
 }
 
 rmarchrm () {
-	cd "$installdir"
 	rootdirexception 
-	rm -rf ./* 2>/dev/null ||:
-	find . -type d -exec chmod 700 {} \; 2>/dev/null ||:
-	cd ..
+	rm -rf "$installdir"/* 2>/dev/null ||:
+	find  "$installdir" -type d -exec chmod 700 {} \; 2>/dev/null ||:
 	rm -rf "$installdir" 2>/dev/null ||:
 }
 
@@ -678,8 +676,8 @@ stim="$(date +%s)"
 stime="${stim:0:4}"
 trap finisher ERR
 trap finishe EXIT
-trap finishs INT TERM 
-versionid="gen.v1.6 id653358484134"
+trap finishs INT TERM QUIT 
+versionid="gen.v1.6 id777795759"
 
 if [[ "$commandif" = "" ]];then
 	echo Run \`setupTermuxArch.sh\` from the Android system in Termux.
@@ -700,6 +698,11 @@ setrootdir
 if [[ -z "${1:-}" ]];then
 	intro "$@" 
 	mainblock
+# [pathtoimage/systemimage.tar.gz [installdirectory]] Provide the path to an image file; the install directory is optional.
+elif [[ "${args:0:1}" = "/" ]] ;then
+	arg2dir "$@"  
+	intro 
+	loadimage "$@"
 # [curl debug|curl sysinfo] Get device system information using `curl`.
 elif [[ "$1" = [Cc][Dd]* ]] || [[ "$1" = -[Cc][Dd]* ]] || [[ "$1" = --[Cc][Dd]* ]] || [[ "$1" = [Cc][Ss]* ]] || [[ "$1" = -[Cc][Ss]* ]] || [[ "$1" = --[Cc][Ss]* ]];then
 	dm=curl
