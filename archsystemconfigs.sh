@@ -678,17 +678,21 @@ addtour () {
 	# https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.  
 	# https://sdrausty.github.io/TermuxArch/README has information about this project. 
 	################################################################################
-	printf "\n\e[1;32m==> \e[1;37mRunning \e[1;32mlr ~\e[1;37m\n\n"
+	printf "\n\e[1;32m==> \e[1;37mRunning \e[1;32mls -R --color=always \$HOME \e[1;37m\n\n"
 	ls -R --color=always \$HOME
+	printf "\n\e[1;32m==> \e[1;37mRunning \e[1;32msleep 4 \$HOME \e[1;37m\n\n"
 	sleep 4
-	printf "\n\e[1;32m==> \e[1;37mRunning \e[1;32mcat ~/.bash_profile\e[1;37m\n\n"
+	printf "\n\e[1;32m==> \e[1;37mRunning \e[1;32mcat \$HOME/.bash_profile\e[1;37m\n\n"
 	cat \$HOME/.bash_profile
+	printf "\n\e[1;32m==> \e[1;37mRunning \e[1;32msleep 8 \$HOME \e[1;37m\n\n"
 	sleep 8
-	printf "\n\e[1;32m==> \e[1;37mRunning \e[1;32mcat ~/.bashrc\e[1;37m\n\n"
+	printf "\n\e[1;32m==> \e[1;37mRunning \e[1;32mcat \$HOME/.bashrc\e[1;37m\n\n"
 	cat \$HOME/.bashrc
+	printf "\n\e[1;32m==> \e[1;37mRunning \e[1;32msleep 4 \$HOME \e[1;37m\n\n"
 	sleep 4
-	printf "\n\e[1;32m==> \e[1;37mRunning \e[1;32mcat ~/bin/pci\e[1;37m\n\n"
+	printf "\n\e[1;32m==> \e[1;37mRunning \e[1;32mcat \$HOME/bin/pci\e[1;37m\n\n"
 	cat \$HOME/bin/pci
+	printf "\n\e[1;32m==> \e[1;37mRunning \e[1;32msleep 2 \$HOME \e[1;37m\n\n"
 	sleep 2
 	printf "\n\e[1;32m==> \e[1;37mShort tour is complete; Run this script again at a later time, and it might be surprising at how this environment changes over time.  If you are new to *nix, see http://tldp.org for documentation.  \e[1;34mIRC:  \e[0mhttps://wiki.archlinux.org/index.php/IRC_channel\n\n"
 	EOM

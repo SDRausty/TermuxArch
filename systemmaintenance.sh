@@ -109,6 +109,7 @@ loadimage () {
 }
 
 refreshsys () {
+	# Refreshes
 	printf '\033]2; setupTermuxArch.sh refresh 📲 \007'
 	nameinstalldir 
 	namestartarch  
