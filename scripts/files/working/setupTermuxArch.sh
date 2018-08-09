@@ -33,7 +33,7 @@ arg3dir () {
 	fi
 }
 
-bloom () { # Bloom #############################################################
+bloom () { # Bloom = `setupTermuxArch.sh manual verbose` #######################
 	opt=bloom 
 	introbloom 
 	if [[ -d "$HOME"/TermuxArchBloom ]];then 
@@ -673,15 +673,14 @@ declare rootdir=""
 declare spaceMessage=""
 declare usrspace=""
 
-# For developers… ##############################################################
-# dfl=/gen
-dmverbose="-q"	# Use "-v" for verbose download manager output; change setting in `knownconfigurations.sh` for verbose output from download throughout runtime. 
+dfl=/gen
+dmverbose="-q"	# Use "-v" for verbose download manager output;  for verbose output from downloads throughout runtime, change this setting setting in `knownconfigurations.sh` also.  
 stim="$(date +%s)"
 stime="${stim:0:4}"
 trap finisher ERR
 trap finishe EXIT
 trap finishs INT TERM QUIT 
-versionid="gen.v1.6 id874149567"
+versionid="gen.v1.6 id543025193"
 
 if [[ "$commandif" = "" ]];then
 	echo Run \`setupTermuxArch.sh\` from the Android system in Termux.
@@ -699,7 +698,6 @@ namestartarch
 setrootdir  
 
 ################################################################################
-## Begin #######################################################################
 # [] Run default Arch Linux install.  `bash setupTermuxArch.sh help` has more information.  All options can be abbreviated to the first letter or two. 
 if [[ -z "${1:-}" ]];then
 	intro "$@" 

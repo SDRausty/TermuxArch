@@ -4,6 +4,21 @@
 # https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.  
 # https://sdrausty.github.io/TermuxArch/README has information about this project. 
 ################################################################################
+# 	echo ----
+# 	echo $1
+# 	echo $@
+# 	echo ----
+# 	echo $installdir
+# 	echo $startbin
+# 	echo ----
+#  	echo basename
+# 	echo "${1##/*/}" 
+#  	echo dirname
+# 	echo "${1%/*}" 
+#  	echo $(basename "$1") 
+#  	echo $(dirname "$1") 
+# 	echo ----
+# 	exit
 
 echoSpecialParameters () {
 	# 3.2.5 Special parameters based on https://www.tldp.org/LDP/Bash-Beginners-Guide/html/sect_03_02.html
@@ -72,22 +87,14 @@ loadimage () {
 	file="$1"
 	namestartarch 
 	nameinstalldir
-# 	spaceinfo
+ 	spaceinfo
 	makeinstalldir 
-	cp "$1".md5  "$installdir"
-	cp "$1" "$installdir"
 	file=$(basename "$1") 
-# 	echo ----
-# 	echo $1
-# 	echo $file
-# 	echo $@
-# 	echo ----
-# 	echo $installdir
-# 	echo $startbin
-# 	echo ----
-# 	echo $(basename "$1") 
-# 	echo $(dirname "$1") 
-# 	echo ----
+	file="${1##/*/}" 
+	printf "%s %s" "Copying" "${file}.md5"
+	cp "$1".md5  "$installdir"
+	printf "%s %s" "Copying" "$file"
+	cp "$1" "$installdir"
 	wakelock
 	md5check 
 	printcu 
