@@ -4,6 +4,21 @@
 # https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.  
 # https://sdrausty.github.io/TermuxArch/README has information about this project. 
 ################################################################################
+# 	echo ----
+# 	echo $1
+# 	echo $@
+# 	echo ----
+# 	echo $installdir
+# 	echo $startbin
+# 	echo ----
+#  	echo basename
+# 	echo "${1##/*/}" 
+#  	echo dirname
+# 	echo "${1%/*}" 
+#  	echo $(basename "$1") 
+#  	echo $(dirname "$1") 
+# 	echo ----
+# 	exit
 
 echoSpecialParameters () {
 	# 3.2.5 Special parameters based on https://www.tldp.org/LDP/Bash-Beginners-Guide/html/sect_03_02.html
@@ -66,6 +81,31 @@ sysinfo () {
 	printf "\\nEnd \`setupTermuxArchDebug$stime.log\` debug information.\\n\\nPost this information along with information regarding your issue at https://github.com/sdrausty/TermuxArch/issues.  Include information about input and output.  This debugging information is found in $PWD/$(ls setupTermuxArchDebug"$stime".log).  If you think screenshots will help in resolving this matter better, include them in your post as well.  \\n" >> setupTermuxArchDebug"$stime".log
 	cat setupTermuxArchDebug"$stime".log
 	printf "\\n\\e[0mSubmit this information if you plan to open up an issue at https://github.com/sdrausty/TermuxArch/issues to improve this installation script along with a screenshot of your topic.  Include information about input and output.  \\n"
+}
+
+loadimage () { 
+	namestartarch 
+	nameinstalldir
+ 	spaceinfo
+	wakelock
+	makeinstalldir 
+	file="${1##/*/}" 
+	printf "%s %s" "Copying" "${file}.md5"
+	cp "$1".md5  "$installdir"
+	printf "%s %s" "Copying" "$file"
+	cp "$1" "$installdir"
+	md5check 
+	printcu 
+	rm -f "$installdir*.tar.gz" "$installdir*.tar.gz.md5"
+	printdone 
+	makestartbin 
+	printconfigup 
+	touchupsys 
+	wakeunlock 
+	printfooter
+	"$installdir/$startbin" ||:
+	$startbin help
+	printfooter2
 }
 
 refreshsys () {

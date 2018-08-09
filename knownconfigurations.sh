@@ -14,8 +14,7 @@ cmirror="http://os.archlinuxarm.org/"
 # dm=axel tba
 # dm=curl
 # dm=wget
-# dmverbose="-q"
-# dmverbose="-v"
+# dmverbose="-v"	# Uncomment for verbose download manager output;  for verbose output from downloads throughout runtime, change this setting setting in `setupTermuxArch.sh` also.  
 koe=1
 
 aarch64 () {

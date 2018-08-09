@@ -5,6 +5,7 @@
 # https://sdrausty.github.io/TermuxArch/README has information about this project. 
 ################################################################################
 
+fstnd=""
 ftchit () {
 	printdownloadingftchit 
 	if [[ "$dm" = wget ]];then 

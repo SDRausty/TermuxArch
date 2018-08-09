@@ -1,14 +1,16 @@
 #!/bin/env bash
 # Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
-# Hosting https://sdrausty.github.io/TermuxArch courtesy https://pages.github.com
+# Hosted https://sdrausty.github.io/TermuxArch courtesy https://pages.github.com
 # https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.  
-# https://sdrausty.github.io/TermuxArch/README has information about TermuxArch. 
+# https://sdrausty.github.io/TermuxArch/README for TermuxArch information. 
 ################################################################################
 IFS=$'\n\t'
 set -Eeuo pipefail 
 shopt -s nullglob globstar
 unset LD_PRELOAD
 
+## Functions ###################################################################
+ 
 arg2dir () { 
 	arg2="${@:2:1}"
 	if [[ "$arg2" = "" ]] ;then
@@ -31,7 +33,7 @@ arg3dir () {
 	fi
 }
 
-bloom () {
+bloom () { # Bloom = `setupTermuxArch.sh manual verbose` #######################
 	opt=bloom 
 	introbloom 
 	if [[ -d "$HOME"/TermuxArchBloom ]];then 
@@ -150,7 +152,7 @@ depends () {
 
 dependsblock () {
 	depends 
-	if [[ -f animationfunctions.sh ]] && [[ -f archsystemconfigs.sh ]] && [[ -f getimagefunctions.sh ]] && [[ -f knownconfigurations.sh ]] && [[ -f necessaryfunctions.sh ]] && [[ -f printoutstatements.sh ]] && [[ -f systemmaintenance.sh ]];then
+	if [[ -f animationfunctions.sh ]] && [[ -f archsystemconfigs.sh ]] && [[ -f getimagefunctions.sh ]] && [[ -f knownconfigurations.sh ]] && [[ -f necessaryfunctions.sh ]] && [[ -f printoutstatements.sh ]] && [[ -f setupTermuxArch.sh ]] && [[ -f systemmaintenance.sh ]];then
 		. animationfunctions.sh
 		. archsystemconfigs.sh
 		. getimagefunctions.sh
@@ -284,16 +286,16 @@ finisher () { # on script signal
 	printf "\\n\\e[?25h\\e[0;48;5;124mTermuxArch warning.  Signal generated!\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b"
 	sleep 0.2
 	printf "\\e[?25h\\e[1;7;38;5;0mTermuxArch warning.  Signal generated!\\e[0m\\n"
- 	set +Eeuo pipefail 
  	exit $? 
+ 	echo $? 
 }
 
 finishs () { # on signal
 	printf "\\n\\e[?25h\\e[0;48;5;124mTermuxArch warning.  Signal received!\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b"
 	sleep 0.2
 	printf "\\e[?25h\\e[1;7;38;5;0mTermuxArch warning.  Signal received!\\e[0m\\n"
-	set +Eeuo pipefail 
  	exit $? 
+ 	echo $? 
 }
 
 intro () {
@@ -462,11 +464,9 @@ rmarch () {
 }
 
 rmarchrm () {
-	cd "$installdir"
 	rootdirexception 
-	rm -rf ./* 2>/dev/null ||:
-	find . -type d -exec chmod 700 {} \; 2>/dev/null ||:
-	cd ..
+	rm -rf "$installdir"/* 2>/dev/null ||:
+	find  "$installdir" -type d -exec chmod 700 {} \; 2>/dev/null ||:
 	rm -rf "$installdir" 2>/dev/null ||:
 }
 
@@ -650,6 +650,7 @@ wgetif () {
 	fi
 }
 
+## Important ###################################################################
 # User configurable variables such as mirrors and download manager options are in `setupTermuxArchConfigs.sh`.  Creating this file from `kownconfigurations.sh` in the working directory is simple, use `setupTermuxArch.sh manual` to create, edit and run `setupTermuxArchConfigs.sh`; `bash setupTermuxArch.sh help` has more information.  
 
 commandif="$(command -v getprop)" ||:
@@ -664,6 +665,7 @@ declare COUNTER=""
 declare bin=""
 declare dfl=""
 declare dm=""
+declare	ed=""
 declare -g installdir=""
 declare -g kid="0"
 declare opt=""
@@ -671,9 +673,9 @@ declare rootdir=""
 declare spaceMessage=""
 declare usrspace=""
 
-# Use for debugging and development. 
-# dfl=/gen
-dmverbose="-q"	# Use "-v" for verbose download manager output; important, also change this setting in `knownconfigurations.sh` for verbose output from the download manager throughout runtime. 
+################################################################################
+# dfl=/gen # Used for development ##############################################
+dmverbose="-q"	# Use "-v" for verbose download manager output;  for verbose output from downloads throughout runtime, change in `knownconfigurations.sh` also.  
 stim="$(date +%s)"
 stime="${stim:0:4}"
 trap finisher ERR
@@ -696,10 +698,16 @@ nameinstalldir
 namestartarch  
 setrootdir  
 
+################################################################################
 # [] Run default Arch Linux install.  `bash setupTermuxArch.sh help` has more information.  All options can be abbreviated to the first letter or two. 
 if [[ -z "${1:-}" ]];then
 	intro "$@" 
 	mainblock
+# [pathToImage/system.tar.gz [installDirectory]] Use path to image file; install directory argument is optional.
+elif [[ "${args:0:1}" = "/" ]] ;then
+	arg2dir "$@"  
+	intro 
+	loadimage "$@"
 # [curl debug|curl sysinfo] Get device system information using `curl`.
 elif [[ "$1" = [Cc][Dd]* ]] || [[ "$1" = -[Cc][Dd]* ]] || [[ "$1" = --[Cc][Dd]* ]] || [[ "$1" = [Cc][Ss]* ]] || [[ "$1" = -[Cc][Ss]* ]] || [[ "$1" = --[Cc][Ss]* ]];then
 	dm=curl
