@@ -90,9 +90,9 @@ loadimage () {
 	wakelock
 	makeinstalldir 
 	file="${1##/*/}" 
-	printf "%s %s" "Copying" "${file}.md5"
+	printf "%s %s\\n" "Copying" "${file}.md5"
 	cp "$1".md5  "$installdir"
-	printf "%s %s" "Copying" "$file"
+	printf "%s %s\\n" "Copying" "$file"
 	cp "$1" "$installdir"
 	md5check 
 	printcu 
