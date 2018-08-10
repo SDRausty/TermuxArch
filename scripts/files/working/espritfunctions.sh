@@ -7,16 +7,20 @@
 sp="/-\|"
 sc=0
 spin() {
-   printf "\b${sp:sc++:1}"
-   ((sc==${#sp})) && sc=0
+	printf "\\b${sp:sc++:1}"
+	((sc==${#sp})) && sc=0
 }
-# while : ;do
-#    spin 
-# done
 
 spinner() { 
+	printf "\\e[0m"
+	while $1 ;do
+		spin 
+	done
+}
 
-until $1; do
-	spin
-done
+spinne() { 
+	printf "\\e[0m"
+	until $1; do
+		spin
+	done
 }
