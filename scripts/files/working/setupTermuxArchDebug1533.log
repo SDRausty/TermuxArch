@@ -1,0 +1,125 @@
+Begin setupTermuxArch debug information.
+
+`termux-info` results:
+
+Updatable packages:
+bash/stable 4.4.23 aarch64 [upgradable from: 4.4.19]
+git/stable 2.17.1 aarch64 [upgradable from: 2.17.0-1]
+openssl/stable 1.0.2o-1 aarch64 [upgradable from: 1.0.2o]
+proot/stable 5.1.107-11 aarch64 [upgradable from: 5.1.107-10]
+readline/stable 7.0.5 aarch64 [upgradable from: 7.0.3-2]
+System information:
+Linux localhost 3.10.84-perf-gcdba782-00725-g9a1b90d #1 SMP PREEMPT Wed Aug 2 13:48:17 CST 2017 aarch64
+Termux-packages arch:
+aarch64
+Android version:
+6.0.1
+Device manufacturer:
+ZTE
+Device model:
+Z981
+
+Disk report 8911408 on /data Fri Aug 10 01:21:44 EDT 2018
+
+BASH_VERSINFO[0] = 4
+BASH_VERSINFO[1] = 4
+BASH_VERSINFO[2] = 19
+BASH_VERSINFO[3] = 1
+BASH_VERSINFO[4] = release
+BASH_VERSINFO[5] = aarch64-unknown-linux-android
+
+cat /proc/cpuinfo results:
+
+Processor	: AArch64 Processor rev 4 (aarch64)
+processor	: 0
+processor	: 1
+processor	: 2
+processor	: 3
+processor	: 4
+processor	: 5
+processor	: 6
+processor	: 7
+Features	: fp asimd evtstrm aes pmull sha1 sha2 crc32 
+CPU implementer	: 0x41
+CPU architecture: 8
+CPU variant	: 0x0
+CPU part	: 0xd03
+CPU revision	: 4
+
+Hardware	: Qualcomm Technologies, Inc MSM8952
+
+dpkg --print-architecture result:
+
+aarch64
+
+getprop ro.product.cpu.abi result:
+
+arm64-v8a
+
+getprop ro.product.device result:
+
+urd
+
+Download directory information results.
+
+/sdcard/Download exists
+/storage/emulated/0/Download exists
+/data/data/com.termux/files/home/downloads exists
+/data/data/com.termux/files/home/storage/downloads exists
+
+df /data/data/com.termux/files/home/arch results:
+
+Filesystem      1K-blocks	Used  Available Use% Mounted on
+/dev/block/dm-0  25732148   16599576    8911388  66% /data
+
+df results:
+
+Filesystem      1K-blocks	Used  Available Use% Mounted on
+tmpfs              934232        116     934116   1% /dev
+none               934232         12     934220   1% /sys/fs/cgroup
+tmpfs              934232          0     934232   0% /mnt
+/dev/block/dm-1 123578336   80910500   42651452  66% /mnt/expand/1c765d33-67bf-4ec2-b32b-b7c741530e25
+/dev/block/bootdevice/by-name/system 3023152    2585304     421464  86% /system
+/dev/block/bootdevice/by-name/cache 507848       4056     493308   1% /cache
+/dev/block/bootdevice/by-name/dsp 12016       3736       7956  32% /dsp
+/dev/block/bootdevice/by-name/modem 85968      74752      11216  87% /firmware
+/dev/block/dm-0  25732148   16599576    8911388  66% /data
+/dev/fuse       123578336   80910500   42651452  66% /storage/emulated
+
+du -hs /data/data/com.termux/files/home/arch results:
+
+1.0 GB	/data/data/com.termux/files/home/arch
+
+ls -al /data/data/com.termux/files/home/arch results:
+
+total 420328
+drwx------ 16 u0_a93 u0_a93      4096 2018-08-10 01:05 .
+drwx------ 23 u0_a93 u0_a93      4096 2018-08-10 01:19 ..
+-rw-------  1 u0_a93 u0_a93 215116795 2018-08-10 01:05 ArchLinuxARM-aarch64-latest.tar.gz
+-rw-------  1 u0_a93 u0_a93        69 2018-08-01 03:28 ArchLinuxARM-aarch64-latest.tar.gz.md5
+lrwxrwxrwx  1 u0_a93 u0_a93         7 2018-08-08 13:56 bin -> usr/bin
+drwxr-xr-x  3 u0_a93 u0_a93      4096 2018-08-08 14:04 boot
+drwxr-xr-x  2 u0_a93 u0_a93      4096 2018-08-01 03:25 dev
+drwxr-xr-x 38 u0_a93 u0_a93      4096 2018-08-09 19:36 etc
+drwxr-xr-x  4 u0_a93 u0_a93      4096 2018-08-09 19:19 home
+lrwxrwxrwx  1 u0_a93 u0_a93         7 2018-08-08 13:56 lib -> usr/lib
+drwxr-xr-x  2 u0_a93 u0_a93      4096 2018-03-11 15:24 mnt
+drwxr-xr-x  2 u0_a93 u0_a93      4096 2018-03-11 15:24 opt
+dr-xr-xr-x  2 u0_a93 u0_a93      4096 2018-08-01 03:25 proc
+drwxr-x---  5 u0_a93 u0_a93      4096 2018-08-09 19:11 root
+drwxr-xr-x 10 u0_a93 u0_a93      4096 2018-08-09 19:36 run
+lrwxrwxrwx  1 u0_a93 u0_a93         7 2018-08-08 13:56 sbin -> usr/bin
+drwxr-xr-x  4 u0_a93 u0_a93      4096 2018-08-08 13:56 srv
+-rwx------  1 u0_a93 u0_a93      5026 2018-08-09 19:11 startarch
+dr-xr-xr-x  2 u0_a93 u0_a93      4096 2018-08-01 03:25 sys
+drwxrwxrwt  2 u0_a93 u0_a93      4096 2018-08-09 19:36 tmp
+drwxr-xr-x  8 u0_a93 u0_a93      4096 2018-08-09 19:36 usr
+drwxr-xr-x 12 u0_a93 u0_a93      4096 2018-08-08 14:03 var
+
+uname -a results:
+
+Linux localhost 3.10.84-perf-gcdba782-00725-g9a1b90d #1 SMP PREEMPT Wed Aug 2 13:48:17 CST 2017 aarch64
+
+End `setupTermuxArchDebug1533.log` debug information.
+
+Post this information along with information regarding your issue at https://github.com/sdrausty/TermuxArch/issues.  Include information about input and output.  This debugging information is found in /data/data/com.termux/files/home/git/sdrausty/TermuxArch/scripts/files/working/setupTermuxArchDebug1533.log.  If you think screenshots will help in resolving this matter better, include them in your post as well.  
