@@ -675,14 +675,15 @@ declare usrspace=""
 
 ################################################################################
 dfl=/gen # Used for development ################################################
-dmverbose="-q" # Use "-v" for verbose download manager output;  for verbose output from downloads throughout runtime, change in `knownconfigurations.sh` also.  
+dmverbose="-q" # Use "-v" for verbose download manager output;  for verbose \
+#+ output from throughout runtime, change in `knownconfigurations.sh` also.  
 stim="$(date +%s)"
 stime="${stim:0:4}"
 trap finishe EXIT
 trap finisher ERR
 trap finisher QUIT 
 trap finishs INT TERM 
-versionid="gen.v1.6 id848946318"
+versionid="gen.v1.6 id304021730"
 
 if [[ "$commandif" = "" ]];then
 	echo Run \`setupTermuxArch.sh\` from the Android system in Termux.

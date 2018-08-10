@@ -14,12 +14,12 @@ spinner() { # Based on https://github.com/ringohub/sh-spinner
 	while :; do
 		jobs %1 > /dev/null 2>&1
 		[ $? = 0 ] || {
-			printf "\\e[1;32m ✓ $task OK       \\n\\e[0m"
+			printf "\\e[1;32m ✓ $task OK          \\n\\e[0m"
 			break
 		}
 		for (( i=0; i<${#SPINNER}; i++ )); do
 			sleep 0.05
-			printf " ${SPINNER:$i:1} $task $msg\r"
+			printf "\\e[1;32m ${SPINNER:$i:1} $task $msg\r"
 		done
 	done
  	printf "\\e[?25h"
