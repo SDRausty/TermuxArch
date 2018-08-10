@@ -4,23 +4,22 @@
 # https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.  
 # https://sdrausty.github.io/TermuxArch/README has information about TermuxArch. 
 ################################################################################
-sp="/-\|"
-sc=0
-spin() {
-	printf "\\b${sp:sc++:1}"
-	((sc==${#sp})) && sc=0
-}
 
-spinner() { 
-	printf "\\e[0m"
-	while $1 ;do
-		spin 
+spinner() { # Based on https://github.com/ringohub/sh-spinner
+ 	printf "\\e[?25l"
+ 	SPINNER="⠋⠙⠹⠸⠼⠴⠦⠧⠇⠏"
+	task=$1
+	msg=$2
+	while :; do
+		jobs %1 > /dev/null 2>&1
+		[ $? = 0 ] || {
+			printf "${CL}✓ ${task} Done       \n"
+			break
+		}
+		for (( i=0; i<${#SPINNER}; i++ )); do
+			sleep 0.05
+			printf "${CL}${SPINNER:$i:1} ${task} ${msg}\r"
+		done
 	done
-}
-
-spinne() { 
-	printf "\\e[0m"
-	until $1; do
-		spin
-	done
+ 	printf "\\e[?25h"
 }

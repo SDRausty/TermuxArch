@@ -48,7 +48,7 @@ sysinfo() {
 	spaceinfo
 	printf "\\n\\e[1;32m"
 	printf "Begin setupTermuxArch debug information.\\n" > setupTermuxArchDebug"$stime".log
-	spinner systeminfo 
+	systeminfo & spinner "System Info" "in Progress" ||:
 }
 
 systeminfo () {
@@ -70,8 +70,8 @@ systeminfo () {
 	printf "\\nDownload directory information results.\\n\\n" >> setupTermuxArchDebug"$stime".log
 	if [[ -d /sdcard/Download ]]; then echo "/sdcard/Download exists"; else echo "/sdcard/Download not found"; fi >> setupTermuxArchDebug"$stime".log 
 	if [[ -d /storage/emulated/0/Download ]]; then echo "/storage/emulated/0/Download exists"; else echo "/storage/emulated/0/Download not found"; fi >> setupTermuxArchDebug"$stime".log
-	if [[ -d ~/downloads ]]; then echo "~/downloads exists"; else echo "~/downloads not found"; fi >> setupTermuxArchDebug"$stime".log 
-	if [[ -d ~/storage/downloads ]]; then echo "~/storage/downloads exists"; else echo "~/storage/downloads not found"; fi >> setupTermuxArchDebug"$stime".log 
+	if [[ -d $HOME/downloads ]]; then echo "$HOME/downloads exists"; else echo "~/downloads not found"; fi >> setupTermuxArchDebug"$stime".log 
+	if [[ -d $HOME/storage/downloads ]]; then echo "$HOME/storage/downloads exists"; else echo "$HOME/storage/downloads not found"; fi >> setupTermuxArchDebug"$stime".log 
 	printf "\\ndf $installdir results:\\n\\n" >> setupTermuxArchDebug"$stime".log
 	df "$installdir" >> setupTermuxArchDebug"$stime".log 2>/dev/null ||:
 	printf "\\ndf results:\\n\\n" >> setupTermuxArchDebug"$stime".log
@@ -84,7 +84,7 @@ systeminfo () {
 	uname -a >> setupTermuxArchDebug"$stime".log
 	printf "\\nEnd \`setupTermuxArchDebug$stime.log\` debug information.\\n\\nPost this information along with information regarding your issue at https://github.com/sdrausty/TermuxArch/issues.  Include information about input and output.  This debugging information is found in $PWD/$(ls setupTermuxArchDebug"$stime".log).  If you think screenshots will help in resolving this matter better, include them in your post as well.  \\n" >> setupTermuxArchDebug"$stime".log
 	cat setupTermuxArchDebug"$stime".log
-	printf "\\n\\e[0mSubmit this information if you plan to open up an issue at https://github.com/sdrausty/TermuxArch/issues to improve this installation script along with a screenshot of your topic.  Include information about input and output.  \\n"
+	printf "\\n\\e[0mSubmit this information if you plan to open up an issue at https://github.com/sdrausty/TermuxArch/issues to improve this installation script along with a screenshot of your topic.  Include information about input and output.  \\n\\n"
 }
 
 loadimage() { 
