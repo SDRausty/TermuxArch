@@ -8,17 +8,17 @@
 spinner() { # Based on https://github.com/ringohub/sh-spinner
  	printf "\\e[?25l"
  	SPINNER="⠋⠙⠹⠸⠼⠴⠦⠧⠇⠏"
-	task=$1
-	msg=$2
+	task="$1"
+	msg="$2"
 	while :; do
 		jobs %1 > /dev/null 2>&1
 		[ $? = 0 ] || {
-			printf "\\e[0;32m ✓\\e[0m ${task} Done       \n"
+			printf "\\e[0;32m ✓\\e[0m $task Done       \n"
 			break
 		}
 		for (( i=0; i<${#SPINNER}; i++ )); do
 			sleep 0.05
-			printf " ${SPINNER:$i:1} ${task} ${msg}\r"
+			printf " ${SPINNER:$i:1} $task $msg\r"
 		done
 	done
  	printf "\\e[?25h"

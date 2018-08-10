@@ -296,7 +296,8 @@ md5check() {
 	printmd5check
 	if "$PREFIX"/bin/applets/md5sum -c "$file".md5 1>/dev/null ; then
 		printmd5success
-		preproot 
+		printf "\\e[0;32m"
+		preproot & spinner "Uncompressing" "$file…" 
 	else
 		rmarchrm 
 		printmd5error
