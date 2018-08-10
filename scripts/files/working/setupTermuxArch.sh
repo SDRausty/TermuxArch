@@ -74,8 +74,8 @@ chk() {
 		else 
 			ldconf
 		fi
-		. animationfunctions.sh
-		. archsystemconfigs.sh
+		. espritfunctions.sh
+		. archlinuxconfig.sh
 		. getimagefunctions.sh
 		. necessaryfunctions.sh
 		. printoutstatements.sh
@@ -152,9 +152,9 @@ depends() {
 
 dependsblock() {
 	depends 
-	if [[ -f animationfunctions.sh ]] && [[ -f archsystemconfigs.sh ]] && [[ -f getimagefunctions.sh ]] && [[ -f knownconfigurations.sh ]] && [[ -f necessaryfunctions.sh ]] && [[ -f printoutstatements.sh ]] && [[ -f setupTermuxArch.sh ]] && [[ -f systemmaintenance.sh ]];then
-		. animationfunctions.sh
-		. archsystemconfigs.sh
+	if [[ -f espritfunctions.sh ]] && [[ -f archlinuxconfig.sh ]] && [[ -f getimagefunctions.sh ]] && [[ -f knownconfigurations.sh ]] && [[ -f necessaryfunctions.sh ]] && [[ -f printoutstatements.sh ]] && [[ -f setupTermuxArch.sh ]] && [[ -f systemmaintenance.sh ]];then
+		. espritfunctions.sh
+		. archlinuxconfig.sh
 		. getimagefunctions.sh
 		. knownconfigurations.sh
 		. necessaryfunctions.sh
@@ -503,8 +503,8 @@ rmbloomq() {
 }
 
 rmdsc() {
-	rm animationfunctions.sh
-	rm archsystemconfigs.sh
+	rm espritfunctions.sh
+	rm archlinuxconfig.sh
 	rm getimagefunctions.sh
 	rm knownconfigurations.sh
 	rm necessaryfunctions.sh
@@ -682,7 +682,7 @@ trap finishe EXIT
 trap finisher ERR
 trap finisher QUIT 
 trap finishs INT TERM 
-versionid="gen.v1.6 id915752400145"
+versionid="gen.v1.6 id522213334578"
 
 if [[ "$commandif" = "" ]];then
 	echo Run \`setupTermuxArch.sh\` from the Android system in Termux.

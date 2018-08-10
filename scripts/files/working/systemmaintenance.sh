@@ -48,6 +48,10 @@ sysinfo() {
 	spaceinfo
 	printf "\\n\\e[1;32m"
 	printf "Begin setupTermuxArch debug information.\\n" > setupTermuxArchDebug"$stime".log
+	spinner systeminfo 
+}
+
+systeminfo () {
 	printf "\\n\`termux-info\` results:\\n\\n" >> setupTermuxArchDebug"$stime".log
 	termux-info >> setupTermuxArchDebug"$stime".log
 	printf "\\nDisk report $usrspace on /data $(date)\\n\\n" >> setupTermuxArchDebug"$stime".log 
