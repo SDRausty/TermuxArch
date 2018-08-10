@@ -11,7 +11,7 @@ unset LD_PRELOAD
 
 ## Functions ###################################################################
  
-arg2dir () { 
+arg2dir() { 
 	arg2="${@:2:1}"
 	if [[ "$arg2" = "" ]] ;then
 		rootdir=/arch
@@ -22,7 +22,7 @@ arg2dir () {
 	fi
 }
 
-arg3dir () {
+arg3dir() {
 	arg3="${@:3:1}"
 	if [[ "$arg3" = "" ]] ;then
 		rootdir=/arch
@@ -33,7 +33,7 @@ arg3dir () {
 	fi
 }
 
-bloom () { # Bloom = `setupTermuxArch.sh manual verbose` #######################
+bloom() { # Bloom = `setupTermuxArch.sh manual verbose` #######################
 	opt=bloom 
 	introbloom 
 	if [[ -d "$HOME"/TermuxArchBloom ]];then 
@@ -54,7 +54,7 @@ bloom () { # Bloom = `setupTermuxArch.sh manual verbose` #######################
 	printf "\\n\\e[1;34mUse \\e[1;32mcd ~/TermuxArchBloom\\e[1;34m to continue.  Edit any of these files; Then use \\e[1;32mbash $0 [options] \\e[1;34mto run the files in \\e[1;32m~/TermuxArchBloom\\e[1;34m.\\n\\e[0m"'\033]2;  TermuxArch Bloom option via `setupTermuxArch.sh bloom` 📲 \007'
 }
 
-bsdtarif () {
+bsdtarif() {
 	if [[ ! -x "$PREFIX"/bin/bsdtar ]];then
 		printf "\\n\\e[1;34mInstalling \\e[0;32mbsdtar\\e[1;34m…\\n\\n\\e[1;32m"
 		pkg install bsdtar --yes
@@ -65,7 +65,7 @@ bsdtarif () {
 	fi
 }
 
-chk () {
+chk() {
 	if "$PREFIX"/bin/applets/sha512sum -c termuxarchchecksum.sha512 1>/dev/null ;then
 		chkself "$@"
 		printf "\\e[0;34m 🕛 > 🕜 \\e[1;34mTermuxArch $versionid integrity: \\e[1;32mOK\\e[0m\\n"
@@ -74,8 +74,8 @@ chk () {
 		else 
 			ldconf
 		fi
-		. animationfunctions.sh
-		. archsystemconfigs.sh
+		. espritfunctions.sh
+		. archlinuxconfig.sh
 		. getimagefunctions.sh
 		. necessaryfunctions.sh
 		. printoutstatements.sh
@@ -91,7 +91,7 @@ chk () {
 	fi
 }
 
-chkdwn () {
+chkdwn() {
 	if "$PREFIX"/bin/applets/sha512sum -c setupTermuxArch.sha512 1>/dev/null ;then
 		printf "\\e[0;34m 🕛 > 🕐 \\e[1;34mTermuxArch download: \\e[1;32mOK\\n\\n"
 		proot --link2symlink -0 "$PREFIX"/bin/applets/tar xf setupTermuxArch.tar.gz 
@@ -103,19 +103,19 @@ chkdwn () {
 	fi
 }
 
-chkself () {
+chkself() {
 	if [[ -f "setupTermuxArch.tmp" ]];then
 		if [[ "$(<setupTermuxArch.sh)" != "$(<setupTermuxArch.tmp)" ]];then
 			printf "\\e[0;32msetupTermuxArch.sh: \\e[1;32mUPDATED\\n\\e[0;32mTermuxArch: \\e[1;32mRESTARTED\\n\\e[0m"
 			rm -f setupTermuxArch.tmp
 			rmdsc 
-			. setupTermuxArch.sh "$@"
+			. setupTermuxArch.sh "$args"
 		fi
 		rm -f setupTermuxArch.tmp
 	fi
 }
 
-curlif () {
+curlif() {
 	if [[ ! -x "$PREFIX"/bin/curl ]];then
 		printf "\\n\\e[1;34mInstalling \\e[0;32mcurl\\e[1;34m…\\n\\n\\e[1;32m"
 		pkg install curl --yes 
@@ -126,13 +126,13 @@ curlif () {
 	fi
 }
 
-curlifdm () {
+curlifdm() {
 	if [[ "$dm" = curl ]];then
 		curlif 
 	fi
 }
 
-depends () {
+depends() {
 	printf "\\e[1;34mChecking prerequisites…\\n\\e[1;32m"
 	curlifdm 
 	wgetifdm 
@@ -150,11 +150,11 @@ depends () {
 	printf "\\n\\e[0;34m 🕛 > 🕧 \\e[1;34mPrerequisites: \\e[1;32mOK  \\e[1;34mDownloading TermuxArch…\\n\\n\\e[0;32m"
 }
 
-dependsblock () {
+dependsblock() {
 	depends 
-	if [[ -f animationfunctions.sh ]] && [[ -f archsystemconfigs.sh ]] && [[ -f getimagefunctions.sh ]] && [[ -f knownconfigurations.sh ]] && [[ -f necessaryfunctions.sh ]] && [[ -f printoutstatements.sh ]] && [[ -f setupTermuxArch.sh ]] && [[ -f systemmaintenance.sh ]];then
-		. animationfunctions.sh
-		. archsystemconfigs.sh
+	if [[ -f espritfunctions.sh ]] && [[ -f archlinuxconfig.sh ]] && [[ -f getimagefunctions.sh ]] && [[ -f knownconfigurations.sh ]] && [[ -f necessaryfunctions.sh ]] && [[ -f printoutstatements.sh ]] && [[ -f setupTermuxArch.sh ]] && [[ -f systemmaintenance.sh ]];then
+		. espritfunctions.sh
+		. archlinuxconfig.sh
 		. getimagefunctions.sh
 		. knownconfigurations.sh
 		. necessaryfunctions.sh
@@ -170,7 +170,7 @@ dependsblock () {
 	fi
 }
 
-dependbp () {
+dependbp() {
 	if [[ "$cpuabi" = "$cpuabix86" ]] || [[ "$cpuabi" = "$cpuabix86_64" ]];then
 		bsdtarif 
 		prootif 
@@ -179,7 +179,7 @@ dependbp () {
 	fi
 }
 
-dwnl () {
+dwnl() {
 	if [[ "$dm" = wget ]];then
 		wget "$dmverbose" -N --show-progress https://raw.githubusercontent.com/sdrausty/TermuxArch/master"$dfl"/setupTermuxArch.sha512 
 		wget "$dmverbose" -N --show-progress https://raw.githubusercontent.com/sdrausty/TermuxArch/master"$dfl"/setupTermuxArch.tar.gz
@@ -190,7 +190,7 @@ dwnl () {
 	fi
 }
 
-editors () {
+editors() {
 	aeds=("zile" "nano" "nvim" "vi" "emacs" "joe" "jupp" "micro" "ne" "applets/vi")
 	for i in "${!aeds[@]}"; do
 		if [[ -e "$PREFIX/bin/${aeds[$i]}" ]];then
@@ -208,7 +208,7 @@ editors () {
 	done
 }
 
-edq () {
+edq() {
 	printf "\\e[0;32m"
 	for i in "${!ceds[@]}"; do
 		if [[ "${ceds[$i]}" = "applets/vi" ]];then
@@ -223,12 +223,12 @@ edq () {
 	done
 }
 
-edqa () {
+edqa() {
 	ed="${ceds[$i]}"
 	ind=1
 }
 
-edqaquestion () {
+edqaquestion() {
 	while true; do
 		printf "\\n"
 		if [[ "$opt" = bloom ]] || [[ "$opt" = manual ]];then
@@ -251,7 +251,7 @@ edqaquestion () {
 	done
 }
 
-edq2 () {
+edq2() {
 	while true; do
 		if [[ "$opt" = bloom ]] || [[ "$opt" = manual ]];then
 			printf "\\n\\e[1;34m  Would you like to use \\e[1;32mnano\\e[1;34m or \\e[1;32mvi\\e[1;34m to edit \\e[1;32msetupTermuxArchConfigs.sh\\e[1;34m?  "
@@ -276,13 +276,13 @@ edq2 () {
 	printf "\\n"
 }
 
-finishe () { # on exit
+finishe() { # on exit
 	printf "\\e[?25h\\e[0m"
 	set +Eeuo pipefail 
   	printtail "$args"  
 }
 
-finisher () { # on script signal
+finisher() { # on script signal
 	printf "\\n\\e[?25h\\e[0;48;5;124mTermuxArch warning.  Signal generated!\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b"
 	sleep 0.2
 	printf "\\e[?25h\\e[1;7;38;5;0mTermuxArch warning.  Signal generated!\\e[0m\\n"
@@ -290,7 +290,7 @@ finisher () { # on script signal
  	echo $? 
 }
 
-finishs () { # on signal
+finishs() { # on signal
 	printf "\\n\\e[?25h\\e[0;48;5;124mTermuxArch warning.  Signal received!\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b"
 	sleep 0.2
 	printf "\\e[?25h\\e[1;7;38;5;0mTermuxArch warning.  Signal received!\\e[0m\\n"
@@ -298,7 +298,7 @@ finishs () { # on signal
  	echo $? 
 }
 
-intro () {
+intro() {
 	printf '\033]2;  bash setupTermuxArch.sh 📲 \007'
 	rmarchq
 	rootdirexception 
@@ -307,20 +307,20 @@ intro () {
 	dependsblock "$@"
 }
 
-introbloom () {
+introbloom() {
 	printf '\033]2;  bash setupTermuxArch.sh bloom 📲 \007'
 	spaceinfo
 	printf "\\n\\e[0;34m 🕛 > 🕛 \\e[1;34mTermuxArch $versionid bloom option.  Run \\e[1;32mbash setupTermuxArch.sh help \\e[1;34mfor additional information.  Ensure background data is not restricted.  Check the wireless connection if you do not see one o'clock 🕐 below.  "
 }
 
-introdebug () {
+introdebug() {
 	printf '\033]2;  bash setupTermuxArch.sh sysinfo 📲 \007'
 	spaceinfo
 	printf "\\n\\e[0;34m 🕛 > 🕛 \\e[1;34msetupTermuxArch $versionid will create a system information file.  Ensure background data is not restricted.  Run \\e[0;32mbash setupTermuxArch.sh help \\e[1;34mfor additional information.  Check the wireless connection if you do not see one o'clock 🕐 below.  "
 	dependsblock "$@"
 }
 
-introrefresh () {
+introrefresh() {
 	printf '\033]2;  bash setupTermuxArch.sh refresh 📲 \007'
 	spaceinfo
 	printf "\\n\\e[0;34m 🕛 > 🕛 \\e[1;34msetupTermuxArch $versionid will refresh your TermuxArch files in \\e[0;32m$installdir\\e[1;34m.  Ensure background data is not restricted.  Run \\e[0;32mbash setupTermuxArch.sh help \\e[1;34mfor additional information.  Check the wireless connection if you do not see one o'clock 🕐 below.  "
@@ -328,7 +328,7 @@ introrefresh () {
 	refreshsys "$@"
 }
 
-ldconf () {
+ldconf() {
 	if [[ -f "setupTermuxArchConfigs.sh" ]];then
 		. setupTermuxArchConfigs.sh
 		printconfloaded 
@@ -337,7 +337,7 @@ ldconf () {
 	fi
 }
 
-manual () {
+manual() {
 	printf '\033]2; `bash setupTermuxArch.sh manual` 📲 \007'
 	editors
 	if [[ -f "setupTermuxArchConfigs.sh" ]];then
@@ -352,7 +352,7 @@ manual () {
 	fi
 }
 
-nanoif () {
+nanoif() {
 	if [[ ! -x "$PREFIX"/bin/nano ]];then
 		printf "\\n\\e[1;34mInstalling \\e[0;32mnano\\e[1;34m…\\n\\n\\e[1;32m"
 		pkg install nano --yes 
@@ -363,14 +363,14 @@ nanoif () {
 	fi
 }
 
-nameinstalldir () {
+nameinstalldir() {
 	if [[ "$rootdir" = "" ]] ;then
 		rootdir=arch
 	fi
 	installdir="$(echo "$HOME/${rootdir%/}" |sed 's#//*#/#g')"
 }
 
-namestartarch () {
+namestartarch() {
 # 	echo ${@%/} removes trailing slash
  	darch="$(echo "${rootdir%/}" |sed 's#//*#/#g')"
 	if [[ "$darch" = "/arch" ]];then
@@ -383,7 +383,7 @@ namestartarch () {
 	declare -g startbin=start"$startbi2$aarch"
 }
 
-opt2 () { 
+opt2() { 
 	if [[ "$2" = [Dd]* ]] || [[ "$2" = [Ss]* ]] ;then
 		introdebug "$@"  
 		sysinfo 
@@ -395,30 +395,30 @@ opt2 () {
 	fi
 }
 
-pe () {
+pe() {
 	printf "\\n\\e[1;31mPrerequisites exception.  Run the script again…\\n\\n\\e[0m"'\033]2; Run `bash setupTermuxArch.sh` again…\007'
 	exit
 }
 
-printconfloaded () {
+printconfloaded() {
 	printf "\\n\\e[0;34m 🕛 > 🕑 \\e[1;34mTermuxArch configuration \\e[0;32m$PWD/\\e[1;32msetupTermuxArchConfigs.sh \\e[1;34mloaded: \\e[1;32mOK\\n"
 }
 
-printsha512syschker () {
+printsha512syschker() {
 	printf "\\n\\e[07;1m\\e[31;1m\\n 🔆 WARNING sha512sum mismatch!  Setup initialization mismatch!\\e[34;1m\\e[30;1m  Try again, initialization was not successful this time.  Wait a little while.  Then run \`bash setupTermuxArch.sh\` again…\\n\\e[0;0m\\n"'\033]2; Run `bash setupTermuxArch.sh` again…\007'
 	exit 
 }
 
-printtail () {   
+printtail() {   
  	printf "\\a\\n\\e[0;32m%s %s \\a\\e[0m$versionid\\e[1;34m: \\a\\e[1;32m%s\\e[0m\\n\\n\\a\\e[0m" "$(basename "$0")" "$args" "DONE 🏁 "
 	printf '\033]2; '"$(basename "$0") $args"': DONE 🏁 \007'
 }
 
-printusage () {
+printusage() {
 	printf "\\n\\n\\e[1;34mUsage information for \\e[0;32msetupTermuxArch.sh \\e[1;34m$versionid.  Arguments can abbreviated to one letter; Two letter arguments are acceptable.  For example, \\e[0;32mbash setupTermuxArch.sh cs\\e[1;34m will use \\e[0;32mcurl\\e[1;34m to download TermuxArch and produce a \\e[0;32msetupTermuxArchDebug$stime.log\\e[1;34m file.\\n\\nUser configurable variables are in \\e[0;32msetupTermuxArchConfigs.sh\\e[1;34m.  Create this file from \\e[0;32mkownconfigurations.sh\\e[1;34m in the working directory.  Use \\e[0;32mbash setupTermuxArch.sh manual\\e[1;34m to create and edit \\e[0;32msetupTermuxArchConfigs.sh\\e[1;34m.\\n\\n\\e[1;33mDEBUG\\e[1;34m    Use \\e[0;32msetupTermuxArch.sh sysinfo \\e[1;34mto create a \\e[0;32msetupTermuxArchDebug$stime.log\\e[1;34m and populate it with system information.  Post this along with detailed information about the issue at https://github.com/sdrausty/TermuxArch/issues.  If screenshots will help in resolving the issue better, include them in a post along with information from the debug log file.\\n\\n\\e[1;33mHELP\\e[1;34m     Use \\e[0;32msetupTermuxArch.sh help \\e[1;34mto output this help screen.\\n\\n\\e[1;33mINSTALL\\e[1;34m  Run \\e[0;32m./setupTermuxArch.sh\\e[1;34m without arguments in a bash shell to install Arch Linux in Termux.  Use \\e[0;32mbash setupTermuxArch.sh curl \\e[1;34mto envoke \\e[0;32mcurl\\e[1;34m as the download manager.  Copy \\e[0;32mknownconfigurations.sh\\e[1;34m to \\e[0;32msetupTermuxArchConfigs.sh\\e[1;34m with preferred mirror.  After editing \\e[0;32msetupTermuxArchConfigs.sh\\e[1;34m, run \\e[0;32mbash setupTermuxArch.sh\\e[1;34m and \\e[0;32msetupTermuxArchConfigs.sh\\e[1;34m loads automatically from the same directory.  Change mirror to desired geographic location to resolve download errors.\\n\\n\\e[1;33mPURGE\\e[1;34m    Use \\e[0;32msetupTermuxArch.sh uninstall\\e[1;34m \\e[1;34mto uninstall Arch Linux from Termux.\\n\\n\\e[0;32miPRoot Start Script "
 }
 
-prootif () {
+prootif() {
 	if [[ ! -x "$PREFIX"/bin/proot ]];then
 		printf "\\n\\e[1;34mInstalling \\e[0;32mproot\\e[1;34m…\\n\\n\\e[1;32m"
 		pkg install proot --yes 
@@ -429,7 +429,7 @@ prootif () {
 	fi
 }
 
-rmarch () {
+rmarch() {
 	namestartarch 
 	nameinstalldir
 	while true; do
@@ -463,21 +463,21 @@ rmarch () {
 	printf "\\e[0m\\n"
 }
 
-rmarchrm () {
+rmarchrm() {
 	rootdirexception 
 	rm -rf "$installdir"/* 2>/dev/null ||:
 	find  "$installdir" -type d -exec chmod 700 {} \; 2>/dev/null ||:
 	rm -rf "$installdir" 2>/dev/null ||:
 }
 
-rmarchq () {
+rmarchq() {
 	if [[ -d "$installdir" ]];then
 		printf "\\n\\e[0;33mTermuxArch: \\e[1;33mDIRECTORY WARNING!  $installdir/ \\e[0;33mdirectory detected.  \\e[1;30mTermux Arch installation shall continue.  If in doubt, answer yes.\\n"
 		rmarch
 	fi
 }
 
-rmbloomq () {
+rmbloomq() {
 	if [[ -d "$HOME"/TermuxArchBloom ]];then
 		printf "\\n\\n\\e[0;33mTermuxArch: \\e[1;33mDIRECTORY WARNING!  $HOME/TermuxArchBloom/ \\e[0;33mdirectory detected.  \\e[1;30msetupTermuxArch.sh bloom will continue.\\n"
 		while true; do
@@ -502,9 +502,9 @@ rmbloomq () {
 	fi
 }
 
-rmdsc () {
-	rm animationfunctions.sh
-	rm archsystemconfigs.sh
+rmdsc() {
+	rm espritfunctions.sh
+	rm archlinuxconfig.sh
 	rm getimagefunctions.sh
 	rm knownconfigurations.sh
 	rm necessaryfunctions.sh
@@ -513,19 +513,19 @@ rmdsc () {
 	rm termuxarchchecksum.sha512 
 }
 
-rmds () {
+rmds() {
 	rm setupTermuxArch.sha512 
 	rm setupTermuxArch.tar.gz
 }
 
-rootdirexception () {
+rootdirexception() {
 	if [[ "$installdir" = "$HOME" ]] || [[ "$installdir" = "$HOME"/ ]] || [[ "$installdir" = "$HOME"/.. ]] || [[ "$installdir" = "$HOME"/../ ]] || [[ "$installdir" = "$HOME"/../.. ]] || [[ "$installdir" = "$HOME"/../../ ]];then
 		printf "\\n\\e[1;31mRootdir exception.  Run the script again with different options…\\n\\n\\e[0m"'\033]2;Rootdir exception.  Run `bash setupTermuxArch.sh` again with different options…\007'
 		exit
 	fi
 }
 
-setrootdir () {
+setrootdir() {
 	if [[ "$cpuabi" = "$cpuabix86" ]];then
 	#	rootdir=/root.i686
 		rootdir=/arch
@@ -537,7 +537,7 @@ setrootdir () {
 	fi
 }
 
-spaceinfo () {
+spaceinfo() {
 	units="$(df "$installdir" 2>/dev/null | awk 'FNR == 1 {print $2}')" 
 	if [[ "$units" = Size ]];then
 		spaceinfogsize 
@@ -548,7 +548,7 @@ spaceinfo () {
 	fi
 }
 
-spaceinfogsize () {
+spaceinfogsize() {
 	userspace return
 	if [[ "$cpuabi" = "$cpuabix86" ]] || [[ "$cpuabi" = "$cpuabix86_64" ]];then
 		if [[ "$usrspace" = *G ]];then 
@@ -581,7 +581,7 @@ spaceinfogsize () {
 	fi
 }
 
-spaceinfoq () {
+spaceinfoq() {
 	if [[ "$suanswer" != [Yy]* ]];then
 		spaceinfo
 		if [[ -n "$spaceMessage" ]];then
@@ -603,7 +603,7 @@ spaceinfoq () {
 	fi
 }
 
-spaceinfoksize () {
+spaceinfoksize() {
 	userspace return
 	if [[ "$cpuabi" = "$cpuabi8" ]];then
 		if [[ "$usrspace" -lt "1500000" ]];then
@@ -626,20 +626,20 @@ spaceinfoksize () {
 	fi
 }
 
-userspace () {
+userspace() {
 	usrspace="$(df "$installdir" 2>/dev/null | awk 'FNR == 2 {print $4}')"
 	if [[ "$usrspace" = "" ]];then
 		usrspace="$(df "$installdir" 2>/dev/null | awk 'FNR == 3 {print $3}')"
 	fi
 }
 
-wgetifdm () {
+wgetifdm() {
 	if [[ "$dm" = wget ]];then
 		wgetif 
 	fi
 }
 
-wgetif () {
+wgetif() {
 	if [[ ! -x "$PREFIX"/bin/wget ]];then
 		printf "\\n\\e[1;34mInstalling \\e[0;32mwget\\e[1;34m…\\n\\n\\e[1;32m"
 		pkg install wget --yes 	
@@ -674,13 +674,15 @@ declare spaceMessage=""
 declare usrspace=""
 
 ################################################################################
-# dfl=/gen
-dmverbose="-q"	# Use "-v" for verbose download manager output;  for verbose output from downloads throughout runtime, change in `knownconfigurations.sh` also.  
+# dfl=/gen # Used for development ##############################################
+dmverbose="-q" # Use "-v" for verbose download manager output;  for verbose \
+#+ output from throughout runtime, change in `knownconfigurations.sh` also.  
 stim="$(date +%s)"
 stime="${stim:0:4}"
-trap finisher ERR
 trap finishe EXIT
-trap finishs INT TERM QUIT 
+trap finisher ERR
+trap finisher QUIT 
+trap finishs INT TERM 
 versionid="v1.6"
 
 if [[ "$commandif" = "" ]];then
@@ -691,7 +693,7 @@ fi
 if [[ -z "${1:-}" ]];then
 	args=""
 else
-	args="$@"
+	declare -a args="$@"
 fi
 
 nameinstalldir 

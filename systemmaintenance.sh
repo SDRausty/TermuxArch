@@ -20,7 +20,7 @@
 # 	echo ----
 # 	exit
 
-echoSpecialParameters () {
+echoSpecialParameters() {
 	# 3.2.5 Special parameters based on https://www.tldp.org/LDP/Bash-Beginners-Guide/html/sect_03_02.html
 	printf "\\n\\nSpecial BASH Variables\\n\\nCharacter	Definition \\n\\n"
 	echo "\$* expands to the positional parameters, starting from one. When the expansion occurs within double quotes, it expands to a single word with the value of each parameter separated by the first character of the IFS special variable."
@@ -44,10 +44,14 @@ echoSpecialParameters () {
 	printf "\\nNote	\$\* vs. \$\@\\n\\nThe implementation of "\$\*" has always been a problem and realistically should have been replaced with the behavior of "\$\@". In almost every case where coders use "\$\*", they mean "\$\@". "\$\*" Can cause bugs and even security holes in your software.\\n\\n\\e[3mBased on https://www.tldp.org/LDP/Bash-Beginners-Guide/html/sect_03_02.html\\n\\n\\e[0m"
 }
 
-sysinfo () {
+sysinfo() {
 	spaceinfo
 	printf "\\n\\e[1;32m"
 	printf "Begin setupTermuxArch debug information.\\n" > setupTermuxArchDebug"$stime".log
+	systeminfo & spinner "System Info" "in Progress" ||:
+}
+
+systeminfo () {
 	printf "\\n\`termux-info\` results:\\n\\n" >> setupTermuxArchDebug"$stime".log
 	termux-info >> setupTermuxArchDebug"$stime".log
 	printf "\\nDisk report $usrspace on /data $(date)\\n\\n" >> setupTermuxArchDebug"$stime".log 
@@ -66,8 +70,8 @@ sysinfo () {
 	printf "\\nDownload directory information results.\\n\\n" >> setupTermuxArchDebug"$stime".log
 	if [[ -d /sdcard/Download ]]; then echo "/sdcard/Download exists"; else echo "/sdcard/Download not found"; fi >> setupTermuxArchDebug"$stime".log 
 	if [[ -d /storage/emulated/0/Download ]]; then echo "/storage/emulated/0/Download exists"; else echo "/storage/emulated/0/Download not found"; fi >> setupTermuxArchDebug"$stime".log
-	if [[ -d ~/downloads ]]; then echo "~/downloads exists"; else echo "~/downloads not found"; fi >> setupTermuxArchDebug"$stime".log 
-	if [[ -d ~/storage/downloads ]]; then echo "~/storage/downloads exists"; else echo "~/storage/downloads not found"; fi >> setupTermuxArchDebug"$stime".log 
+	if [[ -d $HOME/downloads ]]; then echo "$HOME/downloads exists"; else echo "~/downloads not found"; fi >> setupTermuxArchDebug"$stime".log 
+	if [[ -d $HOME/storage/downloads ]]; then echo "$HOME/storage/downloads exists"; else echo "$HOME/storage/downloads not found"; fi >> setupTermuxArchDebug"$stime".log 
 	printf "\\ndf $installdir results:\\n\\n" >> setupTermuxArchDebug"$stime".log
 	df "$installdir" >> setupTermuxArchDebug"$stime".log 2>/dev/null ||:
 	printf "\\ndf results:\\n\\n" >> setupTermuxArchDebug"$stime".log
@@ -80,23 +84,23 @@ sysinfo () {
 	uname -a >> setupTermuxArchDebug"$stime".log
 	printf "\\nEnd \`setupTermuxArchDebug$stime.log\` debug information.\\n\\nPost this information along with information regarding your issue at https://github.com/sdrausty/TermuxArch/issues.  Include information about input and output.  This debugging information is found in $PWD/$(ls setupTermuxArchDebug"$stime".log).  If you think screenshots will help in resolving this matter better, include them in your post as well.  \\n" >> setupTermuxArchDebug"$stime".log
 	cat setupTermuxArchDebug"$stime".log
-	printf "\\n\\e[0mSubmit this information if you plan to open up an issue at https://github.com/sdrausty/TermuxArch/issues to improve this installation script along with a screenshot of your topic.  Include information about input and output.  \\n"
+	printf "\\n\\e[0mSubmit this information if you plan to open up an issue at https://github.com/sdrausty/TermuxArch/issues to improve this installation script along with a screenshot of your topic.  Include information about input and output.  \\n\\n"
 }
 
-loadimage () { 
+loadimage() { 
 	namestartarch 
 	nameinstalldir
  	spaceinfo
 	wakelock
 	makeinstalldir 
 	file="${1##/*/}" 
-	printf "%s %s" "Copying" "${file}.md5"
+	printf "%s %s\\n" "Copying" "${file}.md5"
 	cp "$1".md5  "$installdir"
-	printf "%s %s" "Copying" "$file"
+	printf "%s %s\\n" "Copying" "$file"
 	cp "$1" "$installdir"
 	md5check 
 	printcu 
-	rm -f "$installdir*.tar.gz" "$installdir*.tar.gz.md5"
+	rm -f "$installdir"/*.tar.gz "$installdir"/*.tar.gz.md5
 	printdone 
 	makestartbin 
 	printconfigup 
@@ -108,7 +112,7 @@ loadimage () {
 	printfooter2
 }
 
-refreshsys () {
+refreshsys() {
 	# Refreshes
 	printf '\033]2; setupTermuxArch.sh refresh 📲 \007'
 	nameinstalldir 
@@ -179,3 +183,4 @@ refreshsys () {
 	$startbin help
 	printfooter2
 }
+
