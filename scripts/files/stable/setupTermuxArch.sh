@@ -710,7 +710,7 @@ if [[ -z "${1:-}" ]];then
 	intro "$@" 
 	mainblock
 ## [/pathToImage/system.tar.gz [installDirectory]]  Use path to image file; install directory argument is optional.  Leading backslash is manditory.
-elif [[ "${args:0:1}" = "/" ]] ;then
+elif [[ "${args:0:1}" = "/" ]] || [[ "${args:0:1}" = "." ]] || [[ "${args:0:1}" = "$" ]] ;then
 	arg2dir "$@"  
 	intro 
 	loadimage "$@"
