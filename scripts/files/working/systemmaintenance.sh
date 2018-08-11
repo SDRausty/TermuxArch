@@ -87,15 +87,24 @@ systeminfo () {
 	printf "\\n\\e[0mSubmit this information if you plan to open up an issue at https://github.com/sdrausty/TermuxArch/issues to improve this installation script along with a screenshot of your topic.  Include information about input and output.  \\n\\n"
 }
 
+copyimage() { 
+	file="${1##/*/}" 
+	if [[ "$lc" = "" ]];then
+	cp "$1".md5  "$installdir" & spinner "Copying ${file}.md5" "in Progress" ||:
+	cp "$1" "$installdir" & spinner "Copying $file" "in Progress" ||:
+	elif [[ "$lc" != "" ]];then
+	cp "$wdir"/"$1".md5  "$installdir" & spinner "Copying ${file}.md5" "in Progress" ||:
+	cp "$wdir"/"$1" "$installdir" & spinner "Copying $file" "in Progress" ||:
+	fi
+}
+
 loadimage() { 
 	namestartarch 
 	nameinstalldir
  	spaceinfo
 	wakelock
 	makeinstalldir 
-	file="${1##/*/}" 
-	cp "$1".md5  "$installdir" & spinner "Copying ${file}.md5" "in Progress" ||:
-	cp "$1" "$installdir" & spinner "Copying $file" "in Progress" ||:
+	copyimage
 	md5check 
 	printcu 
 	rm -f "$installdir"/*.tar.gz "$installdir"/*.tar.gz.md5

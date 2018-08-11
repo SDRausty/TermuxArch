@@ -8,7 +8,7 @@ IFS=$'\n\t'
 set -Eeuo pipefail 
 shopt -s nullglob globstar
 unset LD_PRELOAD
-versionid="gen.v1.6 id622624440278"
+versionid="gen.v1.6 id071518751"
 ## Preliminary Functions #######################################################
 
 arg2dir() { 
@@ -669,12 +669,14 @@ declare dmverbose="-q" # Use "-v" for verbose download manager output;  for verb
 declare	ed=""
 declare -g installdir=""
 declare -g kid="0"
+declare	lc=""
 declare opt=""
 declare rootdir=""
 declare spaceMessage=""
 declare stim="$(date +%s)"
 declare stime="${stim:0:4}"
 declare usrspace=""
+declare wdir="${PWD##*/}"
 
 
 trap finishe EXIT
@@ -704,7 +706,12 @@ if [[ -z "${1:-}" ]];then
 	intro "$@" 
 	mainblock
 ## [/pathToImage/system.tar.gz [installDirectory]]  Use path to image file; install directory argument is optional.  Leading backslash is manditory.
-elif [[ "${args:0:1}" = "/" ]] || [[ "${args:0:1}" = "." ]] || [[ "${args:0:1}" = "$" ]] ;then
+elif [[ "${args:0:1}" = "/" ]] || [[ "${args:0:1}" = "$" ]] ;then
+	arg2dir "$@"  
+	intro 
+	loadimage "$@"
+elif[[ "${args:0:1}" = "." ]];then
+	lc="$wdir"
 	arg2dir "$@"  
 	intro 
 	loadimage "$@"
