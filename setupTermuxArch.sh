@@ -668,7 +668,6 @@ cpuabix86_64="x86_64"
 
 declare COUNTER=""
 declare bin=""
-# dfl=/gen # Used for development ##############################################
 declare dm=""
 declare	ed=""
 declare -g installdir=""
@@ -678,7 +677,7 @@ declare rootdir=""
 declare spaceMessage=""
 declare usrspace=""
 
-# dfl=/gen # Used for development ##############################################
+dfl="" # Used for development ################################################
 dmverbose="-q" # Use "-v" for verbose download manager output;  for verbose\
 #+ output from throughout runtime, change in `knownconfigurations.sh` also.  
 

@@ -668,7 +668,6 @@ cpuabix86_64="x86_64"
 
 declare COUNTER=""
 declare bin=""
-dfl=/gen # Used for development ################################################
 declare dm=""
 declare	ed=""
 declare -g installdir=""
