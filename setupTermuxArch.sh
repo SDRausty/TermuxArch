@@ -109,6 +109,7 @@ chkself() {
 			printf "\\e[0;32msetupTermuxArch.sh: \\e[1;32mUPDATED\\n\\e[0;32mTermuxArch: \\e[1;32mRESTARTED\\n\\e[0m"
 			rm -f setupTermuxArch.tmp
 			rmdsc 
+			echo echo "$@"
 			. setupTermuxArch.sh "$@"
 		fi
 		rm -f setupTermuxArch.tmp
@@ -651,34 +652,32 @@ wgetif() {
 }
 
 ## Important Information #######################################################
-## User configurable variables such as mirrors and download manager options are\
-#+ in `setupTermuxArchConfigs.sh`.  Creating this file from\
-#+ `kownconfigurations.sh` in the working directory is simple, use\
-#+ `setupTermuxArch.sh manual` to create, edit and run\
-#+ `setupTermuxArchConfigs.sh`; See `setupTermuxArch.sh help` for information.  
+#  User configurable variables such as mirrors and download manager options are in `setupTermuxArchConfigs.sh`.  Creating this file from `kownconfigurations.sh` in the working directory is simple, use `setupTermuxArch.sh manual` to create, edit and run `setupTermuxArchConfigs.sh`; See `setupTermuxArch.sh help` for information.  
 
-commandif="$(command -v getprop)" ||:
-cpuabi="$(getprop ro.product.cpu.abi 2>/dev/null)" ||:
-cpuabi5="armeabi"
-cpuabi7="armeabi-v7a"
-cpuabi8="arm64-v8a"
-cpuabix86="x86"
-cpuabix86_64="x86_64"
 
 declare COUNTER=""
 declare bin=""
-declare dfl="" # Used for development 
+declare commandif="$(command -v getprop)" ||:
+declare cpuabi="$(getprop ro.product.cpu.abi 2>/dev/null)" ||:
+declare cpuabi5="armeabi"
+declare cpuabi7="armeabi-v7a"
+declare cpuabi8="arm64-v8a"
+declare cpuabix86="x86"
+declare cpuabix86_64="x86_64"
+declare dfl=/gen # Used for development. 
 declare dm=""
-declare dmverbose="-q" # Use "-v" for verbose download manager output;  for verbose output from throughout runtime, change in `knownconfigurations.sh` also.  
+declare dmverbose="-q" # Use "-v" for verbose download manager output;  for verbose output throughout runtime, change in `knownconfigurations.sh` also, or in `setupTermuxArchConfigs.sh` if using `setupTermuxArch.sh manual`. 
 declare	ed=""
 declare -g installdir=""
 declare -g kid="0"
+declare	lc=""
 declare opt=""
 declare rootdir=""
 declare spaceMessage=""
 declare stim="$(date +%s)"
 declare stime="${stim:0:4}"
 declare usrspace=""
+declare wdir="$PWD"
 
 
 trap finishe EXIT
@@ -707,8 +706,14 @@ setrootdir
 if [[ -z "${1:-}" ]];then
 	intro "$@" 
 	mainblock
-## [/pathToImage/system.tar.gz [installDirectory]]  Use path to image file; install directory argument is optional.  Leading backslash is manditory.
-elif [[ "${args:0:1}" = "/" ]] || [[ "${args:0:1}" = "." ]] || [[ "${args:0:1}" = "$" ]] ;then
+## [./path/system.tar.gz [installDirectory]]  Use path to system image file; install directory argument is optional; Under development... 
+elif [[ "${args:0:1}" = "." ]] ;then
+	lc="1"
+	arg2dir "$@"  
+	intro 
+	loadimage "$@"
+## [/path/system.tar.gz [installDirectory]]  Use absolute path to system image file; install directory argument is optional. 
+elif [[ "${args:0:1}" = "/" ]];then
 	arg2dir "$@"  
 	intro 
 	loadimage "$@"
