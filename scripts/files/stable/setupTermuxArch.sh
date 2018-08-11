@@ -656,6 +656,7 @@ wgetif() {
 
 
 declare COUNTER=""
+declare -a args="$@"
 declare bin=""
 declare commandif="$(command -v getprop)" ||:
 declare cpuabi="$(getprop ro.product.cpu.abi 2>/dev/null)" ||:
@@ -677,7 +678,7 @@ declare spaceMessage=""
 declare stim="$(date +%s)"
 declare stime="${stim:0:4}"
 declare usrspace=""
-declare wdir="$PWD"
+declare idir="$PWD"
 
 
 trap finishe EXIT
@@ -688,12 +689,6 @@ trap finishs INT TERM
 if [[ "$commandif" = "" ]];then
 	echo Run \`setupTermuxArch.sh\` from the Android system in Termux.
 	exit
-fi
-
-if [[ -z "${1:-}" ]];then
-	args=""
-else
-	declare -a args="$@"
 fi
 
 nameinstalldir 

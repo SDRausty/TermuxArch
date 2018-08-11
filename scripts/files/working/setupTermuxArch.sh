@@ -8,7 +8,7 @@ IFS=$'\n\t'
 set -Eeuo pipefail 
 shopt -s nullglob globstar
 unset LD_PRELOAD
-versionid="gen.v1.6 id504939065"
+versionid="v1.6"
 ## Preliminary Functions #######################################################
 
 arg2dir() { 

@@ -91,11 +91,11 @@ copyimage() {
 	cfile="${1##/*/}" 
  	file="$cfile" 
 	if [[ "$lc" = "" ]];then
-		cp "$cfile".md5  "$installdir" & spinner "Copying ${cfile}.md5" "in Progress" ||:
-		cp "$cfile" "$installdir" & spinner "Copying $cfile" "in Progress" ||:
-	elif [[ "$lc" = "1" ]];then
 		cp "$1".md5  "$installdir" & spinner "Copying ${cfile}.md5" "in Progress" ||:
 		cp "$1" "$installdir" & spinner "Copying $cfile" "in Progress" ||:
+	elif [[ "$lc" = "1" ]];then
+		cp "$idir/$cfile".md5  "$installdir" & spinner "Copying ${cfile}.md5" "in Progress" ||:
+		cp "$idir/$cfile" "$installdir" & spinner "Copying $cfile" "in Progress" ||:
 	fi
 }
 
@@ -116,7 +116,7 @@ loadimage() {
 	wakeunlock 
 	printfooter
 	"$installdir/$startbin" ||:
-	$startbin help
+	"$startbin" help
 	printfooter2
 }
 
@@ -188,7 +188,7 @@ refreshsys() {
 	printfooter 
 	printf "\\a"
 	"$installdir/$startbin" ||:
-	$startbin help
+	"$startbin" help
 	printfooter2
 }
 
