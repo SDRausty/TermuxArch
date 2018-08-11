@@ -8,7 +8,7 @@ IFS=$'\n\t'
 set -Eeuo pipefail 
 shopt -s nullglob globstar
 unset LD_PRELOAD
-versionid="gen.v1.6 id315927753"
+versionid="gen.v1.6 id504939065"
 ## Preliminary Functions #######################################################
 
 arg2dir() { 
@@ -656,6 +656,7 @@ wgetif() {
 
 
 declare COUNTER=""
+declare -a args="$@"
 declare bin=""
 declare commandif="$(command -v getprop)" ||:
 declare cpuabi="$(getprop ro.product.cpu.abi 2>/dev/null)" ||:
@@ -688,12 +689,6 @@ trap finishs INT TERM
 if [[ "$commandif" = "" ]];then
 	echo Run \`setupTermuxArch.sh\` from the Android system in Termux.
 	exit
-fi
-
-if [[ -z "${1:-}" ]];then
-	args=""
-else
-	declare -a args="$@"
 fi
 
 nameinstalldir 
