@@ -8,7 +8,8 @@
 spinner() { # Based on https://github.com/ringohub/sh-spinner
  	printf "\\e[?25l"
 #  	SPINNER="⠋⠙⠹⠸⠼⠴⠦⠧⠇⠏"
- 	SPINNER="🕛🕧🕐🕜🕑🕝🕓🕟🕔🕠🕕🕡🕖🕢🕗🕣🕘🕤🕙🕚🕦"
+#  	SPINNER="🕛🕧🕐🕜🕑🕝🕓🕟🕔🕠🕕🕡🕖🕢🕗🕣🕘🕤🕙🕚🕦"
+	SPINNER="🕛🕐🕑🕓🕔🕕🕖🕗🕘🕙🕚"
 	task="$1"
 	msg="$2"
 	while :; do
