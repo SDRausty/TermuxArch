@@ -89,7 +89,7 @@ systeminfo () {
 
 copyimage() { 
 	cfile="${1##/*/}" 
-# 	file="$cfile" 
+ 	file="$cfile" 
 	if [[ "$lc" = "" ]];then
 		cp "$cfile".md5  "$installdir" & spinner "Copying ${cfile}.md5" "in Progress" ||:
 		cp "$cfile" "$installdir" & spinner "Copying $cfile" "in Progress" ||:
