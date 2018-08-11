@@ -9,6 +9,7 @@ set -Eeuo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
 versionid="v1.6"
+## Preliminary Functions #######################################################
 
 arg2dir() { 
 	arg2="${@:2:1}"
@@ -666,21 +667,19 @@ cpuabix86_64="x86_64"
 
 declare COUNTER=""
 declare bin=""
+declare dfl=/gen # Used for development ########################################
 declare dm=""
+declare dmverbose="-q" # Use "-v" for verbose download manager output;  for verbose output from throughout runtime, change in `knownconfigurations.sh` also.  
 declare	ed=""
 declare -g installdir=""
 declare -g kid="0"
 declare opt=""
 declare rootdir=""
 declare spaceMessage=""
+declare stim="$(date +%s)"
+declare stime="${stim:0:4}"
 declare usrspace=""
 
-dfl=/gen # Used for development ################################################
-dmverbose="-q" # Use "-v" for verbose download manager output;  for verbose\
-#+ output from throughout runtime, change in `knownconfigurations.sh` also.  
-
-stim="$(date +%s)"
-stime="${stim:0:4}"
 
 trap finishe EXIT
 trap finisher ERR
