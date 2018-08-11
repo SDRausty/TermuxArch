@@ -8,8 +8,7 @@ IFS=$'\n\t'
 set -Eeuo pipefail 
 shopt -s nullglob globstar
 unset LD_PRELOAD
-versionid="gen.v1.6 id822192484832"
-
+versionid="gen.v1.6 id739037882164"
 ## Preliminary Functions #######################################################
 
 arg2dir() { 
@@ -652,38 +651,31 @@ wgetif() {
 }
 
 ## Important Information #######################################################
-## User configurable variables such as mirrors and download manager options are\
-#+ in `setupTermuxArchConfigs.sh`.  Creating this file from\
-#+ `kownconfigurations.sh` in the working directory is simple, use\
-#+ `setupTermuxArch.sh manual` to create, edit and run\
-#+ `setupTermuxArchConfigs.sh`; See `setupTermuxArch.sh help` for information.  
+#  User configurable variables such as mirrors and download manager options are in `setupTermuxArchConfigs.sh`.  Creating this file from `kownconfigurations.sh` in the working directory is simple, use `setupTermuxArch.sh manual` to create, edit and run `setupTermuxArchConfigs.sh`; See `setupTermuxArch.sh help` for information.  
 
-commandif="$(command -v getprop)" ||:
-cpuabi="$(getprop ro.product.cpu.abi 2>/dev/null)" ||:
-cpuabi5="armeabi"
-cpuabi7="armeabi-v7a"
-cpuabi8="arm64-v8a"
-cpuabix86="x86"
-cpuabix86_64="x86_64"
 
 declare COUNTER=""
 declare bin=""
-dfl=/gen # Used for development ################################################
+declare commandif="$(command -v getprop)" ||:
+declare cpuabi="$(getprop ro.product.cpu.abi 2>/dev/null)" ||:
+declare cpuabi5="armeabi"
+declare cpuabi7="armeabi-v7a"
+declare cpuabi8="arm64-v8a"
+declare cpuabix86="x86"
+declare cpuabix86_64="x86_64"
+declare dfl=/gen # Used for development. 
 declare dm=""
+declare dmverbose="-q" # Use "-v" for verbose download manager output;  for verbose output throughout runtime, change in `knownconfigurations.sh` also, or in `setupTermuxArchConfigs.sh` if using `setupTermuxArch.sh manual`. 
 declare	ed=""
 declare -g installdir=""
 declare -g kid="0"
 declare opt=""
 declare rootdir=""
 declare spaceMessage=""
+declare stim="$(date +%s)"
+declare stime="${stim:0:4}"
 declare usrspace=""
 
-dfl=/gen # Used for development ################################################
-dmverbose="-q" # Use "-v" for verbose download manager output;  for verbose\
-#+ output from throughout runtime, change in `knownconfigurations.sh` also.  
-
-stim="$(date +%s)"
-stime="${stim:0:4}"
 
 trap finishe EXIT
 trap finisher ERR
