@@ -9,8 +9,7 @@ set -Eeuo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
 
-## Functions ###################################################################
- 
+## Preliminary Functions #######################################################
 arg2dir() { 
 	arg2="${@:2:1}"
 	if [[ "$arg2" = "" ]] ;then
@@ -650,8 +649,13 @@ wgetif() {
 	fi
 }
 
-## Important ###################################################################
-# User configurable variables such as mirrors and download manager options are in `setupTermuxArchConfigs.sh`.  Creating this file from `kownconfigurations.sh` in the working directory is simple, use `setupTermuxArch.sh manual` to create, edit and run `setupTermuxArchConfigs.sh`; `bash setupTermuxArch.sh help` has more information.  
+## Important Information #######################################################
+## User configurable variables such as mirrors and download manager options \
+#+ are in `setupTermuxArchConfigs.sh`.  Creating this file from	\
+#+ `kownconfigurations.sh` in the working directory is simple, use \
+#+ `setupTermuxArch.sh manual` to create, edit and run \
+#+ `setupTermuxArchConfigs.sh`; See `bash setupTermuxArch.sh help` for more \
+#+ information.  
 
 commandif="$(command -v getprop)" ||:
 cpuabi="$(getprop ro.product.cpu.abi 2>/dev/null)" ||:
@@ -683,7 +687,7 @@ trap finishe EXIT
 trap finisher ERR
 trap finisher QUIT 
 trap finishs INT TERM 
-versionid="gen.v1.6 id267843448814"
+versionid="gen.v1.6 id142187644935"
 
 if [[ "$commandif" = "" ]];then
 	echo Run \`setupTermuxArch.sh\` from the Android system in Termux.
@@ -700,7 +704,7 @@ nameinstalldir
 namestartarch  
 setrootdir  
 
-################################################################################
+## Available Arguments #########################################################
 # []  Run default Arch Linux install.  `bash setupTermuxArch.sh help` has more information.  All options can be abbreviated to the first letter or two. 
 if [[ -z "${1:-}" ]];then
 	intro "$@" 
@@ -763,5 +767,4 @@ elif [[ "$1" = [Rr][Ee]* ]] || [[ "$1" = -[Rr][Ee]* ]] || [[ "$1" = --[Rr][Ee]* 
 else
 	printusage
 fi
-
-# EOF ##########################################################################
+## EOF #########################################################################
