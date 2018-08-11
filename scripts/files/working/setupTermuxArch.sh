@@ -5,12 +5,12 @@
 # https://sdrausty.github.io/TermuxArch/README for TermuxArch information. 
 ################################################################################
 IFS=$'\n\t'
-set -Eeuo pipefail 
+set -Eeuo errexit pipefail 
 shopt -s nullglob globstar
 unset LD_PRELOAD
-versionid="v1.6"
-## Preliminary Functions #######################################################
+versionid="gen.v1.6 id887983630"
 
+## Initial Functions ###########################################################
 arg2dir() { 
 	arg2="${@:2:1}"
 	if [[ "$arg2" = "" ]] ;then
