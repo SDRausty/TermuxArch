@@ -7,12 +7,8 @@
 IFS=$'\n\t'
 set -Eeuo pipefail 
 shopt -s nullglob globstar
-trap finishe EXIT
-trap finisher ERR
-trap finisher QUIT 
-trap finishs INT TERM 
 unset LD_PRELOAD
-versionid="gen.v1.6 id588740047164"
+versionid="gen.v1.6 id822192484832"
 
 ## Preliminary Functions #######################################################
 
@@ -672,7 +668,7 @@ cpuabix86_64="x86_64"
 
 declare COUNTER=""
 declare bin=""
-declare dfl=""
+dfl=/gen # Used for development ################################################
 declare dm=""
 declare	ed=""
 declare -g installdir=""
@@ -688,6 +684,11 @@ dmverbose="-q" # Use "-v" for verbose download manager output;  for verbose\
 
 stim="$(date +%s)"
 stime="${stim:0:4}"
+
+trap finishe EXIT
+trap finisher ERR
+trap finisher QUIT 
+trap finishs INT TERM 
 
 if [[ "$commandif" = "" ]];then
 	echo Run \`setupTermuxArch.sh\` from the Android system in Termux.
