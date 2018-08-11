@@ -655,8 +655,7 @@ wgetif() {
 #+ in `setupTermuxArchConfigs.sh`.  Creating this file from\
 #+ `kownconfigurations.sh` in the working directory is simple, use\
 #+ `setupTermuxArch.sh manual` to create, edit and run\
-#+ `setupTermuxArchConfigs.sh`; See `bash setupTermuxArch.sh help` for more\
-#+ information.  
+#+ `setupTermuxArchConfigs.sh`; See `setupTermuxArch.sh help` for information.  
 
 commandif="$(command -v getprop)" ||:
 cpuabi="$(getprop ro.product.cpu.abi 2>/dev/null)" ||:
@@ -678,7 +677,6 @@ declare rootdir=""
 declare spaceMessage=""
 declare usrspace=""
 
-################################################################################
 # dfl=/gen # Used for development ##############################################
 dmverbose="-q" # Use "-v" for verbose download manager output;  for verbose\
 #+ output from throughout runtime, change in `knownconfigurations.sh` also.  
