@@ -686,7 +686,7 @@ trap finishe EXIT
 trap finisher ERR
 trap finisher QUIT 
 trap finishs INT TERM 
-versionid="v1.6"
+versionid="gen.v1.6 id079030438833"
 
 if [[ "$commandif" = "" ]];then
 	echo Run \`setupTermuxArch.sh\` from the Android system in Termux.
@@ -710,7 +710,7 @@ if [[ -z "${1:-}" ]];then
 	intro "$@" 
 	mainblock
 ## [/pathToImage/system.tar.gz [installDirectory]]  Use path to image file; install directory argument is optional.  Leading backslash is manditory.
-elif [[ "${args:0:1}" = "/" ]] ;then
+elif [[ "${args:0:1}" = "/" ]] || [[ "${args:0:1}" = "." ]] || [[ "${args:0:1}" = "$" ]] ;then
 	arg2dir "$@"  
 	intro 
 	loadimage "$@"
