@@ -88,13 +88,13 @@ systeminfo () {
 }
 
 copyimage() { 
-	file="${1##/*/}" 
+	cfile="${1##/*/}" 
 	if [[ "$lc" = "" ]];then
-	cp "$1".md5  "$installdir" & spinner "Copying ${file}.md5" "in Progress" ||:
-	cp "$1" "$installdir" & spinner "Copying $file" "in Progress" ||:
+	cp "$cfile".md5  "$installdir" & spinner "Copying ${file}.md5" "in Progress" ||:
+	cp "$cfile" "$installdir" & spinner "Copying $file" "in Progress" ||:
 	elif [[ "$lc" != "" ]];then
-	cp "$wdir"/"$1".md5  "$installdir" & spinner "Copying ${file}.md5" "in Progress" ||:
-	cp "$wdir"/"$1" "$installdir" & spinner "Copying $file" "in Progress" ||:
+	cp "$wdir"/"$cfile".md5  "$installdir" & spinner "Copying ${file}.md5" "in Progress" ||:
+	cp "$wdir"/"$cfile" "$installdir" & spinner "Copying $file" "in Progress" ||:
 	fi
 }
 
