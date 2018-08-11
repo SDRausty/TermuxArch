@@ -667,7 +667,7 @@ cpuabix86_64="x86_64"
 
 declare COUNTER=""
 declare bin=""
-declare dfl="" # Used for development ########################################
+declare dfl="" # Used for development 
 declare dm=""
 declare dmverbose="-q" # Use "-v" for verbose download manager output;  for verbose output from throughout runtime, change in `knownconfigurations.sh` also.  
 declare	ed=""
