@@ -8,7 +8,7 @@ IFS=$'\n\t'
 set -Eeuo pipefail 
 shopt -s nullglob globstar
 unset LD_PRELOAD
-versionid="gen.v1.6 id811268705"
+versionid="gen.v1.6 id864184757"
 ## Preliminary Functions #######################################################
 
 arg2dir() { 
@@ -109,6 +109,7 @@ chkself() {
 			printf "\\e[0;32msetupTermuxArch.sh: \\e[1;32mUPDATED\\n\\e[0;32mTermuxArch: \\e[1;32mRESTARTED\\n\\e[0m"
 			rm -f setupTermuxArch.tmp
 			rmdsc 
+			echo echo "$@"
 			. setupTermuxArch.sh "$@"
 		fi
 		rm -f setupTermuxArch.tmp
