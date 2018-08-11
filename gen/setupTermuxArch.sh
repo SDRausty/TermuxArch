@@ -8,7 +8,7 @@ IFS=$'\n\t'
 set -Eeuo pipefail 
 shopt -s nullglob globstar
 unset LD_PRELOAD
-versionid="gen.v1.6 id011227245"
+versionid="gen.v1.6 id315927753"
 ## Preliminary Functions #######################################################
 
 arg2dir() { 
@@ -677,7 +677,7 @@ declare spaceMessage=""
 declare stim="$(date +%s)"
 declare stime="${stim:0:4}"
 declare usrspace=""
-declare wdir="$PWD"
+declare idir="$PWD"
 
 
 trap finishe EXIT
