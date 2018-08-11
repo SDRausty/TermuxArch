@@ -10,8 +10,6 @@ shopt -s nullglob globstar
 unset LD_PRELOAD
 versionid="v1.6"
 
-## Preliminary Functions #######################################################
-
 arg2dir() { 
 	arg2="${@:2:1}"
 	if [[ "$arg2" = "" ]] ;then
