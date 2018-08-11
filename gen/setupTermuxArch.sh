@@ -74,8 +74,8 @@ chk() {
 		else 
 			ldconf
 		fi
-		. espritfunctions.sh
 		. archlinuxconfig.sh
+		. espritfunctions.sh
 		. getimagefunctions.sh
 		. necessaryfunctions.sh
 		. printoutstatements.sh
@@ -109,7 +109,7 @@ chkself() {
 			printf "\\e[0;32msetupTermuxArch.sh: \\e[1;32mUPDATED\\n\\e[0;32mTermuxArch: \\e[1;32mRESTARTED\\n\\e[0m"
 			rm -f setupTermuxArch.tmp
 			rmdsc 
-			. setupTermuxArch.sh "$args"
+			. setupTermuxArch.sh "$@"
 		fi
 		rm -f setupTermuxArch.tmp
 	fi
@@ -152,9 +152,9 @@ depends() {
 
 dependsblock() {
 	depends 
-	if [[ -f espritfunctions.sh ]] && [[ -f archlinuxconfig.sh ]] && [[ -f getimagefunctions.sh ]] && [[ -f knownconfigurations.sh ]] && [[ -f necessaryfunctions.sh ]] && [[ -f printoutstatements.sh ]] && [[ -f setupTermuxArch.sh ]] && [[ -f systemmaintenance.sh ]];then
-		. espritfunctions.sh
+	if [[ -f archlinuxconfig.sh ]] && [[ -f espritfunctions.sh ]] && [[ -f getimagefunctions.sh ]] && [[ -f knownconfigurations.sh ]] && [[ -f necessaryfunctions.sh ]] && [[ -f printoutstatements.sh ]] && [[ -f setupTermuxArch.sh ]] && [[ -f systemmaintenance.sh ]];then
 		. archlinuxconfig.sh
+		. espritfunctions.sh
 		. getimagefunctions.sh
 		. knownconfigurations.sh
 		. necessaryfunctions.sh
@@ -503,8 +503,8 @@ rmbloomq() {
 }
 
 rmdsc() {
-	rm espritfunctions.sh
 	rm archlinuxconfig.sh
+	rm espritfunctions.sh
 	rm getimagefunctions.sh
 	rm knownconfigurations.sh
 	rm necessaryfunctions.sh
@@ -683,7 +683,7 @@ trap finishe EXIT
 trap finisher ERR
 trap finisher QUIT 
 trap finishs INT TERM 
-versionid="gen.v1.6 id858651084"
+versionid="gen.v1.6 id444222739948"
 
 if [[ "$commandif" = "" ]];then
 	echo Run \`setupTermuxArch.sh\` from the Android system in Termux.
