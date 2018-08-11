@@ -94,10 +94,8 @@ loadimage() {
 	wakelock
 	makeinstalldir 
 	file="${1##/*/}" 
-# 	printf "%s %s\\n" "Copying" "${file}.md5"
 	cp "$1".md5  "$installdir" & spinner "Copying ${file}.md5" "in Progress" ||:
-# 	printf "%s %s\\n" "Copying" "$file"
-	cp "$1" "$installdir" & spinner "Copying ${file}" "in Progress" ||:
+	cp "$1" "$installdir" & spinner "Copying $file" "in Progress" ||:
 	md5check 
 	printcu 
 	rm -f "$installdir"/*.tar.gz "$installdir"/*.tar.gz.md5
