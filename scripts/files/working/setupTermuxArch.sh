@@ -8,7 +8,7 @@ IFS=$'\n\t'
 set -Eeuo pipefail 
 shopt -s nullglob globstar
 unset LD_PRELOAD
-versionid="gen.v1.6 id071518751"
+versionid="gen.v1.6 id791314048"
 ## Preliminary Functions #######################################################
 
 arg2dir() { 
@@ -705,12 +705,12 @@ setrootdir
 if [[ -z "${1:-}" ]];then
 	intro "$@" 
 	mainblock
-## [/pathToImage/system.tar.gz [installDirectory]]  Use path to image file; install directory argument is optional.  Leading backslash is manditory.
-elif [[ "${args:0:1}" = "/" ]] || [[ "${args:0:1}" = "$" ]] ;then
+## [/pathToImage/system.tar.gz [installDirectory]]  Use path to image file; install directory argument is optional. 
+elif [[ "${args:0:1}" = "/" ]];then
 	arg2dir "$@"  
 	intro 
 	loadimage "$@"
-elif[[ "${args:0:1}" = "." ]];then
+elif [[ "${args:0:1}" = "." ]] || [[ "${args:0:1}" = "$" ]];then
 	lc="$wdir"
 	arg2dir "$@"  
 	intro 
