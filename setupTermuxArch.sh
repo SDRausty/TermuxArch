@@ -651,11 +651,11 @@ wgetif() {
 }
 
 ## Important Information #######################################################
-## User configurable variables such as mirrors and download manager options \
-#+ are in `setupTermuxArchConfigs.sh`.  Creating this file from	\
-#+ `kownconfigurations.sh` in the working directory is simple, use \
-#+ `setupTermuxArch.sh manual` to create, edit and run \
-#+ `setupTermuxArchConfigs.sh`; See `bash setupTermuxArch.sh help` for more \
+## User configurable variables such as mirrors and download manager options are\
+#+ in `setupTermuxArchConfigs.sh`.  Creating this file from\
+#+ `kownconfigurations.sh` in the working directory is simple, use\
+#+ `setupTermuxArch.sh manual` to create, edit and run\
+#+ `setupTermuxArchConfigs.sh`; See `bash setupTermuxArch.sh help` for more\
 #+ information.  
 
 commandif="$(command -v getprop)" ||:
@@ -680,7 +680,7 @@ declare usrspace=""
 
 ################################################################################
 # dfl=/gen # Used for development ##############################################
-dmverbose="-q" # Use "-v" for verbose download manager output;  for verbose \
+dmverbose="-q" # Use "-v" for verbose download manager output;  for verbose\
 #+ output from throughout runtime, change in `knownconfigurations.sh` also.  
 stim="$(date +%s)"
 stime="${stim:0:4}"
@@ -706,7 +706,8 @@ namestartarch
 setrootdir  
 
 ## Available Arguments #########################################################
-## []  Run default Arch Linux install.  `bash setupTermuxArch.sh help` has more information.  All options can be abbreviated to the first letter or two. 
+## []  Run default Arch Linux install.  `bash setupTermuxArch.sh help` has more\
+#+ information.  All options can be abbreviated to the first letter or two. 
 if [[ -z "${1:-}" ]];then
 	intro "$@" 
 	mainblock
