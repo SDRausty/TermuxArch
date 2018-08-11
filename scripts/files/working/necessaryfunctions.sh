@@ -127,7 +127,7 @@ mainblock() {
 	wakeunlock 
 	printfooter
 	"$installdir/$startbin" ||:
-	$startbin help
+	"$startbin" help
 	printfooter2
 }
 
@@ -310,9 +310,9 @@ preproot() {
 			#cd $HOME
 			#proot --link2symlink -0 $PREFIX/bin/applets/tar xf $installdir$file 
 			#cd $installdir
-			proot --link2symlink -0 bsdtar -xpf "$file" --strip-components 1 
+			proot --link2symlink -0 bsdtar -xpf "$file" --strip-components 1  ||: 
 		else
-			proot --link2symlink -0 "$PREFIX"/bin/applets/tar xf "$file" 
+			proot --link2symlink -0 "$PREFIX"/bin/applets/tar xf "$file" ||: 
 		fi
 	else
 		printf "\\n\\n\\e[1;31mDownload Exception!  Execute \\e[0;32mbash setupTermuxArch.sh\\e[1;31m again…\\n"'\033]2;  Execute `bash setupTermuxArch.sh` again …\007'
