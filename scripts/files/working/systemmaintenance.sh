@@ -104,7 +104,7 @@ loadimage() {
  	spaceinfo
 	wakelock
 	makeinstalldir 
-	copyimage
+	copyimage "$@"
 	md5check 
 	printcu 
 	rm -f "$installdir"/*.tar.gz "$installdir"/*.tar.gz.md5
