@@ -7,7 +7,7 @@
 IFS=$'\n\t'
 set -Eeuo pipefail
 unset LD_PRELOAD
-versionid="gen.v1.6 id057732784"
+versionid="gen.v1.6 id367126015"
 ## Preliminary Functions #######################################################
 arg2dir() { 
 	arg2="${@:2:1}"
@@ -282,20 +282,17 @@ finishe() { # on exit
 }
 
 finisher() { # on script signal
- 	echo $? 
-	printf "\\e[?25h\\e[1;7;38;5;0mTermuxArch warning:  Script signal generated!\\e[0m\\n"
+	printf "\\e[?25h\\e[1;7;38;5;0mTermuxArch warning:  Script signal $? generated!\\e[0m\\n"
  	exit 
 }
 
 finishs() { # on signal
- 	echo $? 
-	printf "\\e[?25h\\e[1;7;38;5;0mTermuxArch warning:  Signal received!\\e[0m\\n"
+	printf "\\e[?25h\\e[1;7;38;5;0mTermuxArch warning:  Signal $? received!\\e[0m\\n"
  	exit 
 }
 
 finishq() { # on quit
- 	echo $? 
-	printf "\\e[?25h\\e[1;7;38;5;0mTermuxArch warning:  Quit signal received!\\e[0m\\n"
+	printf "\\e[?25h\\e[1;7;38;5;0mTermuxArch warning:  Quit signal $? received!\\e[0m\\n"
  	exit 
 }
 
