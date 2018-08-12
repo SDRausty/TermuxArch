@@ -6,7 +6,7 @@
 ################################################################################
 # shopt -s nullglob globstar
 IFS=$'\n\t'
-set -Eeuxo pipefail
+set -e
 unset LD_PRELOAD
 versionid="v1.6"
 ## Preliminary Functions #######################################################
