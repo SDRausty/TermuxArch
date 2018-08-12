@@ -6,11 +6,10 @@
 ################################################################################
 IFS=$'\n\t'
 set -Eeuo pipefail 
-shopt -s nullglob globstar
+# shopt -s nullglob globstar
 unset LD_PRELOAD
 versionid="v1.6"
 ## Preliminary Functions #######################################################
-
 arg2dir() { 
 	arg2="${@:2:1}"
 	if [[ "$arg2" = "" ]] ;then
@@ -653,8 +652,6 @@ wgetif() {
 
 ## Important Information #######################################################
 #  User configurable variables such as mirrors and download manager options are in `setupTermuxArchConfigs.sh`.  Creating this file from `kownconfigurations.sh` in the working directory is simple, use `setupTermuxArch.sh manual` to create, edit and run `setupTermuxArchConfigs.sh`; See `setupTermuxArch.sh help` for information.  
-
-
 declare COUNTER=""
 declare -a args="$@"
 declare bin=""
@@ -665,12 +662,12 @@ declare cpuabi7="armeabi-v7a"
 declare cpuabi8="arm64-v8a"
 declare cpuabix86="x86"
 declare cpuabix86_64="x86_64"
-declare dfl=/gen # Used for development. 
+declare dfl=/gen # Used for development 
 declare dm=""
 declare dmverbose="-q" # Use "-v" for verbose download manager output;  for verbose output throughout runtime, change in `knownconfigurations.sh` also, or in `setupTermuxArchConfigs.sh` if using `setupTermuxArch.sh manual`. 
 declare	ed=""
 declare -g installdir=""
-declare -g kid="0"
+declare kid=""
 declare	lc=""
 declare opt=""
 declare rootdir=""
@@ -765,4 +762,4 @@ elif [[ "$1" = [Rr][Ee]* ]] || [[ "$1" = -[Rr][Ee]* ]] || [[ "$1" = --[Rr][Ee]* 
 else
 	printusage
 fi
-## EOF #########################################################################
+# EOF
