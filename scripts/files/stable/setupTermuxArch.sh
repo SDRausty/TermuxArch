@@ -5,7 +5,7 @@
 # https://sdrausty.github.io/TermuxArch/README for TermuxArch information. 
 ################################################################################
 IFS=$'\n\t'
-set -e
+set -Eeuo pipefail
 unset LD_PRELOAD
 versionid="v1.6"
 ## Preliminary Functions #######################################################
@@ -677,8 +677,7 @@ declare idir="$PWD"
 
 
 trap finishe EXIT
-# trap finisher ERR
-# trap finisher QUIT 
+trap finisher ERR QUIT 
 trap finishs INT TERM 
 
 if [[ "$commandif" = "" ]];then
