@@ -4,7 +4,6 @@
 # https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.  
 # https://sdrausty.github.io/TermuxArch/README for TermuxArch information. 
 ################################################################################
-# set -Eeuo pipefail 
 # shopt -s nullglob globstar
 IFS=$'\n\t'
 set -e
