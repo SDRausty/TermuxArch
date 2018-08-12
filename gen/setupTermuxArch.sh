@@ -5,9 +5,9 @@
 # https://sdrausty.github.io/TermuxArch/README for TermuxArch information. 
 ################################################################################
 IFS=$'\n\t'
-set -Eeuxo pipefail
+set -Eeuo pipefail
 unset LD_PRELOAD
-versionid="gen.v1.6 id112744983998"
+versionid="gen.v1.6 id104698969425"
 ## Preliminary Functions #######################################################
 arg2dir() { 
 	arg2="${@:2:1}"
@@ -77,7 +77,7 @@ chk() {
 		. getimagefunctions.sh
 		. necessaryfunctions.sh
 		. printoutstatements.sh
-		. systemmaintenance.sh
+		. maintenanceroutines.sh
 		if [[ "$opt" = bloom ]];then
 			rm termuxarchchecksum.sha512 
 		else 
@@ -150,14 +150,14 @@ depends() {
 
 dependsblock() {
 	depends 
-	if [[ -f archlinuxconfig.sh ]] && [[ -f espritfunctions.sh ]] && [[ -f getimagefunctions.sh ]] && [[ -f knownconfigurations.sh ]] && [[ -f necessaryfunctions.sh ]] && [[ -f printoutstatements.sh ]] && [[ -f setupTermuxArch.sh ]] && [[ -f systemmaintenance.sh ]];then
+	if [[ -f archlinuxconfig.sh ]] && [[ -f espritfunctions.sh ]] && [[ -f getimagefunctions.sh ]] && [[ -f knownconfigurations.sh ]] && [[ -f necessaryfunctions.sh ]] && [[ -f printoutstatements.sh ]] && [[ -f setupTermuxArch.sh ]] && [[ -f maintenanceroutines.sh ]];then
 		. archlinuxconfig.sh
 		. espritfunctions.sh
 		. getimagefunctions.sh
 		. knownconfigurations.sh
 		. necessaryfunctions.sh
 		. printoutstatements.sh
-		. systemmaintenance.sh
+		. maintenanceroutines.sh
 	else
 		dwnl
 		if [[ -f "setupTermuxArch.sh" ]];then
@@ -173,6 +173,7 @@ dependbp() {
 		bsdtarif 
 		prootif 
 	else
+		bsdtarif 
 		prootif 
 	fi
 }
@@ -281,19 +282,21 @@ finishe() { # on exit
 }
 
 finisher() { # on script signal
-# 	printf "\\n\\e[?25h\\e[0;48;5;124mTermuxArch warning.  Signal generated!\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b"
-# 	sleep 0.2
  	echo $? 
-	printf "\\e[?25h\\e[1;7;38;5;0mTermuxArch warning.  Signal generated!\\e[0m\\n"
- 	echo $? 
- 	exit $? 
+	printf "\\e[?25h\\e[1;7;38;5;0mTermuxArch warning:  Script signal generated!\\e[0m\\n"
+ 	exit 
 }
 
 finishs() { # on signal
  	echo $? 
-	printf "\\e[?25h\\e[1;7;38;5;0mTermuxArch warning.  Signal received!\\e[0m\\n"
+	printf "\\e[?25h\\e[1;7;38;5;0mTermuxArch warning:  Signal received!\\e[0m\\n"
+ 	exit 
+}
+
+finishq() { # on quit
  	echo $? 
- 	exit $? 
+	printf "\\e[?25h\\e[1;7;38;5;0mTermuxArch warning:  Quit signal received!\\e[0m\\n"
+ 	exit 
 }
 
 intro() {
@@ -507,7 +510,7 @@ rmdsc() {
 	rm knownconfigurations.sh
 	rm necessaryfunctions.sh
 	rm printoutstatements.sh
-	rm systemmaintenance.sh
+	rm maintenanceroutines.sh
 	rm termuxarchchecksum.sha512 
 }
 
@@ -655,6 +658,7 @@ declare -a args="$@"
 declare bin=""
 declare commandif="$(command -v getprop)" ||:
 declare cpuabi="$(getprop ro.product.cpu.abi 2>/dev/null)" ||:
+declare syslocale="$(getprop persist.sys.locale 2>/dev/null)" ||:
 declare cpuabi5="armeabi"
 declare cpuabi7="armeabi-v7a"
 declare cpuabi8="arm64-v8a"
@@ -667,6 +671,7 @@ declare	ed=""
 declare -g installdir=""
 declare kid=""
 declare	lc=""
+declare -g md5sumr=""
 declare opt=""
 declare rootdir=""
 declare spaceMessage=""
@@ -677,9 +682,9 @@ declare idir="$PWD"
 
 
 trap finishe EXIT
-# trap finisher ERR
-# trap finisher QUIT 
+trap finisher ERR 
 trap finishs INT TERM 
+trap finishq QUIT 
 
 if [[ "$commandif" = "" ]];then
 	printf "\\nWarning: Run \`setupTermuxArch.sh\` from the OS system in Termux, i.e. Amazon Fire, Android and Chromebook.\\n"

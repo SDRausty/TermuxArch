@@ -7,7 +7,7 @@
 IFS=$'\n\t'
 set -Eeuo pipefail
 unset LD_PRELOAD
-versionid="v1.6"
+versionid="gen.v1.6 id104698969425"
 ## Preliminary Functions #######################################################
 arg2dir() { 
 	arg2="${@:2:1}"
@@ -671,6 +671,7 @@ declare	ed=""
 declare -g installdir=""
 declare kid=""
 declare	lc=""
+declare -g md5sumr=""
 declare opt=""
 declare rootdir=""
 declare spaceMessage=""

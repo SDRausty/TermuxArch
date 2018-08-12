@@ -101,13 +101,15 @@ copyimage() {
 }
 
 loadimage() { 
+	set +Ee
 	namestartarch 
 	nameinstalldir
  	spaceinfo
 	wakelock
 	makeinstalldir 
 	copyimage "$@"
-	md5check 
+	printmd5check
+	md5check
 	printcu 
 	rm -f "$installdir"/*.tar.gz "$installdir"/*.tar.gz.md5
 	printdone 

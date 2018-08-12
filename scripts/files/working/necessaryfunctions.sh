@@ -265,9 +265,10 @@ makesystem() {
 	wakelock
 	makeinstalldir
 	callsystem
-	md5check 
+	printmd5check
+	md5check
 	printcu 
-	rm -f ./*.tar.gz ./*.tar.gz.md5
+	rm -f "$installdir"/*.tar.gz "$installdir"/*.tar.gz.md5
 	printdone 
 	makestartbin 
 	printconfigup 
@@ -275,7 +276,6 @@ makesystem() {
 }
 
 md5check() {
-	printmd5check
 	if "$PREFIX"/bin/applets/md5sum -c "$file".md5 1>/dev/null ; then
 		printmd5success
 		printf "\\e[0;32m"
@@ -286,8 +286,31 @@ md5check() {
 	fi
 }
 
+# md5check() {
+# 	if "$PREFIX"/bin/applets/md5sum -c "$file".md5 1>/dev/null ;then
+# 	 	declare -g md5sumr="true"
+# 	else
+# 		declare -g md5sumr="false"
+# 	fi
+# 	echo 1md5sumr
+# 	echo $md5sumr
+# }
+# 
+# md5do() {
+#  	md5check & spinner "Checking" "$file…"  
+# 	echo 2md5sumr
+# 	echo $md5sumr
+# 	if [[ "$md5sumr" = true ]] ;then
+# 		printmd5success
+# 		printf "\\e[0;32m"
+# 		preproot & spinner "Uncompressing" "$file…"  
+# 	else
+# 		rmarchrm 
+# 		printmd5error
+# 	fi
+# }
+
 preproot() {
-	set +e
 	if [[ "$(du "$installdir"/*z | awk {'print $1'})" -gt 112233 ]];then
 		if [[ "$cpuabi" = "$cpuabix86" ]] || [[ "$cpuabi" = "$cpuabix86_64" ]];then
 			proot --link2symlink -0 bsdtar -xpf "$file" --strip-components 1  
@@ -299,7 +322,6 @@ preproot() {
 		printf "\\n\\n\\e[1;31mDownload Exception!  Execute \\e[0;32mbash setupTermuxArch.sh\\e[1;31m again…\\n"'\033]2;  Execute `bash setupTermuxArch.sh` again …\007'
 		exit
 	fi
-	set -e
 }
 
 runfinishsetup() {
