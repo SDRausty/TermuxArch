@@ -279,7 +279,7 @@ md5check() {
 	if "$PREFIX"/bin/applets/md5sum -c "$file".md5 1>/dev/null ; then
 		printmd5success
 		printf "\\e[0;32m"
-		preproot ||: & spinner "Uncompressing" "$file…"  
+		preproot & spinner "Uncompressing" "$file…"  
 	else
 		rmarchrm 
 		printmd5error
@@ -289,12 +289,9 @@ md5check() {
 preproot() {
 	if [[ "$(du "$installdir"/*z | awk {'print $1'})" -gt 112233 ]];then
 		if [[ "$cpuabi" = "$cpuabix86" ]] || [[ "$cpuabi" = "$cpuabix86_64" ]];then
-			#cd $HOME
-			#proot --link2symlink -0 $PREFIX/bin/applets/tar xf $installdir$file 
-			#cd $installdir
-			proot --link2symlink -0 bsdtar -xpf "$file" --strip-components 1  ||: 
+			proot --link2symlink -0 bsdtar -xpf "$file" --strip-components 1  
 		else
-			proot --link2symlink -0 "$PREFIX"/bin/applets/tar xf "$file" ||: 
+			proot --link2symlink -0 "$PREFIX"/bin/applets/tar xf "$file" 
 		fi
 	else
 		printf "\\n\\n\\e[1;31mDownload Exception!  Execute \\e[0;32mbash setupTermuxArch.sh\\e[1;31m again…\\n"'\033]2;  Execute `bash setupTermuxArch.sh` again …\007'
