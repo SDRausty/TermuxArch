@@ -7,7 +7,7 @@
 IFS=$'\n\t'
 set -Eeuxo pipefail
 unset LD_PRELOAD
-versionid="gen.v1.6 id112744983998"
+versionid="v1.6"
 ## Preliminary Functions #######################################################
 arg2dir() { 
 	arg2="${@:2:1}"
