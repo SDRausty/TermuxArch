@@ -4,6 +4,7 @@
 # https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.  
 # https://sdrausty.github.io/TermuxArch/README has information about this project. 
 ################################################################################
+# shopt -s nullglob globstar
 # 	echo ----
 # 	echo $1
 # 	echo $@

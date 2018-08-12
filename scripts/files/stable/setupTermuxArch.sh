@@ -4,7 +4,6 @@
 # https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.  
 # https://sdrausty.github.io/TermuxArch/README for TermuxArch information. 
 ################################################################################
-# shopt -s nullglob globstar
 IFS=$'\n\t'
 set -e
 unset LD_PRELOAD
@@ -108,7 +107,6 @@ chkself() {
 			printf "\\e[0;32msetupTermuxArch.sh: \\e[1;32mUPDATED\\n\\e[0;32mTermuxArch: \\e[1;32mRESTARTED\\n\\e[0m"
 			rm -f setupTermuxArch.tmp
 			rmdsc 
-			echo echo "$@"
 			. setupTermuxArch.sh "$@"
 		fi
 		rm -f setupTermuxArch.tmp
@@ -286,16 +284,16 @@ finisher() { # on script signal
 	printf "\\n\\e[?25h\\e[0;48;5;124mTermuxArch warning.  Signal generated!\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b"
 	sleep 0.2
 	printf "\\e[?25h\\e[1;7;38;5;0mTermuxArch warning.  Signal generated!\\e[0m\\n"
- 	exit $? 
  	echo $? 
+ 	exit $? 
 }
 
 finishs() { # on signal
 	printf "\\n\\e[?25h\\e[0;48;5;124mTermuxArch warning.  Signal received!\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b"
 	sleep 0.2
 	printf "\\e[?25h\\e[1;7;38;5;0mTermuxArch warning.  Signal received!\\e[0m\\n"
- 	exit $? 
  	echo $? 
+ 	exit $? 
 }
 
 intro() {
@@ -371,7 +369,7 @@ nameinstalldir() {
 }
 
 namestartarch() {
-# 	echo ${@%/} removes trailing slash
+# 	${@%/} removes trailing slash
  	darch="$(echo "${rootdir%/}" |sed 's#//*#/#g')"
 	if [[ "$darch" = "/arch" ]];then
 		aarch=""
@@ -684,7 +682,7 @@ trap finishe EXIT
 trap finishs INT TERM 
 
 if [[ "$commandif" = "" ]];then
-	echo Run \`setupTermuxArch.sh\` from the Android system in Termux.
+	printf "\\nWarning: Run \`setupTermuxArch.sh\` from the OS system in Termux, i.e. Amazon Fire, Android and Chromebook.\\n"
 	exit
 fi
 
@@ -693,18 +691,17 @@ namestartarch
 setrootdir  
 
 ## Available Arguments #########################################################
-## []  Run default Arch Linux install.  `bash setupTermuxArch.sh help` has more\
-#+ information.  All options can be abbreviated to the first letter or two. 
+## []  Run default Arch Linux install.  `bash setupTermuxArch.sh help` has more information.  All options can be abbreviated to the first letter or two. 
 if [[ -z "${1:-}" ]];then
 	intro "$@" 
 	mainblock
-## [./path/system.tar.gz [installDirectory]]  Use path to system image file; install directory argument is optional; Under development... 
+## [./path/system.tar.gz [installdir]]  Use path to system image file; install directory argument is optional; Currently under development. 
 elif [[ "${args:0:1}" = "." ]] ;then
 	lc="1"
 	arg2dir "$@"  
 	intro 
 	loadimage "$@"
-## [/path/system.tar.gz [installDirectory]]  Use absolute path to system image file; install directory argument is optional. 
+## [/path/system.tar.gz [installdir]]  Use absolute path to system image file; install directory argument is optional. 
 elif [[ "${args:0:1}" = "/" ]];then
 	arg2dir "$@"  
 	intro 
