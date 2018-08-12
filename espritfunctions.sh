@@ -43,3 +43,5 @@ spinner() { # Based on https://github.com/ringohub/sh-spinner
 	done
  	printf "\\e[?25h"
 }
+
+# EOF

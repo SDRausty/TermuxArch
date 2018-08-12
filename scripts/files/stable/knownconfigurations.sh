@@ -73,3 +73,5 @@ prootstmnt+="--link2symlink -0 -r $installdir -b \"\$ANDROID_DATA\" -b /dev/ -b 
 }
 
 prs 
+
+# EOF
