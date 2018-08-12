@@ -5,12 +5,10 @@
 # https://sdrausty.github.io/TermuxArch/README for TermuxArch information. 
 ################################################################################
 IFS=$'\n\t'
-set -Eeuo pipefail 
-shopt -s nullglob globstar
+set -Eeuxo pipefail
 unset LD_PRELOAD
-versionid="gen.v1.6 id504939065"
+versionid="gen.v1.6 id112744983998"
 ## Preliminary Functions #######################################################
-
 arg2dir() { 
 	arg2="${@:2:1}"
 	if [[ "$arg2" = "" ]] ;then
@@ -109,7 +107,6 @@ chkself() {
 			printf "\\e[0;32msetupTermuxArch.sh: \\e[1;32mUPDATED\\n\\e[0;32mTermuxArch: \\e[1;32mRESTARTED\\n\\e[0m"
 			rm -f setupTermuxArch.tmp
 			rmdsc 
-			echo echo "$@"
 			. setupTermuxArch.sh "$@"
 		fi
 		rm -f setupTermuxArch.tmp
@@ -284,19 +281,19 @@ finishe() { # on exit
 }
 
 finisher() { # on script signal
-	printf "\\n\\e[?25h\\e[0;48;5;124mTermuxArch warning.  Signal generated!\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b"
-	sleep 0.2
-	printf "\\e[?25h\\e[1;7;38;5;0mTermuxArch warning.  Signal generated!\\e[0m\\n"
- 	exit $? 
+# 	printf "\\n\\e[?25h\\e[0;48;5;124mTermuxArch warning.  Signal generated!\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b"
+# 	sleep 0.2
  	echo $? 
+	printf "\\e[?25h\\e[1;7;38;5;0mTermuxArch warning.  Signal generated!\\e[0m\\n"
+ 	echo $? 
+ 	exit $? 
 }
 
 finishs() { # on signal
-	printf "\\n\\e[?25h\\e[0;48;5;124mTermuxArch warning.  Signal received!\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b"
-	sleep 0.2
-	printf "\\e[?25h\\e[1;7;38;5;0mTermuxArch warning.  Signal received!\\e[0m\\n"
- 	exit $? 
  	echo $? 
+	printf "\\e[?25h\\e[1;7;38;5;0mTermuxArch warning.  Signal received!\\e[0m\\n"
+ 	echo $? 
+ 	exit $? 
 }
 
 intro() {
@@ -372,7 +369,7 @@ nameinstalldir() {
 }
 
 namestartarch() {
-# 	echo ${@%/} removes trailing slash
+# 	${@%/} removes trailing slash
  	darch="$(echo "${rootdir%/}" |sed 's#//*#/#g')"
 	if [[ "$darch" = "/arch" ]];then
 		aarch=""
@@ -653,8 +650,6 @@ wgetif() {
 
 ## Important Information #######################################################
 #  User configurable variables such as mirrors and download manager options are in `setupTermuxArchConfigs.sh`.  Creating this file from `kownconfigurations.sh` in the working directory is simple, use `setupTermuxArch.sh manual` to create, edit and run `setupTermuxArchConfigs.sh`; See `setupTermuxArch.sh help` for information.  
-
-
 declare COUNTER=""
 declare -a args="$@"
 declare bin=""
@@ -665,12 +660,12 @@ declare cpuabi7="armeabi-v7a"
 declare cpuabi8="arm64-v8a"
 declare cpuabix86="x86"
 declare cpuabix86_64="x86_64"
-declare dfl=/gen # Used for development. 
+declare dfl=/gen # Used for development 
 declare dm=""
 declare dmverbose="-q" # Use "-v" for verbose download manager output;  for verbose output throughout runtime, change in `knownconfigurations.sh` also, or in `setupTermuxArchConfigs.sh` if using `setupTermuxArch.sh manual`. 
 declare	ed=""
 declare -g installdir=""
-declare -g kid="0"
+declare kid=""
 declare	lc=""
 declare opt=""
 declare rootdir=""
@@ -682,12 +677,12 @@ declare idir="$PWD"
 
 
 trap finishe EXIT
-trap finisher ERR
-trap finisher QUIT 
+# trap finisher ERR
+# trap finisher QUIT 
 trap finishs INT TERM 
 
 if [[ "$commandif" = "" ]];then
-	echo Run \`setupTermuxArch.sh\` from the Android system in Termux.
+	printf "\\nWarning: Run \`setupTermuxArch.sh\` from the OS system in Termux, i.e. Amazon Fire, Android and Chromebook.\\n"
 	exit
 fi
 
@@ -696,18 +691,17 @@ namestartarch
 setrootdir  
 
 ## Available Arguments #########################################################
-## []  Run default Arch Linux install.  `bash setupTermuxArch.sh help` has more\
-#+ information.  All options can be abbreviated to the first letter or two. 
+## []  Run default Arch Linux install.  `bash setupTermuxArch.sh help` has more information.  All options can be abbreviated to the first letter or two. 
 if [[ -z "${1:-}" ]];then
 	intro "$@" 
 	mainblock
-## [./path/system.tar.gz [installDirectory]]  Use path to system image file; install directory argument is optional; Under development... 
+## [./path/system.tar.gz [installdir]]  Use path to system image file; install directory argument is optional; Currently under development. 
 elif [[ "${args:0:1}" = "." ]] ;then
 	lc="1"
 	arg2dir "$@"  
 	intro 
 	loadimage "$@"
-## [/path/system.tar.gz [installDirectory]]  Use absolute path to system image file; install directory argument is optional. 
+## [/path/system.tar.gz [installdir]]  Use absolute path to system image file; install directory argument is optional. 
 elif [[ "${args:0:1}" = "/" ]];then
 	arg2dir "$@"  
 	intro 
@@ -765,4 +759,5 @@ elif [[ "$1" = [Rr][Ee]* ]] || [[ "$1" = -[Rr][Ee]* ]] || [[ "$1" = --[Rr][Ee]* 
 else
 	printusage
 fi
-## EOF #########################################################################
+
+# EOF

@@ -7,7 +7,7 @@
 IFS=$'\n\t'
 set -Eeuxo pipefail
 unset LD_PRELOAD
-versionid="v1.6"
+versionid="gen.v1.6 id112744983998"
 ## Preliminary Functions #######################################################
 arg2dir() { 
 	arg2="${@:2:1}"
@@ -281,16 +281,16 @@ finishe() { # on exit
 }
 
 finisher() { # on script signal
-	printf "\\n\\e[?25h\\e[0;48;5;124mTermuxArch warning.  Signal generated!\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b"
-	sleep 0.2
+# 	printf "\\n\\e[?25h\\e[0;48;5;124mTermuxArch warning.  Signal generated!\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b"
+# 	sleep 0.2
+ 	echo $? 
 	printf "\\e[?25h\\e[1;7;38;5;0mTermuxArch warning.  Signal generated!\\e[0m\\n"
  	echo $? 
  	exit $? 
 }
 
 finishs() { # on signal
-	printf "\\n\\e[?25h\\e[0;48;5;124mTermuxArch warning.  Signal received!\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b"
-	sleep 0.2
+ 	echo $? 
 	printf "\\e[?25h\\e[1;7;38;5;0mTermuxArch warning.  Signal received!\\e[0m\\n"
  	echo $? 
  	exit $? 
