@@ -64,8 +64,7 @@ x86_64() {
 prs() {
 prootstmnt="exec proot "
 if [[ "$kid" ]]; then
-# 	prootstmnt+="--kernel-release=4.14.15 "
-	prootstmnt+=""
+	prootstmnt+="--kernel-release=4.14.15 "
 fi
 if [[ "$koe" ]]; then
 	prootstmnt+="--kill-on-exit "

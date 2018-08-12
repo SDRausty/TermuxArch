@@ -77,7 +77,7 @@ chk() {
 		. getimagefunctions.sh
 		. necessaryfunctions.sh
 		. printoutstatements.sh
-		. maintenanceroutines.sh
+		. systemmaintenance.sh
 		if [[ "$opt" = bloom ]];then
 			rm termuxarchchecksum.sha512 
 		else 
@@ -150,14 +150,14 @@ depends() {
 
 dependsblock() {
 	depends 
-	if [[ -f archlinuxconfig.sh ]] && [[ -f espritfunctions.sh ]] && [[ -f getimagefunctions.sh ]] && [[ -f knownconfigurations.sh ]] && [[ -f necessaryfunctions.sh ]] && [[ -f printoutstatements.sh ]] && [[ -f setupTermuxArch.sh ]] && [[ -f maintenanceroutines.sh ]];then
+	if [[ -f archlinuxconfig.sh ]] && [[ -f espritfunctions.sh ]] && [[ -f getimagefunctions.sh ]] && [[ -f knownconfigurations.sh ]] && [[ -f necessaryfunctions.sh ]] && [[ -f printoutstatements.sh ]] && [[ -f setupTermuxArch.sh ]] && [[ -f systemmaintenance.sh ]];then
 		. archlinuxconfig.sh
 		. espritfunctions.sh
 		. getimagefunctions.sh
 		. knownconfigurations.sh
 		. necessaryfunctions.sh
 		. printoutstatements.sh
-		. maintenanceroutines.sh
+		. systemmaintenance.sh
 	else
 		dwnl
 		if [[ -f "setupTermuxArch.sh" ]];then
@@ -173,7 +173,6 @@ dependbp() {
 		bsdtarif 
 		prootif 
 	else
-		bsdtarif 
 		prootif 
 	fi
 }
@@ -510,7 +509,7 @@ rmdsc() {
 	rm knownconfigurations.sh
 	rm necessaryfunctions.sh
 	rm printoutstatements.sh
-	rm maintenanceroutines.sh
+	rm systemmaintenance.sh
 	rm termuxarchchecksum.sha512 
 }
 
@@ -658,13 +657,12 @@ declare -a args="$@"
 declare bin=""
 declare commandif="$(command -v getprop)" ||:
 declare cpuabi="$(getprop ro.product.cpu.abi 2>/dev/null)" ||:
-declare syslocale="$(getprop persist.sys.locale 2>/dev/null)" ||:
 declare cpuabi5="armeabi"
 declare cpuabi7="armeabi-v7a"
 declare cpuabi8="arm64-v8a"
 declare cpuabix86="x86"
 declare cpuabix86_64="x86_64"
-declare dfl="" # Used for development 
+declare dfl=/gen # Used for development 
 declare dm=""
 declare dmverbose="-q" # Use "-v" for verbose download manager output;  for verbose output throughout runtime, change in `knownconfigurations.sh` also, or in `setupTermuxArchConfigs.sh` if using `setupTermuxArch.sh manual`. 
 declare	ed=""

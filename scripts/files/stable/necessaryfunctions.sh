@@ -287,16 +287,19 @@ md5check() {
 }
 
 preproot() {
+	set +e
 	if [[ "$(du "$installdir"/*z | awk {'print $1'})" -gt 112233 ]];then
 		if [[ "$cpuabi" = "$cpuabix86" ]] || [[ "$cpuabi" = "$cpuabix86_64" ]];then
 			proot --link2symlink -0 bsdtar -xpf "$file" --strip-components 1  
 		else
-			proot --link2symlink -0 "$PREFIX"/bin/applets/tar xf "$file" 
+			proot --link2symlink -0 bsdtar -xpf "$file" 
+# 			proot --link2symlink -0 "$PREFIX"/bin/applets/tar xf "$file" 
 		fi
 	else
 		printf "\\n\\n\\e[1;31mDownload Exception!  Execute \\e[0;32mbash setupTermuxArch.sh\\e[1;31m again…\\n"'\033]2;  Execute `bash setupTermuxArch.sh` again …\007'
 		exit
 	fi
+	set -e
 }
 
 runfinishsetup() {
