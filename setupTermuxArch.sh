@@ -284,15 +284,19 @@ finisher() { # on script signal
 # 	printf "\\n\\e[?25h\\e[0;48;5;124mTermuxArch warning.  Signal generated!\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b\\b"
 # 	sleep 0.2
  	echo $? 
-	printf "\\e[?25h\\e[1;7;38;5;0mTermuxArch warning.  Signal generated!\\e[0m\\n"
- 	echo $? 
+	printf "\\e[?25h\\e[1;7;38;5;0mTermuxArch warning:  Script signal generated!\\e[0m\\n"
  	exit $? 
 }
 
 finishs() { # on signal
  	echo $? 
-	printf "\\e[?25h\\e[1;7;38;5;0mTermuxArch warning.  Signal received!\\e[0m\\n"
+	printf "\\e[?25h\\e[1;7;38;5;0mTermuxArch warning:  Signal received!\\e[0m\\n"
+ 	exit $? 
+}
+
+finishq() { # on quit
  	echo $? 
+	printf "\\e[?25h\\e[1;7;38;5;0mTermuxArch warning:  Quit signal received!\\e[0m\\n"
  	exit $? 
 }
 
@@ -677,8 +681,9 @@ declare idir="$PWD"
 
 
 trap finishe EXIT
-trap finisher ERR QUIT 
+trap finisher ERR 
 trap finishs INT TERM 
+trap finishq QUIT 
 
 if [[ "$commandif" = "" ]];then
 	printf "\\nWarning: Run \`setupTermuxArch.sh\` from the OS system in Termux, i.e. Amazon Fire, Android and Chromebook.\\n"
