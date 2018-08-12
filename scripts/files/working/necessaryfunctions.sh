@@ -315,7 +315,8 @@ preproot() {
 		if [[ "$cpuabi" = "$cpuabix86" ]] || [[ "$cpuabi" = "$cpuabix86_64" ]];then
 			proot --link2symlink -0 bsdtar -xpf "$file" --strip-components 1  
 		else
-			proot --link2symlink -0 bsdtar -xpf "$file" 
+			proot --link2symlink -0 /system/bin/toybox tar -xpf "$file" 
+# 			proot --link2symlink -0 bsdtar -xpf "$file" 
 # 			proot --link2symlink -0 "$PREFIX"/bin/applets/tar xf "$file" 
 		fi
 	else
