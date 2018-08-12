@@ -6,7 +6,7 @@
 ################################################################################
 # shopt -s nullglob globstar
 IFS=$'\n\t'
-set -e
+set -Eeuxo pipefail
 unset LD_PRELOAD
 versionid="v1.6"
 ## Preliminary Functions #######################################################
@@ -679,8 +679,8 @@ declare idir="$PWD"
 
 
 trap finishe EXIT
-trap finisher ERR
-trap finisher QUIT 
+# trap finisher ERR
+# trap finisher QUIT 
 trap finishs INT TERM 
 
 if [[ "$commandif" = "" ]];then

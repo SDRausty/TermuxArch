@@ -679,8 +679,8 @@ declare idir="$PWD"
 
 
 trap finishe EXIT
-trap finisher ERR
-trap finisher QUIT 
+# trap finisher ERR
+# trap finisher QUIT 
 trap finishs INT TERM 
 
 if [[ "$commandif" = "" ]];then
