@@ -378,8 +378,9 @@ prepinstalldir() {
 	makesetupbin 
 }
 
-setlanguage() {
-	_LANG="$(getprop persist.sys.locale)"
+setlanguage() { 
+# 	_LANG="$(getprop persist.sys.locale)"
+	_LANG="$(getprop ro.product.locale)"
 	_LANGUAGE="${_LANG//-/_}"
 }
 setlanguage
