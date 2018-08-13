@@ -63,7 +63,7 @@ copyimage() {
 loadimage() { 
 	set +Ee
 	namestartarch 
-	nameinstalldir
+	prepinstalldir
  	spaceinfo
 	wakelock
 	makeinstalldir 

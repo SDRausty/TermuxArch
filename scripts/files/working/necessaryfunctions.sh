@@ -16,7 +16,7 @@ callsystem() {
 				printf "\\n"
 				COUNTER=$((COUNTER + 1))
 				if [[ "$COUNTER" = 12 ]];then 
-					printf "\\n\\e[07;1m\\e[31;1m 🔆 ERROR Maximum amount of attempts exceeded!\\e[34;1m\\e[30;1m  Run \`bash setupTermuxArch.sh\` again.  See \`bash setupTermuxArch.sh help\` to resolve download errors.  If this keeps repeating, copy \`knownconfigurations.sh\` to \`setupTermuxArchConfigs.sh\` with preferred mirror.  After editing \`setupTermuxArchConfigs.sh\`, run \`bash setupTermuxArch.sh\` and \`setupTermuxArchConfigs.sh\` loads automaticaly from the same directory.  Change mirror to desired geographic location to resolve md5sum errors.\\n\\nUser configurable variables are in \`setupTermuxArchConfigs.sh\`.  Create this file from \`kownconfigurations.sh\` in the working directory.  Use \`bash setupTermuxArch.sh manual\` to create and edit \`setupTermuxArchConfigs.sh\`.\\n\\n	Run \`bash setupTermuxArch.sh\` again…\\n\\e[0;0m\\n"'\033]2;  Thank you for using setupTermuxArch.sh.  Run `bash setupTermuxArch.sh` again…\007'
+					printmax 
 					exit
 				fi
 			done
@@ -103,7 +103,7 @@ lkernid
 
 mainblock() { 
 	namestartarch 
-	nameinstalldir
+	prepinstalldir
 	spaceinfo
 	detectsystem 
 	wakeunlock 
@@ -162,11 +162,6 @@ makefinishsetup() {
 	printf "\\n\\e[1;34m 🕛 > 🕤 Arch Linux in Termux is installed and configured 📲  \\e[0m" '\033]2; 🕛 > 🕤 Arch Linux in Termux is installed and configured 📲 \007'
 	EOM
 	chmod 770 root/bin/"$binfnstp" 
-}
-
-makeinstalldir() {
-	mkdir -p "$installdir"
-	cd "$installdir"
 }
 
 makesetupbin() {
@@ -344,42 +339,9 @@ runfinishsetup() {
 	"$installdir"/root/bin/setupbin.sh 
 }
 
-addlangq() {
-	while true; do
-		printf "\\e[1;34m  Add languages to the Arch Linux system? To edit \\e[1;32m/etc/locale.gen\\e[1;34m for your preferred language(s) before running \\e[1;32mlocale-gen\\e[1;34m choose edit.  Would you like to run \\e[1;32mlocale-gen\\e[1;34m with the English en_US.UTF-8 locale only?  "
-		read -n 1 -p "Answer yes to generate the English en_US.UTF-8 locale only [Y|e] " ye
-		if [[ "$ye" = [Yy]* ]] || [[ "$ye" = "" ]];then
-			break
-		elif [[ "$ye" = [Ee]* ]] || [[ "$ye" = [Nn]* ]];then
-			printf "\\e[0m"
-			"$ed" "$installdir"/etc/locale.gen
-			sleep 1
-			break
-		else
-			printf "\\nYou answered \\e[1;36m$ye\\e[1;32m.\\n"
-			sleep 1
-			printf "\\nAnswer yes to run, or edit to edit the file [Y|e]\\n"
-		fi
-	done
-}
-
-runfinishsetupq() {
-	while true; do
-		printf "\\n\\e[0;32mWould you like to run \\e[1;32mfinishsetup.sh\\e[0;32m to complete the Arch Linux configuration and update now, or at a later time?  \\e[1;32mNow is recommended.  \\e[0;32m"
-		read -n 1 -p "Answer yes to complete the Arch Linux configuration and update now; Or answer no for later [Y|n] " nl
-	if [[ "$nl" = [Yy]* ]] || [[ "$nl" = "" ]];then
-		runfinishsetup 
-		break
-	elif [[ "$nl" = [Nn]* ]];then
-		printf "\\n\\e[0;32mSet the geographically nearby mirror in \\e[1;32m/etc/pacman.d/mirrorlist\\e[0;32m first.  Then use \\e[1;32m$installdir/root/bin/setupbin.sh\\e[0;32m in Termux to run \\e[1;32mfinishsetup.sh\\e[0;32m or simply \\e[1;32mfinishsetup.sh\\e[0;32m in Arch Linux Termux PRoot to complete the Arch Linux configuration and update."
-		break
-	else
-		printf "\\nYou answered \\e[1;36m$nl\\e[1;32m.\\n"
-		sleep 1
-		printf "\\nAnswer yes to complete, or no for later [Y|n]\\n"
-	fi
-	done
-	printf "\\n"
+prepinstalldir() {
+	mkdir -p "$installdir"
+	cd "$installdir"
 }
 
 setlocale() {
