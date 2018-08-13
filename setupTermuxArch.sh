@@ -654,7 +654,6 @@ declare -a args="$@"
 declare bin=""
 declare commandif="$(command -v getprop)" ||:
 declare cpuabi="$(getprop ro.product.cpu.abi 2>/dev/null)" ||:
-declare syslocale="$(getprop persist.sys.locale 2>/dev/null)" ||:
 declare cpuabi5="armeabi"
 declare cpuabi7="armeabi-v7a"
 declare cpuabi8="arm64-v8a"

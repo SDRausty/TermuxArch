@@ -131,7 +131,7 @@ refreshsys() {
 	makefinishsetup
 	makesetupbin 
 	makestartbin 
-	setlocalegen
+	setlocale
 	printf "\\n" 
 	printwla 
 	am startservice --user 0 -a com.termux.service_wake_lock com.termux/com.termux.app.TermuxService > /dev/null

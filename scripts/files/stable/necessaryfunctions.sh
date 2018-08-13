@@ -382,20 +382,16 @@ runfinishsetupq() {
 	printf "\\n"
 }
 
-setlocaleconf() {
-	if ! grep en_US etc/locale.conf 2>/dev/null ; then
-		echo LANG=en_US.UTF-8 >> etc/locale.conf 
-		echo LANGUAGE=en_US >> etc/locale.conf 
-		
-	fi
-}
-
-setlocalegen() {
+setlocale() {
+	_LANGUAG="$(getprop persist.sys.locale)"
+	_LANGUAGE="${_LANGUAG//-/_}"
+	echo LANG="$_LANGUAGE".UTF-8 >> etc/locale.conf 
+	echo LANGUAGE="$_LANGUAGE".UTF-8 >> etc/locale.conf 
 	if [[ -e etc/locale.gen ]]; then
-		sed -i '/\#en_US.UTF-8 UTF-8/{s/#//g;s/@/-at-/g;}' etc/locale.gen 
+		sed -i "/\\#"$_LANGUAGE".UTF-8 UTF-8/{s/#//g;s/@/-at-/g;}" etc/locale.gen 
 	else
 		cat >  etc/locale.gen <<- EOM
-		en_US.UTF-8 UTF-8 
+		$_LANGUAGE.UTF-8 UTF-8 
 		EOM
 	fi
 }
@@ -433,8 +429,7 @@ touchupsys() {
 	addyt
 	addwe  
 	addv 
-	setlocalegen
-	setlocaleconf 
+	setlocale
 	makefinishsetup
 	makesetupbin 
 	runfinishsetup
