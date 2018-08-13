@@ -58,28 +58,29 @@ runfinishsetupq() {
 		printf "\\nAnswer yes to complete, or no for later [Y|n]\\n"
 	fi
 	done
-	printf "\\n"
+	printf '\\n'
 }
 
 spinner() { # Based on https://github.com/ringohub/sh-spinner
- 	printf "\\e[?25l"
+ 	printf "\\e[?25l\e[1;32m"
 #  	SPINNER="⠋⠙⠹⠸⠼⠴⠦⠧⠇⠏"
-#  	SPINNER="🕛🕧🕐🕜🕑🕝🕓🕟🕔🕠🕕🕡🕖🕢🕗🕣🕘🕤🕙🕚🕦"
+#  	SPINNER="🌑🌒🌓🌔🌕🌖🌗🌘"
+#  	SPINNER="🕛🕧🕐🕜🕑🕝🕓🕟🕔🕠🕕🕡🕖🕢🕗🕣🕘🕤🕙🕥🕚🕦"
+#  	SPINNER="🕧🕜🕝🕟🕠🕡🕢🕣🕤🕥🕦"
 	SPINNER="🕛🕐🕑🕓🕔🕕🕖🕗🕘🕙🕚"
 	task="$1"
 	msg="$2"
 	while :; do
 		jobs %1 > /dev/null 2>&1
-		[ $? = 0 ] || {
-			printf "\\e[1;32m ✓ $task DONE          \\n\\e[0m"
+		[[ $? = 0 ]] || {
+			printf " ✓ $task DONE                    \e[?25h\e[0m\n"
 			break
 		}
 		for (( i=0; i<${#SPINNER}; i++ )); do
 			sleep 0.05
-			printf "\\e[1;32m ${SPINNER:$i:1} $task $msg\r"
+			printf " ${SPINNER:$i:1} $task $msg\r"
 		done
 	done
- 	printf "\\e[?25h"
 }
 
 # EOF
