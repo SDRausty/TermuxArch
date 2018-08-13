@@ -274,44 +274,20 @@ md5check() {
 	if "$PREFIX"/bin/applets/md5sum -c "$file".md5 1>/dev/null ; then
 		printmd5success
 		printf "\\e[0;32m"
-		preproot & spinner "Uncompressing" "$file…"  
+		preproot & spinner "Uncompressing $file" "in progress…"  
 	else
 		rmarchrm 
 		printmd5error
 	fi
 }
 
-# md5check() {
-# 	if "$PREFIX"/bin/applets/md5sum -c "$file".md5 1>/dev/null ;then
-# 	 	declare -g md5sumr="true"
-# 	else
-# 		declare -g md5sumr="false"
-# 	fi
-# 	echo 1md5sumr
-# 	echo $md5sumr
-# }
-# 
-# md5do() {
-#  	md5check & spinner "Checking" "$file…"  
-# 	echo 2md5sumr
-# 	echo $md5sumr
-# 	if [[ "$md5sumr" = true ]] ;then
-# 		printmd5success
-# 		printf "\\e[0;32m"
-# 		preproot & spinner "Uncompressing" "$file…"  
-# 	else
-# 		rmarchrm 
-# 		printmd5error
-# 	fi
-# }
-
 preproot() {
 	if [[ "$(du "$installdir"/*z | awk {'print $1'})" -gt 112233 ]];then
 		if [[ "$cpuabi" = "$cpuabix86" ]] || [[ "$cpuabi" = "$cpuabix86_64" ]];then
 			proot --link2symlink -0 bsdtar -xpf "$file" --strip-components 1  
 		else
-# 			proot --link2symlink -0 /system/bin/toybox tar -xpf "$file" 
- 			proot --link2symlink -0 bsdtar -xpf "$file" 
+ 			proot --link2symlink -0 /system/bin/toybox tar -xpf "$file" 
+# 			proot --link2symlink -0 bsdtar -xpf "$file" 
 # 			proot --link2symlink -0 "$PREFIX"/bin/applets/tar xf "$file" 
 		fi
 	else
