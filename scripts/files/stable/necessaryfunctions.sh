@@ -16,7 +16,7 @@ callsystem() {
 				printf "\\n"
 				COUNTER=$((COUNTER + 1))
 				if [[ "$COUNTER" = 12 ]];then 
-					printf "\\n\\e[07;1m\\e[31;1m 🔆 ERROR Maximum amount of attempts exceeded!\\e[34;1m\\e[30;1m  Run \`bash setupTermuxArch.sh\` again.  See \`bash setupTermuxArch.sh help\` to resolve download errors.  If this keeps repeating, copy \`knownconfigurations.sh\` to \`setupTermuxArchConfigs.sh\` with preferred mirror.  After editing \`setupTermuxArchConfigs.sh\`, run \`bash setupTermuxArch.sh\` and \`setupTermuxArchConfigs.sh\` loads automaticaly from the same directory.  Change mirror to desired geographic location to resolve md5sum errors.\\n\\nUser configurable variables are in \`setupTermuxArchConfigs.sh\`.  Create this file from \`kownconfigurations.sh\` in the working directory.  Use \`bash setupTermuxArch.sh manual\` to create and edit \`setupTermuxArchConfigs.sh\`.\\n\\n	Run \`bash setupTermuxArch.sh\` again…\\n\\e[0;0m\\n"'\033]2;  Thank you for using setupTermuxArch.sh.  Run `bash setupTermuxArch.sh` again…\007'
+					printmax 
 					exit
 				fi
 			done
@@ -103,7 +103,7 @@ lkernid
 
 mainblock() { 
 	namestartarch 
-	nameinstalldir
+	prepinstalldir
 	spaceinfo
 	detectsystem 
 	wakeunlock 
@@ -124,7 +124,7 @@ makefinishsetup() {
 	################################################################################
  	set -Eeou pipefail 
 	shopt -s nullglob globstar
-	versionid="gen.v1.6 id653358484134"
+	versionid="v1.6"
 
 	printf "\\n\\e[1;34m:: \\e[1;37mRemoving redundant packages for Termux PRoot installation…\\n"
 	EOM
@@ -137,24 +137,24 @@ makefinishsetup() {
 	if [[ -e "$HOME"/.profile ]];then
 		grep "proxy" "$HOME"/.profile | grep "export" >> root/bin/"$binfnstp" 2>/dev/null ||:
 	fi
-	if [[ "$cpuabi" = "$cpuabi5" ]];then
-		printf "pacman -Rc linux-armv5 linux-firmware --noconfirm --color=always 2>/dev/null ||:\\n" >> root/bin/"$binfnstp"
-	elif [[ "$cpuabi" = "$cpuabi7" ]];then
-		printf "pacman -Rc linux-armv7 linux-firmware --noconfirm --color=always 2>/dev/null ||:\\n" >> root/bin/"$binfnstp"
-	elif [[ "$cpuabi" = "$cpuabi8" ]];then
-		printf "pacman -Rc linux-aarch64 linux-firmware --noconfirm --color=always 2>/dev/null ||:\\n" >> root/bin/"$binfnstp"
-	fi
+# 	if [[ "$cpuabi" = "$cpuabi5" ]];then
+# 		printf "pacman -Rc linux-armv5 linux-firmware --noconfirm --color=always 2>/dev/null ||:\\n" >> root/bin/"$binfnstp"
+# 	elif [[ "$cpuabi" = "$cpuabi7" ]];then
+# 		printf "pacman -Rc linux-armv7 linux-firmware --noconfirm --color=always 2>/dev/null ||:\\n" >> root/bin/"$binfnstp"
+# 	elif [[ "$cpuabi" = "$cpuabi8" ]];then
+# 		printf "pacman -Rc linux-aarch64 linux-firmware --noconfirm --color=always 2>/dev/null ||:\\n" >> root/bin/"$binfnstp"
+# 	fi
 	if [[ "$cpuabi" = "$cpuabix86" ]];then
 		printf "./root/bin/keys x86\\n" >> root/bin/"$binfnstp"
 	elif [[ "$cpuabi" = "$cpuabix86_64" ]];then
 		printf "./root/bin/keys x86_64\\n" >> root/bin/"$binfnstp"
 	else
- 		printf "./root/bin/keys\\n" >> root/bin/"$binfnstp"
+: # 		printf "./root/bin/keys\\n" >> root/bin/"$binfnstp"
 	fi
 	if [[ "$cpuabi" = "$cpuabix86" ]] || [[ "$cpuabi" = "$cpuabix86_64" ]];then
 		printf "./root/bin/pci gzip sed \\n" >> root/bin/"$binfnstp"
 	else
- 		printf "./root/bin/pci \\n" >> root/bin/"$binfnstp"
+: # 		printf "./root/bin/pci \\n" >> root/bin/"$binfnstp"
 	fi
 	cat >> root/bin/"$binfnstp" <<- EOM
 	printf "\\n\\e[1;32m==> \\e[0;32m"
@@ -162,11 +162,6 @@ makefinishsetup() {
 	printf "\\n\\e[1;34m 🕛 > 🕤 Arch Linux in Termux is installed and configured 📲  \\e[0m" '\033]2; 🕛 > 🕤 Arch Linux in Termux is installed and configured 📲 \007'
 	EOM
 	chmod 770 root/bin/"$binfnstp" 
-}
-
-makeinstalldir() {
-	mkdir -p "$installdir"
-	cd "$installdir"
 }
 
 makesetupbin() {
@@ -179,7 +174,7 @@ makesetupbin() {
 	################################################################################
  	set -Eeou pipefail 
 	shopt -s nullglob globstar
-	versionid="gen.v1.6 id653358484134"
+	versionid="v1.6"
 	unset LD_PRELOAD
 	EOM
 	echo "$prootstmnt /root/bin/finishsetup.sh ||:" >> root/bin/setupbin.sh 
@@ -196,7 +191,7 @@ makestartbin() {
 	################################################################################
  	set -Eeou pipefail 
 	shopt -s nullglob globstar
-	versionid="gen.v1.6 id653358484134"
+	versionid="v1.6"
 	unset LD_PRELOAD
 	declare -g ar2ar="\${@:2}"
 	declare -g ar3ar="\${@:3}"
@@ -263,7 +258,7 @@ makestartbin() {
 
 makesystem() {
 	wakelock
-	makeinstalldir
+	prepinstalldir
 	callsystem
 	printmd5check
 	md5check
@@ -344,59 +339,10 @@ runfinishsetup() {
 	"$installdir"/root/bin/setupbin.sh 
 }
 
-addlangq() {
-	while true; do
-		printf "\\e[1;34m  Add languages to the Arch Linux system? To edit \\e[1;32m/etc/locale.gen\\e[1;34m for your preferred language(s) before running \\e[1;32mlocale-gen\\e[1;34m choose edit.  Would you like to run \\e[1;32mlocale-gen\\e[1;34m with the English en_US.UTF-8 locale only?  "
-		read -n 1 -p "Answer yes to generate the English en_US.UTF-8 locale only [Y|e] " ye
-		if [[ "$ye" = [Yy]* ]] || [[ "$ye" = "" ]];then
-			break
-		elif [[ "$ye" = [Ee]* ]] || [[ "$ye" = [Nn]* ]];then
-			printf "\\e[0m"
-			"$ed" "$installdir"/etc/locale.gen
-			sleep 1
-			break
-		else
-			printf "\\nYou answered \\e[1;36m$ye\\e[1;32m.\\n"
-			sleep 1
-			printf "\\nAnswer yes to run, or edit to edit the file [Y|e]\\n"
-		fi
-	done
-}
-
-runfinishsetupq() {
-	while true; do
-		printf "\\n\\e[0;32mWould you like to run \\e[1;32mfinishsetup.sh\\e[0;32m to complete the Arch Linux configuration and update now, or at a later time?  \\e[1;32mNow is recommended.  \\e[0;32m"
-		read -n 1 -p "Answer yes to complete the Arch Linux configuration and update now; Or answer no for later [Y|n] " nl
-	if [[ "$nl" = [Yy]* ]] || [[ "$nl" = "" ]];then
-		runfinishsetup 
-		break
-	elif [[ "$nl" = [Nn]* ]];then
-		printf "\\n\\e[0;32mSet the geographically nearby mirror in \\e[1;32m/etc/pacman.d/mirrorlist\\e[0;32m first.  Then use \\e[1;32m$installdir/root/bin/setupbin.sh\\e[0;32m in Termux to run \\e[1;32mfinishsetup.sh\\e[0;32m or simply \\e[1;32mfinishsetup.sh\\e[0;32m in Arch Linux Termux PRoot to complete the Arch Linux configuration and update."
-		break
-	else
-		printf "\\nYou answered \\e[1;36m$nl\\e[1;32m.\\n"
-		sleep 1
-		printf "\\nAnswer yes to complete, or no for later [Y|n]\\n"
-	fi
-	done
-	printf "\\n"
-}
-
-setlocale() {
-	_LANGUAG="$(getprop persist.sys.locale)"
-	_LANGUAGE="${_LANGUAG//-/_}"
-	echo LANG="$_LANGUAGE".UTF-8 >> etc/locale.conf 
-	echo LANGUAGE="$_LANGUAGE".UTF-8 >> etc/locale.conf 
-	if [[ -e etc/locale.gen ]]; then
-		sed -i "/\\#"$_LANGUAGE".UTF-8 UTF-8/{s/#//g;s/@/-at-/g;}" etc/locale.gen 
-	else
-		cat >  etc/locale.gen <<- EOM
-		$_LANGUAGE.UTF-8 UTF-8 
-		EOM
-	fi
-}
-
-touchupsys() {
+prepinstalldir() {
+	mkdir -p "$installdir"
+	cd "$installdir"
+	mkdir -p etc 
 	mkdir -p root/bin
 	addREADME
 	addae
@@ -427,11 +373,32 @@ touchupsys() {
 	addtour
 	addtrim 
 	addyt
-	addwe  
 	addv 
-	setlocale
 	makefinishsetup
 	makesetupbin 
+}
+
+setlanguage() {
+	_LANG="$(getprop persist.sys.locale)"
+	_LANGUAGE="${_LANG//-/_}"
+}
+setlanguage
+
+setlocale() {
+	echo LANG="$_LANGUAGE".UTF-8 >> etc/locale.conf 
+	echo LANGUAGE="$_LANGUAGE".UTF-8 >> etc/locale.conf 
+	if [[ -e etc/locale.gen ]]; then
+		sed -i "/\\#"$_LANGUAGE".UTF-8 UTF-8/{s/#//g;s/@/-at-/g;}" etc/locale.gen 
+	else
+		cat >  etc/locale.gen <<- EOM
+		$_LANGUAGE.UTF-8 UTF-8 
+		EOM
+	fi
+}
+
+touchupsys() {
+	addwe  
+	setlocale
 	runfinishsetup
 	rm root/bin/finishsetup.sh
 	rm root/bin/setupbin.sh 

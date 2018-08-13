@@ -4,7 +4,7 @@
 # https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.  
 # https://sdrausty.github.io/TermuxArch/README has information about this project. 
 ################################################################################
-# shopt -s nullglob globstar
+
 sysinfo() {
 	spaceinfo
 	printf "\\n\\e[1;32m"
@@ -63,10 +63,10 @@ copyimage() {
 loadimage() { 
 	set +Ee
 	namestartarch 
-	nameinstalldir
+	prepinstalldir
  	spaceinfo
 	wakelock
-	makeinstalldir 
+	prepinstalldir 
 	copyimage "$@"
 	printmd5check
 	md5check
