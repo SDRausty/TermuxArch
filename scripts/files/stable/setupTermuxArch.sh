@@ -106,10 +106,11 @@ chkdwn() {
 chkself() {
 	if [[ -f "setupTermuxArch.tmp" ]];then
 		if [[ "$(<setupTermuxArch.sh)" != "$(<setupTermuxArch.tmp)" ]];then
-			printf "\\e[0;32msetupTermuxArch.sh: \\e[1;32mUPDATED\\n\\e[0;32mTermuxArch: \\e[1;32mRESTARTED\\n\\e[0m"
+			printf "\\e[0;32msetupTermuxArch.sh: \\e[1;32mUPDATED\\n\\e[0;32mTermuxArch: \\e[1;32mRESTART ""$0"" ""$@""\\n\\e[0m"
 			rm -f setupTermuxArch.tmp
 			rmdsc 
-			exec . setupTermuxArch.sh "$@"
+			exit 24
+			. setupTermuxArch.sh "$@"
 		fi
 		rm -f setupTermuxArch.tmp
 	fi
