@@ -173,7 +173,6 @@ dependbp() {
 		bsdtarif 
 		prootif 
 	else
-		bsdtarif 
 		prootif 
 	fi
 }
@@ -282,20 +281,17 @@ finishe() { # on exit
 }
 
 finisher() { # on script signal
- 	echo $? 
-	printf "\\e[?25h\\e[1;7;38;5;0mTermuxArch warning:  Script signal generated!\\e[0m\\n"
+	printf "\\e[?25h\\e[1;7;38;5;0mTermuxArch warning:  Script signal $? generated!\\e[0m\\n"
  	exit 
 }
 
 finishs() { # on signal
- 	echo $? 
-	printf "\\e[?25h\\e[1;7;38;5;0mTermuxArch warning:  Signal received!\\e[0m\\n"
+	printf "\\e[?25h\\e[1;7;38;5;0mTermuxArch warning:  Signal $? received!\\e[0m\\n"
  	exit 
 }
 
 finishq() { # on quit
- 	echo $? 
-	printf "\\e[?25h\\e[1;7;38;5;0mTermuxArch warning:  Quit signal received!\\e[0m\\n"
+	printf "\\e[?25h\\e[1;7;38;5;0mTermuxArch warning:  Quit signal $? received!\\e[0m\\n"
  	exit 
 }
 
@@ -671,6 +667,7 @@ declare	ed=""
 declare -g installdir=""
 declare kid=""
 declare	lc=""
+declare -g md5sumr=""
 declare opt=""
 declare rootdir=""
 declare spaceMessage=""

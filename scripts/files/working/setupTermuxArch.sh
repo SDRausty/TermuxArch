@@ -7,7 +7,7 @@
 IFS=$'\n\t'
 set -Eeuo pipefail
 unset LD_PRELOAD
-versionid="gen.v1.6 id682868834"
+versionid="v1.6"
 ## Preliminary Functions #######################################################
 arg2dir() { 
 	arg2="${@:2:1}"
@@ -173,7 +173,6 @@ dependbp() {
 		bsdtarif 
 		prootif 
 	else
-		bsdtarif 
 		prootif 
 	fi
 }
