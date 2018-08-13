@@ -8,7 +8,8 @@ IFS=$'\n\t'
 set -Eeuo pipefail
 unset LD_PRELOAD
 versionid="v1.6"
-## Preliminary Functions #######################################################
+
+## Inaugural Functions #########################################################
 arg2dir() { 
 	arg2="${@:2:1}"
 	if [[ "$arg2" = "" ]] ;then
