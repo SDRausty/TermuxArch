@@ -258,7 +258,7 @@ makestartbin() {
 
 makesystem() {
 	wakelock
-	makeinstalldir
+	prepinstalldir
 	callsystem
 	printmd5check
 	md5check

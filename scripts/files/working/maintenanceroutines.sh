@@ -66,7 +66,7 @@ loadimage() {
 	prepinstalldir
  	spaceinfo
 	wakelock
-	makeinstalldir 
+	prepinstalldir 
 	copyimage "$@"
 	printmd5check
 	md5check
