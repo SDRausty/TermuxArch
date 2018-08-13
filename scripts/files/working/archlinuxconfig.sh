@@ -128,7 +128,8 @@ addbash_profile() {
 	PATH=\$HOME/bin:\$PATH
 	. \$HOME/.bashrc
 	PS1="[\A\[\033[0;32m\] \W \[\033[0m\]]\\$ "
-	export TZ=$(getprop persist.sys.timezone)
+	export TZ="$(getprop persist.sys.timezone)"
+	export LANGUAGE="$(getprop persist.sys.locale)"
 	EOM
 	if [ -e "$HOME"/.bash_profile ] ; then
 		grep proxy "$HOME"/.bash_profile |grep "export" >>  root/.bash_profile 2>/dev/null||:
@@ -206,7 +207,7 @@ addch() { # Creates .hushlogin and .hushlogout file
 	################################################################################
 	set -Eeou pipefail 
 	declare -a args
-versionid="v1.6"
+versionid="gen.v1.6 id283909948048"
 
 
 	finishe() { # on exit
@@ -397,7 +398,7 @@ addkeys() {
 	shopt -s nullglob globstar
 
 	declare -a keyrings
-versionid="v1.6"
+versionid="gen.v1.6 id283909948048"
 
 
 	finishe() { # on exit
@@ -499,7 +500,7 @@ addpc() { # pacman install packages shortcut
 	shopt -s nullglob globstar
 
 	declare -g args="\$@"
-versionid="v1.6"
+versionid="gen.v1.6 id283909948048"
 
 
 	finishe() { # on exit
@@ -562,7 +563,7 @@ addpci() { # system update with pacman install packages shortcut
 	shopt -s nullglob globstar
 
 	declare args="\$@"
-versionid="v1.6"
+versionid="gen.v1.6 id283909948048"
 
 
 	finishe() { # on exit

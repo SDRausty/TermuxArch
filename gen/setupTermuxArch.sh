@@ -7,7 +7,7 @@
 IFS=$'\n\t'
 set -Eeuo pipefail
 unset LD_PRELOAD
-versionid="gen.v1.6 id682868834"
+versionid="gen.v1.6 id283909948048"
 ## Preliminary Functions #######################################################
 arg2dir() { 
 	arg2="${@:2:1}"
@@ -173,7 +173,6 @@ dependbp() {
 		bsdtarif 
 		prootif 
 	else
-		bsdtarif 
 		prootif 
 	fi
 }
@@ -655,7 +654,6 @@ declare -a args="$@"
 declare bin=""
 declare commandif="$(command -v getprop)" ||:
 declare cpuabi="$(getprop ro.product.cpu.abi 2>/dev/null)" ||:
-declare syslocale="$(getprop persist.sys.locale 2>/dev/null)" ||:
 declare cpuabi5="armeabi"
 declare cpuabi7="armeabi-v7a"
 declare cpuabi8="arm64-v8a"
