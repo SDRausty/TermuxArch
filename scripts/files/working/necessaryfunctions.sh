@@ -124,7 +124,7 @@ makefinishsetup() {
 	################################################################################
  	set -Eeou pipefail 
 	shopt -s nullglob globstar
-	versionid="gen.v1.6 id653358484134"
+	versionid="gen.v1.6 id633748685922"
 
 	printf "\\n\\e[1;34m:: \\e[1;37mRemoving redundant packages for Termux PRoot installation…\\n"
 	EOM
@@ -174,7 +174,7 @@ makesetupbin() {
 	################################################################################
  	set -Eeou pipefail 
 	shopt -s nullglob globstar
-	versionid="gen.v1.6 id653358484134"
+	versionid="gen.v1.6 id633748685922"
 	unset LD_PRELOAD
 	EOM
 	echo "$prootstmnt /root/bin/finishsetup.sh ||:" >> root/bin/setupbin.sh 
@@ -191,7 +191,7 @@ makestartbin() {
 	################################################################################
  	set -Eeou pipefail 
 	shopt -s nullglob globstar
-	versionid="gen.v1.6 id653358484134"
+	versionid="gen.v1.6 id633748685922"
 	unset LD_PRELOAD
 	declare -g ar2ar="\${@:2}"
 	declare -g ar3ar="\${@:3}"
@@ -342,27 +342,7 @@ runfinishsetup() {
 prepinstalldir() {
 	mkdir -p "$installdir"
 	cd "$installdir"
-}
-
-setlanguage() {
-	_LANGUAG="$(getprop persist.sys.locale)"
-	_LANGUAGE="${_LANGUAG//-/_}"
-}
-	setlanguage
-
-setlocale() {
-	echo LANG="$_LANGUAGE".UTF-8 >> etc/locale.conf 
-	echo LANGUAGE="$_LANGUAGE".UTF-8 >> etc/locale.conf 
-	if [[ -e etc/locale.gen ]]; then
-		sed -i "/\\#"$_LANGUAGE".UTF-8 UTF-8/{s/#//g;s/@/-at-/g;}" etc/locale.gen 
-	else
-		cat >  etc/locale.gen <<- EOM
-		$_LANGUAGE.UTF-8 UTF-8 
-		EOM
-	fi
-}
-
-touchupsys() {
+	mkdir -p etc 
 	mkdir -p root/bin
 	addREADME
 	addae
@@ -393,11 +373,32 @@ touchupsys() {
 	addtour
 	addtrim 
 	addyt
-	addwe  
 	addv 
-	setlocale
 	makefinishsetup
 	makesetupbin 
+}
+
+setlanguage() {
+	_LANG="$(getprop persist.sys.locale)"
+	_LANGUAGE="${_LANG//-/_}"
+}
+setlanguage
+
+setlocale() {
+	echo LANG="$_LANGUAGE".UTF-8 >> etc/locale.conf 
+	echo LANGUAGE="$_LANGUAGE".UTF-8 >> etc/locale.conf 
+	if [[ -e etc/locale.gen ]]; then
+		sed -i "/\\#"$_LANGUAGE".UTF-8 UTF-8/{s/#//g;s/@/-at-/g;}" etc/locale.gen 
+	else
+		cat >  etc/locale.gen <<- EOM
+		$_LANGUAGE.UTF-8 UTF-8 
+		EOM
+	fi
+}
+
+touchupsys() {
+	addwe  
+	setlocale
 	runfinishsetup
 	rm root/bin/finishsetup.sh
 	rm root/bin/setupbin.sh 
