@@ -355,8 +355,15 @@ prepinstalldir() {
 }
 
 setlanguage() { 
-# 	_LANG="$(getprop persist.sys.locale)"
-	_LANG="$(getprop ro.product.locale)"
+ 	_LANG="$(getprop persist.sys.locale)"
+	_LANGU="${_LANG:2:1}"
+	if [[ "$_LANGU" != "-" ]];then
+		_LANG="$(getprop ro.product.locale)"
+		_LANGU="${_LANG:2:1}"
+	fi
+	if [[ "$_LANGU" != "-" ]];then
+		_LANG="$(en-US)"
+	fi
 	_LANGUAGE="${_LANG//-/_}"
 }
 setlanguage
