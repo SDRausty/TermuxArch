@@ -12,7 +12,7 @@ addREADME() {
 	* Comments are welcome at https://github.com/sdrausty/TermuxArch/issues ✍ 
 	* Pull requests are welcome at https://github.com/sdrausty/TermuxArch/pulls ✍ 
 	
-	Thank you for making this project work better and please contribute 🔆 
+	Thank you for making this project work better, and please contribute 🔆 
 
 	EOM
 }
@@ -31,8 +31,7 @@ addae() {
 	chmod 770 root/bin/ae 
 }
 
-addauser() {
-	# Add Arch Linux user.
+addauser() { # Add Arch Linux user.
 	cat > root/bin/addauser <<- EOM
 	#!/bin/bash -e
 	# Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
@@ -47,8 +46,7 @@ addauser() {
 	chmod 770 root/bin/addauser 
 }
 
-addauserps() {
-	# Add Arch Linux user and create user login Termux startup script. 
+addauserps() { # Add Arch Linux user and create user login Termux startup script. 
 	cat > root/bin/addauserps <<- EOM
 	#!/bin/bash -e
 	# Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
@@ -78,8 +76,7 @@ addauserps() {
 	chmod 770 root/bin/addauserps 
 }
 
-addauserpsc() {
-	# Add Arch Linux user and create user login Termux startup script. 
+addauserpsc() { # Add Arch Linux user and create user login Termux startup script. 
 	cat > root/bin/addauserpsc <<- EOM
 	#!/bin/bash -e
 	# Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
@@ -129,7 +126,7 @@ addbash_profile() {
 	. \$HOME/.bashrc
 	PS1="[\A\[\033[0;32m\] \W \[\033[0m\]]\\$ "
 	export TZ="$(getprop persist.sys.timezone)"
-	export LANGUAGE="$(getprop persist.sys.locale)"
+	export LANG="$(getprop persist.sys.locale)"
 	EOM
 	if [ -e "$HOME"/.bash_profile ] ; then
 		grep proxy "$HOME"/.bash_profile |grep "export" >>  root/.bash_profile 2>/dev/null||:
@@ -207,7 +204,7 @@ addch() { # Creates .hushlogin and .hushlogout file
 	################################################################################
 	set -Eeou pipefail 
 	declare -a args
-versionid="gen.v1.6 id402601443981"
+versionid="gen.v1.6 id513814490013"
 
 
 	finishe() { # on exit
@@ -398,7 +395,7 @@ addkeys() {
 	shopt -s nullglob globstar
 
 	declare -a keyrings
-versionid="gen.v1.6 id402601443981"
+versionid="gen.v1.6 id513814490013"
 
 
 	finishe() { # on exit
@@ -500,7 +497,7 @@ addpc() { # pacman install packages shortcut
 	shopt -s nullglob globstar
 
 	declare -g args="\$@"
-versionid="gen.v1.6 id402601443981"
+versionid="gen.v1.6 id513814490013"
 
 
 	finishe() { # on exit
@@ -563,7 +560,7 @@ addpci() { # system update with pacman install packages shortcut
 	shopt -s nullglob globstar
 
 	declare args="\$@"
-versionid="gen.v1.6 id402601443981"
+versionid="gen.v1.6 id513814490013"
 
 
 	finishe() { # on exit
