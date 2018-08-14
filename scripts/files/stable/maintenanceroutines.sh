@@ -63,7 +63,6 @@ copyimage() {
 loadimage() { 
 	set +Ee
 	namestartarch 
-	prepinstalldir
  	spaceinfo
 	wakelock
 	prepinstalldir 
@@ -73,7 +72,6 @@ loadimage() {
 	printcu 
 	rm -f "$installdir"/*.tar.gz "$installdir"/*.tar.gz.md5
 	printdone 
-	makestartbin 
 	printconfigup 
 	touchupsys 
 	wakeunlock 
@@ -83,8 +81,7 @@ loadimage() {
 	printfooter2
 }
 
-refreshsys() {
-	# Refreshes
+refreshsys() { # Refreshes
 	printf '\033]2; setupTermuxArch.sh refresh 📲 \007'
 	nameinstalldir 
 	namestartarch  

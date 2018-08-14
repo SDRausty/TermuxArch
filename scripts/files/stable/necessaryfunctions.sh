@@ -265,7 +265,6 @@ makesystem() {
 	printcu 
 	rm -f "$installdir"/*.tar.gz "$installdir"/*.tar.gz.md5
 	printdone 
-	makestartbin 
 	printconfigup 
 	touchupsys 
 }
@@ -318,6 +317,7 @@ prepinstalldir() {
 	addv 
 	makefinishsetup
 	makesetupbin 
+	makestartbin 
 }
 
 preproot() {
