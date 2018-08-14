@@ -126,7 +126,7 @@ addbash_profile() {
 	. \$HOME/.bashrc
 	PS1="[\A\[\033[0;32m\] \W \[\033[0m\]]\\$ "
 	export TZ="$(getprop persist.sys.timezone)"
-	export LANG="$_LANGUAGE"
+	export LANG="$_LANGUAGE.UTF-8"
 	EOM
 	if [ -e "$HOME"/.bash_profile ] ; then
 		grep proxy "$HOME"/.bash_profile |grep "export" >>  root/.bash_profile 2>/dev/null||:
