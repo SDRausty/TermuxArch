@@ -369,6 +369,7 @@ setlanguage() {
 setlanguage
 
 setlocale() {
+	setlanguage
 	echo LANG="$_LANGUAGE".UTF-8 >> etc/locale.conf 
 	echo LANGUAGE="$_LANGUAGE".UTF-8 >> etc/locale.conf 
 	if [[ -e etc/locale.gen ]]; then
