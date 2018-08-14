@@ -8,7 +8,7 @@ IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-versionid="gen.v1.6 id603598640888"
+versionid="v1.6"
 
 ## Inaugural Functions #########################################################
 arg2dir() { 
@@ -663,7 +663,7 @@ declare cpuabi7="armeabi-v7a"
 declare cpuabi8="arm64-v8a"
 declare cpuabix86="x86"
 declare cpuabix86_64="x86_64"
-declare dfl="/gen" # Used for development 
+declare dfl="" # Used for development 
 declare dm=""
 declare dmverbose="-q" # Use "-v" for verbose download manager output;  for verbose output throughout runtime, change in `knownconfigurations.sh` also, or in `setupTermuxArchConfigs.sh` if using `setupTermuxArch.sh manual`. 
 declare	ed=""

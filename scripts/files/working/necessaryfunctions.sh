@@ -124,7 +124,7 @@ makefinishsetup() {
 	################################################################################
  	set -Eeou pipefail 
 	shopt -s nullglob globstar
-	versionid="gen.v1.6 id603598640888"
+	versionid="v1.6"
 
 	printf "\\n\\e[1;34m:: \\e[1;37mRemoving redundant packages for Termux PRoot installation…\\n"
 	EOM
@@ -174,7 +174,7 @@ makesetupbin() {
 	################################################################################
  	set -Eeou pipefail 
 	shopt -s nullglob globstar
-	versionid="gen.v1.6 id603598640888"
+	versionid="v1.6"
 	unset LD_PRELOAD
 	EOM
 	echo "$prootstmnt /root/bin/finishsetup.sh ||:" >> root/bin/setupbin.sh 
@@ -191,7 +191,7 @@ makestartbin() {
 	################################################################################
  	set -Eeou pipefail 
 	shopt -s nullglob globstar
-	versionid="gen.v1.6 id603598640888"
+	versionid="v1.6"
 	unset LD_PRELOAD
 	declare -g ar2ar="\${@:2}"
 	declare -g ar3ar="\${@:3}"
@@ -383,6 +383,7 @@ setlocale() {
 touchupsys() {
 	addfake_proc_stat
 	addwe  
+	addmoto
 	setlocale
 	runfinishsetup
 	rm root/bin/finishsetup.sh
