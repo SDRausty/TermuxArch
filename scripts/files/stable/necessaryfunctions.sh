@@ -299,7 +299,6 @@ prepinstalldir() {
 	addch 
 	adddfa
 	addexd
-	addfake_proc_stat
 	addga
 	addgcl
 	addgcm
@@ -382,6 +381,7 @@ setlocale() {
 }
 
 touchupsys() {
+	addfake_proc_stat
 	addwe  
 	setlocale
 	runfinishsetup
