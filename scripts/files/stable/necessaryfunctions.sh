@@ -320,6 +320,8 @@ prepinstalldir() {
 	cd "$installdir"
 	mkdir -p etc 
 	mkdir -p root/bin
+	mkdir -p var/run/termux
+	touch var/run/termux/fake_proc_stat
 	addREADME
 	addae
 	addauser
@@ -382,6 +384,9 @@ setlocale() {
 
 touchupsys() {
 	addwe  
+	chmod 777 proc
+	touch proc/fake_proc_stat
+	chmod 555 proc
 	setlocale
 	runfinishsetup
 	rm root/bin/finishsetup.sh
