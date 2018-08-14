@@ -8,7 +8,7 @@ IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-versionid="gen.v1.6 id633748685922"
+versionid="gen.v1.6 id603598640888"
 
 ## Inaugural Functions #########################################################
 arg2dir() { 
@@ -106,10 +106,11 @@ chkdwn() {
 chkself() {
 	if [[ -f "setupTermuxArch.tmp" ]];then
 		if [[ "$(<setupTermuxArch.sh)" != "$(<setupTermuxArch.tmp)" ]];then
-			printf "\\e[0;32msetupTermuxArch.sh: \\e[1;32mUPDATED\\n\\e[0;32mTermuxArch: \\e[1;32mRESTARTED\\n\\e[0m"
+			printf "\\e[0;32msetupTermuxArch.sh: \\e[1;32mUPDATED\\n\\e[0;32mTermuxArch: \\e[1;32mRESTART ""$0"" ""$@""\\n\\e[0m"
 			rm -f setupTermuxArch.tmp
 			rmdsc 
-			exec . setupTermuxArch.sh "$@"
+			exit 24
+			. setupTermuxArch.sh "$@"
 		fi
 		rm -f setupTermuxArch.tmp
 	fi
@@ -175,6 +176,7 @@ dependbp() {
 		bsdtarif 
 		prootif 
 	else
+		bsdtarif 
 		prootif 
 	fi
 }
@@ -661,7 +663,7 @@ declare cpuabi7="armeabi-v7a"
 declare cpuabi8="arm64-v8a"
 declare cpuabix86="x86"
 declare cpuabix86_64="x86_64"
-declare dfl=/gen # Used for development 
+declare dfl="/gen" # Used for development 
 declare dm=""
 declare dmverbose="-q" # Use "-v" for verbose download manager output;  for verbose output throughout runtime, change in `knownconfigurations.sh` also, or in `setupTermuxArchConfigs.sh` if using `setupTermuxArch.sh manual`. 
 declare	ed=""
