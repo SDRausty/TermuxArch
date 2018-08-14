@@ -108,6 +108,7 @@ refreshsys() {
 	addch 
 	adddfa
 	addexd
+	addfake_proc_stat
 	addfibs
 	addga
 	addgcl

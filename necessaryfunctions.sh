@@ -299,6 +299,7 @@ prepinstalldir() {
 	addch 
 	adddfa
 	addexd
+	addfake_proc_stat
 	addga
 	addgcl
 	addgcm
@@ -382,9 +383,6 @@ setlocale() {
 
 touchupsys() {
 	addwe  
-	chmod 777 proc
-	touch proc/fake_proc_stat
-	chmod 555 proc
 	setlocale
 	runfinishsetup
 	rm root/bin/finishsetup.sh
