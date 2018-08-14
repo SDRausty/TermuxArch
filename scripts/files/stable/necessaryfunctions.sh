@@ -103,8 +103,8 @@ lkernid
 
 mainblock() { 
 	namestartarch 
-	prepinstalldir
 	spaceinfo
+	prepinstalldir
 	detectsystem 
 	wakeunlock 
 	printfooter
