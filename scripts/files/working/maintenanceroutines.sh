@@ -52,11 +52,11 @@ copyimage() {
 	cfile="${1##/*/}" 
  	file="$cfile" 
 	if [[ "$lc" = "" ]];then
-		cp "$1".md5  "$installdir" & spinner "Copying " "in progress…" 
-		cp "$1" "$installdir" & spinner "Copying " "in progress…" 
+		cp "$1".md5  "$installdir" & spinner "Copying" "in progress…" 
+		cp "$1" "$installdir" & spinner "Copying" "in progress…" 
 	elif [[ "$lc" = "1" ]];then
-		cp "$idir/$cfile".md5  "$installdir" & spinner "Copying " "in progress…" 
-		cp "$idir/$cfile" "$installdir" & spinner "Copying " "in progress…" 
+		cp "$idir/$cfile".md5  "$installdir" & spinner "Copying" "in progress…" 
+		cp "$idir/$cfile" "$installdir" & spinner "Copying" "in progress…" 
 	fi
 }
 
