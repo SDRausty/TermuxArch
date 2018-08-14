@@ -281,47 +281,11 @@ md5check() {
 	fi
 }
 
-preproot() {
-	if [[ "$(du "$installdir"/*z | awk {'print $1'})" -gt 112233 ]];then
-		if [[ "$cpuabi" = "$cpuabix86" ]] || [[ "$cpuabi" = "$cpuabix86_64" ]];then
-			proot --link2symlink -0 bsdtar -xpf "$file" --strip-components 1  
-		else
- 			proot --link2symlink -0 /system/bin/toybox tar -xpf "$file" 
-# 			proot --link2symlink -0 bsdtar -xpf "$file" 
-# 			proot --link2symlink -0 "$PREFIX"/bin/applets/tar xf "$file" 
-		fi
-	else
-		printf "\\n\\n\\e[1;31mDownload Exception!  Execute \\e[0;32mbash setupTermuxArch.sh\\e[1;31m again…\\n"'\033]2;  Execute `bash setupTermuxArch.sh` again …\007'
-		exit
-	fi
-}
-
-runfinishsetup() {
-	printf "\\e[0m"
-	if [[ "$fstnd" ]]; then
-		nmir="$(echo "$nmirror" |awk -F'/' '{print $3}')"
-		sed -e '/http\:\/\/mir/ s/^#*/# /' -i "$installdir"/etc/pacman.d/mirrorlist
-		sed -e "/$nmir/ s/^# *//" -i "$installdir"/etc/pacman.d/mirrorlist
-	else
-	if [[ "$ed" = "" ]];then
-		editors 
-	fi
-	if [[ ! "$(sed 1q  "$installdir"/etc/pacman.d/mirrorlist)" = "# # # # # # # # # # # # # # # # # # # # # # # # # # #" ]];then
-		editfiles
-	fi
-		"$ed" "$installdir"/etc/pacman.d/mirrorlist
-	fi
-	printf "\\n"
-	"$installdir"/root/bin/setupbin.sh 
-}
-
 prepinstalldir() {
 	mkdir -p "$installdir"
 	cd "$installdir"
 	mkdir -p etc 
 	mkdir -p root/bin
-	mkdir -p var/run/termux
-	touch var/run/termux/fake_proc_stat
 	addREADME
 	addae
 	addauser
@@ -354,6 +318,40 @@ prepinstalldir() {
 	addv 
 	makefinishsetup
 	makesetupbin 
+}
+
+preproot() {
+	if [[ "$(du "$installdir"/*z | awk {'print $1'})" -gt 112233 ]];then
+		if [[ "$cpuabi" = "$cpuabix86" ]] || [[ "$cpuabi" = "$cpuabix86_64" ]];then
+			proot --link2symlink -0 bsdtar -xpf "$file" --strip-components 1  
+		else
+ 			proot --link2symlink -0 bsdtar -xpf "$file" 
+# 			proot --link2symlink -0 "$PREFIX"/bin/applets/tar xf "$file" 
+# 			proot --link2symlink -0 /system/bin/toybox tar -xpf "$file" 
+		fi
+	else
+		printf "\\n\\n\\e[1;31mDownload Exception!  Execute \\e[0;32mbash setupTermuxArch.sh\\e[1;31m again…\\n"'\033]2;  Execute `bash setupTermuxArch.sh` again …\007'
+		exit
+	fi
+}
+
+runfinishsetup() {
+	printf "\\e[0m"
+	if [[ "$fstnd" ]]; then
+		nmir="$(echo "$nmirror" |awk -F'/' '{print $3}')"
+		sed -e '/http\:\/\/mir/ s/^#*/# /' -i "$installdir"/etc/pacman.d/mirrorlist
+		sed -e "/$nmir/ s/^# *//" -i "$installdir"/etc/pacman.d/mirrorlist
+	else
+	if [[ "$ed" = "" ]];then
+		editors 
+	fi
+	if [[ ! "$(sed 1q  "$installdir"/etc/pacman.d/mirrorlist)" = "# # # # # # # # # # # # # # # # # # # # # # # # # # #" ]];then
+		editfiles
+	fi
+		"$ed" "$installdir"/etc/pacman.d/mirrorlist
+	fi
+	printf "\\n"
+	"$installdir"/root/bin/setupbin.sh 
 }
 
 setlanguage() { 

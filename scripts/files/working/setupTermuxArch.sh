@@ -176,6 +176,7 @@ dependbp() {
 		bsdtarif 
 		prootif 
 	else
+		bsdtarif 
 		prootif 
 	fi
 }
