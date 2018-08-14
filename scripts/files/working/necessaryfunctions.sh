@@ -383,7 +383,7 @@ setlocale() {
 touchupsys() {
 	addfake_proc_stat
 	addwe  
-	addmoto
+	addmotd
 	setlocale
 	runfinishsetup
 	rm root/bin/finishsetup.sh
