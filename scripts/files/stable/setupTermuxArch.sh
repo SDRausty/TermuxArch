@@ -652,7 +652,7 @@ wgetif() {
 }
 
 ## Important Information #######################################################
-#  User configurable variables such as mirrors and download manager options are in `setupTermuxArchConfigs.sh`.  Creating this file from `kownconfigurations.sh` in the working directory is simple, use `setupTermuxArch.sh manual` to create, edit and run `setupTermuxArchConfigs.sh`; See `setupTermuxArch.sh help` for information.  
+#  User configurable variables such as mirrors and download manager options are in `setupTermuxArchConfigs.sh`.  To create this file from `kownconfigurations.sh` in the working directory is very simple, use `setupTermuxArch.sh manual` to create, edit and run `setupTermuxArchConfigs.sh`; See `setupTermuxArch.sh help` for information.  
 declare COUNTER=""
 declare -a args="$@"
 declare bin=""
