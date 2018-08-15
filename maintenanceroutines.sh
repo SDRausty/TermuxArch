@@ -9,7 +9,7 @@ sysinfo() {
 	spaceinfo
 	printf "\\n\\e[1;32m"
 	printf "Begin setupTermuxArch debug information.\\n" > setupTermuxArchDebug"$stime".log
-	systeminfo & spinner "System Info" "$file…" 
+	systeminfo & spenner "System Info" "file…" 
 }
 
 systeminfo () {
@@ -52,11 +52,11 @@ copyimage() {
 	cfile="${1##/*/}" 
  	file="$cfile" 
 	if [[ "$lc" = "" ]];then
-		cp "$1".md5  "$installdir" & spinner "Copying" "$file…" 
-		cp "$1" "$installdir" & spinner "Copying" "$file…" 
+		cp "$1".md5  "$installdir" & spinner "Copying" "…" 
+		cp "$1" "$installdir" & spinner "Copying" "…" 
 	elif [[ "$lc" = "1" ]];then
-		cp "$idir/$cfile".md5  "$installdir" & spinner "Copying" "$file…" 
-		cp "$idir/$cfile" "$installdir" & spinner "Copying" "$file…" 
+		cp "$idir/$cfile".md5  "$installdir" & spinner "Copying" "…" 
+		cp "$idir/$cfile" "$installdir" & spinner "Copying" "…" 
 	fi
 }
 
@@ -106,6 +106,7 @@ refreshsys() { # Refreshes
 	adddfa
 	addexd
 	addfake_proc_stat
+	addfake_proc_shmem
 	addfibs
 	addga
 	addgcl

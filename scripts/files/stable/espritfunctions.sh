@@ -78,7 +78,7 @@ spinner() { # Based on https://github.com/ringohub/sh-spinner
 		}
 		for (( i=0; i<${#SPINNER}; i++ )); do
 			sleep 0.05
-			printf " %s %s %s\r" "${SPINNER:$i:1}" "$task" "$msg"
+			printf " %s %s%s\r" "${SPINNER:$i:1}" "$task" "$msg"
 		done
 	done
 }

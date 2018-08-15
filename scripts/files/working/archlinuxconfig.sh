@@ -204,7 +204,7 @@ addch() { # Creates .hushlogin and .hushlogout file
 	################################################################################
 	set -Eeou pipefail 
 	declare -a args
-versionid="v1.6"
+	versionid="v1.6"
 
 
 	finishe() { # on exit
@@ -277,6 +277,19 @@ adddfa() {
 	printf "\e[0;33m\$usrspace \$units of free user space is available on this device.\n\e[0m"
 	EOM
 	chmod 770 root/bin/dfa 
+}
+
+addfake_proc_shmem() {
+	cat > var/fake_proc_shmem <<- EOM
+	------ Message Queues --------
+	key        msqid      owner      perms      used-bytes   messages
+	
+	------ Shared Memory Segments --------
+	key        shmid      owner      perms      bytes      nattch     status
+	
+	------ Semaphore Arrays --------
+	key        semid      owner      perms      nsems
+	EOM
 }
 
 addfake_proc_stat() {
@@ -412,7 +425,7 @@ addkeys() {
 	shopt -s nullglob globstar
 
 	declare -a keyrings
-versionid="v1.6"
+	versionid="v1.6"
 
 
 	finishe() { # on exit
@@ -514,7 +527,7 @@ addpc() { # pacman install packages shortcut
 	shopt -s nullglob globstar
 
 	declare -g args="\$@"
-versionid="v1.6"
+	versionid="v1.6"
 
 
 	finishe() { # on exit
@@ -577,7 +590,7 @@ addpci() { # system update with pacman install packages shortcut
 	shopt -s nullglob globstar
 
 	declare args="\$@"
-versionid="v1.6"
+	versionid="v1.6"
 
 
 	finishe() { # on exit

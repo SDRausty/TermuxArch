@@ -273,7 +273,7 @@ md5check() {
 	if "$PREFIX"/bin/applets/md5sum -c "$file".md5 1>/dev/null ; then
 		printmd5success
 		printf "\\e[0;32m"
-		preproot & spinner "Uncompressing" "$file…"  
+		preproot & spinner "Uncompressing" "…"  
 	else
 		rmarchrm 
 		printmd5error
@@ -285,6 +285,7 @@ prepinstalldir() {
 	cd "$installdir"
 	mkdir -p etc 
 	mkdir -p root/bin
+	mkdir -p var 
 	addREADME
 	addae
 	addauser
@@ -298,6 +299,8 @@ prepinstalldir() {
 	addch 
 	adddfa
 	addexd
+	addfake_proc_stat
+	addfake_proc_shmem
 	addga
 	addgcl
 	addgcm
@@ -382,7 +385,6 @@ setlocale() {
 }
 
 touchupsys() {
-	addfake_proc_stat
 	addwe  
 	addmotd
 	setlocale
