@@ -73,7 +73,7 @@ spinner() { # Based on https://github.com/ringohub/sh-spinner
 	while :; do
 		jobs %1 > /dev/null 2>&1
 		[[ $? = 0 ]] || {
-			printf " %s %s %s\e[?25h\e[0m\n" "✓" "$task" "DONE                    "
+			printf " %s %s\e[1;34m:\e[1;32m %s\e[?25h\e[0m\n" "✓" "$task" "DONE                    "
 			break
 		}
 		for (( i=0; i<${#SPINNER}; i++ )); do
