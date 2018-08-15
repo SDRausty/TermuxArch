@@ -9,7 +9,7 @@ sysinfo() {
 	spaceinfo
 	printf "\\n\\e[1;32m"
 	printf "Begin setupTermuxArch debug information.\\n" > setupTermuxArchDebug"$stime".log
-	systeminfo & spenner "System Info" "file…" 
+	systeminfo & spinner "System Info" "…" 
 }
 
 systeminfo () {
