@@ -8,7 +8,7 @@ IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-versionid="v1.6 id2224"
+versionid="gen.v1.6 id09294447847"
 
 ## Inaugural Functions #########################################################
 addcurl() {
@@ -78,11 +78,7 @@ chk() {
 	if "$PREFIX"/bin/applets/sha512sum -c termuxarchchecksum.sha512 1>/dev/null ;then
 		chkself "$@"
 		printf "\\e[0;34m 🕛 > 🕜 \\e[1;34mTermuxArch $versionid integrity: \\e[1;32mOK\\e[0m\\n"
-		if [[ "$opt" = manual ]];then
-			manual
-		else 
-			ldconf
-		fi
+		loadconf
 		. archlinuxconfig.sh
 		. espritfunctions.sh
 		. getimagefunctions.sh
@@ -93,6 +89,9 @@ chk() {
 			rm termuxarchchecksum.sha512 
 		else 
 			rmdsc 
+		fi
+		if [[ "$opt" = manual ]];then
+			manual
 		fi
 	else
 		rmdsc 
@@ -127,7 +126,6 @@ chkself() {
 
 curlif() {
 	if [[ -x /system/bin/curl ]] && [[ ! -x "$PREFIX"/bin/curl ]];then
-		dm=curl 
 		addcurl
 	elif [[ ! -x "$PREFIX"/bin/curl ]];then
 		printf "\\n\\e[1;34mInstalling \\e[0;32mcurl\\e[1;34m…\\n\\n\\e[1;32m"
@@ -207,92 +205,6 @@ dwnl() {
 	fi
 }
 
-editors() {
-	aeds=("zile" "nano" "nvim" "vi" "emacs" "joe" "jupp" "micro" "ne" "applets/vi")
-	for i in "${!aeds[@]}"; do
-		if [[ -e "$PREFIX/bin/${aeds[$i]}" ]];then
-			ceds+=("${aeds[$i]}")
-		fi
-	done
-	for i in "${!ceds[@]}"; do
-		cedst+="\`\\e[1;32m${ceds[$i]}\\e[0;32m\`, "
-	done
-	for i in "${!ceds[@]}"; do
-		edq 
-		if [[ "$ind" = 1 ]];then
-			break
-		fi
-	done
-}
-
-edq() {
-	printf "\\e[0;32m"
-	for i in "${!ceds[@]}"; do
-		if [[ "${ceds[$i]}" = "applets/vi" ]];then
-			edq2
-			ind=1
-			break
-		fi
-		edqa "$ceds"
-		if [[ "$ind" = 1 ]];then
-			break
-		fi
-	done
-}
-
-edqa() {
-	ed="${ceds[$i]}"
-	ind=1
-}
-
-edqaquestion() {
-	while true; do
-		printf "\\n"
-		if [[ "$opt" = bloom ]] || [[ "$opt" = manual ]];then
-			printf "The following editor(s) $cedst\\b\\b are present.  Would you like to use \`\\e[1;32m${ceds[$i]}\\e[0;32m\` to edit \`\\e[1;32msetupTermuxArchConfigs.sh\\e[0;32m\`?  "
-			wead -n 1 -p "Answer yes or no [Y|n]. "  yn
-		else 
-			printf "Change the worldwide mirror to a mirror that is geographically nearby.  Choose only ONE active mirror in the mirrors file that you are about to edit.  The following editor(s) $cedst\\b\\b are present.  Would you like to use \`\\e[1;32m${ceds[$i]}\\e[0;32m\` to edit the Arch Linux configuration files?  "
-			read -n 1 -p "Answer yes or no [Y|n]. "  yn
-		fi
-		if [[ "$yn" = [Yy]* ]] || [[ "$yn" = "" ]];then
-			ed="${ceds[$i]}"
-			ind=1
-			break
-		elif [[ "$yn" = [Nn]* ]];then
-			break
-		else
-			printf "\\nYou answered \\e[1;36m$yn\\e[1;32m.\\n"
-			printf "\\nAnswer yes or no [Y|n].  \\n"
-		fi
-	done
-}
-
-edq2() {
-	while true; do
-		if [[ "$opt" = bloom ]] || [[ "$opt" = manual ]];then
-			printf "\\n\\e[1;34m  Would you like to use \\e[1;32mnano\\e[1;34m or \\e[1;32mvi\\e[1;34m to edit \\e[1;32msetupTermuxArchConfigs.sh\\e[1;34m?  "
-			read -n 1 -p "Answer nano or vi [n|V]? "  nv
-		else 
-			printf "\\e[1;34m  Change the worldwide mirror to a mirror that is geographically nearby.  Choose only ONE active mirror in the mirrors file that you are about to edit.  Would you like to use \\e[1;32mnano\\e[1;34m or \\e[1;32mvi\\e[1;34m to edit the Arch Linux configuration files?  "
-			read -n 1 -p "Answer nano or vi [n|V]? "  nv
-		fi
-		if [[ "$nv" = [Nn]* ]];then
-			ed=nano
-			nanoif
-			ind=1
-			break
-		elif [[ "$nv" = [Vv]* ]] || [[ "$nv" = "" ]];then
-			ed="$PREFIX"/bin/applets/vi
-			ind=1
-			break
-		else
-			printf "\\nYou answered \\e[36;1m$nv\\e[1;32m.\\n\\nAnswer nano or vi [n|v].  \\n"
-		fi
-	done	
-	printf "\\n"
-}
-
 finishe() { # on exit
 	printf "\\e[?25h\\e[0m"
 	set +Eeuo pipefail 
@@ -344,7 +256,7 @@ introrefresh() {
 	refreshsys "$@"
 }
 
-ldconf() {
+loadconf() {
 	if [[ -f "setupTermuxArchConfigs.sh" ]];then
 		. setupTermuxArchConfigs.sh
 		printconfloaded 

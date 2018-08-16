@@ -8,9 +8,18 @@ IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-versionid="gen.v1.6 id007800546269"
+versionid="gen.v1.6 id09294447847"
 
 ## Inaugural Functions #########################################################
+addcurl() {
+	cat > "$PREFIX"/bin/curl <<- EOM
+	#!/bin/sh
+	unset LD_LIBRARY_PATH LD_PRELOAD
+	PATH=\$PATH:/system/bin exec /system/bin/curl "\$@"
+	EOM
+	chmod 700 "$PREFIX"/bin/curl 
+}
+
 arg2dir() { 
 	arg2="${@:2:1}"
 	if [[ "$arg2" = "" ]] ;then
@@ -33,7 +42,7 @@ arg3dir() {
 	fi
 }
 
-bloom() { # Bloom = `setupTermuxArch.sh manual verbose` #######################
+bloom() { # Bloom = `setupTermuxArch.sh manual verbose` 
 	opt=bloom 
 	introbloom 
 	if [[ -d "$HOME"/TermuxArchBloom ]];then 
@@ -69,11 +78,7 @@ chk() {
 	if "$PREFIX"/bin/applets/sha512sum -c termuxarchchecksum.sha512 1>/dev/null ;then
 		chkself "$@"
 		printf "\\e[0;34m 🕛 > 🕜 \\e[1;34mTermuxArch $versionid integrity: \\e[1;32mOK\\e[0m\\n"
-		if [[ "$opt" = manual ]];then
-			manual
-		else 
-			ldconf
-		fi
+		loadconf
 		. archlinuxconfig.sh
 		. espritfunctions.sh
 		. getimagefunctions.sh
@@ -84,6 +89,9 @@ chk() {
 			rm termuxarchchecksum.sha512 
 		else 
 			rmdsc 
+		fi
+		if [[ "$opt" = manual ]];then
+			manual
 		fi
 	else
 		rmdsc 
@@ -117,13 +125,15 @@ chkself() {
 }
 
 curlif() {
-	if [[ ! -x "$PREFIX"/bin/curl ]];then
+	if [[ -x /system/bin/curl ]] && [[ ! -x "$PREFIX"/bin/curl ]];then
+		addcurl
+	elif [[ ! -x "$PREFIX"/bin/curl ]];then
 		printf "\\n\\e[1;34mInstalling \\e[0;32mcurl\\e[1;34m…\\n\\n\\e[1;32m"
 		pkg install curl --yes 
 		printf "\\n\\e[1;34mInstalling \\e[0;32mcurl\\e[1;34m: \\e[1;32mDONE\\n\\e[0m"
-	fi
-	if [[ ! -x "$PREFIX"/bin/curl ]];then
-		pe
+		if [[ ! -x "$PREFIX"/bin/curl ]];then
+			pe
+		fi
 	fi
 }
 
@@ -161,6 +171,9 @@ dependsblock() {
 		. necessaryfunctions.sh
 		. printoutstatements.sh
 		. maintenanceroutines.sh
+		if [[ "$opt" = manual ]];then
+			manual
+		fi 
 	else
 		dwnl
 		if [[ -f "setupTermuxArch.sh" ]];then
@@ -243,7 +256,7 @@ introrefresh() {
 	refreshsys "$@"
 }
 
-ldconf() {
+loadconf() {
 	if [[ -f "setupTermuxArchConfigs.sh" ]];then
 		. setupTermuxArchConfigs.sh
 		printconfloaded 
@@ -576,8 +589,8 @@ declare cpuabi7="armeabi-v7a"
 declare cpuabi8="arm64-v8a"
 declare cpuabix86="x86"
 declare cpuabix86_64="x86_64"
-declare dfl=/gen # Used for development 
-declare dm=""
+declare dfl="/gen" # Used for development 
+declare dm="curl"
 declare dmverbose="-q" # Use "-v" for verbose download manager output;  for verbose output throughout runtime, change in `knownconfigurations.sh` also, or in `setupTermuxArchConfigs.sh` if using `setupTermuxArch.sh manual`. 
 declare	ed=""
 declare -g installdir=""
@@ -658,7 +671,7 @@ elif [[ "$1" = [Hh]* ]] || [[ "$1" = -[Hh]* ]] || [[ "$1" = --[Hh]* ]]  || [[ "$
 ## [manual]  Manual Arch Linux install, useful for resolving download issues.
 elif [[ "$1" = [Mm]* ]] || [[ "$1" = -[Mm]* ]] || [[ "$1" = --[Mm]* ]];then
 	opt=manual
-	intro "$@" 
+	intro 
 	mainblock
 ## [purge |uninstall]  Remove Arch Linux.
 elif [[ "$1" = [Pp]* ]] || [[ "$1" = -[Pp]* ]] || [[ "$1" = --[Pp]* ]] || [[ "$1" = [Uu]* ]] || [[ "$1" = -[Uu]* ]] || [[ "$1" = --[Uu]* ]];then
