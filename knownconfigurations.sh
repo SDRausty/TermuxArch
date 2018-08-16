@@ -59,7 +59,7 @@ x86_64() { # $file is read from md5sums.txt
 
 prs() { # See `info proot` and `man proot` for more information about what you can configure in this proot statement.  If a more suitable configuration is found, share at https://github.com/sdrausty/TermuxArch/issues to improve this BASH script.
 prootstmnt="exec proot "
-if [[ -z "\${kid:-}" ]];then
+if [[ -z "${kid:-}" ]];then
 # if [[ "$kid" ]]; then
  	prootstmnt+="--kernel-release=4.14.15 "
 #	prootstmnt+=""
