@@ -173,6 +173,9 @@ dependsblock() {
 		. necessaryfunctions.sh
 		. printoutstatements.sh
 		. maintenanceroutines.sh
+		if [[ "$opt" = manual ]];then
+			manual
+		fi 
 	else
 		dwnl
 		if [[ -f "setupTermuxArch.sh" ]];then
@@ -756,7 +759,7 @@ elif [[ "$1" = [Hh]* ]] || [[ "$1" = -[Hh]* ]] || [[ "$1" = --[Hh]* ]]  || [[ "$
 ## [manual]  Manual Arch Linux install, useful for resolving download issues.
 elif [[ "$1" = [Mm]* ]] || [[ "$1" = -[Mm]* ]] || [[ "$1" = --[Mm]* ]];then
 	opt=manual
-	intro "$@" 
+	intro 
 	mainblock
 ## [purge |uninstall]  Remove Arch Linux.
 elif [[ "$1" = [Pp]* ]] || [[ "$1" = -[Pp]* ]] || [[ "$1" = --[Pp]* ]] || [[ "$1" = [Uu]* ]] || [[ "$1" = -[Uu]* ]] || [[ "$1" = --[Uu]* ]];then
