@@ -217,7 +217,7 @@ makestartbin() {
 		echo "$prootstmnt /bin/bash -lc \"\$ar2ar\" " >> "$startbin"
 	cat >> "$startbin" <<- EOM
 		printf '\033]2; '$startbin' command args 📲  \007'
-		rm $installdir/root/.chushlogin
+		rm -f $installdir/root/.chushlogin
 	# [login user|login user [options]] Login as user [plus options].  Use \`addauser user\` first to create this user and the user's home directory.
 	elif [[ "\$1" = [Ll]* ]] || [[ "\$1" = -[Ll]* ]] || [[ "\$1" = --[Ll]* ]] || [[ "\$1" = [Uu]* ]] || [[ "\$1" = -[Uu]* ]] || [[ "\$1" = --[Uu]* ]] ;then
 		printf '\033]2; '$startbin' login user [options] 📲  \007'
@@ -245,9 +245,9 @@ makestartbin() {
 	cat >> "$startbin" <<- EOM
 		printf '\033]2; '$startbin' su user command 📲  \007'
 		if [[ "\$2" = root ]];then
-			rm $installdir/root/.chushlogin
+			rm -f $installdir/root/.chushlogin
 		else
-			rm $installdir/home/"\$2"/.chushlogin
+			rm -f $installdir/home/"\$2"/.chushlogin
 		fi
 	else
 		printusage
@@ -389,8 +389,8 @@ touchupsys() {
 	addmotd
 	setlocale
 	runfinishsetup
-	rm root/bin/finishsetup.sh
-	rm root/bin/setupbin.sh 
+	rm -f root/bin/finishsetup.sh
+	rm -f root/bin/setupbin.sh 
 }
 
 wakelock() {
