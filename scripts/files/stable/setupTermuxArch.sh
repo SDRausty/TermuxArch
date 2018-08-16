@@ -8,9 +8,18 @@ IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-versionid="v1.6 id7358"
+versionid="v1.6 id3905"
 
 ## Inaugural Functions #########################################################
+addcurl() {
+	cat > "$PREFIX"/bin/curl <<- EOM
+	#!/bin/sh
+	unset LD_LIBRARY_PATH LD_PRELOAD
+	PATH=$PATH:/system/bin exec /system/bin/curl "$@"
+	EOM
+	chmod 700 "$PREFIX"/bin/curl 
+}
+
 arg2dir() { 
 	arg2="${@:2:1}"
 	if [[ "$arg2" = "" ]] ;then
@@ -33,7 +42,7 @@ arg3dir() {
 	fi
 }
 
-bloom() { # Bloom = `setupTermuxArch.sh manual verbose` #######################
+bloom() { # Bloom = `setupTermuxArch.sh manual verbose` 
 	opt=bloom 
 	introbloom 
 	if [[ -d "$HOME"/TermuxArchBloom ]];then 
@@ -117,13 +126,16 @@ chkself() {
 }
 
 curlif() {
-	if [[ ! -x "$PREFIX"/bin/curl ]];then
+	if [[ -x /system/bin/curl ]] && [[ ! -x "$PREFIX"/bin/curl ]];then
+		dm=curl 
+		addcurl
+	elif [[ ! -x "$PREFIX"/bin/curl ]];then
 		printf "\\n\\e[1;34mInstalling \\e[0;32mcurl\\e[1;34m…\\n\\n\\e[1;32m"
 		pkg install curl --yes 
 		printf "\\n\\e[1;34mInstalling \\e[0;32mcurl\\e[1;34m: \\e[1;32mDONE\\n\\e[0m"
-	fi
-	if [[ ! -x "$PREFIX"/bin/curl ]];then
-		pe
+		if [[ ! -x "$PREFIX"/bin/curl ]];then
+			pe
+		fi
 	fi
 }
 
@@ -576,8 +588,8 @@ declare cpuabi7="armeabi-v7a"
 declare cpuabi8="arm64-v8a"
 declare cpuabix86="x86"
 declare cpuabix86_64="x86_64"
-declare dfl=/gen # Used for development 
-declare dm=""
+declare dfl="" # Used for development 
+declare dm="curl"
 declare dmverbose="-q" # Use "-v" for verbose download manager output;  for verbose output throughout runtime, change in `knownconfigurations.sh` also, or in `setupTermuxArchConfigs.sh` if using `setupTermuxArch.sh manual`. 
 declare	ed=""
 declare -g installdir=""
