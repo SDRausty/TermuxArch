@@ -8,14 +8,14 @@ IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-versionid="v1.6"
+versionid="v1.6 id0480"
 
 ## Inaugural Functions #########################################################
 addcurl() {
 	cat > "$PREFIX"/bin/curl <<- EOM
 	#!/bin/sh
 	unset LD_LIBRARY_PATH LD_PRELOAD
-	PATH=$PATH:/system/bin exec /system/bin/curl "$@"
+	PATH=\$PATH:/system/bin exec /system/bin/curl "\$@"
 	EOM
 	chmod 700 "$PREFIX"/bin/curl 
 }

@@ -8,14 +8,14 @@ IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-versionid="v1.6"
+versionid="v1.6 id0480"
 
 ## Inaugural Functions #########################################################
 addcurl() {
 	cat > "$PREFIX"/bin/curl <<- EOM
 	#!/bin/sh
 	unset LD_LIBRARY_PATH LD_PRELOAD
-	PATH=$PATH:/system/bin exec /system/bin/curl "$@"
+	PATH=\$PATH:/system/bin exec /system/bin/curl "\$@"
 	EOM
 	chmod 700 "$PREFIX"/bin/curl 
 }
@@ -677,7 +677,7 @@ declare cpuabi7="armeabi-v7a"
 declare cpuabi8="arm64-v8a"
 declare cpuabix86="x86"
 declare cpuabix86_64="x86_64"
-declare dfl="" # Used for development 
+declare dfl=/gen # Used for development 
 declare dm="curl"
 declare dmverbose="-q" # Use "-v" for verbose download manager output;  for verbose output throughout runtime, change in `knownconfigurations.sh` also, or in `setupTermuxArchConfigs.sh` if using `setupTermuxArch.sh manual`. 
 declare	ed=""
