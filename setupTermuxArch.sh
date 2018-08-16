@@ -8,7 +8,7 @@ IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-versionid="v1.6 id9588"
+versionid="v1.6 id6300"
 
 ## Inaugural Functions #########################################################
 addcurl() {
@@ -40,27 +40,6 @@ arg3dir() {
 		rootdir=/"$arg3"
 		nameinstalldir 
 	fi
-}
-
-bloom() { # Bloom = `setupTermuxArch.sh manual verbose` 
-	opt=bloom 
-	introbloom 
-	if [[ -d "$HOME"/TermuxArchBloom ]];then 
-		rmbloomq 
-	fi
-	if [[ ! -d "$HOME"/TermuxArchBloom ]];then 
-		mkdir "$HOME"/TermuxArchBloom
-	fi
-	cd "$HOME"/TermuxArchBloom
-	printf "\\e[1;34mTermuxArch Bloom option via \\e[1;32msetupTermuxArch.sh bloom\\e[0m 📲\\n\\n\\e[0m"'\033]2; TermuxArch Bloom option via `setupTermuxArch.sh bloom` 📲 \007'
-	ls -agl
-	printf "\\n"
-	pwd
-	printf "\\n"
-	dependsblock "$@" 
-	printf "\\n"
-	ls -agl
-	printf "\\n\\e[1;34mUse \\e[1;32mcd ~/TermuxArchBloom\\e[1;34m to continue.  Edit any of these files; Then use \\e[1;32mbash $0 [options] \\e[1;34mto run the files in \\e[1;32m~/TermuxArchBloom\\e[1;34m.\\n\\e[0m"'\033]2;  TermuxArch Bloom option via `setupTermuxArch.sh bloom` 📲 \007'
 }
 
 bsdtarif() {
@@ -114,11 +93,10 @@ chkdwn() {
 chkself() {
 	if [[ -f "setupTermuxArch.tmp" ]];then
 		if [[ "$(<setupTermuxArch.sh)" != "$(<setupTermuxArch.tmp)" ]];then
-			printf "\\e[0;32msetupTermuxArch.sh: \\e[1;32mUPDATED\\n\\e[0;32mTermuxArch: \\e[1;32mRESTART ""$0"" ""$@""\\n\\e[0m"
+			printf "\\e[0;32m%s\\e[1;34m: \\e[1;32mUPDATED\\n\\e[1;32mRESTART %s %s \\n\\e[0m" "$0" "$0" "$@"
 			rm -f setupTermuxArch.tmp
 			rmdsc 
-			exit 24
-			. setupTermuxArch.sh "$@"
+			exit 204
 		fi
 		rm -f setupTermuxArch.tmp
 	fi
@@ -235,10 +213,13 @@ intro() {
 	dependsblock "$@"
 }
 
-introbloom() {
+introbloom() { # Bloom = `setupTermuxArch.sh manual verbose` 
+	opt=bloom 
 	printf '\033]2;  bash setupTermuxArch.sh bloom 📲 \007'
 	spaceinfo
 	printf "\\n\\e[0;34m 🕛 > 🕛 \\e[1;34mTermuxArch $versionid bloom option.  Run \\e[1;32mbash setupTermuxArch.sh help \\e[1;34mfor additional information.  Ensure background data is not restricted.  Check the wireless connection if you do not see one o'clock 🕐 below.  "
+	dependsblock "$@"
+	bloom 
 }
 
 introdebug() {
@@ -250,6 +231,7 @@ introdebug() {
 
 introrefresh() {
 	printf '\033]2;  bash setupTermuxArch.sh refresh 📲 \007'
+	rootdirexception 
 	spaceinfo
 	printf "\\n\\e[0;34m 🕛 > 🕛 \\e[1;34msetupTermuxArch $versionid will refresh your TermuxArch files in \\e[0;32m$installdir\\e[1;34m.  Ensure background data is not restricted.  Run \\e[0;32mbash setupTermuxArch.sh help \\e[1;34mfor additional information.  Check the wireless connection if you do not see one o'clock 🕐 below.  "
 	dependsblock "$@"
@@ -401,31 +383,6 @@ rmarchq() {
 	if [[ -d "$installdir" ]];then
 		printf "\\n\\e[0;33mTermuxArch: \\e[1;33mDIRECTORY WARNING!  $installdir/ \\e[0;33mdirectory detected.  \\e[1;30mTermux Arch installation shall continue.  If in doubt, answer yes.\\n"
 		rmarch
-	fi
-}
-
-rmbloomq() {
-	if [[ -d "$HOME"/TermuxArchBloom ]];then
-		printf "\\n\\n\\e[0;33mTermuxArch: \\e[1;33mDIRECTORY WARNING!  $HOME/TermuxArchBloom/ \\e[0;33mdirectory detected.  \\e[1;30msetupTermuxArch.sh bloom will continue.\\n"
-		while true; do
-			printf "\\n\\e[1;30m"
-			read -n 1 -p "Refresh $HOME/TermuxArchBloom? [Y|n] " rbuanswer
-			if [[ "$rbuanswer" = [Ee]* ]] || [[ "$rbuanswer" = [Nn]* ]] || [[ "$rbuanswer" = [Qq]* ]];then
-				printf "\\n" 
-				exit $? 
-			elif [[ "$rbuanswer" = [Yy]* ]] || [[ "$rbuanswer" = "" ]];then
-				printf "\\e[30mUninstalling $HOME/TermuxArchBloom…\\n"
-				if [[ -d "$HOME"/TermuxArchBloom ]];then
-					rm -rf "$HOME"/TermuxArchBloom 
-				else 
-					printf "Uninstalling $HOME/TermuxArchBloom, nothing to do for $installdir.\\n\\n"
-				fi
-				printf "Uninstalling $HOME/TermuxArchBloom done.\\n\\n"
-				break
-			else
-				printf "\\nYou answered \\e[33;1m$rbuanswer\\e[30m.\\n\\nAnswer \\e[32mYes\\e[30m or \\e[1;31mNo\\e[30m. [\\e[32mY\\e[30m|\\e[1;31mn\\e[30m]\\n"
-			fi
-		done
 	fi
 }
 
@@ -660,7 +617,7 @@ elif [[ "$1" = [Ww]* ]] || [[ "$1" = -[Ww]* ]] || [[ "$1" = --[Ww]* ]] || [[ "$1
 	mainblock
 ## [bloom]  Create and run a local copy of TermuxArch in TermuxArchBloom.  Useful for running a customized setupTermuxArch.sh locally, for development, hacking and customizing TermuxArch.  
 elif [[ "$1" = [Bb]* ]] || [[ "$1" = -[Bb]* ]] || [[ "$1" = --[Bb]* ]];then
-	bloom "$@"  
+	introbloom "$@"  
 ## [debug|sysinfo]  Get system information.
 elif [[ "$1" = [Dd]* ]] || [[ "$1" = -[Dd]* ]] || [[ "$1" = --[Dd]* ]] || [[ "$1" = [Ss]* ]] || [[ "$1" = -[Ss]* ]] || [[ "$1" = --[Ss]* ]];then
 	introdebug "$@" 
