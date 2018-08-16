@@ -8,7 +8,7 @@ IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-versionid="gen.v1.6 id575514407954"
+versionid="gen.v1.6 id269128214993"
 
 ## Inaugural Functions #########################################################
 addcurl() {
@@ -93,11 +93,10 @@ chkdwn() {
 chkself() {
 	if [[ -f "setupTermuxArch.tmp" ]];then
 		if [[ "$(<setupTermuxArch.sh)" != "$(<setupTermuxArch.tmp)" ]];then
-			printf "\\e[0;32msetupTermuxArch.sh: \\e[1;32mUPDATED\\n\\e[0;32mTermuxArch: \\e[1;32mRESTART ""$0"" ""$@""\\n\\e[0m"
+			printf "\\e[0;32m%s\\e[1;34m: \\e[1;32mUPDATED\\n\\e[1;32mRESTART %s %s \\n\\e[0m" "$0" "$0" "$@"
 			rm -f setupTermuxArch.tmp
 			rmdsc 
-			exit 24
-			. setupTermuxArch.sh "$@"
+			exit 204
 		fi
 		rm -f setupTermuxArch.tmp
 	fi
