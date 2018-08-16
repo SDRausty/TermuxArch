@@ -241,7 +241,7 @@ makestartbin() {
 			touch $installdir/home/"\$2"/.chushlogin
 		fi
 	EOM
-		echo "$prootstmnt /bin/su - "\$2" -c \"\$ar3ar\" " >> "$startbin"
+		echo "$prootstmnt /bin/su - \"\$2\" -c \"\$ar3ar\" " >> "$startbin"
 	cat >> "$startbin" <<- EOM
 		printf '\033]2; '$startbin' su user command 📲  \007'
 		if [[ "\$2" = root ]];then

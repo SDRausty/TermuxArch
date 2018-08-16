@@ -8,7 +8,7 @@ IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-versionid="v1.6 id0692"
+versionid="v1.6 id9524"
 
 ## Inaugural Functions #########################################################
 addcurl() {
