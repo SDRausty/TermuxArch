@@ -8,7 +8,7 @@ IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-versionid="v1.6 id8767"
+versionid="v1.6 id1895"
 
 ## Inaugural Functions #########################################################
 addcurl() {
@@ -31,7 +31,7 @@ addtar() {
 
 apin() {
 	printf "\\n\\e[1;34mInstalling \\e[0;32%s\\e[1;34m…\\n\\n\\e[1;32m" "$@"
-	apt install "$@" -y
+	apt install "$@" --yes
 	printf "\\n\\e[1;34mInstalling \\e[0;32m%s\\e[1;34m: \\e[1;32mDONE\\n\\e[0m" "$@"
 }
 
@@ -94,7 +94,8 @@ chk() {
 chkdwn() {
 	if "$PREFIX"/bin/applets/sha512sum -c setupTermuxArch.sha512 1>/dev/null ;then
 		printf "\\e[0;34m 🕛 > 🕐 \\e[1;34mTermuxArch download: \\e[1;32mOK\\n\\n"
-		proot --link2symlink -0 "$PREFIX"/bin/applets/tar xf setupTermuxArch.tar.gz 
+		proot --link2symlink -0 "$PREFIX"/bin/tar xf setupTermuxArch.tar.gz 
+# 		proot --link2symlink -0 "$PREFIX"/bin/applets/tar xf setupTermuxArch.tar.gz 
 		rmds 
 	else
 		rm -f setupTermuxArch.tmp
@@ -419,10 +420,10 @@ rootdirexception() {
 setrootdir() {
 	if [[ "$cpuabi" = "$cpuabix86" ]];then
 	#	rootdir=/root.i686
-		rootdir=/arch
+		rootdir=/arch/root.i686
 	elif [[ "$cpuabi" = "$cpuabix86_64" ]];then
 	#	rootdir=/root.x86_64
-		rootdir=/arch
+		rootdir=/arch/root.x86_64
 	else
 		rootdir=/arch
 	fi
@@ -587,13 +588,13 @@ setrootdir
 if [[ -z "${1:-}" ]];then
 	intro "$@" 
 	mainblock
-## [./path/system.tar.gz [installdir]]  Use path to system image file; install directory argument is optional; Currently under development. 
+## A systemimage.tar.gz file can be used: `setupTermuxArch.sh ./[path/]systemimage.tar.gz` and `setupTermuxArch.sh /absolutepath/systemimage.tar.gz`; [./path/systemimage.tar.gz [installdir]]  Use path to system image file; install directory argument is optional. 
 elif [[ "${args:0:1}" = "." ]] ;then
 	lc="1"
 	arg2dir "$@"  
 	intro 
 	loadimage "$@"
-## [/path/system.tar.gz [installdir]]  Use absolute path to system image file; install directory argument is optional. 
+## [/absolutepath/systemimage.tar.gz [installdir]]  Use absolute path to system image file; install directory argument is optional. 
 elif [[ "${args:0:1}" = "/" ]];then
 	arg2dir "$@"  
 	intro 

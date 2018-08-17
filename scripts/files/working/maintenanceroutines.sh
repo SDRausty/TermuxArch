@@ -9,7 +9,10 @@ sysinfo() {
 	spaceinfo
 	printf "\\n\\e[1;32m"
 	printf "Begin setupTermuxArch debug information.\\n" > setupTermuxArchDebug"$stime".log
-	systeminfo & spinner "System Info" "…" 
+	systeminfo # & spinner "Generating" "System Info…" 
+	printf "\\nEnd \`setupTermuxArchDebug$stime.log\` debug information.\\n\\nPost this information along with information regarding your issue at https://github.com/sdrausty/TermuxArch/issues.  Include information about input and output.  This debugging information is found in $PWD/$(ls setupTermuxArchDebug"$stime".log).  If you think screenshots will help in resolving this matter better, include them in your post as well.  \\n" >> setupTermuxArchDebug"$stime".log
+	cat setupTermuxArchDebug"$stime".log
+	printf "\\n\\e[0mSubmit this information if you plan to open up an issue at https://github.com/sdrausty/TermuxArch/issues to improve this installation script along with a screenshot of your topic.  Include information about input and output.  \\n\\n"
 }
 
 systeminfo () {
@@ -43,20 +46,17 @@ systeminfo () {
 	ls -al "$installdir" >> setupTermuxArchDebug"$stime".log 2>/dev/null ||:
 	printf "\\nuname -a results:\\n\\n" >> setupTermuxArchDebug"$stime".log
 	uname -a >> setupTermuxArchDebug"$stime".log
-	printf "\\nEnd \`setupTermuxArchDebug$stime.log\` debug information.\\n\\nPost this information along with information regarding your issue at https://github.com/sdrausty/TermuxArch/issues.  Include information about input and output.  This debugging information is found in $PWD/$(ls setupTermuxArchDebug"$stime".log).  If you think screenshots will help in resolving this matter better, include them in your post as well.  \\n" >> setupTermuxArchDebug"$stime".log
-	cat setupTermuxArchDebug"$stime".log
-	printf "\\n\\e[0mSubmit this information if you plan to open up an issue at https://github.com/sdrausty/TermuxArch/issues to improve this installation script along with a screenshot of your topic.  Include information about input and output.  \\n\\n"
 }
 
-copyimage() { 
+copyimage() { # A systemimage.tar.gz file can be used: `setupTermuxArch.sh ./[path/]systemimage.tar.gz` and `setupTermuxArch.sh /absolutepath/systemimage.tar.gz`
 	cfile="${1##/*/}" 
  	file="$cfile" 
 	if [[ "$lc" = "" ]];then
-		cp "$1".md5  "$installdir" & spinner "Copying" "…" 
-		cp "$1" "$installdir" & spinner "Copying" "…" 
+		cp "$1".md5  "$installdir" # & spinner "Copying" "…" 
+		cp "$1" "$installdir" # & spinner "Copying" "…" 
 	elif [[ "$lc" = "1" ]];then
-		cp "$idir/$cfile".md5  "$installdir" & spinner "Copying" "…" 
-		cp "$idir/$cfile" "$installdir" & spinner "Copying" "…" 
+		cp "$idir/$cfile".md5  "$installdir" # & spinner "Copying" "…" 
+		cp "$idir/$cfile" "$installdir" # & spinner "Copying" "…" 
 	fi
 }
 

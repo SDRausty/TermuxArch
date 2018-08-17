@@ -104,7 +104,7 @@ edqaquestion() {
 		printf "\\n"
 		if [[ "$opt" = bloom ]] || [[ "$opt" = manual ]];then
 			printf "The following editor(s) $cedst\\b\\b are present.  Would you like to use \`\\e[1;32m${ceds[$i]}\\e[0;32m\` to edit \`\\e[1;32msetupTermuxArchConfigs.sh\\e[0;32m\`?  "
-			wead -n 1 -p "Answer yes or no [Y|n]. "  yn
+			read -n 1 -p "Answer yes or no [Y|n]. "  yn
 		else 
 			printf "Change the worldwide mirror to a mirror that is geographically nearby.  Choose only ONE active mirror in the mirrors file that you are about to edit.  The following editor(s) $cedst\\b\\b are present.  Would you like to use \`\\e[1;32m${ceds[$i]}\\e[0;32m\` to edit the Arch Linux configuration files?  "
 			read -n 1 -p "Answer yes or no [Y|n]. "  yn
@@ -192,7 +192,7 @@ runfinishsetupq() {
 }
 
 spinner() { # Based on https://github.com/ringohub/sh-spinner
- 	printf "\\e[?25l\e[1;32m"
+ 	printf "\\e[?25l\\e[1;32m"
 #  	SPINNER="⠋⠙⠹⠸⠼⠴⠦⠧⠇⠏"
 #  	SPINNER="🌑🌒🌓🌔🌕🌖🌗🌘"
 #  	SPINNER="🕛🕧🕐🕜🕑🕝🕓🕟🕔🕠🕕🕡🕖🕢🕗🕣🕘🕤🕙🕥🕚🕦"
@@ -200,16 +200,19 @@ spinner() { # Based on https://github.com/ringohub/sh-spinner
 	SPINNER="🕛🕐🕑🕓🕔🕕🕖🕗🕘🕙🕚"
 	task="$1"
 	msg="$2"
-	while :; do
-		jobs %1 > /dev/null 2>&1
-		[[ $? = 0 ]] || {
-			printf " %s %s\e[1;34m:\e[1;32m %s\e[?25h\e[0m\n" "✓" "$task" "DONE                    "
-			break
-		}
-		for (( i=0; i<${#SPINNER}; i++ )); do
-			sleep 0.05
-			printf " %s %s%s\r" "${SPINNER:$i:1}" "$task" "$msg"
+# 	while true ; do
+# 		jobs %1 > /dev/null 2>&1
+# 		until jobs %1 > /dev/null 2>&1 ; do
+		until "$?" ; do
+# 		[[ "$?" = 0 ]] || {
+# 			break 0
+# 		}
+		for (( i=0; i<${#SPINNER}; i++ )) ; do
+			printf " %s %s %s\r" "${SPINNER:$i:1}" "$task" "$msg"
+			sleep 0.5
 		done
+		printf " %s %s\e[1;34m:\e[1;32m %s\e[?25h\e[0m\n" "✓" "$task" "DONE                    "
+		sleep 0.5
 	done
 }
 
