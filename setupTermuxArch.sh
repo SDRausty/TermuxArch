@@ -8,7 +8,7 @@ IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-versionid="v1.6 id8222"
+versionid="v1.6 id5037"
 
 ## Inaugural Functions #########################################################
 addcurl() {
@@ -65,9 +65,9 @@ chk() {
 		. archlinuxconfig.sh
 		. espritfunctions.sh
 		. getimagefunctions.sh
+		. maintenanceroutines.sh
 		. necessaryfunctions.sh
 		. printoutstatements.sh
-		. maintenanceroutines.sh
 		if [[ "$opt" = bloom ]];then
 			rm -f termuxarchchecksum.sha512 
 		fi
@@ -123,21 +123,21 @@ curlifdm() {
 depends() {
 	printf "\\e[1;34mChecking prerequisites…\\n\\e[1;32m"
 	if [[ -x /system/bin/curl ]] && [[ ! -x "$PREFIX"/bin/curl ]];then
-		addcurl
 		dm=curl 
+		addcurl
 	fi
 	curlifdm 
 	wgetifdm 
-	if [[ -x "$(command -v aria2)" ]];then
+	if [[ "$dm" != curl ]] && [[ -x "$(command -v aria2)" ]];then
 		: # dm=aria2 
 	fi
-	if [[ -x "$(command -v axel)" ]];then
+	if [[ "$dm" != curl ]] && [[ -x "$(command -v axel)" ]];then
 		: # dm=axel
 	fi
 	if [[ -x "$(command -v curl)" ]];then
 		dm=curl 
 	fi
-	if [[ -x "$PREFIX"/bin/wget ]];then
+	if [[ "$dm" != curl ]] && [[ -x "$PREFIX"/bin/wget ]];then
 		dm=wget 
 	fi
 	if [[ "$dm" = "" ]];then
@@ -150,14 +150,14 @@ depends() {
 
 dependsblock() {
 	depends 
-	if [[ -f archlinuxconfig.sh ]] && [[ -f espritfunctions.sh ]] && [[ -f getimagefunctions.sh ]] && [[ -f knownconfigurations.sh ]] && [[ -f necessaryfunctions.sh ]] && [[ -f printoutstatements.sh ]] && [[ -f setupTermuxArch.sh ]] && [[ -f maintenanceroutines.sh ]];then
+	if [[ -f archlinuxconfig.sh ]] && [[ -f espritfunctions.sh ]] && [[ -f getimagefunctions.sh ]] && [[ -f knownconfigurations.sh ]] && [[ -f maintenanceroutines.sh ]] && [[ -f necessaryfunctions.sh ]] && [[ -f printoutstatements.sh ]] && [[ -f setupTermuxArch.sh ]];then
 		. archlinuxconfig.sh
 		. espritfunctions.sh
 		. getimagefunctions.sh
 		. knownconfigurations.sh
+		. maintenanceroutines.sh
 		. necessaryfunctions.sh
 		. printoutstatements.sh
-		. maintenanceroutines.sh
 		if [[ "$opt" = manual ]];then
 			manual
 		fi 
@@ -355,12 +355,12 @@ rmarch() {
 		elif [[ "$ruanswer" = [Yy]* ]] || [[ "$ruanswer" = "" ]];then
 			printf "\\e[30mUninstalling $installdir…\\n"
 			if [[ -e "$PREFIX/bin/$startbin" ]];then
-				rm "$PREFIX/bin/$startbin" 
+				rm -f "$PREFIX/bin/$startbin" 
 			else 
 				printf "Uninstalling $PREFIX/bin/$startbin: nothing to do for $PREFIX/bin/$startbin.\\n"
 			fi
 			if [[ -e "$HOME/bin/$startbin" ]];then
-				rm "$HOME/bin/$startbin" 
+				rm -f "$HOME/bin/$startbin" 
 			else 
 				printf "Uninstalling $HOME/bin/$startbin: nothing to do for $HOME/bin/$startbin.\\n"
 			fi
@@ -393,19 +393,19 @@ rmarchq() {
 }
 
 rmdsc() {
-	rm archlinuxconfig.sh
-	rm espritfunctions.sh
-	rm getimagefunctions.sh
-	rm knownconfigurations.sh
-	rm necessaryfunctions.sh
-	rm printoutstatements.sh
-	rm maintenanceroutines.sh
-	rm termuxarchchecksum.sha512 
+	rm -f archlinuxconfig.sh
+	rm -f espritfunctions.sh
+	rm -f getimagefunctions.sh
+	rm -f knownconfigurations.sh
+	rm -f maintenanceroutines.sh
+	rm -f necessaryfunctions.sh
+	rm -f printoutstatements.sh
+	rm -f termuxarchchecksum.sha512 
 }
 
 rmds() {
-	rm setupTermuxArch.sha512 
-	rm setupTermuxArch.tar.gz
+	rm -f setupTermuxArch.sha512 
+	rm -f setupTermuxArch.tar.gz
 }
 
 rootdirexception() {
@@ -627,10 +627,10 @@ elif [[ "${1#-}" = [Dd]* ]] || [[ "${1#-}" = [Ss]* ]];then
 	introdebug "$@" 
 	sysinfo 
 ## [help|?]  Display built-in help.
-elif [[ "${1#-}" = [Hh]* ]] || [[ "${1#-}" = [?]* ]];then
+elif [[ "${1#-}" = [Hh]* ]] || [[ "${1#--}" = [Hh]* ]] || [[ "${1#-}" = [?]* ]];then
 	printusage
 ## [manual]  Manual Arch Linux install, useful for resolving download issues.
-elif [[ "${1#-}" = [Mm]* ]];then
+elif [[ "${1#-}" = [Mm]* ]] || [[ "${1#--}" = [Mm]* ]];then
 	opt=manual
 	intro 
 	mainblock
