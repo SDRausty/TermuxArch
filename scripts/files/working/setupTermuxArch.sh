@@ -8,7 +8,7 @@ IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-versionid="v1.6 id0010"
+versionid="v1.6 id2799"
 
 ## Inaugural Functions #########################################################
 addcurl() {
@@ -169,7 +169,6 @@ dependbp() {
 		bsdtarif 
 		prootif 
 	else
-		bsdtarif 
 		prootif 
 	fi
 }
