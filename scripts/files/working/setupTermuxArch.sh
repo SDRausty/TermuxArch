@@ -8,7 +8,7 @@ IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-versionid="gen.v1.6 id023149224404"
+versionid="gen.v1.6 id146317743962"
 
 ## Inaugural Functions #########################################################
 addcurl() {
@@ -198,7 +198,11 @@ dwnl() {
 }
 
 finishe() { # on exit
- 	rm -rf "$rtdir"
+	if [[ -z "${1:-}" ]];then
+		:
+	else
+		rm -rf "$rtdir"
+	fi
 	printf "\\e[?25h\\e[0m"
 	set +Eeuo pipefail 
   	printtail "$args"  
