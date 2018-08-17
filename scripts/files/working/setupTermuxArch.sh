@@ -8,7 +8,7 @@ IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-versionid="gen.v1.6 id106939848597"
+versionid="gen.v1.6 id047848065120"
 
 ## Inaugural Functions #########################################################
 addcurl() {
@@ -176,6 +176,7 @@ dependsblock() {
 		fi 
 	else
 		rtdir="$(mktemp -d "${TMPDIR:-/tmp/}/${0##*/}.XXXXXXXXXXXX")"
+		rtdir return
 		cd "$rtdir" 
 		dwnl
 		if [[ -f "${rdir}setupTermuxArch.sh" ]];then
