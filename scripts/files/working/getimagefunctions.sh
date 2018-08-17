@@ -26,15 +26,18 @@ ftchstnd() {
 	fstnd=1
 	printcontacting 
 	if [[ "$dm" = aria2 ]];then
+		aria2c "$cmirror" | tee /dev/fd/1 > "${rdir}gmirror"
+		nmirror="$(grep Redir "${rdir}gmirror" | awk {'print $8'})" 
+		printdone 
+		printdownloadingftch 
 		aria2c http://"$mirror$path$file".md5 
-		aria2c -c http://"$mirror$path$file"
+		aria2c -c -m 4 http://"$mirror$path$file"
 	elif [[ "$dm" = axel ]];then
 		axel http://"$mirror$path$file".md5 
 		axel http://"$mirror$path$file"
 	elif [[ "$dm" = wget ]];then 
 		wget -v -O/dev/null "$cmirror" 2>"${rdir}gmirror"
 		nmirror="$(grep Location "${rdir}gmirror" | awk {'print $2'})" 
-		rm "${rdir}gmirror"
 		printdone 
 		printdownloadingftch 
 		wget "$dmverbose" -N --show-progress "$nmirror$path$file".md5 
@@ -42,7 +45,6 @@ ftchstnd() {
 	else
 		curl -v "$cmirror" 2>"${rdir}gmirror"
 		nmirror="$(grep Location "${rdir}gmirror" | awk {'print $3'})" 
-		rm "${rdir}gmirror"
 		printdone 
 		printdownloadingftch 
 		curl "$dmverbose" -C - --fail --retry 4 -OL "$nmirror$path$file".md5 -O "$nmirror$path$file"
