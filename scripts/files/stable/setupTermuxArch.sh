@@ -8,7 +8,7 @@ IFS=$'\n\t'
 set -Eeo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-versionid="v1.6 id2914"
+versionid="v1.6"
 
 ## Inaugural Functions #########################################################
 addcurl() {
@@ -131,10 +131,10 @@ depends() {
 	fi
 	curlifdm 
 	wgetifdm 
-	if [[ "$dm" != curl ]] && [[ -x "$(command -v aria2)" ]];then
-		: # dm=aria2 
+	if [[ -x "$(command -v aria2c)" ]];then
+		dm=aria2 
 	fi
-	if [[ "$dm" != curl ]] && [[ -x "$(command -v axel)" ]];then
+	if [[ -x "$(command -v axel)" ]];then
 		: # dm=axel
 	fi
 	if [[ -x "$(command -v curl)" ]];then
@@ -177,7 +177,13 @@ dependsblock() {
 }
 
 dwnl() {
-	if [[ "$dm" = wget ]];then
+	if [[ "$dm" = aria2 ]];then
+		aria2c https://raw.githubusercontent.com/sdrausty/TermuxArch/master"$dfl"/setupTermuxArch.sha512 
+		aria2c https://raw.githubusercontent.com/sdrausty/TermuxArch/master"$dfl"/setupTermuxArch.tar.gz 
+	elif [[ "$dm" = axel ]];then
+		axel https://raw.githubusercontent.com/sdrausty/TermuxArch/master"$dfl"/setupTermuxArch.sha512 
+		axel https://raw.githubusercontent.com/sdrausty/TermuxArch/master"$dfl"/setupTermuxArch.tar.gz 
+	elif [[ "$dm" = wget ]];then
 		wget "$dmverbose" -N --show-progress https://raw.githubusercontent.com/sdrausty/TermuxArch/master"$dfl"/setupTermuxArch.sha512 
 		wget "$dmverbose" -N --show-progress https://raw.githubusercontent.com/sdrausty/TermuxArch/master"$dfl"/setupTermuxArch.tar.gz 
 		printf "\\n\\e[1;33m"
@@ -266,6 +272,7 @@ manual() {
 		printconfloaded 
 	else
 		cp knownconfigurations.sh "${rdir}setupTermuxArchConfigs.sh"
+		sed -i '20i# The architecture of this device is '"$(uname -m)"'; Adjust the appropriate section.' "${rdir}setupTermuxArchConfigs.sh" 
 		"$ed" "${rdir}setupTermuxArchConfigs.sh"
 		. "${rdir}setupTermuxArchConfigs.sh"
 		printconfloaded 
@@ -298,6 +305,14 @@ namestartarch() { # ${@%/} removes trailing slash
 		startbi2=arch
 	fi
 	declare -g startbin=start"$startbi2$aarch"
+}
+
+opt1() { 
+	if [[ "$2" = [Ii]* ]] ;then
+		arg3dir "$@" 
+	else
+		arg2dir "$@" 
+	fi
 }
 
 opt2() { 
@@ -536,7 +551,7 @@ declare cpuabi7="armeabi-v7a"
 declare cpuabi8="arm64-v8a"
 declare cpuabix86="x86"
 declare cpuabix86_64="x86_64"
-declare dfl="" # Used for development.  
+declare dfl="/gen" # Used for development 
 declare dm=""
 declare dmverbose="-q" # Use "-v" for verbose download manager output;  for verbose output throughout runtime, change in `knownconfigurations.sh` also, or in `setupTermuxArchConfigs.sh` if using `setupTermuxArch.sh manual`. 
 declare	ed=""
@@ -616,6 +631,7 @@ elif [[ "${1//-}" = [Hh]* ]] || [[ "${1//-}" = [?]* ]];then
 ## [manual]  Manual Arch Linux install, useful for resolving download issues.
 elif [[ "${1//-}" = [Mm]* ]];then
 	opt=manual
+	opt1 "$@" 
 	intro "$@"  
 	mainblock
 ## [purge |uninstall]  Remove Arch Linux.
