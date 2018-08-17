@@ -8,7 +8,7 @@ IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-versionid="v1.6 id9170"
+versionid="v1.6 id8222"
 
 ## Inaugural Functions #########################################################
 addcurl() {
@@ -69,13 +69,12 @@ chk() {
 		. printoutstatements.sh
 		. maintenanceroutines.sh
 		if [[ "$opt" = bloom ]];then
-			rm termuxarchchecksum.sha512 
-		else 
-			rmdsc 
+			rm -f termuxarchchecksum.sha512 
 		fi
 		if [[ "$opt" = manual ]];then
 			manual
 		fi
+		rmdsc 
 	else
 		rmdsc 
 		printsha512syschker
