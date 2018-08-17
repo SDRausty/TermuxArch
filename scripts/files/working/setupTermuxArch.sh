@@ -8,7 +8,7 @@ IFS=$'\n\t'
 set -Eeo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-versionid="gen.v1.6 id637554991998"
+versionid="gen.v1.6 id395464143394"
 
 ## Inaugural Functions #########################################################
 addcurl() {
@@ -131,11 +131,11 @@ depends() {
 	fi
 	curlifdm 
 	wgetifdm 
-	if [[ "$dm" != curl ]] && [[ -x "$(command -v aria2)" ]];then
+	if [[ "$dm" != curl ]] && [[ -x "$(command -v aria2c)" ]];then
 		: # dm=aria2 
 	fi
 	if [[ "$dm" != curl ]] && [[ -x "$(command -v axel)" ]];then
-		: # dm=axel
+		# dm=axel
 	fi
 	if [[ -x "$(command -v curl)" ]];then
 		dm=curl 
@@ -177,7 +177,17 @@ dependsblock() {
 }
 
 dwnl() {
-	if [[ "$dm" = wget ]];then
+	if [[ "$dm" = aria2 ]];then
+		dmverbose=""
+		aria2c "$dmverbose" https://raw.githubusercontent.com/sdrausty/TermuxArch/master"$dfl"/setupTermuxArch.sha512 
+		aria2c "$dmverbose" https://raw.githubusercontent.com/sdrausty/TermuxArch/master"$dfl"/setupTermuxArch.tar.gz 
+		exit
+	elif [[ "$dm" = axel ]];then
+		dmverbose=""
+		axel "$dmverbose" https://raw.githubusercontent.com/sdrausty/TermuxArch/master"$dfl"/setupTermuxArch.sha512 
+		axel "$dmverbose" https://raw.githubusercontent.com/sdrausty/TermuxArch/master"$dfl"/setupTermuxArch.tar.gz 
+		exit
+	elif [[ "$dm" = wget ]];then
 		wget "$dmverbose" -N --show-progress https://raw.githubusercontent.com/sdrausty/TermuxArch/master"$dfl"/setupTermuxArch.sha512 
 		wget "$dmverbose" -N --show-progress https://raw.githubusercontent.com/sdrausty/TermuxArch/master"$dfl"/setupTermuxArch.tar.gz 
 		printf "\\n\\e[1;33m"
@@ -266,6 +276,7 @@ manual() {
 		printconfloaded 
 	else
 		cp knownconfigurations.sh "${rdir}setupTermuxArchConfigs.sh"
+		sed -i '20i# The architecture of this device is '"$(uname -m)"'; Adjust the appropriate section.' "${rdir}setupTermuxArchConfigs.sh" 
 		"$ed" "${rdir}setupTermuxArchConfigs.sh"
 		. "${rdir}setupTermuxArchConfigs.sh"
 		printconfloaded 
