@@ -267,7 +267,7 @@ md5check() {
 		printf "\\e[0;32m"
 		preproot # & spinner "Uncompressing" "…"  
 	else
-		rmarchrm 
+		rm -f "$installdir"/*.tar.gz "$installdir"/*.tar.gz.md5
 		printmd5error
 	fi
 }

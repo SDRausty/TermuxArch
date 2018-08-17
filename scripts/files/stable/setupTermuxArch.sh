@@ -8,7 +8,7 @@ IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-versionid="v1.6 id0349"
+versionid="v1.6 id9589"
 
 ## Inaugural Functions #########################################################
 addcurl() {
@@ -100,12 +100,12 @@ chkdwn() {
 chkself() {
 	if [[ -f "setupTermuxArch.tmp" ]];then
 		if [[ "$(<setupTermuxArch.sh)" != "$(<setupTermuxArch.tmp)" ]];then
+			cp setupTermuxArch.sh "$rdir"setupTermuxArch.sh 
 			printf "\\e[0;32m%s\\e[1;34m: \\e[1;32mUPDATED\\n\\e[1;32mRESTART %s %s \\n\\e[0m"  "${0##*/}" "${0##*/}" "$@"
 			rm -f setupTermuxArch.tmp
 			rmdsc 
 			exit 204
 		fi
-		rm -f setupTermuxArch.tmp
 	fi
 }
 
@@ -121,6 +121,15 @@ curlif() {
 curlifdm() {
 	if [[ "$dm" = curl ]];then
 		curlif 
+	fi
+}
+
+dependbp() {
+	if [[ "$cpuabi" = "$cpuabix86" ]] || [[ "$cpuabi" = "$cpuabix86_64" ]];then
+		bsdtarif 
+		prootif 
+	else
+		prootif 
 	fi
 }
 
@@ -166,36 +175,34 @@ dependsblock() {
 			manual
 		fi 
 	else
+		rtdir="$(mktemp -d "${TMPDIR:-/tmp/}/${0##*/}.XXXXXXXXXXXX")"
+		cd "$rtdir" 
 		dwnl
-		if [[ -f "setupTermuxArch.sh" ]];then
-			cp setupTermuxArch.sh setupTermuxArch.tmp
+		if [[ -f "${rdir}setupTermuxArch.sh" ]];then
+			cp "${rdir}setupTermuxArch.sh" setupTermuxArch.tmp
 		fi
 		chkdwn
 		chk "$@"
 	fi
 }
 
-dependbp() {
-	if [[ "$cpuabi" = "$cpuabix86" ]] || [[ "$cpuabi" = "$cpuabix86_64" ]];then
-		bsdtarif 
-		prootif 
-	else
-		prootif 
-	fi
-}
-
 dwnl() {
 	if [[ "$dm" = wget ]];then
 		wget "$dmverbose" -N --show-progress https://raw.githubusercontent.com/sdrausty/TermuxArch/master"$dfl"/setupTermuxArch.sha512 
-		wget "$dmverbose" -N --show-progress https://raw.githubusercontent.com/sdrausty/TermuxArch/master"$dfl"/setupTermuxArch.tar.gz
+		wget "$dmverbose" -N --show-progress https://raw.githubusercontent.com/sdrausty/TermuxArch/master"$dfl"/setupTermuxArch.tar.gz 
 		printf "\\n\\e[1;33m"
 	else
-		curl "$dmverbose" -O https://raw.githubusercontent.com/sdrausty/TermuxArch/master"$dfl"/setupTermuxArch.sha512 -O https://raw.githubusercontent.com/sdrausty/TermuxArch/master"$dfl"/setupTermuxArch.tar.gz
+		curl "$dmverbose" -OL https://raw.githubusercontent.com/sdrausty/TermuxArch/master"$dfl"/setupTermuxArch.sha512 -OL https://raw.githubusercontent.com/sdrausty/TermuxArch/master"$dfl"/setupTermuxArch.tar.gz
 		printf "\\n\\e[1;33m"
 	fi
 }
 
 finishe() { # on exit
+	if [[ -z "${1:-}" ]];then
+		:
+	else
+		rm -rf "$rtdir"
+	fi
 	printf "\\e[?25h\\e[0m"
 	set +Eeuo pipefail 
   	printtail "$args"  
@@ -230,7 +237,7 @@ introbloom() { # Bloom = `setupTermuxArch.sh manual verbose`
 	printf '\033]2;  bash setupTermuxArch.sh bloom 📲 \007'
 	spaceinfo
 	printf "\\n\\e[0;34m 🕛 > 🕛 \\e[1;34mTermuxArch $versionid bloom option.  Run \\e[1;32mbash setupTermuxArch.sh help \\e[1;34mfor additional information.  Ensure background data is not restricted.  Check the wireless connection if you do not see one o'clock 🕐 below.  "
-	dependsblock "$@"
+	dependsblock "$@" return
 	bloom 
 }
 
@@ -238,7 +245,8 @@ introdebug() {
 	printf '\033]2;  bash setupTermuxArch.sh sysinfo 📲 \007'
 	spaceinfo
 	printf "\\n\\e[0;34m 🕛 > 🕛 \\e[1;34msetupTermuxArch $versionid will create a system information file.  Ensure background data is not restricted.  Run \\e[0;32mbash setupTermuxArch.sh help \\e[1;34mfor additional information.  Check the wireless connection if you do not see one o'clock 🕐 below.  "
-	dependsblock "$@"
+	dependsblock "$@" return
+	sysinfo 
 }
 
 introrefresh() {
@@ -246,13 +254,13 @@ introrefresh() {
 	rootdirexception 
 	spaceinfo
 	printf "\\n\\e[0;34m 🕛 > 🕛 \\e[1;34msetupTermuxArch $versionid will refresh your TermuxArch files in \\e[0;32m$installdir\\e[1;34m.  Ensure background data is not restricted.  Run \\e[0;32mbash setupTermuxArch.sh help \\e[1;34mfor additional information.  Check the wireless connection if you do not see one o'clock 🕐 below.  "
-	dependsblock "$@"
+	dependsblock "$@" return
 	refreshsys "$@"
 }
 
 loadconf() {
-	if [[ -f "setupTermuxArchConfigs.sh" ]];then
-		. setupTermuxArchConfigs.sh
+	if [[ -f "${rdir}setupTermuxArchConfigs.sh" ]];then
+		. "${rdir}setupTermuxArchConfigs.sh"
 		printconfloaded 
 	else
 		. knownconfigurations.sh 
@@ -262,14 +270,14 @@ loadconf() {
 manual() {
 	printf '\033]2; `bash setupTermuxArch.sh manual` 📲 \007'
 	editors
-	if [[ -f "setupTermuxArchConfigs.sh" ]];then
-		"$ed" setupTermuxArchConfigs.sh
-		. setupTermuxArchConfigs.sh
+	if [[ -f "${rdir}setupTermuxArchConfigs.sh" ]];then
+		"$ed" "${rdir}setupTermuxArchConfigs.sh"
+		. "${rdir}setupTermuxArchConfigs.sh"
 		printconfloaded 
 	else
-		cp knownconfigurations.sh setupTermuxArchConfigs.sh
-		"$ed" setupTermuxArchConfigs.sh
-		. setupTermuxArchConfigs.sh
+		cp knownconfigurations.sh "${rdir}setupTermuxArchConfigs.sh"
+		"$ed" "${rdir}setupTermuxArchConfigs.sh"
+		. "${rdir}setupTermuxArchConfigs.sh"
 		printconfloaded 
 	fi
 }
@@ -305,8 +313,7 @@ namestartarch() { # ${@%/} removes trailing slash
 opt2() { 
 	if [[ "$2" = [Dd]* ]] || [[ "$2" = [Ss]* ]] ;then
 		introdebug "$@"  
-		sysinfo 
-		exit $?  
+		exit   
 	elif [[ "$2" = [Ii]* ]] ;then
 		arg3dir "$@" 
 	else
@@ -329,6 +336,8 @@ printsha512syschker() {
 }
 
 printtail() {   
+ 	printf "\\a\\a\\a\\a"
+	sleep 0.4
  	printf "\\a\\n\\e[0;32m%s %s \\a\\e[0m$versionid\\e[1;34m: \\a\\e[1;32m%s\\e[0m\\n\\n\\a\\e[0m" "${0##*/}" "$args" "DONE 🏁 "
 	printf '\033]2; '"${0##*/} $args"': DONE 🏁 \007'
 }
@@ -564,6 +573,7 @@ declare	lc=""
 declare -g md5sumr=""
 declare opt=""
 declare rootdir=""
+declare rdir="$PWD/"
 declare spaceMessage=""
 declare stim="$(date +%s)"
 declare stime="${stim:0:4}"
@@ -605,7 +615,6 @@ elif [[ "${args:0:1}" = "/" ]];then
 elif [[ "${1#-}" = [Cc][Dd]* ]] || [[ "${1#-}" = [Cc][Ss]* ]];then
 	dm=curl
 	introdebug "$@" 
-	sysinfo 
 ## [curl installdir|ci installdir]  Install Arch Linux using `curl`.
 elif [[ "${1#-}" = [Cc]* ]] || [[ "${1#-}" = [Cc][Ii]* ]];then
 	dm=curl
@@ -616,7 +625,6 @@ elif [[ "${1#-}" = [Cc]* ]] || [[ "${1#-}" = [Cc][Ii]* ]];then
 elif [[ "${1#-}" = [Ww][Dd]* ]] || [[ "${1#-}" = [Ww][Ss]* ]];then
 	dm=wget
 	introdebug "$@" 
-	sysinfo 
 ## [wget installdir|wi installdir]  Install Arch Linux using `wget`.
 elif [[ "${1#-}" = [Ww]* ]] || [[ "${1#-}" = [Ww][Ii]* ]];then
 	dm=wget
@@ -629,7 +637,6 @@ elif [[ "${1#-}" = [Bb]* ]];then
 ## [debug|sysinfo]  Get system information.
 elif [[ "${1#-}" = [Dd]* ]] || [[ "${1#-}" = [Ss]* ]];then
 	introdebug "$@" 
-	sysinfo 
 ## [help|?]  Display built-in help.
 elif [[ "${1#-}" = [Hh]* ]] || [[ "${1#--}" = [Hh]* ]] || [[ "${1#-}" = [?]* ]];then
 	printusage

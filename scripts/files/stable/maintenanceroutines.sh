@@ -7,8 +7,7 @@
 
 sysinfo() {
 	spaceinfo
-	printf "\\n\\e[1;32m"
-	printf "Begin setupTermuxArch debug information.\\n" > setupTermuxArchDebug"$stime".log
+	printf "\\n\\e[1;32mGenerating TermuxArch debug information; Please wait…\\n" 
 	systeminfo # & spinner "Generating" "System Info…" 
 	printf "\\nEnd \`setupTermuxArchDebug$stime.log\` debug information.\\n\\nPost this information along with information regarding your issue at https://github.com/sdrausty/TermuxArch/issues.  Include information about input and output.  This debugging information is found in $PWD/$(ls setupTermuxArchDebug"$stime".log).  If you think screenshots will help in resolving this matter better, include them in your post as well.  \\n" >> setupTermuxArchDebug"$stime".log
 	cat setupTermuxArchDebug"$stime".log
@@ -17,6 +16,8 @@ sysinfo() {
 }
 
 systeminfo () {
+	printf "\\n\\e[1;32m"
+	printf "Begin TermuxArch debug information.\\n" > setupTermuxArchDebug"$stime".log
 	printf "\\n\`termux-info\` results:\\n\\n" >> setupTermuxArchDebug"$stime".log
 	termux-info >> setupTermuxArchDebug"$stime".log
 	printf "\\nDisk report $usrspace on /data $(date)\\n\\n" >> setupTermuxArchDebug"$stime".log 
@@ -65,6 +66,7 @@ loadimage() {
 	set +Ee
 	namestartarch 
  	spaceinfo
+	printf "\\n" 
 	wakelock
 	prepinstalldir 
 	copyimage "$@"
@@ -75,6 +77,7 @@ loadimage() {
 	printdone 
 	printconfigup 
 	touchupsys 
+	printf "\\n" 
 	wakeunlock 
 	printfooter
 	"$installdir/$startbin" ||:
