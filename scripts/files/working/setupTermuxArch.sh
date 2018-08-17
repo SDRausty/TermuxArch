@@ -8,7 +8,7 @@ IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-versionid="gen.v1.6 id462834042823"
+versionid="gen.v1.6 id431740548896"
 
 ## Inaugural Functions #########################################################
 addcurl() {
@@ -188,9 +188,10 @@ dependbp() {
 
 dwnl() {
 	if [[ "$dm" = wget ]];then
-		wget "$dmverbose" -N --show-progress https://raw.githubusercontent.com/sdrausty/TermuxArch/master"$dfl"/setupTermuxArch.sha512 
-		wget "$dmverbose" -N --show-progress https://raw.githubusercontent.com/sdrausty/TermuxArch/master"$dfl"/setupTermuxArch.tar.gz
+		wget "$dmverbose" -N --show-progress https://raw.githubusercontent.com/sdrausty/TermuxArch/master"$dfl"/setupTermuxArch.sha512 -O "$rudir"/setupTermuxArch.sha512  
+		wget "$dmverbose" -N --show-progress https://raw.githubusercontent.com/sdrausty/TermuxArch/master"$dfl"/setupTermuxArch.tar.gz -O "$rudir"/setupTermuxArch.tar.gz 
 		printf "\\n\\e[1;33m"
+		exit
 	else
 		curl "$dmverbose" -OL https://raw.githubusercontent.com/sdrausty/TermuxArch/master"$dfl"/setupTermuxArch.sha512 -OL https://raw.githubusercontent.com/sdrausty/TermuxArch/master"$dfl"/setupTermuxArch.tar.gz
 		printf "\\n\\e[1;33m"
