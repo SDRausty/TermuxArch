@@ -8,7 +8,7 @@ IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-versionid="v1.6 id2799"
+versionid="v1.6 id8761"
 
 ## Inaugural Functions #########################################################
 addcurl() {
@@ -22,7 +22,7 @@ addcurl() {
 
 apin() {
 	printf "\\n\\e[1;34mInstalling \\e[0;32%s\\e[1;34m…\\n\\n\\e[1;32m" "$@"
-	apt install "$@" --yes
+	apt -o APT::Keep-Downloaded-Packages="true" install "$@" --yes
 	printf "\\n\\e[1;34mInstalling \\e[0;32m%s\\e[1;34m: \\e[1;32mDONE\\n\\e[0m" "$@"
 }
 
@@ -107,11 +107,9 @@ chkself() {
 }
 
 curlif() {
-	if [[ -x /system/bin/curl ]] && [[ ! -x "$PREFIX"/bin/curl ]];then
-		addcurl
-	elif [[ ! -x "$PREFIX"/bin/curl ]];then
+	if [[ ! -x "$(command -v curl)" ]];then
 		apin curl 
-		if [[ ! -x "$PREFIX"/bin/curl ]];then
+		if [[ ! -x "$(command -v curl)" ]];then
 			pe
 		fi
 	fi
@@ -125,9 +123,19 @@ curlifdm() {
 
 depends() {
 	printf "\\e[1;34mChecking prerequisites…\\n\\e[1;32m"
+	if [[ -x /system/bin/curl ]] && [[ ! -x "$PREFIX"/bin/curl ]];then
+		addcurl
+		dm=curl 
+	fi
 	curlifdm 
 	wgetifdm 
-	if [[ -x "$PREFIX"/bin/curl ]];then
+	if [[ -x "$(command -v aria2)" ]];then
+		: # dm=aria2 
+	fi
+	if [[ -x "$(command -v axel)" ]];then
+		: # dm=axel
+	fi
+	if [[ -x "$(command -v curl)" ]];then
 		dm=curl 
 	fi
 	if [[ -x "$PREFIX"/bin/wget ]];then
