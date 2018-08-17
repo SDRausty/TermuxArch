@@ -8,7 +8,7 @@ IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-versionid="gen.v1.6 id396539422483"
+versionid="gen.v1.6 id023149224404"
 
 ## Inaugural Functions #########################################################
 addcurl() {
@@ -179,7 +179,7 @@ dependsblock() {
 		cd "$rtdir" 
 		dwnl
 		if [[ -f "${rdir}setupTermuxArch.sh" ]];then
-			cp "$rdir"setupTermuxArch.sh setupTermuxArch.tmp
+			cp "${rdir}setupTermuxArch.sh" setupTermuxArch.tmp
 		fi
 		chkdwn
 		chk "$@"
