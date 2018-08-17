@@ -8,7 +8,13 @@
 fstnd=""
 ftchit() {
 	printdownloadingftchit 
-	if [[ "$dm" = wget ]];then 
+	if [[ "$dm" = aria2 ]];then
+		aria2c http://"$mirror$path$file".md5 
+		aria2c -c http://"$mirror$path$file"
+	elif [[ "$dm" = axel ]];then
+		axel http://"$mirror$path$file".md5 
+		axel http://"$mirror$path$file"
+	elif [[ "$dm" = wget ]];then 
 		wget "$dmverbose" -N --show-progress http://"$mirror$path$file".md5 
 		wget "$dmverbose" -c --show-progress http://"$mirror$path$file" 
 	else
@@ -19,18 +25,24 @@ ftchit() {
 ftchstnd() {
 	fstnd=1
 	printcontacting 
-	if [[ "$dm" = wget ]];then 
-		wget -v -O/dev/null "$cmirror" 2>gmirror
-		nmirror="$(grep Location gmirror | awk {'print $2'})" 
-		rm gmirror
+	if [[ "$dm" = aria2 ]];then
+		aria2c http://"$mirror$path$file".md5 
+		aria2c -c http://"$mirror$path$file"
+	elif [[ "$dm" = axel ]];then
+		axel http://"$mirror$path$file".md5 
+		axel http://"$mirror$path$file"
+	elif [[ "$dm" = wget ]];then 
+		wget -v -O/dev/null "$cmirror" 2>"${rdir}gmirror"
+		nmirror="$(grep Location "${rdir}gmirror" | awk {'print $2'})" 
+		rm "${rdir}gmirror"
 		printdone 
 		printdownloadingftch 
 		wget "$dmverbose" -N --show-progress "$nmirror$path$file".md5 
 		wget "$dmverbose" -c --show-progress "$nmirror$path$file" 
 	else
-		curl -v "$cmirror" 2>gmirror
-		nmirror="$(grep Location gmirror | awk {'print $3'})" 
-		rm gmirror
+		curl -v "$cmirror" 2>"${rdir}gmirror"
+		nmirror="$(grep Location "${rdir}gmirror" | awk {'print $3'})" 
+		rm "${rdir}gmirror"
 		printdone 
 		printdownloadingftch 
 		curl "$dmverbose" -C - --fail --retry 4 -OL "$nmirror$path$file".md5 -O "$nmirror$path$file"
@@ -39,7 +51,27 @@ ftchstnd() {
 
 getimage() {
 	printdownloadingx86 
-	if [[ "$dm" = wget ]];then 
+	if [[ "$dm" = aria2 ]];then
+		aria2c http://"$mirror$path$file".md5 
+		if [[ "$cpuabi" = "$cpuabix86" ]];then
+			file="$(grep i686 md5sums.txt | awk {'print $2'})"
+		else
+			file="$(grep boot md5sums.txt | awk {'print $2'})"
+		fi
+		sed '2q;d' md5sums.txt > "$file".md5
+		rm md5sums.txt
+		aria2c -c http://"$mirror$path$file"
+	elif [[ "$dm" = axel ]];then
+		axel http://"$mirror$path$file".md5 
+		if [[ "$cpuabi" = "$cpuabix86" ]];then
+			file="$(grep i686 md5sums.txt | awk {'print $2'})"
+		else
+			file="$(grep boot md5sums.txt | awk {'print $2'})"
+		fi
+		sed '2q;d' md5sums.txt > "$file".md5
+		rm md5sums.txt
+		axel http://"$mirror$path$file"
+	elif [[ "$dm" = wget ]];then 
 		wget "$dmverbose" -N --show-progress http://"$mirror${path}"md5sums.txt
 		if [[ "$cpuabi" = "$cpuabix86" ]];then
 			file="$(grep i686 md5sums.txt | awk {'print $2'})"

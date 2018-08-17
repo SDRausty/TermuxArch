@@ -8,7 +8,7 @@ IFS=$'\n\t'
 set -Eeo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-versionid="gen.v1.6 id821137414121"
+versionid="gen.v1.6 id789031541940"
 
 ## Inaugural Functions #########################################################
 addcurl() {
@@ -135,7 +135,7 @@ depends() {
 		dm=aria2 
 	fi
 	if [[ -x "$(command -v axel)" ]];then
-		dm=axel
+		: # dm=axel
 	fi
 	if [[ -x "$(command -v curl)" ]];then
 		: # dm=curl 
@@ -180,14 +180,9 @@ dwnl() {
 	if [[ "$dm" = aria2 ]];then
 		aria2c https://raw.githubusercontent.com/sdrausty/TermuxArch/master"$dfl"/setupTermuxArch.sha512 
 		aria2c https://raw.githubusercontent.com/sdrausty/TermuxArch/master"$dfl"/setupTermuxArch.tar.gz 
-		exit
 	elif [[ "$dm" = axel ]];then
-		dmverbose=""
-# 		axel "$dmverbose" https://raw.githubusercontent.com/sdrausty/TermuxArch/master"$dfl"/setupTermuxArch.sha512 
-# 		axel "$dmverbose" https://raw.githubusercontent.com/sdrausty/TermuxArch/master"$dfl"/setupTermuxArch.tar.gz 
 		axel https://raw.githubusercontent.com/sdrausty/TermuxArch/master"$dfl"/setupTermuxArch.sha512 
 		axel https://raw.githubusercontent.com/sdrausty/TermuxArch/master"$dfl"/setupTermuxArch.tar.gz 
-		exit
 	elif [[ "$dm" = wget ]];then
 		wget "$dmverbose" -N --show-progress https://raw.githubusercontent.com/sdrausty/TermuxArch/master"$dfl"/setupTermuxArch.sha512 
 		wget "$dmverbose" -N --show-progress https://raw.githubusercontent.com/sdrausty/TermuxArch/master"$dfl"/setupTermuxArch.tar.gz 
