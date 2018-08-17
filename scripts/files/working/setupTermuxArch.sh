@@ -8,7 +8,7 @@ IFS=$'\n\t'
 set -Eeo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-versionid="v1.6 id2914"
+versionid="gen.v1.6 id637554991998"
 
 ## Inaugural Functions #########################################################
 addcurl() {
@@ -298,6 +298,14 @@ namestartarch() { # ${@%/} removes trailing slash
 		startbi2=arch
 	fi
 	declare -g startbin=start"$startbi2$aarch"
+}
+
+opt1() { 
+	if [[ "$2" = [Ii]* ]] ;then
+		arg3dir "$@" 
+	else
+		arg2dir "$@" 
+	fi
 }
 
 opt2() { 
@@ -616,6 +624,7 @@ elif [[ "${1//-}" = [Hh]* ]] || [[ "${1//-}" = [?]* ]];then
 ## [manual]  Manual Arch Linux install, useful for resolving download issues.
 elif [[ "${1//-}" = [Mm]* ]];then
 	opt=manual
+	opt1 "$@" 
 	intro "$@"  
 	mainblock
 ## [purge |uninstall]  Remove Arch Linux.
