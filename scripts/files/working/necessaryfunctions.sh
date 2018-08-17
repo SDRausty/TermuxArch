@@ -137,13 +137,6 @@ makefinishsetup() {
 	if [[ -e "$HOME"/.profile ]];then
 		grep "proxy" "$HOME"/.profile | grep "export" >> root/bin/"$binfnstp" 2>/dev/null ||:
 	fi
- 	if [[ "$cpuabi" = "$cpuabi5" ]];then
- 		printf "pacman -Rc linux-armv5 linux-firmware --noconfirm --color=always 2>/dev/null ||:\\n" >> root/bin/"$binfnstp"
- 	elif [[ "$cpuabi" = "$cpuabi7" ]];then
- 		printf "pacman -Rc linux-armv7 linux-firmware --noconfirm --color=always 2>/dev/null ||:\\n" >> root/bin/"$binfnstp"
- 	elif [[ "$cpuabi" = "$cpuabi8" ]];then
- 		printf "pacman -Rc linux-aarch64 linux-firmware --noconfirm --color=always 2>/dev/null ||:\\n" >> root/bin/"$binfnstp"
- 	fi
 	if [[ "$cpuabi" = "$cpuabix86" ]];then
 		printf "./root/bin/keys x86\\n" >> root/bin/"$binfnstp"
 	elif [[ "$cpuabi" = "$cpuabix86_64" ]];then

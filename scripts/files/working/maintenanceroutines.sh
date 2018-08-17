@@ -65,6 +65,7 @@ loadimage() {
 	set +Ee
 	namestartarch 
  	spaceinfo
+	printf "\\n" 
 	wakelock
 	prepinstalldir 
 	copyimage "$@"
@@ -75,6 +76,7 @@ loadimage() {
 	printdone 
 	printconfigup 
 	touchupsys 
+	printf "\\n" 
 	wakeunlock 
 	printfooter
 	"$installdir/$startbin" ||:

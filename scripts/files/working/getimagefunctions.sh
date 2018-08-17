@@ -12,7 +12,7 @@ ftchit() {
 		wget "$dmverbose" -N --show-progress http://"$mirror$path$file".md5 
 		wget "$dmverbose" -c --show-progress http://"$mirror$path$file" 
 	else
-		curl "$dmverbose" -C - --fail --retry 4 -O http://"$mirror$path$file".md5 -O http://"$mirror$path$file" 
+		curl "$dmverbose" -C - --fail --retry 4 -OL http://"$mirror$path$file".md5 -O http://"$mirror$path$file" 
 	fi
 }
 
@@ -33,7 +33,7 @@ ftchstnd() {
 		rm gmirror
 		printdone 
 		printdownloadingftch 
-		curl "$dmverbose" -C - --fail --retry 4 -O "$nmirror$path$file".md5 -O "$nmirror$path$file"
+		curl "$dmverbose" -C - --fail --retry 4 -OL "$nmirror$path$file".md5 -O "$nmirror$path$file"
 	fi
 }
 

@@ -8,7 +8,7 @@ IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-versionid="gen.v1.6 id090055646450"
+versionid="gen.v1.6 id021707434588"
 
 ## Inaugural Functions #########################################################
 addcurl() {
@@ -153,6 +153,12 @@ depends() {
 }
 
 dependsblock() {
+	rudir="$(mktemp -d "${TMPDIR:-/tmp/}/${0##*/}.XXXXXXXXXXXX")"
+	rudirt="$rudir/" 
+	echo $rudir
+	echo $rudir
+	echo $rudirt
+	exit
 	depends 
 	if [[ -f archlinuxconfig.sh ]] && [[ -f espritfunctions.sh ]] && [[ -f getimagefunctions.sh ]] && [[ -f knownconfigurations.sh ]] && [[ -f maintenanceroutines.sh ]] && [[ -f necessaryfunctions.sh ]] && [[ -f printoutstatements.sh ]] && [[ -f setupTermuxArch.sh ]];then
 		. archlinuxconfig.sh
@@ -190,12 +196,13 @@ dwnl() {
 		wget "$dmverbose" -N --show-progress https://raw.githubusercontent.com/sdrausty/TermuxArch/master"$dfl"/setupTermuxArch.tar.gz
 		printf "\\n\\e[1;33m"
 	else
-		curl "$dmverbose" -O https://raw.githubusercontent.com/sdrausty/TermuxArch/master"$dfl"/setupTermuxArch.sha512 -O https://raw.githubusercontent.com/sdrausty/TermuxArch/master"$dfl"/setupTermuxArch.tar.gz
+		curl "$dmverbose" -OL https://raw.githubusercontent.com/sdrausty/TermuxArch/master"$dfl"/setupTermuxArch.sha512 -OL https://raw.githubusercontent.com/sdrausty/TermuxArch/master"$dfl"/setupTermuxArch.tar.gz
 		printf "\\n\\e[1;33m"
 	fi
 }
 
 finishe() { # on exit
+	rm -rf "$rudir"
 	printf "\\e[?25h\\e[0m"
 	set +Eeuo pipefail 
   	printtail "$args"  
