@@ -8,7 +8,7 @@ IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-versionid="gen.v1.6 id960169624174"
+versionid="gen.v1.6 id106939848597"
 
 ## Inaugural Functions #########################################################
 addcurl() {
@@ -332,6 +332,8 @@ printsha512syschker() {
 }
 
 printtail() {   
+ 	printf "\\a\\a\\a\\a"
+	sleep 0.4
  	printf "\\a\\n\\e[0;32m%s %s \\a\\e[0m$versionid\\e[1;34m: \\a\\e[1;32m%s\\e[0m\\n\\n\\a\\e[0m" "${0##*/}" "$args" "DONE 🏁 "
 	printf '\033]2; '"${0##*/} $args"': DONE 🏁 \007'
 }
