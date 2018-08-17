@@ -8,7 +8,7 @@ IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-versionid="v1.6 id1895"
+versionid="v1.6 id0010"
 
 ## Inaugural Functions #########################################################
 addcurl() {
@@ -17,16 +17,7 @@ addcurl() {
 	unset LD_LIBRARY_PATH LD_PRELOAD
 	PATH=\$PATH:/system/bin exec /system/bin/curl "\$@"
 	EOM
-	chmod 700 "$PREFIX"/bin/curl 
-}
-
-addtar() {
-	cat > "$PREFIX"/bin/curl <<- EOM
-	#!/bin/sh
-	unset LD_LIBRARY_PATH LD_PRELOAD
-	PATH=\$PATH:/system/bin exec /system/bin/toybox tar "\$@"
-	EOM
-	chmod 700 "$PREFIX"/bin/curl 
+	chmod 555 "$PREFIX"/bin/curl 
 }
 
 apin() {
@@ -94,8 +85,7 @@ chk() {
 chkdwn() {
 	if "$PREFIX"/bin/applets/sha512sum -c setupTermuxArch.sha512 1>/dev/null ;then
 		printf "\\e[0;34m 🕛 > 🕐 \\e[1;34mTermuxArch download: \\e[1;32mOK\\n\\n"
-		proot --link2symlink -0 "$PREFIX"/bin/tar xf setupTermuxArch.tar.gz 
-# 		proot --link2symlink -0 "$PREFIX"/bin/applets/tar xf setupTermuxArch.tar.gz 
+ 		proot --link2symlink -0 "$PREFIX"/bin/applets/tar xf setupTermuxArch.tar.gz 
 		rmds 
 	else
 		rm -f setupTermuxArch.tmp

@@ -132,9 +132,7 @@ refreshsys() { # Refreshes
 	makestartbin 
 	setlocale
 	printf "\\n" 
-	printwla 
-	am startservice --user 0 -a com.termux.service_wake_lock com.termux/com.termux.app.TermuxService > /dev/null
-	printdone 
+	wakelock
 	printf '\033]2; setupTermuxArch.sh refresh 📲 \007'
 	printf "\\n\\e[1;32m==> \\e[1;37m%s \\e[1;32m%s %s 📲 \\a\\n" "Running" "$(basename "$0")" "$args" 
 	"$installdir"/root/bin/setupbin.sh 
@@ -145,9 +143,7 @@ refreshsys() { # Refreshes
 	ls "$installdir"/bin/we |cut -f7- -d /
 	ls "$installdir"/root/bin/* |cut -f7- -d /
 	printf "\\n" 
-	printwld 
-	am startservice --user 0 -a com.termux.service_wake_unlock com.termux/com.termux.app.TermuxService > /dev/null
-	printdone 
+	wakeunlock 
 	printfooter 
 	printf "\\a"
 	"$installdir/$startbin" ||:
