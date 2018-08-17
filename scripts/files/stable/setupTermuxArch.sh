@@ -8,7 +8,7 @@ IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-versionid="v1.6 id5037"
+versionid="v1.6 id2854"
 
 ## Inaugural Functions #########################################################
 addcurl() {
@@ -28,7 +28,7 @@ apin() {
 
 arg2dir() { 
 	arg2="${@:2:1}"
-	if [[ "$arg2" = "" ]] ;then
+	if [[ -z "${arg2:-}" ]];then
 		rootdir=/arch
 		nameinstalldir 
 	else
@@ -39,7 +39,7 @@ arg2dir() {
 
 arg3dir() {
 	arg3="${@:3:1}"
-	if [[ "$arg3" = "" ]] ;then
+	if [[ -z "${arg3:-}" ]];then
 		rootdir=/arch
 		nameinstalldir 
 	else
@@ -73,8 +73,12 @@ chk() {
 		fi
 		if [[ "$opt" = manual ]];then
 			manual
+			rmdsc 
+		else
+			if [[ "$opt" != bloom ]];then
+				rmdsc 
+			fi
 		fi
-		rmdsc 
 	else
 		rmdsc 
 		printsha512syschker
@@ -137,7 +141,7 @@ depends() {
 	if [[ -x "$(command -v curl)" ]];then
 		dm=curl 
 	fi
-	if [[ "$dm" != curl ]] && [[ -x "$PREFIX"/bin/wget ]];then
+	if [[ -x "$PREFIX"/bin/wget ]];then
 		dm=wget 
 	fi
 	if [[ "$dm" = "" ]];then
@@ -551,7 +555,7 @@ declare cpuabi8="arm64-v8a"
 declare cpuabix86="x86"
 declare cpuabix86_64="x86_64"
 declare dfl="" # Used for development.  
-declare dm="curl"
+declare dm=""
 declare dmverbose="-q" # Use "-v" for verbose download manager output;  for verbose output throughout runtime, change in `knownconfigurations.sh` also, or in `setupTermuxArchConfigs.sh` if using `setupTermuxArch.sh manual`. 
 declare	ed=""
 declare -g installdir=""
