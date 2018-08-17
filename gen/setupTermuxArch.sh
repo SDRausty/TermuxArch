@@ -8,7 +8,7 @@ IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-versionid="gen.v1.6 id021707434588"
+versionid="gen.v1.6 id462834042823"
 
 ## Inaugural Functions #########################################################
 addcurl() {
@@ -155,10 +155,6 @@ depends() {
 dependsblock() {
 	rudir="$(mktemp -d "${TMPDIR:-/tmp/}/${0##*/}.XXXXXXXXXXXX")"
 	rudirt="$rudir/" 
-	echo $rudir
-	echo $rudir
-	echo $rudirt
-	exit
 	depends 
 	if [[ -f archlinuxconfig.sh ]] && [[ -f espritfunctions.sh ]] && [[ -f getimagefunctions.sh ]] && [[ -f knownconfigurations.sh ]] && [[ -f maintenanceroutines.sh ]] && [[ -f necessaryfunctions.sh ]] && [[ -f printoutstatements.sh ]] && [[ -f setupTermuxArch.sh ]];then
 		. archlinuxconfig.sh
@@ -202,7 +198,7 @@ dwnl() {
 }
 
 finishe() { # on exit
-	rm -rf "$rudir"
+# 	rm -rf "$rudir"
 	printf "\\e[?25h\\e[0m"
 	set +Eeuo pipefail 
   	printtail "$args"  
