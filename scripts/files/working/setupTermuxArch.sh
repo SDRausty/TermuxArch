@@ -8,7 +8,7 @@ IFS=$'\n\t'
 set -Eeo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-versionid="gen.v1.6 id591670419919"
+versionid="gen.v1.6 id994571864418"
 
 ## Inaugural Functions #########################################################
 addcurl() {
@@ -135,7 +135,7 @@ depends() {
 		dm=aria2 
 	fi
 	if [[ -x "$(command -v axel)" ]];then
-		dm=axel
+		: # dm=axel
 	fi
 	if [[ -x "$(command -v curl)" ]];then
 		: # dm=curl 
