@@ -8,7 +8,7 @@ IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-versionid="gen.v1.6 id146317743962"
+versionid="gen.v1.6 id294887480107"
 
 ## Inaugural Functions #########################################################
 addcurl() {
@@ -73,14 +73,8 @@ chk() {
 		fi
 		if [[ "$opt" = manual ]];then
 			manual
-			rmdsc 
-		else
-			if [[ "$opt" != bloom ]];then
-				rmdsc 
-			fi
 		fi
 	else
-		rmdsc 
 		printsha512syschker
 	fi
 }
@@ -89,10 +83,7 @@ chkdwn() {
 	if "$PREFIX"/bin/applets/sha512sum -c setupTermuxArch.sha512 1>/dev/null ;then
 		printf "\\e[0;34m 🕛 > 🕐 \\e[1;34mTermuxArch download: \\e[1;32mOK\\n\\n"
  		proot --link2symlink -0 "$PREFIX"/bin/applets/tar xf setupTermuxArch.tar.gz 
-		rmds 
 	else
-		rm -f setupTermuxArch.tmp
-		rmds 
 		printsha512syschker
 	fi
 }
@@ -102,8 +93,6 @@ chkself() {
 		if [[ "$(<setupTermuxArch.sh)" != "$(<setupTermuxArch.tmp)" ]];then
 			cp setupTermuxArch.sh "$rdir"setupTermuxArch.sh 
 			printf "\\e[0;32m%s\\e[1;34m: \\e[1;32mUPDATED\\n\\e[1;32mRESTART %s %s \\n\\e[0m"  "${0##*/}" "${0##*/}" "$@"
-			rm -f setupTermuxArch.tmp
-			rmdsc 
 			exit 204
 		fi
 	fi
@@ -403,22 +392,6 @@ rmarchq() {
 		printf "\\n\\e[0;33mTermuxArch: \\e[1;33mDIRECTORY WARNING!  $installdir/ \\e[0;33mdirectory detected.  \\e[1;30mTermux Arch installation shall continue.  If in doubt, answer yes.\\n"
 		rmarch
 	fi
-}
-
-rmdsc() {
-	rm -f archlinuxconfig.sh
-	rm -f espritfunctions.sh
-	rm -f getimagefunctions.sh
-	rm -f knownconfigurations.sh
-	rm -f maintenanceroutines.sh
-	rm -f necessaryfunctions.sh
-	rm -f printoutstatements.sh
-	rm -f termuxarchchecksum.sha512 
-}
-
-rmds() {
-	rm -f setupTermuxArch.sha512 
-	rm -f setupTermuxArch.tar.gz
 }
 
 rootdirexception() {
