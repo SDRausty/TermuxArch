@@ -8,7 +8,7 @@ IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-versionid="v1.6 id2854"
+versionid="v1.6 id0349"
 
 ## Inaugural Functions #########################################################
 addcurl() {
@@ -100,7 +100,7 @@ chkdwn() {
 chkself() {
 	if [[ -f "setupTermuxArch.tmp" ]];then
 		if [[ "$(<setupTermuxArch.sh)" != "$(<setupTermuxArch.tmp)" ]];then
-			printf "\\e[0;32m%s\\e[1;34m: \\e[1;32mUPDATED\\n\\e[1;32mRESTART %s %s \\n\\e[0m" "$0" "$0" "$@"
+			printf "\\e[0;32m%s\\e[1;34m: \\e[1;32mUPDATED\\n\\e[1;32mRESTART %s %s \\n\\e[0m"  "${0##*/}" "${0##*/}" "$@"
 			rm -f setupTermuxArch.tmp
 			rmdsc 
 			exit 204
@@ -329,8 +329,8 @@ printsha512syschker() {
 }
 
 printtail() {   
- 	printf "\\a\\n\\e[0;32m%s %s \\a\\e[0m$versionid\\e[1;34m: \\a\\e[1;32m%s\\e[0m\\n\\n\\a\\e[0m" "$(basename "$0")" "$args" "DONE 🏁 "
-	printf '\033]2; '"$(basename "$0") $args"': DONE 🏁 \007'
+ 	printf "\\a\\n\\e[0;32m%s %s \\a\\e[0m$versionid\\e[1;34m: \\a\\e[1;32m%s\\e[0m\\n\\n\\a\\e[0m" "${0##*/}" "$args" "DONE 🏁 "
+	printf '\033]2; '"${0##*/} $args"': DONE 🏁 \007'
 }
 
 printusage() {
