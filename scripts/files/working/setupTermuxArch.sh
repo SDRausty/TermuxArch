@@ -8,7 +8,7 @@ IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-versionid="gen.v1.6 id540139447268"
+versionid="gen.v1.6 id396539422483"
 
 ## Inaugural Functions #########################################################
 addcurl() {
@@ -100,8 +100,8 @@ chkdwn() {
 chkself() {
 	if [[ -f "setupTermuxArch.tmp" ]];then
 		if [[ "$(<setupTermuxArch.sh)" != "$(<setupTermuxArch.tmp)" ]];then
-			printf "\\e[0;32m%s\\e[1;34m: \\e[1;32mUPDATED\\n\\e[1;32mRESTART %s %s \\n\\e[0m"  "${0##*/}" "${0##*/}" "$@"
 			cp setupTermuxArch.sh "$rdir"setupTermuxArch.sh 
+			printf "\\e[0;32m%s\\e[1;34m: \\e[1;32mUPDATED\\n\\e[1;32mRESTART %s %s \\n\\e[0m"  "${0##*/}" "${0##*/}" "$@"
 			rm -f setupTermuxArch.tmp
 			rmdsc 
 			exit 204
@@ -233,7 +233,7 @@ introbloom() { # Bloom = `setupTermuxArch.sh manual verbose`
 	printf '\033]2;  bash setupTermuxArch.sh bloom 📲 \007'
 	spaceinfo
 	printf "\\n\\e[0;34m 🕛 > 🕛 \\e[1;34mTermuxArch $versionid bloom option.  Run \\e[1;32mbash setupTermuxArch.sh help \\e[1;34mfor additional information.  Ensure background data is not restricted.  Check the wireless connection if you do not see one o'clock 🕐 below.  "
-	dependsblock "$@"
+	dependsblock "$@" return
 	bloom 
 }
 
@@ -250,13 +250,13 @@ introrefresh() {
 	rootdirexception 
 	spaceinfo
 	printf "\\n\\e[0;34m 🕛 > 🕛 \\e[1;34msetupTermuxArch $versionid will refresh your TermuxArch files in \\e[0;32m$installdir\\e[1;34m.  Ensure background data is not restricted.  Run \\e[0;32mbash setupTermuxArch.sh help \\e[1;34mfor additional information.  Check the wireless connection if you do not see one o'clock 🕐 below.  "
-	dependsblock "$@"
+	dependsblock "$@" return
 	refreshsys "$@"
 }
 
 loadconf() {
-	if [[ -f "setupTermuxArchConfigs.sh" ]];then
-		. setupTermuxArchConfigs.sh
+	if [[ -f "${rdir}setupTermuxArchConfigs.sh" ]];then
+		. "${rdir}setupTermuxArchConfigs.sh"
 		printconfloaded 
 	else
 		. knownconfigurations.sh 
@@ -266,14 +266,14 @@ loadconf() {
 manual() {
 	printf '\033]2; `bash setupTermuxArch.sh manual` 📲 \007'
 	editors
-	if [[ -f "setupTermuxArchConfigs.sh" ]];then
-		"$ed" setupTermuxArchConfigs.sh
-		. setupTermuxArchConfigs.sh
+	if [[ -f "${rdir}setupTermuxArchConfigs.sh" ]];then
+		"$ed" "${rdir}setupTermuxArchConfigs.sh"
+		. "${rdir}setupTermuxArchConfigs.sh"
 		printconfloaded 
 	else
-		cp knownconfigurations.sh setupTermuxArchConfigs.sh
-		"$ed" setupTermuxArchConfigs.sh
-		. setupTermuxArchConfigs.sh
+		cp knownconfigurations.sh "${rdir}setupTermuxArchConfigs.sh"
+		"$ed" "${rdir}setupTermuxArchConfigs.sh"
+		. "${rdir}setupTermuxArchConfigs.sh"
 		printconfloaded 
 	fi
 }
