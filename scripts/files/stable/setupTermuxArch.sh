@@ -5,10 +5,10 @@
 # https://sdrausty.github.io/TermuxArch/README for TermuxArch information. 
 ################################################################################
 IFS=$'\n\t'
-set -Eeuo pipefail
+set -Eeo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-versionid="v1.6 id2465"
+versionid="v1.6 id2914"
 
 ## Inaugural Functions #########################################################
 addcurl() {
@@ -93,6 +93,7 @@ chkself() {
 		if [[ "$(<setupTermuxArch.sh)" != "$(<setupTermuxArch.tmp)" ]];then
 			cp setupTermuxArch.sh "$rdir"setupTermuxArch.sh 
 			printf "\\e[0;32m%s\\e[1;34m: \\e[1;32mUPDATED\\n\\e[1;32mRESTART %s %s \\n\\e[0m"  "${0##*/}" "${0##*/}" "$@"
+			. setupTermuxArch.sh "$@"
 			exit 204
 		fi
 	fi
@@ -302,7 +303,6 @@ namestartarch() { # ${@%/} removes trailing slash
 opt2() { 
 	if [[ "$2" = [Dd]* ]] || [[ "$2" = [Ss]* ]] ;then
 		introdebug "$@"  
-		exit   
 	elif [[ "$2" = [Ii]* ]] ;then
 		arg3dir "$@" 
 	else
@@ -577,58 +577,58 @@ if [[ -z "${1:-}" ]];then
 elif [[ "${args:0:1}" = "." ]] ;then
 	lc="1"
 	arg2dir "$@"  
-	intro 
+	intro "$@"    
 	loadimage "$@"
 ## [/absolutepath/systemimage.tar.gz [installdir]]  Use absolute path to system image file; install directory argument is optional. 
 elif [[ "${args:0:1}" = "/" ]];then
 	arg2dir "$@"  
-	intro 
+	intro "$@"   
 	loadimage "$@"
 ## [cd|cs]  Get device system information using `curl`.
-elif [[ "${1#-}" = [Cc][Dd]* ]] || [[ "${1#-}" = [Cc][Ss]* ]];then
+elif [[ "${1//-}" = [Cc][Dd]* ]] || [[ "${1//-}" = [Cc][Ss]* ]];then
 	dm=curl
 	introdebug "$@" 
 ## [curl installdir|ci installdir]  Install Arch Linux using `curl`.
-elif [[ "${1#-}" = [Cc]* ]] || [[ "${1#-}" = [Cc][Ii]* ]];then
+elif [[ "${1//-}" = [Cc]* ]] || [[ "${1//-}" = [Cc][Ii]* ]];then
 	dm=curl
 	opt2 "$@" 
 	intro "$@" 
 	mainblock
 ## [wd|ws]  Get device system information using `wget`.
-elif [[ "${1#-}" = [Ww][Dd]* ]] || [[ "${1#-}" = [Ww][Ss]* ]];then
+elif [[ "${1//-}" = [Ww][Dd]* ]] || [[ "${1//-}" = [Ww][Ss]* ]];then
 	dm=wget
 	introdebug "$@" 
 ## [wget installdir|wi installdir]  Install Arch Linux using `wget`.
-elif [[ "${1#-}" = [Ww]* ]] || [[ "${1#-}" = [Ww][Ii]* ]];then
+elif [[ "${1//-}" = [Ww]* ]] || [[ "${1//-}" = [Ww][Ii]* ]];then
 	dm=wget
 	opt2 "$@" 
-	intro 
+	intro "$@"  
 	mainblock
 ## [bloom]  Create and run a local copy of TermuxArch in TermuxArchBloom.  Useful for running a customized setupTermuxArch.sh locally, for development, hacking and customizing TermuxArch.  
-elif [[ "${1#-}" = [Bb]* ]];then
+elif [[ "${1//-}" = [Bb]* ]];then
 	introbloom "$@"  
 ## [debug|sysinfo]  Get system information.
-elif [[ "${1#-}" = [Dd]* ]] || [[ "${1#-}" = [Ss]* ]];then
+elif [[ "${1//-}" = [Dd]* ]] || [[ "${1//-}" = [Ss]* ]];then
 	introdebug "$@" 
 ## [help|?]  Display built-in help.
-elif [[ "${1#-}" = [Hh]* ]] || [[ "${1#--}" = [Hh]* ]] || [[ "${1#-}" = [?]* ]];then
+elif [[ "${1//-}" = [Hh]* ]] || [[ "${1//-}" = [?]* ]];then
 	printusage
 ## [manual]  Manual Arch Linux install, useful for resolving download issues.
-elif [[ "${1#-}" = [Mm]* ]] || [[ "${1#--}" = [Mm]* ]];then
+elif [[ "${1//-}" = [Mm]* ]];then
 	opt=manual
-	intro 
+	intro "$@"  
 	mainblock
 ## [purge |uninstall]  Remove Arch Linux.
-elif [[ "${1#-}" = [Pp]* ]] || [[ "${1#-}" = [Uu]* ]];then
+elif [[ "${1//-}" = [Pp]* ]] || [[ "${1//-}" = [Uu]* ]];then
 	arg2dir "$@" 
 	rmarch
 ## [install installdir|rootdir installdir]  Install Arch Linux in a custom directory.  Instructions: Install in userspace. $HOME is appended to installation directory. To install Arch Linux in $HOME/installdir use `bash setupTermuxArch.sh install installdir`. In bash shell use `./setupTermuxArch.sh install installdir`.  All options can be abbreviated to one or two letters.  Hence `./setupTermuxArch.sh install installdir` can be run as `./setupTermuxArch.sh i installdir` in BASH.
-elif [[ "${1#-}" = [Ii]* ]] ||  [[ "${1#-}" = [Rr][Oo]* ]];then
+elif [[ "${1//-}" = [Ii]* ]] ||  [[ "${1//-}" = [Rr][Oo]* ]];then
 	arg2dir "$@"  
-	intro 
+	intro "$@"  
 	mainblock
 ## [refresh|refresh installdir]  Refresh the Arch Linux in Termux PRoot scripts created by TermuxArch and the installation itself.  Useful for refreshing the installation and the TermuxArch generated scripts to their newest versions.  
-elif [[ "${1#-}" = [Rr][Ee]* ]];then
+elif [[ "${1//-}" = [Rr][Ee]* ]];then
 	arg2dir "$@"  
 	introrefresh "$@"  
 else
