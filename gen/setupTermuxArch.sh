@@ -8,7 +8,7 @@ IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-versionid="gen.v1.6 id047848065120"
+versionid="gen.v1.6 id540139447268"
 
 ## Inaugural Functions #########################################################
 addcurl() {
@@ -176,7 +176,6 @@ dependsblock() {
 		fi 
 	else
 		rtdir="$(mktemp -d "${TMPDIR:-/tmp/}/${0##*/}.XXXXXXXXXXXX")"
-		rtdir return
 		cd "$rtdir" 
 		dwnl
 		if [[ -f "${rdir}setupTermuxArch.sh" ]];then
@@ -242,7 +241,7 @@ introdebug() {
 	printf '\033]2;  bash setupTermuxArch.sh sysinfo 📲 \007'
 	spaceinfo
 	printf "\\n\\e[0;34m 🕛 > 🕛 \\e[1;34msetupTermuxArch $versionid will create a system information file.  Ensure background data is not restricted.  Run \\e[0;32mbash setupTermuxArch.sh help \\e[1;34mfor additional information.  Check the wireless connection if you do not see one o'clock 🕐 below.  "
-	dependsblock "$@"
+	dependsblock "$@" return
 	sysinfo 
 }
 
