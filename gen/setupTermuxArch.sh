@@ -8,7 +8,7 @@ IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-versionid="gen.v1.6 id431740548896"
+versionid="gen.v1.6 id452131646291"
 
 ## Inaugural Functions #########################################################
 addcurl() {
@@ -101,11 +101,11 @@ chkself() {
 	if [[ -f "setupTermuxArch.tmp" ]];then
 		if [[ "$(<setupTermuxArch.sh)" != "$(<setupTermuxArch.tmp)" ]];then
 			printf "\\e[0;32m%s\\e[1;34m: \\e[1;32mUPDATED\\n\\e[1;32mRESTART %s %s \\n\\e[0m"  "${0##*/}" "${0##*/}" "$@"
+			cp setupTermuxArch.sh "$rdir"setupTermuxArch.sh 
 			rm -f setupTermuxArch.tmp
 			rmdsc 
 			exit 204
 		fi
-		rm -f setupTermuxArch.tmp
 	fi
 }
 
@@ -121,6 +121,15 @@ curlif() {
 curlifdm() {
 	if [[ "$dm" = curl ]];then
 		curlif 
+	fi
+}
+
+dependbp() {
+	if [[ "$cpuabi" = "$cpuabix86" ]] || [[ "$cpuabi" = "$cpuabix86_64" ]];then
+		bsdtarif 
+		prootif 
+	else
+		prootif 
 	fi
 }
 
@@ -153,8 +162,6 @@ depends() {
 }
 
 dependsblock() {
-	rudir="$(mktemp -d "${TMPDIR:-/tmp/}/${0##*/}.XXXXXXXXXXXX")"
-	rudirt="$rudir/" 
 	depends 
 	if [[ -f archlinuxconfig.sh ]] && [[ -f espritfunctions.sh ]] && [[ -f getimagefunctions.sh ]] && [[ -f knownconfigurations.sh ]] && [[ -f maintenanceroutines.sh ]] && [[ -f necessaryfunctions.sh ]] && [[ -f printoutstatements.sh ]] && [[ -f setupTermuxArch.sh ]];then
 		. archlinuxconfig.sh
@@ -168,30 +175,22 @@ dependsblock() {
 			manual
 		fi 
 	else
+		rtdir="$(mktemp -d "${TMPDIR:-/tmp/}/${0##*/}.XXXXXXXXXXXX")"
+		cd "$rtdir" 
 		dwnl
-		if [[ -f "setupTermuxArch.sh" ]];then
-			cp setupTermuxArch.sh setupTermuxArch.tmp
+		if [[ -f "${rdir}setupTermuxArch.sh" ]];then
+			cp "$rdir"setupTermuxArch.sh setupTermuxArch.tmp
 		fi
 		chkdwn
 		chk "$@"
 	fi
 }
 
-dependbp() {
-	if [[ "$cpuabi" = "$cpuabix86" ]] || [[ "$cpuabi" = "$cpuabix86_64" ]];then
-		bsdtarif 
-		prootif 
-	else
-		prootif 
-	fi
-}
-
 dwnl() {
 	if [[ "$dm" = wget ]];then
-		wget "$dmverbose" -N --show-progress https://raw.githubusercontent.com/sdrausty/TermuxArch/master"$dfl"/setupTermuxArch.sha512 -O "$rudir"/setupTermuxArch.sha512  
-		wget "$dmverbose" -N --show-progress https://raw.githubusercontent.com/sdrausty/TermuxArch/master"$dfl"/setupTermuxArch.tar.gz -O "$rudir"/setupTermuxArch.tar.gz 
+		wget "$dmverbose" -N --show-progress https://raw.githubusercontent.com/sdrausty/TermuxArch/master"$dfl"/setupTermuxArch.sha512 
+		wget "$dmverbose" -N --show-progress https://raw.githubusercontent.com/sdrausty/TermuxArch/master"$dfl"/setupTermuxArch.tar.gz 
 		printf "\\n\\e[1;33m"
-		exit
 	else
 		curl "$dmverbose" -OL https://raw.githubusercontent.com/sdrausty/TermuxArch/master"$dfl"/setupTermuxArch.sha512 -OL https://raw.githubusercontent.com/sdrausty/TermuxArch/master"$dfl"/setupTermuxArch.tar.gz
 		printf "\\n\\e[1;33m"
@@ -199,7 +198,7 @@ dwnl() {
 }
 
 finishe() { # on exit
-# 	rm -rf "$rudir"
+ 	rm -rf "$rtdir"
 	printf "\\e[?25h\\e[0m"
 	set +Eeuo pipefail 
   	printtail "$args"  
@@ -568,6 +567,7 @@ declare	lc=""
 declare -g md5sumr=""
 declare opt=""
 declare rootdir=""
+declare rdir="$PWD/"
 declare spaceMessage=""
 declare stim="$(date +%s)"
 declare stime="${stim:0:4}"
