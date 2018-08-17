@@ -8,7 +8,7 @@ IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-versionid="gen.v1.6 id476583450312"
+versionid="gen.v1.6 id257425047088"
 
 ## Inaugural Functions #########################################################
 addcurl() {
@@ -18,6 +18,21 @@ addcurl() {
 	PATH=\$PATH:/system/bin exec /system/bin/curl "\$@"
 	EOM
 	chmod 700 "$PREFIX"/bin/curl 
+}
+
+addtar() {
+	cat > "$PREFIX"/bin/curl <<- EOM
+	#!/bin/sh
+	unset LD_LIBRARY_PATH LD_PRELOAD
+	PATH=\$PATH:/system/bin exec /system/bin/toybox tar "\$@"
+	EOM
+	chmod 700 "$PREFIX"/bin/curl 
+}
+
+apin() {
+	printf "\\n\\e[1;34mInstalling \\e[0;32%s\\e[1;34m…\\n\\n\\e[1;32m" "$@"
+	apt install "$@" -y
+	printf "\\n\\e[1;34mInstalling \\e[0;32m%s\\e[1;34m: \\e[1;32mDONE\\n\\e[0m" "$@"
 }
 
 arg2dir() { 
@@ -44,9 +59,7 @@ arg3dir() {
 
 bsdtarif() {
 	if [[ ! -x "$PREFIX"/bin/bsdtar ]];then
-		printf "\\n\\e[1;34mInstalling \\e[0;32mbsdtar\\e[1;34m…\\n\\n\\e[1;32m"
-		pkg install bsdtar --yes
-		printf "\\n\\e[1;34mInstalling \\e[0;32mbsdtar\\e[1;34m: \\e[1;32mDONE\\n\\e[0m"
+		apin bsdtar 
 	fi
 	if [[ ! -x "$PREFIX"/bin/bsdtar ]];then
 		pe
@@ -106,9 +119,7 @@ curlif() {
 	if [[ -x /system/bin/curl ]] && [[ ! -x "$PREFIX"/bin/curl ]];then
 		addcurl
 	elif [[ ! -x "$PREFIX"/bin/curl ]];then
-		printf "\\n\\e[1;34mInstalling \\e[0;32mcurl\\e[1;34m…\\n\\n\\e[1;32m"
-		pkg install curl --yes 
-		printf "\\n\\e[1;34mInstalling \\e[0;32mcurl\\e[1;34m: \\e[1;32mDONE\\n\\e[0m"
+		apin curl 
 		if [[ ! -x "$PREFIX"/bin/curl ]];then
 			pe
 		fi
@@ -264,9 +275,7 @@ manual() {
 
 nanoif() {
 	if [[ ! -x "$PREFIX"/bin/nano ]];then
-		printf "\\n\\e[1;34mInstalling \\e[0;32mnano\\e[1;34m…\\n\\n\\e[1;32m"
-		pkg install nano --yes 
-		printf "\\n\\e[1;34mInstalling \\e[0;32mnano\\e[1;34m: \\e[1;32mDONE\\n\\e[0m"
+		apin nano 
 	fi
 	if [[ ! -x "$PREFIX"/bin/nano ]];then
 		pe
@@ -329,9 +338,7 @@ printusage() {
 
 prootif() {
 	if [[ ! -x "$PREFIX"/bin/proot ]];then
-		printf "\\n\\e[1;34mInstalling \\e[0;32mproot\\e[1;34m…\\n\\n\\e[1;32m"
-		pkg install proot --yes 
-		printf "\\n\\e[1;34mInstalling \\e[0;32mproot\\e[1;34m: \\e[1;32mDONE\\n\\e[0m"
+		apin proot 
 	fi
 	if [[ ! -x "$PREFIX"/bin/proot ]];then
 		pe
@@ -525,9 +532,7 @@ wgetifdm() {
 
 wgetif() {
 	if [[ ! -x "$PREFIX"/bin/wget ]];then
-		printf "\\n\\e[1;34mInstalling \\e[0;32mwget\\e[1;34m…\\n\\n\\e[1;32m"
-		pkg install wget --yes 	
-		printf "\\n\\e[1;34mInstalling \\e[0;32mwget\\e[1;34m: \\e[1;32mDONE\\n\\e[0m"
+		apin wget 
 	fi
 	if [[ ! -x "$PREFIX"/bin/wget ]];then
 		pe
