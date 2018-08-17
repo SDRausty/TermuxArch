@@ -8,7 +8,7 @@ IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-versionid="gen.v1.6 id452131646291"
+versionid="gen.v1.6 id960169624174"
 
 ## Inaugural Functions #########################################################
 addcurl() {
@@ -242,6 +242,7 @@ introdebug() {
 	spaceinfo
 	printf "\\n\\e[0;34m 🕛 > 🕛 \\e[1;34msetupTermuxArch $versionid will create a system information file.  Ensure background data is not restricted.  Run \\e[0;32mbash setupTermuxArch.sh help \\e[1;34mfor additional information.  Check the wireless connection if you do not see one o'clock 🕐 below.  "
 	dependsblock "$@"
+	sysinfo 
 }
 
 introrefresh() {
@@ -308,8 +309,7 @@ namestartarch() { # ${@%/} removes trailing slash
 opt2() { 
 	if [[ "$2" = [Dd]* ]] || [[ "$2" = [Ss]* ]] ;then
 		introdebug "$@"  
-		sysinfo 
-		exit $?  
+		exit   
 	elif [[ "$2" = [Ii]* ]] ;then
 		arg3dir "$@" 
 	else
@@ -609,7 +609,6 @@ elif [[ "${args:0:1}" = "/" ]];then
 elif [[ "${1#-}" = [Cc][Dd]* ]] || [[ "${1#-}" = [Cc][Ss]* ]];then
 	dm=curl
 	introdebug "$@" 
-	sysinfo 
 ## [curl installdir|ci installdir]  Install Arch Linux using `curl`.
 elif [[ "${1#-}" = [Cc]* ]] || [[ "${1#-}" = [Cc][Ii]* ]];then
 	dm=curl
@@ -620,7 +619,6 @@ elif [[ "${1#-}" = [Cc]* ]] || [[ "${1#-}" = [Cc][Ii]* ]];then
 elif [[ "${1#-}" = [Ww][Dd]* ]] || [[ "${1#-}" = [Ww][Ss]* ]];then
 	dm=wget
 	introdebug "$@" 
-	sysinfo 
 ## [wget installdir|wi installdir]  Install Arch Linux using `wget`.
 elif [[ "${1#-}" = [Ww]* ]] || [[ "${1#-}" = [Ww][Ii]* ]];then
 	dm=wget
@@ -633,7 +631,6 @@ elif [[ "${1#-}" = [Bb]* ]];then
 ## [debug|sysinfo]  Get system information.
 elif [[ "${1#-}" = [Dd]* ]] || [[ "${1#-}" = [Ss]* ]];then
 	introdebug "$@" 
-	sysinfo 
 ## [help|?]  Display built-in help.
 elif [[ "${1#-}" = [Hh]* ]] || [[ "${1#--}" = [Hh]* ]] || [[ "${1#-}" = [?]* ]];then
 	printusage
