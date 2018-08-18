@@ -5,10 +5,10 @@
 # https://sdrausty.github.io/TermuxArch/README for TermuxArch information. 
 ################################################################################
 IFS=$'\n\t'
-set -Eeo pipefail
+set -Eeuxo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-versionid="gen.v1.6 id816044689534"
+versionid="gen.v1.6 id218082031499"
 ## Init Functions ##############################################################
 addcurl() { # Adds `curl` to $PATH if not found.
 	cat > "$PREFIX"/bin/curl <<- EOM
