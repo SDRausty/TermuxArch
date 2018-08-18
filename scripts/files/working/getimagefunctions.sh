@@ -7,6 +7,7 @@
 
 fstnd=""
 ftchit() {
+	getmsg
 	printdownloadingftchit 
 	if [[ "$dm" = aria2c ]];then
 		aria2c http://"$mirror$path$file".md5 
@@ -24,6 +25,7 @@ ftchit() {
 
 ftchstnd() {
 	fstnd=1
+	getmsg
 	printcontacting 
 	if [[ "$dm" = aria2c ]];then
 		aria2c "$cmirror" | tee /dev/fd/1 > "${tmpdir}gmirror"
@@ -32,10 +34,6 @@ ftchstnd() {
 		printdownloadingftch 
 		aria2c http://"$mirror$path$file".md5 
 		aria2c -c -m 4 http://"$mirror$path$file"
-# 	elif [[ "$dm" = axel ]];then
-# 		printf "\\n\\nâ„%s\\n\\n""Axel is being implemented: curl (command line tool and library for transferring data with URLs) alternative https://github.com/curl/curl chosen: DONE"
-# 		axel http://"$mirror$path$file".md5 
-# 		axel http://"$mirror$path$file"
 	elif [[ "$dm" = wget ]];then 
 		wget -v -O/dev/null "$cmirror" 2>"${tmpdir}gmirror"
 		nmirror="$(grep Location "${tmpdir}gmirror" | awk {'print $2'})" 
@@ -54,6 +52,7 @@ ftchstnd() {
 
 getimage() {
 	printdownloadingx86 
+	getmsg
 	if [[ "$dm" = aria2c ]];then
 		aria2c http://"$mirror$path$file".md5 
 		if [[ "$cpuabi" = "$cpuabix86" ]];then
@@ -96,6 +95,12 @@ getimage() {
 		rm md5sums.txt
 		printdownloadingx86two 
 		curl "$dmverbose" -C - --fail --retry 4 -OL http://"$mirror$path$file" 
+	fi
+}
+
+getmsg() {
+ 	if [[ "$dm" = axel ]] || [[ "$dm" = lftp ]];then
+ 		printf "\\n\\nâ„%s\\n\\n""Axel and lftp are being implemented: curl (command line tool and library for transferring data with URLs) alternative https://github.com/curl/curl chosen: DONE"
 	fi
 }
 
