@@ -8,7 +8,7 @@ IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-versionid="v1.6 id3097"
+versionid="v1.6 id3478"
 ## Init Functions ##############################################################
 addcurl() { # Adds `curl` to $PATH if not found.
 	cat > "$PREFIX"/bin/curl <<- EOM
@@ -86,7 +86,7 @@ bsdtarif() {
 
 chk() {
 	if "$PREFIX"/bin/applets/sha512sum -c termuxarchchecksum.sha512 1>/dev/null  ; then
-		chkself "$@"
+# 		chkself "$@"
 		printf "\\e[0;34m 🕛 > 🕜 \\e[1;34mTermuxArch $versionid integrity: \\e[1;32mOK\\e[0m\\n"
 		loadconf
 		. archlinuxconfig.sh
@@ -122,9 +122,9 @@ chkdwn() {
 chkself() {
 	if [[ -f "setupTermuxArch.tmp" ]] ; then
 		if [[ "$(<setupTermuxArch.sh)" != "$(<setupTermuxArch.tmp)" ]] ; then
-			cp setupTermuxArch.sh "${wdir}setupTermuxArchConfigs.sh"
+			cp setupTermuxArch.sh "${wdir}setupTermuxArch.sh"
 			printf "\\e[0;32m%s\\e[1;34m: \\e[1;32mUPDATED\\n\\e[1;32mRESTART %s %s \\n\\e[0m"  "${0##*/}" "${0##*/}" "$@"
-			.  "${wdir}setupTermuxArchConfigs.sh" "$@"
+			.  "${wdir}setupTermuxArch.sh" "$@"
 		fi
 	fi
 }
