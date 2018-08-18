@@ -8,7 +8,7 @@ IFS=$'\n\t'
 set -Eeuxo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-versionid="gen.v1.6 id622888292040"
+versionid="gen.v1.6 id525290426922"
 ## Init Functions ##############################################################
 addcurl() { # Adds `curl` to $PATH if not found.
 	cat > "$PREFIX"/bin/curl <<- EOM
@@ -351,20 +351,20 @@ namestartarch() { # ${@%/} removes trailing slash
 }
 
 opt1() { 
-	if [[ "$2" = [Ii]* ]]  ; then
-		arg3dir "$@" 
-	else
+	if [[ -z "${2:-}" ]] ; then
 		arg2dir "$@" 
+	elif [[ "$2" = [Ii]* ]]  ; then
+		arg3dir "$@" 
 	fi
 }
 
 opt2() { 
-	if [[ "$2" = [Dd]* ]] || [[ "$2" = [Ss]* ]]  ; then
+	if [[ -z "${2:-}" ]] ; then
+		arg2dir "$@" 
+	elif [[ "$2" = [Dd]* ]] || [[ "$2" = [Ss]* ]]  ; then
 		introdebug "$@"  
 	elif [[ "$2" = [Ii]* ]]  ; then
 		arg3dir "$@" 
-	else
-		arg2dir "$@" 
 	fi
 }
 
