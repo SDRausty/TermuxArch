@@ -8,7 +8,7 @@ IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-versionid="gen.v1.6 id733395485707"
+versionid="gen.v1.6 id570512145852"
 ## Init Functions ##############################################################
 addcurl() { # Adds `curl` to $PATH if not found.
 	cat > "$PREFIX"/bin/curl <<- EOM
@@ -625,7 +625,6 @@ declare	ed=""
 declare -g installdir=""
 declare kid=""
 declare	lc=""
-declare -g md5sumr=""
 declare opt=""
 declare rootdir=""
 declare wdir="$PWD/"
