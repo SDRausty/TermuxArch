@@ -100,7 +100,7 @@ getimage() {
 
 getmsg() {
  	if [[ "$dm" = axel ]] || [[ "$dm" = lftp ]];then
- 		printf "\\n\\n\\e[1;32m%s\\n\\n""The chosen download manager \`$dm\` is being implemented: curl (command line tool and library for transferring data with URLs) alternative https://github.com/curl/curl chosen: DONE"
+ 		printf "\\n\\e[1;32m%s\\n\\n""The chosen download manager \`$dm\` is being implemented: curl (command line tool and library for transferring data with URLs) alternative https://github.com/curl/curl chosen:  DONE"
 	fi
 }
 
