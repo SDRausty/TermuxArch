@@ -8,7 +8,7 @@ IFS=$'\n\t'
 set -Eeo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-versionid="gen.v1.6 id232788453543"
+versionid="gen.v1.6 id523182149698"
 ## Init Functions ##############################################################
 addcurl() { # Adds `curl` to $PATH if not found.
 	cat > "$PREFIX"/bin/curl <<- EOM
@@ -152,11 +152,13 @@ chkself() {
 			cp setupTermuxArch.sh "$rdir"setupTermuxArch.sh 
 			printf "\\e[0;32m%s\\e[1;34m: \\e[1;32mUPDATED\\n\\e[1;32mRESTART %s %s \\n\\e[0m"  "${0##*/}" "${0##*/}" "$@"
 			echo "Restart information:" 
+			echo "\$@"
 			echo "$@"
+			echo "$(echo $@)"
+			echo "$(cat $@)"
+			echo "\$PWD"
 			echo "$PWD"
-			echo "echo $PWD"
 			echo "$(echo $PWD)"
-			echo "$($@)"
 			exit 204
 			$(. setupTermuxArch.sh "$@")
 		fi
