@@ -8,7 +8,7 @@ IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-versionid="v1.6 id5803"
+versionid="v1.6 id3097"
 ## Init Functions ##############################################################
 addcurl() { # Adds `curl` to $PATH if not found.
 	cat > "$PREFIX"/bin/curl <<- EOM
@@ -177,7 +177,7 @@ depends() { # checks for missing commands.
 	apin "$aptin"
 # 	pe "$pins"
 	echo
-	echo "Using $dm to manage downloads." 
+	echo "Using ${dm:-curl} to manage downloads." 
 	printf "\\n\\e[0;34m 🕛 > 🕧 \\e[1;34mPrerequisites: \\e[1;32mOK  \\e[1;34mDownloading TermuxArch…\\n\\n\\e[0;32m"
 }
 
