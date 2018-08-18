@@ -204,7 +204,7 @@ addch() { # Creates .hushlogin and .hushlogout file
 	################################################################################
 	set -Eeou pipefail 
 	declare -a args
-versionid="gen.v1.6 id282053429419"
+versionid="gen.v1.6 id874631923496"
 
 
 	finishe() { # on exit
@@ -425,7 +425,7 @@ addkeys() {
 	shopt -s nullglob globstar
 
 	declare -a keyrings
-versionid="gen.v1.6 id282053429419"
+versionid="gen.v1.6 id874631923496"
 
 
 	finishe() { # on exit
@@ -527,7 +527,7 @@ addpc() { # pacman install packages shortcut
 	shopt -s nullglob globstar
 
 	declare -g args="\$@"
-versionid="gen.v1.6 id282053429419"
+versionid="gen.v1.6 id874631923496"
 
 
 	finishe() { # on exit
@@ -590,7 +590,7 @@ addpci() { # system update with pacman install packages shortcut
 	shopt -s nullglob globstar
 
 	declare args="\$@"
-versionid="gen.v1.6 id282053429419"
+versionid="gen.v1.6 id874631923496"
 
 
 	finishe() { # on exit
@@ -737,15 +737,6 @@ addtrim() {
 	# https://sdrausty.github.io/TermuxArch/README has information about this project. 
 	################################################################################
 	printf "\\\\n\\\\e[1;32m==> \\\\e[1;0mRunning \$0 … \\\\e[0m\\\\n\\\\n" 
-	EOM
- 	if [[ "$cpuabi" = "$cpuabi5" ]];then
- 		printf "pacman -Rc linux-armv5 linux-firmware --noconfirm --color=always 2>/dev/null ||:\\n" >> root/bin/trim
- 	elif [[ "$cpuabi" = "$cpuabi7" ]];then
- 		printf "pacman -Rc linux-armv7 linux-firmware --noconfirm --color=always 2>/dev/null ||:\\n" >> root/bin/trim 
- 	elif [[ "$cpuabi" = "$cpuabi8" ]];then
- 		printf "pacman -Rc linux-aarch64 linux-firmware --noconfirm --color=always 2>/dev/null ||:\\n" >> root/bin/trim 
- 	fi
-	cat >> root/bin/trim <<- EOM
 	echo [1/5] rm -rf /boot/
 	rm -rf /boot/
 	echo [2/5] rm -rf /usr/lib/firmware

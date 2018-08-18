@@ -8,7 +8,7 @@
 fstnd=""
 ftchit() {
 	printdownloadingftchit 
-	if [[ "$dm" = aria2 ]];then
+	if [[ "$dm" = aria2c ]];then
 		aria2c http://"$mirror$path$file".md5 
 		aria2c -c http://"$mirror$path$file"
 	elif [[ "$dm" = axel ]];then
@@ -25,7 +25,7 @@ ftchit() {
 ftchstnd() {
 	fstnd=1
 	printcontacting 
-	if [[ "$dm" = aria2 ]];then
+	if [[ "$dm" = aria2c ]];then
 		aria2c "$cmirror" | tee /dev/fd/1 > "${rtdir}gmirror"
 		nmirror="$(grep Redir "${rtdir}gmirror" | awk {'print $8'})" 
 		printdone 
@@ -54,7 +54,7 @@ ftchstnd() {
 
 getimage() {
 	printdownloadingx86 
-	if [[ "$dm" = aria2 ]];then
+	if [[ "$dm" = aria2c ]];then
 		aria2c http://"$mirror$path$file".md5 
 		if [[ "$cpuabi" = "$cpuabix86" ]];then
 			file="$(grep i686 md5sums.txt | awk {'print $2'})"
