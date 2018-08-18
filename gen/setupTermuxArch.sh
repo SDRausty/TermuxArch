@@ -8,7 +8,7 @@ IFS=$'\n\t'
 set -Eeuxo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-versionid="gen.v1.6 id218082031499"
+versionid="gen.v1.6 id622888292040"
 ## Init Functions ##############################################################
 addcurl() { # Adds `curl` to $PATH if not found.
 	cat > "$PREFIX"/bin/curl <<- EOM
@@ -668,15 +668,6 @@ elif [[ "${args:0:1}" = "/" ]] ; then
 	arg2dir "$@"  
 	intro "$@"   
 	loadimage "$@"
-## [ad|as]  Get device system information with `aria2c`.
-elif [[ "${1//-}" = [Aa][Dd]* ]] || [[ "${1//-}" = [Aa][Ss]* ]] ; then
-	declare dm=aria2c
-	introdebug "$@" 
-## [aria2c installdir|ai installdir]  Install Arch Linux with `aria2c`.
-elif [[ "${1//-}" = [Aa]* ]] || [[ "${1//-}" = [Aa][Ii]* ]] ; then
-	declare dm=aria2c
-	opt2 "$@" 
-	intro "$@" 
 ## [axd|axs]  Get device system information with `axel`.
 elif [[ "${1//-}" = [Aa][Xx][Dd]* ]] || [[ "${1//-}" = [Aa][Xx][Ss]* ]] ; then
 	declare dm=axel
@@ -686,44 +677,48 @@ elif [[ "${1//-}" = [Aa][Xx]* ]] || [[ "${1//-}" = [Aa][Xx][Ii]* ]] ; then
 	declare dm=axel
 	opt2 "$@" 
 	intro "$@" 
+## [ad|as]  Get device system information with `aria2c`.
+elif [[ "${1//-}" = [Aa][Dd]* ]] || [[ "${1//-}" = [Aa][Ss]* ]] ; then
+	declare dm=aria2c
+	introdebug "$@" 
+## [aria2c installdir|ai installdir]  Install Arch Linux with `aria2c`.
+elif [[ "${1//-}" = [Aa]* ]] ; then
+	declare dm=aria2c
+	opt2 "$@" 
+	intro "$@" 
+## [bloom]  Create and run a local copy of TermuxArch in TermuxArchBloom.  Useful for running a customized setupTermuxArch.sh locally, for developing and hacking TermuxArch.  
+elif [[ "${1//-}" = [Bb]* ]] ; then
+	introbloom "$@"  
 ## [cd|cs]  Get device system information with `curl`.
 elif [[ "${1//-}" = [Cc][Dd]* ]] || [[ "${1//-}" = [Cc][Ss]* ]] ; then
 	declare dm=curl
 	introdebug "$@" 
 ## [curl installdir|ci installdir]  Install Arch Linux with `curl`.
-elif [[ "${1//-}" = [Cc]* ]] || [[ "${1//-}" = [Cc][Ii]* ]] ; then
+elif [[ "${1//-}" = [Cc]* ]] ; then
 	declare dm=curl
 	opt2 "$@" 
 	intro "$@" 
-## [ld|ls]  Get device system information with `lftp`.
-elif [[ "${1//-}" = [Ll][Dd]* ]] || [[ "${1//-}" = [Ll][Ss]* ]] ; then
-	echo Getting device system information with \`lftp\`.
-	declare dm=lftp
-	introdebug "$@" 
-## [lftp installdir|li installdir]  Install Arch Linux with `lftp`.
-elif [[ "${1//-}" = [Ll]* ]] || [[ "${1//-}" = [Ll][Ii]* ]] ; then
-	echo Installing with \`lftp\`.
-	declare dm=lftp
-	opt2 "$@" 
-	intro "$@" 
-## [wd|ws]  Get device system information with `wget`.
-elif [[ "${1//-}" = [Ww][Dd]* ]] || [[ "${1//-}" = [Ww][Ss]* ]] ; then
-	declare dm=wget
-	introdebug "$@" 
-## [wget installdir|wi installdir]  Install Arch Linux with `wget`.
-elif [[ "${1//-}" = [Ww]* ]] || [[ "${1//-}" = [Ww][Ii]* ]] ; then
-	declare dm=wget
-	opt2 "$@" 
-	intro "$@"  
-## [bloom]  Create and run a local copy of TermuxArch in TermuxArchBloom.  Useful for running a customized setupTermuxArch.sh locally, for developing and hacking TermuxArch.  
-elif [[ "${1//-}" = [Bb]* ]] ; then
-	introbloom "$@"  
 ## [debug|sysinfo]  Generate system information.
 elif [[ "${1//-}" = [Dd]* ]] || [[ "${1//-}" = [Ss]* ]] ; then
 	introdebug "$@" 
 ## [help|?]  Display builtin help.
 elif [[ "${1//-}" = [Hh]* ]] || [[ "${1//-}" = [?]* ]] ; then
 	printusage
+## [install installdir|rootdir installdir]  Install Arch Linux in a custom directory.  Instructions: Install in userspace. $HOME is appended to installation directory. To install Arch Linux in $HOME/installdir use `bash setupTermuxArch.sh install installdir`. In bash shell use `./setupTermuxArch.sh install installdir`.  All options can be abbreviated to one or two letters.  Hence `./setupTermuxArch.sh install installdir` can be run as `./setupTermuxArch.sh i installdir` in BASH.
+elif [[ "${1//-}" = [Ii]* ]] ||  [[ "${1//-}" = [Rr][Oo]* ]] ; then
+	arg2dir "$@"  
+	intro "$@"  
+## [ld|ls]  Get device system information with `lftp`.
+elif [[ "${1//-}" = [Ll][Dd]* ]] || [[ "${1//-}" = [Ll][Ss]* ]] ; then
+	echo Getting device system information with \`lftp\`.
+	declare dm=lftp
+	introdebug "$@" 
+## [lftp installdir|li installdir]  Install Arch Linux with `lftp`.
+elif [[ "${1//-}" = [Ll]* ]] ; then
+	echo Installing with \`lftp\`.
+	declare dm=lftp
+	opt2 "$@" 
+	intro "$@" 
 ## [manual]  Manual Arch Linux install, useful for resolving download issues.
 elif [[ "${1//-}" = [Mm]* ]] ; then
 	opt=manual
@@ -733,14 +728,19 @@ elif [[ "${1//-}" = [Mm]* ]] ; then
 elif [[ "${1//-}" = [Pp]* ]] || [[ "${1//-}" = [Uu]* ]] ; then
 	arg2dir "$@" 
 	rmarch
-## [install installdir|rootdir installdir]  Install Arch Linux in a custom directory.  Instructions: Install in userspace. $HOME is appended to installation directory. To install Arch Linux in $HOME/installdir use `bash setupTermuxArch.sh install installdir`. In bash shell use `./setupTermuxArch.sh install installdir`.  All options can be abbreviated to one or two letters.  Hence `./setupTermuxArch.sh install installdir` can be run as `./setupTermuxArch.sh i installdir` in BASH.
-elif [[ "${1//-}" = [Ii]* ]] ||  [[ "${1//-}" = [Rr][Oo]* ]] ; then
-	arg2dir "$@"  
-	intro "$@"  
 ## [refresh|refresh installdir]  Refresh the Arch Linux in Termux PRoot scripts created by TermuxArch and the installation itself.  Useful for refreshing the installation and the TermuxArch generated scripts to their newest versions.  
 elif [[ "${1//-}" = [Rr][Ee]* ]] ; then
 	arg2dir "$@"  
 	introrefresh "$@"  
+## [wd|ws]  Get device system information with `wget`.
+elif [[ "${1//-}" = [Ww][Dd]* ]] || [[ "${1//-}" = [Ww][Ss]* ]] ; then
+	declare dm=wget
+	introdebug "$@" 
+## [wget installdir|wi installdir]  Install Arch Linux with `wget`.
+elif [[ "${1//-}" = [Ww]* ]] ; then
+	declare dm=wget
+	opt2 "$@" 
+	intro "$@"  
 else
 	printusage
 fi
