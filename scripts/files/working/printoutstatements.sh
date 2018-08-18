@@ -32,7 +32,7 @@ printwla() {
 }
 
 printwld() {
-	printf "\033[0;34m 🕛 > 🕙 \033[1;34mReleasing termux-wake-lock: "'\033]2; 🕛 > 🕙 Releasing termux-wake-lock: OK\007'
+	printf "\n\033[0;34m 🕛 > 🕙 \033[1;34mReleasing termux-wake-lock: "'\033]2; 🕛 > 🕙 Releasing termux-wake-lock: OK\007'
 }
 
 printdownloadingx86() {
@@ -53,6 +53,10 @@ printdownloadingftchit() {
 
 printconfigup() {
 	printf "\033[0;34m 🕛 > 🕤 \033[1;34mArch Linux in Termux PRoot is installed.  Configuring and updating Arch Linux 📲"'\033]2; 🕛 > 🕤 Arch Linux is installed!  Configuring and updating Arch Linux 📲 \007'
+}
+
+printmax() {
+	printf "\\n\\e[07;1m\\e[31;1m 🔆 ERROR Maximum amount of attempts exceeded!\\e[34;1m\\e[30;1m  Run \`bash setupTermuxArch.sh\` again.  See \`bash setupTermuxArch.sh help\` to resolve download errors.  If this keeps repeating, copy \`knownconfigurations.sh\` to \`setupTermuxArchConfigs.sh\` with preferred mirror.  After editing \`setupTermuxArchConfigs.sh\`, run \`bash setupTermuxArch.sh\` and \`setupTermuxArchConfigs.sh\` loads automaticaly from the same directory.  Change mirror to desired geographic location to resolve md5sum errors.\\n\\nUser configurable variables are in \`setupTermuxArchConfigs.sh\`.  Create this file from \`kownconfigurations.sh\` in the working directory.  Use \`bash setupTermuxArch.sh manual\` to create and edit \`setupTermuxArchConfigs.sh\`.\\n\\n	Run \`bash setupTermuxArch.sh\` again…\\n\\e[0;0m\\n"'\033]2;  Thank you for using setupTermuxArch.sh.  Run `bash setupTermuxArch.sh` again…\007'
 }
 
 printmd5check() {
@@ -91,3 +95,5 @@ printrootdirfunction() {
 }
 
 printrootdirfunction 
+
+#EOF

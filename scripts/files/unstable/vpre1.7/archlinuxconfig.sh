@@ -12,7 +12,7 @@ addREADME() {
 	* Comments are welcome at https://github.com/sdrausty/TermuxArch/issues ✍ 
 	* Pull requests are welcome at https://github.com/sdrausty/TermuxArch/pulls ✍ 
 	
-	Thank you for making this project work better, and please contribute 🔆 
+	Thank you for making this project work better and please contribute 🔆 
 
 	EOM
 }
@@ -31,7 +31,8 @@ addae() {
 	chmod 770 root/bin/ae 
 }
 
-addauser() { # Add Arch Linux user.
+addauser() {
+	# Add Arch Linux user.
 	cat > root/bin/addauser <<- EOM
 	#!/bin/bash -e
 	# Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
@@ -46,7 +47,8 @@ addauser() { # Add Arch Linux user.
 	chmod 770 root/bin/addauser 
 }
 
-addauserps() { # Add Arch Linux user and create user login Termux startup script. 
+addauserps() {
+	# Add Arch Linux user and create user login Termux startup script. 
 	cat > root/bin/addauserps <<- EOM
 	#!/bin/bash -e
 	# Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
@@ -76,7 +78,8 @@ addauserps() { # Add Arch Linux user and create user login Termux startup script
 	chmod 770 root/bin/addauserps 
 }
 
-addauserpsc() { # Add Arch Linux user and create user login Termux startup script. 
+addauserpsc() {
+	# Add Arch Linux user and create user login Termux startup script. 
 	cat > root/bin/addauserpsc <<- EOM
 	#!/bin/bash -e
 	# Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
@@ -125,8 +128,7 @@ addbash_profile() {
 	PATH=\$HOME/bin:\$PATH
 	. \$HOME/.bashrc
 	PS1="[\A\[\033[0;32m\] \W \[\033[0m\]]\\$ "
-	export TZ="$(getprop persist.sys.timezone)"
-	export LANG="$_LANGUAGE.UTF-8"
+	export TZ=$(getprop persist.sys.timezone)
 	EOM
 	if [ -e "$HOME"/.bash_profile ] ; then
 		grep proxy "$HOME"/.bash_profile |grep "export" >>  root/.bash_profile 2>/dev/null||:
@@ -277,36 +279,6 @@ adddfa() {
 	printf "\e[0;33m\$usrspace \$units of free user space is available on this device.\n\e[0m"
 	EOM
 	chmod 770 root/bin/dfa 
-}
-
-addfake_proc_shmem() {
-	cat > var/fake_proc_shmem <<- EOM
-	------ Message Queues --------
-	key        msqid      owner      perms      used-bytes   messages
-	
-	------ Shared Memory Segments --------
-	key        shmid      owner      perms      bytes      nattch     status
-	
-	------ Semaphore Arrays --------
-	key        semid      owner      perms      nsems
-	EOM
-}
-
-addfake_proc_stat() {
-	cat > var/fake_proc_stat <<- EOM
-	cpu  4232003 351921 6702657 254559583 519846 1828 215588 0 0 0
-	cpu0 1595013 127789 2759942 61446568 310224 1132 92124 0 0 0
-	cpu1 1348297 91900 1908179 63099166 110243 334 78861 0 0 0
-	cpu2 780526 73446 1142504 64682755 61240 222 32586 0 0 0
-	cpu3 508167 58786 892032 65331094 38139 140 12017 0 0 0
-	intr 182663754 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 23506963 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 13479102 0 0 0 0 0 0 0 108 0 0 0 0 0 0 0 0 0 178219 72133 5 0 1486834 0 0 0 8586048 0 0 0 0 0 0 0 0 0 0 2254 0 0 0 0 29 3 7501 38210 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 4610975 0 0 0 0 0 1 0 78471 0 0 0 0 0 0 0 0 0 0 0 0 0 0 305883 0 15420 0 3956500 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 8937474 0 943938 0 0 0 0 0 0 0 0 0 0 0 0 12923 0 0 0 34931 5 0 2922124 848989 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 12502497 0 0 3270275 0 0 0 0 0 0 0 0 0 0 0 1002881 0 0 0 0 0 0 17842 0 44011 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1975390 0 0 0 0 0 0 0 0 0 0 0 0 4968 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1340 2 762 0 0 0 50 42 0 27 82 0 0 0 0 14 28 0 0 0 0 14277 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1974794 0 142 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 367 81
-	ctxt 473465697
-	btime 1533498667
-	processes 800170
-	procs_running 2
-	procs_blocked 0
-	softirq 71223290 12005 18257219 222294 2975533 4317 4317 7683319 19799901 40540 22223845
-	EOM
 }
 
 addfibs() {
