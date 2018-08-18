@@ -8,7 +8,7 @@ IFS=$'\n\t'
 set -Eeo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-versionid="gen.v1.6 id523182149698"
+versionid="gen.v1.6 id339277547059"
 ## Init Functions ##############################################################
 addcurl() { # Adds `curl` to $PATH if not found.
 	cat > "$PREFIX"/bin/curl <<- EOM
@@ -149,18 +149,18 @@ chkdwn() {
 chkself() {
 	if [[ -f "setupTermuxArch.tmp" ]] ; then
 		if [[ "$(<setupTermuxArch.sh)" != "$(<setupTermuxArch.tmp)" ]] ; then
-			cp setupTermuxArch.sh "$rdir"setupTermuxArch.sh 
+			cp setupTermuxArch.sh "${wdir}setupTermuxArchConfigs.sh"
 			printf "\\e[0;32m%s\\e[1;34m: \\e[1;32mUPDATED\\n\\e[1;32mRESTART %s %s \\n\\e[0m"  "${0##*/}" "${0##*/}" "$@"
-			echo "Restart information:" 
-			echo "\$@"
-			echo "$@"
-			echo "$(echo $@)"
-			echo "$(cat $@)"
-			echo "\$PWD"
-			echo "$PWD"
-			echo "$(echo $PWD)"
-			exit 204
-			$(. setupTermuxArch.sh "$@")
+# 			echo "Restart information:" 
+# 			echo "\$@"
+# 			echo "$@"
+# 			echo "$(echo $@)"
+# 			echo "$(cat $@)"
+# 			echo "\$PWD"
+# 			echo "$PWD"
+# 			echo "$(echo $PWD)"
+# 			exit 204
+			.  "${wdir}setupTermuxArchConfigs.sh" "$@"
 		fi
 	fi
 }
@@ -230,8 +230,8 @@ dependsblock() {
 	else
 		cd "$tdir" 
 		dwnl
-		if [[ -f "${rdir}setupTermuxArch.sh" ]] ; then
-			cp "${rdir}setupTermuxArch.sh" setupTermuxArch.tmp
+		if [[ -f "${wdir}setupTermuxArch.sh" ]] ; then
+			cp "${wdir}setupTermuxArch.sh" setupTermuxArch.tmp
 		fi
 		chkdwn
 		chk "$@"
@@ -320,8 +320,8 @@ introrefresh() {
 }
 
 loadconf() {
-	if [[ -f "${rdir}setupTermuxArchConfigs.sh" ]] ; then
-		. "${rdir}setupTermuxArchConfigs.sh"
+	if [[ -f "${wdir}setupTermuxArchConfigs.sh" ]] ; then
+		. "${wdir}setupTermuxArchConfigs.sh"
 		printconfloaded 
 	else
 		. knownconfigurations.sh 
@@ -331,15 +331,15 @@ loadconf() {
 manual() {
 	printf '\033]2; `bash setupTermuxArch.sh manual` 📲 \007'
 	editors
-	if [[ -f "${rdir}setupTermuxArchConfigs.sh" ]] ; then
-		"$ed" "${rdir}setupTermuxArchConfigs.sh"
-		. "${rdir}setupTermuxArchConfigs.sh"
+	if [[ -f "${wdir}setupTermuxArchConfigs.sh" ]] ; then
+		"$ed" "${wdir}setupTermuxArchConfigs.sh"
+		. "${wdir}setupTermuxArchConfigs.sh"
 		printconfloaded 
 	else
-		cp knownconfigurations.sh "${rdir}setupTermuxArchConfigs.sh"
-		sed -i '20i# The architecture of this device is '"$(uname -m)"'; Adjust the appropriate section.' "${rdir}setupTermuxArchConfigs.sh" 
-		"$ed" "${rdir}setupTermuxArchConfigs.sh"
-		. "${rdir}setupTermuxArchConfigs.sh"
+		cp knownconfigurations.sh "${wdir}setupTermuxArchConfigs.sh"
+		sed -i '20i# The architecture of this device is '"$(uname -m)"'; Adjust the appropriate section.' "${wdir}setupTermuxArchConfigs.sh" 
+		"$ed" "${wdir}setupTermuxArchConfigs.sh"
+		. "${wdir}setupTermuxArchConfigs.sh"
 		printconfloaded 
 	fi
 }
@@ -656,7 +656,7 @@ declare	lc=""
 declare -g md5sumr=""
 declare opt=""
 declare rootdir=""
-declare rdir="$PWD/"
+declare wdir="$PWD/"
 declare spaceMessage=""
 declare stim="$(date +%s)"
 declare stime="${stim:0:4}"
