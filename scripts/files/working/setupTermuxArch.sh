@@ -8,7 +8,7 @@ IFS=$'\n\t'
 set -Eeo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-versionid="gen.v1.6 id404138374794"
+versionid="gen.v1.6 id944309453975"
 ## Init Functions ##############################################################
 addcurl() { # Adds `curl` to $PATH if not found.
 	cat > "$PREFIX"/bin/curl <<- EOM
@@ -188,7 +188,7 @@ depends() { # checks for missing commands.
 	lftpifdm return 
 	curlifdm return 
 	wgetifdm return 
-	echo $dm
+	echo "Using $dm to manage downloads." 
 	if [[ "$dm" = "" ]] ; then
 		if [[ -x "$PREFIX"/bin/aria2c ]] || [[ -x "$(command -v aria2c)" ]] ; then
 			aria2cif return 
@@ -239,13 +239,15 @@ dwnl() {
 	elif [[ "$dm" = axel ]] ; then
 		axel https://raw.githubusercontent.com/sdrausty/TermuxArch/master"$dfl"/setupTermuxArch.sha512 
 		axel https://raw.githubusercontent.com/sdrausty/TermuxArch/master"$dfl"/setupTermuxArch.tar.gz 
-		echo axel is not full implemented
+		echo warning: axel is not full implemented
+		echo continuing
  		curlif 
 		apin "$aptin"
 	elif [[ "$dm" = lftp ]] ; then
-		lftpget https://raw.githubusercontent.com/sdrausty/TermuxArch/master"$dfl"/setupTermuxArch.sha512 
-		lftpget https://raw.githubusercontent.com/sdrausty/TermuxArch/master"$dfl"/setupTermuxArch.tar.gz 
-		echo lftp is not full implemented
+		lftpget -v https://raw.githubusercontent.com/sdrausty/TermuxArch/master"$dfl"/setupTermuxArch.sha512 
+		lftpget -v https://raw.githubusercontent.com/sdrausty/TermuxArch/master"$dfl"/setupTermuxArch.tar.gz 
+		echo warning: lftp is not full implemented
+		echo continuing
  		curlif 
 		apin "$aptin"
 	elif [[ "$dm" = wget ]] ; then
