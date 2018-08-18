@@ -8,7 +8,7 @@ IFS=$'\n\t'
 set -Eeo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-versionid="gen.v1.6 id944309453975"
+versionid="gen.v1.6 id258704434249"
 ## Init Functions ##############################################################
 addcurl() { # Adds `curl` to $PATH if not found.
 	cat > "$PREFIX"/bin/curl <<- EOM
@@ -181,14 +181,13 @@ dependbp() {
 
 depends() { # checks for missing commands.  
 	prepcurl return # installs curl from system if available.  
-	preptar return # installs tar from system if available.  
+# 	preptar return # installs tar from system if available.  
 	printf "\\e[1;34mChecking prerequisites…\\n\\e[1;32m"
 	aria2cifdm return 
 	axelifdm return 
 	lftpifdm return 
 	curlifdm return 
 	wgetifdm return 
-	echo "Using $dm to manage downloads." 
 	if [[ "$dm" = "" ]] ; then
 		if [[ -x "$PREFIX"/bin/aria2c ]] || [[ -x "$(command -v aria2c)" ]] ; then
 			aria2cif return 
@@ -205,6 +204,8 @@ depends() { # checks for missing commands.
 	dependbp return 
 	apin "$aptin"
 # 	pe "$pins"
+	echo
+	echo "Using $dm to manage downloads." 
 	printf "\\n\\e[0;34m 🕛 > 🕧 \\e[1;34mPrerequisites: \\e[1;32mOK  \\e[1;34mDownloading TermuxArch…\\n\\n\\e[0;32m"
 }
 
@@ -239,6 +240,7 @@ dwnl() {
 	elif [[ "$dm" = axel ]] ; then
 		axel https://raw.githubusercontent.com/sdrausty/TermuxArch/master"$dfl"/setupTermuxArch.sha512 
 		axel https://raw.githubusercontent.com/sdrausty/TermuxArch/master"$dfl"/setupTermuxArch.tar.gz 
+		echo
 		echo warning: axel is not full implemented
 		echo continuing
  		curlif 
@@ -246,6 +248,7 @@ dwnl() {
 	elif [[ "$dm" = lftp ]] ; then
 		lftpget -v https://raw.githubusercontent.com/sdrausty/TermuxArch/master"$dfl"/setupTermuxArch.sha512 
 		lftpget -v https://raw.githubusercontent.com/sdrausty/TermuxArch/master"$dfl"/setupTermuxArch.tar.gz 
+		echo
 		echo warning: lftp is not full implemented
 		echo continuing
  		curlif 
