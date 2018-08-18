@@ -28,22 +28,22 @@ ftchstnd() {
 	getmsg
 	printcontacting 
 	if [[ "$dm" = aria2c ]];then
-		aria2c "$cmirror" | tee /dev/fd/1 > "${tmpdir}gmirror"
-		nmirror="$(grep Redir "${tmpdir}gmirror" | awk {'print $8'})" 
+		aria2c "$cmirror" | tee /dev/fd/1 > "${tmpdir}/global2localmirror"
+		nmirror="$(grep Redir "${tmpdir}/global2localmirror" | awk {'print $8'})" 
 		printdone 
 		printdownloadingftch 
 		aria2c http://"$mirror$path$file".md5 
 		aria2c -c -m 4 http://"$mirror$path$file"
 	elif [[ "$dm" = wget ]];then 
-		wget -v -O/dev/null "$cmirror" 2>"${tmpdir}gmirror"
-		nmirror="$(grep Location "${tmpdir}gmirror" | awk {'print $2'})" 
+		wget -v -O/dev/null "$cmirror" 2>"${tmpdir}/global2localmirror"
+		nmirror="$(grep Location "${tmpdir}/global2localmirror" | awk {'print $2'})" 
 		printdone 
 		printdownloadingftch 
 		wget "$dmverbose" -N --show-progress "$nmirror$path$file".md5 
 		wget "$dmverbose" -c --show-progress "$nmirror$path$file" 
 	else
-		curl -v "$cmirror" 2>"${tmpdir}gmirror"
-		nmirror="$(grep Location "${tmpdir}gmirror" | awk {'print $3'})" 
+		curl -v "$cmirror" 2>"${tmpdir}/global2localmirror"
+		nmirror="$(grep Location "${tmpdir}/global2localmirror" | awk {'print $3'})" 
 		printdone 
 		printdownloadingftch 
 		curl "$dmverbose" -C - --fail --retry 4 -OL "$nmirror$path$file".md5 -O "$nmirror$path$file"
