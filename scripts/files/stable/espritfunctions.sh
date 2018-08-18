@@ -147,6 +147,15 @@ edq2() {
 	printf "\\n"
 }
 
+nanoif() {
+	if [[ ! -x "$(command -v nano)" ]];then
+		apin nano 
+		if [[ ! -x "$(command -v nano)" ]];then
+			pe
+		fi
+	fi
+}
+
 rmbloomq() {
 	if [[ -d "$HOME"/TermuxArchBloom ]];then
 		printf "\\n\\n\\e[0;33mTermuxArch: \\e[1;33mDIRECTORY WARNING!  $HOME/TermuxArchBloom/ \\e[0;33mdirectory detected.  \\e[1;30msetupTermuxArch.sh bloom will continue.\\n"

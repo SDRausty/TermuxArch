@@ -8,7 +8,7 @@
 fstnd=""
 ftchit() {
 	printdownloadingftchit 
-	if [[ "$dm" = aria2 ]];then
+	if [[ "$dm" = aria2c ]];then
 		aria2c http://"$mirror$path$file".md5 
 		aria2c -c http://"$mirror$path$file"
 	elif [[ "$dm" = axel ]];then
@@ -25,26 +25,27 @@ ftchit() {
 ftchstnd() {
 	fstnd=1
 	printcontacting 
-	if [[ "$dm" = aria2 ]];then
-		aria2c "$cmirror" | tee /dev/fd/1 > "${rdir}gmirror"
-		nmirror="$(grep Redir "${rdir}gmirror" | awk {'print $8'})" 
+	if [[ "$dm" = aria2c ]];then
+		aria2c "$cmirror" | tee /dev/fd/1 > "${tmpdir}gmirror"
+		nmirror="$(grep Redir "${tmpdir}gmirror" | awk {'print $8'})" 
 		printdone 
 		printdownloadingftch 
 		aria2c http://"$mirror$path$file".md5 
 		aria2c -c -m 4 http://"$mirror$path$file"
-	elif [[ "$dm" = axel ]];then
-		axel http://"$mirror$path$file".md5 
-		axel http://"$mirror$path$file"
+# 	elif [[ "$dm" = axel ]];then
+# 		printf "\\n\\nâ„%s\\n\\n""Axel is being implemented: curl (command line tool and library for transferring data with URLs) alternative https://github.com/curl/curl chosen: DONE"
+# 		axel http://"$mirror$path$file".md5 
+# 		axel http://"$mirror$path$file"
 	elif [[ "$dm" = wget ]];then 
-		wget -v -O/dev/null "$cmirror" 2>"${rdir}gmirror"
-		nmirror="$(grep Location "${rdir}gmirror" | awk {'print $2'})" 
+		wget -v -O/dev/null "$cmirror" 2>"${tmpdir}gmirror"
+		nmirror="$(grep Location "${tmpdir}gmirror" | awk {'print $2'})" 
 		printdone 
 		printdownloadingftch 
 		wget "$dmverbose" -N --show-progress "$nmirror$path$file".md5 
 		wget "$dmverbose" -c --show-progress "$nmirror$path$file" 
 	else
-		curl -v "$cmirror" 2>"${rdir}gmirror"
-		nmirror="$(grep Location "${rdir}gmirror" | awk {'print $3'})" 
+		curl -v "$cmirror" 2>"${tmpdir}gmirror"
+		nmirror="$(grep Location "${tmpdir}gmirror" | awk {'print $3'})" 
 		printdone 
 		printdownloadingftch 
 		curl "$dmverbose" -C - --fail --retry 4 -OL "$nmirror$path$file".md5 -O "$nmirror$path$file"
@@ -53,7 +54,7 @@ ftchstnd() {
 
 getimage() {
 	printdownloadingx86 
-	if [[ "$dm" = aria2 ]];then
+	if [[ "$dm" = aria2c ]];then
 		aria2c http://"$mirror$path$file".md5 
 		if [[ "$cpuabi" = "$cpuabix86" ]];then
 			file="$(grep i686 md5sums.txt | awk {'print $2'})"
