@@ -788,7 +788,7 @@ addv() {
 }
 
 addwe() {
-	cat > bin/we <<- EOM
+	cat > root/bin/we <<- EOM
 	#!/bin/bash -e
 	# Watch available entropy on device.
 	# Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
@@ -933,7 +933,7 @@ addwe() {
 	fi
 	printtail 
 	EOM
-	chmod 770 bin/we 
+	chmod 770 root/bin/we 
 }
 
 addyt() {
