@@ -8,7 +8,7 @@ IFS=$'\n\t'
 set -Eeo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-versionid="gen.v1.6 id226941732077"
+versionid="gen.v1.6 id081819523849"
 ## Init Functions ##############################################################
 addcurl() { # Adds `curl` to $PATH if not found.
 	cat > "$PREFIX"/bin/curl <<- EOM
@@ -618,14 +618,7 @@ userspace() {
 
 wgetifdm() {
 	if [[ "$dm" = wget ]] ; then
-		echo wgetifdm
-		echo $dm
 		wgetif return 
-		echo wgetifdm
-		echo $aptin
-		echo $pins
-		echo $dm
-		echo wgetifdm
 	fi
 }
 
@@ -634,11 +627,6 @@ wgetif() {
 	if [[ ! -x "$(command -v wget)" ]] || [[ ! -x "$PREFIX"/bin/wget ]] ; then
 		aptin+="wget "
 		pins+="wget "
-		echo wgetif
-		echo $aptin
-		echo $pins
-		echo $dm
-		echo wgetif
 	fi
 }
 
