@@ -8,7 +8,7 @@ IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-versionid="gen.v1.6 id376990460913"
+versionid="gen.v1.6 id982135943996"
 ## Init Functions ##############################################################
 addcurl() { # Adds `curl` to $PATH if not found.
 	cat > "$PREFIX"/bin/curl <<- EOM
@@ -195,7 +195,7 @@ dependsblock() {
 			manual
 		fi 
 	else
-		cd "$tdir" 
+		cd "$tmpdir" 
 		dwnl
 		if [[ -f "${wdir}setupTermuxArch.sh" ]] ; then
 			cp "${wdir}setupTermuxArch.sh" setupTermuxArch.tmp
@@ -231,7 +231,7 @@ dwnl() {
 }
 
 finishe() { # on exit
-	rm -rf "$tdir"
+	rm -rf "$tmpdir"
 	printf "\\e[?25h\\e[0m"
 	set +Eeuo pipefail 
   	printtail "$args"  
@@ -393,11 +393,11 @@ prepcurl() { # installs curl from system if available.
 }
 
 preptmpdir() { 
-  	t="$(</proc/sys/kernel/random/uuid)"
- 	td="${t//-}"
- 	tdi="${td:0:16}"
- 	tdir="$TMPDIR/${0##*/}$tdi"
-	mkdir -p "$tdir" 
+  	tmp="$(</proc/sys/kernel/random/uuid)"
+ 	tmpd="${t//-}"
+ 	tmpdi="${td:0:16}"
+ 	tmpdir="$TMPDIR/${0##*/}$tdi"
+	mkdir -p "$tmpdir" 
 }
 
 printconfloaded() {
