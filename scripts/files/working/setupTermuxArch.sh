@@ -8,7 +8,7 @@ IFS=$'\n\t'
 set -Eeo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-versionid="gen.v1.6 id874631923496"
+versionid="gen.v1.6 id473009434933"
 ## Init Functions ##############################################################
 addcurl() { # Adds `curl` to $PATH if not found.
 	cat > "$PREFIX"/bin/curl <<- EOM
@@ -47,9 +47,11 @@ addtoytar() { # Adds `tar` to $PATH if not found.
 }
 
 apin() {
-	printf "\\n\\e[1;34mInstalling \\e[0;32m%s\\e[1;34m…\\n\\n\\e[1;32m" "$aptin"
-	pkg i $aptin -o APT::Keep-Downloaded-Packages="true" 
-	printf "\\n\\e[1;34mInstalling \\e[0;32m%s\\e[1;34m: \\e[1;32mDONE\\n\\e[0m" "$aptin"
+	if [[ "$aptin" != "" ]] ; then
+		printf "\\n\\e[1;34mInstalling \\e[0;32m%s\\e[1;34m…\\n\\n\\e[1;32m" "$aptin"
+		pkg i $aptin -o APT::Keep-Downloaded-Packages="true" 
+		printf "\\n\\e[1;34mInstalling \\e[0;32m%s\\e[1;34m: \\e[1;32mDONE\\n\\e[0m" "$aptin"
+	fi
 }
 
 aria2cif() { 
