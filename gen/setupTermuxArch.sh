@@ -8,7 +8,7 @@ IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-versionid="gen.v1.6 id982135943996"
+versionid="gen.v1.6 id812655294160"
 ## Init Functions ##############################################################
 addcurl() { # Adds `curl` to $PATH if not found.
 	cat > "$PREFIX"/bin/curl <<- EOM
@@ -394,9 +394,9 @@ prepcurl() { # installs curl from system if available.
 
 preptmpdir() { 
   	tmp="$(</proc/sys/kernel/random/uuid)"
- 	tmpd="${t//-}"
- 	tmpdi="${td:0:16}"
- 	tmpdir="$TMPDIR/${0##*/}$tdi"
+ 	tmpd="${tmp//-}"
+ 	tmpdi="${tmpd:0:16}"
+ 	tmpdir="$TMPDIR/${0##*/}$tmpdi"
 	mkdir -p "$tmpdir" 
 }
 
