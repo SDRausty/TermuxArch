@@ -8,7 +8,7 @@ IFS=$'\n\t'
 set -Eeo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-versionid="gen.v1.6 id258704434249"
+versionid="gen.v1.6 id240409474384"
 ## Init Functions ##############################################################
 addcurl() { # Adds `curl` to $PATH if not found.
 	cat > "$PREFIX"/bin/curl <<- EOM
@@ -714,47 +714,49 @@ elif [[ "${args:0:1}" = "/" ]] ; then
 	arg2dir "$@"  
 	intro "$@"   
 	loadimage "$@"
-## [ad|as]  Get device system information using `aria2c`.
+## [ad|as]  Get device system information with `aria2c`.
 elif [[ "${1//-}" = [Aa][Dd]* ]] || [[ "${1//-}" = [Aa][Ss]* ]] ; then
 	declare dm=aria2c
 	introdebug "$@" 
-## [aria2c installdir|ai installdir]  Install Arch Linux using `aria2c`.
+## [aria2c installdir|ai installdir]  Install Arch Linux with `aria2c`.
 elif [[ "${1//-}" = [Aa]* ]] || [[ "${1//-}" = [Aa][Ii]* ]] ; then
 	declare dm=aria2c
 	opt2 "$@" 
 	intro "$@" 
-## [axd|axs]  Get device system information using `axel`.
+## [axd|axs]  Get device system information with `axel`.
 elif [[ "${1//-}" = [Aa][Xx][Dd]* ]] || [[ "${1//-}" = [Aa][Xx][Ss]* ]] ; then
 	declare dm=axel
 	introdebug "$@" 
-## [axel installdir|axi installdir]  Install Arch Linux using `axel`.
+## [axel installdir|axi installdir]  Install Arch Linux with `axel`.
 elif [[ "${1//-}" = [Aa][Xx]* ]] || [[ "${1//-}" = [Aa][Xx][Ii]* ]] ; then
 	declare dm=axel
 	opt2 "$@" 
 	intro "$@" 
-## [cd|cs]  Get device system information using `curl`.
+## [cd|cs]  Get device system information with `curl`.
 elif [[ "${1//-}" = [Cc][Dd]* ]] || [[ "${1//-}" = [Cc][Ss]* ]] ; then
 	declare dm=curl
 	introdebug "$@" 
-## [curl installdir|ci installdir]  Install Arch Linux using `curl`.
+## [curl installdir|ci installdir]  Install Arch Linux with `curl`.
 elif [[ "${1//-}" = [Cc]* ]] || [[ "${1//-}" = [Cc][Ii]* ]] ; then
 	declare dm=curl
 	opt2 "$@" 
 	intro "$@" 
-## [ld|ls]  Get device system information using `lftp`.
+## [ld|ls]  Get device system information with `lftp`.
 elif [[ "${1//-}" = [Ll][Dd]* ]] || [[ "${1//-}" = [Ll][Ss]* ]] ; then
+	echo Getting device system information with \`lftp\`.
 	declare dm=lftp
 	introdebug "$@" 
-## [lftp installdir|li installdir]  Install Arch Linux using `lftp`.
+## [lftp installdir|li installdir]  Install Arch Linux with `lftp`.
 elif [[ "${1//-}" = [Ll]* ]] || [[ "${1//-}" = [Ll][Ii]* ]] ; then
+	echo Installing with \`lftp\`.
 	declare dm=lftp
 	opt2 "$@" 
 	intro "$@" 
-## [wd|ws]  Get device system information using `wget`.
+## [wd|ws]  Get device system information with `wget`.
 elif [[ "${1//-}" = [Ww][Dd]* ]] || [[ "${1//-}" = [Ww][Ss]* ]] ; then
 	declare dm=wget
 	introdebug "$@" 
-## [wget installdir|wi installdir]  Install Arch Linux using `wget`.
+## [wget installdir|wi installdir]  Install Arch Linux with `wget`.
 elif [[ "${1//-}" = [Ww]* ]] || [[ "${1//-}" = [Ww][Ii]* ]] ; then
 	declare dm=wget
 	opt2 "$@" 
