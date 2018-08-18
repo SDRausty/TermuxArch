@@ -8,7 +8,7 @@ IFS=$'\n\t'
 set -Eeo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-versionid="gen.v1.6 id339277547059"
+versionid="gen.v1.6 id404138374794"
 ## Init Functions ##############################################################
 addcurl() { # Adds `curl` to $PATH if not found.
 	cat > "$PREFIX"/bin/curl <<- EOM
@@ -151,15 +151,6 @@ chkself() {
 		if [[ "$(<setupTermuxArch.sh)" != "$(<setupTermuxArch.tmp)" ]] ; then
 			cp setupTermuxArch.sh "${wdir}setupTermuxArchConfigs.sh"
 			printf "\\e[0;32m%s\\e[1;34m: \\e[1;32mUPDATED\\n\\e[1;32mRESTART %s %s \\n\\e[0m"  "${0##*/}" "${0##*/}" "$@"
-# 			echo "Restart information:" 
-# 			echo "\$@"
-# 			echo "$@"
-# 			echo "$(echo $@)"
-# 			echo "$(cat $@)"
-# 			echo "\$PWD"
-# 			echo "$PWD"
-# 			echo "$(echo $PWD)"
-# 			exit 204
 			.  "${wdir}setupTermuxArchConfigs.sh" "$@"
 		fi
 	fi
@@ -194,6 +185,7 @@ depends() { # checks for missing commands.
 	printf "\\e[1;34mChecking prerequisites…\\n\\e[1;32m"
 	aria2cifdm return 
 	axelifdm return 
+	lftpifdm return 
 	curlifdm return 
 	wgetifdm return 
 	echo $dm
@@ -202,6 +194,8 @@ depends() { # checks for missing commands.
 			aria2cif return 
 	 	elif [[ -x "$PREFIX"/bin/axel ]] || [[ -x "$(command -v axel)" ]] ; then
 			axelif return 
+	 	elif [[ -x "$PREFIX"/bin/lftpget ]] || [[ -x "$(command -v lftpget)" ]] ; then
+			lftpif return 
 		elif [[ -x "$PREFIX"/bin/curl ]] || [[ -x "$(command -v curl)" ]] ; then
 			curlif return 
 		elif [[ -x "$PREFIX"/bin/wget ]] || [[ -x "$(command -v wget)" ]] ; then
@@ -247,6 +241,13 @@ dwnl() {
 		axel https://raw.githubusercontent.com/sdrausty/TermuxArch/master"$dfl"/setupTermuxArch.tar.gz 
 		echo axel is not full implemented
  		curlif 
+		apin "$aptin"
+	elif [[ "$dm" = lftp ]] ; then
+		lftpget https://raw.githubusercontent.com/sdrausty/TermuxArch/master"$dfl"/setupTermuxArch.sha512 
+		lftpget https://raw.githubusercontent.com/sdrausty/TermuxArch/master"$dfl"/setupTermuxArch.tar.gz 
+		echo lftp is not full implemented
+ 		curlif 
+		apin "$aptin"
 	elif [[ "$dm" = wget ]] ; then
 		wget "$dmverbose" -N --show-progress https://raw.githubusercontent.com/sdrausty/TermuxArch/master"$dfl"/setupTermuxArch.sha512 
 		wget "$dmverbose" -N --show-progress https://raw.githubusercontent.com/sdrausty/TermuxArch/master"$dfl"/setupTermuxArch.tar.gz 
@@ -317,6 +318,20 @@ introrefresh() {
 	printf "\\n\\e[0;34m 🕛 > 🕛 \\e[1;34msetupTermuxArch $versionid will refresh your TermuxArch files in \\e[0;32m$installdir\\e[1;34m.  Ensure background data is not restricted.  Run \\e[0;32mbash setupTermuxArch.sh help \\e[1;34mfor additional information.  Check the wireless connection if you do not see one o'clock 🕐 below.  "
 	dependsblock "$@" return
 	refreshsys "$@"
+}
+
+lftpif() {
+	declare dm=lftp
+	if [[ ! -x "$(command -v lftp)" ]] || [[ ! -x "$PREFIX"/bin/lftp ]] ; then
+		aptin+="lftp "
+		pins+="lftpget "
+	fi
+}
+
+lftpifdm() {
+	if [[ "$dm" = lftp ]] ; then
+		lftpif return 
+	fi
 }
 
 loadconf() {
@@ -694,15 +709,6 @@ elif [[ "${args:0:1}" = "/" ]] ; then
 	arg2dir "$@"  
 	intro "$@"   
 	loadimage "$@"
-## [axd|axs]  Get device system information using `axel`.
-elif [[ "${1//-}" = [Aa][Xx][Dd]* ]] || [[ "${1//-}" = [Aa][Xx][Ss]* ]] ; then
-	declare dm=axel
-	introdebug "$@" 
-## [axel installdir|axi installdir]  Install Arch Linux using `axel`.
-elif [[ "${1//-}" = [Aa][Xx]* ]] || [[ "${1//-}" = [Aa][Xx][Ii]* ]] ; then
-	declare dm=axel
-	opt2 "$@" 
-	intro "$@" 
 ## [ad|as]  Get device system information using `aria2c`.
 elif [[ "${1//-}" = [Aa][Dd]* ]] || [[ "${1//-}" = [Aa][Ss]* ]] ; then
 	declare dm=aria2c
@@ -712,6 +718,15 @@ elif [[ "${1//-}" = [Aa]* ]] || [[ "${1//-}" = [Aa][Ii]* ]] ; then
 	declare dm=aria2c
 	opt2 "$@" 
 	intro "$@" 
+## [axd|axs]  Get device system information using `axel`.
+elif [[ "${1//-}" = [Aa][Xx][Dd]* ]] || [[ "${1//-}" = [Aa][Xx][Ss]* ]] ; then
+	declare dm=axel
+	introdebug "$@" 
+## [axel installdir|axi installdir]  Install Arch Linux using `axel`.
+elif [[ "${1//-}" = [Aa][Xx]* ]] || [[ "${1//-}" = [Aa][Xx][Ii]* ]] ; then
+	declare dm=axel
+	opt2 "$@" 
+	intro "$@" 
 ## [cd|cs]  Get device system information using `curl`.
 elif [[ "${1//-}" = [Cc][Dd]* ]] || [[ "${1//-}" = [Cc][Ss]* ]] ; then
 	declare dm=curl
@@ -719,6 +734,15 @@ elif [[ "${1//-}" = [Cc][Dd]* ]] || [[ "${1//-}" = [Cc][Ss]* ]] ; then
 ## [curl installdir|ci installdir]  Install Arch Linux using `curl`.
 elif [[ "${1//-}" = [Cc]* ]] || [[ "${1//-}" = [Cc][Ii]* ]] ; then
 	declare dm=curl
+	opt2 "$@" 
+	intro "$@" 
+## [ld|ls]  Get device system information using `lftp`.
+elif [[ "${1//-}" = [Ll][Dd]* ]] || [[ "${1//-}" = [Ll][Ss]* ]] ; then
+	declare dm=lftp
+	introdebug "$@" 
+## [lftp installdir|li installdir]  Install Arch Linux using `lftp`.
+elif [[ "${1//-}" = [Ll]* ]] || [[ "${1//-}" = [Ll][Ii]* ]] ; then
+	declare dm=lftp
 	opt2 "$@" 
 	intro "$@" 
 ## [wd|ws]  Get device system information using `wget`.
