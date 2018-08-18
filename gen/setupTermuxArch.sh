@@ -5,10 +5,10 @@
 # https://sdrausty.github.io/TermuxArch/README for TermuxArch information. 
 ################################################################################
 IFS=$'\n\t'
-set -Eeo pipefail
+set -Eeuo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-versionid="gen.v1.6 id473009434933"
+versionid="gen.v1.6 id135274198850"
 ## Init Functions ##############################################################
 addcurl() { # Adds `curl` to $PATH if not found.
 	cat > "$PREFIX"/bin/curl <<- EOM
@@ -49,7 +49,7 @@ addtoytar() { # Adds `tar` to $PATH if not found.
 apin() {
 	if [[ "$aptin" != "" ]] ; then
 		printf "\\n\\e[1;34mInstalling \\e[0;32m%s\\e[1;34m…\\n\\n\\e[1;32m" "$aptin"
-		pkg i $aptin -o APT::Keep-Downloaded-Packages="true" 
+		pkg install "$aptin" -o APT::Keep-Downloaded-Packages="true" 
 		printf "\\n\\e[1;34mInstalling \\e[0;32m%s\\e[1;34m: \\e[1;32mDONE\\n\\e[0m" "$aptin"
 	fi
 }
@@ -194,6 +194,7 @@ depends() { # checks for missing commands.
 	axelifdm return 
 	curlifdm return 
 	wgetifdm return 
+	echo $dm
 	if [[ "$dm" = "" ]] ; then
 		if [[ -x "$PREFIX"/bin/aria2c ]] || [[ -x "$(command -v aria2c)" ]] ; then
 			aria2cif return 
@@ -242,6 +243,7 @@ dwnl() {
 	elif [[ "$dm" = axel ]] ; then
 		axel https://raw.githubusercontent.com/sdrausty/TermuxArch/master"$dfl"/setupTermuxArch.sha512 
 		axel https://raw.githubusercontent.com/sdrausty/TermuxArch/master"$dfl"/setupTermuxArch.tar.gz 
+		echo axel is not full implemented
  		curlif 
 	elif [[ "$dm" = wget ]] ; then
 		wget "$dmverbose" -N --show-progress https://raw.githubusercontent.com/sdrausty/TermuxArch/master"$dfl"/setupTermuxArch.sha512 
@@ -688,7 +690,7 @@ namestartarch
 setrootdir  
 
 ## Available Arguments #########################################################
-## []  Run default Arch Linux install.  `bash setupTermuxArch.sh help` has more information.  All options can be abbreviated to the first letter or two. 
+## []  Run default Arch Linux install.  `bash setupTermuxArch.sh help` has more information; All options can be abbreviated. 
 if [[ -z "${1:-}" ]] ; then
 	intro "$@" 
 ## A systemimage.tar.gz file can be used: `setupTermuxArch.sh ./[path/]systemimage.tar.gz` and `setupTermuxArch.sh /absolutepath/systemimage.tar.gz`; [./path/systemimage.tar.gz [installdir]]  Use path to system image file; install directory argument is optional. 
@@ -702,11 +704,20 @@ elif [[ "${args:0:1}" = "/" ]] ; then
 	arg2dir "$@"  
 	intro "$@"   
 	loadimage "$@"
+## [axd|axs]  Get device system information using `axel`.
+elif [[ "${1//-}" = [Aa][Xx][Dd]* ]] || [[ "${1//-}" = [Aa][Xx][Ss]* ]] ; then
+	declare dm=axel
+	introdebug "$@" 
+## [axel installdir|axi installdir]  Install Arch Linux using `axel`.
+elif [[ "${1//-}" = [Aa][Xx]* ]] || [[ "${1//-}" = [Aa][Xx][Ii]* ]] ; then
+	declare dm=axel
+	opt2 "$@" 
+	intro "$@" 
 ## [ad|as]  Get device system information using `aria2c`.
 elif [[ "${1//-}" = [Aa][Dd]* ]] || [[ "${1//-}" = [Aa][Ss]* ]] ; then
 	declare dm=aria2c
 	introdebug "$@" 
-## [curl installdir|ci installdir]  Install Arch Linux using `aria2c`.
+## [aria2c installdir|ai installdir]  Install Arch Linux using `aria2c`.
 elif [[ "${1//-}" = [Aa]* ]] || [[ "${1//-}" = [Aa][Ii]* ]] ; then
 	declare dm=aria2c
 	opt2 "$@" 
