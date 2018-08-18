@@ -8,7 +8,7 @@ IFS=$'\n\t'
 set -Eeo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-versionid="gen.v1.6 id620202492587"
+versionid="gen.v1.6 id816044689534"
 ## Init Functions ##############################################################
 addcurl() { # Adds `curl` to $PATH if not found.
 	cat > "$PREFIX"/bin/curl <<- EOM
@@ -17,33 +17,6 @@ addcurl() { # Adds `curl` to $PATH if not found.
 	PATH=\$PATH:/system/bin exec /system/bin/curl "\$@"
 	EOM
 	chmod 500 "$PREFIX"/bin/curl 
-}
-
-addtar() { # Adds `tar` to $PATH if not found.
-	cat > "$PREFIX"/bin/tar <<- EOM
-	#!/bin/sh
-	unset LD_LIBRARY_PATH LD_PRELOAD
-	PATH=\$PATH:/system/bin exec /system/bin/tar "\$@"
-	EOM
-	chmod 500 "$PREFIX"/bin/tar 
-}
-
-addbusytar() { # Adds `tar` to $PATH if not found.
-	cat > "$PREFIX"/bin/tar <<- EOM
-	#!/bin/sh
-	unset LD_LIBRARY_PATH LD_PRELOAD
-	PATH=\$PATH:/system/bin exec /system/bin/busybox tar "\$@"
-	EOM
-	chmod 500 "$PREFIX"/bin/tar 
-}
-
-addtoytar() { # Adds `tar` to $PATH if not found.
-	cat > "$PREFIX"/bin/tar <<- EOM
-	#!/bin/sh
-	unset LD_LIBRARY_PATH LD_PRELOAD
-	PATH=\$PATH:/system/bin exec /system/bin/toybox tar "\$@"
-	EOM
-	chmod 500 "$PREFIX"/bin/tar 
 }
 
 apin() {
@@ -181,7 +154,6 @@ dependbp() {
 
 depends() { # checks for missing commands.  
 	prepcurl return # installs curl from system if available.  
-# 	preptar return # installs tar from system if available.  
 	printf "\\e[1;34mChecking prerequisites…\\n\\e[1;32m"
 	aria2cifdm return 
 	axelifdm return 
@@ -420,19 +392,6 @@ prepcurl() { # installs curl from system if available.
 	fi
 }
 
-preptar() { # installs tar from system if available.  
-	if [[ -x /system/bin/tar ]] && [[ ! -x "$PREFIX"/bin/tar ]] ; then
-		tm=tar 
-		addtar
-		elif [[ -x /system/bin/busybox ]] && [[ ! -x "$PREFIX"/bin/tar ]] ; then
-			tm=tar 
-			addbusytar
-			elif [[ -x /system/bin/toybox ]] && [[ ! -x "$PREFIX"/bin/tar ]] ; then
-			tm=tar 
-			addtoytar
-	fi
-}
-
 preptmpdir() { 
   	t="$(</proc/sys/kernel/random/uuid)"
  	td="${t//-}"
@@ -633,17 +592,17 @@ userspace() {
 	fi
 }
 
-wgetifdm() {
-	if [[ "$dm" = wget ]] ; then
-		wgetif return 
-	fi
-}
-
 wgetif() {
 	declare dm=wget 
 	if [[ ! -x "$(command -v wget)" ]] || [[ ! -x "$PREFIX"/bin/wget ]] ; then
 		aptin+="wget "
 		pins+="wget "
+	fi
+}
+
+wgetifdm() {
+	if [[ "$dm" = wget ]] ; then
+		wgetif return 
 	fi
 }
 
