@@ -3,15 +3,13 @@
 # Hosting https://sdrausty.github.io/TermuxArch courtesy https://pages.github.com
 # https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.
 # https://sdrausty.github.io/TermuxArch/README has information about this project.
+# `bash setupTermuxArch.sh manual` shall create `setupTermuxArchConfigs.sh` from this file in your working directory.  Run `bash setupTermuxArch.sh` and `setupTermuxArchConfigs.sh` loads automaticaly.  `bash setupTermuxArch.sh help` has more information.  Change mirror to desired geographic location in `setupTermuxArchConfigs.sh` to resolve 404 and checksum errors.  The following user configurable variables are available in this file:   
 ################################################################################
-# Create `setupTermuxArchConfigs.sh` from this file in your working directory by using `bash setupTermuxArch.sh manual`.
-# Run `bash setupTermuxArch.sh` and `setupTermuxArchConfigs.sh` loads automaticaly.
-# See `bash setupTermuxArch.sh help` for more information.  
-# Change mirror to desired geographic location in `setupTermuxArchConfigs.sh` to resolve 404 and checksum errors.
-# The following user configurable variables are available in this file: ########
 # cmirror="http://mirror.archlinuxarm.org/"
 cmirror="http://os.archlinuxarm.org/"
+# dm=aria2c 
 # dm=axel tba
+# dm=lftp 
 # dm=curl
 # dm=wget
 # dmverbose="-v"	# Uncomment for verbose download manager output;  for verbose output throughout runtime, change this setting setting in `setupTermuxArch.sh` also.  
@@ -45,19 +43,22 @@ armv7lChrome() {
 	makesystem 
 }
 
-i686() { # Information at https://www.archlinux.org/news/phasing-out-i686-support/ and https://archlinux32.org/ regarding why i686 is currently frozen at release 2017.03.01-i686.  $file is read from md5sums.txt
+# Information at https://www.archlinux.org/news/phasing-out-i686-support/ and https://archlinux32.org/ regarding why i686 is currently frozen at release 2017.03.01-i686.  $file is read from md5sums.txt
+i686() { 
 	mirror=archive.archlinux.org
 	path=/iso/2017.03.01/
 	makesystem 
 }
 
-x86_64() { # $file is read from md5sums.txt
+# $file is read from md5sums.txt
+x86_64() { 
 	mirror=mirror.rackspace.com
 	path=/archlinux/iso/latest/
 	makesystem 
 }
 
-prs() { # See `info proot` and `man proot` for more information about what you can configure in this proot statement.  If a more suitable configuration is found, share at https://github.com/sdrausty/TermuxArch/issues to improve this BASH script.
+# `info proot` and `man proot` have more information about what can be configured in a proot init statement.  `setupTermuxArch.sh manual refresh` shall refresh the installation globally.  If more suitable configurations are found, share them at https://github.com/sdrausty/TermuxArch/issues to improve TermuxArch.  
+prs() { 
 prootstmnt="exec proot "
 if [[ -z "${kid:-}" ]];then
 	prootstmnt+=""
