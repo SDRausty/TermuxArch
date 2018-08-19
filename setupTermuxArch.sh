@@ -8,16 +8,8 @@ IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-versionid="v1.6 id2180"
+versionid="v1.6 id8879"
 ## Init Functions ##############################################################
-addcurl() { # Adds `curl` to $PATH if not found.
-	cat > "$PREFIX"/bin/curl <<- EOM
-	#!/bin/sh
-	unset LD_LIBRARY_PATH LD_PRELOAD
-	PATH=\$PATH:/system/bin exec /system/bin/curl "\$@"
-	EOM
-	chmod 500 "$PREFIX"/bin/curl 
-}
 
 apin() {
 	if [[ "$aptin" != "" ]] ; then
@@ -153,7 +145,6 @@ dependbp() {
 }
 
 depends() { # checks for missing commands.  
-	prepcurl return # installs curl from system if available.  
 	printf "\\e[1;34mChecking prerequisites…\\n\\e[1;32m"
 	aria2cifdm return 
 	axelifdm return 
@@ -383,18 +374,11 @@ pecc() {
 	fi
 }
 
-prepcurl() { # installs curl from system if available.  
-	if [[ -x /system/bin/curl ]] && [[ ! -x "$PREFIX"/bin/curl ]] ; then
-		addcurl
-	fi
-}
-
 preptmpdir() { 
   	tmp="$(</proc/sys/kernel/random/uuid)"
  	tmpd="${tmp//-}"
  	tmpdi="${tmpd:0:16}"
  	tmpdir="$TMPDIR/TermuxArch$tmpdi"
-#  	tmpdir="$TMPDIR/${0##*/}$tmpdi"
 	mkdir -p "$tmpdir" 
 }
 

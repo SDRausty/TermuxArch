@@ -93,7 +93,6 @@ printrootdirfunction() {
 	declare -g printrootdir
 	printrootdir="$(echo "${rootdir%/}" |sed 's#//*#/#g')"
 }
-
 printrootdirfunction 
 
 #EOF

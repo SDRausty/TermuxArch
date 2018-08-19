@@ -153,6 +153,7 @@ refreshsys() { # Refreshes
 	"$installdir/$startbin" ||:
 	"$startbin" help
 	printfooter2
+	exit
 }
 
 #EOF
