@@ -8,7 +8,7 @@ IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-versionid="v1.6 id2270"
+versionid="v1.6 id5385"
 ## Init Functions ##############################################################
 
 apin() {
@@ -320,7 +320,7 @@ manual() {
 		printconfloaded 
 	else
 		cp knownconfigurations.sh "${wdir}setupTermuxArchConfigs.sh"
-		sed -i '7i## The architecture of this device is '"$(uname -m)"'; Adjust configurations in the appropriate section.' "${wdir}setupTermuxArchConfigs.sh" 
+		sed -i '6i# The architecture of this device is '"$(uname -m)"'; Adjust configurations in the appropriate section.' "${wdir}setupTermuxArchConfigs.sh" 
 		"$ed" "${wdir}setupTermuxArchConfigs.sh"
 		. "${wdir}setupTermuxArchConfigs.sh"
 		printconfloaded 
