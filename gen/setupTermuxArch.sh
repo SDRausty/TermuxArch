@@ -8,7 +8,7 @@ IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-versionid="gen.v1.6 id524029947452"
+versionid="gen.v1.6 id900564203885"
 ## Init Functions ##############################################################
 
 apin() {
@@ -31,7 +31,7 @@ aria2cif() {
 
 aria2cifdm() {
 	if [[ "$dm" = aria2c ]] ; then
-		aria2cif return 
+		aria2cif 
 	fi
 }
 
@@ -69,7 +69,7 @@ axelif() {
 
 axelifdm() {
 	if [[ "$dm" = axel ]] ; then
-		axelif return 
+		axelif 
 	fi
 }
 
@@ -140,16 +140,16 @@ curlif() {
 
 curlifdm() {
 	if [[ "$dm" = curl ]] ; then
-		curlif return 
+		curlif 
 	fi
 }
 
 dependbp() {
 	if [[ "$cpuabi" = "$cpuabix86" ]] || [[ "$cpuabi" = "$cpuabix86_64" ]] ; then
-		bsdtarif return 
-		prootif return 
+		bsdtarif 
+		prootif 
 	else
-		prootif return 
+		prootif 
 	fi
 }
 
@@ -174,7 +174,7 @@ depends() { # checks for missing commands.
 		fi
 	fi
 	if [[ "$dm" = "" ]] ; then
-		aria2cif 
+		curlif 
 	fi
 	dependbp 
 	apin "$aptin"
@@ -256,7 +256,7 @@ intro() {
 	rootdirexception 
 	spaceinfo
 	printf "\\n\\e[0;34m 🕛 > 🕛 \\e[1;34mTermuxArch $versionid will attempt to install Linux in \\e[0;32m$installdir\\e[1;34m.  Arch Linux in Termux PRoot will be available upon successful completion.  To run this BASH script again, use \`!!\`.  Ensure background data is not restricted.  Check the wireless connection if you do not see one o'clock 🕐 below.  "
-	dependsblock "$@" return
+	dependsblock "$@" 
 	mainblock
 }
 
@@ -265,7 +265,7 @@ introbloom() { # Bloom = `setupTermuxArch.sh manual verbose`
 	printf '\033]2;  bash setupTermuxArch.sh bloom 📲 \007'
 	spaceinfo
 	printf "\\n\\e[0;34m 🕛 > 🕛 \\e[1;34mTermuxArch $versionid bloom option.  Run \\e[1;32mbash setupTermuxArch.sh help \\e[1;34mfor additional information.  Ensure background data is not restricted.  Check the wireless connection if you do not see one o'clock 🕐 below.  "
-	dependsblock "$@" return
+	dependsblock "$@" 
 	bloom 
 }
 
@@ -273,7 +273,7 @@ introdebug() {
 	printf '\033]2;  bash setupTermuxArch.sh sysinfo 📲 \007'
 	spaceinfo
 	printf "\\n\\e[0;34m 🕛 > 🕛 \\e[1;34msetupTermuxArch $versionid will create a system information file.  Ensure background data is not restricted.  Run \\e[0;32mbash setupTermuxArch.sh help \\e[1;34mfor additional information.  Check the wireless connection if you do not see one o'clock 🕐 below.  "
-	dependsblock "$@" return
+	dependsblock "$@" 
 	sysinfo 
 }
 
@@ -282,7 +282,7 @@ introrefresh() {
 	rootdirexception 
 	spaceinfo
 	printf "\\n\\e[0;34m 🕛 > 🕛 \\e[1;34msetupTermuxArch $versionid will refresh your TermuxArch files in \\e[0;32m$installdir\\e[1;34m.  Ensure background data is not restricted.  Run \\e[0;32mbash setupTermuxArch.sh help \\e[1;34mfor additional information.  Check the wireless connection if you do not see one o'clock 🕐 below.  "
-	dependsblock "$@" return
+	dependsblock "$@" 
 	refreshsys "$@"
 }
 
@@ -298,7 +298,7 @@ lftpif() {
 
 lftpifdm() {
 	if [[ "$dm" = lftp ]] ; then
-		lftpif return 
+		lftpif 
 	fi
 }
 
@@ -320,7 +320,7 @@ manual() {
 		printconfloaded 
 	else
 		cp knownconfigurations.sh "${wdir}setupTermuxArchConfigs.sh"
-		sed -i '20i# The architecture of this device is '"$(uname -m)"'; Adjust the appropriate section.' "${wdir}setupTermuxArchConfigs.sh" 
+		sed -i '6i# The architecture of this device is '"$(uname -m)"'; Adjust configurations in the appropriate section.' "${wdir}setupTermuxArchConfigs.sh" 
 		"$ed" "${wdir}setupTermuxArchConfigs.sh"
 		. "${wdir}setupTermuxArchConfigs.sh"
 		printconfloaded 
@@ -508,7 +508,7 @@ spaceinfo() {
 }
 
 spaceinfogsize() {
-	userspace return
+	userspace 
 	if [[ "$cpuabi" = "$cpuabix86" ]] || [[ "$cpuabi" = "$cpuabix86_64" ]] ; then
 		if [[ "$usrspace" = *G ]] ; then 
 			spaceMessage=""
@@ -563,7 +563,7 @@ spaceinfoq() {
 }
 
 spaceinfoksize() {
-	userspace return
+	userspace 
 	if [[ "$cpuabi" = "$cpuabi8" ]] ; then
 		if [[ "$usrspace" -lt "1500000" ]] ; then
 			spaceMessage="\\n\\e[0;33mTermuxArch: \\e[1;33mFREE SPACE WARNING!  \\e[1;30mStart thinking about cleaning out some stuff.  \\e[33m$usrspace $units of free user space is available on this device.  \\e[1;30mThe recommended minimum to install Arch Linux in Termux PRoot for aarch64 is 1.5G of free user space.\\n\\e[0m"
@@ -602,7 +602,7 @@ wgetif() {
 
 wgetifdm() {
 	if [[ "$dm" = wget ]] ; then
-		wgetif return 
+		wgetif 
 	fi
 }
 
