@@ -8,7 +8,7 @@ IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-versionid="v1.6 id6624"
+versionid="v1.6 id6689"
 ## Init Functions ##############################################################
 
 apin() {
@@ -174,7 +174,7 @@ depends() { # checks for missing commands.
 		fi
 	fi
 	if [[ "$dm" = "" ]] ; then
-		wgetif 
+		curlif 
 	fi
 	dependbp 
 	apin "$aptin"
