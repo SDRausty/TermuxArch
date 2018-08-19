@@ -5,10 +5,10 @@
 # https://sdrausty.github.io/TermuxArch/README for TermuxArch information. 
 ################################################################################
 IFS=$'\n\t'
-set -Eeuo pipefail
+set -Eeuxo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-versionid="gen.v1.6 id446594012489"
+versionid="gen.v1.6 id637887440438"
 ## Init Functions ##############################################################
 
 apin() {
