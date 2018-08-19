@@ -8,7 +8,7 @@ IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-versionid="gen.v1.6 id566734925498"
+versionid="gen.v1.6 id524029947452"
 ## Init Functions ##############################################################
 
 apin() {
@@ -624,7 +624,7 @@ declare dfl="/gen" # Used for development
 declare dm="" # download manager
 declare dmverbose="-q" # -v for verbose download manager output from curl and wget;  for verbose output throughout runtime also change in `setupTermuxArchConfigs.sh` when using `setupTermuxArch.sh manual`. 
 declare	ed=""
-declare -g installdir=""
+declare installdir=""
 declare kid=""
 declare	lc=""
 declare opt=""
