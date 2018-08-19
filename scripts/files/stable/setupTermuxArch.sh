@@ -8,7 +8,7 @@ IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-versionid="v1.6 id5903"
+versionid="v1.6 id7654"
 ## Init Functions ##############################################################
 
 apin() {
@@ -20,8 +20,10 @@ apin() {
 }
 
 aria2cif() { 
-	declare dm=aria2c
-	if [[ ! -x "$(command -v aria2c)" ]] || [[ ! -x "$PREFIX"/bin/aria2c ]] ; then
+	dm=aria2c
+	if [[ -x "$(command -v aria2c)" ]] && [[ -x "$PREFIX"/bin/aria2c ]] ; then
+		:
+	else
 		aptin+="aria2 "
 		pins+="aria2c "
 	fi
@@ -56,8 +58,10 @@ arg3dir() {
 }
 
 axelif() { 
-	declare dm=axel
-	if [[ ! -x "$(command -v axel)" ]] || [[ ! -x "$PREFIX"/bin/axel ]] ; then
+	dm=axel
+	if [[ -x "$(command -v axel)" ]] && [[ -x "$PREFIX"/bin/axel ]] ; then
+		:
+	else
 		aptin+="axel "
 		pins+="axel "
 	fi
@@ -70,7 +74,10 @@ axelifdm() {
 }
 
 bsdtarif() {
-	if [[ ! -x "$(command -v bsdtar)" ]] || [[ ! -x "$PREFIX"/bin/bsdtar ]] ; then
+	tm=bsdtar
+	if [[ -x "$(command -v bsdtar)" ]] && [[ -x "$PREFIX"/bin/bsdtar ]] ; then
+		:
+	else
 		aptin+="bsdtar "
 		pins+="bsdtar "
 	fi
@@ -122,8 +129,10 @@ chkself() {
 }
 
 curlif() {
-	declare dm=curl
-	if [[ ! -x "$(command -v curl)" ]] || [[ ! -x "$PREFIX"/bin/curl ]] ; then
+	dm=curl
+	if [[ -x "$(command -v curl)" ]] && [[ -x "$PREFIX"/bin/curl ]] ; then
+		:
+	else
 		aptin+="curl "
 		pins+="curl "
 	fi
@@ -146,28 +155,28 @@ dependbp() {
 
 depends() { # checks for missing commands.  
 	printf "\\e[1;34mChecking prerequisites…\\n\\e[1;32m"
-	aria2cifdm return 
-	axelifdm return 
-	lftpifdm return 
-	curlifdm return 
-	wgetifdm return 
+	aria2cifdm 
+	axelifdm 
+	lftpifdm 
+	curlifdm 
+	wgetifdm 
 	if [[ "$dm" = "" ]] ; then
 		if [[ -x "$PREFIX"/bin/aria2c ]] || [[ -x "$(command -v aria2c)" ]] ; then
-			aria2cif return 
+			aria2cif 
 	 	elif [[ -x "$PREFIX"/bin/axel ]] || [[ -x "$(command -v axel)" ]] ; then
-			axelif return 
+			axelif 
 	 	elif [[ -x "$PREFIX"/bin/lftpget ]] || [[ -x "$(command -v lftpget)" ]] ; then
-			lftpif return 
+			lftpif 
 		elif [[ -x "$PREFIX"/bin/curl ]] || [[ -x "$(command -v curl)" ]] ; then
-			curlif return 
+			curlif 
 		elif [[ -x "$PREFIX"/bin/wget ]] || [[ -x "$(command -v wget)" ]] ; then
-			wgetif return 
+			wgetif 
 		fi
 	fi
 	if [[ "$dm" = "" ]] ; then
-		aria2cif return 
+		aria2cif 
 	fi
-	dependbp return 
+	dependbp 
 	apin "$aptin"
 # 	pe "$pins"
 	echo
@@ -278,8 +287,10 @@ introrefresh() {
 }
 
 lftpif() {
-	declare dm=lftp
-	if [[ ! -x "$(command -v lftp)" ]] || [[ ! -x "$PREFIX"/bin/lftp ]] ; then
+	dm=lftp
+	if [[ -x "$(command -v lftp)" ]] && [[ -x "$PREFIX"/bin/lftp ]] ; then
+		:
+	else
 		aptin+="lftp "
 		pins+="lftpget "
 	fi
@@ -410,7 +421,9 @@ printusage() {
 }
 
 prootif() {
-	if [[ ! -x "$(command -v proot)" ]] || [[ ! -x "$PREFIX"/bin/proot ]] ; then
+	if [[ -x "$(command -v proot)" ]] &&  [[ -x "$PREFIX"/bin/proot ]] ; then
+		:
+	else
 		aptin+="proot "
 		pins+="proot "
 	fi
@@ -580,8 +593,8 @@ userspace() {
 }
 
 wgetif() {
-	declare dm=wget 
-	if [[ ! -x "$(command -v wget)" ]] || [[ ! -x "$PREFIX"/bin/wget ]] ; then
+	dm=wget 
+	if [[ ! -x "$PREFIX"/bin/wget ]] ; then
 		aptin+="wget "
 		pins+="wget "
 	fi
@@ -611,7 +624,7 @@ declare dfl="" # Used for development.
 declare dm="" # download manager
 declare dmverbose="-q" # -v for verbose download manager output from curl and wget;  for verbose output throughout runtime also change in `setupTermuxArchConfigs.sh` when using `setupTermuxArch.sh manual`. 
 declare	ed=""
-declare -g installdir=""
+declare installdir=""
 declare kid=""
 declare	lc=""
 declare opt=""
@@ -659,23 +672,23 @@ elif [[ "${args:0:1}" = "/" ]] ; then
 ## [axd|axs]  Get device system information with `axel`.
 elif [[ "${1//-}" = [Aa][Xx][Dd]* ]] || [[ "${1//-}" = [Aa][Xx][Ss]* ]] ; then
 	echo Getting device system information with \`axel\`.
-	declare dm=axel
+	dm=axel
 	introdebug "$@" 
 ## [axel installdir|axi installdir]  Install Arch Linux with `axel`.
 elif [[ "${1//-}" = [Aa][Xx]* ]] || [[ "${1//-}" = [Aa][Xx][Ii]* ]] ; then
 	echo Installing with \`axel\`.
-	declare dm=axel
+	dm=axel
 	opt2 "$@" 
 	intro "$@" 
 ## [ad|as]  Get device system information with `aria2c`.
 elif [[ "${1//-}" = [Aa][Dd]* ]] || [[ "${1//-}" = [Aa][Ss]* ]] ; then
 	echo Getting device system information with \`aria2c\`.
-	declare dm=aria2c
+	dm=aria2c
 	introdebug "$@" 
 ## [aria2c installdir|ai installdir]  Install Arch Linux with `aria2c`.
 elif [[ "${1//-}" = [Aa]* ]] ; then
 	echo Installing with \`aria2c\`.
-	declare dm=aria2c
+	dm=aria2c
 	opt2 "$@" 
 	intro "$@" 
 ## [bloom]  Create and run a local copy of TermuxArch in TermuxArchBloom.  Useful for running a customized setupTermuxArch.sh locally, for developing and hacking TermuxArch.  
@@ -684,12 +697,12 @@ elif [[ "${1//-}" = [Bb]* ]] ; then
 ## [cd|cs]  Get device system information with `curl`.
 elif [[ "${1//-}" = [Cc][Dd]* ]] || [[ "${1//-}" = [Cc][Ss]* ]] ; then
 	echo Getting device system information with \`curl\`.
-	declare dm=curl
+	dm=curl
 	introdebug "$@" 
 ## [curl installdir|ci installdir]  Install Arch Linux with `curl`.
 elif [[ "${1//-}" = [Cc]* ]] ; then
 	echo Installing with \`curl\`.
-	declare dm=curl
+	dm=curl
 	opt2 "$@" 
 	intro "$@" 
 ## [debug|sysinfo]  Generate system information.
@@ -705,12 +718,12 @@ elif [[ "${1//-}" = [Ii]* ]] ||  [[ "${1//-}" = [Rr][Oo]* ]] ; then
 ## [ld|ls]  Get device system information with `lftp`.
 elif [[ "${1//-}" = [Ll][Dd]* ]] || [[ "${1//-}" = [Ll][Ss]* ]] ; then
 	echo Getting device system information with \`lftp\`.
-	declare dm=lftp
+	dm=lftp
 	introdebug "$@" 
 ## [lftp installdir|li installdir]  Install Arch Linux with `lftp`.
 elif [[ "${1//-}" = [Ll]* ]] ; then
 	echo Installing with \`lftp\`.
-	declare dm=lftp
+	dm=lftp
 	opt2 "$@" 
 	intro "$@" 
 ## [manual]  Manual Arch Linux install, useful for resolving download issues.
@@ -729,12 +742,12 @@ elif [[ "${1//-}" = [Rr]* ]] ; then
 ## [wd|ws]  Get device system information with `wget`.
 elif [[ "${1//-}" = [Ww][Dd]* ]] || [[ "${1//-}" = [Ww][Ss]* ]] ; then
 	echo Getting device system information with \`wget\`.
-	declare dm=wget
+	dm=wget
 	introdebug "$@" 
 ## [wget installdir|wi installdir]  Install Arch Linux with `wget`.
 elif [[ "${1//-}" = [Ww]* ]] ; then
 	echo Installing with \`wget\`.
-	declare dm=wget
+	dm=wget
 	opt2 "$@" 
 	intro "$@"  
 else
