@@ -8,7 +8,7 @@ IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-versionid="v1.6 id7373"
+versionid="v1.6 id9059"
 ## Init Functions ##############################################################
 addcurl() { # Adds `curl` to $PATH if not found.
 	cat > "$PREFIX"/bin/curl <<- EOM
@@ -356,6 +356,9 @@ opt2() {
 		introdebug "$@"  
 	elif [[ "$2" = [Ii]* ]]  ; then
 		arg3dir "$@" 
+	elif [[ "$2" = [Rr]* ]]  ; then
+		arg3dir "$@" 
+		introrefresh "$@"  
 	fi
 }
 
@@ -387,7 +390,8 @@ preptmpdir() {
   	tmp="$(</proc/sys/kernel/random/uuid)"
  	tmpd="${tmp//-}"
  	tmpdi="${tmpd:0:16}"
- 	tmpdir="$TMPDIR/${0##*/}$tmpdi"
+ 	tmpdir="$TMPDIR/TermuxArch$tmpdi"
+#  	tmpdir="$TMPDIR/${0##*/}$tmpdi"
 	mkdir -p "$tmpdir" 
 }
 
@@ -647,6 +651,7 @@ preptmpdir
 setrootdir  
 
 ## Available Arguments #########################################################
+## Grammar: [how] [action] [where] #############################################
 ## []  Run default Arch Linux install.  `bash setupTermuxArch.sh help` has more information; All options can be abbreviated. 
 if [[ -z "${1:-}" ]] ; then
 	intro "$@" 
@@ -663,19 +668,23 @@ elif [[ "${args:0:1}" = "/" ]] ; then
 	loadimage "$@"
 ## [axd|axs]  Get device system information with `axel`.
 elif [[ "${1//-}" = [Aa][Xx][Dd]* ]] || [[ "${1//-}" = [Aa][Xx][Ss]* ]] ; then
+	echo Getting device system information with \`axel\`.
 	declare dm=axel
 	introdebug "$@" 
 ## [axel installdir|axi installdir]  Install Arch Linux with `axel`.
 elif [[ "${1//-}" = [Aa][Xx]* ]] || [[ "${1//-}" = [Aa][Xx][Ii]* ]] ; then
+	echo Installing with \`axel\`.
 	declare dm=axel
 	opt2 "$@" 
 	intro "$@" 
 ## [ad|as]  Get device system information with `aria2c`.
 elif [[ "${1//-}" = [Aa][Dd]* ]] || [[ "${1//-}" = [Aa][Ss]* ]] ; then
+	echo Getting device system information with \`aria2c\`.
 	declare dm=aria2c
 	introdebug "$@" 
 ## [aria2c installdir|ai installdir]  Install Arch Linux with `aria2c`.
 elif [[ "${1//-}" = [Aa]* ]] ; then
+	echo Installing with \`aria2c\`.
 	declare dm=aria2c
 	opt2 "$@" 
 	intro "$@" 
@@ -684,10 +693,12 @@ elif [[ "${1//-}" = [Bb]* ]] ; then
 	introbloom "$@"  
 ## [cd|cs]  Get device system information with `curl`.
 elif [[ "${1//-}" = [Cc][Dd]* ]] || [[ "${1//-}" = [Cc][Ss]* ]] ; then
+	echo Getting device system information with \`curl\`.
 	declare dm=curl
 	introdebug "$@" 
 ## [curl installdir|ci installdir]  Install Arch Linux with `curl`.
 elif [[ "${1//-}" = [Cc]* ]] ; then
+	echo Installing with \`curl\`.
 	declare dm=curl
 	opt2 "$@" 
 	intro "$@" 
@@ -727,10 +738,12 @@ elif [[ "${1//-}" = [Rr][Ee]* ]] ; then
 	introrefresh "$@"  
 ## [wd|ws]  Get device system information with `wget`.
 elif [[ "${1//-}" = [Ww][Dd]* ]] || [[ "${1//-}" = [Ww][Ss]* ]] ; then
+	echo Getting device system information with \`wget\`.
 	declare dm=wget
 	introdebug "$@" 
 ## [wget installdir|wi installdir]  Install Arch Linux with `wget`.
 elif [[ "${1//-}" = [Ww]* ]] ; then
+	echo Installing with \`wget\`.
 	declare dm=wget
 	opt2 "$@" 
 	intro "$@"  
