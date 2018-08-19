@@ -8,7 +8,7 @@ IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-versionid="v1.6 id6531"
+versionid="v1.6 id6644"
 ## Init Functions ##############################################################
 
 apin() {
@@ -394,8 +394,6 @@ pecc() {
 preptmpdir() { 
   	tmp="$(date +%s)"
  	tmpdir="$TMPDIR/TermuxArch$tmp"
-	echo $tmpdir
-	exit
 	mkdir -p "$tmpdir" 
 }
 
