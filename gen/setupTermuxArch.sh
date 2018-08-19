@@ -8,7 +8,7 @@ IFS=$'\n\t'
 set -Eeuxo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-versionid="gen.v1.6 id011992441975"
+versionid="gen.v1.6 id527756744588"
 ## Init Functions ##############################################################
 
 apin() {
@@ -594,9 +594,7 @@ userspace() {
 
 wgetif() {
 	dm=wget 
-	if [[ -x "$(command -v wget)" ]] && [[ -x "$PREFIX"/bin/wget ]] ; then
-		:
-	else
+	if [[ ! -x "$PREFIX"/bin/wget ]] ; then
 		aptin+="wget "
 		pins+="wget "
 	fi
