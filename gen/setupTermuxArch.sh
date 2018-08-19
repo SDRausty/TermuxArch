@@ -8,7 +8,7 @@ IFS=$'\n\t'
 set -Eeuxo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-versionid="gen.v1.6 id473676446789"
+versionid="gen.v1.6 id836820304856"
 ## Init Functions ##############################################################
 addcurl() { # Adds `curl` to $PATH if not found.
 	cat > "$PREFIX"/bin/curl <<- EOM
@@ -153,7 +153,7 @@ dependbp() {
 }
 
 depends() { # checks for missing commands.  
-	prepcurl return # installs curl from system if available.  
+# 	prepcurl return # installs curl from system if available.  
 	printf "\\e[1;34mChecking prerequisites…\\n\\e[1;32m"
 	aria2cifdm return 
 	axelifdm return 
