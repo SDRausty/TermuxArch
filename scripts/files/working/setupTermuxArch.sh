@@ -8,7 +8,7 @@ IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-versionid="v1.6 id5385"
+versionid="v1.6 id2661"
 ## Init Functions ##############################################################
 
 apin() {
@@ -84,7 +84,7 @@ bsdtarif() {
 }
 
 chk() {
-	if "$PREFIX"/bin/applets/sha512sum -c termuxarchchecksum.sha512 1>/dev/null  ; then
+	if "$PREFIX"/bin/applets/sha512sum -c termuxarchchecksum.sha512 1>/dev/null ; then
  		chkself "$@"
 		printf "\\e[0;34m 🕛 > 🕜 \\e[1;34mTermuxArch $versionid integrity: \\e[1;32mOK\\e[0m\\n"
 		loadconf
@@ -106,7 +106,7 @@ chk() {
 }
 
 chkdwn() {
-	if "$PREFIX"/bin/applets/sha512sum -c setupTermuxArch.sha512 1>/dev/null  ; then
+	if "$PREFIX"/bin/applets/sha512sum -c setupTermuxArch.sha512 1>/dev/null ; then
 		printf "\\e[0;34m 🕛 > 🕐 \\e[1;34mTermuxArch download: \\e[1;32mOK\\n\\n"
 		if [[ "$tm" = tar ]] ; then
 	 		proot --link2symlink -0 "$PREFIX"/bin/tar xf setupTermuxArch.tar.gz 
@@ -320,7 +320,8 @@ manual() {
 		printconfloaded 
 	else
 		cp knownconfigurations.sh "${wdir}setupTermuxArchConfigs.sh"
-		sed -i '6i# The architecture of this device is '"$(uname -m)"'; Adjust configurations in the appropriate section.' "${wdir}setupTermuxArchConfigs.sh" 
+# 		sed -i "7s/.*/t/" "${wdir}setupTermuxArchConfigs.sh" 
+ 		sed -i "7s/.*/\# The architecture of this device is $cpuabi; Adjust configurations in the appropriate section.  Change mirror (https:\/\/wiki.archlinux.org\/index.php\/Mirrors and https:\/\/archlinuxarm.org\/about\/mirrors) to desired geographic location to resolve 404 and checksum issues.  /" "${wdir}setupTermuxArchConfigs.sh" 
 		"$ed" "${wdir}setupTermuxArchConfigs.sh"
 		. "${wdir}setupTermuxArchConfigs.sh"
 		printconfloaded 
@@ -328,7 +329,7 @@ manual() {
 }
 
 nameinstalldir() {
-	if [[ "$rootdir" = "" ]]  ; then
+	if [[ "$rootdir" = "" ]] ; then
 		rootdir=arch
 	fi
 	installdir="$(echo "$HOME/${rootdir%/}" |sed 's#//*#/#g')"
@@ -349,9 +350,11 @@ namestartarch() { # ${@%/} removes trailing slash
 opt1() { 
 	if [[ -z "${2:-}" ]] ; then
 		arg2dir "$@" 
-	elif [[ "$2" = [Ii]* ]]  ; then
+	elif [[ "$2" = [Dd]* ]] || [[ "$2" = [Ss]* ]] ; then
+		introdebug "$@" 
+	elif [[ "$2" = [Ii]* ]] ; then
 		arg3dir "$@" 
-	elif [[ "$2" = [Rr]* ]]  ; then
+	elif [[ "$2" = [Rr]* ]] ; then
 		arg3dir "$@" 
 		introrefresh "$@"  
 	fi
@@ -360,11 +363,11 @@ opt1() {
 opt2() { 
 	if [[ -z "${2:-}" ]] ; then
 		arg2dir "$@" 
-	elif [[ "$2" = [Dd]* ]] || [[ "$2" = [Ss]* ]]  ; then
+	elif [[ "$2" = [Dd]* ]] || [[ "$2" = [Ss]* ]] ; then
 		introdebug "$@"  
-	elif [[ "$2" = [Ii]* ]]  ; then
+	elif [[ "$2" = [Ii]* ]] ; then
 		arg3dir "$@" 
-	elif [[ "$2" = [Rr]* ]]  ; then
+	elif [[ "$2" = [Rr]* ]] ; then
 		arg3dir "$@" 
 		introrefresh "$@"  
 	fi
@@ -659,7 +662,7 @@ setrootdir
 if [[ -z "${1:-}" ]] ; then
 	intro "$@" 
 ## A systemimage.tar.gz file can be used: `setupTermuxArch.sh ./[path/]systemimage.tar.gz` and `setupTermuxArch.sh /absolutepath/systemimage.tar.gz`; [./path/systemimage.tar.gz [installdir]]  Use path to system image file; install directory argument is optional. 
-elif [[ "${args:0:1}" = "." ]]  ; then
+elif [[ "${args:0:1}" = "." ]] ; then
 	lc="1"
 	arg2dir "$@"  
 	intro "$@"    
