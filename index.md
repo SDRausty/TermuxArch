@@ -15,6 +15,6 @@ This Termux bash setup shell script will attempt to set Arch Linux up in your Te
 
 Thank you for making this project work better and please contribute 🔆  [Contributors](CONTRIBUTORS.md) and [Notice to Contributors](NOTICE.md) have more information about this project.
 
-![Screenshot of Arch On Termux](https://github.com/sdrausty/imgsTermuxArch/IMG_20171019_190414.jpg)
+![Screenshot of Arch On Termux](https://raw.githubusercontent.com/sdrausty/imgsTermuxArch/master/IMG_20171019_190414.jpg)
 
 [PRoot](docs/PRoot) has more information about Linux on device with Termux.
