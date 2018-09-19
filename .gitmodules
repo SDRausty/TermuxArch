@@ -5,3 +5,6 @@
 	path = scripts/frags/dfa
 	url = https://github.com/sdrausty/dfa
 
+[submodule "scripts"]
+	path = scripts
+	url = https://github.com/sdrausty/scriptsTermuxArch
