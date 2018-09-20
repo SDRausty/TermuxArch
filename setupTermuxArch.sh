@@ -9,7 +9,7 @@ IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-VERSIONID="v1.6.id2476"
+VERSIONID="v1.6.id8768"
 ## INIT FUNCTIONS ##############################################################
 _ARG2DIR_() {  # Argument as ROOTDIR.
 	ARG2="${@:2:1}"
@@ -153,8 +153,13 @@ dependsblock() {
 }
 
 dwnl() {
-	FILE[sha]="https://raw.githubusercontent.com/sdrausty/TermuxArch/master$DFL/setupTermuxArch.sha512"
-	FILE[tar]="https://raw.githubusercontent.com/sdrausty/TermuxArch/master$DFL/setupTermuxArch.tar.gz" 
+	if [[ "$DFL" = "/gen" ]] ; then
+		FILE[sha]="https://raw.githubusercontent.com/sdrausty/gensTermuxArch/master/setupTermuxArch.sha512"
+		FILE[tar]="https://raw.githubusercontent.com/sdrausty/gensTermuxArch/master/setupTermuxArch.tar.gz" 
+	else
+		FILE[sha]="https://raw.githubusercontent.com/sdrausty/TermuxArch/master/setupTermuxArch.sha512"
+		FILE[tar]="https://raw.githubusercontent.com/sdrausty/TermuxArch/master/setupTermuxArch.tar.gz" 
+	fi
 	if [[ "$dm" = aria2 ]] ; then
 		aria2c -Z "${FILE[sha]}" "${FILE[tar]}"
 	elif [[ "$dm" = axel ]] ; then
