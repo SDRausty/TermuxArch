@@ -9,7 +9,7 @@ IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-VERSIONID="v1.6.id8768"
+VERSIONID="v1.6.id5252"
 ## INIT FUNCTIONS ##############################################################
 _ARG2DIR_() {  # Argument as ROOTDIR.
 	ARG2="${@:2:1}"
@@ -161,16 +161,16 @@ dwnl() {
 		FILE[tar]="https://raw.githubusercontent.com/sdrausty/TermuxArch/master/setupTermuxArch.tar.gz" 
 	fi
 	if [[ "$dm" = aria2 ]] ; then
-		aria2c -Z "${FILE[sha]}" "${FILE[tar]}"
+		"${ADM[aria2]}" -Z "${FILE[sha]}" "${FILE[tar]}"
 	elif [[ "$dm" = axel ]] ; then
-		axel "${FILE[sha]}" 
-		axel "${FILE[tar]}"
-	elif [[ "$dm" = lftp ]] ; then
-		lftpget -c "${FILE[sha]}" "${FILE[tar]}"
+		"${ADM[axel]}" "${FILE[sha]}" 
+		"${ADM[axel]}" "${FILE[tar]}"
+	elif [[ "$dm" = curl ]] ; then
+		"${ADM[curl]}" "$DMVERBOSE" -OL "${FILE[sha]}" -OL "${FILE[tar]}"
 	elif [[ "$dm" = wget ]] ; then
-		wget "$DMVERBOSE" -N --show-progress "${FILE[sha]}" "${FILE[tar]}"
+		"${ADM[wget]}" "$DMVERBOSE" -N --show-progress "${FILE[sha]}" "${FILE[tar]}"
 	else
-		curl "$DMVERBOSE" -OL "${FILE[sha]}" -OL "${FILE[tar]}"
+		"${ADM[lftp]}" -c "${FILE[sha]}" "${FILE[tar]}"
 	fi
 	printf "\\n\\e[1;32m"
 }
@@ -191,6 +191,7 @@ introbloom() { # Bloom = `setupTermuxArch.sh manual verbose`
 	OPT=bloom 
 	printf '\033]2;  bash setupTermuxArch.sh bloom 📲 \007'
 	printf "\\n\\e[0;34m 🕛 > 🕛 \\e[1;34mTermuxArch $VERSIONID bloom option.  Run \\e[1;32mbash setupTermuxArch.sh help \\e[1;34mfor additional information.  Ensure background data is not restricted.  Check the wireless connection if you do not see one o'clock 🕐 below.  "
+	_PREPTERMUXARCH_
 	dependsblock "$@" 
 	bloom 
 }
@@ -200,7 +201,7 @@ _INTROSYSINFO_() {
 	printf "\\n\\e[0;34m 🕛 > 🕛 \\e[1;34msetupTermuxArch $VERSIONID shall create a system information file.  Ensure background data is not restricted.  Run \\e[0;32mbash setupTermuxArch.sh help \\e[1;34mfor additional information.  Check the wireless connection if you do not see one o'clock 🕐 below.  "
 	_PREPTERMUXARCH_
 	dependsblock "$@" 
-	_SYSINFO_ 
+	_SYSINFO_ "$@" 
 }
 
 introrefresh() {
@@ -401,7 +402,7 @@ _PRINTUSAGE_() {
 	printf "\\n\\e[1;33m %s  \\e[0;32m%s \\e[1;34m%s \\e[0;32m%s \\e[1;34m%s \\e[0;32m%s\\e[1;34m%s \\n\\n" "SYSINFO" "${0##*/} sysinfo" "shall create" "setupTermuxArchSysInfo$STIME.log" "and populate it with system information.  Post this file along with detailed information at" "https://github.com/sdrausty/TermuxArch/issues" ".  If screenshots will help in resolving an issue better, include these along with information from the system information log file in a post as well." 
 	if [[ "$lcc" = 1 ]] ; then
 	printf "\\n\\e[1;32m" 
-	awk 'NR>=609 && NR<=767'  "${0##*/}" | awk '$1 == "##"' | awk '{ $1 = ""; print }' | awk '1;{print ""}'
+	awk 'NR>=579 && NR<=767'  "${0##*/}" | awk '$1 == "##"' | awk '{ $1 = ""; print }' | awk '1;{print ""}'
 	fi
 	_PRINTSTARTBIN_USAGE_
 }
@@ -576,6 +577,7 @@ if [[ -z "${TAMPDIR:-}" ]] ; then
 	TAMPDIR=""
 fi
 _SETROOT_
+## TermuxArch features include: 
 ## Tests for correct OS.
 COMMANDIF="$(command -v getprop)" ||:
 if [[ "$COMMANDIF" = "" ]] ; then
@@ -767,4 +769,4 @@ else
 	_PRINTUSAGE_
 fi
 
-## EOF
+# EOF
