@@ -29,4 +29,12 @@ Computed on 20180919 branch master.
 /data/data/com.termux/files/home/git/sdrausty/TermuxArch
 3.2M	.git
 8.7M	.
-
+Computed on 20180920 branch master.
+/data/data/com.termux/files/home/git/sdrausty/TermuxArch
+556.0K	.git
+808.0K	.
+$ git submodule update --init --recursive
+Computed on 20180920 branch master.
+/data/data/com.termux/files/home/git/sdrausty/TermuxArch
+4.0M	.git
+11.3M	.
