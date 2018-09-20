@@ -181,9 +181,6 @@ _SPACEINFOKSIZE_() {
 
 _SYSINFO_() {
  	_NAMESTARTARCH_  
-	cd "$INSTALLDIR"
-	pwd
-	exit
 	_SPACEINFO_
 	printf "\\n\\e[1;32mGenerating TermuxArch system information; Please wait…\\n\\n" 
 	_SYSTEMINFO_ ## & spinner "Generating" "System Information…" 
