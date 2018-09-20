@@ -9,7 +9,7 @@ IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-VERSIONID="v1.6.id5252"
+VERSIONID="v1.6.id7642"
 ## INIT FUNCTIONS ##############################################################
 _ARG2DIR_() {  # Argument as ROOTDIR.
 	ARG2="${@:2:1}"
@@ -152,22 +152,27 @@ dependsblock() {
 	fi
 }
 
-dwnl() {
-	if [[ "$DFL" = "/gen" ]] ; then
+dwnl() { # Downloads TermuxArch from Github.
+	if [[ "$DFL" = "/gen" ]] 
+	then # Development version
 		FILE[sha]="https://raw.githubusercontent.com/sdrausty/gensTermuxArch/master/setupTermuxArch.sha512"
 		FILE[tar]="https://raw.githubusercontent.com/sdrausty/gensTermuxArch/master/setupTermuxArch.tar.gz" 
-	else
+	else # Stable version
 		FILE[sha]="https://raw.githubusercontent.com/sdrausty/TermuxArch/master/setupTermuxArch.sha512"
 		FILE[tar]="https://raw.githubusercontent.com/sdrausty/TermuxArch/master/setupTermuxArch.tar.gz" 
 	fi
-	if [[ "$dm" = aria2 ]] ; then
+	if [[ "$dm" = aria2 ]] 
+	then
 		"${ADM[aria2]}" -Z "${FILE[sha]}" "${FILE[tar]}"
-	elif [[ "$dm" = axel ]] ; then
+	elif [[ "$dm" = axel ]] 
+	then
 		"${ADM[axel]}" "${FILE[sha]}" 
 		"${ADM[axel]}" "${FILE[tar]}"
-	elif [[ "$dm" = curl ]] ; then
+	elif [[ "$dm" = curl ]] 
+	then
 		"${ADM[curl]}" "$DMVERBOSE" -OL "${FILE[sha]}" -OL "${FILE[tar]}"
-	elif [[ "$dm" = wget ]] ; then
+	elif [[ "$dm" = wget ]] 
+	then
 		"${ADM[wget]}" "$DMVERBOSE" -N --show-progress "${FILE[sha]}" "${FILE[tar]}"
 	else
 		"${ADM[lftp]}" -c "${FILE[sha]}" "${FILE[tar]}"
