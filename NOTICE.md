@@ -1,8 +1,10 @@
-##### -r--r--r-- [archsystemconfigs.sh](https://raw.githubusercontent.com/sdrausty/TermuxArch/master/archsystemconfigs.sh)
+##### -r--r--r-- [archsystemconfigs.sh](https://raw.githubusercontent.com/sdrausty/TermuxArch/master/archlinuxconfig.sh)
+
+##### -r--r--r-- [espritfunctions.sh](https://raw.githubusercontent.com/sdrausty/TermuxArch/master/espritfunctions.sh)
 
 ##### -r--r--r-- [getimagefunctions.sh](https://raw.githubusercontent.com/sdrausty/TermuxArch/master/getimagefunctions.sh)
 
-##### -r--r--r-- [knownconfigurations.sh](https://raw.githubusercontent.com/sdrausty/TermuxArch/master/scripts/files/stable/knownconfigurations.sh)
+##### -r--r--r-- [knownconfigurations.sh](https://raw.githubusercontent.com/sdrausty/TermuxArch/master/knownconfigurations.sh)
 
 ##### -r--r--r-- [necessaryfunctions.sh](https://raw.githubusercontent.com/sdrausty/TermuxArch/master/necessaryfunctions.sh)
 
@@ -12,7 +14,7 @@
 
 ##### -rw-rw-rw- [setupTermuxArch.tar.gz](https://raw.githubusercontent.com/sdrausty/TermuxArch/master/setupTermuxArch.tar.gz)
 
-##### -r--r--r-- [systemmaintenance.sh](https://raw.githubusercontent.com/sdrausty/TermuxArch/master/systemmaintenance.sh)
+##### -r--r--r-- [systemmaintenance.sh](https://raw.githubusercontent.com/sdrausty/TermuxArch/master/maintenanceroutines.sh)
 
 ## Contributions have helped in the successful development of this script and project immensely.  This is a Notice to Contributors  📲 __Thank you for contributing and collaborating!__  
 
