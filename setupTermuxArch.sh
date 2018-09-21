@@ -9,7 +9,7 @@ IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-VERSIONID="v1.6.id8872"
+VERSIONID="v1.6.id4659"
 ## INIT FUNCTIONS ##############################################################
 _ARG2DIR_() {  # Argument as ROOTDIR.
 	ARG2="${@:2:1}"
@@ -53,7 +53,8 @@ _CHK_() {
 }
 
 _CHKDWN_() {
-	if "$PREFIX"/bin/applets/sha512sum -c setupTermuxArch.sha512 1>/dev/null ; then
+	if "$PREFIX"/bin/applets/sha512sum -c setupTermuxArch.sha512 1>/dev/null 
+	then
 		printf "\\e[0;34m%s\\e[1;34m%s%s\\e[1;32m%s\\n\\n" " 🕛 > 🕐 " "TermuxArch download: " "OK"
 		proot --link2symlink -0 "$PREFIX"/bin/applets/tar xf setupTermuxArch.tar.gz 
 	else
@@ -62,8 +63,10 @@ _CHKDWN_() {
 }
 
 _CHKSELF_() {
-	if [[ -f "setupTermuxArch.tmp" ]] ; then
-		if [[ "$(<setupTermuxArch.sh)" != "$(<setupTermuxArch.tmp)" ]] ; then
+	if [[ -f "setupTermuxArch.tmp" ]] 
+	then # compare the two versions:
+		if [[ "$(<setupTermuxArch.sh)" != "$(<setupTermuxArch.tmp)" ]] # the two versions are not equal:
+		then # copy the newer version to update:
 			cp setupTermuxArch.sh "${WDIR}setupTermuxArch.sh"
 			printf "\\e[0;32m%s\\e[1;34m: \\e[1;32mUPDATED\\n\\e[1;32mRESTARTED\\e[1;34m: \\e[0;32m%s %s \\n\\n\\e[0m"  "${0##*/}" "${0##*/}" "$ARGS"
  			.  "${WDIR}setupTermuxArch.sh" "$@"
@@ -72,7 +75,8 @@ _CHKSELF_() {
 }
 
 _DEPENDBP_() {
-	if [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = "$CPUABIX86_64" ]] ; then
+	if [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = "$CPUABIX86_64" ]] 
+	then
 		_BSDTARIF_
 		_PROOTIF_
 	else
@@ -116,6 +120,7 @@ depends() { # Checks for missing commands.
 		dm=lftp
 		APTIN+="lftp "
 		APTON+=(lftp)
+		echo "Setting https capable download manager \`lftp\` for install; Continuing…"
 	fi
 	_DEPENDBP_ 
 # 	_LIBANDROIDSHMEMIF_
@@ -154,36 +159,36 @@ dependsblock() {
 
 dwnl() { # Downloads TermuxArch from Github.
 	if [[ "$DFL" = "/gen" ]] 
-	then # Development version
+	then # get development version from:
 		FILE[sha]="https://raw.githubusercontent.com/sdrausty/gensTermuxArch/master/setupTermuxArch.sha512"
 		FILE[tar]="https://raw.githubusercontent.com/sdrausty/gensTermuxArch/master/setupTermuxArch.tar.gz" 
-	else # Stable version
+	else # get stable version from:
 		FILE[sha]="https://raw.githubusercontent.com/sdrausty/TermuxArch/master/setupTermuxArch.sha512"
 		FILE[tar]="https://raw.githubusercontent.com/sdrausty/TermuxArch/master/setupTermuxArch.tar.gz" 
 	fi
 	if [[ "$dm" = aria2 ]] 
-	then
+	then # use https://github.com/aria2/aria2
 		"${ADM[aria2]}" -Z "${FILE[sha]}" "${FILE[tar]}"
 	elif [[ "$dm" = axel ]] 
-	then
+	then # use https://github.com/mopp/Axel
 		"${ADM[axel]}" "${FILE[sha]}" 
 		"${ADM[axel]}" "${FILE[tar]}"
 	elif [[ "$dm" = curl ]] 
-	then
+	then # use https://github.com/curl/curl	
 		"${ADM[curl]}" "$DMVERBOSE" -OL "${FILE[sha]}" -OL "${FILE[tar]}"
 	elif [[ "$dm" = wget ]] 
-	then
+	then # use https://github.com/mirror/wget
 		"${ADM[wget]}" "$DMVERBOSE" -N --show-progress "${FILE[sha]}" "${FILE[tar]}"
-	else
+	else # use https://github.com/lavv17/lftp
 		"${ADM[lftp]}" -c "${FILE[sha]}" "${FILE[tar]}"
 	fi
 	printf "\\n\\e[1;32m"
 }
 
 intro() {
-	printf '\033]2;  bash setupTermuxArch.sh $@ 📲 \007'
+	printf "\033]2;%s\007" "bash setupTermuxArch.sh $ARGS 📲" 
 	_SETROOT_EXCEPTION_ 
-	printf "\\n\\e[0;34m 🕛 > 🕛 \\e[1;34mTermuxArch $VERSIONID shall attempt to install Linux in \\e[0;32m$INSTALLDIR\\e[1;34m.  Arch Linux in Termux PRoot shall be available upon successful completion.  To run this BASH script again, use \`!!\`.  Ensure background data is not restricted.  Check the wireless connection if you do not see one o'clock 🕐 below.  "
+	printf "\\n\\e[0;34m 🕛 > 🕛 \\e[1;34mＴｅｒｍｕｘＡｒｃｈ $VERSIONID shall attempt to install Linux in \\e[0;32m$INSTALLDIR\\e[1;34m.  Arch Linux in Termux PRoot shall be available upon successful completion.  To run this BASH script again, use \`!!\`.  Ensure background data is not restricted.  Check the wireless connection if you do not see one o'clock 🕐 below.  "
 	dependsblock "$@" 
 	if [[ "$lcc" = "1" ]] ; then
 		loadimage "$@" 
@@ -194,7 +199,7 @@ intro() {
 
 introbloom() { # Bloom = `setupTermuxArch.sh manual verbose` 
 	OPT=bloom 
-	printf '\033]2;  bash setupTermuxArch.sh bloom 📲 \007'
+	printf "\033]2;%s\007" "bash setupTermuxArch.sh bloom 📲" 
 	printf "\\n\\e[0;34m 🕛 > 🕛 \\e[1;34mTermuxArch $VERSIONID bloom option.  Run \\e[1;32mbash setupTermuxArch.sh help \\e[1;34mfor additional information.  Ensure background data is not restricted.  Check the wireless connection if you do not see one o'clock 🕐 below.  "
 	_PREPTERMUXARCH_
 	dependsblock "$@" 
@@ -202,8 +207,8 @@ introbloom() { # Bloom = `setupTermuxArch.sh manual verbose`
 }
 
 _INTROSYSINFO_() {
-	printf '\033]2;  bash setupTermuxArch.sh sysinfo 📲 \007'
-	printf "\\n\\e[0;34m 🕛 > 🕛 \\e[1;34msetupTermuxArch $VERSIONID shall create a system information file.  Ensure background data is not restricted.  Run \\e[0;32mbash setupTermuxArch.sh help \\e[1;34mfor additional information.  Check the wireless connection if you do not see one o'clock 🕐 below.  "
+	printf "\033]2;%s\007" "bash setupTermuxArch.sh sysinfo 📲" 
+	printf "\\n\\e[0;34m 🕛 > 🕛 \\e[1;34mTermuxArch $VERSIONID shall create a system information file.  Ensure background data is not restricted.  Run \\e[0;32mbash setupTermuxArch.sh help \\e[1;34mfor additional information.  Check the wireless connection if you do not see one o'clock 🕐 below.  "
 	_PREPTERMUXARCH_
 	dependsblock "$@" 
 	_SYSINFO_ "$@" 
@@ -216,7 +221,7 @@ introrefresh() {
 		printf "\\n\\e[0;33m%s\\e[1;33m%s\\e[0;33m.\\e[0m\\n\\n" "The root directory structure is incorrect; Cannot continue " "setupTermuxArch.sh refresh"
 		exit $?
 	fi
-	printf "\\n\\e[0;34m 🕛 > 🕛 \\e[1;34msetupTermuxArch $VERSIONID shall refresh your TermuxArch files in \\e[0;32m$INSTALLDIR\\e[1;34m.  Ensure background data is not restricted.  Run \\e[0;32mbash setupTermuxArch.sh help \\e[1;34mfor additional information.  Check the wireless connection if you do not see one o'clock 🕐 below.  "
+	printf "\\n\\e[0;34m 🕛 > 🕛 \\e[1;34mTermuxArch $VERSIONID shall refresh your TermuxArch files in \\e[0;32m$INSTALLDIR\\e[1;34m.  Ensure background data is not restricted.  Run \\e[0;32mbash setupTermuxArch.sh help \\e[1;34mfor additional information.  Check the wireless connection if you do not see one o'clock 🕐 below.  "
 	dependsblock "$@" 
 	refreshsys "$@"
 }
@@ -224,7 +229,7 @@ introrefresh() {
 introstnd() {
 	printf '\033]2; %s\007' " bash setupTermuxArch.sh $ARGS 📲 "
 	_SETROOT_EXCEPTION_ 
-	printf "\\n\\e[0;34m%s \\e[1;34m%s \\e[0;32m%s\\e[1;34m%s \\e[0;32m%s \\e[1;34m%s" " 🕛 > 🕛" "setupTermuxArch $VERSIONID shall $introstndidstmt your TermuxArch files in" "$INSTALLDIR" ".  Ensure background data is not restricted.  Run " "bash setupTermuxArch.sh help" "for additional information.  Check the wireless connection if you do not see one o'clock 🕐 below.  "
+	printf "\\n\\e[0;34m%s \\e[1;34m%s \\e[0;32m%s\\e[1;34m%s \\e[0;32m%s \\e[1;34m%s" " 🕛 > 🕛" "TermuxArch $VERSIONID shall $introstndidstmt your TermuxArch files in" "$INSTALLDIR" ".  Ensure background data is not restricted.  Run " "bash setupTermuxArch.sh help" "for additional information.  Check the wireless connection if you do not see one o'clock 🕐 below.  "
 }
 
 introstndidstmt() { # depends $introstndid
