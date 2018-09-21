@@ -9,11 +9,12 @@ IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-VERSIONID="v1.6.id4659"
+VERSIONID="v1.6.id9246"
 ## INIT FUNCTIONS ##############################################################
 _ARG2DIR_() {  # Argument as ROOTDIR.
 	ARG2="${@:2:1}"
-	if [[ -z "${ARG2:-}" ]] ; then
+	if [[ -z "${ARG2:-}" ]] 
+	then
 		ROOTDIR=/arch
 		_PREPTERMUXARCH_
 	else
@@ -23,7 +24,8 @@ _ARG2DIR_() {  # Argument as ROOTDIR.
 }
 
 _BSDTARIF_() {
-	if [[ ! -x "$(command -v bsdtar)" ]] || [[ ! -x "$PREFIX"/bin/bsdtar ]] ; then
+	if [[ ! -x "$(command -v bsdtar)" ]] || [[ ! -x "$PREFIX"/bin/bsdtar ]] 
+	then
 		APTIN+="bsdtar "
 		APTON+=(bsdtar)
 	fi
@@ -617,9 +619,9 @@ CPUABI="$(getprop ro.product.cpu.abi)"
 ## SYNTAX[a]: [HOW (aria2|axel|curl|lftp|wget (default 1: available on system (default 2: wget)))]
 ## SYNTAX[b]: [DO (install|manual|purge|refresh|sysinfo (default: install))] 
 ## SYNTAX[c]: [WHERE (default: arch)]  Install in userspace, not external storage. 
-## USAGE EXAMPLE[a]: `setupTermuxArch.sh wget sysinfo` shall use wget as the download manager and produce a system information file in the working directory.  This can be abbreviated to `setupTermuxArch.sh ws` and `setupTermuxArch.sh w s`. 
-## USAGE EXAMPLE[b]: `setupTermuxArch.sh wget manual customdir` shall attempt to install the installation in customdir with wget and use manual mode during instalation. 
-## USAGE EXAMPLE[c]: `setupTermuxArch.sh wget refresh customdir` shall refresh this installation using wget as the download manager. 
+## USAGE[a]: `setupTermuxArch.sh wget sysinfo` shall use wget as the download manager and produce a system information file in the working directory.  This can be abbreviated to `setupTermuxArch.sh ws` and `setupTermuxArch.sh w s`. 
+## USAGE[b]: `setupTermuxArch.sh wget manual customdir` shall attempt to install the installation in customdir with wget and use manual mode during instalation. 
+## USAGE[c]: `setupTermuxArch.sh wget refresh customdir` shall refresh this installation using wget as the download manager. 
 ## <<<<<<<<<<<<>>>>>>>>>>>>
 ## << Enumerated Options >>
 ## <<<<<<<<<<<<>>>>>>>>>>>>

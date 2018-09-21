@@ -69,10 +69,9 @@ if [[ "$KOE" ]] ; then
 	PROOTSTMNT+="--kill-on-exit "
 fi
 PROOTSTMNT+="--link2symlink -0 -r $INSTALLDIR "
-# PROOTSTMNT+="-0 -r $INSTALLDIR "
-if [[ ! -r /dev/ashmem ]] ; then
-	PROOTSTMNT+="-b $INSTALLDIR/tmp:/dev/ashmem " 
-fi
+# if [[ ! -r /dev/ashmem ]] ; then
+PROOTSTMNT+="-b $INSTALLDIR/tmp:/dev/ashmem " 
+# fi
 if [[ ! -r /dev/shm ]] ; then
 	PROOTSTMNT+="-b $INSTALLDIR/tmp:/dev/shm " 
 fi

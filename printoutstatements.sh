@@ -16,7 +16,7 @@ FLHDR1[1]="# IFS=$'\\n\\t'"
 FLHDR1[2]="set -Eeuo pipefail"
 FLHDR1[3]="# shopt -s nullglob globstar"
 FLHDR1[4]="unset LD_PRELOAD"
-FLHDR1[5]="VERSIONID=v1.6.id4659"
+FLHDR1[5]="VERSIONID=v1.6.id9246"
 FLHDR1[6]=" "
 FLHDRP[0]="## BEGIN #######################################################################"
 FLHDRP[1]=""
@@ -174,7 +174,7 @@ _PRINTMD5ERROR_() {
 
 _PRINTMD5SUCCESS_() {
  	printf "\\e]2;%s\\007" " 🕛 > 🕡 Unpacking $file…"
-	printf "\033[0;34m 🕛 > 🕕 \033[1;34mSystem image file download integrity: \033[1;32mOK\n\n\033[0;34m 🕛 > 🕡 \033[1;34mUnpacking $file into $INSTALLDIR.  The option to create Arch Linux system users is available through \033[1;32maddauser.  Arch Linux user login from Termux with \033[1;32m$STARTBIN \033[1;34mis now implemented.  See \033[0;36mAbility for Scripts to Launch Commands for Arch Linux in Termux PRoot on Device\033[1;34m https://github.com/sdrausty/TermuxArch/issues/54 for more information about these brand new options.  Additional features of TermuxArch are also listed at https://github.com/sdrausty/TermuxArch/releases.\n\nWhile waiting, you can use \033[0;36mdf\033[1;34m, \033[0;36mdu -hs\033[1;34m, \033[0;36mhtop\033[1;34m, \033[0;36mps\033[1;34m, \033[0;36mtop\033[1;34m and \033[0;36mwatch\033[1;34m in a new Termux session to watch the unpacking while the session completes.  Use \033[0;36minfo query \033[1;34mand \033[0;36mman query \033[1;34mto learn more about your Linux system in the palm of your hand.  See The Linux Documentation Project http://tldp.org to learn more about Linux and CLI commands.  \033[1;37mUnpacking \033[37m$file\033[1;37m will take a long time; Be patient…\n\n\033[0m"
+	printf "\033[0;34m 🕛 > 🕕 \033[1;34mSystem image file download integrity: \033[1;32mOK\n\n\033[0;34m 🕛 > 🕡 \033[1;34mUnpacking $file into $INSTALLDIR.  The option to create Arch Linux system users is available through \033[1;32maddauser.  Arch Linux user login from Termux with \033[1;32m$STARTBIN \033[1;34mis now implemented.  See \033[0;36mAbility for Scripts to Launch Commands for Arch Linux in Termux PRoot on Device\033[1;34m https://github.com/sdrausty/TermuxArch/issues/54 for more information about these brand new options.  \n\nWhile waiting, you can use \033[0;36mdf\033[1;34m, \033[0;36mdu -hs\033[1;34m, \033[0;36mhtop\033[1;34m, \033[0;36mps\033[1;34m, \033[0;36mtop\033[1;34m and \033[0;36mwatch\033[1;34m in a new Termux session to watch the unpacking while the session completes.  Use \033[0;36minfo query \033[1;34mand \033[0;36mman query \033[1;34mto learn more about your Linux system in the palm of your hand.  See The Linux Documentation Project http://tldp.org to learn more about Linux and CLI commands.  \033[1;37mUnpacking \033[37m$file\033[1;37m will take a long time; Be patient…\n\n\033[0m"
 }
 
 _PRINTMISMATCH_() {
