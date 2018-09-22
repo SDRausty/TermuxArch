@@ -9,13 +9,10 @@
 addREADME() {
 	_CFLHDR_ root/bin/README.md 
 	cat > root/bin/README.md <<- EOM
-	This directory contains shortcut commands to automate and ease using the command line in Arch Linux in Termux PRoot.
+	This directory contains shortcut commands that automate and ease using the command line.
 	
-	* Comments are welcome at https://github.com/sdrausty/TermuxArch/issues ✍ 
-	* Pull requests are welcome at https://github.com/sdrausty/TermuxArch/pulls ✍ 
-	
-	Thank you for making this project work better, and please contribute 🔆 
-
+	* Comments welcome at https://github.com/sdrausty/TermuxArch/issues ✍ 
+	* Pull requests welcome at https://github.com/sdrausty/TermuxArch/pulls ✍ 
 	EOM
 }
 
@@ -106,7 +103,7 @@ addbashrc() {
 }
 
 addcdtd() { 
-	_CFLHD_ root/bin/cdtd "# Usage: \`. cdtd\`  The dot sources \`cdtd\` which makes this shortcut script work."
+	_CFLHD_ root/bin/cdtd "# Usage: \`. cdtd\` the dot sources \`cdtd\` which makes this shortcut script work."
 	cat > root/bin/cdtd <<- EOM
 	#!/bin/env bash
 	cd "$HOME/storage/downloads" && pwd
@@ -115,7 +112,7 @@ addcdtd() {
 }
 
 addcdth() { 
-	_CFLHD_ root/bin/cdth "# Usage: \`. cdth\`  The dot sources \`cdth\` which makes this shortcut script work."
+	_CFLHD_ root/bin/cdth "# Usage: \`. cdth\` the dot sources \`cdth\` which makes this shortcut script work."
 	cat > root/bin/cdth <<- EOM
 	#!/bin/env bash
 	cd "$HOME" && pwd
@@ -124,7 +121,7 @@ addcdth() {
 }
 
 addcdtmp() { 
-	_CFLHD_ root/bin/cdtmp "# Usage: \`. cdtmp\`  The dot sources \`cdtmp\` which makes this shortcut script work."
+	_CFLHD_ root/bin/cdtmp "# Usage: \`. cdtmp\` the dot sources \`cdtmp\` which makes this shortcut script work."
 	cat > root/bin/cdtmp <<- EOM
 	#!/bin/env bash
 	cd "$PREFIX/tmp" && pwd
@@ -133,7 +130,7 @@ addcdtmp() {
 }
 
 addch() { 
-	_CFLHDR_ root/bin/ch "# Creates .hushlogin and .hushlogout file"
+	_CFLHDR_ root/bin/ch "# This script creates .hushlogin and .hushlogout files."
 	cat >> root/bin/ch <<- EOM
 	declare -a ARGS
 
@@ -173,7 +170,7 @@ addch() {
 }
 
 addexd() {
-	_CFLHDR_ root/bin/exd "# Usage: \`. exd\`  The dot sources \`exd\` which makes this shortcut script work."
+	_CFLHDR_ root/bin/exd "# Usage: \`. exd\` the dot sources \`exd\` which makes this shortcut script work."
 	cat >> root/bin/exd <<- EOM
 	export DISPLAY=:0 PULSE_SERVER=tcp:127.0.0.1:4712
 	EOM
@@ -207,17 +204,17 @@ addfbindprocshmem() {
 	EOM
 }
 
-addfbindprocstat() { # Chooses the appropriate four or eight processor stat file. 
-	nessor="$(grep cessor /proc/cpuinfo)"
-	ncessor="${nessor: -1}"
-	if [[ "$ncessor" -le "3" ]] 2>/dev/null ; then
-		addfbindprocstat4
+_ADDfbindprocstat_() { # Chooses the appropriate four or eight processor stat file. 
+	NESSOR="$(grep cessor /proc/cpuinfo)"
+	NCESSOR="${NESSOR: -1}"
+	if [[ "$NCESSOR" -le "3" ]] 2>/dev/null ; then
+		_ADDfbindprocstat4_
 	else
-		addfbindprocstat8
+		_ADDfbindprocstat8_
 	fi
 }
 
-addfbindprocstat4() {
+_ADDfbindprocstat4_() {
 	cat > var/binds/fbindprocstat <<- EOM
 	cpu  4232003 351921 6702657 254559583 519846 1828 215588 0 0 0
 	cpu0 1595013 127789 2759942 61446568 310224 1132 92124 0 0 0
@@ -234,7 +231,7 @@ addfbindprocstat4() {
 	EOM
 }
 
-addfbindprocstat6() {
+_ADDfbindprocstat6_() {
 	cat > var/binds/fbindprocstat <<- EOM
 	# cat /proc/stat
 	cpu  148928556 146012 6648853 2086709554 4518337 0 1314039 293017 0 0
@@ -254,7 +251,7 @@ addfbindprocstat6() {
 	EOM
 }
 
-addfbindprocstat8() {
+_ADDfbindprocstat8_() {
 	cat > var/binds/fbindprocstat <<- EOM
 	cpu  10278859 1073916 12849197 97940412 70467 2636 323477 0 0 0
 	cpu0 573749 46423 332546 120133 32 79 5615 0 0 0
@@ -287,7 +284,7 @@ addfbindexample() {
 
 addbinds() { # Checks if /proc/stat is usable. 
 	if [[ ! -r /proc/stat ]] ; then
-		addfbindprocstat
+		_ADDfbindprocstat_
 	fi
 }
 

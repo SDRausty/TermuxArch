@@ -203,7 +203,7 @@ _MAKESTARTBIN_() {
 	declare -g ar2ar="\${@:2}"
 	declare -g ar3ar="\${@:3}"
 	_PRINTUSAGE_() { 
-	printf "\\n\\e[0;32mUsage:  \\e[1;32m$STARTBIN \\e[0;32mStart Arch Linux as root.  This account should only be reserved for system administration.\\n\\n	\\e[1;32m$STARTBIN command command \\e[0;32mRun Arch Linux command from Termux as root user.\\n\\n	\\e[1;32m$STARTBIN login user \\e[0;32mLogin as user.  Use \\e[1;32maddauser user \\e[0;32mfirst to create a user and the user's home directory.\\n\\n	\\e[1;32m$STARTBIN raw \\e[0;32mConstruct the \\e[1;32mstartarch \\e[0;32mproot statement.  For example \\e[1;32mstartarch raw su - user \\e[0;32mwill login to Arch Linux as user.  Use \\e[1;32maddauser user \\e[0;32mfirst to create a user and the user's home directory.\\n\\n	\\e[1;32m$STARTBIN su user command \\e[0;32mLogin as user and execute command.  Use \\e[1;32maddauser user \\e[0;32mfirst to create a user and the user's home directory.\\n\\n\\e[0m"'\033]2; TermuxArch '$STARTBIN' help 📲  \007' 
+	printf "\\n\\e[1;32mUSAGE:\\n\\e[1;32m$STARTBIN		   \\e[0;32mStart Arch Linux as root.  This account is reserved for system administration.\\n\\n\\e[1;32m$STARTBIN command command  \\e[0;32mRun Arch Linux command from Termux as root user.\\n\\n\\e[1;32m$STARTBIN login user	   \\e[0;32mLogin as user.  Use \\e[1;32m$STARTBIN addauser user \\e[0;32mfirst to create this user and user's home directory.\\n\\n\\e[1;32m$STARTBIN raw		   \\e[0;32mConstruct the \\e[1;32m$STARTBIN \\e[0;32mproot statement.  For example \\e[1;32m$STARTBIN raw su - user \\e[0;32mwill login to Arch Linux as user.  Use \\e[1;32m$STARTBIN addauser user \\e[0;32mfirst to create this user and user's home directory.\\n\\n\\e[1;32m$STARTBIN su user command  \\e[0;32mLogin as user and execute command.  Use \\e[1;32m$STARTBIN addauser user \\e[0;32mfirst to create this user and user's home directory.\\n\\n\\e[0m"'\033]2; TermuxArch '$STARTBIN' help 📲  \007' 
 	}
 
 	# [] Default Arch Linux in Termux PRoot root login.
@@ -228,7 +228,7 @@ _MAKESTARTBIN_() {
 		set -Eeuo pipefail
 		printf '\033]2; $STARTBIN command ARGS 📲  \007'
 		rm -f $INSTALLDIR/root/.chushlogin
-	# [login user|login user [options]] Login as user [plus options].  Use \`addauser user\` first to create this user and the user's home directory.
+	# [login user|login user [options]] Login as user [plus options].  Use \`addauser user\` first to create this user and user's home directory.
 	elif [[ "\${1//-}" = [Ll]* ]] || [[ "\${1//-}" = [Uu]* ]] ; then
 		printf '\033]2; $STARTBIN login user [options] 📲  \007'
 		set +Eeuo pipefail
@@ -246,7 +246,7 @@ _MAKESTARTBIN_() {
 	cat >> "$STARTBIN" <<- EOM
 		set -Eeuo pipefail
 		printf '\033]2; $STARTBIN raw ARGS 📲  \007'
-	# [su user command] Login as user and execute command.  Use \`addauser user\` first to create this user and the user's home directory.
+	# [su user command] Login as user and execute command.  Use \`addauser user\` first to create this user and user's home directory.
 	elif [[ "\${1//-}" = [Ss]* ]] ; then
 		printf '\033]2; $STARTBIN su user command 📲  \007'
 		if [[ "\$2" = root ]];then

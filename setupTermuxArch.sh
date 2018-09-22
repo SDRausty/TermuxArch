@@ -9,7 +9,7 @@ IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-VERSIONID="v1.6.id6038"
+VERSIONID="v1.6.id3376"
 ## INIT FUNCTIONS ##############################################################
 _ARG2DIR_() {  # Argument as ROOTDIR.
 	ARG2="${@:2:1}"
@@ -93,7 +93,7 @@ _DEPENDDM_() { # Checks and sets dm.
 		then
  			dm="$pkg" 
  			echo 
-			echo "Found \`$pkg\`; Continuing…"
+			echo "Found download tool \`$pkg\`; Continuing…"
 			break
 		fi
 	done
@@ -106,21 +106,21 @@ _DEPENDTM_() { # Checks and sets tm.
 		then
  			tm="$pkg" 
  			echo 
-			echo "Found \`$pkg\`; Continuing…"
+			echo "Found tar tool \`$pkg\`; Continuing…"
 			break
 		fi
 	done
 }
 
-_DEPENDIFDM_() { # checks if download tool is set and sets install. 
- 	for pkg in "${!ADM[@]}" # iterates all available tools and sets install. 
-	do #	checks for both set download tool and if set tool exists. 
+_DEPENDIFDM_() { # checks if download tool is set and sets install if available. 
+ 	for pkg in "${!ADM[@]}" # check from available toolset and set one for install if available on device. 
+	do #	check for both set dm and if tool exists on device. 
  		if [[ "$dm" = "$pkg" ]] && [[ ! -x "$PREFIX"/bin/"${ADM[$pkg]}" ]] 
-		then #	sets both download tool for install and exception. 
+		then #	sets both download tool for install and exception check. 
  			APTIN+="$pkg "
 			APTON+=("${ADM[$pkg]}")
  			echo 
-			echo "Setting https capable download manager \`$pkg\` for install; Continuing…"
+			echo "Setting download tool \`$pkg\` for install; Continuing…"
  		fi
  	done
 }
@@ -137,16 +137,15 @@ depends() { # Checks for missing commands.
 	then
 		_DEPENDDM_
 	fi
-	# Sets and installs wget if nothing else was found, installed and set. 
+	# Sets and installs lftp if nothing else was found, installed and set. 
 	if [[ "$dm" = "" ]] 
 	then
 		dm=lftp
 		APTIN+="lftp "
 		APTON+=(lftp)
-		echo "Setting https capable download manager \`lftp\` for install; Continuing…"
+		echo "Setting download tool \`lftp\` for install; Continuing…"
 	fi
 	_DEPENDBP_ 
-# 	_LIBANDROIDSHMEMIF_
 #	# Installs missing commands.  
 	_TAPIN_ "$APTIN"
 #	# Checks whether install missing commands was successful.  

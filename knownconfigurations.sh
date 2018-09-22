@@ -5,13 +5,13 @@
 # https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.  
 # _STANDARD_="function name" && STANDARD="variable name" are under construction.
 ################################################################################
-# `setupTermuxArch.sh manual` shall create `setupTermuxArchConfigs.sh` from this file in the working directory.  Run `setupTermuxArch.sh` and `setupTermuxArchConfigs.sh` loads automaticaly.  `setupTermuxArch.sh help` has more information.  Change CMIRROR (https://wiki.archlinux.org/index.php/Mirrors and https://archlinuxarm.org/about/mirrors) to desired geographic location in `setupTermuxArchConfigs.sh` to resolve 404 and checksum issues.  The following user configurable variables are available in this file:   
-# DMVERBOSE="-v" 	# Uncomment for verbose download manager output with curl and wget;  for verbose output throughout runtime, change this setting in `setupTermuxArch.sh` as well.
-# dm=aria2c		# Works; DMVERBOSE option unavailable
-# dm=axel 		# Works; DMVERBOSE option unavailable 
-# dm=lftp 		# Works; DMVERBOSE option unavailable 
-# dm=curl		# Works; DMVERBOSE option available
-# dm=wget		# Works; DMVERBOSE option available 
+# Running `setupTermuxArch.sh manual` shall create `setupTermuxArchConfigs.sh` from this file in the working directory.  Run `setupTermuxArch.sh` and `setupTermuxArchConfigs.sh` loads automaticaly and this file is ignored at runtime; `setupTermuxArch.sh help` has additional information.  Change mirror (https://wiki.archlinux.org/index.php/Mirrors and https://archlinuxarm.org/about/mirrors) to desired geographic location in `setupTermuxArchConfigs.sh` to resolve download, 404 and checksum issues.  The following user configurable variables are available in this file:   
+# DMVERBOSE="-v" 	# Uncomment for verbose download tool output with curl and wget;  for verbose output throughout runtime, change this setting in `setupTermuxArch.sh` also.
+# dm=aria2c		# Uncomment to use this download tool. 
+# dm=axel 		# Uncomment to use this download tool.
+# dm=curl		# Uncomment to use the curl download tool.
+# dm=lftp 		# Uncomment to use this download tool.
+# dm=wget		# Uncomment to use the wget download tool.
 KOE=1
 
 _AARCH64_() {
@@ -65,13 +65,13 @@ if [[ -z "${KID:-}" ]] ; then
 elif [[ "$KID" ]] ; then
  	PROOTSTMNT+="--kernel-release=4.14.15 "
 fi
-if [[ "$KOE" ]] ; then
+if [[ "${KOE:-}" ]] ; then
 	PROOTSTMNT+="--kill-on-exit "
 fi
 PROOTSTMNT+="--link2symlink -0 -r $INSTALLDIR "
-# if [[ ! -r /dev/ashmem ]] ; then
-PROOTSTMNT+="-b $INSTALLDIR/tmp:/dev/ashmem " 
-# fi
+if [[ ! -r /dev/ashmem ]] ; then
+	PROOTSTMNT+="-b $INSTALLDIR/tmp:/dev/ashmem " 
+fi
 if [[ ! -r /dev/shm ]] ; then
 	PROOTSTMNT+="-b $INSTALLDIR/tmp:/dev/shm " 
 fi
