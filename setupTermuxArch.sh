@@ -9,7 +9,7 @@ IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-VERSIONID="v1.6.id0908"
+VERSIONID="v1.6.id6038"
 ## INIT FUNCTIONS ##############################################################
 _ARG2DIR_() {  # Argument as ROOTDIR.
 	ARG2="${@:2:1}"
@@ -86,20 +86,37 @@ _DEPENDBP_() {
 	fi
 }
 
-_DEPENDDM_() { # Checks and sets dm if download manager is present. 
-	for pkg in "${!ADM[@]}" ; do
-		if [[ -x "$PREFIX"/bin/"${ADM[$pkg]}" ]] ; then
+_DEPENDDM_() { # Checks and sets dm. 
+	for pkg in "${!ADM[@]}" 
+	do
+		if [[ -x "$PREFIX"/bin/"${ADM[$pkg]}" ]] 
+		then
  			dm="$pkg" 
  			echo 
-			echo "Found https capable download manager \`$pkg\`; Continuing…"
+			echo "Found \`$pkg\`; Continuing…"
 			break
 		fi
 	done
 }
 
-_DEPENDIFDM_() { # Checks if download manager is set and sets install and pe. 
- 	for pkg in "${!ADM[@]}" ; do
- 		if [[ "$dm" = "$pkg" ]] && [[ ! -x "$PREFIX"/bin/"${ADM[$pkg]}" ]] ; then
+_DEPENDTM_() { # Checks and sets tm. 
+	for pkg in "${!ATM[@]}" 
+	do
+		if [[ -x "$PREFIX"/bin/"${ATM[$pkg]}" ]] 
+		then
+ 			tm="$pkg" 
+ 			echo 
+			echo "Found \`$pkg\`; Continuing…"
+			break
+		fi
+	done
+}
+
+_DEPENDIFDM_() { # checks if download tool is set and sets install. 
+ 	for pkg in "${!ADM[@]}" # iterates all available tools and sets install. 
+	do #	checks for both set download tool and if set tool exists. 
+ 		if [[ "$dm" = "$pkg" ]] && [[ ! -x "$PREFIX"/bin/"${ADM[$pkg]}" ]] 
+		then #	sets both download tool for install and exception. 
  			APTIN+="$pkg "
 			APTON+=("${ADM[$pkg]}")
  			echo 
@@ -111,14 +128,18 @@ _DEPENDIFDM_() { # Checks if download manager is set and sets install and pe.
 depends() { # Checks for missing commands.  
 	printf "\\e[1;34mChecking prerequisites…\\n\\e[1;32m"
 	ADM=([aria2]=aria2c [axel]=axel [curl]=curl [lftp]=lftpget [wget]=wget)
-	if [[ "$dm" != "" ]] ; then
+	ATM=([busybox]=applets/tar [tar]=tar [bsdtar]=bsdtar)
+	if [[ "$dm" != "" ]] 
+	then
 		_DEPENDIFDM_
 	fi
-	if [[ "$dm" = "" ]] ; then
+	if [[ "$dm" = "" ]] 
+	then
 		_DEPENDDM_
 	fi
 	# Sets and installs wget if nothing else was found, installed and set. 
-	if [[ "$dm" = "" ]] ; then
+	if [[ "$dm" = "" ]] 
+	then
 		dm=lftp
 		APTIN+="lftp "
 		APTON+=(lftp)
@@ -131,7 +152,7 @@ depends() { # Checks for missing commands.
 #	# Checks whether install missing commands was successful.  
 # 	_PECHK_ "$APTON"
 	echo
-	echo "Using ${dm:-wget} to manage downloads." 
+	echo "Using ${dm:-lftp} to manage downloads." 
 	printf "\\n\\e[0;34m 🕛 > 🕧 \\e[1;34mPrerequisites: \\e[1;32mOK  \\e[1;34mDownloading TermuxArch…\\n\\n\\e[0;32m"
 }
 
@@ -238,13 +259,6 @@ introstndidstmt() { # depends $introstndid
 	printf "the TermuxArch files in \\e[0;32m%s\\e[1;34m.  " "$INSTALLDIR"
 }
 
-_LIBANDROIDSHMEMIF_() {
-	if [[ ! -f /data/data/com.termux/files/usr/lib/libandroid-shmem.so ]] ; then
-		APTIN+="libandroid-shmem "
-		APTON+=(libandroid-shmem)
-	fi
-}
-
 _LOADCONF_() {
 	if [[ -f "${WDIR}setupTermuxArchConfigs.sh" ]] ; then
 		. "${WDIR}setupTermuxArchConfigs.sh"
@@ -278,18 +292,18 @@ _NAMEINSTALLDIR_() {
 }
 
 _NAMESTARTARCH_() { # ${@%/} removes trailing slash
- 	darch="$(echo "${ROOTDIR%/}" |sed 's#//*#/#g')"
-	if [[ "$darch" = "/arch" ]] ; then
-		aarch=""
-		startbi2=arch
+ 	DARCH="$(echo "${ROOTDIR%/}" |sed 's#//*#/#g')"
+	if [[ "$DARCH" = "/arch" ]] ; then
+		AARCH=""
+		STARTBI2=arch
 	else
- 		aarch="$(echo "$darch" |sed 's/\//\+/g')"
-		startbi2=arch
+ 		AARCH="$(echo "$DARCH" |sed 's/\//\+/g')"
+		STARTBI2=arch
 	fi
-	declare -g STARTBIN=start"$startbi2$aarch"
+	declare -g STARTBIN=start"$STARTBI2$AARCH"
 }
 
-_OPT2_() { 
+_OPT1_() { 
 	if [[ -z "${2:-}" ]] ; then
 		_ARG2DIR_ "$@" 
 	elif [[ "$2" = [Bb]* ]] ; then
@@ -307,7 +321,7 @@ _OPT2_() {
 	elif [[ "$2" = [Mm]* ]] ; then
 		echo Setting mode to manual.
 		OPT=manual
- 		_OPT3_ "$@"  
+ 		_OPT2_ "$@"  
 	elif [[ "$2" = [Rr][Ee]* ]] ; then
 		echo 
 		echo Setting mode to refresh.
@@ -325,7 +339,7 @@ _OPT2_() {
 	fi
 }
 
-_OPT3_() { 
+_OPT2_() { 
 	if [[ -z "${3:-}" ]] ; then
 		shift
 		_ARG2DIR_ "$@" 
@@ -556,7 +570,8 @@ _STRPQUIT_() { # Run on quit.
 ## END INIT FUNCTIONS 
 ## User Information: 
 ## Configurable variables such as mirrors and download manager options are in `setupTermuxArchConfigs.sh`.  Working with `kownconfigurations.sh` in the working directory is simple.  `bash setupTermuxArch.sh manual` shall create `setupTermuxArchConfigs.sh` in the working directory for editing; See `setupTermuxArch.sh help` for more information.  
-declare -A ADM		## Declare associative array for all available download managers. 
+declare -A ADM		## Declare associative array for all available download tools. 
+declare -A ATM		## Declare associative array for all available tar tools. 
 declare -a ARGS="$@"	## Declare arguments as string.
 declare APTIN=""	## apt install string
 declare APTON=""	## exception string
@@ -659,7 +674,7 @@ elif [[ "${1//-}" = [Aa][Xx]* ]] || [[ "${1//-}" = [Aa][Xx][Ii]* ]] ; then
 	echo
 	echo Setting \`axel\` as download manager.
 	dm=axel
-	_OPT2_ "$@" 
+	_OPT1_ "$@" 
 	intro "$@" 
 ## [ad|as]  Get device system information with `aria2c`.
 elif [[ "${1//-}" = [Aa][Dd]* ]] || [[ "${1//-}" = [Aa][Ss]* ]] ; then
@@ -674,7 +689,7 @@ elif [[ "${1//-}" = [Aa]* ]] ; then
 	echo
 	echo Setting \`aria2c\` as download manager.
 	dm=aria2
-	_OPT2_ "$@" 
+	_OPT1_ "$@" 
 	intro "$@" 
 ## [b[loom]]  Create and run a local copy of TermuxArch in TermuxArchBloom.  Useful for running a customized setupTermuxArch.sh locally, for developing and hacking TermuxArch.  
 elif [[ "${1//-}" = [Bb]* ]] ; then
@@ -694,7 +709,7 @@ elif [[ "${1//-}" = [Cc][Ii]* ]] || [[ "${1//-}" = [Cc]* ]] ; then
 	echo
 	echo Setting \`curl\` as download manager.
 	dm=curl
-	_OPT2_ "$@" 
+	_OPT1_ "$@" 
 	intro "$@" 
 ## [d[ebug]|s[ysinfo]]  Generate system information.
 elif [[ "${1//-}" = [Dd]* ]] || [[ "${1//-}" = [Ss]* ]] ; then
@@ -716,7 +731,7 @@ elif [[ "${1//-}" = [Hh]* ]] ; then
 elif [[ "${1//-}" = [Ii]* ]] ; then
 	echo
 	echo Setting mode to install.
-	_OPT2_ "$@" 
+	_OPT1_ "$@" 
 	intro "$@"  
 ## [ld|ls]  Get device system information with `lftp`.
 elif [[ "${1//-}" = [Ll][Dd]* ]] || [[ "${1//-}" = [Ll][Ss]* ]] ; then
@@ -731,21 +746,21 @@ elif [[ "${1//-}" = [Ll]* ]] ; then
 	echo
 	echo Setting \`lftp\` as download manager.
 	dm=lftp
-	_OPT2_ "$@" 
+	_OPT1_ "$@" 
 	intro "$@" 
 ## [m[anual]]  Manual Arch Linux install, useful for resolving download issues.
 elif [[ "${1//-}" = [Mm]* ]] ; then
 	echo
 	echo Setting mode to manual.
 	OPT=manual
-	_OPT2_ "$@" 
+	_OPT1_ "$@" 
 	intro "$@"  
 ## [o[ption]]  Option currently under development.
 elif [[ "${1//-}" = [Oo]* ]] ; then
 	echo
 	echo Setting mode to option.
 	_PRINTUSAGE_
-	_OPT2_ "$@" 
+	_OPT1_ "$@" 
 ## [p[urge] [customdir]]  Remove Arch Linux.
 elif [[ "${1//-}" = [Pp]* ]] ; then
 	echo 
@@ -776,7 +791,7 @@ elif [[ "${1//-}" = [Ww]* ]] ; then
 	echo
 	echo Setting \`wget\` as download manager.
 	dm=wget
-	_OPT2_ "$@" 
+	_OPT1_ "$@" 
 	intro "$@"  
 else
 	_PRINTUSAGE_
