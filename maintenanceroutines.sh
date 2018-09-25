@@ -66,7 +66,6 @@ refreshsys() { # Refreshes
 	_SETLOCALE_
 	printf "\\n" 
 	_WAKELOCK_
-	printf '\033]2; setupTermuxArch.sh refresh 📲 \007'
 	printf "\\n\\e[1;32m==> \\e[1;37m%s \\e[1;32m%s %s 📲 \\a\\n" "Running" "$(basename "$0")" "$ARGS" 
 	"$INSTALLDIR"/root/bin/setupbin.sh ||: 
  	rm -f root/bin/finishsetup.sh
@@ -74,7 +73,28 @@ refreshsys() { # Refreshes
 	printf "\\e[1;34mThe following files have been updated to the newest version.\\n\\n\\e[0;32m"
 	ls "$INSTALLDIR/$STARTBIN" |cut -f7- -d /
 	ls "$INSTALLDIR"/bin/we |cut -f7- -d /
+	ls "$INSTALLDIR"/root/.bashrc |cut -f7- -d /
+	ls "$INSTALLDIR"/root/.bash_profile |cut -f7- -d /
+	ls "$INSTALLDIR"/root/.profile |cut -f7- -d /
 	ls "$INSTALLDIR"/root/bin/* |cut -f7- -d /
+	if [[ "${LCR:-}" = 2 ]] 
+	then
+ 		VAR=($(ls home))
+		for USER in ${VAR[@]}
+		do
+			if [[ "$USER" != alarm ]] 
+			then
+				cp "$INSTALLDIR"/root/.bashrc "$INSTALLDIR"/home/$USER
+				cp "$INSTALLDIR"/root/.bash_profile "$INSTALLDIR"/home/$USER
+				cp "$INSTALLDIR"/root/.profile "$INSTALLDIR"/home/$USER
+				cp "$INSTALLDIR"/root/bin/* "$INSTALLDIR"/home/$USER/bin
+			       	ls "$INSTALLDIR"/home/$USER/.bashrc |cut -f7- -d /
+			       	ls "$INSTALLDIR"/home/$USER/.bash_profile |cut -f7- -d /
+			       	ls "$INSTALLDIR"/home/$USER/.profile |cut -f7- -d /
+			       	ls "$INSTALLDIR"/home/$USER/bin/* |cut -f7- -d /
+			fi
+		done
+	fi
 	printf "\\n" 
 	_WAKEUNLOCK_ 
 	_PRINTFOOTER_ 

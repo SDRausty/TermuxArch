@@ -9,7 +9,7 @@ IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-VERSIONID="v1.6.id8782"
+VERSIONID="v1.6.id2905"
 ## INIT FUNCTIONS ##############################################################
 _ARG2DIR_() {  # Argument as ROOTDIR.
 	ARG2="${@:2:1}"
@@ -328,7 +328,7 @@ _OPT1_() {
 		_ARG2DIR_ "$@" 
 		introrefresh "$@"  
 	elif [[ "$2" = [Rr]* ]] ; then
-		lcr="1"
+		LCR="1"
 		printf "\\n\\e[1;32m%s\\e[1;34m: \\e[0;32m%s \`%s\` %s\\n\\e[0m" "Setting mode" "minimal refresh;  Use" "${0##*/} re[fresh]" "for full refresh."
 		shift
 		_ARG2DIR_ "$@" 
@@ -355,7 +355,7 @@ _OPT2_() {
 		_ARG2DIR_ "$@" 
 		introrefresh "$@"  
 	elif [[ "$3" = [Rr]* ]] ; then
-		lcr="1"
+		LCR="1"
 		printf "\\n\\e[1;32m%s\\e[1;34m: \\e[0;32m%s \`%s\` %s\\n\\e[0m" "Setting mode" "minimal refresh;  Use" "${0##*/} re[fresh]" "for full refresh."
 		shift 2 
 		_ARG2DIR_ "$@" 
@@ -608,7 +608,7 @@ _SETROOT_
 ## Tests for correct OS.
 COMMANDIF="$(command -v getprop)" ||:
 if [[ "$COMMANDIF" = "" ]] ; then
-	printf "\\n\\e[1;48;5;138m %s\\e[0m\\n\\n" "TermuxArch WARNING: Run \`bash ${0##*/}\` and \`./${0##*/}\` from the BASH shell in the OS system in Termux, ie: Amazon Fire, Android and Chromebook."
+	printf "\\n\\e[1;48;5;138m %s\\e[0m\\n\\n" "TermuxArch WARNING: Run \`bash ${0##*/}\` and \`./${0##*/}\` from the BASH shell in the OS system in Termux, e.g., Amazon Fire, Android and Chromebook."
 	exit
 fi
 ## Generates pseudo random number to create uniq strings.
@@ -766,14 +766,20 @@ elif [[ "${1//-}" = [Pp]* ]] ; then
 	echo Setting mode to purge.
 	_ARG2DIR_ "$@" 
 	_RMARCHQ_
-## [r[e[fresh]] [customdir]]  Refresh the Arch Linux in Termux PRoot scripts created by TermuxArch and the installation itself.  Useful for refreshing the installation, locales and the TermuxArch generated scripts to their newest versions.  
+## [r[e[f[resh]]] [customdir]]  Refresh the Arch Linux in Termux PRoot scripts created by TermuxArch and the installation itself.  Useful for refreshing the installation, locales and the TermuxArch generated scripts to their newest versions.  
+elif [[ "${1//-}" = [Rr][Ee][Ff] ]] ; then
+	LCR="2"
+	echo 
+	echo Setting mode to refresh system and user directories.
+	_ARG2DIR_ "$@" 
+	introrefresh "$@"  
 elif [[ "${1//-}" = [Rr][Ee]* ]] ; then
 	echo 
 	echo Setting mode to refresh.
 	_ARG2DIR_ "$@" 
 	introrefresh "$@"  
 elif [[ "${1//-}" = [Rr]* ]] ; then
-	lcr="1"
+	LCR="1"
 	printf "\\n\\e[1;32m%s\\e[1;34m: \\e[0;32m%s \`%s\` %s\\n\\e[0m" "Setting mode" "minimal refresh;  Use" "${0##*/} re[fresh]" "for full refresh."
 	_ARG2DIR_ "$@" 
 	introrefresh "$@"  

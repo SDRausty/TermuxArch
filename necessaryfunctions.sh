@@ -147,7 +147,7 @@ _MAKEFINISHSETUP_() {
    	locale-gen ||:
 	printf "\\n\\e[1;34m:: \\e[1;37mRemoving redundant packages for Termux PRoot installation…\\n"
 	EOM
-	if [[ -z "${lcr:-}" ]] ; then
+	if [[ -z "${LCR:-}" ]] ; then
 	 	if [[ "$CPUABI" = "$CPUABI5" ]];then
 	 		printf "pacman -Rc linux-armv5 linux-firmware --noconfirm --color=always 2>/dev/null ||:\\n" >> root/bin/"$BINFNSTP"
 	 	elif [[ "$CPUABI" = "$CPUABI7" ]];then
@@ -202,7 +202,7 @@ _MAKESTARTBIN_() {
 	cat >> "$STARTBIN" <<- EOM
 	COMMANDIF="\$(command -v getprop)" ||:
 	if [[ "\$COMMANDIF" = "" ]] ; then
- 		printf "\\n\\e[1;48;5;138m  %s\\e[0m\\n\\n" "\${0##*/} WARNING: Run \${0##*/} and $INSTALLDIR/\${0##*/} from the BASH shell in the OS system in Termux, ie: Amazon Fire, Android and Chromebook."
+ 		printf "\\n\\e[1;48;5;138m  %s\\e[0m\\n\\n" "\${0##*/} WARNING: Run \${0##*/} and $INSTALLDIR/\${0##*/} from the BASH shell in the OS system in Termux, e.g., Amazon Fire, Android and Chromebook."
 		exit 202
 	fi
 	declare -g ar2ar="\${@:2}"
