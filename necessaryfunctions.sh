@@ -208,7 +208,7 @@ _MAKESTARTBIN_() {
 	declare -g ar2ar="\${@:2}"
 	declare -g ar3ar="\${@:3}"
 	_PRINTUSAGE_() { 
-	printf "\\n\\e[1;32m$STARTBIN\\e[0;32m: Start Arch Linux as root.  This account is reserved for system administration.\\n\\n\\e[1;32m$STARTBIN c[md] cmd\\e[0;32m: Run Arch Linux command from Termux as root user.\\n\\n\\e[1;32m$STARTBIN u[ser]|l[ogin] user\\e[0;32m: Login as user.  Use \\e[1;32m$STARTBIN addauser user \\e[0;32mfirst to create this user and user's home directory.\\n\\n\\e[1;32m$STARTBIN b[uild]\\e[0;32m: Construct the \\e[1;32m$STARTBIN \\e[0;32mproot statement from exec.../bin/.  For example \\e[1;32m$STARTBIN b[uild] su \\e[0;32mwill exec su in Arch Linux.  See PROOTSTMNT for more options; share your thoughts at https://github.com/sdrausty/TermuxArch/issues and https://github.com/sdrausty/TermuxArch/pulls. \\n\\n\\e[1;32m$STARTBIN s[u] user cmd\\e[0;32m: Login as user and execute command.  Use \\e[1;32m$STARTBIN addauser user \\e[0;32mfirst to create this user and user's home directory.\\n\\n\\e[0m"'\033]2; TermuxArch '$STARTBIN' help 📲  \007' 
+	printf "\\n\\e[1;32m$STARTBIN\\e[0;32m: Start Arch Linux as root.  This account is reserved for system administration.\\n\\n\\e[1;32m$STARTBIN c[md] cmd\\e[0;32m: Run Arch Linux command from Termux as root user.\\n\\n\\e[1;32m$STARTBIN u[ser]|l[ogin] user\\e[0;32m: Login as user.  Use \\e[1;32m$STARTBIN addauser user \\e[0;32mfirst to create this user and user's home directory.\\n\\n\\e[1;32m$STARTBIN r[aw]\\e[0;32m: Construct the \\e[1;32m$STARTBIN \\e[0;32mproot statement from exec.../bin/.  For example \\e[1;32m$STARTBIN r[aw] su \\e[0;32mwill exec su in Arch Linux.  See PROOTSTMNT for more options; share your thoughts at https://github.com/sdrausty/TermuxArch/issues and https://github.com/sdrausty/TermuxArch/pulls. \\n\\n\\e[1;32m$STARTBIN s[u] user cmd\\e[0;32m: Login as user and execute command.  Use \\e[1;32m$STARTBIN addauser user \\e[0;32mfirst to create this user and user's home directory.\\n\\n\\e[0m"'\033]2; TermuxArch '$STARTBIN' help 📲  \007' 
 	}
 
 	# [] Default Arch Linux in Termux PRoot root login.
@@ -242,7 +242,7 @@ _MAKESTARTBIN_() {
 	cat >> "$STARTBIN" <<- EOM
 		set -Eeuo pipefail
 		printf '\033]2; $STARTBIN login user [options] 📲  \007'
-	# [raw ARGS] Construct the \`startarch\` proot statement.  For example \`startarch r su - archuser\` will login as user archuser.  Use \`addauser user\` first to create this user and the user home directory.
+	# [raw ARGS] Construct the \`startarch\` proot statement.  For example \`startarch r su\` will exec su in Arch Linux.  See PROOTSTMNT for more options; share your thoughts at https://github.com/sdrausty/TermuxArch/issues and https://github.com/sdrausty/TermuxArch/pulls.
 	elif [[ "\${1//-}" = [Rr]* ]] ; then
 		printf '\033]2; $STARTBIN raw ARGS 📲  \007'
 		set +Eeuo pipefail
