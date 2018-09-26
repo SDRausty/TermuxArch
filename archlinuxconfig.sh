@@ -398,10 +398,13 @@ addkeys() {
 	if [[ -z "\${1:-}" ]] ; then
 		KEYRINGS[0]="archlinux-keyring"
 		KEYRINGS[1]="archlinuxarm-keyring"
+		KEYRINGS[2]="ca-certificates-utils"
 	elif [[ "\$1" = x86 ]]; then
 		KEYRINGS[0]="archlinux32-keyring-transition"
+		KEYRINGS[1]="ca-certificates-utils"
 	elif [[ "\$1" = x86_64 ]]; then
 		KEYRINGS[0]="archlinux-keyring"
+		KEYRINGS[1]="ca-certificates-utils"
 	else
 		KEYRINGS="\$@"
 	fi
