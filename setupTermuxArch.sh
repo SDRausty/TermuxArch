@@ -9,7 +9,7 @@ IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-VERSIONID="v1.6.id5370"
+VERSIONID="v1.6.id3554"
 ## INIT FUNCTIONS ##############################################################
 _ARG2DIR_() {  # Argument as ROOTDIR.
 	ARG2="${@:2:1}"
@@ -427,7 +427,7 @@ _PRINTUSAGE_() {
 	printf "\\n\\e[1;33m %s  \\e[0;32m%s \\e[1;34m%s \\e[0;32m%s \\e[1;34m%s \\e[0;32m%s\\e[1;34m%s \\n\\n" "SYSINFO" "${0##*/} sysinfo" "shall create" "setupTermuxArchSysInfo$STIME.log" "and populate it with system information.  Post this file along with detailed information at" "https://github.com/sdrausty/TermuxArch/issues" ".  If screenshots will help in resolving an issue better, include these along with information from the system information log file in a post as well." 
 	if [[ "$lcc" = 1 ]] ; then
 	printf "\\n\\e[1;32m" 
-	awk 'NR>=578 && NR<=767'  "${0##*/}" | awk '$1 == "##"' | awk '{ $1 = ""; print }' | awk '1;{print ""}'
+	awk 'NR>=600 && NR<=900'  "${0##*/}" | awk '$1 == "##"' | awk '{ $1 = ""; print }' | awk '1;{print ""}'
 	fi
 	_PRINTSTARTBIN_USAGE_
 }
@@ -625,20 +625,22 @@ ONESA="${ONES: -1}"
 STIME="$ONESA$STIME"
 ## Gets device information via `getprop`.
 CPUABI="$(getprop ro.product.cpu.abi)" 
-## AVAILABLE OPTIONS ARE UNDER DEVELOPMENT: USE WITH CAUTION!
-## AVAILABLE OPTIONS[a]: `setupTermuxArch.sh [HOW] [DO] [WHERE]`
-## AVAILABLE OPTIONS[b]: `setupTermuxArch.sh [~/|./|/absolute/path/]image.tar.gz [WHERE]` 
-## GRAMMAR: `setupTermuxArch.sh [HOW] [DO] [WHERE]` all options are optional for install.  
-## SYNTAX: Defaults are implied and can be omitted.  
-## SYNTAX[a]: [HOW (aria2|axel|curl|lftp|wget (default 1: available on system (default 2: wget)))]
-## SYNTAX[b]: [DO (install|manual|purge|refresh|sysinfo (default: install))] 
-## SYNTAX[c]: [WHERE (default: arch)]  Install in userspace, not external storage. 
-## USAGE[a]: `setupTermuxArch.sh wget sysinfo` shall use wget as the download manager and produce a system information file in the working directory.  This can be abbreviated to `setupTermuxArch.sh ws` and `setupTermuxArch.sh w s`. 
-## USAGE[b]: `setupTermuxArch.sh wget manual customdir` shall attempt to install the installation in customdir with wget and use manual mode during instalation. 
-## USAGE[c]: `setupTermuxArch.sh wget refresh customdir` shall refresh this installation using wget as the download manager. 
-## <<<<<<<<<<<<>>>>>>>>>>>>
-## << Enumerated Options >>
-## <<<<<<<<<<<<>>>>>>>>>>>>
+## All options are optional for install.  
+## Defaults are implied and can be omitted.  
+## These options are available for your convenience. 
+## OPTIONS[a]: `setupTermuxArch.sh [HOW] [DO] [WHERE]`
+## GRAMMAR[a]: `setupTermuxArch.sh [HOW] [DO] [WHERE]`
+## OPTIONS[b]: `setupTermuxArch.sh [~/|./|/absolute/path/]image.tar.gz [WHERE]` 
+## GRAMMAR[b]: `setupTermuxArch.sh [WHAT] [WHERE]`
+## SYNTAX[1]: [HOW (aria2|axel|curl|lftp|wget (default 1: available on system (default 2: wget)))]
+## SYNTAX[2]: [DO (install|manual|purge|refresh|sysinfo (default: install))] 
+## SYNTAX[3]: [WHERE (default: arch)]  Install in userspace, not external storage. 
+## USAGE[1]: `setupTermuxArch.sh wget sysinfo` shall use wget as the download manager and produce a system information file in the working directory.  This can be abbreviated to `setupTermuxArch.sh ws` and `setupTermuxArch.sh w s`. 
+## USAGE[2]: `setupTermuxArch.sh wget manual customdir` shall attempt to install the installation in customdir with wget and use manual mode during instalation. 
+## USAGE[3]: `setupTermuxArch.sh wget refresh customdir` shall refresh this installation using wget as the download manager. 
+## >>>>>>>>>>>>>>>>>>
+## >> OPTION  HELP >>
+## >>>>>>>>>>>>>>>>>>
 ## []  Run default Arch Linux install. 
 if [[ -z "${1:-}" ]] ; then
 	_PREPTERMUXARCH_ 

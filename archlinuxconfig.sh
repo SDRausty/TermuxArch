@@ -777,4 +777,4 @@ addyt() {
 	chmod 700 root/bin/yt 
 }
 
-## EOF
+# EOF

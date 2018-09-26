@@ -243,4 +243,4 @@ spinnerdepreciated() { # Based on https://github.com/ringohub/sh-spinner
 	done
 }
 
-## EOF
+# EOF
