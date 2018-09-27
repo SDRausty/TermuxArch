@@ -9,7 +9,7 @@ IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-VERSIONID="v1.6.id3806"
+VERSIONID="v1.6.1.id1293"
 ## INIT FUNCTIONS ##############################################################
 _ARG2DIR_() {  # Argument as ROOTDIR.
 	ARG2="${@:2:1}"
@@ -608,14 +608,14 @@ if [[ -z "${TAMPDIR:-}" ]] ; then
 fi
 _SETROOT_
 ## TERMUXARCH FEATURES INCLUDE: 
-## 1) Sets timezone and locales from device,
-## 2) Tests for correct OS,
+## @) Sets timezone and locales from device,
+## @) Tests for correct OS,
 COMMANDIF="$(command -v getprop)" ||:
 if [[ "$COMMANDIF" = "" ]] ; then
 	printf "\\n\\e[1;48;5;138m %s\\e[0m\\n\\n" "TermuxArch WARNING: Run \`bash ${0##*/}\` and \`./${0##*/}\` from the BASH shell in the OS system in Termux, e.g., Amazon Fire, Android and Chromebook."
 	exit
 fi
-## 3) Generates pseudo random number to create uniq strings,
+## @) Generates pseudo random number to create uniq strings,
 if [[ -r  /proc/sys/kernel/random/uuid ]] ; then
 	STI="$(cat /proc/sys/kernel/random/uuid)"
 	STIM="${STI//-}"	
@@ -627,9 +627,9 @@ fi
 ONES="$(date +%s)" 
 ONESA="${ONES: -1}" 
 STIME="$ONESA$STIME"
-## 4) Gets system information with builtin tools, like `getprop`,
+## @) Gets system information with builtin tools such as `getprop`,
 CPUABI="$(getprop ro.product.cpu.abi)" 
-## 5) And all options are optional for install.  
+## @) And all options are optional for install.  
 ## THESE OPTIONS ARE AVAILABLE FOR YOUR CONVENIENCE: 
 ## OPTIONS[a]: `setupTermuxArch.sh [HOW] [DO] [WHERE]`
 ## GRAMMAR[a]: `setupTermuxArch.sh [HOW] [DO] [WHERE]`
