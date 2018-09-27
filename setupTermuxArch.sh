@@ -9,7 +9,7 @@ IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-VERSIONID="v1.6.id9896"
+VERSIONID="v1.6.id3806"
 ## INIT FUNCTIONS ##############################################################
 _ARG2DIR_() {  # Argument as ROOTDIR.
 	ARG2="${@:2:1}"
@@ -210,13 +210,15 @@ dwnl() { # Downloads TermuxArch from Github.
 intro() {
 	printf "\033]2;%s\007" "bash setupTermuxArch.sh $ARGS 📲" 
 	_SETROOT_EXCEPTION_ 
-	if [[ -d "$INSTALLDIR" ]] && [[ -f "$INSTALLDIR"/bin/env ]] && [[ -f "$INSTALLDIR"/bin/we ]] && [[ -f "$INSTALLDIR"/bin/pacman ]];then
-		printf "\\n\\e[0;33m%s\\e[1;33m%s\\e[0;33m.\\e[0m\\n\\n" "TermuxArch WARNING!  " "The root directory structure is correct; Cannot continue setupTermuxArch.sh install!  See \`setupTermuxArch.sh help\` and \`$STARTBIN help\` for more information"
+	if [[ -d "$INSTALLDIR" ]] && [[ -f "$INSTALLDIR"/bin/env ]] && [[ -f "$INSTALLDIR"/bin/we ]] && [[ -f "$INSTALLDIR"/bin/pacman ]]
+		then
+		printf "\\n\\e[0;33m%s\\e[1;33m%s\\e[0;33m.\\e[0m\\n\\n" "TermuxArch WARNING!  " "The root directory structure is correct; Cannot continue setupTermuxArch.sh install!  See \`setupTermuxArch.sh help\` and \`$STARTBIN help\` for options"
 		exit 205
 	fi
 	printf "\\n\\e[0;34m 🕛 > 🕛 \\e[1;34mＴｅｒｍｕｘＡｒｃｈ $VERSIONID shall attempt to install Linux in \\e[0;32m$INSTALLDIR\\e[1;34m.  Arch Linux in Termux PRoot shall be available upon successful completion.  To run this BASH script again, use \`!!\`.  Ensure background data is not restricted.  Check the wireless connection if you do not see one o'clock 🕐 below.  "
 	dependsblock "$@" 
-	if [[ "$lcc" = "1" ]] ; then
+	if [[ "$lcc" = "1" ]] 
+	then
 		loadimage "$@" 
 	else
 		_MAINBLOCK_
@@ -625,7 +627,7 @@ fi
 ONES="$(date +%s)" 
 ONESA="${ONES: -1}" 
 STIME="$ONESA$STIME"
-## 4) Gets device information via `getprop`,
+## 4) Gets system information with builtin tools, like `getprop`,
 CPUABI="$(getprop ro.product.cpu.abi)" 
 ## 5) And all options are optional for install.  
 ## THESE OPTIONS ARE AVAILABLE FOR YOUR CONVENIENCE: 
