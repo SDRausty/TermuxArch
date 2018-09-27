@@ -9,7 +9,7 @@ IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-VERSIONID="v1.6.1.id8247"
+VERSIONID="v1.6.1.id9496"
 ## INIT FUNCTIONS ##############################################################
 _ARG2DIR_() {  # Argument as ROOTDIR.
 	ARG2="${@:2:1}"
@@ -783,7 +783,7 @@ elif [[ "${1//-}" = [Rr][Ee][Ff]* ]] ; then
 elif [[ "${1//-}" = [Rr][Ee] ]] ; then
 	LCR="2"
 	echo 
-	echo Setting mode to minimal refresh and refresh user directories.
+	echo Setting mode to minimal refresh with user directories.
 	_ARG2DIR_ "$@" 
 	introrefresh "$@"  
 ## [r [customdir]]  Refresh the Arch Linux in Termux PRoot scripts created by TermuxArch.  Useful for refreshing locales and the TermuxArch generated scripts to their newest versions.  

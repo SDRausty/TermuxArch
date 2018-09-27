@@ -16,7 +16,7 @@ FLHDR1[1]="# IFS=$'\\n\\t'"
 FLHDR1[2]="set -Eeuo pipefail"
 FLHDR1[3]="# shopt -s nullglob globstar"
 FLHDR1[4]="unset LD_PRELOAD"
-FLHDR1[5]="VERSIONID=v1.6.1.id8247"
+FLHDR1[5]="VERSIONID=v1.6.1.id9496"
 FLHDR1[6]=" "
 FLHDRP[0]="## BEGIN #######################################################################"
 FLHDRP[1]=""
@@ -191,9 +191,8 @@ _PRINTFOOTER_() {
 }
 
 _PRINTFOOTER2_() {
-	printf "\033[1;34mArch Linux in Termux PRoot is installed in $INSTALLDIR.  This project is in active development.  Contributions to this project are welcome; See https://sdrausty.github.io/TermuxArch/CONTRIBUTORS for information.  The documentation repository for TermuxArch https://sdrausty.github.io/TermuxArch/docs/ is a Termux Arch submodule that is located at https://github.com/sdrausty/docsTermuxArch.  Pull requests and contributions through the issues pages are open to improve the ux (user experience) and this Termux PRoot installation script.\n\nUse \033[1;32m~$PRINTROOTDIR/$STARTBIN \033[1;34mand \033[1;32m$STARTBIN \033[1;34min a BASH shell to launch Arch Linux in Termux PRoot for future sessions.  If you are new to *nix, http://tldp.org has *nix documentation.  See https://wiki.archlinux.org/index.php/IRC_channel for available Arch Linux IRC channels.  Consider starring this project 🌠 at Github.\n\n\033[0m"
+	printf "\033[1;34mArch Linux in Termux PRoot is installed in $INSTALLDIR.  This project is in active development.  Contributions to this project are welcome; See https://sdrausty.github.io/TermuxArch/CONTRIBUTORS for information.  The documentation repository for TermuxArch https://sdrausty.github.io/TermuxArch/docs/ is a Termux Arch submodule that is located at https://github.com/sdrausty/docsTermuxArch.  Pull requests and contributions through the issues pages are open to improve the ux (user experience) and this Termux PRoot installation script.\n\nUse \033[1;32m~$PRINTROOTDIR/$STARTBIN \033[1;34mand \033[1;32m$STARTBIN \033[1;34min a BASH shell to launch Arch Linux in Termux PRoot for future sessions.  If you are new to *nix, http://tldp.org has *nix documentation.  See https://wiki.archlinux.org/index.php/IRC_channel for available Arch Linux IRC channels.  Consider ⭐️ starring this project 🌟 at Github🌠 \n\n\033[0m"
 }
-# ⭐️🌟🌠
 
 _PRINTROOTDIRFUNCTION_() {
 	declare -g PRINTROOTDIR
