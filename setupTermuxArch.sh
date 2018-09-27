@@ -9,7 +9,7 @@ IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-VERSIONID="v1.6.1.id6509"
+VERSIONID="v1.6.1.id0922"
 ## INIT FUNCTIONS ##############################################################
 _ARG2DIR_() {  # Argument as ROOTDIR.
 	ARG2="${@:2:1}"
@@ -779,17 +779,17 @@ elif [[ "${1//-}" = [Rr][Ee][Ff]* ]] ; then
 	echo Setting mode to refresh.
 	_ARG2DIR_ "$@" 
 	introrefresh "$@"  
-## [ref [customdir]]  Refresh the Arch Linux in Termux PRoot scripts created by TermuxArch.  Useful for refreshing locales, the TermuxArch generated scripts with user directories to their newest versions.  
-elif [[ "${1//-}" = [Rr][Ee] ]] ; then
+## [re [customdir]]  Refresh the Arch Linux in Termux PRoot scripts created by TermuxArch.  Useful for refreshing locales, the TermuxArch generated scripts with user directories to their newest versions.  
+elif [[ "${1//-}" = [Rr][Ee]* ]] ; then
 	LCR="2"
 	echo 
 	echo Setting mode to minimal refresh with user directories.
 	_ARG2DIR_ "$@" 
 	introrefresh "$@"  
 ## [r [customdir]]  Refresh the Arch Linux in Termux PRoot scripts created by TermuxArch.  Useful for refreshing locales and the TermuxArch generated scripts to their newest versions.  
-elif [[ "${1//-}" = [Rr] ]] ; then
+elif [[ "${1//-}" = [Rr]* ]] ; then
 	LCR="1"
-	printf "\\n\\e[1;32m%s\\e[1;34m: \\e[0;32m%s \`%s\` %s\\n\\e[0m" "Setting mode" "minimal refresh;  Use" "${0##*/} re[fresh]" "for full refresh."
+	printf "\\n\\e[1;32m%s\\e[1;34m: \\e[0;32m%s \`%s\` %s\\n\\e[0m" "Setting mode" "minimal refresh;  Use" "${0##*/} ref[resh]" "for full refresh."
 	_ARG2DIR_ "$@" 
 	introrefresh "$@"  
 ## [wd|ws]  Get device system information with `wget`.
