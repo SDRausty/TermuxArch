@@ -9,7 +9,7 @@ IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-VERSIONID="v1.6.1.id6195"
+VERSIONID="v1.6.1.id9172"
 ## INIT FUNCTIONS ##############################################################
 _ARG2DIR_() {  # Argument as ROOTDIR.
 	ARG2="${@:2:1}"
@@ -166,7 +166,7 @@ _DEPENDSBLOCK_() {
 			LCW=1
 		fi
 	done
-       	if [[ "${LCW}" = 0 ]] 
+       	if [[ "$LCW" = 0 ]] 
 	then
 	       	for AFILE in "${!AF[@]}" 
 		do
@@ -182,9 +182,9 @@ _DEPENDSBLOCK_() {
 	else
 		cd "$TAMPDIR" 
 		dwnl
-		if [[ -f "${WDIR}${AF[7]}" ]] 
+		if [[ -f "$WDIR${AF[7]}" ]] 
 		then
-			cp "${WDIR}${AF[7]}" setupTermuxArch.tmp
+			cp "$WDIR${AF[7]}" setupTermuxArch.tmp
 		fi
 		_CHKDWN_
 		_CHK_ "$@"
