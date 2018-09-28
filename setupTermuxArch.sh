@@ -9,7 +9,7 @@ IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-VERSIONID="v1.6.1.id4321"
+VERSIONID="v1.6.1.id1794"
 ## INIT FUNCTIONS ##############################################################
 _ARG2DIR_() {  # Argument as ROOTDIR.
 	ARG2="${@:2:1}"
@@ -71,7 +71,7 @@ _CHKSELF_() {
 		then # copy the newer version to update:
 			cp setupTermuxArch.sh "${WDIR}setupTermuxArch.sh"
 			printf "\\e[0;32m%s\\e[1;34m: \\e[1;32mUPDATED\\n\\e[1;32mRESTARTED\\e[1;34m: \\e[0;32m%s %s \\n\\n\\e[0m"  "${0##*/}" "${0##*/}" "$ARGS"
- 			.  "${WDIR}setupTermuxArch.sh" "$@"
+ 			.  "${WDIR}setupTermuxArch.sh" "$ARGS"
 		fi
 	fi
 }
