@@ -9,7 +9,7 @@ IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-VERSIONID="v1.6.1.id9172"
+VERSIONID="v1.6.1.id2876"
 ## INIT FUNCTIONS ##############################################################
 _ARG2DIR_() {  # Argument as ROOTDIR.
 	ARG2="${@:2:1}"
@@ -612,7 +612,7 @@ declare WDIR="$PWD/"
 declare STI=""		## Generates pseudo random number.
 declare STIME=""	## Generates pseudo random number.
 declare TA="ＴｅｒｍｕｘＡｒｃｈ"
-trap "_STRPERROR_ $LINENO $BASH_COMMAND $?" ERR 
+trap '_STRPERROR_ $LINENO $BASH_COMMAND $?' ERR 
 trap _STRPEXIT_ EXIT
 trap _STRPSIGNAL_ HUP INT TERM 
 trap _STRPQUIT_ QUIT 
