@@ -9,7 +9,7 @@ IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-VERSIONID="v1.6.2.id3447"
+VERSIONID="v1.6.2.id6329"
 ## INIT FUNCTIONS ##############################################################
 _ARG2DIR_() {  # Argument as ROOTDIR.
 	ARG2="${@:2:1}"
@@ -300,7 +300,7 @@ _MANUAL_() {
 	then
 		cp "$WDIR${AF[3]}" "${WDIR}setupTermuxArchConfigs.sh"
 	else
-		cp "$TAMPDIR${AF[3]}" "${WDIR}setupTermuxArchConfigs.sh"
+		cp "${TAMPDIR}/${AF[3]}" "${WDIR}setupTermuxArchConfigs.sh"
 	fi	
  		sed -i "7s/.*/\# The architecture of this device is $CPUABI; Adjust configurations in the appropriate section.  Change CMIRROR (https:\/\/wiki.archlinux.org\/index.php\/Mirrors and https:\/\/archlinuxarm.org\/about\/mirrors) to desired geographic location to resolve 404, checksum and similar issues.  /" "${WDIR}setupTermuxArchConfigs.sh" 
 		"$ed" "${WDIR}setupTermuxArchConfigs.sh"
