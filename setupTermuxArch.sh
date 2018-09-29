@@ -9,7 +9,7 @@ IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-VERSIONID="v1.6.2.id6329"
+VERSIONID="v1.6.2.id3957"
 ## INIT FUNCTIONS ##############################################################
 _ARG2DIR_() {  # Argument as ROOTDIR.
 	ARG2="${@:2:1}"
@@ -222,11 +222,11 @@ dwnl() { # Downloads TermuxArch from Github.
 intro() {
 	printf "\033]2;%s\007" "bash ${0##*/} $ARGS 📲" 
 	_SETROOT_EXCEPTION_ 
-	if [[ -d "$INSTALLDIR" ]] && [[ -f "$INSTALLDIR"/bin/env ]] && [[ -f "$INSTALLDIR"/bin/we ]] && [[ -f "$INSTALLDIR"/bin/pacman ]]
-		then
-		printf "\\n\\e[0;34m%s\\e[1;34m%s\\e[0;33m.\\e[0m\\n\\n" "$TA WARNING!  " "The root directory structure is correct; Cannot continue ${0##*/} install!  See \`${0##*/} help\` and \`$STARTBIN help\` for options"
-		exit 205
-	fi
+# 	if [[ -d "$INSTALLDIR" ]] && [[ -f "$INSTALLDIR"/bin/env ]] && [[ -f "$INSTALLDIR"/bin/we ]] && [[ -f "$INSTALLDIR"/bin/pacman ]]
+# 		then
+# 		printf "\\n\\e[0;34m%s\\e[1;34m%s\\e[0;33m.\\e[0m\\n\\n" "$TA WARNING!  " "The root directory structure is correct; Cannot continue ${0##*/} install!  See \`${0##*/} help\` and \`$STARTBIN help\` for options"
+# 		exit 205
+# 	fi
 	printf "\\n\\e[0;34m 🕛 > 🕛 \\e[1;34m$TA $VERSIONID shall attempt to install Linux in \\e[0;32m$INSTALLDIR\\e[1;34m.  Arch Linux in Termux PRoot shall be available upon successful completion.  To run this BASH script again, use \`!!\`.  Ensure background data is not restricted.  Check the wireless connection if you do not see one o'clock 🕐 below.  "
 	_DEPENDSBLOCK_ "$@" 
 	if [[ "$lcc" = "1" ]] 
