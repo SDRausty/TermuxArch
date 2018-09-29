@@ -9,7 +9,7 @@ IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-VERSIONID="v1.6.1.id2876"
+VERSIONID="v1.6.2.id1891"
 ## INIT FUNCTIONS ##############################################################
 _ARG2DIR_() {  # Argument as ROOTDIR.
 	ARG2="${@:2:1}"
@@ -67,11 +67,11 @@ _CHKDWN_() {
 _CHKSELF_() {
 	if [[ -f "setupTermuxArch.tmp" ]] 
 	then # compare the two versions:
-		if [[ "$(<"${0##*/}")" != "$(<setupTermuxArch.tmp)" ]] # the two versions are not equal:
+		if [[ "$(<${0##*/})" != "$(<setupTermuxArch.tmp)" ]] # the two versions are not equal:
 		then # copy the newer version to update:
-			cp "${0##*/}" "${WDIR}"${0##*/}""
-			printf "\\e[0;32m%s\\e[1;34m: \\e[1;32mUPDATED\\n\\e[1;32mRESTARTED\\e[1;34m: \\e[0;32m%s %s \\n\\n\\e[0m"  "${0##*/}" "${0##*/}" "$ARGS"
- 			.  "${WDIR}"${0##*/}"" "$ARGS"
+			cp "${0##*/}" "$WDIR${0##*/}"
+			printf "\\e[0;32m%s\\e[1;34m: \\e[1;32mUPDATED\\n\\e[1;32mRESTART\\e[1;34m: \\e[0;32m%s %s \\n\\n\\e[0m"  "${0##*/}" "${0##*/}" "$ARGS"
+ 			.  "$WDIR${0##*/}" "$ARGS"
 		fi
 	fi
 }
@@ -220,11 +220,11 @@ dwnl() { # Downloads TermuxArch from Github.
 }
 
 intro() {
-	printf "\033]2;%s\007" "bash "${0##*/}" $ARGS 📲" 
+	printf "\033]2;%s\007" "bash ${0##*/} $ARGS 📲" 
 	_SETROOT_EXCEPTION_ 
 	if [[ -d "$INSTALLDIR" ]] && [[ -f "$INSTALLDIR"/bin/env ]] && [[ -f "$INSTALLDIR"/bin/we ]] && [[ -f "$INSTALLDIR"/bin/pacman ]]
 		then
-		printf "\\n\\e[0;34m%s\\e[1;34m%s\\e[0;33m.\\e[0m\\n\\n" "$TA WARNING!  " "The root directory structure is correct; Cannot continue "${0##*/}" install!  See \`"${0##*/}" help\` and \`$STARTBIN help\` for options"
+		printf "\\n\\e[0;34m%s\\e[1;34m%s\\e[0;33m.\\e[0m\\n\\n" "$TA WARNING!  " "The root directory structure is correct; Cannot continue ${0##*/} install!  See \`${0##*/} help\` and \`$STARTBIN help\` for options"
 		exit 205
 	fi
 	printf "\\n\\e[0;34m 🕛 > 🕛 \\e[1;34m$TA $VERSIONID shall attempt to install Linux in \\e[0;32m$INSTALLDIR\\e[1;34m.  Arch Linux in Termux PRoot shall be available upon successful completion.  To run this BASH script again, use \`!!\`.  Ensure background data is not restricted.  Check the wireless connection if you do not see one o'clock 🕐 below.  "
@@ -239,37 +239,37 @@ intro() {
 
 introbloom() { # Bloom = `setupTermuxArch.sh manual verbose` 
 	OPT=bloom 
-	printf "\033]2;%s\007" "bash "${0##*/}" bloom 📲" 
-	printf "\\n\\e[0;34m 🕛 > 🕛 \\e[1;34m$TA $VERSIONID bloom option.  Run \\e[1;32mbash "${0##*/}" help \\e[1;34mfor additional information.  Ensure background data is not restricted.  Check the wireless connection if you do not see one o'clock 🕐 below.  "
+	printf "\033]2;%s\007" "bash ${0##*/} bloom 📲" 
+	printf "\\n\\e[0;34m 🕛 > 🕛 \\e[1;34m$TA $VERSIONID bloom option.  Run \\e[1;32mbash ${0##*/} help \\e[1;34mfor additional information.  Ensure background data is not restricted.  Check the wireless connection if you do not see one o'clock 🕐 below.  "
 	_PREPTERMUXARCH_
 	_DEPENDSBLOCK_ "$@" 
 	bloom 
 }
 
 _INTROSYSINFO_() {
-	printf "\033]2;%s\007" "bash "${0##*/}" sysinfo 📲" 
+	printf "\033]2;%s\007" "bash ${0##*/} sysinfo 📲" 
 	_SETROOT_EXCEPTION_ 
-	printf "\\n\\e[0;34m 🕛 > 🕛 \\e[1;34m$TA $VERSIONID shall create a system information file.  Ensure background data is not restricted.  Run \\e[0;32mbash "${0##*/}" help \\e[1;34mfor additional information.  Check the wireless connection if you do not see one o'clock 🕐 below.  "
+	printf "\\n\\e[0;34m 🕛 > 🕛 \\e[1;34m$TA $VERSIONID shall create a system information file.  Ensure background data is not restricted.  Run \\e[0;32mbash ${0##*/} help \\e[1;34mfor additional information.  Check the wireless connection if you do not see one o'clock 🕐 below.  "
 	_DEPENDSBLOCK_ "$@" 
 	_SYSINFO_ "$@" 
 }
 
 introrefresh() {
-	printf '\033]2;  bash "${0##*/}" refresh 📲 \007'
+	printf "\033]2;%s\007" "bash ${0##*/} refresh 📲" 
 	_SETROOT_EXCEPTION_ 
 	if [[ ! -d "$INSTALLDIR" ]] || [[ ! -f "$INSTALLDIR"/bin/env ]] || [[ ! -f "$INSTALLDIR"/bin/we ]] || [[ ! -d "$INSTALLDIR"/root/bin ]];then
-		printf "\\n\\e[0;33m%s\\e[1;33m%s\\e[0;33m.\\e[0m\\n\\n" "$TA WARNING!  " "The root directory structure is incorrect; Cannot continue "${0##*/}" refresh!  See \`"${0##*/}" help\` and \`$STARTBIN help\` for more information"
+		printf "\\n\\e[0;33m%s\\e[1;33m%s\\e[0;33m.\\e[0m\\n\\n" "$TA WARNING!  " "The root directory structure is incorrect; Cannot continue ${0##*/} refresh!  See \`${0##*/} help\` and \`$STARTBIN help\` for more information"
 		exit 204
 	fi
-	printf "\\n\\e[0;34m 🕛 > 🕛 \\e[1;34m$TA $VERSIONID shall refresh your TermuxArch files in \\e[0;32m$INSTALLDIR\\e[1;34m.  Ensure background data is not restricted.  Run \\e[0;32mbash "${0##*/}" help \\e[1;34mfor additional information.  Check the wireless connection if you do not see one o'clock 🕐 below.  "
+	printf "\\n\\e[0;34m 🕛 > 🕛 \\e[1;34m$TA $VERSIONID shall refresh your TermuxArch files in \\e[0;32m$INSTALLDIR\\e[1;34m.  Ensure background data is not restricted.  Run \\e[0;32mbash ${0##*/} help \\e[1;34mfor additional information.  Check the wireless connection if you do not see one o'clock 🕐 below.  "
 	_DEPENDSBLOCK_ "$@" 
 	refreshsys "$@"
 }
 
 introstnd() {
-	printf '\033]2; %s\007' " bash "${0##*/}" $ARGS 📲 "
+	printf "\033]2;%s\007" "bash ${0##*/} $ARGS 📲"
 	_SETROOT_EXCEPTION_ 
-	printf "\\n\\e[0;34m%s \\e[1;34m%s \\e[0;32m%s\\e[1;34m%s \\e[0;32m%s \\e[1;34m%s" " 🕛 > 🕛" "$TA $VERSIONID shall $introstndidstmt your TermuxArch files in" "$INSTALLDIR" ".  Ensure background data is not restricted.  Run " "bash "${0##*/}" help" "for additional information.  Check the wireless connection if you do not see one o'clock 🕐 below.  "
+	printf "\\n\\e[0;34m%s \\e[1;34m%s \\e[0;32m%s\\e[1;34m%s \\e[0;32m%s \\e[1;34m%s" " 🕛 > 🕛" "$TA $VERSIONID shall $introstndidstmt your TermuxArch files in" "$INSTALLDIR" ".  Ensure background data is not restricted.  Run " "bash ${0##*/} help" "for additional information.  Check the wireless connection if you do not see one o'clock 🕐 below.  "
 }
 
 introstndidstmt() { # depends $introstndid
@@ -277,7 +277,8 @@ introstndidstmt() { # depends $introstndid
 }
 
 _LOADCONF_() {
-	if [[ -f "${WDIR}setupTermuxArchConfigs.sh" ]] ; then
+	if [[ -f "${WDIR}setupTermuxArchConfigs.sh" ]] 
+	then
 		. "${WDIR}setupTermuxArchConfigs.sh"
 		_PRINTCONFLOADED_ 
 	else
@@ -286,9 +287,10 @@ _LOADCONF_() {
 }
 
 _MANUAL_() {
-	printf '\033]2; `bash "${0##*/}" manual` 📲 \007'
+	printf "\033]2;%s\007" "bash ${0##*/} manual 📲"
 	_EDITORS_
-	if [[ -f "${WDIR}setupTermuxArchConfigs.sh" ]] ; then
+	if [[ -f "${WDIR}setupTermuxArchConfigs.sh" ]] 
+	then
 		"$ed" "${WDIR}setupTermuxArchConfigs.sh"
 		. "${WDIR}setupTermuxArchConfigs.sh"
 		_PRINTCONFLOADED_ 
@@ -421,8 +423,8 @@ _PRINTCONFLOADED_() {
 }
 
 _PRINTSHA512SYSCHKER_() {
-	printf "\\n\\e[07;1m\\e[31;1m\\n%s \\e[34;1m\\e[30;1m%s \\n\\e[0;0m\\n" " 🔆 WARNING sha512sum mismatch!  Setup initialization mismatch!" "  Try again, initialization was not successful this time.  Wait a little while.  Then run \`bash "${0##*/}"\` again…"
-	printf '\033]2; Run `bash "${0##*/}" %s` again…\007' "$ARGS" 
+	printf "\\n\\e[07;1m\\e[31;1m\\n%s \\e[34;1m\\e[30;1m%s \\n\\e[0;0m\\n" " 🔆 WARNING sha512sum mismatch!  Setup initialization mismatch!" "  Try again, initialization was not successful this time.  Wait a little while.  Then run \`bash ${0##*/}\` again…"
+	printf '\033]2; Run `bash %s` again…\007' "${0##*/} $ARGS" 
 	exit 
 }
 
@@ -515,7 +517,7 @@ _TAPIN_() {
 
 _SETROOT_EXCEPTION_() {
 	if [[ "$INSTALLDIR" = "$HOME" ]] || [[ "$INSTALLDIR" = "$HOME"/ ]] || [[ "$INSTALLDIR" = "$HOME"/.. ]] || [[ "$INSTALLDIR" = "$HOME"/../ ]] || [[ "$INSTALLDIR" = "$HOME"/../.. ]] || [[ "$INSTALLDIR" = "$HOME"/../../ ]] ; then
-		printf  '\033]2;%s\007' "Rootdir exception.  Run bash "${0##*/}" $ARGS again with different options…"	
+		printf  '\033]2;%s\007' "Rootdir exception.  Run bash ${0##*/} $ARGS again with different options…"	
 		printf "\\n\\e[1;31m%s\\n\\n\\e[0m" "Rootdir exception.  Run the script $ARGS again with different options…"
 		exit
 	fi
@@ -550,7 +552,7 @@ _STANDARDIF_() {
 
 _STRPERROR_() { # Run on script error.
 	local RV="$?"
-	printf "\\e[?25h\\n\\e[1;48;5;138m %s\\e[0m\\n" "$TA WARNING:  Generated script signal ${RV:-unknown} near or at line number ${1:-unknown} by \`${2:-command}\`!"
+	printf "\\e[?25h\\n\\e[1;48;5;138m %s\\e[0m\\n" "$TA WARNING:  Generated script signal ${RV:-unknown} near or at line number ${2:-unknown} by \`${3:-command}\`!"
 	if [[ "$RV" = 4 ]] ; then
 		printf "\\n\\e[1;48;5;139m %s\\e[0m\\n" "Ensure background data is not restricted.  Check the wireless connection."
 	fi
@@ -561,13 +563,12 @@ _STRPERROR_() { # Run on script error.
 _STRPEXIT_() { # Run on exit.
 	local RV="$?"
  	rm -rf "$TAMPDIR"
-	sleep 0.04
 	if [[ "$RV" = 0 ]] ; then
-		printf "\\a\\e[0;32m%s %s \\a\\e[0m$VERSIONID\\e[1;34m: \\a\\e[1;32m%s\\e[0m\\n\\n\\a\\e[0m" "${0##*/}" "$ARGS" "DONE 🏁 "
-		printf "\\e]2; %s: %s \\007" "${0##*/} $ARGS" "DONE 🏁 "
+		printf "\\a\\e[0;32m%s \\a\\e[0m$VERSIONID\\e[1;34m: \\a\\e[1;32m%s\\e[0m\\n\\n\\a\\e[0m" "${0##*/} $ARGS" "DONE 🏁 "
+		printf "\\e]2;%s\\007" "${0##*/} $ARGS: DONE 🏁 "
 	else
-		printf "\\a\\e[0;32m%s %s \\a\\e[0m$VERSIONID\\e[1;34m: \\a\\e[1;32m%s %s\\e[0m\\n\\n\\a\\e[0m" "${0##*/}" "$ARGS" "[Exit Signal $RV]" "DONE 🏁 "
-		printf "\033]2; %s: %s %s \\007" "${0##*/} $ARGS" "[Exit Signal $RV]" "DONE 🏁 "
+		printf "\\a\\e[0;32m%s \\a\\e[0m%s\\e[1;34m: \\a\\e[1;32m%s\\e[0m\\n\\n\\a\\e[0m" "${0##*/} $ARGS" "$VERSIONID" "[Exit Signal $RV] DONE 🏁 "
+		printf "\033]2;%s\\007" "${0##*/} $ARGS [Exit Signal $RV]: DONE 🏁 "
 	fi
 	printf "\\e[?25h\\e[0m"
 	set +Eeuo pipefail 
@@ -575,7 +576,8 @@ _STRPEXIT_() { # Run on exit.
 }
 
 _STRPSIGNAL_() { # Run on signal.
-	printf "\\e[?25h\\e[1;7;38;5;0m$TA WARNING:  Signal $? received!\\e[0m\\n"
+	local RV="$?"
+	printf "\\e[?25h\\n\\e[1;48;5;138m %s\\e[0m\\n" "$TA WARNING:  Signal ${RV:-unknown} received near or at line number ${2:-unknown} by \`${3:-command}\`!"
  	rm -rf "$TAMPDIR"
  	exit 211 
 }
@@ -612,9 +614,9 @@ declare WDIR="$PWD/"
 declare STI=""		## Generates pseudo random number.
 declare STIME=""	## Generates pseudo random number.
 declare TA="ＴｅｒｍｕｘＡｒｃｈ"
-trap '_STRPERROR_ $LINENO $BASH_COMMAND $?' ERR 
+trap '_STRPERROR_ $? $LINENO $BASH_COMMAND' ERR 
 trap _STRPEXIT_ EXIT
-trap _STRPSIGNAL_ HUP INT TERM 
+trap '_STRPSIGNAL_ $? $LINENO $BASH_COMMAND' HUP INT TERM 
 trap _STRPQUIT_ QUIT 
 if [[ -z "${TAMPDIR:-}" ]] ; then
 	TAMPDIR=""

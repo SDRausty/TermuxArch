@@ -137,37 +137,12 @@ _MAINBLOCK_() {
 	set -Eeuo pipefail
 	_PRINTSTARTBIN_USAGE_
 	_PRINTFOOTER2_
+	printf "\\n"
 }
 
 _MAKEFINISHSETUP_() {
 	BINFNSTP=finishsetup.sh  
 	_CFLHDR_ root/bin/"$BINFNSTP"
-	cat >> root/bin/"$BINFNSTP" <<- EOM
-	printf "\\n\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\n\\n\\e[1;32m%s\\e[0;32m" "To generate locales in a preferred language use " "Settings > Language & Keyboard > Language " "in Android; Then run " "${0##*/} r " "for a quick system refresh; For full system refresh use ${0##*/} refresh." "==> "
-   	locale-gen ||:
-	printf "\\n\\e[1;34m:: \\e[1;37mRemoving redundant packages for Termux PRoot installation…\\n"
-	EOM
-	if [[ -z "${LCR:-}" ]] ; then
-	 	if [[ "$CPUABI" = "$CPUABI5" ]];then
-	 		printf "pacman -Rc linux-armv5 linux-firmware --noconfirm --color=always 2>/dev/null ||:\\n" >> root/bin/"$BINFNSTP"
-	 	elif [[ "$CPUABI" = "$CPUABI7" ]];then
-	 		printf "pacman -Rc linux-armv7 linux-firmware --noconfirm --color=always 2>/dev/null ||:\\n" >> root/bin/"$BINFNSTP"
-	 	elif [[ "$CPUABI" = "$CPUABI8" ]];then
-	 		printf "pacman -Rc linux-aarch64 linux-firmware --noconfirm --color=always 2>/dev/null ||:\\n" >> root/bin/"$BINFNSTP"
-	 	fi
-		if [[ "$CPUABI" = "$CPUABIX86" ]];then
-			printf "./root/bin/keys x86\\n" >> root/bin/"$BINFNSTP"
-		elif [[ "$CPUABI" = "$CPUABIX86_64" ]];then
-			printf "./root/bin/keys x86_64\\n" >> root/bin/"$BINFNSTP"
-		else
-	 		printf "./root/bin/keys\\n" >> root/bin/"$BINFNSTP"
-		fi
-		if [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = "$CPUABIX86_64" ]];then
-			printf "./root/bin/pci gzip sed \\n" >> root/bin/"$BINFNSTP"
-		else
-	 		printf "./root/bin/pci \\n" >> root/bin/"$BINFNSTP"
-		fi
-	fi
 	if [[ -e "$HOME"/.bash_profile ]];then
 		grep "proxy" "$HOME"/.bash_profile | grep "export" >> root/bin/"$BINFNSTP" 2>/dev/null ||:
 	fi
@@ -176,6 +151,42 @@ _MAKEFINISHSETUP_() {
 	fi
 	if [[ -e "$HOME"/.profile ]];then
 		grep "proxy" "$HOME"/.profile | grep "export" >> root/bin/"$BINFNSTP" 2>/dev/null ||:
+	fi
+	if [[ "${LCR:-}" != 2 ]]
+	then
+		cat >> root/bin/"$BINFNSTP" <<- EOM
+		printf "\\n\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\n\\n\\e[1;32m%s\\e[0;32m" "To generate locales in a preferred language use " "Settings > Language & Keyboard > Language " "in Android; Then run " "${0##*/} r " "for a quick system refresh; For full system refresh use ${0##*/} refresh." "==> " 
+		locale-gen ||: 
+		EOM
+	fi
+	if [[ -z "${LCR:-}" ]] 
+	then
+		cat >> root/bin/"$BINFNSTP" <<- EOM
+		printf "\\n\\e[1;34m:: \\e[1;37mRemoving redundant packages for Termux PRoot installation…\\n" 
+		EOM
+		if [[ "$CPUABI" = "$CPUABI5" ]]
+		then
+			printf "pacman -Rc linux-armv5 linux-firmware --noconfirm --color=always 2>/dev/null ||:\\n" >> root/bin/"$BINFNSTP"
+		elif [[ "$CPUABI" = "$CPUABI7" ]]
+		then
+			printf "pacman -Rc linux-armv7 linux-firmware --noconfirm --color=always 2>/dev/null ||:\\n" >> root/bin/"$BINFNSTP"
+		elif [[ "$CPUABI" = "$CPUABI8" ]]
+		then
+			printf "pacman -Rc linux-aarch64 linux-firmware --noconfirm --color=always 2>/dev/null ||:\\n" >> root/bin/"$BINFNSTP"
+		fi
+		if [[ "$CPUABI" = "$CPUABIX86" ]];then
+			printf "./root/bin/keys x86\\n" >> root/bin/"$BINFNSTP"
+		elif [[ "$CPUABI" = "$CPUABIX86_64" ]];then
+			printf "./root/bin/keys x86_64\\n" >> root/bin/"$BINFNSTP"
+		else
+			printf "./root/bin/keys\\n" >> root/bin/"$BINFNSTP"
+		fi
+		if [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = "$CPUABIX86_64" ]]
+		then
+			printf "./root/bin/pci gzip sed \\n" >> root/bin/"$BINFNSTP"
+		else
+			printf "./root/bin/pci \\n" >> root/bin/"$BINFNSTP"
+		fi
 	fi
 	cat >> root/bin/"$BINFNSTP" <<- EOM
 	printf "\\n\\e[1;34m%s  \\e[0m" "🕛 > 🕤 Arch Linux in Termux is installed and configured 📲 " 
