@@ -459,23 +459,30 @@ addpc() {
 	trap _TRPET_ EXIT
 	## pc begin ####################################################################
 
-	printf '\033]2;  🔑🗝 TermuxArch '"\$(basename "\$0") \$ARGS"' 📲 \007'
+	printf "\033]2;%s\007" " 🔑🗝 TermuxArch \$(basename "\$0") \$ARGS 📲 "
 	printf "\\\\n\\\\e[1;32m==> \\\\e[1;37m%s \\\\e[0;32m%s \\\\e[1;32m%s %s \\\e[0m%s…\\\\n\\\\n" "Running" "TermuxArch" "\$(basename "\$0")" "\$ARGS" "\$VERSIONID"  
-	if [[ -z "\${1:-}" ]] ; then
-	pacman --noconfirm --color=always -S 
-	elif [[ "\$1" = "a" ]] ; then
-	pacman --noconfirm --color=always -S base base-devel "\${@:2}" 
-	elif [[ "\$1" = "ae" ]] ; then
-	pacman --noconfirm --color=always -S base base-devel emacs "\${@:2}" 
-	elif [[ "\$1" = "a8" ]] ; then
-	pacman --noconfirm --color=always -S base base-devel emacs jdk8-openjdk "\${@:2}" 
+	if [[ -z "\${1:-}" ]] 
+	then
+	pacman -S --noconfirm --color=always 
+	elif [[ "\$1" = "a" ]] 
+	then
+	pacman -S base base-devel "\${@:2}" --noconfirm --color=always 
+	elif [[ "\$1" = "ae" ]] 
+	then
+	pacman -S base base-devel emacs "\${@:2}" --noconfirm --color=always 
+	elif [[ "\$1" = "a8" ]] 
+	then
+	pacman -S base base-devel emacs jdk8-openjdk "\${@:2}" --noconfirm --color=always 
 	else
-	pacman --noconfirm --color=always -S "\$@" 
+	pacman -S "\$@" --noconfirm --color=always 
 	fi
 	EOM
 	chmod 700 root/bin/pc 
 }
 
+# 	alias pcs='pacman -S --color=always'
+# 	alias pcss='pacman -Ss --color=always'
+	
 addpci() { 
 	_CFLHDR_ root/bin/pci "# Pacman install packages wrapper with system update."
 	cat >> root/bin/pci  <<- EOM

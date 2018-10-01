@@ -9,7 +9,7 @@ IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-VERSIONID="v1.6.2.id3957"
+VERSIONID="v1.6.2.id2931"
 ## INIT FUNCTIONS ##############################################################
 _ARG2DIR_() {  # Argument as ROOTDIR.
 	ARG2="${@:2:1}"
@@ -71,7 +71,8 @@ _CHKSELF_() {
 		then # copy the newer version to update:
 			cp "${0##*/}" "$WDIR${0##*/}"
 			printf "\\e[0;32m%s\\e[1;34m: \\e[1;32mUPDATED\\n\\e[1;32mRESTART\\e[1;34m: \\e[0;32m%s %s \\n\\n\\e[0m"  "${0##*/}" "${0##*/}" "$ARGS"
- 			.  "$WDIR${0##*/}" "$ARGS"
+#  			# .  "$WDIR${0##*/}" "$ARGS"
+			exit 198
 		fi
 	fi
 }
