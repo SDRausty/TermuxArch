@@ -8,7 +8,7 @@ Install Arch Linux into a Termux PRoot container with [`bash setupTermuxArch.sh`
 
 See https://sdrausty.github.io/TermuxArch/docs/install for options how to run [`setupTermuxArch.sh`](https://sdrausty.github.io/TermuxArch/setupTermuxArch.sh) on device.  
 
-This repository uses submodules.  To get all the pieces of this repository run 
+This repository uses submodules.  To get all the pieces of this repository run: 
 ```
 git submodule update --init --recursive
 ``` 
