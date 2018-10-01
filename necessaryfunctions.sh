@@ -34,6 +34,8 @@ _ADDADDS_() {
 	addmoto
 	addpc
 	addpci
+	addpcs
+	addpcss
 	addprofile 
 	addresolvconf 
 	addt 

@@ -9,7 +9,7 @@ IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-VERSIONID="v1.6.2.id3020"
+VERSIONID="v1.6.2.id3441"
 ## INIT FUNCTIONS ##############################################################
 _ARG2DIR_() {  # Argument as ROOTDIR.
 	ARG2="${@:2:1}"
@@ -161,14 +161,14 @@ _DEPENDSBLOCK_() {
 	AF=([0]=archlinuxconfig.sh [1]=espritfunctions.sh [2]=getimagefunctions.sh [3]=knownconfigurations.sh [4]=maintenanceroutines.sh [5]=necessaryfunctions.sh [6]=printoutstatements.sh [7]=setupTermuxArch.sh)
  	LCW=0
 	for AFFILE in "${!AF[@]}" 
-	do
+	do # checks whether all files are present in working directory. 
 	       	if [[ ! -f "${AF[$AFFILE]}" ]] 
 		then
-			LCW=1
+			LCW=1 # sets flag if any are absent. 
 		fi
 	done
-       	if [[ "$LCW" = 0 ]] 
-	then
+       	if [[ "$LCW" = 0 ]] # checks flag whether still set to 0, 
+	then # load all files except this file.
 	       	for AFILE in "${!AF[@]}" 
 		do
 		       	if [[ -f "${AF[$AFILE]}" ]] &&  [[ "${AF[$AFILE]}" != "${AF[7]}" ]] 
@@ -283,7 +283,7 @@ _LOADCONF_() {
 		. "${WDIR}setupTermuxArchConfigs.sh"
 		_PRINTCONFLOADED_ 
 	else
-		. knownconfigurations.sh 
+		. "${AF[3]}" # AF[3]=knownconfigurations.sh 
 	fi
 }
 

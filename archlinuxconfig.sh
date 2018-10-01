@@ -92,8 +92,6 @@ addbashrc() {
 	alias ls='ls --color=always'
 	alias p='pwd'
 	alias pacman='pacman --color=always'
-	alias pcs='pacman -S --color=always'
-	alias pcss='pacman -Ss --color=always'
 	alias q='logout'
 	alias rf='rm -rf'
 	EOM
@@ -480,9 +478,6 @@ addpc() {
 	chmod 700 root/bin/pc 
 }
 
-# 	alias pcs='pacman -S --color=always'
-# 	alias pcss='pacman -Ss --color=always'
-	
 addpci() { 
 	_CFLHDR_ root/bin/pci "# Pacman install packages wrapper with system update."
 	cat >> root/bin/pci  <<- EOM
@@ -504,18 +499,82 @@ addpci() {
 
 	printf "\\\\n\\\\e[1;32m==> \\\\e[1;37m%s \\\\e[1;32m%s %s %s \\\e[0m%s…\\\\n\\\\n" "Running" "TermuxArch \$(basename "\$0")" "\$ARGS" "\$VERSIONID"  
 	if [[ -z "\${1:-}" ]] ; then
-	pacman --noconfirm --color=always -Syu
+	pacman -Syu --noconfirm --color=always 
 	elif [[ "\$1" = "e" ]] ; then
-	pacman --noconfirm --color=always -Syu base base-devel emacs "\${@:2}" 
+	pacman -Syu base base-devel emacs "\${@:2}" --noconfirm --color=always  
 	elif [[ "\$1" = "e8" ]] ; then
-	pacman --noconfirm --color=always -Syu base base-devel emacs jdk8-openjdk "\${@:2}" 
+	pacman -Syu base base-devel emacs jdk8-openjdk "\${@:2}" --noconfirm --color=always  
 	elif [[ "\$1" = "e10" ]] ; then
-	pacman --noconfirm --color=always -Syu base base-devel emacs jdk10-openjdk "\${@:2}" 
+	pacman -Syu base base-devel emacs jdk10-openjdk "\${@:2}" --noconfirm --color=always  
 	else
-	pacman --noconfirm --color=always -Syu "\$@" 
+	pacman -Syu "\$@" --noconfirm --color=always  
 	fi
 	EOM
 	chmod 700 root/bin/pci 
+}
+
+addpcs() { 
+	_CFLHDR_ root/bin/pcs "# Pacman install packages wrapper with system update."
+	cat >> root/bin/pcs  <<- EOM
+	declare ARGS="\$@"
+
+	_TRPET_() { # on exit
+		printf "\\e[?25h\\e[0m"
+		set +Eeuo pipefail 
+	 	_PRINTTAIL_ "\$ARGS"  
+	}
+	
+	_PRINTTAIL_() { 
+		printf "\\\\a\\\\n\\\\e[0;32m%s %s %s\\\\a\\\\e[1;34m: \\\\a\\\\e[1;32m%s\\\\e[0m 🏁  \\\\n\\\\n\\\\a\\\\e[0m" "TermuxArch \$(basename "\$0")" "\$ARGS" "\$VERSIONID" "DONE"
+		printf '\033]2;  🔑🗝 TermuxArch '"\$(basename "\$0") \$ARGS"' 📱 \007'
+	}
+
+	trap _TRPET_ EXIT
+	## pci begin ###################################################################
+
+	printf "\\\\n\\\\e[1;32m==> \\\\e[1;37m%s \\\\e[1;32m%s %s %s \\\e[0m%s…\\\\n\\\\n" "Running" "TermuxArch \$(basename "\$0")" "\$ARGS" "\$VERSIONID"  
+	if [[ -z "\${1:-}" ]] ; then
+	pacman -S --color=always 
+	elif [[ "\$1" = "e" ]] ; then
+	pacman -Syu base base-devel emacs "\${@:2}" --color=always  
+	elif [[ "\$1" = "e8" ]] ; then
+	pacman -Syu base base-devel emacs jdk8-openjdk "\${@:2}" --color=always  
+	elif [[ "\$1" = "e10" ]] ; then
+	pacman -Syu base base-devel emacs jdk10-openjdk "\${@:2}" --color=always  
+	else
+	pacman -Syu "\$@" --color=always  
+	fi
+	EOM
+	chmod 700 root/bin/pcs 
+}
+	
+addpcss() { 
+	_CFLHDR_ root/bin/pcss "# Pacman install packages wrapper with system update."
+	cat >> root/bin/pcss  <<- EOM
+	declare ARGS="\$@"
+
+	_TRPET_() { # on exit
+		printf "\\e[?25h\\e[0m"
+		set +Eeuo pipefail 
+	 	_PRINTTAIL_ "\$ARGS"  
+	}
+	
+	_PRINTTAIL_() { 
+		printf "\\\\a\\\\n\\\\e[0;32m%s %s %s\\\\a\\\\e[1;34m: \\\\a\\\\e[1;32m%s\\\\e[0m 🏁  \\\\n\\\\n\\\\a\\\\e[0m" "TermuxArch \$(basename "\$0")" "\$ARGS" "\$VERSIONID" "DONE"
+		printf '\033]2;  🔑🗝 TermuxArch '"\$(basename "\$0") \$ARGS"' 📱 \007'
+	}
+
+	trap _TRPET_ EXIT
+	## pci begin ###################################################################
+
+	printf "\\\\n\\\\e[1;32m==> \\\\e[1;37m%s \\\\e[1;32m%s %s %s \\\e[0m%s…\\\\n\\\\n" "Running" "TermuxArch \$(basename "\$0")" "\$ARGS" "\$VERSIONID"  
+	if [[ -z "\${1:-}" ]] ; then
+	pacman -Ss --color=always 
+	else
+	pacman -Ss "\$@" --color=always  
+	fi
+	EOM
+	chmod 700 root/bin/pcss 
 }
 
 addprofile() {
