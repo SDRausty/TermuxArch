@@ -9,7 +9,7 @@ IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-VERSIONID="v1.6.2.id8935"
+VERSIONID="v1.6.2.id7525"
 ## INIT FUNCTIONS ##############################################################
 _ARG2DIR_() {  # Argument as ROOTDIR.
 	ARG2="${@:2:1}"
@@ -138,13 +138,14 @@ _DEPENDS_() { # Checks for missing commands.
 	then
 		_DEPENDDM_
 	fi
-	# Sets and installs lftp if nothing else was found, installed and set. 
+	# Sets default download tool if nothing else was found and set. 
 	if [[ "$dm" = "" ]] 
 	then
-		dm=lftp
-		APTIN+="lftp "
-		APTON+=(lftp)
-		echo "Setting download tool \`lftp\` for install; Continuing…"
+		DDM=curl # default download tool 
+		dm="$DDM"
+		APTIN+="$DDM "
+		APTON+=($DDM)
+		printf "\\n\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;34m%s\\n\\n\\e[0;32m" "Setting download tool " "$APTIN" "as default; " "Continuing…"
 	fi
 	_DEPENDBP_ 
 #	# Installs missing commands.  
