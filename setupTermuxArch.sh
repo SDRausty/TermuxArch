@@ -8,7 +8,7 @@ IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-VERSIONID="v1.6.3.id2148"
+VERSIONID="v1.6.3.id7675"
 ## INIT FUNCTIONS ##############################################################
 _ARG2DIR_() {  # Argument as ROOTDIR.
 	ARG2="${@:2:1}"
@@ -457,9 +457,9 @@ _RMARCH_() {
 
 _RMARCHRM_() {
 	_SETROOT_EXCEPTION_ 
-	rm -rf "${INSTALLDIR:?}"/* 2>/dev/null ||:
-	find  "$INSTALLDIR" -type d -exec chmod 700 {} \; 2>/dev/null ||:
-	rm -rf "$INSTALLDIR" 2>/dev/null ||:
+	nice -n 19 rm -rf "${INSTALLDIR:?}"/* 2>/dev/null ||:
+	nice -n 19 find  "$INSTALLDIR" -type d -exec chmod 700 {} \; 2>/dev/null ||:
+	nice -n 19 rm -rf "$INSTALLDIR" 2>/dev/null ||:
 }
 
 _RMARCHQ_() {
