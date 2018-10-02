@@ -162,6 +162,39 @@ edq2() {
 	printf "\\n"
 }
 
+_LOADCONF_() {
+	if [[ -f "${WDIR}setupTermuxArchConfigs.sh" ]] 
+	then
+		. "${WDIR}setupTermuxArchConfigs.sh"
+		_PRINTCONFLOADED_ 
+	else
+		. "${AF[3]}" # AF[3]=knownconfigurations.sh 
+	fi
+}
+
+_MANUAL_() {
+	printf "\033]2;%s\007" "bash ${0##*/} manual 📲"
+	_EDITORS_
+	if [[ -f "${WDIR}setupTermuxArchConfigs.sh" ]] 
+	then
+		"$ed" "${WDIR}setupTermuxArchConfigs.sh"
+		. "${WDIR}setupTermuxArchConfigs.sh"
+		_PRINTCONFLOADED_ 
+	else
+		echo echo
+       	if [[ "$LCW" = 0 ]] 
+	then
+		cp "$WDIR${AF[3]}" "${WDIR}setupTermuxArchConfigs.sh"
+	else
+		cp "${TAMPDIR}/${AF[3]}" "${WDIR}setupTermuxArchConfigs.sh"
+	fi	
+ 		sed -i "7s/.*/\# The architecture of this device is $CPUABI; Adjust configurations in the appropriate section.  Change CMIRROR (https:\/\/wiki.archlinux.org\/index.php\/Mirrors and https:\/\/archlinuxarm.org\/about\/mirrors) to desired geographic location to resolve 404, checksum and similar issues.  /" "${WDIR}setupTermuxArchConfigs.sh" 
+		"$ed" "${WDIR}setupTermuxArchConfigs.sh"
+		. "${WDIR}setupTermuxArchConfigs.sh"
+		_PRINTCONFLOADED_ 
+	fi
+}
+
 nanoif() {
 	if [[ ! -x "$PREFIX"/bin/nano ]] ; then
 		apt -o APT::Keep-Downloaded-Packages="true" install "nano" -y
