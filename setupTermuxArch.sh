@@ -3,13 +3,12 @@
 # Hosted sdrausty.github.io/TermuxArch courtesy https://pages.github.com
 # https://sdrausty.github.io/TermuxArch/README has info about this project. 
 # https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.  
-# _STANDARD_="function name" && STANDARD="variable name" are under construction.
 ################################################################################
 IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-VERSIONID="v1.6.3.id6437"
+VERSIONID="v1.6.3.id6575"
 ## INIT FUNCTIONS ##############################################################
 _ARG2DIR_() {  # Argument as ROOTDIR.
 	ARG2="${@:2:1}"
@@ -241,7 +240,7 @@ _INTRO_INIT_() {
 	fi
 }
 
-_INTROBLOOM_() { # Bloom = `setupTermuxArch.sh manual verbose` 
+_INTRO_BLOOM_() { # Bloom = `setupTermuxArch.sh manual verbose` 
 	OPT=bloom 
 	printf "\033]2;%s\007" "bash ${0##*/} bloom 📲" 
 	printf "\\n\\e[0;34m 🕛 > 🕛 \\e[1;34m$TA $VERSIONID bloom option.  Run \\e[1;32mbash ${0##*/} help \\e[1;34mfor additional information.  Ensure background data is not restricted.  Check the wireless connection if you do not see one o'clock 🕐 below.  "
@@ -249,14 +248,14 @@ _INTROBLOOM_() { # Bloom = `setupTermuxArch.sh manual verbose`
 	bloom 
 }
 
-_INTROSYSINFO_() {
+_INTRO_SYSINFO_() {
 	printf "\033]2;%s\007" "bash ${0##*/} sysinfo 📲" 
 	printf "\\n\\e[0;34m 🕛 > 🕛 \\e[1;34m$TA $VERSIONID shall create a system information file.  Ensure background data is not restricted.  Run \\e[0;32mbash ${0##*/} help \\e[1;34mfor additional information.  Check the wireless connection if you do not see one o'clock 🕐 below.  "
 	_DEPENDSBLOCK_ "$@" 
 	_SYSINFO_ "$@" 
 }
 
-_INTROREFRESH_() {
+_INTRO_REFRESH_() {
 	printf "\033]2;%s\007" "bash ${0##*/} refresh 📲" 
 	if [[ ! -d "$INSTALLDIR" ]] || [[ ! -f "$INSTALLDIR"/bin/env ]] || [[ ! -f "$INSTALLDIR"/bin/we ]] || [[ ! -d "$INSTALLDIR"/root/bin ]];then
 		printf "\\n\\e[0;33m%s\\e[1;33m%s\\e[0;33m.\\e[0m\\n\\n" "$TA WARNING!  " "The root directory structure is incorrect; Cannot continue ${0##*/} refresh!  See \`${0##*/} help\` and \`$STARTBIN help\` for more information"
@@ -267,14 +266,14 @@ _INTROREFRESH_() {
 	refreshsys "$@"
 }
 
-_NAMEINSTALLDIR_() {
+_NAME_INSTALLDIR_() {
 	if [[ "$ROOTDIR" = "" ]] ; then
 		ROOTDIR=arch
 	fi
 	INSTALLDIR="$(echo "$HOME/${ROOTDIR%/}" |sed 's#//*#/#g')"
 }
 
-_NAMESTARTARCH_() { # ${@%/} removes trailing slash
+_NAME_STARTARCH_() { # ${@%/} removes trailing slash
  	DARCH="$(echo "${ROOTDIR%/}" |sed 's#//*#/#g')"
 	if [[ "$DARCH" = "/arch" ]] ; then
 		AARCH=""
@@ -292,12 +291,12 @@ _OPT1_() {
 	elif [[ "$2" = [Bb]* ]] ; then
 		echo Setting mode to bloom. 
 		_PREPTERMUXARCH_ 
-		_INTROBLOOM_ "$@"  
+		_INTRO_BLOOM_ "$@"  
 	elif [[ "$2" = [Dd]* ]] || [[ "$2" = [Ss]* ]] ; then
 		echo Setting mode to sysinfo.
 		shift
 		_ARG2DIR_ "$@" 
-		_INTROSYSINFO_ "$@"  
+		_INTRO_SYSINFO_ "$@"  
 	elif [[ "$2" = [Ii]* ]] ; then
 		echo Setting mode to install.
 		shift
@@ -311,13 +310,13 @@ _OPT1_() {
 		echo Setting mode to refresh.
 		shift 
 		_ARG2DIR_ "$@" 
-		_INTROREFRESH_ "$@"  
+		_INTRO_REFRESH_ "$@"  
 	elif [[ "$2" = [Rr]* ]] ; then
 		LCR="1"
 		printf "\\n\\e[1;32m%s\\e[1;34m: \\e[0;32m%s \`%s\` %s\\n\\e[0m" "Setting mode" "minimal refresh;  Use" "${0##*/} re[fresh]" "for full refresh."
 		shift
 		_ARG2DIR_ "$@" 
-		_INTROREFRESH_ "$@"  
+		_INTRO_REFRESH_ "$@"  
 	else
 		_ARG2DIR_ "$@" 
 	fi
@@ -338,13 +337,13 @@ _OPT2_() {
 		echo Setting mode to refresh.
 		shift 2 
 		_ARG2DIR_ "$@" 
-		_INTROREFRESH_ "$@"  
+		_INTRO_REFRESH_ "$@"  
 	elif [[ "$3" = [Rr]* ]] ; then
 		LCR="1"
 		printf "\\n\\e[1;32m%s\\e[1;34m: \\e[0;32m%s \`%s\` %s\\n\\e[0m" "Setting mode" "minimal refresh;  Use" "${0##*/} re[fresh]" "for full refresh."
 		shift 2 
 		_ARG2DIR_ "$@" 
-		_INTROREFRESH_ "$@"  
+		_INTRO_REFRESH_ "$@"  
 	else
 		shift 
 		_ARG2DIR_ "$@" 
@@ -374,8 +373,8 @@ _PREPTMPDIR_() {
 }
 
 _PREPTERMUXARCH_() { 
-	_NAMEINSTALLDIR_ 
-	_NAMESTARTARCH_  
+	_NAME_INSTALLDIR_ 
+	_NAME_STARTARCH_  
 	_PREPTMPDIR_
 }
 
@@ -393,7 +392,7 @@ _PRINTSHA512SYSCHKER_() {
 
 _PRINTSTARTBIN_USAGE_() {
 	printf "\\n\\e[1;38;5;155m" 
- 	_NAMESTARTARCH_ 
+ 	_NAME_STARTARCH_ 
 	if [[ -x "$(command -v "$STARTBIN")" ]] ; then
 		echo "$STARTBIN" help 
 		"$STARTBIN" help 
@@ -423,8 +422,8 @@ _PROOTIF_() {
 }
 
 _RMARCH_() {
-	_NAMESTARTARCH_ 
-	_NAMEINSTALLDIR_
+	_NAME_STARTARCH_ 
+	_NAME_INSTALLDIR_
 	while true; do
 		printf "\\n\\e[1;30m"
 		read -n 1 -p "Uninstall $INSTALLDIR? [Y|n] " RUANSWER
@@ -652,7 +651,7 @@ elif [[ "${1//-}" = [Aa][Xx][Dd]* ]] || [[ "${1//-}" = [Aa][Xx][Ss]* ]] ; then
 	dm=axel
 	shift
 	_ARG2DIR_ "$@" 
-	_INTROSYSINFO_ "$@" 
+	_INTRO_SYSINFO_ "$@" 
 ## [ax[el] [customdir]|axi [customdir]]  Install Arch Linux with `axel`.
 elif [[ "${1//-}" = [Aa][Xx]* ]] || [[ "${1//-}" = [Aa][Xx][Ii]* ]] ; then
 	echo
@@ -667,7 +666,7 @@ elif [[ "${1//-}" = [Aa][Dd]* ]] || [[ "${1//-}" = [Aa][Ss]* ]] ; then
 	dm=aria2
 	shift
 	_ARG2DIR_ "$@" 
-	_INTROSYSINFO_ "$@" 
+	_INTRO_SYSINFO_ "$@" 
 ## [a[ria2c] [customdir]|ai [customdir]]  Install Arch Linux with `aria2c`.
 elif [[ "${1//-}" = [Aa]* ]] ; then
 	echo
@@ -680,7 +679,7 @@ elif [[ "${1//-}" = [Bb]* ]] ; then
 	echo
 	echo Setting mode to bloom. 
 	_PREPTERMUXARCH_ 
-	_INTROBLOOM_ "$@"  
+	_INTRO_BLOOM_ "$@"  
 ## [cd|cs]  Get device system information with `curl`.
 elif [[ "${1//-}" = [Cc][Dd]* ]] || [[ "${1//-}" = [Cc][Ss]* ]] ; then
 	echo
@@ -688,7 +687,7 @@ elif [[ "${1//-}" = [Cc][Dd]* ]] || [[ "${1//-}" = [Cc][Ss]* ]] ; then
 	dm=curl
 	shift
 	_ARG2DIR_ "$@" 
-	_INTROSYSINFO_ "$@" 
+	_INTRO_SYSINFO_ "$@" 
 ## [c[url] [customdir]|ci [customdir]]  Install Arch Linux with `curl`.
 elif [[ "${1//-}" = [Cc][Ii]* ]] || [[ "${1//-}" = [Cc]* ]] ; then
 	echo
@@ -702,7 +701,7 @@ elif [[ "${1//-}" = [Dd]* ]] || [[ "${1//-}" = [Ss]* ]] ; then
 	echo Setting mode to sysinfo.
 	shift
 	_ARG2DIR_ "$@" 
-	_INTROSYSINFO_ "$@" 
+	_INTRO_SYSINFO_ "$@" 
 ## [he[lp]|?]  Display terse builtin help.
 elif [[ "${1//-}" = [Hh][Ee]* ]] || [[ "${1//-}" = [?]* ]] ; then
 	_ARG2DIR_ "$@" 
@@ -726,7 +725,7 @@ elif [[ "${1//-}" = [Ll][Dd]* ]] || [[ "${1//-}" = [Ll][Ss]* ]] ; then
 	dm=lftp
 	shift
 	_ARG2DIR_ "$@" 
-	_INTROSYSINFO_ "$@" 
+	_INTRO_SYSINFO_ "$@" 
 ## [l[ftp] [customdir]]  Install Arch Linux with `lftp`.
 elif [[ "${1//-}" = [Ll]* ]] ; then
 	echo
@@ -759,20 +758,20 @@ elif [[ "${1//-}" = [Rr][Ee][Ff]* ]] ; then
 	echo 
 	echo Setting mode to refresh.
 	_ARG2DIR_ "$@" 
-	_INTROREFRESH_ "$@"  
+	_INTRO_REFRESH_ "$@"  
 ## [re [customdir]]  Refresh the Arch Linux in Termux PRoot scripts created by TermuxArch.  Useful for refreshing locales, the TermuxArch generated scripts with user directories to their newest versions.  
 elif [[ "${1//-}" = [Rr][Ee]* ]] ; then
 	LCR="2"
 	echo 
 	echo Setting mode to minimal refresh with user directories.
 	_ARG2DIR_ "$@" 
-	_INTROREFRESH_ "$@"  
+	_INTRO_REFRESH_ "$@"  
 ## [r [customdir]]  Refresh the Arch Linux in Termux PRoot scripts created by TermuxArch.  Useful for refreshing locales and the TermuxArch generated scripts to their newest versions.  
 elif [[ "${1//-}" = [Rr]* ]] ; then
 	LCR="1"
 	printf "\\n\\e[1;32m%s\\e[1;34m: \\e[0;32m%s \`%s\` %s\\n\\e[0m" "Setting mode" "minimal refresh;  Use" "${0##*/} ref[resh]" "for full refresh."
 	_ARG2DIR_ "$@" 
-	_INTROREFRESH_ "$@"  
+	_INTRO_REFRESH_ "$@"  
 ## [wd|ws]  Get device system information with `wget`.
 elif [[ "${1//-}" = [Ww][Dd]* ]] || [[ "${1//-}" = [Ww][Ss]* ]] ; then
 	echo
@@ -780,7 +779,7 @@ elif [[ "${1//-}" = [Ww][Dd]* ]] || [[ "${1//-}" = [Ww][Ss]* ]] ; then
 	dm=wget
 	shift
 	_ARG2DIR_ "$@" 
-	_INTROSYSINFO_ "$@" 
+	_INTRO_SYSINFO_ "$@" 
 ## [w[get] [customdir]]  Install Arch Linux with `wget`.
 elif [[ "${1//-}" = [Ww]* ]] ; then
 	echo
