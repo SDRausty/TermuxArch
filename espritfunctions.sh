@@ -25,7 +25,7 @@ addlangq() {
 	done
 }
 
-bloom() { # Bloom = `setupTermuxArch.sh manual verbose` 
+_BLOOM_() { # Bloom = `setupTermuxArch.sh manual verbose` 
 	if [[ -d "$HOME"/TermuxArchBloom ]];then 
 		rmbloomq 
 	fi
