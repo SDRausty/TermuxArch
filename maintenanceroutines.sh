@@ -29,7 +29,7 @@ copyimage() { # A systemimage.tar.gz file can be used: `setupTermuxArch.sh ./[pa
 }
 
 loadimage() { 
-	_NAMESTARTARCH_ 
+	_NAME_STARTARCH_ 
  	_SPACEINFO_
 	printf "\\n" 
 	_WAKELOCK_
@@ -56,7 +56,7 @@ loadimage() {
 
 refreshsys() { # Refreshes
 	printf '\033]2; setupTermuxArch.sh refresh 📲 \007'
- 	_NAMESTARTARCH_  
+ 	_NAME_STARTARCH_  
  	_SPACEINFO_
 	cd "$INSTALLDIR"
 	_SETLANGUAGE_
@@ -202,7 +202,7 @@ _SPACEINFOKSIZE_() {
 }
 
 _SYSINFO_() {
- 	_NAMESTARTARCH_  
+ 	_NAME_STARTARCH_  
 	_SPACEINFO_
 	printf "\\n\\e[1;32mGenerating TermuxArch system information; Please wait…\\n\\n" 
 	_SYSTEMINFO_ ## & spinner "Generating" "System Information…" 

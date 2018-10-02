@@ -16,7 +16,7 @@ FLHDR1[1]="# IFS=$'\\n\\t'"
 FLHDR1[2]="set -Eeuo pipefail"
 FLHDR1[3]="# shopt -s nullglob globstar"
 FLHDR1[4]="unset LD_PRELOAD"
-FLHDR1[5]="VERSIONID=v1.6.3.id8025"
+FLHDR1[5]="VERSIONID=v1.6.3.id2148"
 FLHDR1[6]=" "
 FLHDRP[0]="## BEGIN #######################################################################"
 FLHDRP[1]=""
@@ -205,7 +205,7 @@ _PRINTSTARTBIN_USAGE_() {
 }
 
 _PRINTUSAGE_() {
-	_NAMESTARTARCH_ 
+	_NAME_STARTARCH_ 
 	printf "\\n\\e[1;33m %s     \\e[0;32m%s \\e[1;34m%s\\n" "HELP" "${0##*/} help" "shall output the help screen." 
 	printf "\\n\\e[1;33m %s    \\e[0;32m%s \\e[1;34m%s\\n" "TERSE" "${0##*/} he[lp]" "shall output the terse help screen." 
 	printf "\\n\\e[1;33m %s  \\e[0;32m%s \\e[1;34m%s\\n" "VERBOSE" "${0##*/} h" "shall output the verbose help screen." 
