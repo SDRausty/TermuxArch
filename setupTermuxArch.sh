@@ -8,7 +8,7 @@ IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-VERSIONID="v1.6.3.id7675"
+VERSIONID="v1.6.3.id8274"
 ## INIT FUNCTIONS ##############################################################
 _ARG2DIR_() {  # Argument as ROOTDIR.
 	ARG2="${@:2:1}"
@@ -294,7 +294,7 @@ _OPT1_() {
 		_INTRO_BLOOM_ "$@"  
 	elif [[ "$2" = [Dd]* ]] || [[ "$2" = [Ss]* ]] ; then
 		echo Setting mode to sysinfo.
-		shift
+		shift 2
 		_ARG2DIR_ "$@" 
 		_INTRO_SYSINFO_ "$@"  
 	elif [[ "$2" = [Ii]* ]] ; then
@@ -744,9 +744,11 @@ elif [[ "${1//-}" = [Mm]* ]] ; then
 elif [[ "${1//-}" = [Oo]* ]] ; then
 	echo
 	echo Setting mode to option.
-	lcc="1"
-	_PRINTUSAGE_ "$@" 
-# 	_OPT0_ "$@" 
+	printf "\033]2;%s\007" "bash ${0##*/} $ARGS 📲" 
+	_OPT1_ "$@" 
+	printf "\\n\\e[0;34m 🕛 > 🕛 \\e[1;34m$TA $VERSIONID shall attempt to install Linux in \\e[0;32m$INSTALLDIR\\e[1;34m.  Linux in Termux PRoot shall be available upon successful completion.  To run this BASH script again, use \`!!\`.  Ensure background data is not restricted.  Check the wireless connection if you do not see one o'clock 🕐 below.  "
+	_DEPENDSBLOCK_ "$@" 
+	_OPTIONAL_SYSTEMS_ "$@" 
 ## [p[urge] [customdir]]  Remove Arch Linux.
 elif [[ "${1//-}" = [Pp]* ]] ; then
 	echo 

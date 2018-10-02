@@ -206,6 +206,41 @@ nanoif() {
 	fi
 }
 
+_OPTIONAL_SYSTEMS_() {
+AVSYSTEMS=( Alpine Arch Archman Debian CentOS Fedora FreeBSD Gentoo GhostBSD Kali Nethunter Manjaro Mint OpenBSD Oracle Parabola "Red Hat" Slackware Ubuntu )
+AVSYSTEMS=( Alpine Arch )
+
+_CREATEMENU_() { # https://stackoverflow.com/users/258523/etan-reisner
+  ARRSIZE=$1
+  echo "Choose one of these option numbers:"
+  select OPTION in "${@:2}"; do
+    if [ "$REPLY" -eq "$ARRSIZE" ];
+    then
+      echo "Exiting..."
+      break;
+    elif [ 1 -le "$REPLY" ] && [ "$REPLY" -le $((ARRSIZE-1)) ];
+    then
+      echo "You selected $OPTION which is option $REPLY"
+      break;
+    else
+      echo "Incorrect Input: Select a number 1-$ARRSIZE"
+    fi
+  done
+}
+
+_CREATEMENU_ "${#AVSYSTEMS[@]}" "${AVSYSTEMS[@]}"
+if [[ "$OPTION" = Arch ]]
+then
+ 	_CHKIDIR_
+       	_MAINBLOCK_
+else
+       	echo "$OPTION is not currently implemented. "
+       	exit 163
+#	loadimage "$@" 
+fi
+}
+
+
 rmbloomq() {
 	if [[ -d "$HOME"/TermuxArchBloom ]];then
 		printf "\\n\\n\\e[0;33mTermuxArch: \\e[1;33mDIRECTORY WARNING!  $HOME/TermuxArchBloom/ \\e[0;33mdirectory detected.  \\e[1;30msetupTermuxArch.sh bloom will continue.\\n"
