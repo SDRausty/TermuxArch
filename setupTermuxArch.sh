@@ -8,8 +8,51 @@ IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-VERSIONID="v1.6.3.id9276"
-## INIT FUNCTIONS ##############################################################
+VERSIONID="v1.6.3.id0492"
+
+_STRPERROR_() { # Run on script error.
+	local RV="$?"
+	printf "\\e[?25h\\n\\e[1;48;5;138m %s\\e[0m\\n" "$TA WARNING:  Generated script signal $RV near or at line number ${2:-unknown} by \`${3:-command}\`!"
+	if [[ "$RV" = 4 ]] ; then
+		printf "\\n\\e[1;48;5;139m %s\\e[0m\\n" "Ensure background data is not restricted.  Check the wireless connection."
+	fi
+	printf "\\n"
+	exit 201
+}
+
+_STRPEXIT_() { # Run on exit.
+	local RV="$?"
+ 	rm -rf "$TAMPDIR"
+	if [[ "$RV" = 0 ]] ; then
+		printf "\\a\\e[0;32m%s \\a\\e[0m$VERSIONID\\e[1;34m: \\a\\e[1;32m%s\\e[0m\\n\\n\\a\\e[0m" "${0##*/} $ARGS" "DONE 🏁 "
+		printf "\\e]2;%s\\007" "${0##*/} $ARGS: DONE 🏁 "
+	else
+		printf "\\a\\e[0;32m%s \\a\\e[0m%s\\e[1;34m: \\a\\e[1;32m%s\\e[0m\\n\\n\\a\\e[0m" "${0##*/} $ARGS" "$VERSIONID" "[Exit Signal $RV] DONE 🏁 "
+		printf "\033]2;%s\\007" "${0##*/} $ARGS [Exit Signal $RV]: DONE 🏁 "
+	fi
+	printf "\\e[?25h\\e[0m"
+	set +Eeuo pipefail 
+	exit
+}
+
+_STRPSIGNAL_() { # Run on signal.
+	local RV="$?"
+	printf "\\e[?25h\\n\\e[1;48;5;138m %s\\e[0m\\n" "$TA WARNING:  Signal $RV received near or at line number ${2:-unknown} by \`${3:-command}\`!"
+ 	rm -rf "$TAMPDIR"
+ 	exit 211 
+}
+
+_STRPQUIT_() { # Run on quit.
+	local RV="$?"
+	printf "\\e[?25h\\e[1;7;38;5;0m$TA WARNING:  Quit signal $RV received!\\e[0m\\n"
+ 	exit 221 
+}
+# https://www.ibm.com/developerworks/aix/library/au-usingtraps/index.html
+trap '_STRPERROR_ $? $LINENO $BASH_COMMAND' ERR 
+trap _STRPEXIT_ EXIT
+trap '_STRPSIGNAL_ $? $LINENO $BASH_COMMAND' HUP INT TERM 
+trap _STRPQUIT_ QUIT 
+
 _ARG2DIR_() {  # Argument as ROOTDIR.
 	ARG2="${@:2:1}"
 	if [[ -z "${ARG2:-}" ]] 
@@ -229,15 +272,20 @@ _DWNL_() { # Downloads TermuxArch from Github.
 
 _INTRO_INIT_() {
 	printf "\033]2;%s\007" "bash ${0##*/} $ARGS 📲" 
-	printf "\\n\\e[0;34m 🕛 > 🕛 \\e[1;34m$TA $VERSIONID shall attempt to install Linux in \\e[0;32m$INSTALLDIR\\e[1;34m.  Arch Linux in Termux PRoot shall be available upon successful completion.  To run this BASH script again, use \`!!\`.  Ensure background data is not restricted.  Check the wireless connection if you do not see one o'clock 🕐 below.  "
+	printf "\\n\\e[0;34m 🕛 > 🕛 \\e[1;34m$TA $VERSIONID shall attempt to install Linux in \\e[0;32m$INSTALLDIR\\e[1;34m.  Linux in Termux PRoot shall be available upon successful completion.  To run this BASH script again, use \`!!\`.  Ensure background data is not restricted.  Check the wireless connection if you do not see one o'clock 🕐 below.  "
 	_CHKIDIR_
 	_DEPENDSBLOCK_ "$@" 
-	if [[ "$lcc" = "1" ]] 
+	if [[ "$OPT" = flavors ]] 
 	then
-		loadimage "$@" 
+		_OPTIONAL_SYSTEMS_ "$@" 
 	else
-		_MAINBLOCK_
-	fi
+	       	if [[ "$lcc" = "1" ]] 
+		then
+		       	loadimage "$@" 
+		else
+		       	_MAINBLOCK_
+	       	fi
+       	fi
 }
 
 _INTRO_BLOOM_() { # Bloom = `setupTermuxArch.sh manual verbose` 
@@ -263,7 +311,7 @@ _INTRO_REFRESH_() {
 	fi
 	printf "\\n\\e[0;34m 🕛 > 🕛 \\e[1;34m$TA $VERSIONID shall refresh your TermuxArch files in \\e[0;32m$INSTALLDIR\\e[1;34m.  Ensure background data is not restricted.  Run \\e[0;32mbash ${0##*/} help \\e[1;34mfor additional information.  Check the wireless connection if you do not see one o'clock 🕐 below.  "
 	_DEPENDSBLOCK_ "$@" 
-	refreshsys "$@"
+	_REFRESHSYS_ "$@"
 }
 
 _NAME_INSTALLDIR_() {
@@ -286,7 +334,7 @@ _NAME_STARTARCH_() { # ${@%/} removes trailing slash
 }
 
 _OPT1_() { 
-	if [[ -z "${2:-}" ]] ; then
+	if [[ -z "${2:-}" ]] || [[ $OPT = install ]] ; then
 		_ARG2DIR_ "$@" 
 	elif [[ "$2" = [Bb]* ]] ; then
 		echo Setting mode to bloom. 
@@ -294,7 +342,7 @@ _OPT1_() {
 		_INTRO_BLOOM_ "$@"  
 	elif [[ "$2" = [Dd]* ]] || [[ "$2" = [Ss]* ]] ; then
 		echo Setting mode to sysinfo.
-		shift 2
+		shift 
 		_ARG2DIR_ "$@" 
 		_INTRO_SYSINFO_ "$@"  
 	elif [[ "$2" = [Ii]* ]] ; then
@@ -305,6 +353,13 @@ _OPT1_() {
 		echo Setting mode to manual.
 		OPT=manual
  		_OPT2_ "$@"  
+	elif [[ "$2" = [Oo]* ]] ; then
+		echo Setting mode to option.
+		OPT=flavors
+		shift
+		_ARG2DIR_ "$@" 
+		_DEPENDSBLOCK_ "$@" 
+		_OPTIONAL_SYSTEMS_ "$@" 
 	elif [[ "$2" = [Rr][Ee]* ]] ; then
 		echo 
 		echo Setting mode to refresh.
@@ -497,48 +552,6 @@ _SETROOT_() {
 	fi
 }
 
-_STRPERROR_() { # Run on script error.
-	local RV="$?"
-	printf "\\e[?25h\\n\\e[1;48;5;138m %s\\e[0m\\n" "$TA WARNING:  Generated script signal ${RV:-unknown} near or at line number ${2:-unknown} by \`${3:-command}\`!"
-	if [[ "$RV" = 4 ]] ; then
-		printf "\\n\\e[1;48;5;139m %s\\e[0m\\n" "Ensure background data is not restricted.  Check the wireless connection."
-	fi
-	printf "\\n"
-	exit 201
-}
-
-_STRPEXIT_() { # Run on exit.
-	local RV="$?"
- 	rm -rf "$TAMPDIR"
-	if [[ "$RV" = 0 ]] ; then
-		printf "\\a\\e[0;32m%s \\a\\e[0m$VERSIONID\\e[1;34m: \\a\\e[1;32m%s\\e[0m\\n\\n\\a\\e[0m" "${0##*/} $ARGS" "DONE 🏁 "
-		printf "\\e]2;%s\\007" "${0##*/} $ARGS: DONE 🏁 "
-	else
-		printf "\\a\\e[0;32m%s \\a\\e[0m%s\\e[1;34m: \\a\\e[1;32m%s\\e[0m\\n\\n\\a\\e[0m" "${0##*/} $ARGS" "$VERSIONID" "[Exit Signal $RV] DONE 🏁 "
-		printf "\033]2;%s\\007" "${0##*/} $ARGS [Exit Signal $RV]: DONE 🏁 "
-	fi
-	printf "\\e[?25h\\e[0m"
-	set +Eeuo pipefail 
-	exit
-}
-
-_STRPSIGNAL_() { # Run on signal.
-	local RV="$?"
-	printf "\\e[?25h\\n\\e[1;48;5;138m %s\\e[0m\\n" "$TA WARNING:  Signal ${RV:-unknown} received near or at line number ${2:-unknown} by \`${3:-command}\`!"
- 	rm -rf "$TAMPDIR"
- 	exit 211 
-}
-
-_STRPQUIT_() { # Run on quit.
-	printf "\\e[?25h\\e[1;7;38;5;0m$TA WARNING:  Quit signal $? received!\\e[0m\\n"
- 	exit 221 
-}
-
-trap '_STRPERROR_ $? $LINENO $BASH_COMMAND' ERR 
-trap _STRPEXIT_ EXIT
-trap '_STRPSIGNAL_ $? $LINENO $BASH_COMMAND' HUP INT TERM 
-trap _STRPQUIT_ QUIT 
-
 ## User Information:  Configurable variables such as mirrors and download manager options are in `setupTermuxArchConfigs.sh`.  Working with `kownconfigurations.sh` in the working directory is simple.  `bash setupTermuxArch.sh manual` shall create `setupTermuxArchConfigs.sh` in the working directory for editing; See `setupTermuxArch.sh help` for more information.  
 declare -A ADM		## Declare associative array for all available download tools. 
 declare -A ATM		## Declare associative array for all available tar tools. 
@@ -626,10 +639,12 @@ CPUABI="$(getprop ro.product.cpu.abi)"
 ## >> OPTION  HELP >>
 ## >>>>>>>>>>>>>>>>>>
 ## []  Run default Arch Linux install. 
-if [[ -z "${1:-}" ]] ; then
+if [[ -z "${1:-}" ]] 
+then
 	_INTRO_INIT_ 
 ## [./path/systemimage.tar.gz [customdir]]  Use path to system image file; install directory argument is optional. A systemimage.tar.gz file can be substituted for network install: `setupTermuxArch.sh ./[path/]systemimage.tar.gz` and `setupTermuxArch.sh /absolutepath/systemimage.tar.gz`. 
-elif [[ "${ARGS:0:1}" = . ]] ; then
+elif [[ "${ARGS:0:1}" = . ]] 
+then
  	echo
  	echo Setting mode to copy system image.
  	lcc="1"
@@ -638,7 +653,8 @@ elif [[ "${ARGS:0:1}" = . ]] ; then
   	_INTRO_INIT_ "$@" 
 ## [systemimage.tar.gz [customdir]]  Install directory argument is optional.  A systemimage.tar.gz file can substituted for network install.  
 # elif [[ "${WDIR}${ARGS}" = *.tar.gz* ]] ; then
-elif [[ "$ARGS" = *.tar.gz* ]] ; then
+elif [[ "$ARGS" = *.tar.gz* ]]
+then
 	echo
 	echo Setting mode to copy system image.
 	lcc="1"
@@ -646,7 +662,8 @@ elif [[ "$ARGS" = *.tar.gz* ]] ; then
 	_ARG2DIR_ "$@"  
 	_INTRO_INIT_ "$@" 
 ## [axd|axs]  Get device system information with `axel`.
-elif [[ "${1//-}" = [Aa][Xx][Dd]* ]] || [[ "${1//-}" = [Aa][Xx][Ss]* ]] ; then
+elif [[ "${1//-}" = [Aa][Xx][Dd]* ]] || [[ "${1//-}" = [Aa][Xx][Ss]* ]] 
+then
 	echo
 	echo Getting device system information with \`axel\`.
 	dm=axel
@@ -690,10 +707,20 @@ elif [[ "${1//-}" = [Cc][Dd]* ]] || [[ "${1//-}" = [Cc][Ss]* ]] ; then
 	_ARG2DIR_ "$@" 
 	_INTRO_SYSINFO_ "$@" 
 ## [c[url] [customdir]|ci [customdir]]  Install Arch Linux with `curl`.
-elif [[ "${1//-}" = [Cc][Ii]* ]] || [[ "${1//-}" = [Cc]* ]] ; then
+elif [[ "${1//-}" = [Cc][Ii]* ]] 
+then
 	echo
-	echo Setting \`curl\` as download manager.
 	dm=curl
+	echo Setting \`$dm\` as download manager.
+	OPT=install
+	echo Setting mode to install.
+	_OPT1_ "$@" 
+	_INTRO_INIT_ "$@" 
+elif [[ "${1//-}" = [Cc]* ]] 
+then
+	echo
+	dm=curl
+	echo Setting \`$dm\` as download manager.
 	_OPT1_ "$@" 
 	_INTRO_INIT_ "$@" 
 ## [d[ebug]|s[ysinfo]]  Generate system information.
@@ -747,6 +774,7 @@ elif [[ "${1//-}" = [Oo]* ]] ; then
 	echo Setting mode to option.
 	printf "\033]2;%s\007" "bash ${0##*/} $ARGS 📲" 
 	_OPT1_ "$@" 
+	_CHKIDIR_
 	printf "\\n\\e[0;34m 🕛 > 🕛 \\e[1;34m$TA $VERSIONID shall attempt to install Linux in \\e[0;32m$INSTALLDIR\\e[1;34m.  Linux in Termux PRoot shall be available upon successful completion.  To run this BASH script again, use \`!!\`.  Ensure background data is not restricted.  Check the wireless connection if you do not see one o'clock 🕐 below.  "
 	_DEPENDSBLOCK_ "$@" 
 	_OPTIONAL_SYSTEMS_ "$@" 

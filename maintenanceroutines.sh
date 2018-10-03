@@ -54,7 +54,7 @@ loadimage() {
 	exit
 }
 
-refreshsys() { # Refreshes
+_REFRESHSYS_() { # Refreshes
 	printf '\033]2; setupTermuxArch.sh refresh 📲 \007'
  	_NAME_STARTARCH_  
  	_SPACEINFO_
