@@ -305,7 +305,7 @@ _MAKESYSTEM_() {
 _MD5CHECK_() {
 	if [[ -z "${STYPE:-}" ]] 
 	then	
-		printf "\\e[0;32m"
+		printf "Unpacking download:\\e[0;32m"
 		_PREPROOT_ 
 	elif "$PREFIX"/bin/applets/"$STYPE" -c "$SRMFILE" 1>/dev/null 
 	then
