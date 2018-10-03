@@ -8,7 +8,7 @@ IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-VERSIONID="v1.6.3.id8274"
+VERSIONID="v1.6.3.id9276"
 ## INIT FUNCTIONS ##############################################################
 _ARG2DIR_() {  # Argument as ROOTDIR.
 	ARG2="${@:2:1}"
@@ -34,13 +34,13 @@ _CHK_() {
 	if "$PREFIX"/bin/applets/sha512sum -c termuxarchchecksum.sha512 1>/dev/null ; then
  		_CHKSELF_ "$@"
 		printf "\\e[0;34m%s \\e[1;34m%s \\e[1;32m%s\\e[0m\\n" " 🕛 > 🕜" "$TA $VERSIONID integrity:" "OK"
-		. archlinuxconfig.sh
-		. espritfunctions.sh
-		. getimagefunctions.sh
-		. knownconfigurations.sh
-		. maintenanceroutines.sh
-		. necessaryfunctions.sh
-		. printoutstatements.sh
+	       	for AFILE in "${!AF[@]}" 
+		do
+		       	if [[ "${AF[$AFILE]}" != "${AF[7]}" ]] 
+			then
+				. "${AF[$AFILE]}" 
+			fi
+	       	done
 	else
 		_PRINTSHA512SYSCHKER_
 	fi
@@ -497,21 +497,6 @@ _SETROOT_() {
 	fi
 }
 
-standardid() {
-	introstndid="$1" 
-	introstndidstmt="$(printf "%s \\e[0;32m%s" "$1 the TermuxArch files in" "$INSTALLDIR")" 
-	introstnd
-}
-
-_STANDARDIF_() {
-	if [[ -x "$(command -v proot)" ]] &&  [[ -x "$PREFIX"/bin/proot ]] ; then
-		:
-	else
-		APTIN+="proot "
-		APTON+=(proot)
-	fi
-}
-
 _STRPERROR_() { # Run on script error.
 	local RV="$?"
 	printf "\\e[?25h\\n\\e[1;48;5;138m %s\\e[0m\\n" "$TA WARNING:  Generated script signal ${RV:-unknown} near or at line number ${2:-unknown} by \`${3:-command}\`!"
@@ -548,6 +533,12 @@ _STRPQUIT_() { # Run on quit.
 	printf "\\e[?25h\\e[1;7;38;5;0m$TA WARNING:  Quit signal $? received!\\e[0m\\n"
  	exit 221 
 }
+
+trap '_STRPERROR_ $? $LINENO $BASH_COMMAND' ERR 
+trap _STRPEXIT_ EXIT
+trap '_STRPSIGNAL_ $? $LINENO $BASH_COMMAND' HUP INT TERM 
+trap _STRPQUIT_ QUIT 
+
 ## User Information:  Configurable variables such as mirrors and download manager options are in `setupTermuxArchConfigs.sh`.  Working with `kownconfigurations.sh` in the working directory is simple.  `bash setupTermuxArch.sh manual` shall create `setupTermuxArchConfigs.sh` in the working directory for editing; See `setupTermuxArch.sh help` for more information.  
 declare -A ADM		## Declare associative array for all available download tools. 
 declare -A ATM		## Declare associative array for all available tar tools. 
@@ -576,10 +567,20 @@ declare WDIR="$PWD/"
 declare STI=""		## Generates pseudo random number.
 declare STIME=""	## Generates pseudo random number.
 declare TA="ＴｅｒｍｕｘＡｒｃｈ"
-trap '_STRPERROR_ $? $LINENO $BASH_COMMAND' ERR 
-trap _STRPEXIT_ EXIT
-trap '_STRPSIGNAL_ $? $LINENO $BASH_COMMAND' HUP INT TERM 
-trap _STRPQUIT_ QUIT 
+CSYSTEM="Arch Linx"
+declare -A SPECS_AARCH64_
+declare -A SPECS_ARMV5L_
+declare -A SPECS_ARMV7L_
+declare -A SPECS_ARMV7LC_
+declare -A SPECS_X86_
+declare -A SPECS_X86_64_
+SPECS_AARCH64_=( [DIST]="$CSYSTEM" [FILE]="ArchLinuxARM-aarch64-latest.tar.gz" [PROTOCOL]="https" [RPATH]="/os/" [SITE]="os.archlinuxarm.org" [SFNM]="ArchLinuxARM-aarch64-latest.tar.gz.md5" [STYPE]="md5sum" )
+SPECS_ARMV5L_=( [DIST]="$CSYSTEM" [FILE]="ArchLinuxARM-armv5-latest.tar.gz" [PROTOCOL]="https" [RPATH]="/os/" [SITE]="os.archlinuxarm.org" [SFNM]="ArchLinuxARM-armv5-latest.tar.gz.md5" [STYPE]="md5sum" )
+SPECS_ARMV7L_=( [DIST]="$CSYSTEM" [FILE]="ArchLinuxARM-armv7-latest.tar.gz" [PROTOCOL]="https" [RPATH]="/os/" [SITE]="os.archlinuxarm.org" [SFNM]="ArchLinuxARM-armv7-latest.tar.gz.md5" [STYPE]="md5sum" )
+SPECS_ARMV7LC_=( [DIST]="$CSYSTEM" [FILE]="ArchLinuxARM-armv7-chromebook-latest.tar.gz" [PROTOCOL]="https" [RPATH]="/os/" [SITE]="os.archlinuxarm.org" [SFNM]="ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5sum" [STYPE]="md5sum" )
+# Information at https://www.archlinux.org/news/phasing-out-i686-support/ and https://archlinux32.org/ regarding why X86 is currently frozen at release 2017.03.01-i686.  
+SPECS_X86_=( [DIST]="$CSYSTEM" [FILE]="" [PROTOCOL]="https" [RPATH]="/iso/2017.03.01/" [SITE]="archive.archlinux.org" [SFNM]="md5sums.txt" [STYPE]="md5sum" )
+SPECS_X86_64_=( [DIST]="$CSYSTEM" [FILE]="" [PROTOCOL]="https" [RPATH]="/archlinux/iso/latest/" [SITE]="mirror.rackspace.com" [SFNM]="md5sums.txt" [STYPE]="md5sum" )
 if [[ -z "${TAMPDIR:-}" ]] ; then
 	TAMPDIR=""
 fi

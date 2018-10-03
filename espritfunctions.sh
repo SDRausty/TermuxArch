@@ -58,21 +58,42 @@ _COPYSTARTBIN2PATHQ_() {
 	done
 }
 
+_CREATEMENU_() { # https://stackoverflow.com/users/258523/etan-reisner
+       	ARSIZE=$1
+       	printf "This option to install Linux flavors is under development; Choose one of these option by inputting a number to continue:\\n"
+       	echo 
+	select CSYSTEM in "${@:2}"; do
+	       	if [ "$REPLY" -eq "$ARSIZE" ];
+	       	then
+		       	echo "Exiting..."
+		       	break;
+	       	elif [ 1 -le "$REPLY" ] && [ "$REPLY" -le $((ARSIZE-1)) ];
+	       	then
+		       	echo 
+		       	echo "You selected $CSYSTEM which is option $REPLY"
+		       	break;
+	       	else
+		       	echo "Incorrect Input: Select a number 1-$ARSIZE"
+       			echo 
+	       	fi
+       	done
+}
+
 _EDITFILES_() {
-	if [[ "${ceds[$i]}" = "applets/vi" ]];then
+       	if [[ "${ceds[$i]}" = "applets/vi" ]];then
 		sed -i -e 1,4d "$INSTALLDIR"/etc/pacman.d/mirrorlist
-		sed -i '1i# # # # # # # # # # # # # # # # # # # # # # # # # # #\n# TermuxArch vi instructions:	CTR+r is redo.\n# Use the hjkl keys to navigate. <h down j up k l>\n# Numbers are multipliers.  The u is undelete/undo.\n# 17j then i opens edit mode for the Geo-IP CMIRROR.\n# Enter the # hash/num/pounds symbol to comment it out: \n# Server = http://CMIRROR.archlinuxarm.org/$arch/$repo.\n# Long tap KEYBOARD in the side pane to see ESC, CTR...\n# Tap ESC to return to command mode in vi.\n# CTRL+d and CTRL+b to find your local CMIRROR.\n# / for search, N and n for next match.\n# Tap x to delete # to uncomment your local CMIRROR.\n# Choose only one CMIRROR.  Use :x to save your work.\n# Comment out the Geo-IP CMIRROR	end G	top gg\n# # # # # # # # # # # # # # # # # # # # # # # # # # #' "$INSTALLDIR"/etc/pacman.d/mirrorlist
+		sed -i '1i# # # # # # # # # # # # # # # # # # # # # # # # # # #\n# TermuxArch vi instructions:	CTR+r is redo.\n# Use the hjkl keys to navigate. <h down j up k l>\n# Numbers are multipliers.  The u is undelete/undo.\n# 17j then i opens edit mode for the Geo-IP mirror.\n# Enter the # hash/num/pounds symbol to comment it out: \n# Server = http://mirror.archlinuxarm.org/$arch/$repo.\n# Long tap KEYBOARD in the side pane to see ESC, CTR...\n# Tap ESC to return to command mode in vi.\n# CTRL+d and CTRL+b to find your local mirror.\n# / for search, N and n for next match.\n# Tap x to delete # to uncomment your local mirror.\n# Choose only one mirror.  Use :x to save your work.\n# Comment out the Geo-IP mirror	end G	top gg\n# # # # # # # # # # # # # # # # # # # # # # # # # # #' "$INSTALLDIR"/etc/pacman.d/mirrorlist
 		sed -i '1i# # # # # # # # # # # # # # # # # # # # # # # # # # #\n# TermuxArch vi instructions:	CTR+r is redo.\n# Use the hjkl keys to navigate. <h down j up k l>\n# Numbers are multipliers.  The u is undelete/undo.\n# Tap i for insert, ESC to return to command mode in vi.\n# Long tap KEYBOARD in the side pane to see ESC, CTR...\n# Tap x to delete # to uncomment your favorite language(s).\n# Enter the # hash/num/pounds symbol to comment out locales.\n# CTRL+d and CTRL+b for PGUP & PGDN.\n# top gg	bottom G\n# / for search, N and n for next match.\n# Choose as many as you like.  Use :x to save your work.\n# # # # # # # # # # # # # # # # # # # # # # # # # # #\n#' "$INSTALLDIR"/etc/locale.gen
 	elif [[ "${ceds[$i]}" = "vim" ]];then
 		sed -i -e 1,4d "$INSTALLDIR"/etc/pacman.d/mirrorlist
-		sed -i '1i# # # # # # # # # # # # # # # # # # # # # # # # # # #\n# TermuxArch vim instructions:	CTR+r is redo.\n# Use the hjkl keys to navigate. <h down j up k l>\n# Numbers are multipliers.  The u is undelete/undo.\n# 17j then i opens edit mode for the Geo-IP CMIRROR.\n# Enter the # hash/num/pounds symbol to comment it out: \n# Server = http://CMIRROR.archlinuxarm.org/$arch/$repo.\n# Long tap KEYBOARD in the side pane to see ESC, CTR...\n# Tap ESC to return to command mode in vi.\n# CTRL+d and CTRL+b to find your local CMIRROR.\n# / for search, N and n for next match.\n# Tap x to delete # to uncomment your local CMIRROR.\n# Choose only one CMIRROR.  Use :x to save your work.\n#Comment out the Geo-IP CMIRROR	end G	top gg\n# # # # # # # # # # # # # # # # # # # # # # # # # # #' "$INSTALLDIR"/etc/pacman.d/mirrorlist
+		sed -i '1i# # # # # # # # # # # # # # # # # # # # # # # # # # #\n# TermuxArch vim instructions:	CTR+r is redo.\n# Use the hjkl keys to navigate. <h down j up k l>\n# Numbers are multipliers.  The u is undelete/undo.\n# 17j then i opens edit mode for the Geo-IP mirror.\n# Enter the # hash/num/pounds symbol to comment it out: \n# Server = http://mirror.archlinuxarm.org/$arch/$repo.\n# Long tap KEYBOARD in the side pane to see ESC, CTR...\n# Tap ESC to return to command mode in vi.\n# CTRL+d and CTRL+b to find your local mirror.\n# / for search, N and n for next match.\n# Tap x to delete # to uncomment your local mirror.\n# Choose only one mirror.  Use :x to save your work.\n#Comment out the Geo-IP mirror	end G	top gg\n# # # # # # # # # # # # # # # # # # # # # # # # # # #' "$INSTALLDIR"/etc/pacman.d/mirrorlist
 		sed -i '1i# # # # # # # # # # # # # # # # # # # # # # # # # # #\n# TermuxArch vim instructions:	CTR+r is redo.\n# Use the hjkl keys to navigate. <h down j up k l>\n# Numbers are multipliers.  The u is undelete/undo.\n# Tap i for insert, ESC to return to command mode in vi.\n# Long tap KEYBOARD in the side pane to see ESC, CTR...\n# Tap x to delete # to uncomment your favorite language(s).\n# Enter the # hash/num/pounds symbol to comment out locales.\n# CTRL+d and CTRL+b for PGUP & PGDN.\n# top gg	bottom G\n# / for search, N and n for next match.\n# Choose as many as you like.  Use :x to save your work.\n# # # # # # # # # # # # # # # # # # # # # # # # # # #\n#' "$INSTALLDIR"/etc/locale.gen
 	elif [[ "${ceds[$i]}" = "nvim" ]];then
 		sed -i -e 1,4d "$INSTALLDIR"/etc/pacman.d/mirrorlist
-		sed -i '1i# # # # # # # # # # # # # # # # # # # # # # # # # # #\n# TermuxArch neovim instructions:	CTR+r is redo.\n# Use the hjkl keys to navigate. <h down j up k l>\n# Numbers are multipliers.  The u is undelete/undo.\n# 17j then i opens edit mode for the Geo-IP CMIRROR.\n# Enter the # hash/num/pounds symbol to comment it out: \n# Server = http://CMIRROR.archlinuxarm.org/$arch/$repo.\n# Long tap KEYBOARD in the side pane to see ESC, CTR...\n# Tap ESC to return to command mode in vi.\n# CTRL+d and CTRL+b to find your local CMIRROR.\n# / for search, N and n for next match.\n# Tap x to delete # to uncomment your local CMIRROR.\n# Choose only one CMIRROR.  Use :x to save your work.\n# Comment out the Geo-IP CMIRROR	end G	top gg\n# # # # # # # # # # # # # # # # # # # # # # # # # # #' "$INSTALLDIR"/etc/pacman.d/mirrorlist
+		sed -i '1i# # # # # # # # # # # # # # # # # # # # # # # # # # #\n# TermuxArch neovim instructions:	CTR+r is redo.\n# Use the hjkl keys to navigate. <h down j up k l>\n# Numbers are multipliers.  The u is undelete/undo.\n# 17j then i opens edit mode for the Geo-IP mirror.\n# Enter the # hash/num/pounds symbol to comment it out: \n# Server = http://mirror.archlinuxarm.org/$arch/$repo.\n# Long tap KEYBOARD in the side pane to see ESC, CTR...\n# Tap ESC to return to command mode in vi.\n# CTRL+d and CTRL+b to find your local mirror.\n# / for search, N and n for next match.\n# Tap x to delete # to uncomment your local mirror.\n# Choose only one mirror.  Use :x to save your work.\n# Comment out the Geo-IP mirror	end G	top gg\n# # # # # # # # # # # # # # # # # # # # # # # # # # #' "$INSTALLDIR"/etc/pacman.d/mirrorlist
 		sed -i '1i# # # # # # # # # # # # # # # # # # # # # # # # # # #\n# TermuxArch neovim instructions:	CTR+r is redo.\n# Use the hjkl keys to navigate. <h down j up k l>\n# Numbers are multipliers.  The u is undelete/undo.\n# Tap i for insert, ESC to return to command mode in vi.\n# Long tap KEYBOARD in the side pane to see ESC, CTR...\n# Tap x to delete # to uncomment your favorite language(s).\n# Enter the # hash/num/pounds symbol to comment out locales.\n# CTRL+d and CTRL+b for PGUP & PGDN.\n# top gg	bottom G\n# / for search, N and n for next match.\n# Choose as many as you like.  Use :x to save your work.\n# # # # # # # # # # # # # # # # # # # # # # # # # # #\n#' "$INSTALLDIR"/etc/locale.gen
 	else
-		sed -i '1i# # # # # # # # # # # # # # # # # # # # # # # # # # #\n# TermuxArch edit instructions:	 Locate the Geo-IP CMIRROR.\n# Enter the # hash/num/pounds symbol to comment it out: \n# Server = http://CMIRROR.archlinuxarm.org/$arch/$repo.\n# Long tap KEYBOARD in the side pane to see ESC, CTR...\n# Choose only one CMIRROR.\n# Delete # to uncomment your local CMIRROR.\n# # # # # # # # # # # # # # # # # # # # # # # # # # #' "$INSTALLDIR"/etc/pacman.d/mirrorlist
+		sed -i '1i# # # # # # # # # # # # # # # # # # # # # # # # # # #\n# TermuxArch edit instructions:	 Locate the Geo-IP mirror.\n# Enter the # hash/num/pounds symbol to comment it out: \n# Server = http://mirror.archlinuxarm.org/$arch/$repo.\n# Long tap KEYBOARD in the side pane to see ESC, CTR...\n# Choose only one mirror.\n# Delete # to uncomment your local mirror.\n# # # # # # # # # # # # # # # # # # # # # # # # # # #' "$INSTALLDIR"/etc/pacman.d/mirrorlist
 	fi
 }
 
@@ -121,7 +142,7 @@ edqaquestion() {
 			printf "The following editor(s) $cedst\\b\\b are present.  Would you like to use \`\\e[1;32m${ceds[$i]}\\e[0;32m\` to edit \`\\e[1;32msetupTermuxArchConfigs.sh\\e[0;32m\`?  "
 			read -n 1 -p "Answer yes or no [Y|n]. "  yn
 		else 
-			printf "Change the worldwide CMIRROR to a CMIRROR that is geographically nearby.  Choose only ONE active CMIRROR in the CMIRRORs file that you are about to edit.  The following editor(s) $cedst\\b\\b are present.  Would you like to use \`\\e[1;32m${ceds[$i]}\\e[0;32m\` to edit the Arch Linux configuration files?  "
+			printf "Change the worldwide mirror to a mirror that is geographically nearby.  Choose only ONE active mirror in the mirrors file that you are about to edit.  The following editor(s) $cedst\\b\\b are present.  Would you like to use \`\\e[1;32m${ceds[$i]}\\e[0;32m\` to edit the Arch Linux configuration files?  "
 			read -n 1 -p "Answer yes or no [Y|n]. "  yn
 		fi
 		if [[ "$yn" = [Yy]* ]] || [[ "$yn" = "" ]];then
@@ -143,7 +164,7 @@ edq2() {
 			printf "\\n\\e[1;34m  Would you like to use \\e[1;32mnano\\e[1;34m or \\e[1;32mvi\\e[1;34m to edit \\e[1;32msetupTermuxArchConfigs.sh\\e[1;34m?  "
 			read -n 1 -p "Answer nano or vi [n|V]? "  nv
 		else 
-			printf "\\e[1;34m  Change the worldwide CMIRROR to a CMIRROR that is geographically nearby.  Choose only ONE active CMIRROR in the CMIRRORs file that you are about to edit.  Would you like to use \\e[1;32mnano\\e[1;34m or \\e[1;32mvi\\e[1;34m to edit the Arch Linux configuration files?  "
+			printf "\\e[1;34m  Change the worldwide mirror to a mirror that is geographically nearby.  Choose only ONE active mirror in the mirrors file that you are about to edit.  Would you like to use \\e[1;32mnano\\e[1;34m or \\e[1;32mvi\\e[1;34m to edit the Arch Linux configuration files?  "
 			read -n 1 -p "Answer nano or vi [n|V]? "  nv
 		fi
 		if [[ "$nv" = [Nn]* ]];then
@@ -181,14 +202,13 @@ _MANUAL_() {
 		. "${WDIR}setupTermuxArchConfigs.sh"
 		_PRINTCONFLOADED_ 
 	else
-		echo echo
        	if [[ "$LCW" = 0 ]] 
 	then
 		cp "$WDIR${AF[3]}" "${WDIR}setupTermuxArchConfigs.sh"
 	else
 		cp "${TAMPDIR}/${AF[3]}" "${WDIR}setupTermuxArchConfigs.sh"
 	fi	
- 		sed -i "7s/.*/\# The architecture of this device is $CPUABI; Adjust configurations in the appropriate section.  Change CMIRROR (https:\/\/wiki.archlinux.org\/index.php\/Mirrors and https:\/\/archlinuxarm.org\/about\/mirrors) to desired geographic location to resolve 404, checksum and similar issues.  /" "${WDIR}setupTermuxArchConfigs.sh" 
+ 		sed -i "7s/.*/\# The architecture of this device is $CPUABI; Adjust configurations in the appropriate section.  Change mirror (https:\/\/wiki.archlinux.org\/index.php\/Mirrors and https:\/\/archlinuxarm.org\/about\/mirrors) to desired geographic location to resolve 404, checksum and similar issues.  /" "${WDIR}setupTermuxArchConfigs.sh" 
 		"$ed" "${WDIR}setupTermuxArchConfigs.sh"
 		. "${WDIR}setupTermuxArchConfigs.sh"
 		_PRINTCONFLOADED_ 
@@ -207,39 +227,51 @@ nanoif() {
 }
 
 _OPTIONAL_SYSTEMS_() {
-AVSYSTEMS=( Alpine Arch Archman Debian CentOS Fedora FreeBSD Gentoo GhostBSD Kali Nethunter Manjaro Mint OpenBSD Oracle Parabola "Red Hat" Slackware Ubuntu )
-AVSYSTEMS=( Alpine Arch )
-
-_CREATEMENU_() { # https://stackoverflow.com/users/258523/etan-reisner
-  ARRSIZE=$1
-  echo "Choose one of these option numbers:"
-  select OPTION in "${@:2}"; do
-    if [ "$REPLY" -eq "$ARRSIZE" ];
-    then
-      echo "Exiting..."
-      break;
-    elif [ 1 -le "$REPLY" ] && [ "$REPLY" -le $((ARRSIZE-1)) ];
-    then
-      echo "You selected $OPTION which is option $REPLY"
-      break;
-    else
-      echo "Incorrect Input: Select a number 1-$ARRSIZE"
-    fi
-  done
+       	declare -A SPECS_AARCH64_
+       	# AVSYSTEMS=( Alpine Arch Archman Debian CentOS Fedora FreeBSD Gentoo GhostBSD Kali Nethunter Manjaro Mint OpenBSD Oracle Parabola "Red Hat" Slackware Ubuntu )
+       	AVSYSTEMS=( Alpine "Arch Linux" Debian Fedora Parabola Slackware Ubuntu )
+       	echo
+	
+	_CREATEMENU_ "${#AVSYSTEMS[@]}" "${AVSYSTEMS[@]}" 
+	
+	if [[ "$CSYSTEM" = Alpine ]]
+	then
+#		# Available architectures: aarch64 armhf x86_64 x86 and more.
+# 		# https://alpinelinux.org/downloads/
+	       	SPECS_AARCH64_=( [DIST]="$CSYSTEM" [FILE]="alpine-minirootfs-3.8.1-aarch64.tar.gz" [PROTOCOL]="https" [RPATH]="/alpine/v3.8/releases/aarch64/" [SITE]="dl-cdn.alpinelinux.org" [SFNM]="alpine-minirootfs-3.8.1-aarch64.tar.gz.sha256" [STYPE]="sha256sum" )
+	elif [[ "$CSYSTEM" = "Arch Linux" ]]
+	then
+#		# Available architectures: aarch64 armv7 armv5 x86_64 x86 and more.
+# 		# https://os.archlinuxarm.org/os/
+	       	SPECS_AARCH64_=( [DIST]="$CSYSTEM" [FILE]="ArchLinuxARM-aarch64-latest.tar.gz" [PROTOCOL]="https" [RPATH]="/os/" [SITE]="os.archlinuxarm.org" [SFNM]="ArchLinuxARM-aarch64-latest.tar.gz.md5" [STYPE]="md5sum" )
+	elif [[ "$CSYSTEM" = Debian ]]
+	then
+#		# Available architectures: aarch64 
+# 		# https://people.debian.org/~wookey/bootstrap.html
+	       	SPECS_AARCH64_=( [DIST]="$CSYSTEM" [FILE]="saucy-arm64.tar.gz" [PROTOCOL]="https" [RPATH]="/~wookey/bootstrap/rootfs/" [SITE]="people.debian.org" [SFNM]="" [STYPE]="" )
+	elif [[ "$CSYSTEM" = Fedora ]]
+	then
+#		# Available architectures: aarch64 armhfp x86_64
+# 		# https://download.fedoraproject.org/pub/fedora/linux/releases/28/Container/
+	       	SPECS_AARCH64_=( [DIST]="$CSYSTEM" [FILE]="Fedora-Container-Base-28-1.1.aarch64.tar.xz" [PROTOCOL]="https" [RPATH]="/pub/fedora/linux/releases/28/Container/aarch64/images/"  [SITE]="download.fedoraproject.org" [SFNM]="Fedora-Container-28-1.1-aarch64-CHECKSUM" [STYPE]="sha256sum" )
+	elif [[ "$CSYSTEM" = Parabola ]]
+	then
+	       	SPECS_AARCH64_=( [DIST]="$CSYSTEM" [FILE]="parabola-systemd-cli-armv7h-tarball-2018-02-06.tar.gz" [PROTOCOL]="https" [RPATH]="/parabola/iso/systemd-cli-2018-02-06/" [SITE]="mirror.fsf.org" [SITE]="mirror.fsf.org" [SFNM]="parabola-systemd-cli-armv7h-tarball-2018-02-06.tar.gz.sig" [STYPE]="" )
+	elif [[ "$CSYSTEM" = Slackware ]]
+	then
+	       	SPECS_AARCH64_=( [DIST]="$CSYSTEM" [FILE]="slack-current-miniroot_11Oct17.tar.xz" [PROTOCOL]="https" [RPATH]="/slackwarearm/slackwarearm-devtools/minirootfs/roots/" [SITE]="ftp.arm.slackware.com" [SFNM]="" [STYPE]="sha256sum" )
+	elif [[ "$CSYSTEM" = Ubuntu ]]
+	then
+# 	       	# https://partner-images.canonical.com/core/bionic/current/
+	       	SPECS_AARCH64_=( [DIST]="$CSYSTEM" [FILE]="ubuntu-bionic-core-cloudimg-arm64-root.tar.gz" [PROTOCOL]="https" [SITE]="partner-images.canonical.com" [RPATH]="/core/bionic/current/" [SFNM]="SHA256SUMS" [STYPE]="sha256sum" )
+	else
+	       	echo "$CSYSTEM is not currently implemented. "
+	       	exit 163
+	       	#	loadimage "$@" 
+	fi
+	_CHKIDIR_
+	_MAINBLOCK_
 }
-
-_CREATEMENU_ "${#AVSYSTEMS[@]}" "${AVSYSTEMS[@]}"
-if [[ "$OPTION" = Arch ]]
-then
- 	_CHKIDIR_
-       	_MAINBLOCK_
-else
-       	echo "$OPTION is not currently implemented. "
-       	exit 163
-#	loadimage "$@" 
-fi
-}
-
 
 rmbloomq() {
 	if [[ -d "$HOME"/TermuxArchBloom ]];then
@@ -274,7 +306,7 @@ _RUNFINISHSETUPQ_() {
 		_RUNFINISHSETUP_ 
 		break
 	elif [[ "$nl" = [Nn]* ]];then
-		printf "\\n\\e[0;32mSet the geographically nearby CMIRROR in \\e[1;32m/etc/pacman.d/mirrorlist\\e[0;32m first.  Then use \\e[1;32m$INSTALLDIR/root/bin/setupbin.sh\\e[0;32m in Termux to run \\e[1;32mfinishsetup.sh\\e[0;32m or simply \\e[1;32mfinishsetup.sh\\e[0;32m in Arch Linux Termux PRoot to complete the Arch Linux configuration and update."
+		printf "\\n\\e[0;32mSet the geographically nearby mirror in \\e[1;32m/etc/pacman.d/mirrorlist\\e[0;32m first.  Then use \\e[1;32m$INSTALLDIR/root/bin/setupbin.sh\\e[0;32m in Termux to run \\e[1;32mfinishsetup.sh\\e[0;32m or simply \\e[1;32mfinishsetup.sh\\e[0;32m in Arch Linux Termux PRoot to complete the Arch Linux configuration and update."
 		break
 	else
 		printf "\\nYou answered \\e[1;36m$nl\\e[1;32m.\\n"

@@ -14,45 +14,64 @@
 # dm=wget		# Uncomment to use the wget download tool.
 KOE=1
 
-_AARCH64_() {
+_EXAMPLE_() { # Match the architecture on the device with one of the functions below. This example function is a guide for filling out the functions below.  
+	STYPE=md5sum #( "" md5sum sha256sum sha512sum )
+	SRMFILE=ArchLinuxARM-aarch64-latest.tar.gz
 	file=ArchLinuxARM-aarch64-latest.tar.gz
 	CMIRROR=os.archlinuxarm.org
 	path=/os/
 	_MAKESYSTEM_ 
 }
 
+_AARCH64_() {
+	STYPE="${SPECS_AARCH64_[STYPE]}"
+	SRMFILE="${SPECS_AARCH64_[SFNM]}"
+	file="${SPECS_AARCH64_[FILE]}"
+	CMIRROR="${SPECS_AARCH64_[SITE]}"
+	path="${SPECS_AARCH64_[RPATH]}"
+	_MAKESYSTEM_ 
+}
+
 _ARMV5L_() {
-	file=ArchLinuxARM-armv5-latest.tar.gz
-	CMIRROR=os.archlinuxarm.org
-	path=/os/
+	STYPE="${SPECS_ARMV5L_[STYPE]}"
+	SRMFILE="${SPECS_ARMV5L_[SFNM]}"
+	file="${SPECS_ARMV5L_[FILE]}"
+	CMIRROR="${SPECS_ARMV5L_[SITE]}"
+	path="${SPECS_ARMV5L_[RPATH]}"
 	_MAKESYSTEM_ 
 }
 
 armv7lAndroid () {
-	file=ArchLinuxARM-armv7-latest.tar.gz 
-	CMIRROR=os.archlinuxarm.org
-	path=/os/
+	STYPE="${SPECS_ARMV7L_[STYPE]}"
+	SRMFILE="${SPECS_ARMV7L_[SFNM]}"
+	file="${SPECS_ARMV7L_[FILE]}"
+	CMIRROR="${SPECS_ARMV7L_[SITE]}"
+	path="${SPECS_ARMV7L_[RPATH]}"
 	_MAKESYSTEM_ 
 }
 
 armv7lChrome() {
-	file=ArchLinuxARM-armv7-chromebook-latest.tar.gz
-	CMIRROR=os.archlinuxarm.org
-	path=/os/
+	STYPE="${SPECS_ARMV7LC_[STYPE]}"
+	SRMFILE="${SPECS_ARMV7LC_[SFNM]}"
+	file="${SPECS_ARMV7LC_[FILE]}"
+	CMIRROR="${SPECS_ARMV7LC_[SITE]}"
+	path="${SPECS_ARMV7LC_[RPATH]}"
 	_MAKESYSTEM_ 
 }
 
-# Information at https://www.archlinux.org/news/phasing-out-i686-support/ and https://archlinux32.org/ regarding why i686 is currently frozen at release 2017.03.01-i686.  $file is read from md5sums.txt
-
-_I686_() { 
-	CMIRROR=archive.archlinux.org
-	path=/iso/2017.03.01/
+_X86_() { # $file is read from md5sums.txt
+	STYPE="${SPECS_X86_[STYPE]}"
+	SRMFILE="${SPECS_X86_[SFNM]}"
+	CMIRROR="${SPECS_X86_[SITE]}"
+	path="${SPECS_X86_[RPATH]}"
 	_MAKESYSTEM_ 
 }
 
 _X86_64_() { # $file is read from md5sums.txt
-	CMIRROR=mirror.rackspace.com
-	path=/archlinux/iso/latest/
+	STYPE="${SPECS_X86_64_[STYPE]}"
+	SRMFILE="${SPECS_X86_64_[SFNM]}"
+	CMIRROR="${SPECS_X86_64_[SITE]}"
+	path="${SPECS_X86_64_[RPATH]}"
 	_MAKESYSTEM_ 
 }
 

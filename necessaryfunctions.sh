@@ -87,7 +87,7 @@ _DETECTSYSTEM_() {
 	elif [[ "$CPUABI" = "$CPUABI8" ]];then
 		_AARCH64_
 	elif [[ "$CPUABI" = "$CPUABIX86" ]];then
-		_I686_ 
+		_X86_ 
 	elif [[ "$CPUABI" = "$CPUABIX86_64" ]];then
 		_X86_64_
 	else
@@ -296,19 +296,24 @@ _MAKESYSTEM_() {
 	_PRINTMD5CHECK_
 	_MD5CHECK_
 	_PRINTCU_ 
-	rm -f "$INSTALLDIR"/*.tar.gz "$INSTALLDIR"/*.tar.gz.md5
+	rm -f "$INSTALLDIR/$file" "$INSTALLDIR/$SRMFILE"
 	_PRINTDONE_ 
 	_PRINTCONFIGUP_ 
 	_TOUCHUPSYS_ 
 }
 
 _MD5CHECK_() {
-	if "$PREFIX"/bin/applets/md5sum -c "$file".md5 1>/dev/null ; then
+	if [[ -z "${STYPE:-}" ]] 
+	then	
+		printf "\\e[0;32m"
+		_PREPROOT_ 
+	elif "$PREFIX"/bin/applets/"$STYPE" -c "$SRMFILE" 1>/dev/null 
+	then
 		_PRINTMD5SUCCESS_
 		printf "\\e[0;32m"
-		_PREPROOT_ ## & spinner "Unpacking" "$file…" 
+		_PREPROOT_ 
 	else
-		rm -f "$INSTALLDIR"/*.tar.gz "$INSTALLDIR"/*.tar.gz.md5
+		rm -f "$INSTALLDIR/$file" "$INSTALLDIR/$SRMFILE"
 		_PRINTMD5ERROR_
 	fi
 }

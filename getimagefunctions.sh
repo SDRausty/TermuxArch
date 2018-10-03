@@ -18,7 +18,7 @@ _FTCHIT_() {
 	elif [[ "$dm" = wget ]];then 
 		wget "$DMVERBOSE" -c --show-progress -N http://"$CMIRROR$path$file".md5 http://"$CMIRROR$path$file" 
 	else
-		curl "$DMVERBOSE" -C - --fail --retry 4 -OL http://"$CMIRROR$path$file".md5 -O http://"$CMIRROR$path$file" 
+		curl "$DMVERBOSE" -C - --fail --retry 4 -OL http://"$CMIRROR$path$SRMFILE" -O http://"$CMIRROR$path$file" 
 	fi
 }
 
@@ -68,43 +68,41 @@ _FMIRROR_() {
 
 _GETIMAGE_() {
 	_PRINTDOWNLOADINGX86_ 
-	if [[ "$dm" = aria2 ]];then
-		aria2c http://"$CMIRROR$path$file".md5 
+	if [[ "$dm" = aria2 ]]
+	then
+		aria2c http://"$CMIRROR$path$SRMFILE"
 		_ISX86_
 		aria2c -c http://"$CMIRROR$path$file"
-	elif [[ "$dm" = axel ]];then
-		axel http://"$CMIRROR$path$file".md5 
+	elif [[ "$dm" = axel ]]
+	then
+		axel http://"$CMIRROR$path$SRMFILE"
 		_ISX86_
 		axel http://"$CMIRROR$path$file"
-	elif [[ "$dm" = lftp ]] ; then
-		lftpget http://"$CMIRROR$path"md5sums.txt
+	elif [[ "$dm" = lftp ]]
+	then
+		lftpget http://"$CMIRROR$path$SRMFILE"
 		_ISX86_
 		lftpget -c http://"$CMIRROR$path$file"
-	elif [[ "$dm" = wget ]];then 
-		wget "$DMVERBOSE" -N --show-progress http://"$CMIRROR$path"md5sums.txt
+	elif [[ "$dm" = wget ]]
+	then 
+		wget "$DMVERBOSE" -N --show-progress http://"$CMIRROR$path$SRMFILE"
 		_ISX86_
 		wget "$DMVERBOSE" -c --show-progress http://"$CMIRROR$path$file" 
 	else
-		curl "$DMVERBOSE" --fail --retry 4 -OL http://"$CMIRROR$path"md5sums.txt
+		curl "$DMVERBOSE" --fail --retry 4 -OL http://"$CMIRROR$path$SRMFILE"
 		_ISX86_
 		curl "$DMVERBOSE" -C - --fail --retry 4 -OL http://"$CMIRROR$path$file" 
 	fi
 }
 
-_GETMSG_() { # Depreciated
- 	if [[ "$dm" = axel ]] || [[ "$dm" = lftp ]];then
- 		printf "\\n\\e[1;32m%s\\n\\n""The chosen download manager \`$dm\` is being implemented: curl (command line tool and library for transferring data with URLs) alternative https://github.com/curl/curl chosen:  DONE"
-	fi
-}
-
 _ISX86_() {
 	if [[ "$CPUABI" = "$CPUABIX86" ]];then
-		file="$(grep i686 md5sums.txt | awk {'print $2'})"
+		file="$(grep i686 $SRMFILE | awk {'print $2'})"
 	else
-		file="$(grep boot md5sums.txt | awk {'print $2'})"
+		file="$(grep boot $SRMFILE | awk {'print $2'})"
 	fi
-	sed '2q;d' md5sums.txt > "$file".md5
-	rm md5sums.txt
+	sed '2q;d' $SRMFILE > "$file".md5
+	rm $SRMFILE
 	_PRINTDOWNLOADINGX86TWO_ 
 }
 
