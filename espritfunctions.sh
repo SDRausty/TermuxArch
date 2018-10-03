@@ -258,7 +258,7 @@ _OPTIONAL_SYSTEMS_() {
 	       	SPECS_ARMV7L_=( [DIST]="$CSYSTEM" [FILE]="parabola-systemd-cli-armv7h-tarball-2018-02-06.tar.gz" [PROTOCOL]="https" [RPATH]="/parabola/iso/systemd-cli-2018-02-06/" [SITE]="mirror.fsf.org" [SITE]="mirror.fsf.org" [SFNM]="parabola-systemd-cli-armv7h-tarball-2018-02-06.tar.gz.sig" [STYPE]="" )
 	elif [[ "$CSYSTEM" = Slackware ]]
 	then
-	       	SPECS_ARMV8L_=( [DIST]="$CSYSTEM" [FILE]="slack-current-miniroot_11Oct17.tar.xz" [PROTOCOL]="https" [RPATH]="/slackwarearm/slackwarearm-devtools/minirootfs/roots/" [SITE]="ftp.arm.slackware.com" [SFNM]="" [STYPE]="sha256sum" )
+	       	SPECS_ARMV8L_=( [DIST]="$CSYSTEM" [FILE]="slack-current-miniroot_11Oct17.tar.xz" [PROTOCOL]="ftp" [RPATH]="/slackwarearm/slackwarearm-devtools/minirootfs/roots/" [SITE]="ftp.arm.slackware.com" [SFNM]="" [STYPE]="sha256sum" )
 	elif [[ "$CSYSTEM" = Ubuntu ]]
 	then # https://partner-images.canonical.com/core/bionic/current/
 	       	SPECS_ARMV8L_=( [DIST]="$CSYSTEM" [FILE]="ubuntu-bionic-core-cloudimg-arm64-root.tar.gz" [PROTOCOL]="https" [SITE]="partner-images.canonical.com" [RPATH]="/core/bionic/current/" [SFNM]="SHA256SUMS" [STYPE]="" )

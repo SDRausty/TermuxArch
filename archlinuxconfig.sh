@@ -281,7 +281,7 @@ addfbindexample() {
 	# PROOTSTMNT+="-b \"\$ANDROID_DATA\" "
 	# PROOTSTMNT+="-b \"\$EXTERNAL_STORAGE\" "
 	# PROOTSTMNT+="-b \"\$HOME\" "
-	# PROOTSTMNT+="-b /dev/ -b /proc/ -b /storage/ -b /sys/ -w \"\$PWD\" /usr/bin/env -i HOME=/root TERM=$TERM "
+	# PROOTSTMNT+="-w \"\$PWD\" "
 	EOM
 }
 

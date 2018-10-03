@@ -8,7 +8,7 @@ IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-VERSIONID="v1.6.3.id0545"
+VERSIONID="v1.6.3.id6999"
 
 _STRPERROR_() { # Run on script error.
 	local RV="$?"
@@ -270,9 +270,13 @@ _DWNL_() { # Downloads TermuxArch from Github.
 	printf "\\n\\e[1;32m"
 }
 
-_INTRO_INIT_() {
+_PRINT_INTRO_INIT_() {
 	printf "\033]2;%s\007" "bash ${0##*/} $ARGS 📲" 
 	printf "\\n\\e[0;34m 🕛 > 🕛 \\e[1;34m$TA $VERSIONID shall attempt to install Linux in \\e[0;32m$INSTALLDIR\\e[1;34m.  Linux in Termux PRoot shall be available upon successful completion.  To run this BASH script again, use \`!!\`.  Ensure background data is not restricted.  Check the wireless connection if you do not see one o'clock 🕐 below.  "
+} 
+
+_INTRO_INIT_() {
+	_PRINT_INTRO_INIT_
 	_CHKIDIR_
 	_DEPENDSBLOCK_ "$@" 
 	if [[ "$OPT" = flavors ]] 
@@ -290,6 +294,7 @@ _INTRO_INIT_() {
 
 _INTRO_BLOOM_() { # Bloom = `setupTermuxArch.sh manual verbose` 
 	OPT=bloom 
+	_PREPTERMUXARCH_ 
 	printf "\033]2;%s\007" "bash ${0##*/} bloom 📲" 
 	printf "\\n\\e[0;34m 🕛 > 🕛 \\e[1;34m$TA $VERSIONID bloom option.  Run \\e[1;32mbash ${0##*/} help \\e[1;34mfor additional information.  Ensure background data is not restricted.  Check the wireless connection if you do not see one o'clock 🕐 below.  "
 	_DEPENDSBLOCK_ "$@" 
@@ -338,13 +343,20 @@ _OPT1_() {
 		_ARG2DIR_ "$@" 
 	elif [[ "$2" = [Bb]* ]] ; then
 		echo Setting mode to bloom. 
-		_PREPTERMUXARCH_ 
 		_INTRO_BLOOM_ "$@"  
 	elif [[ "$2" = [Dd]* ]] || [[ "$2" = [Ss]* ]] ; then
 		echo Setting mode to sysinfo.
 		shift 
 		_ARG2DIR_ "$@" 
 		_INTRO_SYSINFO_ "$@"  
+	elif [[ "$2" = [Ff]* ]] ; then
+		echo Setting mode to Flavors.
+		OPT=flavors
+		shift
+		_ARG2DIR_ "$@" 
+		_PRINT_INTRO_INIT_
+		_DEPENDSBLOCK_ "$@" 
+		_OPTIONAL_SYSTEMS_ "$@" 
 	elif [[ "$2" = [Ii]* ]] ; then
 		echo Setting mode to install.
 		shift
@@ -356,8 +368,11 @@ _OPT1_() {
 	elif [[ "$2" = [Oo]* ]] ; then
 		echo Setting mode to option.
 		OPT=flavors
+		echo Setting mode to Flavors.
+		OPT=flavors
 		shift
 		_ARG2DIR_ "$@" 
+		_PRINT_INTRO_INIT_
 		_DEPENDSBLOCK_ "$@" 
 		_OPTIONAL_SYSTEMS_ "$@" 
 	elif [[ "$2" = [Rr][Ee]* ]] ; then
@@ -382,6 +397,14 @@ _OPT2_() {
 		shift
 		_ARG2DIR_ "$@" 
 		_INTRO_INIT_ "$@"  
+	elif [[ "$3" = [Ff]* ]] ; then
+		echo Setting mode to Flavor.
+		OPT=flavors
+		shift 2 
+		_ARG2DIR_ "$@" 
+		_PRINT_INTRO_INIT_
+		_DEPENDSBLOCK_ "$@" 
+		_OPTIONAL_SYSTEMS_ "$@" 
 	elif [[ "$3" = [Ii]* ]] ; then
 		echo Setting mode to install.
 		shift 2 
@@ -580,20 +603,12 @@ declare WDIR="$PWD/"
 declare STI=""		## Generates pseudo random number.
 declare STIME=""	## Generates pseudo random number.
 declare TA="ＴｅｒｍｕｘＡｒｃｈ"
-CSYSTEM="Arch Linx"
 declare -A SPECS_ARMV5L_
 declare -A SPECS_ARMV7L_
 declare -A SPECS_ARMV7LC_
 declare -A SPECS_ARMV8L_
 declare -A SPECS_X86_
 declare -A SPECS_X86_64_
-SPECS_ARMV5L_=( [DIST]="$CSYSTEM" [FILE]="ArchLinuxARM-armv5-latest.tar.gz" [PROTOCOL]="https" [RPATH]="/os/" [SITE]="os.archlinuxarm.org" [SFNM]="ArchLinuxARM-armv5-latest.tar.gz.md5" [STYPE]="md5sum" )
-SPECS_ARMV7L_=( [DIST]="$CSYSTEM" [FILE]="ArchLinuxARM-armv7-latest.tar.gz" [PROTOCOL]="https" [RPATH]="/os/" [SITE]="os.archlinuxarm.org" [SFNM]="ArchLinuxARM-armv7-latest.tar.gz.md5" [STYPE]="md5sum" )
-SPECS_ARMV7LC_=( [DIST]="$CSYSTEM" [FILE]="ArchLinuxARM-armv7-chromebook-latest.tar.gz" [PROTOCOL]="https" [RPATH]="/os/" [SITE]="os.archlinuxarm.org" [SFNM]="ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5sum" [STYPE]="md5sum" )
-SPECS_ARMV8L_=( [DIST]="$CSYSTEM" [FILE]="ArchLinuxARM-aarch64-latest.tar.gz" [PROTOCOL]="https" [RPATH]="/os/" [SITE]="os.archlinuxarm.org" [SFNM]="ArchLinuxARM-aarch64-latest.tar.gz.md5" [STYPE]="md5sum" )
-# Information at https://www.archlinux.org/news/phasing-out-i686-support/ and https://archlinux32.org/ regarding why X86 is currently frozen at release 2017.03.01-i686.  
-SPECS_X86_=( [DIST]="$CSYSTEM" [FILE]="" [PROTOCOL]="https" [RPATH]="/iso/2017.03.01/" [SITE]="archive.archlinux.org" [SFNM]="md5sums.txt" [STYPE]="md5sum" )
-SPECS_X86_64_=( [DIST]="$CSYSTEM" [FILE]="" [PROTOCOL]="https" [RPATH]="/archlinux/iso/latest/" [SITE]="mirror.rackspace.com" [SFNM]="md5sums.txt" [STYPE]="md5sum" )
 if [[ -z "${TAMPDIR:-}" ]] ; then
 	TAMPDIR=""
 fi
@@ -696,17 +711,16 @@ elif [[ "${1//-}" = [Aa]* ]] ; then
 elif [[ "${1//-}" = [Bb]* ]] ; then
 	echo
 	echo Setting mode to bloom. 
-	_PREPTERMUXARCH_ 
 	_INTRO_BLOOM_ "$@"  
 ## [cd|cs]  Get device system information with `curl`.
 elif [[ "${1//-}" = [Cc][Dd]* ]] || [[ "${1//-}" = [Cc][Ss]* ]] ; then
 	echo
-	echo Getting device system information with \`curl\`.
 	dm=curl
+	echo Getting device system information with \`$dm\`.
 	shift
 	_ARG2DIR_ "$@" 
 	_INTRO_SYSINFO_ "$@" 
-## [c[url] [customdir]|ci [customdir]]  Install Arch Linux with `curl`.
+## [ci [customdir]]  Install Arch Linux with `curl`.
 elif [[ "${1//-}" = [Cc][Ii]* ]] 
 then
 	echo
@@ -716,6 +730,7 @@ then
 	echo Setting mode to install.
 	_OPT1_ "$@" 
 	_INTRO_INIT_ "$@" 
+## [c[url] [customdir]]  Install Arch Linux with `curl`.
 elif [[ "${1//-}" = [Cc]* ]] 
 then
 	echo
@@ -730,6 +745,14 @@ elif [[ "${1//-}" = [Dd]* ]] || [[ "${1//-}" = [Ss]* ]] ; then
 	shift
 	_ARG2DIR_ "$@" 
 	_INTRO_SYSINFO_ "$@" 
+elif [[ "${1//-}" = [Ff]* ]] ; then
+	echo Setting mode to Flavors.
+	OPT=flavors
+	_OPT1_ "$@" 
+	_CHKIDIR_
+	_PRINT_INTRO_INIT_
+	_DEPENDSBLOCK_ "$@" 
+	_OPTIONAL_SYSTEMS_ "$@" 
 ## [he[lp]|?]  Display terse builtin help.
 elif [[ "${1//-}" = [Hh][Ee]* ]] || [[ "${1//-}" = [?]* ]] ; then
 	_ARG2DIR_ "$@" 
@@ -772,10 +795,12 @@ elif [[ "${1//-}" = [Mm]* ]] ; then
 elif [[ "${1//-}" = [Oo]* ]] ; then
 	echo
 	echo Setting mode to option.
-	printf "\033]2;%s\007" "bash ${0##*/} $ARGS 📲" 
+	OPT=option
+	echo Setting mode to Flavors.
+	OPT=flavors
 	_OPT1_ "$@" 
 	_CHKIDIR_
-	printf "\\n\\e[0;34m 🕛 > 🕛 \\e[1;34m$TA $VERSIONID shall attempt to install Linux in \\e[0;32m$INSTALLDIR\\e[1;34m.  Linux in Termux PRoot shall be available upon successful completion.  To run this BASH script again, use \`!!\`.  Ensure background data is not restricted.  Check the wireless connection if you do not see one o'clock 🕐 below.  "
+	_PRINT_INTRO_INIT_
 	_DEPENDSBLOCK_ "$@" 
 	_OPTIONAL_SYSTEMS_ "$@" 
 ## [p[urge] [customdir]]  Remove Arch Linux.
