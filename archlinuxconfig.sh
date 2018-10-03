@@ -271,12 +271,17 @@ _ADDfbindprocstat8_() {
 }
 
 addfbindexample() {
-	_CFLHDRS_ var/binds/fbindexample.prs "# To regenerate the start script use \`setupTermuxArch.sh re[fresh]\`.  Add as many proot statements as you want; The init script will parse this file at refresh.  Examples are included for convenience.  Usage: PROOTSTMNT+=\"-b host_path:guest_path \" The space before the last double quote is necessary." 
+	_CFLHDRS_ var/binds/fbindexample.prs "# To regenerate the start script use \`setupTermuxArch.sh re[fresh]\`.  Add as many proot statements as you want and create a new file similar to this file in this directory; The init script will parse these files at refresh.  THIS FILE WILL BE OVERWRITTEN AT REFRESH!  Create a new file with a .prs extension.  Examples are included for convenience.  Usage: PROOTSTMNT+=\"-b host_path:guest_path \" The space before the last double quote is necessary." 
 	cat >> var/binds/fbindexample.prs <<- EOM
 	# PROOTSTMNT+="-b $INSTALLDIR/var/binds/fbindprocstat:/proc/stat " 
 	# if [[ ! -r /dev/shm ]] ; then 
 	# 		PROOTSTMNT+="-b $INSTALLDIR/tmp:/dev/shm " 
 	# fi
+	# 
+	# PROOTSTMNT+="-b \"\$ANDROID_DATA\" "
+	# PROOTSTMNT+="-b \"\$EXTERNAL_STORAGE\" "
+	# PROOTSTMNT+="-b \"\$HOME\" "
+	# PROOTSTMNT+="-b /dev/ -b /proc/ -b /storage/ -b /sys/ -w \"\$PWD\" /usr/bin/env -i HOME=/root TERM=$TERM "
 	EOM
 }
 

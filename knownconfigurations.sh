@@ -12,16 +12,14 @@
 # dm=curl		# Uncomment to use the curl download tool.
 # dm=lftp 		# Uncomment to use this download tool.
 # dm=wget		# Uncomment to use the wget download tool.
-KOE=1
-
-_EXAMPLE_() { # Match the architecture on the device with one of the functions below. This example function is a guide for filling out the functions below.  
-	STYPE=md5sum #( "" md5sum sha256sum sha512sum )
-	SRMFILE=ArchLinuxARM-armv7-latest.tar.gz.md5
-	file=ArchLinuxARM-armv7-latest.tar.gz
-	CMIRROR=os.archlinuxarm.org
-	path=/os/
-	_MAKESYSTEM_ 
-}
+# _EXAMPLE_() {		# Match the architecture on the device with one of the functions below. This is a guide for filling out the functions below.
+# 	STYPE=md5sum # ( "" md5sum sha256sum sha512sum )
+# 	SRMFILE=ArchLinuxARM-armv7-latest.tar.gz.md5
+# 	file=ArchLinuxARM-armv7-latest.tar.gz
+# 	CMIRROR=os.archlinuxarm.org
+# 	path=/os/
+# 	_MAKESYSTEM_ 
+# }
 
 _AARCH64_() {
 	STYPE="${SPECS_ARMV8L_[STYPE]}"
@@ -84,10 +82,7 @@ if [[ -z "${KID:-}" ]] ; then
 elif [[ "$KID" ]] ; then
  	PROOTSTMNT+="--kernel-release=4.14.15 "
 fi
-if [[ "${KOE:-}" ]] ; then
-	PROOTSTMNT+="--kill-on-exit "
-fi
-PROOTSTMNT+="--link2symlink -0 -r $INSTALLDIR "
+PROOTSTMNT+="--kill-on-exit --link2symlink -0 -r $INSTALLDIR "
 if [[ ! -r /dev/ashmem ]] ; then
 	PROOTSTMNT+="-b $INSTALLDIR/tmp:/dev/ashmem " 
 fi
@@ -102,7 +97,7 @@ if [[ -n "$(ls -A "$INSTALLDIR"/var/binds/*.prs)" ]] ; then
       . "$PRSFILES"
     done
 fi
-PROOTSTMNT+="-b \"\$ANDROID_DATA\" -b /dev/ -b \"\$EXTERNAL_STORAGE\" -b \"\$HOME\" -b /proc/ -b /storage/ -b /sys/ -w \"\$PWD\" /usr/bin/env -i HOME=/root TERM=$TERM "
+PROOTSTMNT+="-b /dev/ -b /proc/ -b /storage/ -b /sys/ -w / /usr/bin/env -i HOME=/root TERM=$TERM "
 PROOTSTMNTU="${PROOTSTMNT//--link2symlink }"
 }
 _PR00TSTRING_

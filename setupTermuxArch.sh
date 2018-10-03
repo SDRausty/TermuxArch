@@ -8,7 +8,7 @@ IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-VERSIONID="v1.6.3.id1985"
+VERSIONID="v1.6.3.id0545"
 
 _STRPERROR_() { # Run on script error.
 	local RV="$?"
@@ -581,10 +581,10 @@ declare STI=""		## Generates pseudo random number.
 declare STIME=""	## Generates pseudo random number.
 declare TA="ＴｅｒｍｕｘＡｒｃｈ"
 CSYSTEM="Arch Linx"
-declare -A SPECS_ARMV8L_
 declare -A SPECS_ARMV5L_
 declare -A SPECS_ARMV7L_
 declare -A SPECS_ARMV7LC_
+declare -A SPECS_ARMV8L_
 declare -A SPECS_X86_
 declare -A SPECS_X86_64_
 SPECS_ARMV5L_=( [DIST]="$CSYSTEM" [FILE]="ArchLinuxARM-armv5-latest.tar.gz" [PROTOCOL]="https" [RPATH]="/os/" [SITE]="os.archlinuxarm.org" [SFNM]="ArchLinuxARM-armv5-latest.tar.gz.md5" [STYPE]="md5sum" )

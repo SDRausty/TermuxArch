@@ -227,7 +227,6 @@ nanoif() {
 }
 
 _OPTIONAL_SYSTEMS_() {
-       	declare -A SPECS_ARMV8L_
        	# AVSYSTEMS=( Alpine Arch Archman Debian CentOS Fedora FreeBSD Gentoo GhostBSD Kali Nethunter Manjaro Mint OpenBSD Oracle Parabola "Red Hat" Slackware Ubuntu )
        	AVSYSTEMS=( Alpine "Arch Linux" Debian Fedora Parabola Slackware Ubuntu )
        	echo
@@ -262,7 +261,7 @@ _OPTIONAL_SYSTEMS_() {
 	       	SPECS_ARMV8L_=( [DIST]="$CSYSTEM" [FILE]="slack-current-miniroot_11Oct17.tar.xz" [PROTOCOL]="https" [RPATH]="/slackwarearm/slackwarearm-devtools/minirootfs/roots/" [SITE]="ftp.arm.slackware.com" [SFNM]="" [STYPE]="sha256sum" )
 	elif [[ "$CSYSTEM" = Ubuntu ]]
 	then # https://partner-images.canonical.com/core/bionic/current/
-	       	SPECS_ARMV8L_=( [DIST]="$CSYSTEM" [FILE]="ubuntu-bionic-core-cloudimg-arm64-root.tar.gz" [PROTOCOL]="https" [SITE]="partner-images.canonical.com" [RPATH]="/core/bionic/current/" [SFNM]="SHA256SUMS" [STYPE]="sha256sum" )
+	       	SPECS_ARMV8L_=( [DIST]="$CSYSTEM" [FILE]="ubuntu-bionic-core-cloudimg-arm64-root.tar.gz" [PROTOCOL]="https" [SITE]="partner-images.canonical.com" [RPATH]="/core/bionic/current/" [SFNM]="SHA256SUMS" [STYPE]="" )
 	else
 	       	echo "$CSYSTEM is not currently implemented. "
 	       	exit 163
