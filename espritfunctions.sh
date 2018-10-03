@@ -227,7 +227,7 @@ nanoif() {
 }
 
 _OPTIONAL_SYSTEMS_() {
-       	declare -A SPECS_AARCH64_
+       	declare -A SPECS_ARMV8L_
        	# AVSYSTEMS=( Alpine Arch Archman Debian CentOS Fedora FreeBSD Gentoo GhostBSD Kali Nethunter Manjaro Mint OpenBSD Oracle Parabola "Red Hat" Slackware Ubuntu )
        	AVSYSTEMS=( Alpine "Arch Linux" Debian Fedora Parabola Slackware Ubuntu )
        	echo
@@ -238,32 +238,32 @@ _OPTIONAL_SYSTEMS_() {
 	then
 #		# Available architectures: aarch64 armhf x86_64 x86 and more.
 # 		# https://alpinelinux.org/downloads/
-	       	SPECS_AARCH64_=( [DIST]="$CSYSTEM" [FILE]="alpine-minirootfs-3.8.1-aarch64.tar.gz" [PROTOCOL]="https" [RPATH]="/alpine/v3.8/releases/aarch64/" [SITE]="dl-cdn.alpinelinux.org" [SFNM]="alpine-minirootfs-3.8.1-aarch64.tar.gz.sha256" [STYPE]="sha256sum" )
+	       	SPECS_ARMV8L_=( [DIST]="$CSYSTEM" [FILE]="alpine-minirootfs-3.8.1-aarch64.tar.gz" [PROTOCOL]="https" [RPATH]="/alpine/v3.8/releases/aarch64/" [SITE]="dl-cdn.alpinelinux.org" [SFNM]="alpine-minirootfs-3.8.1-aarch64.tar.gz.sha256" [STYPE]="sha256sum" )
 	elif [[ "$CSYSTEM" = "Arch Linux" ]]
 	then
 #		# Available architectures: aarch64 armv7 armv5 x86_64 x86 and more.
 # 		# https://os.archlinuxarm.org/os/
-	       	SPECS_AARCH64_=( [DIST]="$CSYSTEM" [FILE]="ArchLinuxARM-aarch64-latest.tar.gz" [PROTOCOL]="https" [RPATH]="/os/" [SITE]="os.archlinuxarm.org" [SFNM]="ArchLinuxARM-aarch64-latest.tar.gz.md5" [STYPE]="md5sum" )
+	       	SPECS_ARMV8L_=( [DIST]="$CSYSTEM" [FILE]="ArchLinuxARM-aarch64-latest.tar.gz" [PROTOCOL]="https" [RPATH]="/os/" [SITE]="os.archlinuxarm.org" [SFNM]="ArchLinuxARM-aarch64-latest.tar.gz.md5" [STYPE]="md5sum" )
 	elif [[ "$CSYSTEM" = Debian ]]
 	then
 #		# Available architectures: aarch64 
 # 		# https://people.debian.org/~wookey/bootstrap.html
-	       	SPECS_AARCH64_=( [DIST]="$CSYSTEM" [FILE]="saucy-arm64.tar.gz" [PROTOCOL]="https" [RPATH]="/~wookey/bootstrap/rootfs/" [SITE]="people.debian.org" [SFNM]="" [STYPE]="" )
+	       	SPECS_ARMV8L_=( [DIST]="$CSYSTEM" [FILE]="saucy-arm64.tar.gz" [PROTOCOL]="https" [RPATH]="/~wookey/bootstrap/rootfs/" [SITE]="people.debian.org" [SFNM]="" [STYPE]="" )
 	elif [[ "$CSYSTEM" = Fedora ]]
 	then
 #		# Available architectures: aarch64 armhfp x86_64
 # 		# https://download.fedoraproject.org/pub/fedora/linux/releases/28/Container/
-	       	SPECS_AARCH64_=( [DIST]="$CSYSTEM" [FILE]="Fedora-Container-Base-28-1.1.aarch64.tar.xz" [PROTOCOL]="https" [RPATH]="/pub/fedora/linux/releases/28/Container/aarch64/images/"  [SITE]="download.fedoraproject.org" [SFNM]="Fedora-Container-28-1.1-aarch64-CHECKSUM" [STYPE]="sha256sum" )
+	       	SPECS_ARMV8L_=( [DIST]="$CSYSTEM" [FILE]="Fedora-Container-Base-28-1.1.aarch64.tar.xz" [PROTOCOL]="https" [RPATH]="/pub/fedora/linux/releases/28/Container/aarch64/images/"  [SITE]="download.fedoraproject.org" [SFNM]="Fedora-Container-28-1.1-aarch64-CHECKSUM" [STYPE]="sha256sum" )
 	elif [[ "$CSYSTEM" = Parabola ]]
 	then
-	       	SPECS_AARCH64_=( [DIST]="$CSYSTEM" [FILE]="parabola-systemd-cli-armv7h-tarball-2018-02-06.tar.gz" [PROTOCOL]="https" [RPATH]="/parabola/iso/systemd-cli-2018-02-06/" [SITE]="mirror.fsf.org" [SITE]="mirror.fsf.org" [SFNM]="parabola-systemd-cli-armv7h-tarball-2018-02-06.tar.gz.sig" [STYPE]="" )
+	       	SPECS_ARMV8L_=( [DIST]="$CSYSTEM" [FILE]="parabola-systemd-cli-armv7h-tarball-2018-02-06.tar.gz" [PROTOCOL]="https" [RPATH]="/parabola/iso/systemd-cli-2018-02-06/" [SITE]="mirror.fsf.org" [SITE]="mirror.fsf.org" [SFNM]="parabola-systemd-cli-armv7h-tarball-2018-02-06.tar.gz.sig" [STYPE]="" )
 	elif [[ "$CSYSTEM" = Slackware ]]
 	then
-	       	SPECS_AARCH64_=( [DIST]="$CSYSTEM" [FILE]="slack-current-miniroot_11Oct17.tar.xz" [PROTOCOL]="https" [RPATH]="/slackwarearm/slackwarearm-devtools/minirootfs/roots/" [SITE]="ftp.arm.slackware.com" [SFNM]="" [STYPE]="sha256sum" )
+	       	SPECS_ARMV8L_=( [DIST]="$CSYSTEM" [FILE]="slack-current-miniroot_11Oct17.tar.xz" [PROTOCOL]="https" [RPATH]="/slackwarearm/slackwarearm-devtools/minirootfs/roots/" [SITE]="ftp.arm.slackware.com" [SFNM]="" [STYPE]="sha256sum" )
 	elif [[ "$CSYSTEM" = Ubuntu ]]
 	then
 # 	       	# https://partner-images.canonical.com/core/bionic/current/
-	       	SPECS_AARCH64_=( [DIST]="$CSYSTEM" [FILE]="ubuntu-bionic-core-cloudimg-arm64-root.tar.gz" [PROTOCOL]="https" [SITE]="partner-images.canonical.com" [RPATH]="/core/bionic/current/" [SFNM]="SHA256SUMS" [STYPE]="sha256sum" )
+	       	SPECS_ARMV8L_=( [DIST]="$CSYSTEM" [FILE]="ubuntu-bionic-core-cloudimg-arm64-root.tar.gz" [PROTOCOL]="https" [SITE]="partner-images.canonical.com" [RPATH]="/core/bionic/current/" [SFNM]="SHA256SUMS" [STYPE]="sha256sum" )
 	else
 	       	echo "$CSYSTEM is not currently implemented. "
 	       	exit 163

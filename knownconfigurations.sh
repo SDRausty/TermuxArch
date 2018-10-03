@@ -16,19 +16,19 @@ KOE=1
 
 _EXAMPLE_() { # Match the architecture on the device with one of the functions below. This example function is a guide for filling out the functions below.  
 	STYPE=md5sum #( "" md5sum sha256sum sha512sum )
-	SRMFILE=ArchLinuxARM-aarch64-latest.tar.gz
-	file=ArchLinuxARM-aarch64-latest.tar.gz
+	SRMFILE=ArchLinuxARM-armv7-latest.tar.gz.md5
+	file=ArchLinuxARM-armv7-latest.tar.gz
 	CMIRROR=os.archlinuxarm.org
 	path=/os/
 	_MAKESYSTEM_ 
 }
 
 _AARCH64_() {
-	STYPE="${SPECS_AARCH64_[STYPE]}"
-	SRMFILE="${SPECS_AARCH64_[SFNM]}"
-	file="${SPECS_AARCH64_[FILE]}"
-	CMIRROR="${SPECS_AARCH64_[SITE]}"
-	path="${SPECS_AARCH64_[RPATH]}"
+	STYPE="${SPECS_ARMV8L_[STYPE]}"
+	SRMFILE="${SPECS_ARMV8L_[SFNM]}"
+	file="${SPECS_ARMV8L_[FILE]}"
+	CMIRROR="${SPECS_ARMV8L_[SITE]}"
+	path="${SPECS_ARMV8L_[RPATH]}"
 	_MAKESYSTEM_ 
 }
 
