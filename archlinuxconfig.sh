@@ -87,7 +87,7 @@ addbashrc() {
 	alias h='history >> \$HOME/.historyfile'
 	alias j='jobs'
 	alias i='whoami'
-	alias l='ls -alG'
+	alias l='ls -al'
 	alias lr='ls -alR'
 	alias ls='ls --color=always'
 	alias p='pwd'

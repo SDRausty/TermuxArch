@@ -8,7 +8,7 @@ IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-VERSIONID="v1.6.4.id5809"
+VERSIONID="v1.6.4.id4526"
 
 _STRPERROR_() { # Run on script error.
 	local RV="$?"
@@ -542,8 +542,8 @@ _RMARCH_() {
 
 _RMARCHRM_() {
 	_SETROOT_EXCEPTION_ 
-	nice -n 19 rm -rf "${INSTALLDIR:?}"/* 2>/dev/null ||:
-	nice -n 19 find  "$INSTALLDIR" -type d -exec chmod 700 {} \; 2>/dev/null ||:
+	nice -n 19 rm -rf "${INSTALLDIR}" 2>/dev/null ||:
+	nice -n 19 chmod -R 700 "${INSTALLDIR}" {} \; 2>/dev/null ||:
 	nice -n 19 rm -rf "$INSTALLDIR" 2>/dev/null ||:
 }
 
