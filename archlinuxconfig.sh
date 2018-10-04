@@ -275,18 +275,19 @@ _ADDfbindprocstat8_() {
 }
 
 addfbindexample() {
-	_CFLHDRS_ var/binds/fbindexample.prs "## THIS FILE WILL BE OVERWRITTEN AT REFRESH!  Create a new file with a prs extension to append the proot statement.  This example file is included for convenience." 
+	_CFLHDRS_ var/binds/fbindexample.prs "## THIS FILE WILL BE OVERWRITTEN AT REFRESH!"
 	cat >> var/binds/fbindexample.prs <<- EOM
-	## Add as many proot statements and *.prs files as you want to.  Create a new file similar to this file in this directory to append the proot statement on the fly.
-	## \`${0##*/} r[e[f[resh]]]\` will parse these files at refresh.  THIS FILE WILL BE OVERWRITTEN AT REFRESH!  Create a new file with a .prs extension.  Examples are included for convenience.  " 
-	## Appending to the PRoot statement can be accomplished on the fly by creating a *.prs file in /var/binds.  The format is straightforward, \`PROOTSTMNT+="option command "\`.  The space is required before the last double quote.  Then run \`${0##*/} r[e[f[resh]]]\` to append the proot statement on the fly.  Examples are included for convenience.
-	## \`info proot\` and \`man proot\` have more information about what can be configured in a proot init statement.  Use \`${0##*/} r[e[f[resh]]] [customdir]\` to refresh an installation. This shall renew the proot init statement and startarch.  Share more suitable configurations at https://github.com/sdrausty/TermuxArch/issues to improve TermuxArch.  Reference https://raw.githubusercontent.com/proot-me/PRoot/master/doc/proot/manual.txt for details.
-	## To regenerate the start script use \`${0##*/} r[e[f[resh]]]\`.  An example is included for convenience.  Usage: PROOTSTMNT+="-b host_path:guest_path " The space before the last double quote is necessary.  
+	##  Create a new file with a prs extension to append the proot statement.  This example file is included for convenience." 
+	## Add as many proot statements and *.prs files as you want to; Create a new file similar to this file in this directory to append the proot statement on the fly.
+	## Appending to the PRoot statement can be accomplished on the fly by creating a *.prs file in /var/binds.  The format is straightforward, \`PROOTSTMNT+="option command "\`.  The space is required before the last double quote.  Then run \`${0##*/} r[e[f[resh]]]\` to append the proot statement on the fly.  This shall renew the proot init statement and $STARTBIN.  \`${0##*/} r[e[f[resh]]]\` will parse these files at refresh.  
+	## \`info proot\` and \`man proot\` have more information about what can be configured in a proot init statement.  Share more suitable configurations at https://github.com/sdrausty/TermuxArch/issues to improve TermuxArch.  Reference https://raw.githubusercontent.com/proot-me/PRoot/master/doc/proot/manual.txt for details.
+	## Use \`${0##*/} r[e[f[resh]]] [customdir]\` to refresh the installation to regenerate $STARTBIN.  Examples are included for convenience.  Usage: PROOTSTMNT+="-b host_path:guest_path " 
 	# PROOTSTMNT+="-b $INSTALLDIR/var/binds/fbindprocstat:/proc/stat " 
-	# if [[ ! -r /dev/shm ]] ; then 
-	# 		PROOTSTMNT+="-b $INSTALLDIR/tmp:/dev/shm " 
+	# if [[ ! -r /dev/shm ]]
+	# then 
+	# 	PROOTSTMNT+="-b $INSTALLDIR/tmp:/dev/shm " 
 	# fi
-	# 
+	# The space before the last double quote is necessary. 
 	# PROOTSTMNT+="-b \"\$ANDROID_DATA\" "
 	# PROOTSTMNT+="-b \"\$EXTERNAL_STORAGE\" "
 	# PROOTSTMNT+="-b \"\$HOME\" "
