@@ -8,7 +8,7 @@ IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-VERSIONID="v1.6.3.id6999"
+VERSIONID="v1.6.3.id9715"
 
 _STRPERROR_() { # Run on script error.
 	local RV="$?"
@@ -809,13 +809,13 @@ elif [[ "${1//-}" = [Pp]* ]] ; then
 	echo Setting mode to purge.
 	_ARG2DIR_ "$@" 
 	_RMARCHQ_
-## [ref[resh] [customdir]]  Refresh the Arch Linux in Termux PRoot scripts created by TermuxArch and the installation itself.  Useful for refreshing the installation, kets, locales and the TermuxArch generated scripts to their newest versions.  
+## [ref[resh] [customdir]]  Refresh the Arch Linux in Termux PRoot scripts created by TermuxArch and the installation itself.  Useful for refreshing the installation, keys, locales and the TermuxArch generated scripts to their newest versions.  
 elif [[ "${1//-}" = [Rr][Ee][Ff]* ]] ; then
 	echo 
 	echo Setting mode to refresh.
 	_ARG2DIR_ "$@" 
 	_INTRO_REFRESH_ "$@"  
-## [re [customdir]]  Refresh the Arch Linux in Termux PRoot scripts created by TermuxArch.  Useful for refreshing locales, the TermuxArch generated scripts with user directories to their newest versions.  
+## [re [customdir]]  Refresh the Arch Linux in Termux PRoot scripts created by TermuxArch.  Useful for refreshing the TermuxArch generated scripts with user directories to their newest versions.  
 elif [[ "${1//-}" = [Rr][Ee]* ]] ; then
 	LCR="2"
 	echo 

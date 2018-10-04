@@ -89,7 +89,7 @@ SPECS_ARMV7L_=( [DIST]="$CSYSTEM" [FILE]="ArchLinuxARM-armv7-latest.tar.gz" [PRO
 SPECS_ARMV7LC_=( [DIST]="$CSYSTEM" [FILE]="ArchLinuxARM-armv7-chromebook-latest.tar.gz" [PROTOCOL]="https" [RPATH]="/os/" [SITE]="os.archlinuxarm.org" [SFNM]="ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5sum" [STYPE]="md5sum" )
 SPECS_X86_=( [DIST]="$CSYSTEM" [FILE]="" [PROTOCOL]="https" [RPATH]="/iso/2017.03.01/" [SITE]="archive.archlinux.org" [SFNM]="md5sums.txt" [STYPE]="md5sum" )
 SPECS_X86_64_=( [DIST]="$CSYSTEM" [FILE]="" [PROTOCOL]="https" [RPATH]="/archlinux/iso/latest/" [SITE]="mirror.rackspace.com" [SFNM]="md5sums.txt" [STYPE]="md5sum" )
-## To regenerate the start script use \`setupTermuxArch.sh re[fresh]\`.  An example is included for convenience.  Usage: PROOTSTMNT+=\"-b host_path:guest_path \" The space before the last double quote is necessary.  Appending to the PRoot statement can be accomplished on the fly by creating a *.prs file in /var/binds.  The format is straightforward, `PROOTSTMNT+="option command "`.  The space is required before the last double quote.  `info proot` and `man proot` have more information about what can be configured in a proot init statement.  `setupTermuxArch.sh manual refresh` will refresh the installation globally.  Share more suitable configurations at https://github.com/sdrausty/TermuxArch/issues to improve TermuxArch.
+## To regenerate the start script use \`setupTermuxArch.sh re[fresh]\`.  An example is included for convenience.  Usage: PROOTSTMNT+="-b host_path:guest_path " The space before the last double quote is necessary.  Appending to the PRoot statement can be accomplished on the fly by creating a *.prs file in /var/binds.  The format is straightforward, `PROOTSTMNT+="option command "`.  The space is required before the last double quote.  `info proot` and `man proot` have more information about what can be configured in a proot init statement.  Use `setupTermuxArch.sh r[e[f[resh]]] [customdir]` to refresh the installation, which shall renew the proot init statement and the startarch.  Share more suitable configurations at https://github.com/sdrausty/TermuxArch/issues to improve TermuxArch.  Reference https://raw.githubusercontent.com/proot-me/PRoot/master/doc/proot/manual.txt for details.
 _PR00TSTRING_() { 
 PROOTSTMNT="exec proot "
 if [[ -z "${KID:-}" ]] ; then
@@ -97,7 +97,7 @@ if [[ -z "${KID:-}" ]] ; then
 elif [[ "$KID" ]] ; then
  	PROOTSTMNT+="--kernel-release=4.14.15 "
 fi
-PROOTSTMNT+="--kill-on-exit --link2symlink -0 -r $INSTALLDIR "
+PROOTSTMNT+="--kill-on-exit --link2symlink -S $INSTALLDIR "
 if [[ ! -r /dev/ashmem ]] ; then
 	PROOTSTMNT+="-b $INSTALLDIR/tmp:/dev/ashmem " 
 fi
@@ -112,7 +112,7 @@ if [[ -n "$(ls -A "$INSTALLDIR"/var/binds/*.prs)" ]] ; then
       . "$PRSFILES"
     done
 fi
-PROOTSTMNT+="-b /dev/ -b /proc/ -b /storage/ -b /sys/ -w "/" /usr/bin/env -i HOME=/root TERM=$TERM "
+PROOTSTMNT+="-b /dev/ -b /proc/ -b /storage/ -b /sys/ /usr/bin/env -i HOME=/root TERM=$TERM "
 PROOTSTMNTU="${PROOTSTMNT//--link2symlink }"
 }
 _PR00TSTRING_
