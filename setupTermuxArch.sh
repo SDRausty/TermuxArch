@@ -8,7 +8,7 @@ IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-VERSIONID="v1.6.4.id2808"
+VERSIONID="v1.6.4.id1484"
 
 _STRPERROR_() { # Run on script error.
 	local RV="$?"
@@ -462,8 +462,8 @@ _PECHK_() {
 
 _PREPTMPDIR_() { 
 	mkdir -p "$INSTALLDIR/tmp"
-	chmod 777 "$INSTALLDIR/tmp" 2>/dev/null ||:
-	chmod +t "$INSTALLDIR/tmp"  2>/dev/null ||:
+	chmod 777 "$INSTALLDIR/tmp" ||:
+	chmod +t "$INSTALLDIR/tmp"  ||:
  	TAMPDIR="$INSTALLDIR/tmp/setupTermuxArch$$"
 	mkdir -p "$TAMPDIR" 
 }
@@ -555,7 +555,7 @@ _RMARCHRM_() {
 	_SETROOT_EXCEPTION_ 
 	nice -n 19 rm -rf "${INSTALLDIR}" 2>/dev/null ||:
 	nice -n 19 chmod -R 700 "${INSTALLDIR}" {} \; 2>/dev/null ||:
-	nice -n 19 rm -rf "$INSTALLDIR" 2>/dev/null ||:
+	nice -n 19 rm -rf "$INSTALLDIR" ||:
 }
 
 _RMARCHQ_() {
@@ -596,7 +596,8 @@ _SETROOT_() {
 ## User Information:  Configurable variables such as mirrors and download manager options are in `setupTermuxArchConfigs.sh`.  Working with `kownconfigurations.sh` in the working directory is simple.  `bash setupTermuxArch.sh manual` shall create `setupTermuxArchConfigs.sh` in the working directory for editing; See `setupTermuxArch.sh help` for more information.  
 declare -A ADM		## Declare associative array for all available download tools. 
 declare -A ATM		## Declare associative array for all available tar tools. 
-declare -a ARGS="$@"	## Declare arguments as string.
+declare -a ARGS="$@"	## Declare array for arguments as string.
+declare -A ARGSA="$@"	## Declare associative array for arguments.
 declare APTIN=""	## apt install string
 declare APTON=""	## exception string
 declare COMMANDIF=""
@@ -616,17 +617,18 @@ declare INSTALLDIR=""
 declare lcc=""
 declare lcp=""
 declare OPT=""
+declare -A OPTA=""
 declare ROOTDIR=""
-declare WDIR="$PWD/"
-declare STI=""		## Generates pseudo random number.
-declare STIME=""	## Generates pseudo random number.
-declare TA="ＴｅｒｍｕｘＡｒｃｈ"
+declare STI=""		## Used to generate pseudo random number.
+declare STIME=""	## Used to generate pseudo random number.
 declare -A SPECS_ARMV5L_
 declare -A SPECS_ARMV7L_
 declare -A SPECS_ARMV7LC_
 declare -A SPECS_ARMV8L_
 declare -A SPECS_X86_
 declare -A SPECS_X86_64_
+declare TA="ＴｅｒｍｕｘＡｒｃｈ"
+declare WDIR="$PWD/"
 if [[ -z "${TAMPDIR:-}" ]] ; then
 	TAMPDIR=""
 fi

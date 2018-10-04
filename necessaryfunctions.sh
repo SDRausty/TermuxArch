@@ -103,6 +103,34 @@ _DETECTSYSTEM2_() {
 	fi
 }
 
+_DETECT_SYSTEM_() {
+	_PRINTDETECTEDSYSTEM_
+	if [[ "$CPUABI" = "$CPUABI5" ]];then
+		OPTA=([HSYS]=ARMV5L)
+	elif [[ "$CPUABI" = "$CPUABI7" ]];then
+		_DETECT_SYSTEM2_ 
+	elif [[ "$CPUABI" = "$CPUABI8" ]];then
+#		OPTA=([HSYS]=ARMV8L)
+		OPTA=([HSYS]=AARCH64)
+	elif [[ "$CPUABI" = "$CPUABIX86" ]];then
+		OPTA=([HSYS]=X86)
+	elif [[ "$CPUABI" = "$CPUABIX86_64" ]];then
+		OPTA=([HSYS]=X86_64)
+	else
+		_PRINTMISMATCH_ 
+	fi
+}
+
+_DETECT_SYSTEM2_() {
+	if [[ "$(getprop ro.product.device)" == *_cheets ]];then
+#		OPTA=([HSYS]=ARMV7LC)
+		armv7lChrome 
+	else
+#		OPTA=([HSYS]=ARMV7L)
+		armv7lAndroid  
+	fi
+}
+
 _KERNID_() {
 	declare KID=""
 	ur="$("$PREFIX"/bin/applets/uname -r)"

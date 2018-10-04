@@ -21,7 +21,7 @@ addae() {
 	cat >> root/bin/ae <<- EOM
 	watch cat /proc/sys/kernel/random/entropy_avail
 	EOM
-	chmod 700 root/bin/ae 2>/dev/null ||:
+	chmod 700 root/bin/ae ||:
 }
 
 addauser() { 
@@ -36,7 +36,7 @@ addauser() {
 		su - "\$1"
 	fi
 	EOM
-	chmod 700 root/bin/addauser 2>/dev/null ||: 
+	chmod 700 root/bin/addauser ||: 
 }
 
 addbash_logout() {
@@ -64,7 +64,7 @@ addbash_profile() {
 	 	printf "%s=\"%s\"\\n" "export ${LC_TYPE[i]}" "$ULANGUAGE.UTF-8" >> root/.bash_profile 
 	done
 	if [ -e "$HOME"/.bash_profile ] ; then
-		grep proxy "$HOME"/.bash_profile |grep "export" >>  root/.bash_profile 2>/dev/null ||:
+		grep proxy "$HOME"/.bash_profile |grep "export" >>  root/.bash_profile ||:
 	fi
 }
 
@@ -96,7 +96,7 @@ addbashrc() {
 	alias rf='rm -rf'
 	EOM
 	if [ -e "$HOME"/.bashrc ] ; then
-		grep proxy "$HOME"/.bashrc | grep "export" >>  root/.bashrc 2>/dev/null ||:
+		grep proxy "$HOME"/.bashrc | grep "export" >>  root/.bashrc ||:
 	fi
 }
 
@@ -106,7 +106,7 @@ addcdtd() {
 	#!/bin/env bash
 	cd "$HOME/storage/downloads" && pwd
 	EOM
-	chmod 700 root/bin/cdtd 2>/dev/null ||: 
+	chmod 700 root/bin/cdtd ||: 
 }
 
 addcdth() { 
@@ -115,7 +115,7 @@ addcdth() {
 	#!/bin/env bash
 	cd "$HOME" && pwd
 	EOM
-	chmod 700 root/bin/cdth 2>/dev/null ||: 
+	chmod 700 root/bin/cdth ||: 
 }
 
 addcdtmp() { 
@@ -124,7 +124,7 @@ addcdtmp() {
 	#!/bin/env bash
 	cd "$PREFIX/tmp" && pwd
 	EOM
-	chmod 700 root/bin/cdtmp 2>/dev/null ||: 
+	chmod 700 root/bin/cdtmp ||: 
 }
 
 addch() { 
@@ -164,7 +164,7 @@ addch() {
 		echo "Hushed login and logout: ON"
 	fi
 	EOM
-	chmod 700 root/bin/ch 2>/dev/null ||: 
+	chmod 700 root/bin/ch ||: 
 }
 
 addexd() {
@@ -172,7 +172,7 @@ addexd() {
 	cat >> root/bin/exd <<- EOM
 	export DISPLAY=:0 PULSE_SERVER=tcp:127.0.0.1:4712
 	EOM
-	chmod 700 root/bin/exd 2>/dev/null ||: 
+	chmod 700 root/bin/exd ||: 
 }
 
 adddfa() {
@@ -182,7 +182,7 @@ adddfa() {
 	USRSPACE="\$(df 2>/dev/null | grep "/data" | awk {'print \$4'})"
 	printf "\e[0;33m%s\n\e[0m" "\$USRSPACE \$units of free user space is available on this device."
 	EOM
-	chmod 700 root/bin/dfa 2>/dev/null ||: 
+	chmod 700 root/bin/dfa ||: 
 }
 
 addfbindprocshmem() {
@@ -298,18 +298,12 @@ addfbindexample() {
 	EOM
 }
 
-addbinds() { # Checks if /proc/stat is usable. 
-	if [[ ! -r /proc/stat ]] ; then
-		_ADDfbindprocstat_
-	fi
-}
-
 addfibs() {
 	_CFLHDR_ root/bin/fibs 
 	cat >> root/bin/fibs  <<- EOM
 	find /proc/ -name maps 2>/dev/null |xARGS awk '{print i\$6}' 2>/dev/null| grep '\.so' | sort | uniq
 	EOM
-	chmod 700 root/bin/fibs 2>/dev/null ||: 
+	chmod 700 root/bin/fibs ||: 
 }
 
 addga() {
@@ -322,7 +316,7 @@ addga() {
 		git add .
 	fi
 	EOM
-	chmod 700 root/bin/ga 2>/dev/null ||: 
+	chmod 700 root/bin/ga ||: 
 }
 
 addgcl() {
@@ -335,7 +329,7 @@ addgcl() {
 		git clone "\$@"
 	fi
 	EOM
-	chmod 700 root/bin/gcl 2>/dev/null ||: 
+	chmod 700 root/bin/gcl ||: 
 }
 
 addgcm() {
@@ -348,7 +342,7 @@ addgcm() {
 		git commit
 	fi
 	EOM
-	chmod 700 root/bin/gcm 2>/dev/null ||: 
+	chmod 700 root/bin/gcm ||: 
 }
 
 addgpl() {
@@ -361,7 +355,7 @@ addgpl() {
 		git pull
 	fi
 	EOM
-	chmod 700 root/bin/gpl 2>/dev/null ||: 
+	chmod 700 root/bin/gpl ||: 
 }
 
 addgp() {
@@ -374,7 +368,7 @@ addgp() {
 		git push
 	fi
 	EOM
-	chmod 700 root/bin/gp 2>/dev/null ||: 
+	chmod 700 root/bin/gp ||: 
 }
 
 addkeys() {
@@ -441,7 +435,7 @@ addkeys() {
 	printf "\n\e[1;32m==>\e[0m Running \e[1mpacman -Ss keyring --color=always\e[0m…\n"
 	pacman -Ss keyring --color=always ||: 
 	EOM
-	chmod 700 root/bin/keys 2>/dev/null ||: 
+	chmod 700 root/bin/keys ||: 
 }
 
 addmotd() {
@@ -493,7 +487,7 @@ addpc() {
 	pacman -S "\$@" --noconfirm --color=always 
 	fi
 	EOM
-	chmod 700 root/bin/pc 2>/dev/null ||: 
+	chmod 700 root/bin/pc ||: 
 }
 
 addpci() { 
@@ -528,7 +522,7 @@ addpci() {
 	pacman -Syu "\$@" --noconfirm --color=always  
 	fi
 	EOM
-	chmod 700 root/bin/pci 2>/dev/null ||: 
+	chmod 700 root/bin/pci ||: 
 }
 
 addpcs() { 
@@ -563,7 +557,7 @@ addpcs() {
 	pacman -Syu "\$@" --color=always  
 	fi
 	EOM
-	chmod 700 root/bin/pcs 2>/dev/null ||: 
+	chmod 700 root/bin/pcs ||: 
 }
 	
 addpcss() { 
@@ -592,7 +586,7 @@ addpcss() {
 	pacman -Ss "\$@" --color=always  
 	fi
 	EOM
-	chmod 700 root/bin/pcss 2>/dev/null ||: 
+	chmod 700 root/bin/pcss ||: 
 }
 
 addprofile() {
@@ -622,7 +616,7 @@ addt() {
 		tree "\$@"
 	fi
 	EOM
-	chmod 700 root/bin/t 2>/dev/null ||: 
+	chmod 700 root/bin/t ||: 
 }
 
 addthstartarch() {
@@ -643,7 +637,7 @@ addthstartarch() {
 	$STARTBIN su user "pwd && whoami"
 	echo th$STARTBIN done
 	EOM
-	chmod 700 root/bin/th"$STARTBIN" 2>/dev/null ||:
+	chmod 700 root/bin/th"$STARTBIN" ||:
 }
 
 addtour() {
@@ -666,7 +660,7 @@ addtour() {
 	cat "\$HOME"/bin/pci
 	printf "\\e[1;32m\\n%s \\e[38;5;121m%s \\n\\n\\e[4;38;5;129m%s\\e[0m\\n\\n\\e[1;34m%s \\e[38;5;135m%s\\e[0m\\n\\n" "==>" "Short tour is complete; Scroll up if you wish to study the output.  Run this script again at a later time, and it might be surprising at how this environment changes over time. " "If you are new to *nix, http://tldp.org has documentation." "IRC: " "https://wiki.archlinux.org/index.php/IRC_channel"
 	EOM
-	chmod 700 root/bin/tour 2>/dev/null ||: 
+	chmod 700 root/bin/tour ||: 
 }
 
 addtrim() {
@@ -685,7 +679,7 @@ addtrim() {
 	rm -f /var/cache/pacman/pkg/*xz ||: 
 	printf "\\\\n\\\\e[1;32mtrim: Done \\\\e[0m\\\\n\\\\n" 
 	EOM
-	chmod 700 root/bin/trim 2>/dev/null ||: 
+	chmod 700 root/bin/trim ||: 
 }
 
 addv() {
@@ -703,7 +697,7 @@ addv() {
 		vim "\$@"
 	fi
 	EOM
-	chmod 700 root/bin/v 2>/dev/null ||: 
+	chmod 700 root/bin/v ||: 
 }
 
 addwe() { 
@@ -848,7 +842,7 @@ addwe() {
 	fi
 	_PRINTTAIL_ 
 	EOM
-	chmod 700 usr/bin/we 2>/dev/null ||: 
+	chmod 700 usr/bin/we ||: 
 }
 
 addyt() {
@@ -861,7 +855,7 @@ addyt() {
 		youtube-dl "\$@"
 	fi
 	EOM
-	chmod 700 root/bin/yt 2>/dev/null ||: 
+	chmod 700 root/bin/yt ||: 
 }
 
 # EOF

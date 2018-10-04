@@ -6,6 +6,12 @@
 # _STANDARD_="function name" && STANDARD="variable name" are under construction.
 ################################################################################
 
+addbinds() { # Checks if /proc/stat is usable. 
+	if [[ ! -r /proc/stat ]] ; then
+		_ADDfbindprocstat_
+	fi
+}
+
 addlangq() {
 	while true; do
 		printf "\\e[1;34m  Add languages to the Arch Linux system? To edit \\e[1;32m/etc/locale.gen\\e[1;34m for your preferred language(s) before running \\e[1;32mlocale-gen\\e[1;34m choose edit.  Would you like to run \\e[1;32mlocale-gen\\e[1;34m with the English en_US.UTF-8 locale only?  "
