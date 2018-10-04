@@ -337,9 +337,9 @@ _PREPINSTALLDIR_() {
 
 _PREPROOT_() {
 	if [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = "$CPUABIX86_64" ]];then
- 		proot --link2symlink -0 bsdtar -xpf "$file" --strip-components 1  
+ 		proot --link2symlink -0 bsdtar -xpf "$file" --strip-components 1 ||:   
 	else
-		proot --link2symlink -0 "$PREFIX"/bin/applets/tar -xpf "$file" 
+		proot --link2symlink -0 "$PREFIX"/bin/applets/tar -xpf "$file" ||: 
 	fi
 }
 

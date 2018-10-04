@@ -8,7 +8,7 @@ IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-VERSIONID="v1.6.4.id9330"
+VERSIONID="v1.6.4.id8693"
 
 _STRPERROR_() { # Run on script error.
 	local RV="$?"
@@ -137,7 +137,7 @@ _DEPENDDM_() { # Checks and sets download manager.
 		then
  			dm="$pkg" 
  			echo 
-			echo "Found download tool \`$pkg\`; Continuing…"
+			echo "Found download tool $pkg; Continuing…"
 			break
 		fi
 	done
@@ -150,7 +150,7 @@ _DEPENDTM_() { # Checks and sets tar manager.
 		then
  			tm="$pkg" 
  			echo 
-			echo "Found tar tool \`$pkg\`; Continuing…"
+			echo "Found tar tool $pkg; Continuing…"
 			break
 		fi
 	done
