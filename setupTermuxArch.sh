@@ -8,7 +8,7 @@ IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-VERSIONID="v1.6.4.id2374"
+VERSIONID="v1.6.4.id7030"
 
 _STRPERROR_() { # Run on script error.
 	local RV="$?"
@@ -461,8 +461,8 @@ _PECHK_() {
 
 _PREPTMPDIR_() { 
 	mkdir -p "$INSTALLDIR/tmp"
-	chmod 777 "$INSTALLDIR/tmp"
-	chmod +t "$INSTALLDIR/tmp"
+	chmod 777 "$INSTALLDIR/tmp" ||:
+	chmod +t "$INSTALLDIR/tmp" ||:
  	TAMPDIR="$INSTALLDIR/tmp/setupTermuxArch$$"
 	mkdir -p "$TAMPDIR" 
 }
