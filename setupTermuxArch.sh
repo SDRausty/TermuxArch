@@ -8,7 +8,7 @@ IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-VERSIONID="v1.6.4.id4144"
+VERSIONID="v1.6.4.id6105"
 
 _STRPERROR_() { # Run on script error.
 	local RV="$?"
@@ -113,6 +113,7 @@ _CHKSELF_() {
 		if [[ "$(<${0##*/})" != "$(<setupTermuxArch.tmp)" ]] # the two versions are not equal:
 		then # copy the newer version to update:
 			cp "${0##*/}" "$WDIR${0##*/}"
+			chmod 700 "$WDIR${0##*/}"
 			printf "\\e[0;32m%s\\e[1;34m: \\e[1;32mUPDATED\\n\\e[1;32mRESTART\\e[1;34m: \\e[0;32m%s %s \\n\\n\\e[0m"  "${0##*/}" "${0##*/}" "$ARGS"
 #  			# .  "$WDIR${0##*/}" "$ARGS"
 			exit 198
@@ -137,7 +138,7 @@ _DEPENDDM_() { # Checks and sets download manager.
 		then
  			dm="$pkg" 
  			echo 
-			echo "Found download tool $pkg; Continuing…"
+			echo "Found download tool: $pkg; Continuing…"
 			break
 		fi
 	done
@@ -150,7 +151,7 @@ _DEPENDTM_() { # Checks and sets tar manager.
 		then
  			tm="$pkg" 
  			echo 
-			echo "Found tar tool $pkg; Continuing…"
+			echo "Found tar tool: $pkg; Continuing…"
 			break
 		fi
 	done
