@@ -8,7 +8,7 @@ IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-VERSIONID="v1.6.4.id4526"
+VERSIONID="v1.6.4.id2374"
 
 _STRPERROR_() { # Run on script error.
 	local RV="$?"
@@ -302,22 +302,23 @@ _INTRO_BLOOM_() { # Bloom = `setupTermuxArch.sh manual verbose`
 	_BLOOM_ 
 }
 
-_INTRO_SYSINFO_() {
-	printf "\033]2;%s\007" "bash ${0##*/} sysinfo 📲" 
-	printf "\\n\\e[0;34m 🕛 > 🕛 \\e[1;34m$TA $VERSIONID shall create a system information file.  Ensure background data is not restricted.  Run \\e[0;32mbash ${0##*/} help \\e[1;34mfor additional information.  Check the wireless connection if you do not see one o'clock 🕐 below.  "
-	_DEPENDSBLOCK_ "$@" 
-	_SYSINFO_ "$@" 
-}
-
 _INTRO_REFRESH_() {
 	printf "\033]2;%s\007" "bash ${0##*/} refresh 📲" 
-	if [[ ! -d "$INSTALLDIR" ]] || [[ ! -f "$INSTALLDIR"/bin/env ]] || [[ ! -f "$INSTALLDIR"/bin/we ]] || [[ ! -d "$INSTALLDIR"/root/bin ]];then
+   	if [[ ! -f "$INSTALLDIR/$STARTBIN" ]] && [[ ! -f "$INSTALLDIR"/root/bin/tour ]] && [[ ! -f "$INSTALLDIR/sbin/apk"  || ! -f "$INSTALLDIR/usr/bin/apt" || ! -f "$INSTALLDIR/bin/pacman" ]] 
+	then
 		printf "\\n\\e[0;33m%s\\e[1;33m%s\\e[0;33m.\\e[0m\\n\\n" "$TA WARNING!  " "The root directory structure is incorrect; Cannot continue ${0##*/} refresh!  See \`${0##*/} help\` and \`$STARTBIN help\` for more information"
 		exit 204
 	fi
 	printf "\\n\\e[0;34m 🕛 > 🕛 \\e[1;34m$TA $VERSIONID shall refresh your TermuxArch files in \\e[0;32m$INSTALLDIR\\e[1;34m.  Ensure background data is not restricted.  Run \\e[0;32mbash ${0##*/} help \\e[1;34mfor additional information.  Check the wireless connection if you do not see one o'clock 🕐 below.  "
 	_DEPENDSBLOCK_ "$@" 
 	_REFRESHSYS_ "$@"
+}
+
+_INTRO_SYSINFO_() {
+	printf "\033]2;%s\007" "bash ${0##*/} sysinfo 📲" 
+	printf "\\n\\e[0;34m 🕛 > 🕛 \\e[1;34m$TA $VERSIONID shall create a system information file.  Ensure background data is not restricted.  Run \\e[0;32mbash ${0##*/} help \\e[1;34mfor additional information.  Check the wireless connection if you do not see one o'clock 🕐 below.  "
+	_DEPENDSBLOCK_ "$@" 
+	_SYSINFO_ "$@" 
 }
 
 _NAME_INSTALLDIR_() {
@@ -340,8 +341,7 @@ _NAME_STARTARCH_() { # ${@%/} removes trailing slash
 }
 
 _OPT1_() { 
-#	if [[ -z "${2:-}" ]] || [[ "$OPT" = *install* ]] ; then
-	if [[ -z "${2:-}" ]] ; then
+	if [[ -z "${2:-}" ]] || [[ "$OPT" = *install* ]] ; then
 		_ARG2DIR_ "$@" 
 	elif [[ "$2" = [Bb]* ]] ; then
 		echo Setting mode to bloom. 
@@ -381,6 +381,12 @@ _OPT1_() {
 		_CHKIDIR_
 		_DEPENDSBLOCK_ "$@" 
 		_OPTIONAL_SYSTEMS_ "$@" 
+	elif [[ "${1//-}" = [Rr][Ee][Ff]* ]] ; then
+		echo 
+		echo Setting mode to refresh.
+		shift
+		_ARG2DIR_ "$@" 
+		_INTRO_REFRESH_ "$@"  
 	elif [[ "$2" = [Rr][Ee]* ]] ; then
 		echo 
 		echo Setting mode to refresh.
@@ -400,9 +406,7 @@ _OPT1_() {
 
 _OPT2_() { 
 	if [[ -z "${3:-}" ]] ; then
-		shift
-		_ARG2DIR_ "$@" 
-		_INTRO_INIT_ "$@"  
+		:
 	elif [[ "$3" = [Ff]* ]] ; then
 		echo Setting mode to Flavor.
 		OPT+=flavors
@@ -417,6 +421,12 @@ _OPT2_() {
 		shift 2 
 		_ARG2DIR_ "$@" 
 		_INTRO_INIT_ "$@"  
+	elif [[ "${1//-}" = [Rr][Ee][Ff]* ]] ; then
+		echo 
+		echo Setting mode to refresh.
+		shift 2 
+		_ARG2DIR_ "$@" 
+		_INTRO_REFRESH_ "$@"  
 	elif [[ "$3" = [Rr][Ee]* ]] ; then
 		echo 
 		echo Setting mode to refresh.
@@ -763,7 +773,6 @@ elif [[ "${1//-}" = [Ff]* ]] ; then
 ## [he[lp]|?]  Display terse builtin help.
 elif [[ "${1//-}" = [Hh][Ee]* ]] || [[ "${1//-}" = [?]* ]] ; then
 	_ARG2DIR_ "$@" 
-	_DEPENDSBLOCK_ "$@"  
 	_PRINTUSAGE_ "$@"  
 ## [h]  Display verbose builtin help.
 elif [[ "${1//-}" = [Hh]* ]] ; then
