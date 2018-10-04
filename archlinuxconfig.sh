@@ -271,8 +271,11 @@ _ADDfbindprocstat8_() {
 }
 
 addfbindexample() {
-	_CFLHDRS_ var/binds/fbindexample.prs "# To regenerate the start script use \`setupTermuxArch.sh re[fresh]\`.  Add as many proot statements as you want and create a new file similar to this file in this directory; The init script will parse these files at refresh.  THIS FILE WILL BE OVERWRITTEN AT REFRESH!  Create a new file with a .prs extension.  Examples are included for convenience.  Usage: PROOTSTMNT+=\"-b host_path:guest_path \" The space before the last double quote is necessary." 
+	_CFLHDRS_ var/binds/fbindexample.prs "## Add as many proot statements as you want to, and create a new file similar to this file in this directory; The init script will parse these files at refresh.  THIS FILE WILL BE OVERWRITTEN AT REFRESH!  Create a new file with a .prs extension.  Examples are included for convenience.  " 
 	cat >> var/binds/fbindexample.prs <<- EOM
+	## Appending to the PRoot statement can be accomplished on the fly by creating a *.prs file in /var/binds.  The format is straightforward, \`PROOTSTMNT+="option command "\`.  The space is required before the last double quote.  
+	## \`info proot\` and \`man proot\` have more information about what can be configured in a proot init statement.  Use \`setupTermuxArch.sh r[e[fresh]] [customdir]\` to refresh an installation. This shall renew the proot init statement and startarch.  Share more suitable configurations at https://github.com/sdrausty/TermuxArch/issues to improve TermuxArch.  Reference https://raw.githubusercontent.com/proot-me/PRoot/master/doc/proot/manual.txt for details.
+	## To regenerate the start script use \`setupTermuxArch.sh re[fresh]\`.  An example is included for convenience.  Usage: PROOTSTMNT+="-b host_path:guest_path " The space before the last double quote is necessary.  
 	# PROOTSTMNT+="-b $INSTALLDIR/var/binds/fbindprocstat:/proc/stat " 
 	# if [[ ! -r /dev/shm ]] ; then 
 	# 		PROOTSTMNT+="-b $INSTALLDIR/tmp:/dev/shm " 

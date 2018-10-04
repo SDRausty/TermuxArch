@@ -8,7 +8,7 @@ IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-VERSIONID="v1.6.4.id2774"
+VERSIONID="v1.6.4.id5809"
 
 _STRPERROR_() { # Run on script error.
 	local RV="$?"
@@ -99,6 +99,14 @@ _CHKDWN_() {
 	fi
 }
 
+_CHKIDIR_() {
+   	if [[ -f "$INSTALLDIR/$STARTBIN" ]] && [[ -f "$INSTALLDIR"/root/bin/tour ]] && [[ -f "$INSTALLDIR/sbin/apk"  || -f "$INSTALLDIR/usr/bin/apt" || -f "$INSTALLDIR/bin/pacman" ]] 
+  		then 
+  		printf "\\n\\n\\e[1;33m%s\\e[0;33m%s\\e[0m\\n\\n" "$TA WARNING!  " "The root directory structure is correct; Cannot continue ${0##*/} install!  See \`${0##*/} help\` and \`$STARTBIN help\` for options."
+  		exit 205
+  	fi
+}
+
 _CHKSELF_() {
 	if [[ -f "setupTermuxArch.tmp" ]] 
 	then # compare the two versions:
@@ -110,14 +118,6 @@ _CHKSELF_() {
 			exit 198
 		fi
 	fi
-}
-
-_CHKIDIR_() {
-  	if [[ -d "$INSTALLDIR" ]] && [[ -f "$INSTALLDIR"/bin/env ]] && [[ -f "$INSTALLDIR"/bin/we ]] && [[ -f "$INSTALLDIR"/bin/pacman ]]
-  		then
-  		printf "\\n\\e[0;34m%s\\e[1;34m%s\\e[0;33m\\e[0m\\n\\n" "$TA WARNING!  " "The root directory structure is correct; Cannot continue ${0##*/} install!  See \`${0##*/} help\` and \`$STARTBIN help\` for options."
-  		exit 205
-  	fi
 }
 
 _DEPENDBP_() {
@@ -232,11 +232,11 @@ _DEPENDSBLOCK_() {
 		_CHKDWN_
 		_CHK_ "$@"
 	fi
-	if [[ "$OPT" = bloom ]] 
+	if [[ "$OPT" = *bloom* ]] 
 	then
 		rm -f termuxarchchecksum.sha512 
 	fi
-	if [[ "$OPT" = manual ]] 
+	if [[ "$OPT" = *manual* ]] 
 	then
 		_MANUAL_
 	fi 
@@ -276,10 +276,11 @@ _PRINT_INTRO_INIT_() {
 } 
 
 _INTRO_INIT_() {
+	_PREPTERMUXARCH_ 
 	_PRINT_INTRO_INIT_
 	_CHKIDIR_
 	_DEPENDSBLOCK_ "$@" 
-	if [[ "$OPT" = flavors ]] 
+	if [[ "$OPT" = *flavors* ]] 
 	then
 		_OPTIONAL_SYSTEMS_ "$@" 
 	else
@@ -293,7 +294,7 @@ _INTRO_INIT_() {
 }
 
 _INTRO_BLOOM_() { # Bloom = `setupTermuxArch.sh manual verbose` 
-	OPT=bloom 
+	OPT+=bloom 
 	_PREPTERMUXARCH_ 
 	printf "\033]2;%s\007" "bash ${0##*/} bloom 📲" 
 	printf "\\n\\e[0;34m 🕛 > 🕛 \\e[1;34m$TA $VERSIONID bloom option.  Run \\e[1;32mbash ${0##*/} help \\e[1;34mfor additional information.  Ensure background data is not restricted.  Check the wireless connection if you do not see one o'clock 🕐 below.  "
@@ -339,7 +340,8 @@ _NAME_STARTARCH_() { # ${@%/} removes trailing slash
 }
 
 _OPT1_() { 
-	if [[ -z "${2:-}" ]] || [[ $OPT = install ]] ; then
+#	if [[ -z "${2:-}" ]] || [[ "$OPT" = *install* ]] ; then
+	if [[ -z "${2:-}" ]] ; then
 		_ARG2DIR_ "$@" 
 	elif [[ "$2" = [Bb]* ]] ; then
 		echo Setting mode to bloom. 
@@ -351,28 +353,32 @@ _OPT1_() {
 		_INTRO_SYSINFO_ "$@"  
 	elif [[ "$2" = [Ff]* ]] ; then
 		echo Setting mode to Flavors.
-		OPT=flavors
+		OPT+=flavors
 		shift
 		_ARG2DIR_ "$@" 
 		_PRINT_INTRO_INIT_
+		_CHKIDIR_
 		_DEPENDSBLOCK_ "$@" 
 		_OPTIONAL_SYSTEMS_ "$@" 
 	elif [[ "$2" = [Ii]* ]] ; then
 		echo Setting mode to install.
 		shift
 		_ARG2DIR_ "$@" 
+		_INTRO_INIT_ "$@"  
 	elif [[ "$2" = [Mm]* ]] ; then
 		echo Setting mode to manual.
-		OPT=manual
+		OPT+=manual
  		_OPT2_ "$@"  
+		_INTRO_INIT_ "$@"  
 	elif [[ "$2" = [Oo]* ]] ; then
 		echo Setting mode to option.
-		OPT=flavors
+		OPT+=option
 		echo Setting mode to Flavors.
-		OPT=flavors
+		OPT+=flavors
 		shift
 		_ARG2DIR_ "$@" 
 		_PRINT_INTRO_INIT_
+		_CHKIDIR_
 		_DEPENDSBLOCK_ "$@" 
 		_OPTIONAL_SYSTEMS_ "$@" 
 	elif [[ "$2" = [Rr][Ee]* ]] ; then
@@ -399,10 +405,11 @@ _OPT2_() {
 		_INTRO_INIT_ "$@"  
 	elif [[ "$3" = [Ff]* ]] ; then
 		echo Setting mode to Flavor.
-		OPT=flavors
+		OPT+=flavors
 		shift 2 
 		_ARG2DIR_ "$@" 
 		_PRINT_INTRO_INIT_
+		_CHKIDIR_
 		_DEPENDSBLOCK_ "$@" 
 		_OPTIONAL_SYSTEMS_ "$@" 
 	elif [[ "$3" = [Ii]* ]] ; then
@@ -676,34 +683,34 @@ then
 	lcp="0"
 	_ARG2DIR_ "$@"  
 	_INTRO_INIT_ "$@" 
-## [axd|axs]  Get device system information with `axel`.
+## [axd|axs]  Get device system information with axel.
 elif [[ "${1//-}" = [Aa][Xx][Dd]* ]] || [[ "${1//-}" = [Aa][Xx][Ss]* ]] 
 then
 	echo
-	echo Getting device system information with \`axel\`.
+	echo Getting device system information with axel.
 	dm=axel
 	shift
 	_ARG2DIR_ "$@" 
 	_INTRO_SYSINFO_ "$@" 
-## [ax[el] [customdir]|axi [customdir]]  Install Arch Linux with `axel`.
+## [ax[el] [customdir]|axi [customdir]]  Install Arch Linux with axel.
 elif [[ "${1//-}" = [Aa][Xx]* ]] || [[ "${1//-}" = [Aa][Xx][Ii]* ]] ; then
 	echo
-	echo Setting \`axel\` as download manager.
+	echo Setting axel as download manager.
 	dm=axel
 	_OPT1_ "$@" 
 	_INTRO_INIT_ "$@" 
-## [ad|as]  Get device system information with `aria2c`.
+## [ad|as]  Get device system information with aria2.
 elif [[ "${1//-}" = [Aa][Dd]* ]] || [[ "${1//-}" = [Aa][Ss]* ]] ; then
 	echo
-	echo Getting device system information with \`aria2c\`.
+	echo Getting device system information with aria2.
 	dm=aria2
 	shift
 	_ARG2DIR_ "$@" 
 	_INTRO_SYSINFO_ "$@" 
-## [a[ria2c] [customdir]|ai [customdir]]  Install Arch Linux with `aria2c`.
+## [a[ria2c] [customdir]|ai [customdir]]  Install Arch Linux with aria2.
 elif [[ "${1//-}" = [Aa]* ]] ; then
 	echo
-	echo Setting \`aria2c\` as download manager.
+	echo Setting aria2 as download manager.
 	dm=aria2
 	_OPT1_ "$@" 
  	_INTRO_INIT_ "$@" 
@@ -712,30 +719,30 @@ elif [[ "${1//-}" = [Bb]* ]] ; then
 	echo
 	echo Setting mode to bloom. 
 	_INTRO_BLOOM_ "$@"  
-## [cd|cs]  Get device system information with `curl`.
+## [cd|cs]  Get device system information with curl.
 elif [[ "${1//-}" = [Cc][Dd]* ]] || [[ "${1//-}" = [Cc][Ss]* ]] ; then
 	echo
 	dm=curl
-	echo Getting device system information with \`$dm\`.
+	echo Getting device system information with curl.
 	shift
 	_ARG2DIR_ "$@" 
 	_INTRO_SYSINFO_ "$@" 
-## [ci [customdir]]  Install Arch Linux with `curl`.
+## [ci [customdir]]  Install Arch Linux with curl.
 elif [[ "${1//-}" = [Cc][Ii]* ]] 
 then
 	echo
 	dm=curl
-	echo Setting \`$dm\` as download manager.
+	echo Setting curl as download manager.
 	OPT=install
 	echo Setting mode to install.
 	_OPT1_ "$@" 
 	_INTRO_INIT_ "$@" 
-## [c[url] [customdir]]  Install Arch Linux with `curl`.
+## [c[url] [customdir]]  Install Arch Linux with curl.
 elif [[ "${1//-}" = [Cc]* ]] 
 then
 	echo
 	dm=curl
-	echo Setting \`$dm\` as download manager.
+	echo Setting curl as download manager.
 	_OPT1_ "$@" 
 	_INTRO_INIT_ "$@" 
 ## [d[ebug]|s[ysinfo]]  Generate system information.
@@ -749,8 +756,8 @@ elif [[ "${1//-}" = [Ff]* ]] ; then
 	echo Setting mode to Flavors.
 	OPT=flavors
 	_OPT1_ "$@" 
-	_CHKIDIR_
 	_PRINT_INTRO_INIT_
+	_CHKIDIR_
 	_DEPENDSBLOCK_ "$@" 
 	_OPTIONAL_SYSTEMS_ "$@" 
 ## [he[lp]|?]  Display terse builtin help.
@@ -769,18 +776,18 @@ elif [[ "${1//-}" = [Ii]* ]] ; then
 	echo Setting mode to install.
 	_OPT1_ "$@" 
 	_INTRO_INIT_ "$@"  
-## [ld|ls]  Get device system information with `lftp`.
+## [ld|ls]  Get device system information with lftp.
 elif [[ "${1//-}" = [Ll][Dd]* ]] || [[ "${1//-}" = [Ll][Ss]* ]] ; then
 	echo
-	echo Getting device system information with \`lftp\`.
+	echo Getting device system information with lftp.
 	dm=lftp
 	shift
 	_ARG2DIR_ "$@" 
 	_INTRO_SYSINFO_ "$@" 
-## [l[ftp] [customdir]]  Install Arch Linux with `lftp`.
+## [l[ftp] [customdir]]  Install Arch Linux with lftp.
 elif [[ "${1//-}" = [Ll]* ]] ; then
 	echo
-	echo Setting \`lftp\` as download manager.
+	echo Setting lftp as download manager.
 	dm=lftp
 	_OPT1_ "$@" 
 	_INTRO_INIT_ "$@" 
@@ -799,8 +806,8 @@ elif [[ "${1//-}" = [Oo]* ]] ; then
 	echo Setting mode to Flavors.
 	OPT=flavors
 	_OPT1_ "$@" 
-	_CHKIDIR_
 	_PRINT_INTRO_INIT_
+	_CHKIDIR_
 	_DEPENDSBLOCK_ "$@" 
 	_OPTIONAL_SYSTEMS_ "$@" 
 ## [p[urge] [customdir]]  Remove Arch Linux.
@@ -828,18 +835,18 @@ elif [[ "${1//-}" = [Rr]* ]] ; then
 	printf "\\n\\e[1;32m%s\\e[1;34m: \\e[0;32m%s \`%s\` %s\\n\\e[0m" "Setting mode" "minimal refresh;  Use" "${0##*/} ref[resh]" "for full refresh."
 	_ARG2DIR_ "$@" 
 	_INTRO_REFRESH_ "$@"  
-## [wd|ws]  Get device system information with `wget`.
+## [wd|ws]  Get device system information with wget.
 elif [[ "${1//-}" = [Ww][Dd]* ]] || [[ "${1//-}" = [Ww][Ss]* ]] ; then
 	echo
-	echo Getting device system information with \`wget\`.
+	echo Getting device system information with wget.
 	dm=wget
 	shift
 	_ARG2DIR_ "$@" 
 	_INTRO_SYSINFO_ "$@" 
-## [w[get] [customdir]]  Install Arch Linux with `wget`.
+## [w[get] [customdir]]  Install Arch Linux with wget.
 elif [[ "${1//-}" = [Ww]* ]] ; then
 	echo
-	echo Setting \`wget\` as download manager.
+	echo Setting wget as download manager.
 	dm=wget
 	_OPT1_ "$@" 
 	_INTRO_INIT_ "$@"  

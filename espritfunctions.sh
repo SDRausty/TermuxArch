@@ -60,7 +60,7 @@ _COPYSTARTBIN2PATHQ_() {
 
 _CREATEMENU_() { # https://stackoverflow.com/users/258523/etan-reisner
        	ARSIZE=$1
-       	printf "This option to install Linux flavors is under development; \\n\\nChoose one of these option by inputting a number to continue:\\n"
+       	printf "This option to install Linux flavors is being developed; \\n\\nChoose one of these options by inputting a number to continue:\\n"
        	echo 
 	select CSYSTEM in "${@:2}"; do
 	       	if [ "$REPLY" -eq "$ARSIZE" ];
@@ -138,7 +138,7 @@ edqa() {
 edqaquestion() {
 	while true; do
 		printf "\\n"
-		if [[ "$OPT" = bloom ]] || [[ "$OPT" = manual ]];then
+		if [[ "$OPT" = *bloom* ]] || [[ "$OPT" = *manual* ]];then
 			printf "The following editor(s) $cedst\\b\\b are present.  Would you like to use \`\\e[1;32m${ceds[$i]}\\e[0;32m\` to edit \`\\e[1;32msetupTermuxArchConfigs.sh\\e[0;32m\`?  "
 			read -n 1 -p "Answer yes or no [Y|n]. "  yn
 		else 
@@ -160,7 +160,7 @@ edqaquestion() {
 
 edq2() {
 	while true; do
-		if [[ "$OPT" = bloom ]] || [[ "$OPT" = manual ]];then
+		if [[ "$OPT" = *bloom* ]] || [[ "$OPT" = *manual* ]];then
 			printf "\\n\\e[1;34m  Would you like to use \\e[1;32mnano\\e[1;34m or \\e[1;32mvi\\e[1;34m to edit \\e[1;32msetupTermuxArchConfigs.sh\\e[1;34m?  "
 			read -n 1 -p "Answer nano or vi [n|V]? "  nv
 		else 
@@ -237,7 +237,7 @@ _OPTIONAL_SYSTEMS_() {
 	then
 #		# Available architectures: aarch64 armhf x86_64 x86 and more.
 # 		# https://alpinelinux.org/downloads/
-	       	SPECS_ARMV8L_=( [DIST]="$CSYSTEM" [FILE]="alpine-minirootfs-3.8.1-aarch64.tar.gz" [PROTOCOL]="https" [RPATH]="/alpine/v3.8/releases/aarch64/" [SITE]="dl-cdn.alpinelinux.org" [SFNM]="alpine-minirootfs-3.8.1-aarch64.tar.gz.sha256" [STYPE]="sha256sum" )
+	       	SPECS_ARMV8L_=( [DIST]="$CSYSTEM" [FILE]="alpine-minirootfs-3.8.1-aarch64.tar.gz" [PROTOCOL]="http" [RPATH]="/alpine/v3.8/releases/aarch64/" [SITE]="dl-cdn.alpinelinux.org" [SFNM]="alpine-minirootfs-3.8.1-aarch64.tar.gz.sha256" [STYPE]="sha256sum" )
 	elif [[ "$CSYSTEM" = "Arch Linux" ]]
 	then
 #		# Available architectures: aarch64 armv7 armv5 x86_64 x86 and more.
@@ -252,7 +252,7 @@ _OPTIONAL_SYSTEMS_() {
 	then
 #		# Available architectures: aarch64 armhfp x86_64
 # 		# https://download.fedoraproject.org/pub/fedora/linux/releases/28/Container/
-	       	SPECS_ARMV8L_=( [DIST]="$CSYSTEM" [FILE]="Fedora-Container-Base-28-1.1.aarch64.tar.xz" [PROTOCOL]="https" [RPATH]="/pub/fedora/linux/releases/28/Container/aarch64/images/"  [SITE]="download.fedoraproject.org" [SFNM]="Fedora-Container-28-1.1-aarch64-CHECKSUM" [STYPE]="sha256sum" )
+	       	SPECS_ARMV8L_=( [DIST]="$CSYSTEM" [FILE]="Fedora-Container-Base-28-1.1.aarch64.tar.xz" [PROTOCOL]="https" [RPATH]="/pub/fedora/linux/releases/28/Container/aarch64/images/"  [SITE]="download.fedoraproject.org" [SFNM]="Fedora-Container-28-1.1-aarch64-CHECKSUM" [STYPE]="" )
 	elif [[ "$CSYSTEM" = Parabola ]]
 	then # http://mirror.fsf.org/parabola/iso/
 	       	SPECS_ARMV7L_=( [DIST]="$CSYSTEM" [FILE]="parabola-systemd-cli-armv7h-tarball-2018-02-06.tar.gz" [PROTOCOL]="https" [RPATH]="/parabola/iso/systemd-cli-2018-02-06/" [SITE]="mirror.fsf.org" [SITE]="mirror.fsf.org" [SFNM]="parabola-systemd-cli-armv7h-tarball-2018-02-06.tar.gz.sig" [STYPE]="" )

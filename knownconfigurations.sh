@@ -7,7 +7,7 @@
 # Running `setupTermuxArch.sh manual` shall create `setupTermuxArchConfigs.sh` from this file in the working directory.  Run `setupTermuxArch.sh` and `setupTermuxArchConfigs.sh` loads automaticaly and this file is ignored at runtime; `setupTermuxArch.sh help` has additional information.  Change mirror (https://wiki.archlinux.org/index.php/Mirrors and https://archlinuxarm.org/about/mirrors) to desired geographic location in `setupTermuxArchConfigs.sh` to resolve download, 404 and checksum issues.  The following user configurable variables are available in this file:   
 # Change DMVERBOSE in `setupTermuxArch.sh` for verbose output throughout runtime.
 # DMVERBOSE="-v" 	# Uncomment for verbose output with curl and wget.
-# dm=aria2c		# Uncomment to use aria2 as the download tool.
+# dm=aria2		# Uncomment to use aria2 as the download tool.
 # dm=axel 		# Uncomment to use lftp as the download tool.
 # dm=curl		# Uncomment to use curl as the download tool.
 # dm=lftp 		# Uncomment to use lftp as the download tool.
@@ -82,6 +82,7 @@ _X86_64_() { # $file is read from md5sums.txt
 }
 
 CSYSTEM="Arch Linx"
+
 # Match the architecture in the device with one of the matrices below.  
 SPECS_ARMV8L_=( [DIST]="$CSYSTEM" [FILE]="ArchLinuxARM-aarch64-latest.tar.gz" [PROTOCOL]="https" [RPATH]="/os/" [SITE]="os.archlinuxarm.org" [SFNM]="ArchLinuxARM-aarch64-latest.tar.gz.md5" [STYPE]="md5sum" )
 SPECS_ARMV5L_=( [DIST]="$CSYSTEM" [FILE]="ArchLinuxARM-armv5-latest.tar.gz" [PROTOCOL]="https" [RPATH]="/os/" [SITE]="os.archlinuxarm.org" [SFNM]="ArchLinuxARM-armv5-latest.tar.gz.md5" [STYPE]="md5sum" )
@@ -89,7 +90,9 @@ SPECS_ARMV7L_=( [DIST]="$CSYSTEM" [FILE]="ArchLinuxARM-armv7-latest.tar.gz" [PRO
 SPECS_ARMV7LC_=( [DIST]="$CSYSTEM" [FILE]="ArchLinuxARM-armv7-chromebook-latest.tar.gz" [PROTOCOL]="https" [RPATH]="/os/" [SITE]="os.archlinuxarm.org" [SFNM]="ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5sum" [STYPE]="md5sum" )
 SPECS_X86_=( [DIST]="$CSYSTEM" [FILE]="" [PROTOCOL]="https" [RPATH]="/iso/2017.03.01/" [SITE]="archive.archlinux.org" [SFNM]="md5sums.txt" [STYPE]="md5sum" )
 SPECS_X86_64_=( [DIST]="$CSYSTEM" [FILE]="" [PROTOCOL]="https" [RPATH]="/archlinux/iso/latest/" [SITE]="mirror.rackspace.com" [SFNM]="md5sums.txt" [STYPE]="md5sum" )
+
 ## To regenerate the start script use \`setupTermuxArch.sh re[fresh]\`.  An example is included for convenience.  Usage: PROOTSTMNT+="-b host_path:guest_path " The space before the last double quote is necessary.  Appending to the PRoot statement can be accomplished on the fly by creating a *.prs file in /var/binds.  The format is straightforward, `PROOTSTMNT+="option command "`.  The space is required before the last double quote.  `info proot` and `man proot` have more information about what can be configured in a proot init statement.  Use `setupTermuxArch.sh r[e[fresh]] [customdir]` to refresh an installation. This shall renew the proot init statement and startarch.  Share more suitable configurations at https://github.com/sdrausty/TermuxArch/issues to improve TermuxArch.  Reference https://raw.githubusercontent.com/proot-me/PRoot/master/doc/proot/manual.txt for details.
+
 _PR00TSTRING_() { 
 PROOTSTMNT="exec proot "
 if [[ -z "${KID:-}" ]] ; then

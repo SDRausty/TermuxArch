@@ -94,3 +94,4 @@ jlam: contributed `getprop ro.product.device` Chromebook detection, `getprop ro.
 [wulvyrn](https://github.com/wulvyrn) contributed: `pacman -S rng-tools`, `rngd -r /dev/urandom` to resolve `pacman-key --init` in issues #28, #33 and #46. 
 
 Thank you for making this project work better and please contribute 🔆  See [Notice to Contributors](NOTICE) for information.  See [PRoot](docs/PRoot) for more information about Linux on device with Termux.
+
