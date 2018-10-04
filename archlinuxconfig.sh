@@ -281,6 +281,7 @@ addfbindexample() {
 	# PROOTSTMNT+="-b \"\$ANDROID_DATA\" "
 	# PROOTSTMNT+="-b \"\$EXTERNAL_STORAGE\" "
 	# PROOTSTMNT+="-b \"\$HOME\" "
+	# PROOTSTMNT+="-b /storage/ "
 	# PROOTSTMNT+="-w \"\$PWD\" "
 	EOM
 }
