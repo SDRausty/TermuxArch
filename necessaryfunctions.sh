@@ -194,7 +194,7 @@ _MAKEFINISHSETUP_() {
 	printf "\\n\\e[1;34m%s  \\e[0m" "🕛 > 🕤 Arch Linux in Termux is installed and configured 📲 " 
 	printf "\\e]2;%s\\007" " 🕛 > 🕤 Arch Linux in Termux is installed and configured 📲 "
 	EOM
-	chmod 700 root/bin/"$BINFNSTP" 
+	chmod 700 root/bin/"$BINFNSTP" 2>/dev/null ||: 
 }
 
 _MAKESETUPBIN_() {
@@ -206,7 +206,7 @@ _MAKESETUPBIN_() {
 	cat >> root/bin/setupbin.sh <<- EOM
 	set -Eeuo pipefail
 	EOM
-	chmod 700 root/bin/setupbin.sh
+	chmod 700 root/bin/setupbin.sh 2>/dev/null ||:
 }
 
 _MAKESTARTBIN_() {
@@ -287,7 +287,7 @@ _MAKESTARTBIN_() {
 		_PRINTUSAGE_
 	fi
 	EOM
-	chmod 700 "$STARTBIN"
+	chmod 700 "$STARTBIN" 2>/dev/null ||:
 }
 
 _MAKESYSTEM_() {

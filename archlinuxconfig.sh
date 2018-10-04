@@ -21,7 +21,7 @@ addae() {
 	cat >> root/bin/ae <<- EOM
 	watch cat /proc/sys/kernel/random/entropy_avail
 	EOM
-	chmod 700 root/bin/ae 
+	chmod 700 root/bin/ae 2>/dev/null ||:
 }
 
 addauser() { 
@@ -36,7 +36,7 @@ addauser() {
 		su - "\$1"
 	fi
 	EOM
-	chmod 700 root/bin/addauser 
+	chmod 700 root/bin/addauser 2>/dev/null ||: 
 }
 
 addbash_logout() {
@@ -106,7 +106,7 @@ addcdtd() {
 	#!/bin/env bash
 	cd "$HOME/storage/downloads" && pwd
 	EOM
-	chmod 700 root/bin/cdtd 
+	chmod 700 root/bin/cdtd 2>/dev/null ||: 
 }
 
 addcdth() { 
@@ -115,7 +115,7 @@ addcdth() {
 	#!/bin/env bash
 	cd "$HOME" && pwd
 	EOM
-	chmod 700 root/bin/cdth 
+	chmod 700 root/bin/cdth 2>/dev/null ||: 
 }
 
 addcdtmp() { 
@@ -124,7 +124,7 @@ addcdtmp() {
 	#!/bin/env bash
 	cd "$PREFIX/tmp" && pwd
 	EOM
-	chmod 700 root/bin/cdtmp 
+	chmod 700 root/bin/cdtmp 2>/dev/null ||: 
 }
 
 addch() { 
@@ -164,7 +164,7 @@ addch() {
 		echo "Hushed login and logout: ON"
 	fi
 	EOM
-	chmod 700 root/bin/ch 
+	chmod 700 root/bin/ch 2>/dev/null ||: 
 }
 
 addexd() {
@@ -172,7 +172,7 @@ addexd() {
 	cat >> root/bin/exd <<- EOM
 	export DISPLAY=:0 PULSE_SERVER=tcp:127.0.0.1:4712
 	EOM
-	chmod 700 root/bin/exd 
+	chmod 700 root/bin/exd 2>/dev/null ||: 
 }
 
 adddfa() {
@@ -182,7 +182,7 @@ adddfa() {
 	USRSPACE="\$(df 2>/dev/null | grep "/data" | awk {'print \$4'})"
 	printf "\e[0;33m%s\n\e[0m" "\$USRSPACE \$units of free user space is available on this device."
 	EOM
-	chmod 700 root/bin/dfa 
+	chmod 700 root/bin/dfa 2>/dev/null ||: 
 }
 
 addfbindprocshmem() {
@@ -300,7 +300,7 @@ addfibs() {
 	cat >> root/bin/fibs  <<- EOM
 	find /proc/ -name maps 2>/dev/null |xARGS awk '{print i\$6}' 2>/dev/null| grep '\.so' | sort | uniq
 	EOM
-	chmod 700 root/bin/fibs 
+	chmod 700 root/bin/fibs 2>/dev/null ||: 
 }
 
 addga() {
@@ -313,7 +313,7 @@ addga() {
 		git add .
 	fi
 	EOM
-	chmod 700 root/bin/ga 
+	chmod 700 root/bin/ga 2>/dev/null ||: 
 }
 
 addgcl() {
@@ -326,7 +326,7 @@ addgcl() {
 		git clone "\$@"
 	fi
 	EOM
-	chmod 700 root/bin/gcl 
+	chmod 700 root/bin/gcl 2>/dev/null ||: 
 }
 
 addgcm() {
@@ -339,7 +339,7 @@ addgcm() {
 		git commit
 	fi
 	EOM
-	chmod 700 root/bin/gcm 
+	chmod 700 root/bin/gcm 2>/dev/null ||: 
 }
 
 addgpl() {
@@ -352,7 +352,7 @@ addgpl() {
 		git pull
 	fi
 	EOM
-	chmod 700 root/bin/gpl 
+	chmod 700 root/bin/gpl 2>/dev/null ||: 
 }
 
 addgp() {
@@ -365,7 +365,7 @@ addgp() {
 		git push
 	fi
 	EOM
-	chmod 700 root/bin/gp 
+	chmod 700 root/bin/gp 2>/dev/null ||: 
 }
 
 addkeys() {
@@ -422,7 +422,7 @@ addkeys() {
 	printf "\n\e[0;34mWhen \e[0;37mgpg: Generating pacman keyring master key\e[0;34m appears on the screen, the installation process can be accelerated.  The system desires a lot of entropy at this part of the install procedure.  To generate as much entropy as possible quickly, watch and listen to a file on your device.  \n\nThe program \e[1;32mpacman-key\e[0;34m will want as much entropy as possible when generating keys.  Entropy is also created through tapping, sliding, one, two and more fingers tapping with short and long taps.  When \e[0;37mgpg: Generating pacman keyring master key\e[0;34m appears on the screen, use any of these simple methods to accelerate the installation process if it is stalled.  Put even simpler, just do something on device.  Browsing files will create entropy on device.  Slowly swiveling the device in space and time will accelerate the installation process.  This method alone might not generate enough entropy (a measure of randomness in a closed system) for the process to complete quickly.  Use \e[1;32mbash ~${DARCH}/bin/we \e[0;34min a new Termux session to and watch entropy on device.\n\n\e[1;32m==>\e[0m Running \e[1mpacman-key --init\e[0;32m…\n"
 	_GENEN_
 	pacman-key --init ||: 
-	chmod 700 /etc/pacman.d/gnupg
+	chmod 700 /etc/pacman.d/gnupg 2>/dev/null ||:
 	pacman-key --populate ||: 
 	printf "\n\e[1;32m==>\e[0m Running \e[1mpacman -S \$ARGS --noconfirm --color=always\e[0;32m…\n"
 	pacman -S "\${KEYRINGS[@]}" --noconfirm --color=always ||: 
@@ -432,7 +432,7 @@ addkeys() {
 	printf "\n\e[1;32m==>\e[0m Running \e[1mpacman -Ss keyring --color=always\e[0m…\n"
 	pacman -Ss keyring --color=always ||: 
 	EOM
-	chmod 700 root/bin/keys 
+	chmod 700 root/bin/keys 2>/dev/null ||: 
 }
 
 addmotd() {
@@ -484,7 +484,7 @@ addpc() {
 	pacman -S "\$@" --noconfirm --color=always 
 	fi
 	EOM
-	chmod 700 root/bin/pc 
+	chmod 700 root/bin/pc 2>/dev/null ||: 
 }
 
 addpci() { 
@@ -519,7 +519,7 @@ addpci() {
 	pacman -Syu "\$@" --noconfirm --color=always  
 	fi
 	EOM
-	chmod 700 root/bin/pci 
+	chmod 700 root/bin/pci 2>/dev/null ||: 
 }
 
 addpcs() { 
@@ -554,7 +554,7 @@ addpcs() {
 	pacman -Syu "\$@" --color=always  
 	fi
 	EOM
-	chmod 700 root/bin/pcs 
+	chmod 700 root/bin/pcs 2>/dev/null ||: 
 }
 	
 addpcss() { 
@@ -583,7 +583,7 @@ addpcss() {
 	pacman -Ss "\$@" --color=always  
 	fi
 	EOM
-	chmod 700 root/bin/pcss 
+	chmod 700 root/bin/pcss 2>/dev/null ||: 
 }
 
 addprofile() {
@@ -613,7 +613,7 @@ addt() {
 		tree "\$@"
 	fi
 	EOM
-	chmod 700 root/bin/t 
+	chmod 700 root/bin/t 2>/dev/null ||: 
 }
 
 addthstartarch() {
@@ -634,7 +634,7 @@ addthstartarch() {
 	$STARTBIN su user "pwd && whoami"
 	echo th$STARTBIN done
 	EOM
-	chmod 700 root/bin/th"$STARTBIN"
+	chmod 700 root/bin/th"$STARTBIN" 2>/dev/null ||:
 }
 
 addtour() {
@@ -657,7 +657,7 @@ addtour() {
 	cat "\$HOME"/bin/pci
 	printf "\\e[1;32m\\n%s \\e[38;5;121m%s \\n\\n\\e[4;38;5;129m%s\\e[0m\\n\\n\\e[1;34m%s \\e[38;5;135m%s\\e[0m\\n\\n" "==>" "Short tour is complete; Scroll up if you wish to study the output.  Run this script again at a later time, and it might be surprising at how this environment changes over time. " "If you are new to *nix, http://tldp.org has documentation." "IRC: " "https://wiki.archlinux.org/index.php/IRC_channel"
 	EOM
-	chmod 700 root/bin/tour 
+	chmod 700 root/bin/tour 2>/dev/null ||: 
 }
 
 addtrim() {
@@ -676,7 +676,7 @@ addtrim() {
 	rm -f /var/cache/pacman/pkg/*xz ||: 
 	printf "\\\\n\\\\e[1;32mtrim: Done \\\\e[0m\\\\n\\\\n" 
 	EOM
-	chmod 700 root/bin/trim 
+	chmod 700 root/bin/trim 2>/dev/null ||: 
 }
 
 addv() {
@@ -694,7 +694,7 @@ addv() {
 		vim "\$@"
 	fi
 	EOM
-	chmod 700 root/bin/v 
+	chmod 700 root/bin/v 2>/dev/null ||: 
 }
 
 addwe() { 
@@ -839,7 +839,7 @@ addwe() {
 	fi
 	_PRINTTAIL_ 
 	EOM
-	chmod 700 usr/bin/we 
+	chmod 700 usr/bin/we 2>/dev/null ||: 
 }
 
 addyt() {
@@ -852,7 +852,7 @@ addyt() {
 		youtube-dl "\$@"
 	fi
 	EOM
-	chmod 700 root/bin/yt 
+	chmod 700 root/bin/yt 2>/dev/null ||: 
 }
 
 # EOF
