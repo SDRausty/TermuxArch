@@ -104,31 +104,29 @@ _DETECTSYSTEM2_() {
 }
 
 _DETECT_SYSTEM_() {
-	_PRINT_DETECTED_SYSTEM_
 	if [[ "$CPUABI" = "$CPUABI5" ]];then
-		OPTA=([HSYS]=ARMV5L)
+		OPTA=([DEVICE_ARCHITECTURE]=ARMV5L)
 	elif [[ "$CPUABI" = "$CPUABI7" ]];then
+		if [[ "$(getprop ro.product.device)" == *_cheets ]];then
+			OPTA=([DEVICE_ARCHITECTURE]=ARMV7LC)
+		else
+			OPTA=([DEVICE_ARCHITECTURE]=ARMV7L)
+			armv7lAndroid  
+		fi
 		_DETECT_SYSTEM2_ 
 	elif [[ "$CPUABI" = "$CPUABI8" ]];then
-#		OPTA=([HSYS]=ARMV8L)
-		OPTA=([HSYS]=AARCH64)
+		OPTA=([DEVICE_ARCHITECTURE]=ARMV8L)
+#		# OPTA=([DEVICE_ARCHITECTURE]=AARCH64)
 	elif [[ "$CPUABI" = "$CPUABIX86" ]];then
-		OPTA=([HSYS]=X86)
+		OPTA=([DEVICE_ARCHITECTURE]=X86)
 	elif [[ "$CPUABI" = "$CPUABIX86_64" ]];then
-		OPTA=([HSYS]=X86_64)
+		OPTA=([DEVICE_ARCHITECTURE]=X86_64)
 	else
 		_PRINT_MISMATCH_ 
 	fi
-}
-
-_DETECT_SYSTEM2_() {
-	if [[ "$(getprop ro.product.device)" == *_cheets ]];then
-#		OPTA=([HSYS]=ARMV7LC)
-		armv7lChrome 
-	else
-#		OPTA=([HSYS]=ARMV7L)
-		armv7lAndroid  
-	fi
+	_PRINT_DETECTED_SYSTEM_
+	_CHOOSE_INSTALL_SYSTEM_
+	_GET_INSTALL_SYSTEM_
 }
 
 _KERNID_() {
