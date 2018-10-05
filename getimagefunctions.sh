@@ -24,19 +24,19 @@ _FTCHIT_() {
 
 _FTCHSTND_() {
 	FSTND=1
-	_PRINTCONTACTING_ 
+	_PRINT_CONTACTING_ 
 	if [[ "$dm" = aria2 ]];then
 		aria2c http://"$CMIRROR" 1>"$TAMPDIR/global2localmirror"
 		NLCMIRROR="$(grep Redirecting "$TAMPDIR/global2localmirror" | awk {'print $8'})" 
-		_PRINTDONE_ 
-		_PRINTDOWNLOADINGFTCH_ 
+		_PRINT_DONE_ 
+		_PRINT_DOWNLOADING_FTCH_ 
 		aria2c -c -m 4 -Z "$NLCMIRROR$path$SRMFILE" "$NLCMIRROR$path$file"
 	elif [[ "$dm" = axel ]];then
 		axel -vv http://"$CMIRROR" 1 > "$TAMPDIR/global2localmirror"
 		NLCMIRR="$(grep downloading "$TAMPDIR/global2localmirror" | awk {'print $5'})" 
 		NLCMIRROR="${NLCMIRR::-3}"
-		_PRINTDONE_ 
-		_PRINTDOWNLOADINGFTCH_ 
+		_PRINT_DONE_ 
+		_PRINT_DOWNLOADING_FTCH_ 
 		axel -a http://"$NLCMIRROR$path$SRMFILE"
 		axel -a http://"$NLCMIRROR$path$file"
 	elif [[ "$dm" = lftp ]] ; then
@@ -44,14 +44,14 @@ _FTCHSTND_() {
 		NLCMI="$(grep direct "$TAMPDIR/global2localmirror" | awk {'print $5'})" 
 		NLCMIRR="${NLCMI//\`}"
 		NLCMIRROR="${NLCMIRR//\'}"
-		_PRINTDONE_ 
-		_PRINTDOWNLOADINGFTCH_ 
+		_PRINT_DONE_ 
+		_PRINT_DOWNLOADING_FTCH_ 
 		lftpget -c "$NLCMIRROR$path$SRMFILE" "$NLCMIRROR$path$file"
 	elif [[ "$dm" = wget ]];then 
 		wget -v -O/dev/null "$CMIRROR" 2>"$TAMPDIR/global2localmirror"
 		NLCMIRROR="$(grep Location "$TAMPDIR/global2localmirror" | awk {'print $2'})" 
-		_PRINTDONE_ 
-		_PRINTDOWNLOADINGFTCH_ 
+		_PRINT_DONE_ 
+		_PRINT_DOWNLOADING_FTCH_ 
 		wget "$DMVERBOSE" -c --show-progress "$NLCMIRROR$path$SRMFILE" "$NLCMIRROR$path$file" 
 	else
 		curl -v "$CMIRROR" 2>"$TAMPDIR/global2localmirror"
@@ -62,12 +62,12 @@ _FTCHSTND_() {
 
 _FMIRROR_() {
 	NLCMIRROR="$(grep Location "$TAMPDIR/global2localmirror" | awk {'print $3'})" 
-	_PRINTDONE_ 
-	_PRINTDOWNLOADINGFTCH_ 
+	_PRINT_DONE_ 
+	_PRINT_DOWNLOADING_FTCH_ 
 }
 
 _GETIMAGE_() {
-	_PRINTDOWNLOADINGX86_ 
+	_PRINT_DOWNLOADING_X86_ 
 	if [[ "$dm" = aria2 ]]
 	then
 		aria2c "$PRTCL"://"$CMIRROR$path$SRMFILE"
@@ -103,7 +103,7 @@ _ISX86_() {
 	fi
 	sed '2q;d' $SRMFILE > "$file".md5
 	rm $SRMFILE
-	_PRINTDOWNLOADINGX86TWO_ 
+	_PRINT_DOWNLOADING_X86TWO_ 
 }
 
 # EOF

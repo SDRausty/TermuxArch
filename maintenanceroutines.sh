@@ -35,21 +35,21 @@ loadimage() {
 	_WAKELOCK_
 	_PREPINSTALLDIR_ 
   	copyimage ## "$@" & spinner "Copying" "…" 
-	_PRINTMD5CHECK_
+	_PRINT_MD5CHECK_
 	_MD5CHECK_
-	_PRINTCU_ 
+	_PRINT_CU_ 
 	rm -f "$INSTALLDIR"/*.tar.gz "$INSTALLDIR"/*.tar.gz.md5
-	_PRINTDONE_ 
-	_PRINTCONFIGUP_ 
+	_PRINT_DONE_ 
+	_PRINT_CONFIGUP_ 
 	_TOUCHUPSYS_ 
 	printf "\\n" 
 	_WAKEUNLOCK_ 
-	_PRINTFOOTER_
+	_PRINT_FOOTER_
 	set +Eeuo pipefail
 	"$INSTALLDIR/$STARTBIN" ||:
 	set -Eeuo pipefail
-	_PRINTSTARTBIN_USAGE_
-	_PRINTFOOTER2_
+	_PRINT_STARTBIN_USAGE_
+	_PRINT_FOOTER2_
 	printf "\\n"
 	exit
 }
@@ -98,15 +98,15 @@ _REFRESHSYS_() { # Refreshes
 	fi
 	printf "\\n" 
 	_WAKEUNLOCK_ 
-	_PRINTFOOTER_ 
+	_PRINT_FOOTER_ 
 	printf "\\a"
 	sleep 0.015
 	printf "\\a"
 	set +Eeuo pipefail
 	"$INSTALLDIR/$STARTBIN" ||:
 	set -Eeuo pipefail
-	_PRINTSTARTBIN_USAGE_
-	_PRINTFOOTER2_
+	_PRINT_STARTBIN_USAGE_
+	_PRINT_FOOTER2_
 	printf "\\n"
 	exit
 }

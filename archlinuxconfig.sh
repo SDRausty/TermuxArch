@@ -135,10 +135,10 @@ addch() {
 	_TRPET_() { # on exit
 		printf "\\e[?25h\\e[0m"
 		set +Eeuo pipefail 
-	 	_PRINTTAIL_ "\$ARGS[@]"  
+	 	_PRINT_TAIL_ "\$ARGS[@]"  
 	}
 	
-	_PRINTTAIL_() {
+	_PRINT_TAIL_() {
 		printf "\\\\a\\\\n\\\\e[0m%s \\\\e[0;32m%s %s %s\\\\a\\\\e[1;34m: \\\\a\\\\e[1;32m%s\\\\e[0m 🏁  \\\\n\\\\n\\\\a\\\\e[0m" "TermuxArch" "\$(basename "\$0")" "\$ARGS"  "\$VERSIONID" "DONE"
 		printf '\033]2;  🔑🗝 TermuxArch '"\$(basename "\$0")"':DONE 📱 \007'
 	}
@@ -379,7 +379,7 @@ addkeys() {
 	_TRPET_() { # on exit
 		printf "\\e[?25h\\e[0m"
 		set +Eeuo pipefail 
-	 	_PRINTTAIL_ "\$KEYRINGS[@]"  
+	 	_PRINT_TAIL_ "\$KEYRINGS[@]"  
 	}
 	
 	_GENEN_() { # This for loop generates entropy on device for \$t seconds.
@@ -397,7 +397,7 @@ addkeys() {
 		disown
 	}
 
-	_PRINTTAIL_() {
+	_PRINT_TAIL_() {
 		printf "\\\\a\\\\n\\\\e[0;32m%s %s %s\\\\a\\\\e[1;34m: \\\\a\\\\e[1;32m%s\\\\e[0m 🏁  \\\\n\\\\n\\\\a\\\\e[0m" "TermuxArch \$(basename "\$0")" "\$ARGS" "\$VERSIONID" "DONE"
 		printf '\033]2;  🔑🗝 TermuxArch '"\$(basename "\$0") \$ARGS"': DONE 📱 \007'
 	}
@@ -458,10 +458,10 @@ addpc() {
 	_TRPET_() { # on exit
 		printf "\\e[?25h\\e[0m"
 		set +Eeuo pipefail 
-	 	_PRINTTAIL_ "\$ARGS"  
+	 	_PRINT_TAIL_ "\$ARGS"  
 	}
 	
-	_PRINTTAIL_() {
+	_PRINT_TAIL_() {
 		printf "\\\\a\\\\n\\\\e[0;32m%s %s %s\\\\a\\\\e[1;34m: \\\\a\\\\e[1;32m%s\\\\e[0m 🏁  \\\\n\\\\n\\\\a\\\\e[0m" "TermuxArch \$(basename "\$0")" "\$ARGS" "\$VERSIONID" "DONE"
 		printf '\033]2;  🔑🗝 TermuxArch '"\$(basename "\$0") \$ARGS"' 📱 \007'
 	}
@@ -498,10 +498,10 @@ addpci() {
 	_TRPET_() { # on exit
 		printf "\\e[?25h\\e[0m"
 		set +Eeuo pipefail 
-	 	_PRINTTAIL_ "\$ARGS"  
+	 	_PRINT_TAIL_ "\$ARGS"  
 	}
 	
-	_PRINTTAIL_() { 
+	_PRINT_TAIL_() { 
 		printf "\\\\a\\\\n\\\\e[0;32m%s %s %s\\\\a\\\\e[1;34m: \\\\a\\\\e[1;32m%s\\\\e[0m 🏁  \\\\n\\\\n\\\\a\\\\e[0m" "TermuxArch \$(basename "\$0")" "\$ARGS" "\$VERSIONID" "DONE"
 		printf '\033]2;  🔑🗝 TermuxArch '"\$(basename "\$0") \$ARGS"' 📱 \007'
 	}
@@ -533,10 +533,10 @@ addpcs() {
 	_TRPET_() { # on exit
 		printf "\\e[?25h\\e[0m"
 		set +Eeuo pipefail 
-	 	_PRINTTAIL_ "\$ARGS"  
+	 	_PRINT_TAIL_ "\$ARGS"  
 	}
 	
-	_PRINTTAIL_() { 
+	_PRINT_TAIL_() { 
 		printf "\\\\a\\\\n\\\\e[0;32m%s %s %s\\\\a\\\\e[1;34m: \\\\a\\\\e[1;32m%s\\\\e[0m 🏁  \\\\n\\\\n\\\\a\\\\e[0m" "TermuxArch \$(basename "\$0")" "\$ARGS" "\$VERSIONID" "DONE"
 		printf '\033]2;  🔑🗝 TermuxArch '"\$(basename "\$0") \$ARGS"' 📱 \007'
 	}
@@ -568,10 +568,10 @@ addpcss() {
 	_TRPET_() { # on exit
 		printf "\\e[?25h\\e[0m"
 		set +Eeuo pipefail 
-	 	_PRINTTAIL_ "\$ARGS"  
+	 	_PRINT_TAIL_ "\$ARGS"  
 	}
 	
-	_PRINTTAIL_() { 
+	_PRINT_TAIL_() { 
 		printf "\\\\a\\\\n\\\\e[0;32m%s %s %s\\\\a\\\\e[1;34m: \\\\a\\\\e[1;32m%s\\\\e[0m 🏁  \\\\n\\\\n\\\\a\\\\e[0m" "TermuxArch \$(basename "\$0")" "\$ARGS" "\$VERSIONID" "DONE"
 		printf '\033]2;  🔑🗝 TermuxArch '"\$(basename "\$0") \$ARGS"' 📱 \007'
 	}
@@ -713,12 +713,12 @@ addwe() {
 		printf "\n\e[1;32mTermuxArch Watch Entropy:\n"'\033]2; TermuxArch Watch Entropy 📲  \007'
 	}
 
-	_PRINTTAIL_()
+	_PRINT_TAIL_()
 	{
 		printf "\n\n\e[1;32mTermuxArch Watch Entropy 🏁 \n\n"'\033]2; TermuxArch Watch Entropy 🏁 \007'
 	}
 
-	_PRINTUSAGE_()
+	_PRINT_USAGE_()
 	{
 		printf "\n\e[0;32mUsage:  \e[1;32mwe \e[0;32m Watch Entropy simple.\n\n	\e[1;32mwe sequential\e[0;32m Watch Entropy sequential.\n\n	\e[1;32mwe simple\e[0;32m Watch Entropy simple.\n\n	\e[1;32mwe verbose\e[0;32m Watch Entropy verbose.\n\n"'\033]2; TermuxArch Watch Entropy 📲  \007'
 	}
@@ -838,9 +838,9 @@ addwe() {
 		printintro 
 		entropysequential 
 	else
-		_PRINTUSAGE_
+		_PRINT_USAGE_
 	fi
-	_PRINTTAIL_ 
+	_PRINT_TAIL_ 
 	EOM
 	chmod 700 usr/bin/we ||: 
 }

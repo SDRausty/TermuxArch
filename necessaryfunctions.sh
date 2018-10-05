@@ -58,7 +58,7 @@ _CALLSYSTEM_() {
 				printf "\\n"
 				COUNTER=$((COUNTER + 1))
 				if [[ "$COUNTER" = 4 ]];then 
-					_PRINTMAX_ 
+					_PRINT_MAX_ 
 					exit
 				fi
 			done
@@ -79,7 +79,7 @@ _COPYSTARTBIN2PATH_() {
 }
 
 _DETECTSYSTEM_() {
-	_PRINTDETECTEDSYSTEM_
+	_PRINT_DETECTED_SYSTEM_
 	if [[ "$CPUABI" = "$CPUABI5" ]];then
 		_ARMV5L_
 	elif [[ "$CPUABI" = "$CPUABI7" ]];then
@@ -91,7 +91,7 @@ _DETECTSYSTEM_() {
 	elif [[ "$CPUABI" = "$CPUABIX86_64" ]];then
 		_X86_64_
 	else
-		_PRINTMISMATCH_ 
+		_PRINT_MISMATCH_ 
 	fi
 }
 
@@ -104,7 +104,7 @@ _DETECTSYSTEM2_() {
 }
 
 _DETECT_SYSTEM_() {
-	_PRINTDETECTEDSYSTEM_
+	_PRINT_DETECTED_SYSTEM_
 	if [[ "$CPUABI" = "$CPUABI5" ]];then
 		OPTA=([HSYS]=ARMV5L)
 	elif [[ "$CPUABI" = "$CPUABI7" ]];then
@@ -117,7 +117,7 @@ _DETECT_SYSTEM_() {
 	elif [[ "$CPUABI" = "$CPUABIX86_64" ]];then
 		OPTA=([HSYS]=X86_64)
 	else
-		_PRINTMISMATCH_ 
+		_PRINT_MISMATCH_ 
 	fi
 }
 
@@ -161,12 +161,12 @@ _MAINBLOCK_() {
 	_PREPINSTALLDIR_
 	_DETECTSYSTEM_ 
 	_WAKEUNLOCK_ 
-	_PRINTFOOTER_
+	_PRINT_FOOTER_
 	set +Eeuo pipefail
 	"$INSTALLDIR/$STARTBIN" ||:
 	set -Eeuo pipefail
-	_PRINTSTARTBIN_USAGE_
-	_PRINTFOOTER2_
+	_PRINT_STARTBIN_USAGE_
+	_PRINT_FOOTER2_
 	printf "\\n"
 }
 
@@ -248,7 +248,7 @@ _MAKESTARTBIN_() {
 	fi
 	declare -g ar2ar="\${@:2}"
 	declare -g ar3ar="\${@:3}"
-	_PRINTUSAGE_() { 
+	_PRINT_USAGE_() { 
 	printf "\\n\\e[1;32m$STARTBIN\\e[0;32m: Start Arch Linux as root.  This account is reserved for system administration.\\n\\n\\e[1;32m$STARTBIN c[md] cmd\\e[0;32m: Run Arch Linux command from Termux as root user.\\n\\n\\e[1;32m$STARTBIN u[ser]|l[ogin] user\\e[0;32m: Login as user.  Use \\e[1;32m$STARTBIN addauser user \\e[0;32mfirst to create this user and user's home directory.\\n\\n\\e[1;32m$STARTBIN r[aw]\\e[0;32m: Construct the \\e[1;32m$STARTBIN \\e[0;32mproot statement from exec.../bin/.  For example \\e[1;32m$STARTBIN r su \\e[0;32mwill exec su in Arch Linux.\\n\\n\\e[1;32m$STARTBIN s[u] user cmd\\e[0;32m: Login as user and execute command.  Use \\e[1;32m$STARTBIN addauser user \\e[0;32mfirst to create this user and user's home directory.\\n\\n\\e[0m"'\033]2; TermuxArch '$STARTBIN' help 📲  \007' 
 	}
 
@@ -262,7 +262,7 @@ _MAKESTARTBIN_() {
 		printf '\033]2; TermuxArch $STARTBIN 📲  \007'
 	# [?|help] Displays usage information.
 	elif [[ "\${1//-}" = [?]* ]] || [[ "\${1//-}" = [Hh]* ]] ; then
-		_PRINTUSAGE_
+		_PRINT_USAGE_
 	# [command ARGS] Execute a command in BASH as root.
 	elif [[ "\${1//-}" = [Cc]* ]] ; then
 		printf '\033]2; $STARTBIN command ARGS 📲  \007'
@@ -312,7 +312,7 @@ _MAKESTARTBIN_() {
 			rm -f $INSTALLDIR/home/"\$2"/.chushlogin
 		fi
 	else
-		_PRINTUSAGE_
+		_PRINT_USAGE_
 	fi
 	EOM
 	chmod 700 "$STARTBIN" 2>/dev/null ||:
@@ -321,12 +321,12 @@ _MAKESTARTBIN_() {
 _MAKESYSTEM_() {
 	_WAKELOCK_
 	_CALLSYSTEM_
-	_PRINTMD5CHECK_
+	_PRINT_MD5CHECK_
 	_MD5CHECK_
-	_PRINTCU_ 
+	_PRINT_CU_ 
 	rm -f "$INSTALLDIR/$file" "$INSTALLDIR/$SRMFILE"
-	_PRINTDONE_ 
-	_PRINTCONFIGUP_ 
+	_PRINT_DONE_ 
+	_PRINT_CONFIGUP_ 
 	_TOUCHUPSYS_ 
 }
 
@@ -337,12 +337,12 @@ _MD5CHECK_() {
 		_PREPROOT_ 
 	elif "$PREFIX"/bin/applets/"$STYPE" -c "$SRMFILE" 1>/dev/null 
 	then
-		_PRINTMD5SUCCESS_
+		_PRINT_MD5SUCCESS_
 		printf "\\e[0;32m"
 		_PREPROOT_ 
 	else
 		rm -f "$INSTALLDIR/$file" "$INSTALLDIR/$SRMFILE"
-		_PRINTMD5ERROR_
+		_PRINT_MD5ERROR_
 	fi
 }
 
@@ -447,15 +447,15 @@ _TOUCHUPSYS_() {
 }
 
 _WAKELOCK_() {
-	_PRINTWLA_ 
+	_PRINT_WLA_ 
 	am startservice --user 0 -a com.termux.service_wake_lock com.termux/com.termux.app.TermuxService > /dev/null
-	_PRINTDONE_ 
+	_PRINT_DONE_ 
 }
 
 _WAKEUNLOCK_() {
-	_PRINTWLD_ 
+	_PRINT_WLD_ 
 	am startservice --user 0 -a com.termux.service_wake_unlock com.termux/com.termux.app.TermuxService > /dev/null
-	_PRINTDONE_ 
+	_PRINT_DONE_ 
 }
 
 # EOF

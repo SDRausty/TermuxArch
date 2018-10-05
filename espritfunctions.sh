@@ -193,7 +193,7 @@ _LOADCONF_() {
 	if [[ -f "${WDIR}setupTermuxArchConfigs.sh" ]] 
 	then
 		. "${WDIR}setupTermuxArchConfigs.sh"
-		_PRINTCONFLOADED_ 
+		_PRINT_CONFLOADED_ 
 	else
 		. "${AF[3]}" # AF[3]=knownconfigurations.sh 
 	fi
@@ -206,7 +206,7 @@ _MANUAL_() {
 	then
 		"$ed" "${WDIR}setupTermuxArchConfigs.sh"
 		. "${WDIR}setupTermuxArchConfigs.sh"
-		_PRINTCONFLOADED_ 
+		_PRINT_CONFLOADED_ 
 	else
        	if [[ "$LCW" = 0 ]] 
 	then
@@ -217,7 +217,7 @@ _MANUAL_() {
  		sed -i "7s/.*/\# The architecture of this device is $CPUABI; Adjust configurations in the appropriate section.  Change mirror (https:\/\/wiki.archlinux.org\/index.php\/Mirrors and https:\/\/archlinuxarm.org\/about\/mirrors) to desired geographic location to resolve 404, checksum and similar issues.  /" "${WDIR}setupTermuxArchConfigs.sh" 
 		"$ed" "${WDIR}setupTermuxArchConfigs.sh"
 		. "${WDIR}setupTermuxArchConfigs.sh"
-		_PRINTCONFLOADED_ 
+		_PRINT_CONFLOADED_ 
 	fi
 }
 

@@ -8,7 +8,7 @@ IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-VERSIONID="v1.6.4.id5155"
+VERSIONID="v1.6.4.id5533"
 
 _SET_TRAP_ERROR_() { # Run on script error.
 	local RV="$?"
@@ -85,7 +85,7 @@ _CHK_() {
 			fi
 	       	done
 	else
-		_PRINTSHA512SYSCHKER_
+		_PRINT_SHA512SYSCHKER_
 	fi
 }
 
@@ -95,7 +95,7 @@ _CHKDWN_() {
 		printf "\\e[0;34m%s\\e[1;34m%s%s\\e[1;32m%s\\n\\n" " 🕛 > 🕐 " "$TA download: " "OK"
 		proot --link2symlink -0 "$PREFIX"/bin/applets/tar xf setupTermuxArch.tar.gz 
 	else
-		_PRINTSHA512SYSCHKER_
+		_PRINT_SHA512SYSCHKER_
 	fi
 }
 
@@ -454,7 +454,7 @@ _PECHK_() {
 		do
 		       	if [[ ! -x "$PREFIX"/bin/"${ADM[$CMD]}" ]] 
 			then
-			       	_PRINTPE_ 
+			       	_PRINT_PE_ 
 			fi 
 		done
        	fi
@@ -474,19 +474,19 @@ _PREPTERMUXARCH_() {
 	_PREPTMPDIR_
 }
 
-_PRINTPE_() {
+_PRINT_PE_() {
 	printf "\\n\\e[7;1;31m%s\\e[0;1;32m %s\\n\\n\\e[0m" "PREREQUISITE EXCEPTION!" "RUN ${0##*/} $ARGS AGAIN…"
 	printf "\\e]2;%s %s\\007" "RUN ${0##*/} $ARGS" "AGAIN…"
 	exit 233
 }
 
-_PRINTSHA512SYSCHKER_() {
+_PRINT_SHA512SYSCHKER_() {
 	printf "\\n\\e[07;1m\\e[31;1m\\n%s \\e[34;1m\\e[30;1m%s \\n\\e[0;0m\\n" " 🔆 WARNING sha512sum mismatch!  Setup initialization mismatch!" "  Try again, initialization was not successful this time.  Wait a little while.  Then run \`bash ${0##*/}\` again…"
 	printf '\033]2; Run `bash %s` again…\007' "${0##*/} $ARGS" 
 	exit 
 }
 
-_PRINTSTARTBIN_USAGE_() {
+_PRINT_STARTBIN_USAGE_() {
 	printf "\\n\\e[1;38;5;155m" 
  	_NAME_STARTARCH_ 
 	if [[ -x "$(command -v "$STARTBIN")" ]] ; then
@@ -495,7 +495,7 @@ _PRINTSTARTBIN_USAGE_() {
 	fi
 }
 
-_PRINTUSAGE_() {
+_PRINT_USAGE_() {
 	printf "\\n\\e[1;33m %s     \\e[0;32m%s \\e[1;34m%s\\n" "HELP" "${0##*/} help" "shall output the help screen." 
 	printf "\\n\\e[1;33m %s    \\e[0;32m%s \\e[1;34m%s\\n" "TERSE" "${0##*/} he[lp]" "shall output the terse help screen." 
 	printf "\\n\\e[1;33m %s  \\e[0;32m%s \\e[1;34m%s\\n" "VERBOSE" "${0##*/} h" "shall output the verbose help screen." 
@@ -507,7 +507,7 @@ _PRINTUSAGE_() {
 	printf "\\n\\e[1;38;5;149m" 
 	awk 'NR>=600 && NR<=900'  "${0##*/}" | awk '$1 == "##"' | awk '{ $1 = ""; print }' | awk '1;{print ""}'
 	fi
-	_PRINTSTARTBIN_USAGE_
+	_PRINT_STARTBIN_USAGE_
 }
 
 _PROOTIF_() {
@@ -776,12 +776,12 @@ elif [[ "${1//-}" = [Ff]* ]] ; then
 ## [he[lp]|?]  Display terse builtin help.
 elif [[ "${1//-}" = [Hh][Ee]* ]] || [[ "${1//-}" = [?]* ]] ; then
 	_ARG2DIR_ "$@" 
-	_PRINTUSAGE_ "$@"  
+	_PRINT_USAGE_ "$@"  
 ## [h]  Display verbose builtin help.
 elif [[ "${1//-}" = [Hh]* ]] ; then
 	lcc="1"
 	_ARG2DIR_ "$@" 
-	_PRINTUSAGE_ "$@"  
+	_PRINT_USAGE_ "$@"  
 ## [i[nstall] [customdir]]  Install Arch Linux in a custom directory.  Instructions: Install in USERSPACE. $HOME is appended to installation directory. To install Arch Linux in $HOME/customdir use `bash setupTermuxArch.sh install customdir`. In bash shell use `./setupTermuxArch.sh install customdir`.  All options can be abbreviated to one, two and three letters.  Hence `./setupTermuxArch.sh install customdir` can be run as `./setupTermuxArch.sh i customdir` in BASH.
 elif [[ "${1//-}" = [Ii]* ]] ; then
 	echo
@@ -863,7 +863,7 @@ elif [[ "${1//-}" = [Ww]* ]] ; then
 	_OPT1_ "$@" 
 	_INTRO_INIT_ "$@"  
 else
-	_PRINTUSAGE_
+	_PRINT_USAGE_
 fi
 
 # EOF
