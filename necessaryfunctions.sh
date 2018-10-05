@@ -185,7 +185,7 @@ _MAKEFINISHSETUP_() {
 	if [[ "${LCR:-}" != 2 ]]
 	then
 		cat >> root/bin/"$BINFNSTP" <<- EOM
-		printf "\\n\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\n\\n\\e[1;32m%s\\e[0;32m" "To generate locales in a preferred language use " "Settings > Language & Keyboard > Language " "in Android; Then run " "${0##*/} r " "for a quick system refresh; For full system refresh use ${0##*/} refresh." "==> " 
+		printf "\\n\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\n\\n\\e[1;32m%s\\e[0;32m" "To generate locales in a preferred language use " "Settings > Language & Keyboard > Language " "in Android; Then run " "${0##*/} r " "for a quick system refresh; For full system refresh use " "${0##*/} refresh" "." "==> " 
 		locale-gen ||: 
 		EOM
 	fi

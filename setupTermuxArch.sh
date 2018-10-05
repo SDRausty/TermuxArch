@@ -8,9 +8,9 @@ IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-VERSIONID="v1.6.4.id1484"
+VERSIONID="v1.6.4.id2096"
 
-_STRPERROR_() { # Run on script error.
+_SET__TRAP_ERROR_() { # Run on script error.
 	local RV="$?"
 	printf "\\e[?25h\\n\\e[1;48;5;138m %s\\e[0m\\n" "$TA WARNING:  Generated script signal $RV near or at line number ${2:-unknown} by \`${3:-command}\`!"
 	if [[ "$RV" = 4 ]] ; then
@@ -20,7 +20,7 @@ _STRPERROR_() { # Run on script error.
 	exit 201
 }
 
-_STRPEXIT_() { # Run on exit.
+_SET__TRAP_EXIT_() { # Run on exit.
 	local RV="$?"
  	rm -rf "$TAMPDIR"
 	if [[ "$RV" = 0 ]] ; then
@@ -35,23 +35,23 @@ _STRPEXIT_() { # Run on exit.
 	exit
 }
 
-_STRPSIGNAL_() { # Run on signal.
+_SET__TRAP_SIGNAL_() { # Run on signal.
 	local RV="$?"
 	printf "\\e[?25h\\n\\e[1;48;5;138m %s\\e[0m\\n" "$TA WARNING:  Signal $RV received near or at line number ${2:-unknown} by \`${3:-command}\`!"
  	rm -rf "$TAMPDIR"
  	exit 211 
 }
 
-_STRPQUIT_() { # Run on quit.
+_SET__TRAP_QUIT_() { # Run on quit.
 	local RV="$?"
 	printf "\\e[?25h\\e[1;7;38;5;0m$TA WARNING:  Quit signal $RV received!\\e[0m\\n"
  	exit 221 
 }
 # https://www.ibm.com/developerworks/aix/library/au-usingtraps/index.html
-trap '_STRPERROR_ $? $LINENO $BASH_COMMAND' ERR 
-trap _STRPEXIT_ EXIT
-trap '_STRPSIGNAL_ $? $LINENO $BASH_COMMAND' HUP INT TERM 
-trap _STRPQUIT_ QUIT 
+trap '_SET__TRAP_ERROR_ $? $LINENO $BASH_COMMAND' ERR 
+trap _SET__TRAP_EXIT_ EXIT
+trap '_SET__TRAP_SIGNAL_ $? $LINENO $BASH_COMMAND' HUP INT TERM 
+trap _SET__TRAP_QUIT_ QUIT 
 ################################################################################
 _ARG2DIR_() {  # Argument as ROOTDIR.
 	ARG2="${@:2:1}"
@@ -203,7 +203,7 @@ _DEPENDS_() { # Checks for missing commands.
 
 _DEPENDSBLOCK_() {
 	_PREPTERMUXARCH_ "$@" 
-	_SETROOT_EXCEPTION_ "$@" 
+	_SET__ROOT_DIRECTORY_EXCEPTIONS_ "$@" 
 	_DEPENDS_ 
 	AF=([0]=archlinuxconfig.sh [1]=espritfunctions.sh [2]=getimagefunctions.sh [3]=knownconfigurations.sh [4]=maintenanceroutines.sh [5]=necessaryfunctions.sh [6]=printoutstatements.sh [7]=setupTermuxArch.sh)
  	LCW=0
@@ -552,7 +552,7 @@ _RMARCH_() {
 }
 
 _RMARCHRM_() {
-	_SETROOT_EXCEPTION_ 
+	_SET__ROOT_DIRECTORY_EXCEPTIONS_ 
 	nice -n 19 rm -rf "${INSTALLDIR}" 2>/dev/null ||:
 	nice -n 19 chmod -R 700 "${INSTALLDIR}" {} \; 2>/dev/null ||:
 	nice -n 19 rm -rf "$INSTALLDIR" ||:
@@ -573,7 +573,7 @@ _TAPIN_() {
 	fi
 }
 
-_SETROOT_EXCEPTION_() {
+_SET__ROOT_DIRECTORY_EXCEPTIONS_() {
 	if [[ "$INSTALLDIR" = "$HOME" ]] || [[ "$INSTALLDIR" = "$HOME"/ ]] || [[ "$INSTALLDIR" = "$HOME"/.. ]] || [[ "$INSTALLDIR" = "$HOME"/../ ]] || [[ "$INSTALLDIR" = "$HOME"/../.. ]] || [[ "$INSTALLDIR" = "$HOME"/../../ ]] ; then
 		printf  '\033]2;%s\007' "Rootdir exception.  Run bash ${0##*/} $ARGS again with different options…"	
 		printf "\\n\\e[1;31m%s\\n\\n\\e[0m" "Rootdir exception.  Run the script $ARGS again with different options…"
@@ -581,7 +581,7 @@ _SETROOT_EXCEPTION_() {
 	fi
 }
 
-_SETROOT_() {
+_SET_ROOT_() {
 	if [[ "$CPUABI" = "$CPUABIX86" ]] ; then
 	#	ROOTDIR=/root.i686
 		ROOTDIR=/arch
@@ -632,7 +632,7 @@ declare WDIR="$PWD/"
 if [[ -z "${TAMPDIR:-}" ]] ; then
 	TAMPDIR=""
 fi
-_SETROOT_
+_SET_ROOT_
 ## TERMUXARCH FEATURES INCLUDE: 
 ## @) Sets timezone and locales from device,
 ## @) Tests for correct OS,
