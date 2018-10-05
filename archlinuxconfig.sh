@@ -82,7 +82,8 @@ addbashrc() {
 	alias g='ga; gcm; gp'
 	alias gca='git commit -a'
 	alias gcam='git commit -am'
-	#alias gp='git push https://username:password@github.com/username/repository.git master'
+	# This is not the best file for this alias; inserted as example:
+	# alias gp='git push https://username:password@github.com/username/repository.git master'
 	alias grep='grep --color=always'
 	alias h='history >> \$HOME/.historyfile'
 	alias j='jobs'
@@ -93,7 +94,8 @@ addbashrc() {
 	alias p='pwd'
 	alias pacman='pacman --color=always'
 	alias q='logout'
-	alias rf='rm -rf'
+	# Use this alias at your own risk!
+	# alias rf='rm -rf'
 	EOM
 	if [ -e "$HOME"/.bashrc ] ; then
 		grep proxy "$HOME"/.bashrc | grep "export" >>  root/.bashrc ||:
