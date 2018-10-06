@@ -264,6 +264,7 @@ _OPTIONAL_SYSTEMS_() {
 #	#	Available architectures: aarch64 armv7 armv5 x86_64 x86 and more.
 # 	#	https://os.archlinuxarm.org/os/
 	then
+		MLSOURCE="/etc/apt/sources.list"
 		if [[ "$CPUABI" = armeabi ]]
 		then
 			SPECS_ARMV5L_=( [DIST]="$CSYSTEM" [FILE]="ArchLinuxARM-armv5-latest.tar.gz" [PROTOCOL]="https" [RPATH]="/os/" [SITE]="os.archlinuxarm.org" [SFNM]="ArchLinuxARM-armv5-latest.tar.gz.md5" [STYPE]="md5sum" )

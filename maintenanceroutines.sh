@@ -73,7 +73,7 @@ _REFRESHSYS_() { # Refreshes
  	rm -f root/bin/setupbin.sh 
 	printf "\\e[1;34mThe following files have been updated to the newest version.\\n\\n\\e[0;32m"
 	ls "$INSTALLDIR/$STARTBIN" |cut -f7- -d /
-	ls "$INSTALLDIR"/bin/we |cut -f7- -d /
+	ls "$INSTALLDIR"/root/bin/we |cut -f7- -d /
 	ls "$INSTALLDIR"/root/.bashrc |cut -f7- -d /
 	ls "$INSTALLDIR"/root/.bash_profile |cut -f7- -d /
 	ls "$INSTALLDIR"/root/.profile |cut -f7- -d /

@@ -7,6 +7,7 @@
 ################################################################################
 
 LC_TYPE=( "LANG" "LANGUAGE" "LC_ALL" "LC_ADDRESS" "LC_COLLATE" "LC_CTYPE" "LC_IDENTIFICATION" "LC_MEASUREMENT" "LC_MESSAGES" "LC_MONETARY" "LC_NAME" "LC_NUMERIC" "LC_PAPER" "LC_TELEPHONE" "LC_TIME" )
+MLSOURCE="/etc/pacman.d/mirrorlist"
 
 _ADDADDS_() {
 	addREADME
@@ -381,18 +382,18 @@ _RUNFINISHSETUP_() {
 		if [[ "$FSTND" ]]
 		then
 			NMIR="$(echo "$NLCMIRROR" |awk -F'/' '{print $3}')"
-			sed -e '/http\:\/\/mir/ s/^#*/# /' -i "$INSTALLDIR"/etc/pacman.d/mirrorlist
-			sed -e "/$NMIR/ s/^# *//" -i "$INSTALLDIR"/etc/pacman.d/mirrorlist
+			sed -e '/http\:\/\/mir/ s/^#*/# /' -i "$INSTALLDIR$MLSOURCE"
+			sed -e "/$NMIR/ s/^# *//" -i "$INSTALLDIR$MLSOURCE"
 		else
 		if [[ "$ed" = "" ]]
 		then
 			_EDITORS_ 
 		fi
-		if [[ ! "$(sed 1q  "$INSTALLDIR"/etc/pacman.d/mirrorlist)" = "# # # # # # # # # # # # # # # # # # # # # # # # # # #" ]]
+		if [[ ! "$(sed 1q  "$INSTALLDIR$MLSOURCE")" = "# # # # # # # # # # # # # # # # # # # # # # # # # # #" ]]
 		then
 			_EDITFILES_
 		fi
-			"$ed" "$INSTALLDIR"/etc/pacman.d/mirrorlist
+			"$ed" "$INSTALLDIR$MLSOURCE"
 		fi
 		printf "\\n"
 	fi
