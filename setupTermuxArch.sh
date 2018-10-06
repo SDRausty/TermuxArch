@@ -8,7 +8,7 @@ IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-VERSIONID="v1.6.4.id5461"
+VERSIONID="v1.6.4.id3426"
 
 _SET_TRAP_ERROR_() { # Run on script error.
 	local RV="$?"
@@ -369,6 +369,7 @@ _OPT1_() {
 		_PRINT_INTRO_INIT_
 		_CHKIDIR_
 		_DEPENDSBLOCK_ "$@" 
+		_PRINT_DETECTED_SYSTEM_
 		_OPTIONAL_SYSTEMS_ "$@" 
 	elif [[ "$2" = [Ii]* ]] ; then
 		echo Setting mode to install.
@@ -389,6 +390,7 @@ _OPT1_() {
 		_PRINT_INTRO_INIT_
 		_CHKIDIR_
 		_DEPENDSBLOCK_ "$@" 
+		_PRINT_DETECTED_SYSTEM_
 		_OPTIONAL_SYSTEMS_ "$@" 
 	elif [[ "${1//-}" = [Rr][Ee][Ff]* ]] ; then
 		echo 
@@ -424,6 +426,7 @@ _OPT2_() {
 		_PRINT_INTRO_INIT_
 		_CHKIDIR_
 		_DEPENDSBLOCK_ "$@" 
+		_PRINT_DETECTED_SYSTEM_
 		_OPTIONAL_SYSTEMS_ "$@" 
 	elif [[ "$3" = [Ii]* ]] ; then
 		echo Setting mode to install.
@@ -783,8 +786,8 @@ elif [[ "${1//-}" = [Ff]* ]] ; then
 	_PRINT_INTRO_INIT_
 	_CHKIDIR_
 	_DEPENDSBLOCK_ "$@" 
-	_DETECT_SYSTEM_ "$@"
-# 	_OPTIONAL_SYSTEMS_ "$@" 
+	_PRINT_DETECTED_SYSTEM_
+	_OPTIONAL_SYSTEMS_ "$@" 
 ## [he[lp]|?]  Display terse builtin help.
 elif [[ "${1//-}" = [Hh][Ee]* ]] || [[ "${1//-}" = [?]* ]] ; then
 	_ARG2DIR_ "$@" 
@@ -833,6 +836,7 @@ elif [[ "${1//-}" = [Oo]* ]] ; then
 	_PRINT_INTRO_INIT_
 	_CHKIDIR_
 	_DEPENDSBLOCK_ "$@" 
+	_PRINT_DETECTED_SYSTEM_
 	_OPTIONAL_SYSTEMS_ "$@" 
 ## [p[urge] [customdir]]  Remove Arch Linux.
 elif [[ "${1//-}" = [Pp]* ]] ; then

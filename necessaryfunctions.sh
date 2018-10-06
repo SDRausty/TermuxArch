@@ -83,7 +83,11 @@ _DETECTSYSTEM_() {
 	if [[ "$CPUABI" = "$CPUABI5" ]];then
 		_ARMV5L_
 	elif [[ "$CPUABI" = "$CPUABI7" ]];then
-		_DETECTSYSTEM2_ 
+		if [[ "$(getprop ro.product.device)" == *_cheets ]];then
+			armv7lChrome 
+		else
+			armv7lAndroid  
+		fi
 	elif [[ "$CPUABI" = "$CPUABI8" ]];then
 		_AARCH64_
 	elif [[ "$CPUABI" = "$CPUABIX86" ]];then
@@ -95,44 +99,35 @@ _DETECTSYSTEM_() {
 	fi
 }
 
-_DETECTSYSTEM2_() {
-	if [[ "$(getprop ro.product.device)" == *_cheets ]];then
-		armv7lChrome 
-	else
-		armv7lAndroid  
-	fi
-}
-
 _DETECT_SYSTEM_() {
-	if [[ "$CPUABI" = "$CPUABI5" ]]
-	then
-		OPTA=([DEVICE_ARCHITECTURE]=ARMV5L)
-	elif [[ "$CPUABI" = "$CPUABI7" ]]
-	then
-		if [[ "$(getprop ro.product.device)" == *_cheets ]]
-		then
-			OPTA=([DEVICE_ARCHITECTURE]=ARMV7LC)
-		else
-			OPTA=([DEVICE_ARCHITECTURE]=ARMV7L)
-			armv7lAndroid  
-		fi
-		_DETECT_SYSTEM2_ 
-	elif [[ "$CPUABI" = "$CPUABI8" ]]
-	then
-		OPTA=([DEVICE_ARCHITECTURE]=ARMV8L)
-	elif [[ "$CPUABI" = "$CPUABIX86" ]]
-	then
-		OPTA=([DEVICE_ARCHITECTURE]=X86)
-	elif [[ "$CPUABI" = "$CPUABIX86_64" ]]
-	then
-		OPTA=([DEVICE_ARCHITECTURE]=X86_64)
-	else
-		_PRINT_MISMATCH_ 
-	fi
+# 	if [[ "$CPUABI" = "$CPUABI5" ]]
+# 	then
+# 		OPTA=([DEVICE_ARCHITECTURE]=ARMV5L)
+# 	elif [[ "$CPUABI" = "$CPUABI7" ]]
+# 	then
+# 		if [[ "$(getprop ro.product.device)" == *_cheets ]]
+# 		then
+# 			OPTA=([DEVICE_ARCHITECTURE]=ARMV7LC)
+# 		else
+# 			OPTA=([DEVICE_ARCHITECTURE]=ARMV7L)
+# 			armv7lAndroid  
+# 		fi
+# 		_DETECT_SYSTEM2_ 
+# 	elif [[ "$CPUABI" = "$CPUABI8" ]]
+# 	then
+# 		OPTA=([DEVICE_ARCHITECTURE]=ARMV8L)
+# # 	printf "\n\033[0;34m 🕛 > 🕝 \033[1;34mDetected $CPUABI " 
+# 	elif [[ "$CPUABI" = "$CPUABIX86" ]]
+# 	then
+# 		OPTA=([DEVICE_ARCHITECTURE]=X86)
+# 	elif [[ "$CPUABI" = "$CPUABIX86_64" ]]
+# 	then
+# 		OPTA=([DEVICE_ARCHITECTURE]=X86_64)
+# 	else
+# 		_PRINT_MISMATCH_ 
+# 	fi
 	_PRINT_DETECTED_SYSTEM_
-# 	_CHOOSE_INSTALL_SYSTEM_ "$@" 
 	_OPTIONAL_SYSTEMS_ "$@" 
-# 	_GET_INSTALL_SYSTEM_
 }
 
 _KERNID_() {
@@ -376,21 +371,31 @@ _PREPROOT_() {
 }
 
 _RUNFINISHSETUP_() {
-	printf "\\e[0m"
-	if [[ "$FSTND" ]]; then
-		NMIR="$(echo "$NLCMIRROR" |awk -F'/' '{print $3}')"
-		sed -e '/http\:\/\/mir/ s/^#*/# /' -i "$INSTALLDIR"/etc/pacman.d/mirrorlist
-		sed -e "/$NMIR/ s/^# *//" -i "$INSTALLDIR"/etc/pacman.d/mirrorlist
+	sed -i 's/root/proot/g' "$INSTALLDIR"/etc/passwd
+	if [[ "$CSYSTEM" = Alpine ]]
+	then
+		printf "\\n\\n\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\n\\n" "Maintenance window:  " "Install BASH.  Use " "apk add bash " "to install BASH;  Then type exit to continue…"
+		""$INSTALLDIR"/"$STARTBIN r ash"" ||:
 	else
-	if [[ "$ed" = "" ]];then
-		_EDITORS_ 
+		printf "\\e[0m"
+		if [[ "$FSTND" ]]
+		then
+			NMIR="$(echo "$NLCMIRROR" |awk -F'/' '{print $3}')"
+			sed -e '/http\:\/\/mir/ s/^#*/# /' -i "$INSTALLDIR"/etc/pacman.d/mirrorlist
+			sed -e "/$NMIR/ s/^# *//" -i "$INSTALLDIR"/etc/pacman.d/mirrorlist
+		else
+		if [[ "$ed" = "" ]]
+		then
+			_EDITORS_ 
+		fi
+		if [[ ! "$(sed 1q  "$INSTALLDIR"/etc/pacman.d/mirrorlist)" = "# # # # # # # # # # # # # # # # # # # # # # # # # # #" ]]
+		then
+			_EDITFILES_
+		fi
+			"$ed" "$INSTALLDIR"/etc/pacman.d/mirrorlist
+		fi
+		printf "\\n"
 	fi
-	if [[ ! "$(sed 1q  "$INSTALLDIR"/etc/pacman.d/mirrorlist)" = "# # # # # # # # # # # # # # # # # # # # # # # # # # #" ]];then
-		_EDITFILES_
-	fi
-		"$ed" "$INSTALLDIR"/etc/pacman.d/mirrorlist
-	fi
-	printf "\\n"
 	"$INSTALLDIR"/root/bin/setupbin.sh ||:
 }
 

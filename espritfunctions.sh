@@ -240,15 +240,48 @@ _OPTIONAL_SYSTEMS_() {
 	_CREATEMENU_ "${#AVSYSTEMS[@]}" "${AVSYSTEMS[@]}" 
 	
 	if [[ "$CSYSTEM" = Alpine ]]
+#	#	Available architectures: aarch64 armhf x86_64 x86 and more.
+# 	#	https://alpinelinux.org/downloads/
 	then
-#		# Available architectures: aarch64 armhf x86_64 x86 and more.
-# 		# https://alpinelinux.org/downloads/
-	       	SPECS_ARMV8L_=( [DIST]="$CSYSTEM" [FILE]="alpine-minirootfs-3.8.1-aarch64.tar.gz" [PROTOCOL]="http" [RPATH]="/alpine/v3.8/releases/aarch64/" [SITE]="dl-cdn.alpinelinux.org" [SFNM]="alpine-minirootfs-3.8.1-aarch64.tar.gz.sha256" [STYPE]="sha256sum" )
+		if [[ "$CPUABI" = armeabi ]]
+		then
+			echo "Alpine Linux does not appear to be available for your device.  Check at https://alpinelinux.org/downloads/."
+			exit 198
+		elif [[ "$CPUABI" = armeabi-v7a ]]
+		then
+		       	SPECS_ARMV7L_=( [DIST]="$CSYSTEM" [FILE]="alpine-minirootfs-3.8.1-armhf.tar.gz" [PROTOCOL]="http" [RPATH]="/alpine/v3.8/releases/armhf/" [SITE]="dl-cdn.alpinelinux.org" [SFNM]="alpine-minirootfs-3.8.1-armhf.tar.gz.sha256" [STYPE]="sha256sum" )
+		elif [[ "$CPUABI" = arm64-v8a ]]
+		then
+		       	SPECS_ARMV8L_=( [DIST]="$CSYSTEM" [FILE]="alpine-minirootfs-3.8.1-aarch64.tar.gz" [PROTOCOL]="http" [RPATH]="/alpine/v3.8/releases/aarch64/" [SITE]="dl-cdn.alpinelinux.org" [SFNM]="alpine-minirootfs-3.8.1-aarch64.tar.gz.sha256" [STYPE]="sha256sum" )
+		elif [[ "$CPUABI" = x86 ]]
+		then
+		       	SPECS_X86_=( [DIST]="$CSYSTEM" [FILE]="alpine-minirootfs-3.8.1-x86.tar.gz" [PROTOCOL]="http" [RPATH]="/alpine/v3.8/releases/x86/" [SITE]="dl-cdn.alpinelinux.org" [SFNM]="alpine-minirootfs-3.8.1-x86.tar.gz.sha256" [STYPE]="sha256sum" )
+		elif [[ "$CPUABI" = x86_64 ]]
+		then
+		       	SPECS_X86_64_=( [DIST]="$CSYSTEM" [FILE]="alpine-minirootfs-3.8.1-x86_64.tar.gz" [PROTOCOL]="http" [RPATH]="/alpine/v3.8/releases/x86_64/" [SITE]="dl-cdn.alpinelinux.org" [SFNM]="alpine-minirootfs-3.8.1-x86_64.tar.gz.sha256" [STYPE]="sha256sum" )
+		fi
 	elif [[ "$CSYSTEM" = "Arch Linux" ]]
+#	#	Available architectures: aarch64 armv7 armv5 x86_64 x86 and more.
+# 	#	https://os.archlinuxarm.org/os/
 	then
-#		# Available architectures: aarch64 armv7 armv5 x86_64 x86 and more.
-# 		# https://os.archlinuxarm.org/os/
-	       	SPECS_ARMV8L_=( [DIST]="$CSYSTEM" [FILE]="ArchLinuxARM-aarch64-latest.tar.gz" [PROTOCOL]="https" [RPATH]="/os/" [SITE]="os.archlinuxarm.org" [SFNM]="ArchLinuxARM-aarch64-latest.tar.gz.md5" [STYPE]="md5sum" )
+		if [[ "$CPUABI" = armeabi ]]
+		then
+			SPECS_ARMV5L_=( [DIST]="$CSYSTEM" [FILE]="ArchLinuxARM-armv5-latest.tar.gz" [PROTOCOL]="https" [RPATH]="/os/" [SITE]="os.archlinuxarm.org" [SFNM]="ArchLinuxARM-armv5-latest.tar.gz.md5" [STYPE]="md5sum" )
+			
+		elif [[ "$CPUABI" = armeabi-v7a ]]
+		then
+			SPECS_ARMV7L_=( [DIST]="$CSYSTEM" [FILE]="ArchLinuxARM-armv7-latest.tar.gz" [PROTOCOL]="https" [RPATH]="/os/" [SITE]="os.archlinuxarm.org" [SFNM]="ArchLinuxARM-armv7-latest.tar.gz.md5" [STYPE]="md5sum" )
+# 			SPECS_ARMV7LC_=( [DIST]="$CSYSTEM" [FILE]="ArchLinuxARM-armv7-chromebook-latest.tar.gz" [PROTOCOL]="https" [RPATH]="/os/" [SITE]="os.archlinuxarm.org" [SFNM]="ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5sum" [STYPE]="md5sum" )
+		elif [[ "$CPUABI" = arm64-v8a ]]
+		then
+	       		SPECS_ARMV8L_=( [DIST]="$CSYSTEM" [FILE]="ArchLinuxARM-aarch64-latest.tar.gz" [PROTOCOL]="https" [RPATH]="/os/" [SITE]="os.archlinuxarm.org" [SFNM]="ArchLinuxARM-aarch64-latest.tar.gz.md5" [STYPE]="md5sum" )
+		elif [[ "$CPUABI" = x86 ]]
+		then
+			SPECS_X86_=( [DIST]="$CSYSTEM" [FILE]="" [PROTOCOL]="https" [RPATH]="/iso/2017.03.01/" [SITE]="archive.archlinux.org" [SFNM]="md5sums.txt" [STYPE]="md5sum" )
+		elif [[ "$CPUABI" = x86_64 ]]
+		then
+			SPECS_X86_64_=( [DIST]="$CSYSTEM" [FILE]="" [PROTOCOL]="https" [RPATH]="/archlinux/iso/latest/" [SITE]="mirror.rackspace.com" [SFNM]="md5sums.txt" [STYPE]="md5sum" )
+		fi
 	elif [[ "$CSYSTEM" = Debian ]]
 	then
 #		# Available architectures: aarch64 
