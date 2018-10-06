@@ -16,7 +16,7 @@ FLHDR1[1]="# IFS=$'\\n\\t'"
 FLHDR1[2]="set -Eeuo pipefail"
 FLHDR1[3]="# shopt -s nullglob globstar"
 FLHDR1[4]="unset LD_PRELOAD"
-FLHDR1[5]="VERSIONID=v1.6.4.id5024"
+FLHDR1[5]="VERSIONID=v1.6.4.id5910"
 FLHDR1[6]=" "
 FLHDRP[0]="## BEGIN #######################################################################"
 FLHDRP[1]=""
@@ -126,7 +126,7 @@ _PRINT_CU_() {
 }
 
 _PRINT_DETECTED_SYSTEM_() {
-	printf "\n\033[0;34m 🕛 > 🕝 \033[1;34mDetected $(uname -m) " 
+	printf "\n\033[0;34m 🕛 > 🕝 \033[1;34mDetected $CPUABI " 
 	if [[ "$(getprop ro.product.device)" == *_cheets ]];then
 		printf "Chromebook.\n\n\033[0m"
 	else

@@ -273,7 +273,8 @@ _SYSTEMINFO_ () {
 
 USERSPACE() {
 	USRSPACE="$(df "$INSTALLDIR" 2>/dev/null | awk 'FNR == 2 {print $4}')"
-	if [[ "$USRSPACE" = "" ]] ; then
+	if [[ "$USRSPACE" = "" ]] 
+	then
 		USRSPACE="$(df "$INSTALLDIR" 2>/dev/null | awk 'FNR == 3 {print $3}')"
 	fi
 }

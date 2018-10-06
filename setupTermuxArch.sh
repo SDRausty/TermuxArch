@@ -8,7 +8,7 @@ IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-VERSIONID="v1.6.4.id5024"
+VERSIONID="v1.6.4.id5910"
 
 _SET_TRAP_ERROR_() { # Run on script error.
 	local RV="$?"
@@ -101,10 +101,21 @@ _CHKDWN_() {
 
 _CHKIDIR_() {
    	if [[ -f "$INSTALLDIR/$STARTBIN" ]] && [[ -f "$INSTALLDIR"/root/bin/tour ]] && [[ -f "$INSTALLDIR/sbin/apk"  || -f "$INSTALLDIR/usr/bin/apt" || -f "$INSTALLDIR/bin/pacman" ]] 
-  		then 
-  		printf "\\n\\n\\e[1;33m%s\\e[0;33m%s\\e[0m\\n\\n" "$TA WARNING!  " "The root directory structure is correct; Cannot continue ${0##*/} install!  See \`${0##*/} help\` and \`$STARTBIN help\` for options."
-  		exit 205
+  	then 
+  		printf "\\n"
+		_PRINT_USAGE_ "$@"  
+  		printf "\\n\\e[1;33m%s\\e[0;33m%s\\e[0m\\n\\n" "$TA WARNING!  " "The root directory structure is correct; Cannot continue ${0##*/} install!  See \`${0##*/} help\` and \`$STARTBIN help\` for options."
+  		exit 204
   	fi
+}
+
+_CHKIROOST_() {
+   	if [[ ! -f "$INSTALLDIR/$STARTBIN" ]] && [[ ! -f "$INSTALLDIR"/root/bin/tour ]] && [[ ! -f "$INSTALLDIR/sbin/apk"  || ! -f "$INSTALLDIR/usr/bin/apt" || ! -f "$INSTALLDIR/bin/pacman" ]] 
+	then
+		_PRINT_USAGE_ "$@"  
+		printf "\\e[0;33m%s\\e[1;33m%s\\e[0;33m.\\e[0m\\n\\n" "$TA WARNING!  " "The root directory structure is incorrect; Cannot continue ${0##*/} refresh!  See \`${0##*/} help\` for more information"
+		exit 205
+	fi
 }
 
 _CHKSELF_() {
@@ -202,8 +213,6 @@ _DEPENDS_() { # Checks for missing commands.
 }
 
 _DEPENDSBLOCK_() {
-	_PREPTERMUXARCH_ "$@" 
-	_SET_ROOT_DIRECTORY_EXCEPTIONS_ "$@" 
 	_DEPENDS_ 
 	AF=([0]=archlinuxconfig.sh [1]=espritfunctions.sh [2]=getimagefunctions.sh [3]=knownconfigurations.sh [4]=maintenanceroutines.sh [5]=necessaryfunctions.sh [6]=printoutstatements.sh [7]=setupTermuxArch.sh)
  	LCW=0
@@ -272,14 +281,14 @@ _DWNL_() { # Downloads TermuxArch from Github.
 }
 
 _PRINT_INTRO_INIT_() {
+	_PREPTERMUXARCH_ "$@" 
+	_CHKIDIR_
 	printf "\033]2;%s\007" "bash ${0##*/} $ARGS 📲" 
 	printf "\\n\\e[0;34m 🕛 > 🕛 \\e[1;34m$TA $VERSIONID shall attempt to install Linux in \\e[0;32m$INSTALLDIR\\e[1;34m.  Linux in Termux PRoot shall be available upon successful completion.  To run this BASH script again, use \`!!\`.  Ensure background data is not restricted.  Check the wireless connection if you do not see one o'clock 🕐 below.  "
 } 
 
 _INTRO_INIT_() {
-	_PREPTERMUXARCH_ 
 	_PRINT_INTRO_INIT_
-	_CHKIDIR_
 	_DEPENDSBLOCK_ "$@" 
 	if [[ "$OPT" = *flavors* ]] 
 	then
@@ -296,26 +305,27 @@ _INTRO_INIT_() {
 
 _INTRO_BLOOM_() { # Bloom = `setupTermuxArch.sh manual verbose` 
 	OPT+=bloom 
-	_PREPTERMUXARCH_ 
 	printf "\033]2;%s\007" "bash ${0##*/} bloom 📲" 
-	printf "\\n\\e[0;34m 🕛 > 🕛 \\e[1;34m$TA $VERSIONID bloom option.  Run \\e[1;32mbash ${0##*/} help \\e[1;34mfor additional information.  Ensure background data is not restricted.  Check the wireless connection if you do not see one o'clock 🕐 below.  "
+	printf "\\n\\e[0;34m 🕛 > 🕛 \\e[1;34m$TA $VERSIONID bloom option.  Run \\e[1;32mbash ${0##*/} help\\e[1;34m for additional information.  Ensure background data is not restricted.  Check the wireless connection if you do not see one o'clock 🕐 below.  "
 	_DEPENDSBLOCK_ "$@" 
 	_BLOOM_ 
 }
 
-_INTRO_REFRESH_() {
+_PRINT_INTRO_REFRESH_() {
+	_PREPTERMUXARCH_ "$@" 
+	_CHKIROOST_
 	printf "\033]2;%s\007" "bash ${0##*/} refresh 📲" 
-   	if [[ ! -f "$INSTALLDIR/$STARTBIN" ]] && [[ ! -f "$INSTALLDIR"/root/bin/tour ]] && [[ ! -f "$INSTALLDIR/sbin/apk"  || ! -f "$INSTALLDIR/usr/bin/apt" || ! -f "$INSTALLDIR/bin/pacman" ]] 
-	then
-		printf "\\n\\e[0;33m%s\\e[1;33m%s\\e[0;33m.\\e[0m\\n\\n" "$TA WARNING!  " "The root directory structure is incorrect; Cannot continue ${0##*/} refresh!  See \`${0##*/} help\` and \`$STARTBIN help\` for more information"
-		exit 204
-	fi
-	printf "\\n\\e[0;34m 🕛 > 🕛 \\e[1;34m$TA $VERSIONID shall refresh your TermuxArch files in \\e[0;32m$INSTALLDIR\\e[1;34m.  Ensure background data is not restricted.  Run \\e[0;32mbash ${0##*/} help \\e[1;34mfor additional information.  Check the wireless connection if you do not see one o'clock 🕐 below.  "
+	printf "\\n\\e[0;34m 🕛 > 🕛 \\e[1;34m$TA $VERSIONID shall refresh your TermuxArch files in \\e[0;32m$INSTALLDIR\\e[1;34m.  Ensure background data is not restricted.  Run \\e[0;32mbash ${0##*/} help\\e[1;34m for additional information.  Check the wireless connection if you do not see one o'clock 🕐 below.  "
+} 
+
+_INTRO_REFRESH_() {
+	_PRINT_INTRO_REFRESH_ "$@" 
 	_DEPENDSBLOCK_ "$@" 
 	_REFRESHSYS_ "$@"
 }
 
 _INTRO_SYSINFO_() {
+	_PREPTERMUXARCH_ "$@" 
 	printf "\033]2;%s\007" "bash ${0##*/} sysinfo 📲" 
 	printf "\\n\\e[0;34m 🕛 > 🕛 \\e[1;34m$TA $VERSIONID shall create a system information file.  Ensure background data is not restricted.  Run \\e[0;32mbash ${0##*/} help \\e[1;34mfor additional information.  Check the wireless connection if you do not see one o'clock 🕐 below.  "
 	_DEPENDSBLOCK_ "$@" 
@@ -355,8 +365,7 @@ _OPT1_() {
 	elif [[ "$2" = [Ff]* ]] ; then
 		echo Setting mode to Flavors.
 		OPT+=flavors
-		shift
-		_ARG2DIR_ "$@" 
+ 		_OPT2_ "$@"  
 		_PRINT_INTRO_INIT_
 		_CHKIDIR_
 		_DEPENDSBLOCK_ "$@" 
@@ -376,8 +385,7 @@ _OPT1_() {
 		OPT+=option
 		echo Setting mode to Flavors.
 		OPT+=flavors
-		shift
-		_ARG2DIR_ "$@" 
+ 		_OPT2_ "$@"  
 		_PRINT_INTRO_INIT_
 		_CHKIDIR_
 		_DEPENDSBLOCK_ "$@" 
@@ -471,6 +479,7 @@ _PREPTMPDIR_() {
 _PREPTERMUXARCH_() { 
 	_NAME_INSTALLDIR_ 
 	_NAME_STARTARCH_  
+	_SET_ROOT_DIRECTORY_EXCEPTIONS_ "$@" 
 	_PREPTMPDIR_
 }
 
@@ -765,6 +774,7 @@ elif [[ "${1//-}" = [Dd]* ]] || [[ "${1//-}" = [Ss]* ]] ; then
 	shift
 	_ARG2DIR_ "$@" 
 	_INTRO_SYSINFO_ "$@" 
+## [f[lavors]]  Choose another Linux to install.  THIS OPTION IS UNDER CONSTRUCTION!  
 elif [[ "${1//-}" = [Ff]* ]] ; then
 	echo Setting mode to Flavors.
 	OPT=flavors
@@ -772,7 +782,8 @@ elif [[ "${1//-}" = [Ff]* ]] ; then
 	_PRINT_INTRO_INIT_
 	_CHKIDIR_
 	_DEPENDSBLOCK_ "$@" 
-	_OPTIONAL_SYSTEMS_ "$@" 
+	_DETECT_SYSTEM_ "$@"
+# 	_OPTIONAL_SYSTEMS_ "$@" 
 ## [he[lp]|?]  Display terse builtin help.
 elif [[ "${1//-}" = [Hh][Ee]* ]] || [[ "${1//-}" = [?]* ]] ; then
 	_ARG2DIR_ "$@" 

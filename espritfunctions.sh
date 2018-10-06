@@ -273,7 +273,6 @@ _OPTIONAL_SYSTEMS_() {
 	       	exit 163
 	       	#	loadimage "$@" 
 	fi
-	_CHKIDIR_
 	_MAINBLOCK_
 }
 
