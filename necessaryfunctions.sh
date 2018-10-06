@@ -117,7 +117,6 @@ _DETECT_SYSTEM_() {
 # 	elif [[ "$CPUABI" = "$CPUABI8" ]]
 # 	then
 # 		OPTA=([DEVICE_ARCHITECTURE]=ARMV8L)
-# # 	printf "\n\033[0;34m 🕛 > 🕝 \033[1;34mDetected $CPUABI " 
 # 	elif [[ "$CPUABI" = "$CPUABIX86" ]]
 # 	then
 # 		OPTA=([DEVICE_ARCHITECTURE]=X86)
@@ -375,7 +374,8 @@ _RUNFINISHSETUP_() {
 	sed -i 's/root/proot/g' "$INSTALLDIR"/etc/passwd
 	if [[ "$CSYSTEM" = Alpine ]]
 	then
-		printf "\\n\\n\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\n\\n" "Maintenance window:  " "Install BASH.  Use " "apk add bash " "to install BASH;  Then type exit to continue…"
+		ln -s "$INSTALLDIR/usr/bin/env" "$INSTALLDIR/bin/env"
+		printf "\\n\\n\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\n\\n" "Maintenance window:  " "Install BASH and Pacman.  Use " "apk add bash pacman " "to install BASH and Pacman;  Then type exit to continue…"
 		""$INSTALLDIR"/"$STARTBIN r ash"" ||:
 	else
 		printf "\\e[0m"
