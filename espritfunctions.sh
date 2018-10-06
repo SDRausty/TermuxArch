@@ -66,20 +66,20 @@ _COPYSTARTBIN2PATHQ_() {
 
 _CREATEMENU_() { # https://stackoverflow.com/users/258523/etan-reisner
        	ARSIZE=$1
-       	printf "This option to install Linux flavors is being developed; \\n\\nChoose one of these options by inputting a number to continue:\\n"
+       	printf "This option to install Linux flavors is being developed.\\n\\nChoose one of these options by inputting a number to continue:\\n"
        	echo 
 	select CSYSTEM in "${@:2}"; do
 	       	if [ "$REPLY" -eq "$ARSIZE" ];
 	       	then
-		       	echo "Exiting..."
+		       	echo "Exiting…"
 		       	break;
 	       	elif [ 1 -le "$REPLY" ] && [ "$REPLY" -le $((ARSIZE-1)) ];
 	       	then
 		       	echo 
-		       	echo "You selected $CSYSTEM which is option $REPLY"
+		       	echo "You selected $CSYSTEM which is option $REPLY."
 		       	break;
 	       	else
-		       	echo "Incorrect Input: Select a number 1-$ARSIZE"
+		       	echo "Incorrect Input: Select a number 1-$ARSIZE."
        			echo 
 	       	fi
        	done
