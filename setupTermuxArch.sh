@@ -8,7 +8,7 @@ IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-VERSIONID="v1.6.4.id6517"
+VERSIONID="v1.6.4.id5461"
 
 _SET_TRAP_ERROR_() { # Run on script error.
 	local RV="$?"
@@ -381,7 +381,7 @@ _OPT1_() {
  		_OPT2_ "$@"  
 		_INTRO_INIT_ "$@"  
 	elif [[ "$2" = [Oo]* ]] ; then
-		echo Setting mode to option.
+		echo Setting mode to option.  THIS OPTION IS UNDER CONSTRUCTION!  
 		OPT+=option
 		echo Setting mode to Linux Flavors.  THIS OPTION IS UNDER CONSTRUCTION!  
 		OPT+=flavors
@@ -774,7 +774,7 @@ elif [[ "${1//-}" = [Dd]* ]] || [[ "${1//-}" = [Ss]* ]] ; then
 	shift
 	_ARG2DIR_ "$@" 
 	_INTRO_SYSINFO_ "$@" 
-## [f[lavors]]  Choose another Linux flavor to install.  THIS OPTION IS UNDER CONSTRUCTION!  
+## [f[lavors]]  Choose a Linux flavor to install.  THIS OPTION IS UNDER CONSTRUCTION!  
 elif [[ "${1//-}" = [Ff]* ]] ; then
 	echo 
 	echo Setting mode to Linux Flavors.  THIS OPTION IS UNDER CONSTRUCTION!  
@@ -825,9 +825,9 @@ elif [[ "${1//-}" = [Mm]* ]] ; then
 ## [o[ption]]  Option under development.
 elif [[ "${1//-}" = [Oo]* ]] ; then
 	echo
-	echo Setting mode to option.
+	echo Setting mode to option.  THIS OPTION IS UNDER CONSTRUCTION!  
 	OPT=option
-	echo Setting mode to Flavors.
+	echo Setting mode to Linux Flavors.  THIS OPTION IS UNDER CONSTRUCTION!  
 	OPT=flavors
 	_OPT1_ "$@" 
 	_PRINT_INTRO_INIT_
