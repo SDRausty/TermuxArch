@@ -40,33 +40,37 @@ _BLOOM_() { # Bloom = `setupTermuxArch.sh manual verbose`
 	fi
        	if [[ "$LCW" = 0 ]] # checks whether still set to 0, 
 	then
-		_COPYFILES_ ""
+		_COPY_FILES_ ""
 	else
-		_COPYFILES_ "$TAMPDIR/"
+		_COPY_FILES_ "$TAMPDIR/"
 	fi
 	printf "\\e[1;34mTermuxArch Bloom option via \\e[1;32msetupTermuxArch.sh bloom\\e[0m 📲\\n\\n\\e[0m"'\033]2; TermuxArch Bloom option via `setupTermuxArch.sh bloom` 📲 \007'
 	printf "\\n"
-	ls -agl
+	ls -agl "$HOME"/TermuxArchBloom/
 	printf "\\n\\e[1;34mUse \\e[1;32mcd ~/TermuxArchBloom\\e[1;34m to continue.  Edit any of these files; Then use \\e[1;32mbash $0 [options] \\e[1;34mto run the files in \\e[1;32m~/TermuxArchBloom\\e[1;34m.\\n\\e[0m"'\033]2;  TermuxArch Bloom option via `setupTermuxArch.sh bloom` 📲 \007'
 	exit
 }
 
-_COPYFILES_() {
+_COPY_FILES_() {
        	for AFILE in "${!AF[@]}" 
 	do
 		cp "$1${AF[$AFILE]}" "$HOME"/TermuxArchBloom 
 	done
+	cp "$1"{L,R}* "$HOME"/TermuxArchBloom 
 }
 
 _COPYSTARTBIN2PATHQ_() {
-	while true; do
+	while true
+	do
 	printf "\\e[0;34m 🕛 > 🕚 \\e[0mCopy \\e[1m$STARTBIN\\e[0m to \\e[1m$BPATH\\e[0m?  "'\033]2; 🕛 > 🕚 Copy to $PATH [Y|n]?\007'
-	read -n 1 -p "Answer yes or no [Y|n] " answer
-	if [[ "$answer" = [Yy]* ]] || [[ "$answer" = "" ]];then
+	read -n 1 -p "Answer yes or no [Y|n] " ANSWER
+	if [[ "$ANSWER" = [Yy]* ]] || [[ "$ANSWER" = "" ]]
+	then
 		cp "$INSTALLDIR/$STARTBIN" "$BPATH"
 		printf "\\n\\e[0;34m 🕛 > 🕦 \\e[0mCopied \\e[1m$STARTBIN\\e[0m to \\e[1m$BPATH\\e[0m.\\n\\n"
 		break
-	elif [[ "$answer" = [Nn]* ]] || [[ "$answer" = [Qq]* ]];then
+	elif [[ "$ANSWER" = [Nn]* ]] || [[ "$ANSWER" = [Qq]* ]]
+	then
 		printf "\\n"
 		break
 	else
@@ -75,7 +79,7 @@ _COPYSTARTBIN2PATHQ_() {
 	done
 }
 
-_CREATEMENU_() { # https://stackoverflow.com/users/258523/etan-reisner
+_CREATE_MENU_() { # https://stackoverflow.com/users/258523/etan-reisner
        	ARSIZE=$1
        	printf "This option to install Linux flavors is being developed.\\n\\nChoose one of these options by inputting a number to continue:\\n"
        	echo 
@@ -248,7 +252,7 @@ _OPTIONAL_SYSTEMS_() {
        	AVSYSTEMS=( Alpine "Arch Linux" Debian Fedora Parabola Slackware Ubuntu )
        	echo
 	
-	_CREATEMENU_ "${#AVSYSTEMS[@]}" "${AVSYSTEMS[@]}" 
+	_CREATE_MENU_ "${#AVSYSTEMS[@]}" "${AVSYSTEMS[@]}" 
 	
 	if [[ "$CSYSTEM" = Alpine ]]
 #	#	Available architectures: aarch64 armhf x86_64 x86 and more.
