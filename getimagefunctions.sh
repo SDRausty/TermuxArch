@@ -103,6 +103,7 @@ _ISX86_() {
 	fi
 	sed '2q;d' $SRMFILE > "$file".md5
 	rm $SRMFILE
+	SRMFILE="$file".md5
 	_PRINT_DOWNLOADING_X86TWO_ 
 }
 

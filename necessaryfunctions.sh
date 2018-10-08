@@ -332,7 +332,7 @@ _MAKESYSTEM_() {
 _MD5CHECK_() {
 	if [[ -z "${STYPE:-}" ]] 
 	then	
-		printf "Unpacking download:\\e[0;32m"
+		printf "\\nUnpacking download:\\e[0;32m"
 		_PREPROOT_ 
 	elif "$PREFIX"/bin/applets/tar -c "$SRMFILE" 1>/dev/null 
 	then
