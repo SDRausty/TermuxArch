@@ -40,22 +40,10 @@ _BLOOM_() { # Bloom = `setupTermuxArch.sh manual verbose`
 	fi
        	if [[ "$LCW" = 0 ]] # checks whether still set to 0, 
 	then
-		echo "$TAMPDIR/*" "$HOME/TermuxArchBloom"
-		echo "$PWD/*.sh" "$HOME/TermuxArchBloom"
-		ls -al "$PWD/*.sh" 
-		echo OPT
-		echo $OPT
-		echo pwd
-		pwd
-#		cp "$WDIR"/*.sh "$HOME"/TermuxArchBloom
-#		cp "$WDIR"/LICENSE* "$HOME"/TermuxArchBloom
-#		cp "$WDIR"/README* "$HOME"/TermuxArchBloom
 		cp *.sh "$HOME"/TermuxArchBloom
 		cp LICENSE* "$HOME"/TermuxArchBloom
 		cp README* "$HOME"/TermuxArchBloom
 	else
-		ls -al "$TAMPDIR"/*
-#		cp "$TAMPDIR"/* "$HOME"/TermuxArchBloom
 		cp "$TAMPDIR"/*.sh "$HOME"/TermuxArchBloom
 		cp "$TAMPDIR"/LICENSE* "$HOME"/TermuxArchBloom
 		cp "$TAMPDIR"/README* "$HOME"/TermuxArchBloom
