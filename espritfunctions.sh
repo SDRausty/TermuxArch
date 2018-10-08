@@ -40,19 +40,22 @@ _BLOOM_() { # Bloom = `setupTermuxArch.sh manual verbose`
 	fi
        	if [[ "$LCW" = 0 ]] # checks whether still set to 0, 
 	then
-		cp *.sh "$HOME"/TermuxArchBloom
-		cp LICENSE* "$HOME"/TermuxArchBloom
-		cp README* "$HOME"/TermuxArchBloom
+		_COPYFILES_ ""
 	else
-		cp "$TAMPDIR"/*.sh "$HOME"/TermuxArchBloom
-		cp "$TAMPDIR"/LICENSE* "$HOME"/TermuxArchBloom
-		cp "$TAMPDIR"/README* "$HOME"/TermuxArchBloom
+		_COPYFILES_ "$TAMPDIR/"
 	fi
 	printf "\\e[1;34mTermuxArch Bloom option via \\e[1;32msetupTermuxArch.sh bloom\\e[0m 📲\\n\\n\\e[0m"'\033]2; TermuxArch Bloom option via `setupTermuxArch.sh bloom` 📲 \007'
 	printf "\\n"
 	ls -agl
 	printf "\\n\\e[1;34mUse \\e[1;32mcd ~/TermuxArchBloom\\e[1;34m to continue.  Edit any of these files; Then use \\e[1;32mbash $0 [options] \\e[1;34mto run the files in \\e[1;32m~/TermuxArchBloom\\e[1;34m.\\n\\e[0m"'\033]2;  TermuxArch Bloom option via `setupTermuxArch.sh bloom` 📲 \007'
 	exit
+}
+
+_COPYFILES_() {
+       	for AFILE in "${!AF[@]}" 
+	do
+		cp "$1${AF[$AFILE]}" "$HOME"/TermuxArchBloom 
+	done
 }
 
 _COPYSTARTBIN2PATHQ_() {
