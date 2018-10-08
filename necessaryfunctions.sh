@@ -322,8 +322,8 @@ _MAKESYSTEM_() {
 	_CALLSYSTEM_
 	_PRINT_MD5CHECK_
 	_MD5CHECK_
-# 	_PRINT_CU_ 
-# 	rm -f "$INSTALLDIR/$file" "$INSTALLDIR/$SRMFILE"
+ 	_PRINT_CU_ 
+ 	rm -f "$INSTALLDIR/$file" "$INSTALLDIR/$SRMFILE"
 	_PRINT_DONE_ 
 	_PRINT_CONFIGUP_ 
 	_TOUCHUPSYS_ 
@@ -334,7 +334,7 @@ _MD5CHECK_() {
 	then	
 		printf "Unpacking download:\\e[0;32m"
 		_PREPROOT_ 
-	elif "$PREFIX"/bin/applets/"$STYPE" -c "$SRMFILE" 1>/dev/null 
+	elif "$PREFIX"/bin/applets/tar -c "$SRMFILE" 1>/dev/null 
 	then
 		_PRINT_MD5SUCCESS_
 		printf "\\e[0;32m"
