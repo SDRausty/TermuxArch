@@ -8,7 +8,7 @@ IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-VERSIONID="v1.6.4.id2054"
+VERSIONID="v1.6.4.id1917"
 
 _SET_TRAP_ERROR_() { # Run on script error.
 	local RV="$?"
@@ -241,10 +241,6 @@ _DEPENDSBLOCK_() {
 		_CHKDWN_
 		_CHK_ "$@"
 	fi
-	if [[ "$OPT" = *bloom* ]] 
-	then
-		rm -f termuxarchchecksum.sha512 
-	fi
 	if [[ "$OPT" = *manual* ]] 
 	then
 		_MANUAL_
@@ -304,6 +300,7 @@ _INTRO_INIT_() {
 
 _INTRO_BLOOM_() { # Bloom = `setupTermuxArch.sh manual verbose` 
 	OPT+=bloom 
+	_PREPTERMUXARCH_ "$@" 
 	printf "\033]2;%s\007" "bash ${0##*/} bloom 📲" 
 	printf "\\n\\e[0;34m 🕛 > 🕛 \\e[1;34m$TA $VERSIONID bloom option.  Run \\e[1;32mbash ${0##*/} help\\e[1;34m for additional information.  Ensure background data is not restricted.  Check the wireless connection if you do not see one o'clock 🕐 below.  "
 	_DEPENDSBLOCK_ "$@" 
@@ -471,11 +468,18 @@ _PECHK_() {
 }
 
 _PREPTMPDIR_() { 
-	mkdir -p "$INSTALLDIR/tmp"
-	chmod 777 "$INSTALLDIR/tmp" ||:
-	chmod +t "$INSTALLDIR/tmp"  ||:
- 	TAMPDIR="$INSTALLDIR/tmp/setupTermuxArch$$"
-	mkdir -p "$TAMPDIR" 
+	if [[ "$OPT" = *bloom* ]] 
+	then
+	 	TAMPDIR="$TMPDIR/setupTermuxArch$$"
+		mkdir -p "$TAMPDIR" 
+	 	ls -al "$TMPDIR/setupTermuxArch$$"
+	else
+		mkdir -p "$INSTALLDIR/tmp"
+		chmod 777 "$INSTALLDIR/tmp" ||:
+		chmod +t "$INSTALLDIR/tmp"  ||:
+	 	TAMPDIR="$INSTALLDIR/tmp/setupTermuxArch$$"
+		mkdir -p "$TAMPDIR" 
+	fi
 }
 
 _PREPTERMUXARCH_() { 

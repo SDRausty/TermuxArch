@@ -36,10 +36,30 @@ _BLOOM_() { # Bloom = `setupTermuxArch.sh manual verbose`
 		rmbloomq 
 	fi
 	if [[ ! -d "$HOME"/TermuxArchBloom ]];then 
-		mkdir "$HOME"/TermuxArchBloom
+		mkdir "$HOME/TermuxArchBloom"
 	fi
-	cp *sh "$HOME"/TermuxArchBloom
-	cd "$HOME"/TermuxArchBloom
+       	if [[ "$LCW" = 0 ]] # checks whether still set to 0, 
+	then
+		echo "$TAMPDIR/*" "$HOME/TermuxArchBloom"
+		echo "$PWD/*.sh" "$HOME/TermuxArchBloom"
+		ls -al "$PWD/*.sh" 
+		echo OPT
+		echo $OPT
+		echo pwd
+		pwd
+#		cp "$WDIR"/*.sh "$HOME"/TermuxArchBloom
+#		cp "$WDIR"/LICENSE* "$HOME"/TermuxArchBloom
+#		cp "$WDIR"/README* "$HOME"/TermuxArchBloom
+		cp *.sh "$HOME"/TermuxArchBloom
+		cp LICENSE* "$HOME"/TermuxArchBloom
+		cp README* "$HOME"/TermuxArchBloom
+	else
+		ls -al "$TAMPDIR"/*
+#		cp "$TAMPDIR"/* "$HOME"/TermuxArchBloom
+		cp "$TAMPDIR"/*.sh "$HOME"/TermuxArchBloom
+		cp "$TAMPDIR"/LICENSE* "$HOME"/TermuxArchBloom
+		cp "$TAMPDIR"/README* "$HOME"/TermuxArchBloom
+	fi
 	printf "\\e[1;34mTermuxArch Bloom option via \\e[1;32msetupTermuxArch.sh bloom\\e[0m 📲\\n\\n\\e[0m"'\033]2; TermuxArch Bloom option via `setupTermuxArch.sh bloom` 📲 \007'
 	printf "\\n"
 	ls -agl
