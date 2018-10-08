@@ -8,7 +8,7 @@ IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-VERSIONID="v1.6.4.id6054"
+VERSIONID="v1.6.4.id4736"
 
 _SET_TRAP_ERROR_() { # Run on script error.
 	local RV="$?"
@@ -43,7 +43,7 @@ _SET_TRAP_SIGNAL_() { # Run on signal.
 
 _SET_TRAP_QUIT_() { # Run on quit.
 	local RV="$?"
-	printf "\\e[?25h\\e[1;7;38;5;0m$TA WARNING:  Quit signal $RV received!\\e[0m\\n"
+	printf "\\e[?25h\\e[1;7;38;5;0m%s\\e[0m\\n" "$TA WARNING:  Quit signal $RV received!"
  	exit 203 
 }
 # https://www.ibm.com/developerworks/aix/library/au-usingtraps/index.html
@@ -91,7 +91,7 @@ _CHK_() {
 _CHKDWN_() {
 	if "$PREFIX"/bin/applets/sha512sum -c setupTermuxArch.sha512 1>/dev/null 
 	then
-		printf "\\e[0;34m%s\\e[1;34m%s%s\\e[1;32m%s\\n\\n" " 🕛 > 🕐 " "$TA download: " "OK"
+		printf "\\e[0;34m%s\\e[1;34m%s\\e[1;32m%s\\n\\n" " 🕛 > 🕐 " "$TA download: " "OK"
 		proot --link2symlink -0 "$PREFIX"/bin/applets/tar xf setupTermuxArch.tar.gz 
 	else
 		_PRINT_SHA512SYSCHKER_
@@ -120,7 +120,7 @@ _CHKIROOST_() {
 _CHKSELF_() {
 	if [[ -f "setupTermuxArch.tmp" ]] 
 	then # compare the two versions:
-		if [[ "$(<${0##*/})" != "$(<setupTermuxArch.tmp)" ]] # the two versions are not equal:
+		if [[ "$(<"${0##*/}")" != "$(<setupTermuxArch.tmp)" ]] # the two versions are not equal:
 		then # copy the newer version to update:
 			cp "${0##*/}" "$WDIR${0##*/}"
 			chmod 700 "$WDIR${0##*/}"
@@ -198,17 +198,17 @@ _DEPENDS_() { # Checks for missing commands.
 		DDM=curl # default download tool 
 		dm="$DDM"
 		APTIN+="$DDM "
-		APTON+=($DDM)
+		APTON+=("$DDM")
 		printf "\\n\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;34m%s\\n\\n\\e[0;32m" "Setting download tool " "$APTIN" "as default; " "Continuing…"
 	fi
 	_DEPENDBP_ 
 #	# Installs missing commands.  
 	_TAPIN_ "$APTIN"
 #	# Checks whether install missing commands was successful.  
- 	_PECHK_ "$APTON"
+ 	_PECHK_ "${APTON[*]}"
 	echo
-	echo "Using ${dm:-lftp} to manage downloads." 
-	printf "\\n\\e[0;34m 🕛 > 🕧 \\e[1;34mPrerequisites: \\e[1;32mOK  \\e[1;34mDownloading $TA…\\n\\n\\e[0;32m"
+	echo "Using $dm to manage downloads." 
+	printf "\\n\\e[0;34m%s\\e[1;34m%s\\e[1;32m%s\\e[1;34m%s\\n\\n\\e[0;32m" " 🕛 > 🕧 " "Prerequisites: " "OK  " "Downloading $TA…"
 }
 
 _DEPENDSBLOCK_() {
@@ -283,7 +283,7 @@ _PRINT_INTRO_INIT_() {
 	_PREPTERMUXARCH_ "$@" 
 	_CHKIDIR_
 	printf "\033]2;%s\007" "bash ${0##*/} $ARGS 📲" 
-	printf "\\n\\e[0;34m 🕛 > 🕛 \\e[1;34m$TA $VERSIONID shall attempt to install Linux in \\e[0;32m$INSTALLDIR\\e[1;34m.  Linux in Termux PRoot shall be available upon successful completion.  To run this BASH script again, use \`!!\`.  Ensure background data is not restricted.  Check the wireless connection if you do not see one o'clock 🕐 below.  "
+	printf "\\n\\e[0;34m%s\\e[1;34m%s\\e[0;32m%s\\e[1;34m%s\`\\e[0;32m!!\\e[1;34m\`%s" " 🕛 > 🕛 " "$TA $VERSIONID shall attempt to install Linux in " "$INSTALLDIR" ".  Linux in Termux PRoot shall be available upon successful completion.  To run this BASH script again, use " ".  Ensure background data is not restricted.  Check the wireless connection if you do not see one o'clock 🕐 below.  "
 } 
 
 _INTRO_INIT_() {
@@ -493,7 +493,7 @@ _PRINT_PE_() {
 
 _PRINT_SHA512SYSCHKER_() {
 	printf "\\n\\e[07;1m\\e[31;1m\\n%s \\e[34;1m\\e[30;1m%s \\n\\e[0;0m\\n" " 🔆 WARNING sha512sum mismatch!  Setup initialization mismatch!" "  Try again, initialization was not successful this time.  Wait a little while.  Then run \`bash ${0##*/}\` again…"
-	printf '\033]2; Run `bash %s` again…\007' "${0##*/} $ARGS" 
+	printf "\033]2; Run `bash %s` again…\007" "${0##*/} $ARGS" 
 	exit 
 }
 
@@ -537,26 +537,26 @@ _RMARCH_() {
 		if [[ "$RUANSWER" = [Ee]* ]] || [[ "$RUANSWER" = [Nn]* ]] || [[ "$RUANSWER" = [Qq]* ]] ; then
 			break
 		elif [[ "$RUANSWER" = [Yy]* ]] || [[ "$RUANSWER" = "" ]] ; then
-			printf "\\e[30mUninstalling $INSTALLDIR…\\n"
+			printf "\\e%s\\n" "[30mUninstalling $INSTALLDIR…"
 			if [[ -e "$PREFIX/bin/$STARTBIN" ]] ; then
 				rm -f "$PREFIX/bin/$STARTBIN" 
 			else 
-				printf "Uninstalling $PREFIX/bin/$STARTBIN: nothing to do for $PREFIX/bin/$STARTBIN.\\n"
+				printf "%s\\n" "Uninstalling $PREFIX/bin/$STARTBIN: nothing to do for $PREFIX/bin/$STARTBIN."
 			fi
 			if [[ -e "$HOME/bin/$STARTBIN" ]] ; then
 				rm -f "$HOME/bin/$STARTBIN" 
 			else 
-				printf "Uninstalling $HOME/bin/$STARTBIN: nothing to do for $HOME/bin/$STARTBIN.\\n"
+				printf "%s\\n" "Uninstalling $HOME/bin/$STARTBIN: nothing to do for $HOME/bin/$STARTBIN."
 			fi
 			if [[ -d "$INSTALLDIR" ]] ; then
 				_RMARCHRM_ 
 			else 
-				printf "Uninstalling $INSTALLDIR: nothing to do for $INSTALLDIR.\\n"
+				printf "%s\\n" "Uninstalling $INSTALLDIR: nothing to do for $INSTALLDIR."
 			fi
-			printf "Uninstalling $INSTALLDIR: \\e[1;32mDone\\n\\e[30m"
+			printf "%s\\e[1;32m%s\\n\\e[30m" "Uninstalling $INSTALLDIR: " "DONE"
 			break
 		else
-			printf "\\nYou answered \\e[33;1m$RUANSWER\\e[30m.\\n\\nAnswer \\e[32mYes\\e[30m or \\e[1;31mNo\\e[30m. [\\e[32my\\e[30m|\\e[1;31mn\\e[30m]\\n"
+			printf "\\e[1;33m\\n%s\\e[1;31m%s\\e[1;33m%s\\n\\n\\e[1;30m%s\\e[1;32m%s\\e[1;30m%s\\e[1;31m%s\\e[1;30m%s\\e[32m%s\\e[30m%s\\e[1;31m%s\\e[30m%s\\n" "Received answer " "$RUANSWER" "!" "Answer " "yes " "or " "no" " [" "Y" "|" "n" "]."
 		fi
 	done
 	printf "\\e[0m\\n"
@@ -644,16 +644,16 @@ if [[ -z "${TAMPDIR:-}" ]] ; then
 	TAMPDIR=""
 fi
 _SET_ROOT_
-## TERMUXARCH FEATURES INCLUDE: 
-## @) Sets timezone and locales from device,
-## @) Tests for correct OS,
+## 📱 TERMUXARCH FEATURES INCLUDE: 
+## 📲 Sets timezone and locales from device,
+## 📲 Tests for correct OS,
 COMMANDIF="$(command -v getprop)" ||:
 if [[ "$COMMANDIF" = "" ]] 
 then
 	printf "\\n\\e[1;48;5;138m %s\\e[0m\\n\\n" "$TA WARNING: Run \`bash ${0##*/}\` and \`./${0##*/}\` from the BASH shell in the OS system in Termux, e.g., Amazon Fire, Android and Chromebook."
 	exit
 fi
-## @) Generates pseudo random number to create uniq strings,
+## 📲 Generates pseudo random number to create uniq strings,
 if [[ -r  /proc/sys/kernel/random/uuid ]] 
 then
 	STI="$(cat /proc/sys/kernel/random/uuid)"
@@ -666,9 +666,9 @@ fi
 ONES="$(date +%s)" 
 ONESA="${ONES: -1}" 
 STIME="$ONESA$STIME"
-## @) Gets system information with builtin tools such as `getprop`,
+## 📲 Gets system information with builtin tools such as `getprop`,
 CPUABI="$(getprop ro.product.cpu.abi)" 
-## @) And all options are optional for install.  
+## 📲 And all options are optional for install.  
 ## THESE OPTIONS ARE AVAILABLE FOR YOUR CONVENIENCE: 
 ## OPTIONS[a]: `setupTermuxArch.sh [HOW] [DO] [WHERE]`
 ## GRAMMAR[a]: `setupTermuxArch.sh [HOW] [DO] [WHERE]`
