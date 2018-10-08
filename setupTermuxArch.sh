@@ -8,11 +8,11 @@ IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-VERSIONID="v1.6.4.id3908"
+VERSIONID="v1.6.4.id6054"
 
 _SET_TRAP_ERROR_() { # Run on script error.
 	local RV="$?"
-	printf "\\e[?25h\\n\\e[1;48;5;138m %s\\e[0m\\n" "$TA WARNING:  Generated script signal $RV near or at line number ${2:-unknown} by \`${3:-command}\`!"
+	printf "\\e[?25h\\n\\e[1;48;5;138m %s\\e[0m\\n" "$TA WARNING:  Generated script signal $RV near or at line number ${2:-} by \`${3:-}\`!"
 	if [[ "$RV" = 4 ]] ; then
 		printf "\\n\\e[1;48;5;139m %s\\e[0m\\n" "Ensure background data is not restricted.  Check the wireless connection."
 	fi
@@ -22,30 +22,29 @@ _SET_TRAP_ERROR_() { # Run on script error.
 
 _SET_TRAP_EXIT_() { # Run on exit.
 	local RV="$?"
+	cd "$WDIR"
  	rm -rf "$TAMPDIR"
 	if [[ "$RV" = 0 ]] ; then
-		printf "\\a\\e[0;32m%s \\a\\e[0m$VERSIONID\\e[1;34m: \\a\\e[1;32m%s\\e[0m\\n\\n\\a\\e[0m" "${0##*/} $ARGS" "DONE 🏁 "
 		printf "\\e]2;%s\\007" "${0##*/} $ARGS: DONE 🏁 "
+		printf "\\e[?25h\\a\\a\\e[0;32m%s \\a\\e[0m%s\\a\\e[1;34m: \\e[1;32m%s\\e[0m\\a\\a\\n\\n\\e[0m" "${0##*/} $ARGS" "$VERSIONID" "DONE 🏁 "
 	else
-		printf "\\a\\e[0;32m%s \\a\\e[0m%s\\e[1;34m: \\a\\e[1;32m%s\\e[0m\\n\\n\\a\\e[0m" "${0##*/} $ARGS" "$VERSIONID" "[Exit Signal $RV] DONE 🏁 "
-		printf "\033]2;%s\\007" "${0##*/} $ARGS [Exit Signal $RV]: DONE 🏁 "
+		printf "\\e]2;%s\\007" "${0##*/} $ARGS [Exit Signal $RV]: DONE 🏁 "
+		printf "\\e[?25h\\e[0;32m%s \\a\\a\\e[0m%s\\a\\e[1;34m: \\e[1;32m%s\\e[0m\\n\\n\\e[0m" "${0##*/} $ARGS" "$VERSIONID" "[Exit Signal $RV] DONE 🏁 "
 	fi
-	printf "\\e[?25h\\e[0m"
 	set +Eeuo pipefail 
 	exit
 }
 
 _SET_TRAP_SIGNAL_() { # Run on signal.
 	local RV="$?"
-	printf "\\e[?25h\\n\\e[1;48;5;138m %s\\e[0m\\n" "$TA WARNING:  Signal $RV received near or at line number ${2:-unknown} by \`${3:-command}\`!"
- 	rm -rf "$TAMPDIR"
- 	exit 211 
+	printf "\\e[?25h\\n\\e[1;48;5;138m %s\\e[0m\\n" "$TA WARNING:  Signal $RV received near or at line number ${2:-} by \`${3:-}\`!"
+ 	exit 202 
 }
 
 _SET_TRAP_QUIT_() { # Run on quit.
 	local RV="$?"
 	printf "\\e[?25h\\e[1;7;38;5;0m$TA WARNING:  Quit signal $RV received!\\e[0m\\n"
- 	exit 221 
+ 	exit 203 
 }
 # https://www.ibm.com/developerworks/aix/library/au-usingtraps/index.html
 trap '_SET_TRAP_ERROR_ $? $LINENO $BASH_COMMAND' ERR 
@@ -143,9 +142,9 @@ _DEPENDBP_() {
 }
 
 _DEPENDDM_() { # Checks and sets download manager. 
-	for pkg in "${!ADM[@]}" 
+	for pkg in "${!ADT[@]}" 
 	do
-		if [[ -x "$PREFIX"/bin/"${ADM[$pkg]}" ]] 
+		if [[ -x "$PREFIX"/bin/"${ADT[$pkg]}" ]] 
 		then
  			dm="$pkg" 
  			echo 
@@ -169,12 +168,12 @@ _DEPENDTM_() { # Checks and sets tar manager.
 }
 
 _DEPENDIFDM_() { # checks if download tool is set and sets install if available. 
- 	for pkg in "${!ADM[@]}" # check from available toolset and set one for install if available on device. 
+ 	for pkg in "${!ADT[@]}" # check from available toolset and set one for install if available on device. 
 	do #	check for both set dm and if tool exists on device. 
- 		if [[ "$dm" = "$pkg" ]] && [[ ! -x "$PREFIX"/bin/"${ADM[$pkg]}" ]] 
+ 		if [[ "$dm" = "$pkg" ]] && [[ ! -x "$PREFIX"/bin/"${ADT[$pkg]}" ]] 
 		then #	sets both download tool for install and exception check. 
  			APTIN+="$pkg "
-			APTON+=("${ADM[$pkg]}")
+			APTON+=("${ADT[$pkg]}")
  			echo 
 			echo "Setting download tool \`$pkg\` for install; Continuing…"
  		fi
@@ -183,7 +182,7 @@ _DEPENDIFDM_() { # checks if download tool is set and sets install if available.
 
 _DEPENDS_() { # Checks for missing commands.  
 	printf "\\e[1;34mChecking prerequisites…\\n\\e[1;32m"
-	ADM=([aria2]=aria2c [axel]=axel [curl]=curl [lftp]=lftpget [wget]=wget)
+	ADT=([aria2]=aria2c [axel]=axel [curl]=curl [lftp]=lftpget [wget]=wget)
 	ATM=([busybox]=applets/tar [tar]=tar [bsdtar]=bsdtar)
 	if [[ "$dm" != "" ]] 
 	then
@@ -263,19 +262,19 @@ _DWNL_() { # Downloads TermuxArch from Github.
 	fi
 	if [[ "$dm" = aria2 ]] 
 	then # use https://github.com/aria2/aria2
-		"${ADM[aria2]}" -Z "${FILE[sha]}" "${FILE[tar]}"
+		"${ADT[aria2]}" -Z "${FILE[sha]}" "${FILE[tar]}"
 	elif [[ "$dm" = axel ]] 
 	then # use https://github.com/mopp/Axel
-		"${ADM[axel]}" "${FILE[sha]}" 
-		"${ADM[axel]}" "${FILE[tar]}"
+		"${ADT[axel]}" "${FILE[sha]}" 
+		"${ADT[axel]}" "${FILE[tar]}"
 	elif [[ "$dm" = curl ]] 
 	then # use https://github.com/curl/curl	
-		"${ADM[curl]}" "$DMVERBOSE" -OL "${FILE[sha]}" -OL "${FILE[tar]}"
+		"${ADT[curl]}" "$DMVERBOSE" -OL "${FILE[sha]}" -OL "${FILE[tar]}"
 	elif [[ "$dm" = wget ]] 
 	then # use https://github.com/mirror/wget
-		"${ADM[wget]}" "$DMVERBOSE" -N --show-progress "${FILE[sha]}" "${FILE[tar]}"
+		"${ADT[wget]}" "$DMVERBOSE" -N --show-progress "${FILE[sha]}" "${FILE[tar]}"
 	else # use https://github.com/lavv17/lftp
-		"${ADM[lftp]}" -c "${FILE[sha]}" "${FILE[tar]}"
+		"${ADT[lftp]}" -c "${FILE[sha]}" "${FILE[tar]}"
 	fi
 	printf "\\n\\e[1;32m"
 }
@@ -461,9 +460,9 @@ _OPT2_() {
 _PECHK_() {
 	if [[ "$APTON" != "" ]] 
 	then 
-		for CMD in "${!ADM[@]}" 
+		for CMD in "${!ADT[@]}" 
 		do
-		       	if [[ ! -x "$PREFIX"/bin/"${ADM[$CMD]}" ]] 
+		       	if [[ ! -x "$PREFIX"/bin/"${ADT[$CMD]}" ]] 
 			then
 			       	_PRINT_PE_ 
 			fi 
@@ -606,7 +605,7 @@ _SET_ROOT_() {
 }
 
 ## User Information:  Configurable variables such as mirrors and download manager options are in `setupTermuxArchConfigs.sh`.  Working with `kownconfigurations.sh` in the working directory is simple.  `bash setupTermuxArch.sh manual` shall create `setupTermuxArchConfigs.sh` in the working directory for editing; See `setupTermuxArch.sh help` for more information.  
-declare -A ADM		## Declare associative array for all available download tools. 
+declare -A ADT		## Declare associative array for all available download tools. 
 declare -A ATM		## Declare associative array for all available tar tools. 
 declare -a ARGS="$@"	## Declare array for arguments as string.
 declare -A ARGSA="$@"	## Declare associative array for arguments.
@@ -830,14 +829,15 @@ elif [[ "${1//-}" = [Oo]* ]] ; then
 	echo
 	echo Setting mode to option.  THIS OPTION IS UNDER CONSTRUCTION!  
 	OPT=option
-	echo Setting mode to Linux Flavors.  THIS OPTION IS UNDER CONSTRUCTION!  
-	OPT=flavors
-	_OPT1_ "$@" 
-	_PRINT_INTRO_INIT_
-	_CHKIDIR_
-	_DEPENDSBLOCK_ "$@" 
-	_PRINT_DETECTED_SYSTEM_
-	_OPTIONAL_SYSTEMS_ "$@" 
+	echo There are no new features being implemented at this time with this option.
+	exit 231
+# 	OPT=flavors
+# 	_OPT1_ "$@" 
+# 	_PRINT_INTRO_INIT_
+# 	_CHKIDIR_
+# 	_DEPENDSBLOCK_ "$@" 
+# 	_PRINT_DETECTED_SYSTEM_
+# 	_OPTIONAL_SYSTEMS_ "$@" 
 ## [p[urge] [customdir]]  Remove Arch Linux.
 elif [[ "${1//-}" = [Pp]* ]] ; then
 	echo 
