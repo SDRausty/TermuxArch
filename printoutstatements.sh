@@ -16,7 +16,7 @@ FLHDR1[1]="# IFS=$'\\n\\t'"
 FLHDR1[2]="set -Eeuo pipefail"
 FLHDR1[3]="# shopt -s nullglob globstar"
 FLHDR1[4]="unset LD_PRELOAD"
-FLHDR1[5]="VERSIONID=v1.6.4.id3478"
+FLHDR1[5]="VERSIONID=v1.6.4.id8845"
 FLHDR1[6]=" "
 FLHDRP[0]="## BEGIN #######################################################################"
 FLHDRP[1]=""
@@ -143,7 +143,7 @@ _PRINT_DOWNLOADING_X86_() {
 }
 
 _PRINT_DOWNLOADING_X86TWO_() {
-	printf "\033[0;34m 🕛 > 🕓 \033[0;34mDownloading \033[0;32m$file \033[0;34mfrom \033[0;32mhttp://$CMIRROR\033[0;34m…  \033[1;37mThis may take a long time pending connection.\n\n\033[0;32m"'\033]2; 🕛 > 🕓 Downloading the Arch Linux system image file…  \007'
+	printf "\n\033[0;34m 🕛 > 🕓 \033[0;34mDownloading \033[0;32m$file \033[0;34mfrom \033[0;32mhttp://$CMIRROR\033[0;34m…  \033[1;37mThis may take a long time pending connection.\n\n\033[0;32m"'\033]2; 🕛 > 🕓 Downloading the Arch Linux system image file…  \007'
 }
 
 _PRINT_DOWNLOADING_FTCH_() {
