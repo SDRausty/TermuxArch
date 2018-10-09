@@ -49,16 +49,20 @@ _ADDADDS_() {
 	
 _CALLSYSTEM_() {
 	declare COUNTER=""
-	if [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = "$CPUABIX86_64" ]];then
+	if [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = "$CPUABIX86_64" ]]
+	then
 		_GETIMAGE_
 	else
-		if [[ "$CMIRROR" = "os.archlinuxarm.org" ]] || [[ "$CMIRROR" = "mirror.archlinuxarm.org" ]]; then
-			until _FTCHSTND_;do
+		if [[ "$CMIRROR" = "os.archlinuxarm.org" ]] || [[ "$CMIRROR" = "mirror.archlinuxarm.org" ]]
+	then
+			until _FTCHSTND_
+	do
 				_FTCHSTND_ ||: 
 				sleep 2
 				printf "\\n"
 				COUNTER=$((COUNTER + 1))
-				if [[ "$COUNTER" = 4 ]];then 
+				if [[ "$COUNTER" = 4 ]]
+	then 
 					_PRINT_MAX_ 
 					exit
 				fi
@@ -70,7 +74,8 @@ _CALLSYSTEM_() {
 }
 
 _COPYSTARTBIN2PATH_() {
-	if [[ ":$PATH:" == *":$HOME/bin:"* ]] && [[ -d "$HOME"/bin ]]; then
+	if [[ ":$PATH:" == *":$HOME/bin:"* ]] && [[ -d "$HOME"/bin ]]
+	then
 		BPATH="$HOME"/bin
 	else
 		BPATH="$PREFIX"/bin
@@ -81,19 +86,25 @@ _COPYSTARTBIN2PATH_() {
 
 _DETECTSYSTEM_() {
 	_PRINT_DETECTED_SYSTEM_
-	if [[ "$CPUABI" = "$CPUABI5" ]];then
+	if [[ "$CPUABI" = "$CPUABI5" ]]
+	then
 		_ARMV5L_
-	elif [[ "$CPUABI" = "$CPUABI7" ]];then
-		if [[ "$(getprop ro.product.device)" == *_cheets ]];then
+	elif [[ "$CPUABI" = "$CPUABI7" ]]
+	then
+		if [[ "$(getprop ro.product.device)" == *_cheets ]]
+	then
 			armv7lChrome 
 		else
 			armv7lAndroid  
 		fi
-	elif [[ "$CPUABI" = "$CPUABI8" ]];then
+	elif [[ "$CPUABI" = "$CPUABI8" ]]
+	then
 		_AARCH64_
-	elif [[ "$CPUABI" = "$CPUABIX86" ]];then
+	elif [[ "$CPUABI" = "$CPUABIX86" ]]
+	then
 		_X86_ 
-	elif [[ "$CPUABI" = "$CPUABIX86_64" ]];then
+	elif [[ "$CPUABI" = "$CPUABIX86_64" ]]
+	then
 		_X86_64_
 	else
 		_PRINT_MISMATCH_ 
@@ -137,14 +148,18 @@ _KERNID_() {
 	declare -i MAJOR_REVISION="$(echo "$ur" |awk -F'.' '{print $2}')"
 	declare -- TMP="$(echo "$ur" |awk -F'.' '{print $3}')"
 	declare -- MINOR_REVISION="$(echo "${TMP:0:3}" |sed 's/[^0-9]*//g')"
-	if [[ "$KERNEL_VERSION" -le 2 ]]; then
+	if [[ "$KERNEL_VERSION" -le 2 ]]
+	then
 		KID=1
 	else
-		if [[ "$KERNEL_VERSION" -eq 3 ]]; then
-			if [[ "$MAJOR_REVISION" -lt 2 ]]; then
+		if [[ "$KERNEL_VERSION" -eq 3 ]]
+	then
+			if [[ "$MAJOR_REVISION" -lt 2 ]]
+	then
 				KID=1
 			else
-				if [[ "$MAJOR_REVISION" -eq 2 ]] && [[ "$MINOR_REVISION" -eq 0 ]]; then
+				if [[ "$MAJOR_REVISION" -eq 2 ]] && [[ "$MINOR_REVISION" -eq 0 ]]
+	then
 					KID=1
 				fi
 			fi
@@ -172,13 +187,16 @@ _MAINBLOCK_() {
 _MAKEFINISHSETUP_() {
 	BINFNSTP=finishsetup.sh  
 	_CFLHDR_ root/bin/"$BINFNSTP"
-	if [[ -e "$HOME"/.bash_profile ]];then
+	if [[ -e "$HOME"/.bash_profile ]]
+	then
 		grep "proxy" "$HOME"/.bash_profile | grep "export" >> root/bin/"$BINFNSTP" 2>/dev/null ||:
 	fi
-	if [[ -e "$HOME"/.bashrc ]];then
+	if [[ -e "$HOME"/.bashrc ]]
+	then
 		grep "proxy" "$HOME"/.bashrc  | grep "export" >> root/bin/"$BINFNSTP" 2>/dev/null ||:
 	fi
-	if [[ -e "$HOME"/.profile ]];then
+	if [[ -e "$HOME"/.profile ]]
+	then
 		grep "proxy" "$HOME"/.profile | grep "export" >> root/bin/"$BINFNSTP" 2>/dev/null ||:
 	fi
 	if [[ "${LCR:-}" != 2 ]]
@@ -203,9 +221,11 @@ _MAKEFINISHSETUP_() {
 		then
 			printf "pacman -Rc linux-aarch64 linux-firmware --noconfirm --color=always 2>/dev/null ||:\\n" >> root/bin/"$BINFNSTP"
 		fi
-		if [[ "$CPUABI" = "$CPUABIX86" ]];then
+		if [[ "$CPUABI" = "$CPUABIX86" ]]
+	then
 			printf "./root/bin/keys x86\\n" >> root/bin/"$BINFNSTP"
-		elif [[ "$CPUABI" = "$CPUABIX86_64" ]];then
+		elif [[ "$CPUABI" = "$CPUABIX86_64" ]]
+	then
 			printf "./root/bin/keys x86_64\\n" >> root/bin/"$BINFNSTP"
 		else
 			printf "./root/bin/keys\\n" >> root/bin/"$BINFNSTP"
@@ -241,7 +261,8 @@ _MAKESTARTBIN_() {
 	printf "%s\\n" "${FLHDRP[@]}" >> "$STARTBIN"
 	cat >> "$STARTBIN" <<- EOM
 	COMMANDIF="\$(command -v getprop)" ||:
-	if [[ "\$COMMANDIF" = "" ]] ; then
+	if [[ "\$COMMANDIF" = "" ]]
+	then
  		printf "\\n\\e[1;48;5;138m  %s\\e[0m\\n\\n" "\${0##*/} WARNING: Run \${0##*/} and $INSTALLDIR/\${0##*/} from the BASH shell in the OS system in Termux, e.g., Amazon Fire, Android and Chromebook."
 		exit 202
 	fi
@@ -252,7 +273,8 @@ _MAKESTARTBIN_() {
 	}
 
 	# [] Default Arch Linux in Termux PRoot root login.
-	if [[ -z "\${1:-}" ]];then
+	if [[ -z "\${1:-}" ]]
+	then
 		set +Eeuo pipefail
 	EOM
 		echo "$PROOTSTMNT /bin/bash -l ||: " >> "$STARTBIN"
@@ -260,10 +282,12 @@ _MAKESTARTBIN_() {
 		set -Eeuo pipefail
 		printf '\033]2; TermuxArch $STARTBIN 📲  \007'
 	# [?|help] Displays usage information.
-	elif [[ "\${1//-}" = [?]* ]] || [[ "\${1//-}" = [Hh]* ]] ; then
+	elif [[ "\${1//-}" = [?]* ]] || [[ "\${1//-}" = [Hh]* ]]
+	then
 		_PRINT_USAGE_
 	# [command ARGS] Execute a command in BASH as root.
-	elif [[ "\${1//-}" = [Cc]* ]] ; then
+	elif [[ "\${1//-}" = [Cc]* ]]
+	then
 		printf '\033]2; $STARTBIN command ARGS 📲  \007'
 		touch $INSTALLDIR/root/.chushlogin
 		set +Eeuo pipefail
@@ -274,7 +298,8 @@ _MAKESTARTBIN_() {
 		printf '\033]2; $STARTBIN command ARGS 📲  \007'
 		rm -f $INSTALLDIR/root/.chushlogin
 	# [login user|login user [options]] Login as user [plus options].  Use \`addauser user\` first to create this user and user's home directory.
-	elif [[ "\${1//-}" = [Ll]* ]] || [[ "\${1//-}" = [Uu]* ]] ; then
+	elif [[ "\${1//-}" = [Ll]* ]] || [[ "\${1//-}" = [Uu]* ]]
+	then
 		printf '\033]2; $STARTBIN login user [options] 📲  \007'
 		set +Eeuo pipefail
 	EOM
@@ -283,7 +308,8 @@ _MAKESTARTBIN_() {
 		set -Eeuo pipefail
 		printf '\033]2; $STARTBIN login user [options] 📲  \007'
 	# [raw ARGS] Construct the \`startarch\` proot statement.  For example \`startarch r su\` will exec su in Arch Linux.  See PROOTSTMNT for more options; share your thoughts at https://github.com/sdrausty/TermuxArch/issues and https://github.com/sdrausty/TermuxArch/pulls.
-	elif [[ "\${1//-}" = [Rr]* ]] ; then
+	elif [[ "\${1//-}" = [Rr]* ]]
+	then
 		printf '\033]2; $STARTBIN raw ARGS 📲  \007'
 		set +Eeuo pipefail
 	EOM
@@ -292,9 +318,11 @@ _MAKESTARTBIN_() {
 		set -Eeuo pipefail
 		printf '\033]2; $STARTBIN raw ARGS 📲  \007'
 	# [su user command] Login as user and execute command.  Use \`addauser user\` first to create this user and user's home directory.
-	elif [[ "\${1//-}" = [Ss]* ]] ; then
+	elif [[ "\${1//-}" = [Ss]* ]]
+	then
 		printf '\033]2; $STARTBIN su user command 📲  \007'
-		if [[ "\$2" = root ]];then
+		if [[ "\$2" = root ]]
+	then
 			touch $INSTALLDIR/root/.chushlogin
 		else
 			touch $INSTALLDIR/home/"\$2"/.chushlogin
@@ -305,7 +333,8 @@ _MAKESTARTBIN_() {
 	cat >> "$STARTBIN" <<- EOM
 		set -Eeuo pipefail
 		printf '\033]2; $STARTBIN su user command 📲  \007'
-		if [[ "\$2" = root ]];then
+		if [[ "\$2" = root ]]
+	then
 			rm -f $INSTALLDIR/root/.chushlogin
 		else
 			rm -f $INSTALLDIR/home/"\$2"/.chushlogin
@@ -363,7 +392,8 @@ _PREPINSTALLDIR_() {
 }
 
 _PREPROOT_() {
-	if [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = "$CPUABIX86_64" ]];then
+	if [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = "$CPUABIX86_64" ]]
+	then
  		proot --link2symlink -0 bsdtar -xpf "$file" --strip-components 1 
 	else
 		proot --link2symlink -0 "$PREFIX"/bin/applets/tar -xpf "$file" 
@@ -412,28 +442,36 @@ _SETLANGUAGE_() { # This function uses device system settings to set locale.  To
 	LANGIN+=([7]="$(getprop ro.product.locale.region)")
 	touch "$INSTALLDIR"/etc/locale.gen 
 	ULANGUAGE="${LANGIN[0]:-unknown}_${LANGIN[1]:-unknown}"
-       	if ! grep "$ULANGUAGE" "$INSTALLDIR"/etc/locale.gen 1>/dev/null ; then 
+       	if ! grep "$ULANGUAGE" "$INSTALLDIR"/etc/locale.gen 1>/dev/null
+	then 
 		ULANGUAGE="unknown"
        	fi 
- 	if [[ "$ULANGUAGE" != *_* ]];then
+ 	if [[ "$ULANGUAGE" != *_* ]]
+	then
  		ULANGUAGE="${LANGIN[3]:-unknown}_${LANGIN[2]:-unknown}"
- 	       	if ! grep "$ULANGUAGE" "$INSTALLDIR"/etc/locale.gen 1>/dev/null ; then 
+ 	       	if ! grep "$ULANGUAGE" "$INSTALLDIR"/etc/locale.gen 1>/dev/null
+	then 
  			ULANGUAGE="unknown"
  	       	fi 
  	fi 
-	for i in "${!LANGIN[@]}"; do
-		if [[ "${LANGIN[i]}" = *-* ]];then
+	for i in "${!LANGIN[@]}"
+	do
+		if [[ "${LANGIN[i]}" = *-* ]]
+	then
  	 		ULANGUAGE="${LANGIN[i]//-/_}"
 			break
 		fi
 	done
- 	if [[ "$ULANGUAGE" != *_* ]];then
+ 	if [[ "$ULANGUAGE" != *_* ]]
+	then
  		ULANGUAGE="${LANGIN[6]:-unknown}_${LANGIN[7]:-unknown}"
- 	       	if ! grep "$ULANGUAGE" "$INSTALLDIR"/etc/locale.gen 1>/dev/null ; then 
+ 	       	if ! grep "$ULANGUAGE" "$INSTALLDIR"/etc/locale.gen 1>/dev/null
+	then 
  			ULANGUAGE="unknown"
  	       	fi 
  	fi 
- 	if [[ "$ULANGUAGE" != *_* ]];then
+ 	if [[ "$ULANGUAGE" != *_* ]]
+	then
    		ULANGUAGE="en_US"
  	fi 
 	printf "\\n\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\n" "Setting locales to: " "Language " ">> $ULANGUAGE << " "Region"
@@ -442,7 +480,8 @@ _SETLANGUAGE_() { # This function uses device system settings to set locale.  To
 _SETLOCALE_() { # This function uses device system settings to set locale.  To generate locales in a preferred language, you can use "Settings > Language & Keyboard > Language" in Android; Then run `setupTermuxArch.sh r for a quick system refresh.
 	FTIME="$(date +%F%H%M%S)"
 	echo "##  File locale.conf generated by setupTermuxArch.sh at" ${FTIME//-}. > etc/locale.conf 
-	for i in "${!LC_TYPE[@]}"; do
+	for i in "${!LC_TYPE[@]}"
+	do
 	 	echo "${LC_TYPE[i]}"="$ULANGUAGE".UTF-8 >> etc/locale.conf 
 	done
 	sed -i "/\\#$ULANGUAGE.UTF-8 UTF-8/{s/#//g;s/@/-at-/g;}" etc/locale.gen 

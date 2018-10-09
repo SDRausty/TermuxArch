@@ -7,18 +7,22 @@
 ################################################################################
 
 addbinds() { # Checks if /proc/stat is usable. 
-	if [[ ! -r /proc/stat ]] ; then
+	if [[ ! -r /proc/stat ]]
+	then
 		_ADDfbindprocstat_
 	fi
 }
 
 addlangq() {
-	while true; do
+	while true
+	do
 		printf "\\e[1;34m  Add languages to the Arch Linux system? To edit \\e[1;32m/etc/locale.gen\\e[1;34m for your preferred language(s) before running \\e[1;32mlocale-gen\\e[1;34m choose edit.  Would you like to run \\e[1;32mlocale-gen\\e[1;34m with the English en_US.UTF-8 locale only?  "
 		read -n 1 -p "Answer yes to generate the English en_US.UTF-8 locale only [Y|e] " ye
-		if [[ "$ye" = [Yy]* ]] || [[ "$ye" = "" ]];then
+		if [[ "$ye" = [Yy]* ]] || [[ "$ye" = "" ]]
+	then
 			break
-		elif [[ "$ye" = [Ee]* ]] || [[ "$ye" = [Nn]* ]];then
+		elif [[ "$ye" = [Ee]* ]] || [[ "$ye" = [Nn]* ]]
+	then
 			printf "\\e[0m"
 			"$ed" "$INSTALLDIR"/etc/locale.gen
 			sleep 1
@@ -32,10 +36,12 @@ addlangq() {
 }
 
 _BLOOM_() { # Bloom = `setupTermuxArch.sh manual verbose` 
-	if [[ -d "$HOME"/TermuxArchBloom ]];then 
+	if [[ -d "$HOME"/TermuxArchBloom ]]
+	then 
 		rmbloomq 
 	fi
-	if [[ ! -d "$HOME"/TermuxArchBloom ]];then 
+	if [[ ! -d "$HOME"/TermuxArchBloom ]]
+	then 
 		mkdir "$HOME/TermuxArchBloom"
 	fi
        	if [[ "$LCW" = 0 ]] # checks whether still set to 0, 
@@ -83,7 +89,8 @@ _CREATE_MENU_() { # https://stackoverflow.com/users/258523/etan-reisner
        	ARSIZE=$1
        	printf "This option to install Linux flavors is being developed.\\n\\nChoose one of these options by inputting a number to continue:\\n"
        	echo 
-	select CSYSTEM in "${@:2}"; do
+	select CSYSTEM in "${@:2}"
+	do
 	       	if [ "$REPLY" -eq "$ARSIZE" ];
 	       	then
 		       	echo "Exiting…"
@@ -101,15 +108,18 @@ _CREATE_MENU_() { # https://stackoverflow.com/users/258523/etan-reisner
 }
 
 _EDITFILES_() {
-       	if [[ "${ceds[$i]}" = "applets/vi" ]];then
+       	if [[ "${ceds[$i]}" = "applets/vi" ]]
+	then
 		sed -i -e 1,4d "$INSTALLDIR"/etc/pacman.d/mirrorlist
 		sed -i '1i# # # # # # # # # # # # # # # # # # # # # # # # # # #\\n# TermuxArch vi instructions:	CTR+r is redo.\\n# Use the hjkl keys to navigate. <h down j up k l>\\n# Numbers are multipliers.  The u is undelete/undo.\\n# 17j then i opens edit mode for the Geo-IP mirror.\\n# Enter the # hash/num/pounds symbol to comment it out: \\n# Server = http://mirror.archlinuxarm.org/$arch/$repo.\\n# Long tap KEYBOARD in the side pane to see ESC, CTR...\\n# Tap ESC to return to command mode in vi.\\n# CTRL+d and CTRL+b to find your local mirror.\\n# / for search, N and n for next match.\\n# Tap x to delete # to uncomment your local mirror.\\n# Choose only one mirror.  Use :x to save your work.\\n# Comment out the Geo-IP mirror	end G	top gg\\n# # # # # # # # # # # # # # # # # # # # # # # # # # #' "$INSTALLDIR"/etc/pacman.d/mirrorlist
 		sed -i '1i# # # # # # # # # # # # # # # # # # # # # # # # # # #\\n# TermuxArch vi instructions:	CTR+r is redo.\\n# Use the hjkl keys to navigate. <h down j up k l>\\n# Numbers are multipliers.  The u is undelete/undo.\\n# Tap i for insert, ESC to return to command mode in vi.\\n# Long tap KEYBOARD in the side pane to see ESC, CTR...\\n# Tap x to delete # to uncomment your favorite language(s).\\n# Enter the # hash/num/pounds symbol to comment out locales.\\n# CTRL+d and CTRL+b for PGUP & PGDN.\\n# top gg	bottom G\\n# / for search, N and n for next match.\\n# Choose as many as you like.  Use :x to save your work.\\n# # # # # # # # # # # # # # # # # # # # # # # # # # #\\n#' "$INSTALLDIR"/etc/locale.gen
-	elif [[ "${ceds[$i]}" = "vim" ]];then
+	elif [[ "${ceds[$i]}" = "vim" ]]
+	then
 		sed -i -e 1,4d "$INSTALLDIR"/etc/pacman.d/mirrorlist
 		sed -i '1i# # # # # # # # # # # # # # # # # # # # # # # # # # #\\n# TermuxArch vim instructions:	CTR+r is redo.\\n# Use the hjkl keys to navigate. <h down j up k l>\\n# Numbers are multipliers.  The u is undelete/undo.\\n# 17j then i opens edit mode for the Geo-IP mirror.\\n# Enter the # hash/num/pounds symbol to comment it out: \\n# Server = http://mirror.archlinuxarm.org/$arch/$repo.\\n# Long tap KEYBOARD in the side pane to see ESC, CTR...\\n# Tap ESC to return to command mode in vi.\\n# CTRL+d and CTRL+b to find your local mirror.\\n# / for search, N and n for next match.\\n# Tap x to delete # to uncomment your local mirror.\\n# Choose only one mirror.  Use :x to save your work.\\n#Comment out the Geo-IP mirror	end G	top gg\\n# # # # # # # # # # # # # # # # # # # # # # # # # # #' "$INSTALLDIR"/etc/pacman.d/mirrorlist
 		sed -i '1i# # # # # # # # # # # # # # # # # # # # # # # # # # #\\n# TermuxArch vim instructions:	CTR+r is redo.\\n# Use the hjkl keys to navigate. <h down j up k l>\\n# Numbers are multipliers.  The u is undelete/undo.\\n# Tap i for insert, ESC to return to command mode in vi.\\n# Long tap KEYBOARD in the side pane to see ESC, CTR...\\n# Tap x to delete # to uncomment your favorite language(s).\\n# Enter the # hash/num/pounds symbol to comment out locales.\\n# CTRL+d and CTRL+b for PGUP & PGDN.\\n# top gg	bottom G\\n# / for search, N and n for next match.\\n# Choose as many as you like.  Use :x to save your work.\\n# # # # # # # # # # # # # # # # # # # # # # # # # # #\\n#' "$INSTALLDIR"/etc/locale.gen
-	elif [[ "${ceds[$i]}" = "nvim" ]];then
+	elif [[ "${ceds[$i]}" = "nvim" ]]
+	then
 		sed -i -e 1,4d "$INSTALLDIR"/etc/pacman.d/mirrorlist
 		sed -i '1i# # # # # # # # # # # # # # # # # # # # # # # # # # #\\n# TermuxArch neovim instructions:	CTR+r is redo.\\n# Use the hjkl keys to navigate. <h down j up k l>\\n# Numbers are multipliers.  The u is undelete/undo.\\n# 17j then i opens edit mode for the Geo-IP mirror.\\n# Enter the # hash/num/pounds symbol to comment it out: \\n# Server = http://mirror.archlinuxarm.org/$arch/$repo.\\n# Long tap KEYBOARD in the side pane to see ESC, CTR...\\n# Tap ESC to return to command mode in vi.\\n# CTRL+d and CTRL+b to find your local mirror.\\n# / for search, N and n for next match.\\n# Tap x to delete # to uncomment your local mirror.\\n# Choose only one mirror.  Use :x to save your work.\\n# Comment out the Geo-IP mirror	end G	top gg\\n# # # # # # # # # # # # # # # # # # # # # # # # # # #' "$INSTALLDIR"/etc/pacman.d/mirrorlist
 		sed -i '1i# # # # # # # # # # # # # # # # # # # # # # # # # # #\\n# TermuxArch neovim instructions:	CTR+r is redo.\\n# Use the hjkl keys to navigate. <h down j up k l>\\n# Numbers are multipliers.  The u is undelete/undo.\\n# Tap i for insert, ESC to return to command mode in vi.\\n# Long tap KEYBOARD in the side pane to see ESC, CTR...\\n# Tap x to delete # to uncomment your favorite language(s).\\n# Enter the # hash/num/pounds symbol to comment out locales.\\n# CTRL+d and CTRL+b for PGUP & PGDN.\\n# top gg	bottom G\\n# / for search, N and n for next match.\\n# Choose as many as you like.  Use :x to save your work.\\n# # # # # # # # # # # # # # # # # # # # # # # # # # #\\n#' "$INSTALLDIR"/etc/locale.gen
@@ -120,17 +130,22 @@ _EDITFILES_() {
 
 _EDITORS_() {
 	aeds=("zile" "nano" "nvim" "vi" "emacs" "joe" "jupp" "micro" "ne" "applets/vi")
-	for i in "${!aeds[@]}"; do
-		if [[ -e "$PREFIX/bin/${aeds[$i]}" ]];then
+	for i in "${!aeds[@]}"
+	do
+		if [[ -e "$PREFIX/bin/${aeds[$i]}" ]]
+	then
 			ceds+=("${aeds[$i]}")
 		fi
 	done
-	for i in "${!ceds[@]}"; do
+	for i in "${!ceds[@]}"
+	do
 		cedst+="\`\\e[1;32m${ceds[$i]}\\e[0;32m\`, "
 	done
-	for i in "${!ceds[@]}"; do
+	for i in "${!ceds[@]}"
+	do
 		edq 
-		if [[ "$ind" = 1 ]];then
+		if [[ "$ind" = 1 ]]
+	then
 			break
 		fi
 	done
@@ -138,14 +153,17 @@ _EDITORS_() {
 
 edq() {
 	printf "\\e[0;32m"
-	for i in "${!ceds[@]}"; do
-		if [[ "${ceds[$i]}" = "applets/vi" ]];then
+	for i in "${!ceds[@]}"
+	do
+		if [[ "${ceds[$i]}" = "applets/vi" ]]
+	then
 			edq2
 			ind=1
 			break
 		fi
 		edqa "$ceds"
-		if [[ "$ind" = 1 ]];then
+		if [[ "$ind" = 1 ]]
+	then
 			break
 		fi
 	done
@@ -157,20 +175,24 @@ edqa() {
 }
 
 edqaquestion() {
-	while true; do
+	while true
+	do
 		printf "\\n"
-		if [[ "$OPT" = *bloom* ]] || [[ "$OPT" = *manual* ]];then
+		if [[ "$OPT" = *bloom* ]] || [[ "$OPT" = *manual* ]]
+	then
 			printf "The following editor(s) $cedst\\b\\b are present.  Would you like to use \`\\e[1;32m${ceds[$i]}\\e[0;32m\` to edit \`\\e[1;32msetupTermuxArchConfigs.sh\\e[0;32m\`?  "
 			read -n 1 -p "Answer yes or no [Y|n]. "  yn
 		else 
 			printf "Change the worldwide mirror to a mirror that is geographically nearby.  Choose only ONE active mirror in the mirrors file that you are about to edit.  The following editor(s) $cedst\\b\\b are present.  Would you like to use \`\\e[1;32m${ceds[$i]}\\e[0;32m\` to edit the Arch Linux configuration files?  "
 			read -n 1 -p "Answer yes or no [Y|n]. "  yn
 		fi
-		if [[ "$yn" = [Yy]* ]] || [[ "$yn" = "" ]];then
+		if [[ "$yn" = [Yy]* ]] || [[ "$yn" = "" ]]
+	then
 			ed="${ceds[$i]}"
 			ind=1
 			break
-		elif [[ "$yn" = [Nn]* ]];then
+		elif [[ "$yn" = [Nn]* ]]
+	then
 			break
 		else
 			printf "\\nYou answered \\e[1;36m$yn\\e[1;32m.\\n"
@@ -180,20 +202,24 @@ edqaquestion() {
 }
 
 edq2() {
-	while true; do
-		if [[ "$OPT" = *bloom* ]] || [[ "$OPT" = *manual* ]];then
+	while true
+	do
+		if [[ "$OPT" = *bloom* ]] || [[ "$OPT" = *manual* ]]
+	then
 			printf "\\n\\e[1;34m  Would you like to use \\e[1;32mnano\\e[1;34m or \\e[1;32mvi\\e[1;34m to edit \\e[1;32msetupTermuxArchConfigs.sh\\e[1;34m?  "
 			read -n 1 -p "Answer nano or vi [n|V]? "  nv
 		else 
 			printf "\\e[1;34m  Change the worldwide mirror to a mirror that is geographically nearby.  Choose only ONE active mirror in the mirrors file that you are about to edit.  Would you like to use \\e[1;32mnano\\e[1;34m or \\e[1;32mvi\\e[1;34m to edit the Arch Linux configuration files?  "
 			read -n 1 -p "Answer nano or vi [n|V]? "  nv
 		fi
-		if [[ "$nv" = [Nn]* ]];then
+		if [[ "$nv" = [Nn]* ]]
+	then
 			ed=nano
 			nanoif
 			ind=1
 			break
-		elif [[ "$nv" = [Vv]* ]] || [[ "$nv" = "" ]];then
+		elif [[ "$nv" = [Vv]* ]] || [[ "$nv" = "" ]]
+	then
 			ed="$PREFIX"/bin/applets/vi
 			ind=1
 			break
@@ -237,9 +263,11 @@ _MANUAL_() {
 }
 
 nanoif() {
-	if [[ ! -x "$PREFIX"/bin/nano ]] ; then
+	if [[ ! -x "$PREFIX"/bin/nano ]]
+	then
 		apt -o APT::Keep-Downloaded-Packages="true" install "nano" -y
-		if [[ ! -x "$PREFIX"/bin/nano ]] ; then
+		if [[ ! -x "$PREFIX"/bin/nano ]]
+	then
 				printf "\\n\\e[7;1;31m%s\\e[0;1;32m %s\\n\\n\\e[0m" "PREREQUISITE EXCEPTION!" "RUN ${0##*/} $ARGS AGAIN…"
 				printf "\\e]2;%s %s\\007" "RUN ${0##*/} $ARGS" "AGAIN…"
 				exit
@@ -281,7 +309,8 @@ _OPTIONAL_SYSTEMS_() {
 			SPECS_ARMV5L_=( [DIST]="$CSYSTEM" [FILE]="ArchLinuxARM-armv5-latest.tar.gz" [PROTOCOL]="https" [RPATH]="/os/" [SITE]="os.archlinuxarm.org" [SFNM]="ArchLinuxARM-armv5-latest.tar.gz.md5" [STYPE]="md5sum" )
 		elif [[ "$CPUABI" = armeabi-v7a ]]
 		then
-			if [[ "$(getprop ro.product.device)" == *_cheets ]];then
+			if [[ "$(getprop ro.product.device)" == *_cheets ]]
+	then
 	 			SPECS_ARMV7LC_=( [DIST]="$CSYSTEM" [FILE]="ArchLinuxARM-armv7-chromebook-latest.tar.gz" [PROTOCOL]="https" [RPATH]="/os/" [SITE]="os.archlinuxarm.org" [SFNM]="ArchLinuxARM-armv7-chromebook-latest.tar.gz.md5sum" [STYPE]="md5sum" )
 			else
 				SPECS_ARMV7L_=( [DIST]="$CSYSTEM" [FILE]="ArchLinuxARM-armv7-latest.tar.gz" [PROTOCOL]="https" [RPATH]="/os/" [SITE]="os.archlinuxarm.org" [SFNM]="ArchLinuxARM-armv7-latest.tar.gz.md5" [STYPE]="md5sum" )
@@ -340,38 +369,46 @@ _OPTIONAL_SYSTEMS_() {
 }
 
 rmbloomq() {
-	if [[ -d "$HOME"/TermuxArchBloom ]];then
+	if [[ -d "$HOME"/TermuxArchBloom ]]
+	then
 		printf "\\n\\n\\e[0;33mTermuxArch: \\e[1;33mDIRECTORY WARNING!  $HOME/TermuxArchBloom/ \\e[0;33mdirectory detected.  \\e[1;30msetupTermuxArch.sh bloom will continue.\\n"
-		while true; do
+		while true
+	do
 			printf "\\n\\e[1;30m"
-			read -n 1 -p "Refresh $HOME/TermuxArchBloom? [Y|n] " rbuanswer
-			if [[ "$rbuanswer" = [Ee]* ]] || [[ "$rbuanswer" = [Nn]* ]] || [[ "$rbuanswer" = [Qq]* ]];then
+			read -n 1 -p "Refresh $HOME/TermuxArchBloom? [Y|n] " RBUANSWER
+			if [[ "$RBUANSWER" = [Ee]* ]] || [[ "$RBUANSWER" = [Nn]* ]] || [[ "$RBUANSWER" = [Qq]* ]]
+	then
 				printf "\\n" 
 				exit $? 
-			elif [[ "$rbuanswer" = [Yy]* ]] || [[ "$rbuanswer" = "" ]];then
-				printf "\\e[30mUninstalling $HOME/TermuxArchBloom…\\n"
-				if [[ -d "$HOME"/TermuxArchBloom ]];then
+			elif [[ "$RBUANSWER" = [Yy]* ]] || [[ "$RBUANSWER" = "" ]]
+	then
+				printf "\\e[30m%s\\n" "Uninstalling $HOME/TermuxArchBloom…"
+				if [[ -d "$HOME"/TermuxArchBloom ]]
+	then
 					rm -rf "$HOME"/TermuxArchBloom 
 				else 
-					printf "Uninstalling $HOME/TermuxArchBloom, nothing to do for $INSTALLDIR.\\n\\n"
+					printf "%s\\n\\n" "Refreshing $HOME/TermuxArchBloom, nothing to do for $INSTALLDIR."
 				fi
-				printf "Uninstalling $HOME/TermuxArchBloom done.\\n\\n"
+				printf "%s\\n\\n" "Refreshing $HOME/TermuxArchBloom done."
 				break
 			else
-				printf "\\nYou answered \\e[33;1m$rbuanswer\\e[30m.\\n\\nAnswer \\e[32mYes\\e[30m or \\e[1;31mNo\\e[30m. [\\e[32mY\\e[30m|\\e[1;31mn\\e[30m]\\n"
+				printf "\\nYou answered \\e[33;1m$RBUANSWER\\e[30m.\\n\\nAnswer \\e[32mYes\\e[30m or \\e[1;31mNo\\e[30m. [\\e[32mY\\e[30m|\\e[1;31mn\\e[30m]\\n"
 			fi
 		done
 	fi
 }
 
 _RUNFINISHSETUPQ_() {
-	while true; do
+	while true
+	do
 		printf "\\n\\e[0;32mWould you like to run \\e[1;32mfinishsetup.sh\\e[0;32m to complete the Arch Linux configuration and update now, or at a later time?  \\e[1;32mNow is recommended.  \\e[0;32m"
 		read -n 1 -p "Answer yes to complete the Arch Linux configuration and update now; Or answer no for later [Y|n] " nl
-	if [[ "$nl" = [Yy]* ]] || [[ "$nl" = "" ]];then
+	if [[ "$nl" = [Yy]* ]] || [[ "$nl" = "" ]]
+	then
 		_RUNFINISHSETUP_ 
 		break
-	elif [[ "$nl" = [Nn]* ]];then
+	elif [[ "$nl" = [Nn]* ]]
+	then
 		printf "\\n\\e[0;32mSet the geographically nearby mirror in \\e[1;32m/etc/pacman.d/mirrorlist\\e[0;32m first.  Then use \\e[1;32m$INSTALLDIR/root/bin/setupbin.sh\\e[0;32m in Termux to run \\e[1;32mfinishsetup.sh\\e[0;32m or simply \\e[1;32mfinishsetup.sh\\e[0;32m in Arch Linux Termux PRoot to complete the Arch Linux configuration and update."
 		break
 	else
@@ -396,13 +433,15 @@ spinnerdepreciated() { # Based on https://github.com/ringohub/sh-spinner
 	SPINNER="🕛🕐🕑🕓🕔🕕🕖🕗🕘🕙🕚"
 	task="$1"
 	msg="$2"
-	while true ; do
+	while true 
+	do
 		jobs %1 > /dev/null 2>&1
 		[[ "$?" = 0 ]] || {
 		printf " %s %s\\e[1;34m:\\e[1;32m %s\\e[?25h\\e[0m\\n\\n" "✓" "$task" "DONE                                "
 		break
 		}
-		for (( i=0; i<${#SPINNER}; i++ )) ; do
+		for (( i=0; i<${#SPINNER}; i++ )) 
+	do
 			sleep 0.05
 			printf " %s %s %s\\r" "${SPINNER:$i:1}" "$task" "$msg"
 		done

@@ -27,7 +27,8 @@ addae() {
 addauser() { 
 	_CFLHDR_ root/bin/addauser "# Add Arch Linux user."
 	cat >> root/bin/addauser <<- EOM
-	if [[ -z "\${1:-}" ]] ; then
+	if [[ -z "\${1:-}" ]]
+	then
 		echo "Use: addauser username"
 		exit 201
 	else
@@ -41,7 +42,8 @@ addauser() {
 
 addbash_logout() {
 	cat > root/.bash_logout <<- EOM
-	if [ ! -e "\$HOME"/.hushlogout ] && [ ! -e "\$HOME"/.chushlogout ] ; then
+	if [ ! -e "\$HOME"/.hushlogout ] && [ ! -e "\$HOME"/.chushlogout ]
+	then
 		. /etc/moto
 	fi
 	EOM
@@ -50,20 +52,24 @@ addbash_logout() {
 addbash_profile() {
 	cat > root/.bash_profile <<- EOM
 	. "\$HOME"/.bashrc
-	if [ ! -e "\$HOME"/.hushlogin ] && [ ! -e "\$HOME"/.chushlogin ] ; then
+	if [ ! -e "\$HOME"/.hushlogin ] && [ ! -e "\$HOME"/.chushlogin ]
+	then
 		. /etc/motd
 	fi
-	if [ -e "\$HOME"/.chushlogin ] ; then
+	if [ -e "\$HOME"/.chushlogin ]
+	then
 		rm "\$HOME"/.chushlogin 
 	fi
 	PATH="\$HOME/bin:\$PATH"
 	PS1="[\[\e[38;5;148m\]\u\[\e[1;0m\]\A\[\e[1;38;5;112m\]\W\[\e[0m\]]$ "
 	export TZ="$(getprop persist.sys.timezone)"
 	EOM
-	for i in "${!LC_TYPE[@]}"; do
+	for i in "${!LC_TYPE[@]}"
+	do
 	 	printf "%s=\"%s\"\\n" "export ${LC_TYPE[i]}" "$ULANGUAGE.UTF-8" >> root/.bash_profile 
 	done
-	if [ -e "$HOME"/.bash_profile ] ; then
+	if [ -e "$HOME"/.bash_profile ]
+	then
 		grep proxy "$HOME"/.bash_profile |grep "export" >>  root/.bash_profile ||:
 	fi
 }
@@ -97,7 +103,8 @@ addbashrc() {
 	# Use this alias at your own risk!
 	# alias rf='rm -rf'
 	EOM
-	if [ -e "$HOME"/.bashrc ] ; then
+	if [ -e "$HOME"/.bashrc ]
+	then
 		grep proxy "$HOME"/.bashrc | grep "export" >>  root/.bashrc ||:
 	fi
 }
@@ -147,7 +154,8 @@ addch() {
 
 	## ch begin ####################################################################
 
-	if [[ -z "\${1:-}" ]] ; then
+	if [[ -z "\${1:-}" ]]
+	then
 		ARGS=""
 	else
 		ARGS="\$@"
@@ -155,10 +163,12 @@ addch() {
 
 	printf "\\\\n\\\\e[1;32m==> \\\\e[1;37m%s \\\\e[1;32m%s %s %s\\\e[0m%s…\\\\n\\\\n" "Running" "TermuxArch \$(basename "\$0")" "\$ARGS" "\$VERSIONID"  
 
-	if [[ -f "\$HOME"/.hushlogin ]] && [[ -f "\$HOME"/.hushlogout ]] ; then
+	if [[ -f "\$HOME"/.hushlogin ]] && [[ -f "\$HOME"/.hushlogout ]]
+	then
 		rm "\$HOME"/.hushlogin "\$HOME"/.hushlogout
 		echo "Hushed login and logout: OFF"
-	elif [[ -f "\$HOME"/.hushlogin ]] || [[ -f "\$HOME"/.hushlogout ]] ; then
+	elif [[ -f "\$HOME"/.hushlogin ]] || [[ -f "\$HOME"/.hushlogout ]]
+	then
 		touch "\$HOME"/.hushlogin "\$HOME"/.hushlogout
 		echo "Hushed login and logout: ON"
 	else
@@ -311,7 +321,8 @@ addfibs() {
 addga() {
 	_CFLHDR_ root/bin/ga 
 	cat >> root/bin/ga  <<- EOM
-	if [ ! -e /usr/bin/git ] ; then
+	if [ ! -e /usr/bin/git ]
+	then
 		pacman --noconfirm --color=always -S git
 		git add .
 	else
@@ -324,7 +335,8 @@ addga() {
 addgcl() {
 	_CFLHDR_ root/bin/gcl 
 	cat >> root/bin/gcl  <<- EOM
-	if [ ! -e /usr/bin/git ] ; then
+	if [ ! -e /usr/bin/git ]
+	then
 		pacman --noconfirm --color=always -S git 
 		git clone "\$@"
 	else
@@ -337,7 +349,8 @@ addgcl() {
 addgcm() {
 	_CFLHDR_ root/bin/gcm 
 	cat >> root/bin/gcm  <<- EOM
-	if [ ! -e /usr/bin/git ] ; then
+	if [ ! -e /usr/bin/git ]
+	then
 		pacman --noconfirm --color=always -S git 
 		git commit
 	else
@@ -350,7 +363,8 @@ addgcm() {
 addgpl() {
 	_CFLHDR_ root/bin/gpl 
 	cat >> root/bin/gpl  <<- EOM
-	if [ ! -e /usr/bin/git ] ; then
+	if [ ! -e /usr/bin/git ]
+	then
 		pacman --noconfirm --color=always -S git 
 		git pull
 	else
@@ -363,7 +377,8 @@ addgpl() {
 addgp() {
 	_CFLHDR_ root/bin/gp "# git push https://username:password@github.com/username/repository.git master"
 	cat >> root/bin/gp  <<- EOM
-	if [ ! -e /usr/bin/git ] ; then
+	if [ ! -e /usr/bin/git ]
+	then
 		pacman --noconfirm --color=always -S git 
 		git push
 	else
@@ -388,7 +403,8 @@ addkeys() {
 		N=2 # Number of loop generations for generating entropy.
 		T0=256 # Maximum number of seconds loop shall run unless keys completes earlier.
 		T1=0.4
-		for I in "\$(seq 1 "\$N")"; do
+		for I in "\$(seq 1 "\$N")"
+	do
 			"\$(nice -n 20 ls -alR / >/dev/null 2>/dev/null & sleep "\$T0" ; kill \$! 2>/dev/null)" 2>/dev/null &
 			sleep "\$T1"
 			"\$(nice -n 20 find / >/dev/null 2>/dev/null & sleep "\$T0" ; kill \$! 2>/dev/null)" 2>/dev/null &
@@ -407,13 +423,16 @@ addkeys() {
 	trap _TRPET_ EXIT
 	## keys begin ##################################################################
 
-	if [[ -z "\${1:-}" ]] ; then
+	if [[ -z "\${1:-}" ]]
+	then
 		KEYRINGS[0]="archlinux-keyring"
-	elif [[ "\$1" = x86 ]]; then
+	elif [[ "\$1" = x86 ]]
+	then
 		KEYRINGS[0]="archlinux-keyring"
 		KEYRINGS[1]="archlinux32-keyring-transition"
 		KEYRINGS[2]="ca-certificates-utils"
-	elif [[ "\$1" = x86_64 ]]; then
+	elif [[ "\$1" = x86_64 ]]
+	then
 		KEYRINGS[0]="archlinux-keyring"
 		KEYRINGS[1]="ca-certificates-utils"
 	else
@@ -511,13 +530,17 @@ addpci() {
 	## pci begin ###################################################################
 
 	printf "\\\\n\\\\e[1;32m==> \\\\e[1;37m%s \\\\e[1;32m%s %s %s \\\e[0m%s…\\\\n\\\\n" "Running" "TermuxArch \$(basename "\$0")" "\$ARGS" "\$VERSIONID"  
-	if [[ -z "\${1:-}" ]] ; then
+	if [[ -z "\${1:-}" ]]
+	then
 	pacman -Syu --noconfirm --color=always 
-	elif [[ "\$1" = "e" ]] ; then
+	elif [[ "\$1" = "e" ]]
+	then
 	pacman -Syu base base-devel emacs "\${@:2}" --noconfirm --color=always  
-	elif [[ "\$1" = "e8" ]] ; then
+	elif [[ "\$1" = "e8" ]]
+	then
 	pacman -Syu base base-devel emacs jdk8-openjdk "\${@:2}" --noconfirm --color=always  
-	elif [[ "\$1" = "e10" ]] ; then
+	elif [[ "\$1" = "e10" ]]
+	then
 	pacman -Syu base base-devel emacs jdk10-openjdk "\${@:2}" --noconfirm --color=always  
 	else
 	pacman -Syu "\$@" --noconfirm --color=always  
@@ -546,13 +569,17 @@ addpcs() {
 	## pci begin ###################################################################
 
 	printf "\\\\n\\\\e[1;32m==> \\\\e[1;37m%s \\\\e[1;32m%s %s %s \\\e[0m%s…\\\\n\\\\n" "Running" "TermuxArch \$(basename "\$0")" "\$ARGS" "\$VERSIONID"  
-	if [[ -z "\${1:-}" ]] ; then
+	if [[ -z "\${1:-}" ]]
+	then
 	pacman -S --color=always 
-	elif [[ "\$1" = "e" ]] ; then
+	elif [[ "\$1" = "e" ]]
+	then
 	pacman -Syu base base-devel emacs "\${@:2}" --color=always  
-	elif [[ "\$1" = "e8" ]] ; then
+	elif [[ "\$1" = "e8" ]]
+	then
 	pacman -Syu base base-devel emacs jdk8-openjdk "\${@:2}" --color=always  
-	elif [[ "\$1" = "e10" ]] ; then
+	elif [[ "\$1" = "e10" ]]
+	then
 	pacman -Syu base base-devel emacs jdk10-openjdk "\${@:2}" --color=always  
 	else
 	pacman -Syu "\$@" --color=always  
@@ -581,7 +608,8 @@ addpcss() {
 	## pci begin ###################################################################
 
 	printf "\\\\n\\\\e[1;32m==> \\\\e[1;37m%s \\\\e[1;32m%s %s %s \\\e[0m%s…\\\\n\\\\n" "Running" "TermuxArch \$(basename "\$0")" "\$ARGS" "\$VERSIONID"  
-	if [[ -z "\${1:-}" ]] ; then
+	if [[ -z "\${1:-}" ]]
+	then
 	pacman -Ss --color=always 
 	else
 	pacman -Ss "\$@" --color=always  
@@ -594,7 +622,8 @@ addprofile() {
 	cat > root/.profile <<- EOM
 	. "\$HOME"/.bash_profile
 	EOM
-	if [ -e "$HOME"/.profile ] ; then
+	if [ -e "$HOME"/.profile ]
+	then
 		grep "proxy" "$HOME"/.profile |grep "export" >>  root/.profile 2>/dev/null||:
 	fi
 }
@@ -610,7 +639,8 @@ addresolvconf() {
 addt() {
 	_CFLHDR_ root/bin/t
 	cat >> root/bin/t  <<- EOM
-	if [ ! -e /usr/bin/tree ] ; then
+	if [ ! -e /usr/bin/tree ]
+	then
 		pacman --noconfirm --color=always -S tree 
 		tree "\$@"
 	else
@@ -686,12 +716,14 @@ addtrim() {
 addv() {
 	_CFLHDR_ root/bin/v
 	cat >> root/bin/v  <<- EOM
-	if [[ -z "\${1:-}" ]] ; then
+	if [[ -z "\${1:-}" ]]
+	then
 		ARGS="."
 	else
 		ARGS="\$@"
 	fi
-	if [ ! -e /usr/bin/vim ] ; then
+	if [ ! -e /usr/bin/vim ]
+	then
 		pacman --noconfirm --color=always -S vim 
 		vim "\$@"
 	else
@@ -726,7 +758,8 @@ addwe() {
 
 	infif()
 	{
-		if [[ \$entropy0 = "inf" ]] || [[ \$entropy0 = "" ]] || [[ \$entropy0 = "0" ]] ; then
+		if [[ \$entropy0 = "inf" ]] || [[ \$entropy0 = "" ]] || [[ \$entropy0 = "0" ]]
+	then
 			entropy0=1000
 			printf "\e[1;32m∞^∞infifinfif2minfifinfifinfifinfif∞=1\e[0;32minfifinfifinfifinfif\e[0;32m∞==0infifinfifinfifinfif\e[0;32minfifinfifinfif∞"
 		fi
@@ -737,12 +770,15 @@ addwe() {
 	esleep()
 	{
 		int=\$(echo "\$i/\$entropy0" | bc -l)
-		for i in {1..5}; do
-			if (( \$(echo "\$int > 0.1"|bc -l) ));then
+		for i in {1..5}
+	do
+			if (( \$(echo "\$int > 0.1"|bc -l) ))
+	then
 				tmp=\$(echo "\${int}/100" | bc -l)
 				int=\$tmp
 			fi
-			if (( \$(echo "\$int > 0.1"|bc -l) ));then
+			if (( \$(echo "\$int > 0.1"|bc -l) ))
+	then
 				break
 			fi
 		done
@@ -756,16 +792,19 @@ addwe() {
 	bcif()
 	{
 		commandif=\$(command -v getprop) ||:
-		if [[ \$commandif = "" ]] ; then
+		if [[ \$commandif = "" ]]
+	then
 			abcif=\$(command -v bc) ||:
-			if [[ \$abcif = "" ]] ; then
+			if [[ \$abcif = "" ]]
+	then
 				printf "\e[1;34mInstalling \e[0;32mbc\e[1;34m…\n\n\e[1;32m"
 				pacman -S bc --noconfirm --color=always
 				printf "\n\e[1;34mInstalling \e[0;32mbc\e[1;34m: \e[1;32mDONE\n\e[0m"
 			fi
 		else
 			tbcif=\$(command -v bc) ||:
-			if [[ \$tbcif = "" ]] ; then
+			if [[ \$tbcif = "" ]]
+	then
 				printf "\e[1;34mInstalling \e[0;32mbc\e[1;34m…\n\n\e[1;32m"
 				pkg install bc --yes
 				printf "\n\e[1;34mInstalling \e[0;32mbc\e[1;34m: \e[1;32mDONE\n\e[0m"
@@ -776,7 +815,8 @@ addwe() {
 	entropysequential()
 	{
 	printf "\n\e[1;32mWatch Entropy Sequential:\n\n"'\033]2; Watch Entropy Sequential 📲  \007'
-	for i in \$(seq 1 \$en0); do
+	for i in \$(seq 1 \$en0)
+	do
 		entropy0=\$(cat /proc/sys/kernel/random/entropy_avail 2>/dev/null) 
 		infif 
 		printf "\e[1;30m \$en0 \e[0;32m\$i \e[1;32m\${entropy0}\n"
@@ -787,7 +827,8 @@ addwe() {
 	entropysimple()
 	{
 	printf "\n\e[1;32mWatch Entropy Simple:\n\n"'\e]2; Watch Entropy Simple 📲  \007'
-	for i in \$(seq 1 \$en0); do
+	for i in \$(seq 1 \$en0)
+	do
 		entropy0=\$(cat /proc/sys/kernel/random/entropy_avail 2>/dev/null) 
 		infif 
 		printf "\e[1;32m\${entropy0} " 
@@ -798,7 +839,8 @@ addwe() {
 	entropyverbose()
 	{
 	printf "\n\e[1;32mWatch Entropy Verbose:\n\n"'\033]2; Watch Entropy Verbose 📲  \007'
-	for i in \$(seq 1 \$en0); do
+	for i in \$(seq 1 \$en0)
+	do
 		entropy0=\$(cat /proc/sys/kernel/random/entropy_avail 2>/dev/null) 
 		infif 
 		printf "\e[1;30m \$en0 \e[0;32m\$i \e[1;32m\${entropy0} \e[0;32m#E&&√♪"
@@ -819,23 +861,28 @@ addwe() {
 	}
 
 	# [we sequential] Run sequential watch entropy.
-	if [[ -z "\${1:-}" ]] ; then
+	if [[ -z "\${1:-}" ]]
+	then
 		printintro 
 		entropysequential 
-	elif [[ \$1 = [Ss][Ee]* ]] || [[ \$1 = -[Ss][Ee]* ]] || [[ \$1 = --[Ss][Ee]* ]] ; then
+	elif [[ \$1 = [Ss][Ee]* ]] || [[ \$1 = -[Ss][Ee]* ]] || [[ \$1 = --[Ss][Ee]* ]]
+	then
 		printintro 
 		entropysequential 
 	# [we simple] Run simple watch entropy.
-	elif [[ \$1 = [Ss]* ]] || [[ \$1 = -[Ss]* ]] || [[ \$1 = --[Ss]* ]] ; then
+	elif [[ \$1 = [Ss]* ]] || [[ \$1 = -[Ss]* ]] || [[ \$1 = --[Ss]* ]]
+	then
 		printintro 
 		entropysimple 
 	# [we verbose] Run verbose watch entropy.
-	elif [[ \$1 = [Vv]* ]] || [[ \$1 = -[Vv]* ]] || [[ \$1 = --[Vv]* ]] ; then
+	elif [[ \$1 = [Vv]* ]] || [[ \$1 = -[Vv]* ]] || [[ \$1 = --[Vv]* ]]
+	then
 		printintro 
 		bcif
 		entropyverbose 
 	# [] Run default watch entropy.
-	elif [[ \$1 = "" ]] ; then
+	elif [[ \$1 = "" ]]
+	then
 		printintro 
 		entropysequential 
 	else
@@ -849,7 +896,8 @@ addwe() {
 addyt() {
 	_CFLHDR_ root/bin/yt
 	cat >> root/bin/yt  <<- EOM
-	if [ ! -e /usr/bin/youtube-dl ] ; then
+	if [ ! -e /usr/bin/youtube-dl ]
+	then
 		pacman --noconfirm --color=always -S youtube-dl
 		youtube-dl "\$@"
 	else

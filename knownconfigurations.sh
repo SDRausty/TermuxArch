@@ -95,23 +95,30 @@ SPECS_X86_64_=( [DIST]="$CSYSTEM" [FILE]="" [PROTOCOL]="https" [RPATH]="/archlin
 
 _PR00TSTRING_() { 
 PROOTSTMNT="exec proot "
-if [[ -z "${KID:-}" ]] ; then
+if [[ -z "${KID:-}" ]]
+	then
 	PROOTSTMNT+=""
-elif [[ "$KID" ]] ; then
+elif [[ "$KID" ]]
+	then
  	PROOTSTMNT+="--kernel-release=4.14.15 "
 fi
 PROOTSTMNT+="--kill-on-exit --link2symlink -S $INSTALLDIR "
-if [[ ! -r /dev/ashmem ]] ; then
+if [[ ! -r /dev/ashmem ]]
+	then
 	PROOTSTMNT+="-b $INSTALLDIR/tmp:/dev/ashmem " 
 fi
-if [[ ! -r /dev/shm ]] ; then
+if [[ ! -r /dev/shm ]]
+	then
 	PROOTSTMNT+="-b $INSTALLDIR/tmp:/dev/shm " 
 fi
-if [[ ! -r /proc/stat ]] ; then
+if [[ ! -r /proc/stat ]]
+	then
 	PROOTSTMNT+="-b $INSTALLDIR/var/binds/fbindprocstat:/proc/stat " 
 fi
-if [[ -n "$(ls -A "$INSTALLDIR"/var/binds/*.prs)" ]] ; then
-    for PRSFILES in "$INSTALLDIR"/var/binds/*.prs ; do
+if [[ -n "$(ls -A "$INSTALLDIR"/var/binds/*.prs)" ]]
+	then
+    for PRSFILES in "$INSTALLDIR"/var/binds/*.prs 
+	do
       . "$PRSFILES"
     done
 fi
