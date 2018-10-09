@@ -433,14 +433,19 @@ _RUNFINISHSETUP_() {
 
 _SETLANGUAGE_() { # This function uses device system settings to set locale.  To generate locales in a preferred language, you can use "Settings > Language & Keyboard > Language" in Android; Then run `setupTermuxArch.sh r for a quick system refresh.
 	ULANGUAGE="unkown"
-  	LANGIN=([0]="$(getprop user.language 2>&1)")
-	LANGIN+=([1]="$(getprop user.region 2>&1)")
-	LANGIN+=([2]="$(getprop persist.sys.country 2>&1)")
-	LANGIN+=([3]="$(getprop persist.sys.language 2>&1)")
- 	LANGIN+=([4]="$(getprop persist.sys.locale 2>&1)")
-  	LANGIN+=([5]="$(getprop ro.product.locale 2>&1)")
-	LANGIN+=([6]="$(getprop ro.product.locale.language 2>&1)")
-	LANGIN+=([7]="$(getprop ro.product.locale.region 2>&1)")
+ 	declare -a LANGIN=""
+	_LANGIN_() {
+		LANGIN=([0]="$(getprop user.language)")
+		LANGIN+=([1]="$(getprop user.region)")
+		LANGIN+=([2]="$(getprop persist.sys.country)")
+		LANGIN+=([3]="$(getprop persist.sys.language)")
+	 	LANGIN+=([4]="$(getprop persist.sys.locale)")
+	  	LANGIN+=([5]="$(getprop ro.product.locale)")
+		LANGIN+=([6]="$(getprop ro.product.locale.language)")
+		LANGIN+=([7]="$(getprop ro.product.locale.region)")
+	}
+	_LANGIN_ 
+	$LANGIN < <(_LANGIN_)
 	touch "$INSTALLDIR"/etc/locale.gen 
 	ULANGUAGE="${LANGIN[0]:-unknown}_${LANGIN[1]:-unknown}"
        	if ! grep "$ULANGUAGE" "$INSTALLDIR"/etc/locale.gen 1>/dev/null
