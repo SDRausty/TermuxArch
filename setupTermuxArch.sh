@@ -8,7 +8,7 @@ IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-VERSIONID="v1.6.5.id7927"
+VERSIONID="v1.6.5.id2588"
 
 _SET_TRAP_ERROR_() { # Run on script error.
 	local RV="$?"
@@ -226,7 +226,7 @@ _DEPENDSBLOCK_() {
 		fi
 	done
        	if [[ "$LCW" = 0 ]] # checks flag whether still set to 0, 
-	then # load all files except this file.
+	then # load all files except ${AF[7]}.
 	       	for AFILE in "${!AF[@]}" 
 		do
 		       	if [[ -f "${AF[$AFILE]}" ]] &&  [[ "${AF[$AFILE]}" != "${AF[7]}" ]] 
@@ -352,7 +352,7 @@ _NAME_STARTARCH_() { # ${@%/} removes trailing slash
 	declare -g STARTBIN=start"$STARTBI2$AARCH"
 }
 
-_OPT1_() { 
+_OPT1_() { # second argument as option. 
 	if [[ -z "${2:-}" ]] || [[ "$OPT" = *install* ]]
 	then
 		_ARG2DIR_ "$@" 
@@ -426,7 +426,7 @@ _OPT1_() {
 	fi
 }
 
-_OPT2_() { 
+_OPT2_() { # third argument as option. 
 	if [[ -z "${3:-}" ]]
 	then
 		:
