@@ -8,7 +8,7 @@ IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-VERSIONID="v1.6.5.id4878"
+VERSIONID="v1.6.5.id7927"
 
 _SET_TRAP_ERROR_() { # Run on script error.
 	local RV="$?"
@@ -121,10 +121,10 @@ _CHKIROOST_() {
 }
 
 _CHKSELF_() {
-	if [[ -f "setupTermuxArch.tmp" ]] 
-	then # compare the two versions:
-		if [[ "$(<"${0##*/}")" != "$(<setupTermuxArch.tmp)" ]] # they are unequal:
-		then # copy the newer version to update:
+	if [[ -f "setupTermuxArch.tmp" ]] # this file is present.
+	then # compare the two versions.
+		if [[ "$(<"${0##*/}")" != "$(<setupTermuxArch.tmp)" ]] # they are unequal.
+		then # copy the newer version to update.
 			cp "${0##*/}" "$WDIR${0##*/}"
 			chmod 700 "$WDIR${0##*/}"
 			printf "\\e[0;32m%s\\e[1;34m: \\e[1;32mUPDATED\\n\\e[1;32mRESTART\\e[1;34m: \\e[0;32m%s %s \\n\\n\\e[0m"  "${0##*/}" "${0##*/}" "$ARGS"
