@@ -116,7 +116,7 @@ _PR00TSTRING_() {
        	fi
        	PROOTSTMNT+="-b /proc/self/fd/1:/dev/stdout "
        	PROOTSTMNT+="-b /proc/self/fd/2:/dev/stderr "
-       	PROOTSTMNT+="/usr/bin/env -i HOME=/root TERM=$TERM "
+       	PROOTSTMNT+="/usr/bin/env HOME=/root TERM=$TERM"
        	PROOTSTMNTU="${PROOTSTMNT//--link2symlink }"
 }
 _PR00TSTRING_
