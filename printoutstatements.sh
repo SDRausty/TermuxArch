@@ -16,7 +16,7 @@ FLHDR1[1]="# IFS=$'\\n\\t'"
 FLHDR1[2]="set -Eeuo pipefail"
 FLHDR1[3]="# shopt -s nullglob globstar"
 FLHDR1[4]="unset LD_PRELOAD"
-FLHDR1[5]="VERSIONID=v1.6.6.id2613"
+FLHDR1[5]="VERSIONID=v1.6.6.id8053"
 FLHDR1[6]=" "
 FLHDRP[0]="## BEGIN #######################################################################"
 FLHDRP[1]=""
@@ -161,7 +161,8 @@ _PRINT_DOWNLOADING_FTCHIT_() {
 }
 
 _PRINT_FOOTER_() {
-	printf "\\e[0;34m 🕛 > 🕥 \\e[1;34mUse \\e[1;32m$STARTBIN \\e[1;34mto launch Arch Linux in Termux PRoot.  Alternatively, run \\e[1;32m~$PRINTROOTDIR/$STARTBIN \\e[1;34min a BASH shell to start Arch Linux in Termux PRoot for future sessions.  See \\e[1;32m$STARTBIN help \\e[1;34mfor usage information.\\e[0m\n\n"'\\e]2;  Thank you for using `setupTermuxArch.sh` to install Arch Linux in Termux 📲  \\007'
+	printf "\\e[0;34m 🕛 > 🕥 \\e[1;34mUse \\e[1;32m$STARTBIN \\e[1;34mto launch Arch Linux in Termux PRoot.  Alternatively, run \\e[1;32m~$PRINTROOTDIR/$STARTBIN \\e[1;34min a BASH shell to start Arch Linux in Termux PRoot for future sessions.  See \\e[1;32m$STARTBIN help \\e[1;34mfor usage information.\\e[0m\n\n"
+	printf "\\e]2;  Thank you for using \`setupTermuxArch.sh\` to install Arch Linux in Termux 📲  \\007"
 	_COPYSTARTBIN2PATH_
 	printf "\\e[0;32m 🕛 = 🕛 \\e[1;34mInformation about \\e[0;36m\"Starting Arch Linux from Termux?\"\\e[1;34m at \\e[1;34mhttps://github.com/sdrausty/TermuxArch/issues/25\\e[1;34m.  Use \\e[1;32mtour\\e[1;34m to run a very short tour to get to know the new Arch Linux in Termux PRoot environment you just set up a little bit better.  If there was more than one error during the update procedure and you would like to refresh the installation, use \\e[1;32msetupTermuxArch.sh refresh\\e[1;34m.  This will update and recreate the configuration provided.  The TermuxArch command \\e[1;32mkeys \\e[1;34mhelps install and generate Arch Linux keyring keys.\n\n"
 	_PRINT_FOOTER2_

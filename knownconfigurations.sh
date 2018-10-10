@@ -103,14 +103,6 @@ elif [[ "$KID" ]]
  	PROOTSTMNT+="--kernel-release=4.14.15 "
 fi
 PROOTSTMNT+="--kill-on-exit --link2symlink -S $INSTALLDIR "
-if [[ ! -r /dev/ashmem ]]
-	then
-	PROOTSTMNT+="-b $INSTALLDIR/tmp:/dev/ashmem " 
-fi
-if [[ ! -r /dev/shm ]]
-	then
-	PROOTSTMNT+="-b $INSTALLDIR/tmp:/dev/shm " 
-fi
 if [[ ! -r /proc/stat ]]
 	then
 	PROOTSTMNT+="-b $INSTALLDIR/var/binds/fbindprocstat:/proc/stat " 
@@ -124,8 +116,9 @@ if [[ -n "$(ls -A "$INSTALLDIR"/var/binds/*.prs)" ]]
 fi
 PROOTSTMNT+="-b /proc/self/fd/1:/dev/stdout "
 PROOTSTMNT+="-b /proc/self/fd/2:/dev/stderr "
-PROOTSTMNT+="-b /dev/ -b /proc/ -b /sys/ /usr/bin/env -i HOME=/root TERM=$TERM "
-PROOTSTMNTU="${PROOTSTMNT//--link2symlink }"
+PROOTSTMNT+="/usr/bin/env -i HOME=/root TERM=$TERM "
+PROOTSTMNTT="${PROOTSTMNT//--link2symlink }"
+PROOTSTMNTU="${PROOTSTMNTT/-S /-R }"
 }
 _PR00TSTRING_
 

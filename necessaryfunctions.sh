@@ -402,7 +402,7 @@ _PREPROOT_() {
 }
 
 _RUNFINISHSETUP_() {
-	sed -i 's/root/proot/g' "$INSTALLDIR"/etc/passwd
+	sed -i 's/proot/root/g' "$INSTALLDIR"/etc/passwd
 	if [[ "$CSYSTEM" = Alpine ]]
 	then
 		ln -s "$INSTALLDIR/usr/bin/env" "$INSTALLDIR/bin/env"
