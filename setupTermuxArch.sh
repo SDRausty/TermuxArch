@@ -8,7 +8,7 @@ IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-VERSIONID="v1.6.6.id8053"
+VERSIONID="v1.6.6.id4522"
 
 _SET_TRAP_ERROR_() { # Run on script error.
 	local RV="$?"
@@ -653,9 +653,6 @@ declare APTON=""	## exception string
 declare COMMANDIF=""
 declare CPUABI=""
 declare CPUABI5="armeabi"	## Used for development.
-# declare CPUABI7="armeabi-v7a"	## Used for development.
-# declare CPUABI8="arm64-v8a"	## Used for development.
-# declare CPUABIX86="x86"	## Used for development.
 declare CPUABI7="arm"		## Used for development.
 declare CPUABI8="aarch64"	## Used for development.
 declare CPUABIX86="i686"	## Used for development.
