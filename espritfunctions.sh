@@ -50,10 +50,10 @@ _BLOOM_() { # Bloom = `setupTermuxArch.sh manual verbose`
 	else
 		_COPY_FILES_ "$TAMPDIR/"
 	fi
-	printf "\\e[1;34mTermuxArch Bloom option via \\e[1;32msetupTermuxArch.sh bloom\\e[0m 📲\\n\\n\\e[0m"'\033]2; TermuxArch Bloom option via `setupTermuxArch.sh bloom` 📲 \007'
+	printf "\\e[1;34mTermuxArch Bloom option via \\e[1;32msetupTermuxArch.sh bloom\\e[0m 📲\\n\\n\\e[0m"'\\e]2; TermuxArch Bloom option via `setupTermuxArch.sh bloom` 📲 \\007'
 	printf "\\n"
 	ls -agl "$HOME"/TermuxArchBloom/
-	printf "\\n\\e[1;34mUse \\e[1;32mcd ~/TermuxArchBloom\\e[1;34m to continue.  Edit any of these files; Then use \\e[1;32mbash $0 [options] \\e[1;34mto run the files in \\e[1;32m~/TermuxArchBloom\\e[1;34m.\\n\\e[0m"'\033]2;  TermuxArch Bloom option via `setupTermuxArch.sh bloom` 📲 \007'
+	printf "\\n\\e[1;34mUse \\e[1;32mcd ~/TermuxArchBloom\\e[1;34m to continue.  Edit any of these files; Then use \\e[1;32mbash $0 [options] \\e[1;34mto run the files in \\e[1;32m~/TermuxArchBloom\\e[1;34m.\\n\\e[0m"'\\e]2;  TermuxArch Bloom option via `setupTermuxArch.sh bloom` 📲 \\007'
 	exit
 }
 
@@ -68,7 +68,7 @@ _COPY_FILES_() {
 _COPYSTARTBIN2PATHQ_() {
 	while true
 	do
-	printf "\\e[0;34m 🕛 > 🕚 \\e[0mCopy \\e[1m$STARTBIN\\e[0m to \\e[1m$BPATH\\e[0m?  "'\033]2; 🕛 > 🕚 Copy to $PATH [Y|n]?\007'
+	printf "\\e[0;34m 🕛 > 🕚 \\e[0mCopy \\e[1m$STARTBIN\\e[0m to \\e[1m$BPATH\\e[0m?  "'\\e]2; 🕛 > 🕚 Copy to $PATH [Y|n]?\\007'
 	read -n 1 -p "Answer yes or no [Y|n] " ANSWER
 	if [[ "$ANSWER" = [Yy]* ]] || [[ "$ANSWER" = "" ]]
 	then
@@ -241,7 +241,7 @@ _LOADCONF_() {
 }
 
 _MANUAL_() {
-	printf "\033]2;%s\007" "bash ${0##*/} manual 📲"
+	printf "\\e]2;%s\\007" "bash ${0##*/} manual 📲"
 	_EDITORS_
 	if [[ -f "${WDIR}setupTermuxArchConfigs.sh" ]] 
 	then
@@ -286,16 +286,16 @@ _OPTIONAL_SYSTEMS_() {
 #	#	Available architectures: aarch64 armhf x86_64 x86 and more.
 # 	#	https://alpinelinux.org/downloads/
 	then
-		if [[ "$CPUABI" = armeabi ]] || [[ "$CPUABI" = armeabi-v7a ]]
+		if [[ "$CPUABI" = "$CPUABI5" ]] || [[ "$CPUABI" = "$CPUABI7" ]]
 		then
 		       	SPECS_ARMV7L_=( [DIST]="$CSYSTEM" [FILE]="alpine-minirootfs-3.8.1-armhf.tar.gz" [PROTOCOL]="http" [RPATH]="/alpine/v3.8/releases/armhf/" [SITE]="dl-cdn.alpinelinux.org" [SFNM]="alpine-minirootfs-3.8.1-armhf.tar.gz.sha256" [STYPE]="sha256sum" )
-		elif [[ "$CPUABI" = arm64-v8a ]]
+		elif [[ "$CPUABI" = "$CPUABI8" ]]
 		then
 		       	SPECS_ARMV8L_=( [DIST]="$CSYSTEM" [FILE]="alpine-minirootfs-3.8.1-aarch64.tar.gz" [PROTOCOL]="http" [RPATH]="/alpine/v3.8/releases/aarch64/" [SITE]="dl-cdn.alpinelinux.org" [SFNM]="alpine-minirootfs-3.8.1-aarch64.tar.gz.sha256" [STYPE]="sha256sum" )
-		elif [[ "$CPUABI" = x86 ]]
+		elif [[ "$CPUABI" = "$CPUABIX86" ]]
 		then
 		       	SPECS_X86_=( [DIST]="$CSYSTEM" [FILE]="alpine-minirootfs-3.8.1-x86.tar.gz" [PROTOCOL]="http" [RPATH]="/alpine/v3.8/releases/x86/" [SITE]="dl-cdn.alpinelinux.org" [SFNM]="alpine-minirootfs-3.8.1-x86.tar.gz.sha256" [STYPE]="sha256sum" )
-		elif [[ "$CPUABI" = x86_64 ]]
+		elif [[ "$CPUABI" = "$CPUABIX86_64" ]]
 		then
 		       	SPECS_X86_64_=( [DIST]="$CSYSTEM" [FILE]="alpine-minirootfs-3.8.1-x86_64.tar.gz" [PROTOCOL]="http" [RPATH]="/alpine/v3.8/releases/x86_64/" [SITE]="dl-cdn.alpinelinux.org" [SFNM]="alpine-minirootfs-3.8.1-x86_64.tar.gz.sha256" [STYPE]="sha256sum" )
 		fi
@@ -304,10 +304,10 @@ _OPTIONAL_SYSTEMS_() {
 # 	#	https://os.archlinuxarm.org/os/
 	then
 		MLSOURCE="/etc/pacman.d/mirrorlist"
-		if [[ "$CPUABI" = armeabi ]]
+		if [[ "$CPUABI" = "$CPUABI5" ]]
 		then
 			SPECS_ARMV5L_=( [DIST]="$CSYSTEM" [FILE]="ArchLinuxARM-armv5-latest.tar.gz" [PROTOCOL]="https" [RPATH]="/os/" [SITE]="os.archlinuxarm.org" [SFNM]="ArchLinuxARM-armv5-latest.tar.gz.md5" [STYPE]="md5sum" )
-		elif [[ "$CPUABI" = armeabi-v7a ]]
+		elif [[ "$CPUABI" = "$CPUABI7" ]]
 		then
 			if [[ "$(getprop ro.product.device)" == *_cheets ]]
 	then
@@ -315,13 +315,13 @@ _OPTIONAL_SYSTEMS_() {
 			else
 				SPECS_ARMV7L_=( [DIST]="$CSYSTEM" [FILE]="ArchLinuxARM-armv7-latest.tar.gz" [PROTOCOL]="https" [RPATH]="/os/" [SITE]="os.archlinuxarm.org" [SFNM]="ArchLinuxARM-armv7-latest.tar.gz.md5" [STYPE]="md5sum" )
 			fi
-		elif [[ "$CPUABI" = arm64-v8a ]]
+		elif [[ "$CPUABI" = "$CPUABI8" ]]
 		then
 	       		SPECS_ARMV8L_=( [DIST]="$CSYSTEM" [FILE]="ArchLinuxARM-aarch64-latest.tar.gz" [PROTOCOL]="https" [RPATH]="/os/" [SITE]="os.archlinuxarm.org" [SFNM]="ArchLinuxARM-aarch64-latest.tar.gz.md5" [STYPE]="md5sum" )
-		elif [[ "$CPUABI" = x86 ]]
+		elif [[ "$CPUABI" = "$CPUABIX86" ]]
 		then
 			SPECS_X86_=( [DIST]="$CSYSTEM" [FILE]="" [PROTOCOL]="https" [RPATH]="/iso/2017.03.01/" [SITE]="archive.archlinux.org" [SFNM]="md5sums.txt" [STYPE]="md5sum" )
-		elif [[ "$CPUABI" = x86_64 ]]
+		elif [[ "$CPUABI" = "$CPUABIX86_64" ]]
 		then
 			SPECS_X86_64_=( [DIST]="$CSYSTEM" [FILE]="" [PROTOCOL]="https" [RPATH]="/archlinux/iso/latest/" [SITE]="mirror.rackspace.com" [SFNM]="md5sums.txt" [STYPE]="md5sum" )
 		fi
@@ -346,16 +346,16 @@ _OPTIONAL_SYSTEMS_() {
 	elif [[ "$CSYSTEM" = Ubuntu ]]
 	then # https://partner-images.canonical.com/core/bionic/current/
 		MLSOURCE="/etc/apt/sources.list"
-		if [[ "$CPUABI" = armeabi ]] || [[ "$CPUABI" = armeabi-v7a ]]
+		if [[ "$CPUABI" = "$CPUABI5" ]] || [[ "$CPUABI" = "$CPUABI7" ]]
 		then
 		       	SPECS_ARMV7L_=( [DIST]="$CSYSTEM" [FILE]="ubuntu-bionic-core-cloudimg-armhf-root.tar.gz" [PROTOCOL]="https" [SITE]="partner-images.canonical.com" [RPATH]="/core/bionic/current/" [SFNM]="SHA256SUMS" [STYPE]="" )
-		elif [[ "$CPUABI" = arm64-v8a ]]
+		elif [[ "$CPUABI" = "$CPUABI8" ]]
 		then
 		       	SPECS_ARMV8L_=( [DIST]="$CSYSTEM" [FILE]="ubuntu-bionic-core-cloudimg-arm64-root.tar.gz" [PROTOCOL]="https" [SITE]="partner-images.canonical.com" [RPATH]="/core/bionic/current/" [SFNM]="SHA256SUMS" [STYPE]="" )
-		elif [[ "$CPUABI" = x86 ]]
+		elif [[ "$CPUABI" = "$CPUABIX86" ]]
 		then
 		       	SPECS_X86_=( [DIST]="$CSYSTEM" [FILE]="ubuntu-bionic-core-cloudimg-i386-root.tar.gz" [PROTOCOL]="https" [SITE]="partner-images.canonical.com" [RPATH]="/core/bionic/current/" [SFNM]="SHA256SUMS" [STYPE]="" )
-		elif [[ "$CPUABI" = x86_64 ]]
+		elif [[ "$CPUABI" = "$CPUABIX86_64" ]]
 		then
 		       	SPECS_X86_64_=( [DIST]="$CSYSTEM" [FILE]="ubuntu-bionic-core-cloudimg-amd64-root.tar.gz" [PROTOCOL]="https" [SITE]="partner-images.canonical.com" [RPATH]="/core/bionic/current/" [SFNM]="SHA256SUMS" [STYPE]="" )
 		fi

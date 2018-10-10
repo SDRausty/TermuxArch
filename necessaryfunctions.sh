@@ -203,7 +203,7 @@ _MAKEFINISHSETUP_() {
 	if [[ "${LCR:-}" != 2 ]]
 	then
 		cat >> root/bin/"$BINFNSTP" <<- EOM
-		printf "\\n\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\n\\n\\e[1;32m%s\\e[0;32m" "To generate locales in a preferred language use " "Settings > Language & Keyboard > Language " "in Android; Then run " "${0##*/} r " "for a quick system refresh; For full system refresh use " "${0##*/} refresh" "." "==> " 
+		printf "\\n\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\n\\n\\e[1;32m%s\\e[0;32m" "To generate locales in a preferred language use " "Settings > Language & Keyboard > Language " "in Android; Then run " "${0##*/} r " "for a quick system refresh; For full system refresh use " "${0##*/} refresh" ".  Run " "${0##*/} re" " to only refresh the user files without running locale-gen." "==> " 
 		locale-gen ||: 
 		EOM
 	fi
@@ -270,7 +270,7 @@ _MAKESTARTBIN_() {
 	declare -g ar2ar="\${@:2}"
 	declare -g ar3ar="\${@:3}"
 	_PRINT_USAGE_() { 
-	printf "\\n\\e[1;32m$STARTBIN\\e[0;32m: Start Arch Linux as root.  This account is reserved for system administration.\\n\\n\\e[1;32m$STARTBIN c[md] cmd\\e[0;32m: Run Arch Linux command from Termux as root user.\\n\\n\\e[1;32m$STARTBIN u[ser]|l[ogin] user\\e[0;32m: Login as user.  Use \\e[1;32m$STARTBIN addauser user \\e[0;32mfirst to create this user and user's home directory.\\n\\n\\e[1;32m$STARTBIN r[aw]\\e[0;32m: Construct the \\e[1;32m$STARTBIN \\e[0;32mproot statement from exec.../bin/.  For example \\e[1;32m$STARTBIN r su \\e[0;32mwill exec su in Arch Linux.\\n\\n\\e[1;32m$STARTBIN s[u] user cmd\\e[0;32m: Login as user and execute command.  Use \\e[1;32m$STARTBIN addauser user \\e[0;32mfirst to create this user and user's home directory.\\n\\n\\e[0m"'\033]2; TermuxArch '$STARTBIN' help 📲  \007' 
+	printf "\\n\\e[1;32m$STARTBIN\\e[0;32m: Start Arch Linux as root.  This account is reserved for system administration.\\n\\n\\e[1;32m$STARTBIN c[md] cmd\\e[0;32m: Run Arch Linux command from Termux as root user.\\n\\n\\e[1;32m$STARTBIN u[ser]|l[ogin] user\\e[0;32m: Login as user.  Use \\e[1;32m$STARTBIN addauser user \\e[0;32mfirst to create this user and user's home directory.\\n\\n\\e[1;32m$STARTBIN r[aw]\\e[0;32m: Construct the \\e[1;32m$STARTBIN \\e[0;32mproot statement from exec.../bin/.  For example \\e[1;32m$STARTBIN r su \\e[0;32mwill exec su in Arch Linux.\\n\\n\\e[1;32m$STARTBIN s[u] user cmd\\e[0;32m: Login as user and execute command.  Use \\e[1;32m$STARTBIN addauser user \\e[0;32mfirst to create this user and user's home directory.\\n\\n\\e[0m"'\\e]2; TermuxArch '$STARTBIN' help 📲  \\007' 
 	}
 
 	# [] Default Arch Linux in Termux PRoot root login.
@@ -281,7 +281,7 @@ _MAKESTARTBIN_() {
 		echo "$PROOTSTMNT /bin/bash -l ||: " >> "$STARTBIN"
 	cat >> "$STARTBIN" <<- EOM
 		set -Eeuo pipefail
-		printf '\033]2; TermuxArch $STARTBIN 📲  \007'
+		printf '\\e]2; TermuxArch $STARTBIN 📲  \\007'
 	# [?|help] Displays usage information.
 	elif [[ "\${1//-}" = [?]* ]] || [[ "\${1//-}" = [Hh]* ]]
 	then
@@ -289,39 +289,39 @@ _MAKESTARTBIN_() {
 	# [command ARGS] Execute a command in BASH as root.
 	elif [[ "\${1//-}" = [Cc]* ]]
 	then
-		printf '\033]2; $STARTBIN command ARGS 📲  \007'
+		printf '\\e]2; $STARTBIN command ARGS 📲  \\007'
 		touch $INSTALLDIR/root/.chushlogin
 		set +Eeuo pipefail
 	EOM
 		echo "$PROOTSTMNT /bin/bash -lc \"\$ar2ar\" ||:" >> "$STARTBIN"
 	cat >> "$STARTBIN" <<- EOM
 		set -Eeuo pipefail
-		printf '\033]2; $STARTBIN command ARGS 📲  \007'
+		printf '\\e]2; $STARTBIN command ARGS 📲  \\007'
 		rm -f $INSTALLDIR/root/.chushlogin
 	# [login user|login user [options]] Login as user [plus options].  Use \`addauser user\` first to create this user and user's home directory.
 	elif [[ "\${1//-}" = [Ll]* ]] || [[ "\${1//-}" = [Uu]* ]]
 	then
-		printf '\033]2; $STARTBIN login user [options] 📲  \007'
+		printf '\\e]2; $STARTBIN login user [options] 📲  \\007'
 		set +Eeuo pipefail
 	EOM
 		echo "$PROOTSTMNTU /bin/su - \"\$ar2ar\" ||:" >> "$STARTBIN"
 	cat >> "$STARTBIN" <<- EOM
 		set -Eeuo pipefail
-		printf '\033]2; $STARTBIN login user [options] 📲  \007'
+		printf '\\e]2; $STARTBIN login user [options] 📲  \\007'
 	# [raw ARGS] Construct the \`startarch\` proot statement.  For example \`startarch r su\` will exec su in Arch Linux.  See PROOTSTMNT for more options; share your thoughts at https://github.com/sdrausty/TermuxArch/issues and https://github.com/sdrausty/TermuxArch/pulls.
 	elif [[ "\${1//-}" = [Rr]* ]]
 	then
-		printf '\033]2; $STARTBIN raw ARGS 📲  \007'
+		printf '\\e]2; $STARTBIN raw ARGS 📲  \\007'
 		set +Eeuo pipefail
 	EOM
 		echo "$PROOTSTMNT /bin/\"\$ar2ar\" ||:" >> "$STARTBIN"
 	cat >> "$STARTBIN" <<- EOM
 		set -Eeuo pipefail
-		printf '\033]2; $STARTBIN raw ARGS 📲  \007'
+		printf '\\e]2; $STARTBIN raw ARGS 📲  \\007'
 	# [su user command] Login as user and execute command.  Use \`addauser user\` first to create this user and user's home directory.
 	elif [[ "\${1//-}" = [Ss]* ]]
 	then
-		printf '\033]2; $STARTBIN su user command 📲  \007'
+		printf '\\e]2; $STARTBIN su user command 📲  \\007'
 		if [[ "\$2" = root ]]
 	then
 			touch $INSTALLDIR/root/.chushlogin
@@ -333,7 +333,7 @@ _MAKESTARTBIN_() {
 		echo "$PROOTSTMNTU /bin/su - \"\$2\" -c \"\$ar3ar\" ||:" >> "$STARTBIN"
 	cat >> "$STARTBIN" <<- EOM
 		set -Eeuo pipefail
-		printf '\033]2; $STARTBIN su user command 📲  \007'
+		printf '\\e]2; $STARTBIN su user command 📲  \\007'
 		if [[ "\$2" = root ]]
 	then
 			rm -f $INSTALLDIR/root/.chushlogin
@@ -406,7 +406,7 @@ _RUNFINISHSETUP_() {
 	if [[ "$CSYSTEM" = Alpine ]]
 	then
 		ln -s "$INSTALLDIR/usr/bin/env" "$INSTALLDIR/bin/env"
-		printf "\\n\\n\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\n\\n" "Maintenance window:  " "Install BASH and Pacman.  Use " "apk add bash pacman " "to install BASH and Pacman;  Then type exit to continue…"
+		printf "\\n\\n\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\n\\n" "MAINTENANCE WINDOW:  " "Install BASH and Pacman.  Use " "apk add bash pacman " "to install BASH and Pacman;  Then type exit to continue…"
 		""$INSTALLDIR"/"$STARTBIN r ash"" ||:
 	else
 		printf "\\e[0m"
@@ -483,7 +483,7 @@ _SETLANGUAGE_() { # This function uses device system settings to set locale.  To
 	printf "\\n\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\n" "Setting locales to: " "Language " ">> $ULANGUAGE << " "Region"
 }
 
-_SETLOCALE_() { # This function uses device system settings to set locale.  To generate locales in a preferred language, you can use "Settings > Language & Keyboard > Language" in Android; Then run `setupTermuxArch.sh r for a quick system refresh.
+_SETLOCALE_() { # This function uses device system settings to set locale.  To generate locales in a preferred language, you can use "Settings > Language & Keyboard > Language" in Android; Then run `setupTermuxArch.sh r` for a quick system refresh.
 	FTIME="$(date +%F%H%M%S)"
 	echo "##  File locale.conf generated by setupTermuxArch.sh at" ${FTIME//-}. > etc/locale.conf 
 	for i in "${!LC_TYPE[@]}"

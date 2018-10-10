@@ -149,7 +149,7 @@ addch() {
 	
 	_PRINT_TAIL_() {
 		printf "\\\\a\\\\n\\\\e[0m%s \\\\e[0;32m%s %s %s\\\\a\\\\e[1;34m: \\\\a\\\\e[1;32m%s\\\\e[0m 🏁  \\\\n\\\\n\\\\a\\\\e[0m" "TermuxArch" "\$(basename "\$0")" "\$ARGS"  "\$VERSIONID" "DONE"
-		printf '\033]2;  🔑🗝 TermuxArch '"\$(basename "\$0")"':DONE 📱 \007'
+		printf '\\e]2;  🔑🗝 TermuxArch '"\$(basename "\$0")"':DONE 📱 \\007'
 	}
 
 	## ch begin ####################################################################
@@ -417,7 +417,7 @@ addkeys() {
 
 	_PRINT_TAIL_() {
 		printf "\\\\a\\\\n\\\\e[0;32m%s %s %s\\\\a\\\\e[1;34m: \\\\a\\\\e[1;32m%s\\\\e[0m 🏁  \\\\n\\\\n\\\\a\\\\e[0m" "TermuxArch \$(basename "\$0")" "\$ARGS" "\$VERSIONID" "DONE"
-		printf '\033]2;  🔑🗝 TermuxArch '"\$(basename "\$0") \$ARGS"': DONE 📱 \007'
+		printf '\\e]2;  🔑🗝 TermuxArch '"\$(basename "\$0") \$ARGS"': DONE 📱 \\007'
 	}
 
 	trap _TRPET_ EXIT
@@ -483,13 +483,13 @@ addpc() {
 	
 	_PRINT_TAIL_() {
 		printf "\\\\a\\\\n\\\\e[0;32m%s %s %s\\\\a\\\\e[1;34m: \\\\a\\\\e[1;32m%s\\\\e[0m 🏁  \\\\n\\\\n\\\\a\\\\e[0m" "TermuxArch \$(basename "\$0")" "\$ARGS" "\$VERSIONID" "DONE"
-		printf '\033]2;  🔑🗝 TermuxArch '"\$(basename "\$0") \$ARGS"' 📱 \007'
+		printf '\\e]2;  🔑🗝 TermuxArch '"\$(basename "\$0") \$ARGS"' 📱 \\007'
 	}
 
 	trap _TRPET_ EXIT
 	## pc begin ####################################################################
 
-	printf "\033]2;%s\007" " 🔑🗝 TermuxArch \$(basename "\$0") \$ARGS 📲 "
+	printf "\\e]2;%s\\007" " 🔑🗝 TermuxArch \$(basename "\$0") \$ARGS 📲 "
 	printf "\\\\n\\\\e[1;32m==> \\\\e[1;37m%s \\\\e[0;32m%s \\\\e[1;32m%s %s \\\e[0m%s…\\\\n\\\\n" "Running" "TermuxArch" "\$(basename "\$0")" "\$ARGS" "\$VERSIONID"  
 	if [[ -z "\${1:-}" ]] 
 	then
@@ -523,7 +523,7 @@ addpci() {
 	
 	_PRINT_TAIL_() { 
 		printf "\\\\a\\\\n\\\\e[0;32m%s %s %s\\\\a\\\\e[1;34m: \\\\a\\\\e[1;32m%s\\\\e[0m 🏁  \\\\n\\\\n\\\\a\\\\e[0m" "TermuxArch \$(basename "\$0")" "\$ARGS" "\$VERSIONID" "DONE"
-		printf '\033]2;  🔑🗝 TermuxArch '"\$(basename "\$0") \$ARGS"' 📱 \007'
+		printf '\\e]2;  🔑🗝 TermuxArch '"\$(basename "\$0") \$ARGS"' 📱 \\007'
 	}
 
 	trap _TRPET_ EXIT
@@ -562,7 +562,7 @@ addpcs() {
 	
 	_PRINT_TAIL_() { 
 		printf "\\\\a\\\\n\\\\e[0;32m%s %s %s\\\\a\\\\e[1;34m: \\\\a\\\\e[1;32m%s\\\\e[0m 🏁  \\\\n\\\\n\\\\a\\\\e[0m" "TermuxArch \$(basename "\$0")" "\$ARGS" "\$VERSIONID" "DONE"
-		printf '\033]2;  🔑🗝 TermuxArch '"\$(basename "\$0") \$ARGS"' 📱 \007'
+		printf '\\e]2;  🔑🗝 TermuxArch '"\$(basename "\$0") \$ARGS"' 📱 \\007'
 	}
 
 	trap _TRPET_ EXIT
@@ -601,7 +601,7 @@ addpcss() {
 	
 	_PRINT_TAIL_() { 
 		printf "\\\\a\\\\n\\\\e[0;32m%s %s %s\\\\a\\\\e[1;34m: \\\\a\\\\e[1;32m%s\\\\e[0m 🏁  \\\\n\\\\n\\\\a\\\\e[0m" "TermuxArch \$(basename "\$0")" "\$ARGS" "\$VERSIONID" "DONE"
-		printf '\033]2;  🔑🗝 TermuxArch '"\$(basename "\$0") \$ARGS"' 📱 \007'
+		printf '\\e]2;  🔑🗝 TermuxArch '"\$(basename "\$0") \$ARGS"' 📱 \\007'
 	}
 
 	trap _TRPET_ EXIT
@@ -743,17 +743,17 @@ addwe() {
 
 	printintro()
 	{
-		printf "\n\e[1;32mTermuxArch Watch Entropy:\n"'\033]2; TermuxArch Watch Entropy 📲  \007'
+		printf "\n\e[1;32mTermuxArch Watch Entropy:\n"'\\e]2; TermuxArch Watch Entropy 📲  \\007'
 	}
 
 	_PRINT_TAIL_()
 	{
-		printf "\n\n\e[1;32mTermuxArch Watch Entropy 🏁 \n\n"'\033]2; TermuxArch Watch Entropy 🏁 \007'
+		printf "\n\n\e[1;32mTermuxArch Watch Entropy 🏁 \n\n"'\\e]2; TermuxArch Watch Entropy 🏁 \\007'
 	}
 
 	_PRINT_USAGE_()
 	{
-		printf "\n\e[0;32mUsage:  \e[1;32mwe \e[0;32m Watch Entropy simple.\n\n	\e[1;32mwe sequential\e[0;32m Watch Entropy sequential.\n\n	\e[1;32mwe simple\e[0;32m Watch Entropy simple.\n\n	\e[1;32mwe verbose\e[0;32m Watch Entropy verbose.\n\n"'\033]2; TermuxArch Watch Entropy 📲  \007'
+		printf "\n\e[0;32mUsage:  \e[1;32mwe \e[0;32m Watch Entropy simple.\n\n	\e[1;32mwe sequential\e[0;32m Watch Entropy sequential.\n\n	\e[1;32mwe simple\e[0;32m Watch Entropy simple.\n\n	\e[1;32mwe verbose\e[0;32m Watch Entropy verbose.\n\n"'\\e]2; TermuxArch Watch Entropy 📲  \\007'
 	}
 
 	infif()
@@ -814,7 +814,7 @@ addwe() {
 
 	entropysequential()
 	{
-	printf "\n\e[1;32mWatch Entropy Sequential:\n\n"'\033]2; Watch Entropy Sequential 📲  \007'
+	printf "\n\e[1;32mWatch Entropy Sequential:\n\n"'\\e]2; Watch Entropy Sequential 📲  \\007'
 	for i in \$(seq 1 \$en0)
 	do
 		entropy0=\$(cat /proc/sys/kernel/random/entropy_avail 2>/dev/null) 
@@ -826,7 +826,7 @@ addwe() {
 
 	entropysimple()
 	{
-	printf "\n\e[1;32mWatch Entropy Simple:\n\n"'\e]2; Watch Entropy Simple 📲  \007'
+	printf "\n\e[1;32mWatch Entropy Simple:\n\n"'\e]2; Watch Entropy Simple 📲  \\007'
 	for i in \$(seq 1 \$en0)
 	do
 		entropy0=\$(cat /proc/sys/kernel/random/entropy_avail 2>/dev/null) 
@@ -838,7 +838,7 @@ addwe() {
 
 	entropyverbose()
 	{
-	printf "\n\e[1;32mWatch Entropy Verbose:\n\n"'\033]2; Watch Entropy Verbose 📲  \007'
+	printf "\n\e[1;32mWatch Entropy Verbose:\n\n"'\\e]2; Watch Entropy Verbose 📲  \\007'
 	for i in \$(seq 1 \$en0)
 	do
 		entropy0=\$(cat /proc/sys/kernel/random/entropy_avail 2>/dev/null) 

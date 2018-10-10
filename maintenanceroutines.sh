@@ -57,7 +57,7 @@ loadimage() {
 }
 
 _REFRESHSYS_() { # Refreshes
-	printf '\033]2; setupTermuxArch.sh refresh 📲 \007'
+	printf "\\e]2;%s\\007" "setupTermuxArch.sh refresh 📲" 
  	_NAME_STARTARCH_  
  	_SPACEINFO_
 	cd "$INSTALLDIR"
@@ -69,11 +69,11 @@ _REFRESHSYS_() { # Refreshes
 	_SETLOCALE_
 	printf "\\n" 
 	_WAKELOCK_
-	printf "\\n\\e[1;32m==> \\e[1;37m%s \\e[1;32m%s %s 📲 \\a\\n" "Running" "$(basename "$0")" "$ARGS" 
+	printf "\\n\\e[1;32m%s\\e[1;37m%s \\e[1;32m%s\\a\\n" "==>" "Running" "${0##*/} $ARGS 📲" 
 	"$INSTALLDIR"/root/bin/setupbin.sh ||: 
  	rm -f root/bin/finishsetup.sh
  	rm -f root/bin/setupbin.sh 
-	printf "\\e[1;34mThe following files have been updated to the newest version.\\n\\n\\e[0;32m"
+	printf "\\e[1;34m%s\\n\\n\\e[0;32m" "The following files have been updated to the newest version."
 	ls "$INSTALLDIR/$STARTBIN" |cut -f7- -d /
 	ls "$INSTALLDIR"/root/bin/we |cut -f7- -d /
 	ls "$INSTALLDIR"/root/.bashrc |cut -f7- -d /

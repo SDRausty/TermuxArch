@@ -8,7 +8,7 @@ IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-VERSIONID="v1.6.5.id4616"
+VERSIONID="v1.6.5.id2775"
 
 _SET_TRAP_ERROR_() { # Run on script error.
 	local RV="$?"
@@ -281,7 +281,7 @@ _DWNL_() { # Downloads TermuxArch from Github.
 _PRINT_INTRO_INIT_() {
 	_PREPTERMUXARCH_ "$@" 
 	_CHKIDIR_
-	printf "\033]2;%s\007" "bash ${0##*/} $ARGS 📲" 
+	printf "\\e]2;%s\\007" "bash ${0##*/} $ARGS 📲" 
 	printf "\\n\\e[0;34m%s\\e[1;34m%s\\e[0;32m%s\\e[1;34m%s\`\\e[0;32m!!\\e[1;34m\`%s" " 🕛 > 🕛 " "$TA $VERSIONID shall attempt to install Linux in " "$INSTALLDIR" ".  Linux in Termux PRoot shall be available upon successful completion.  To run this BASH script again, use " ".  Ensure background data is not restricted.  Check the wireless connection if you do not see one o'clock 🕐 below.  "
 } 
 
@@ -304,7 +304,7 @@ _INTRO_INIT_() {
 _INTRO_BLOOM_() { # Bloom = `setupTermuxArch.sh manual verbose` 
 	OPT+=bloom 
 	_PREPTERMUXARCH_ "$@" 
-	printf "\033]2;%s\007" "bash ${0##*/} bloom 📲" 
+	printf "\\e]2;%s\\007" "bash ${0##*/} bloom 📲" 
 	printf "\\n\\e[0;34m 🕛 > 🕛 \\e[1;34m$TA $VERSIONID bloom option.  Run \\e[1;32mbash ${0##*/} help\\e[1;34m for additional information.  Ensure background data is not restricted.  Check the wireless connection if you do not see one o'clock 🕐 below.  "
 	_DEPENDSBLOCK_ "$@" 
 	_BLOOM_ 
@@ -313,7 +313,7 @@ _INTRO_BLOOM_() { # Bloom = `setupTermuxArch.sh manual verbose`
 _PRINT_INTRO_REFRESH_() {
 	_PREPTERMUXARCH_ "$@" 
 	_CHKIROOST_
-	printf "\033]2;%s\007" "bash ${0##*/} refresh 📲" 
+	printf "\\e]2;%s\\007" "bash ${0##*/} refresh 📲" 
 	printf "\\n\\e[0;34m 🕛 > 🕛 \\e[1;34m$TA $VERSIONID shall refresh your TermuxArch files in \\e[0;32m$INSTALLDIR\\e[1;34m.  Ensure background data is not restricted.  Run \\e[0;32mbash ${0##*/} help\\e[1;34m for additional information.  Check the wireless connection if you do not see one o'clock 🕐 below.  "
 } 
 
@@ -325,7 +325,7 @@ _INTRO_REFRESH_() {
 
 _INTRO_SYSINFO_() {
 	_PREPTERMUXARCH_ "$@" 
-	printf "\033]2;%s\007" "bash ${0##*/} sysinfo 📲" 
+	printf "\\e]2;%s\\007" "bash ${0##*/} sysinfo 📲" 
 	printf "\\n\\e[0;34m 🕛 > 🕛 \\e[1;34m$TA $VERSIONID shall create a system information file.  Ensure background data is not restricted.  Run \\e[0;32mbash ${0##*/} help \\e[1;34mfor additional information.  Check the wireless connection if you do not see one o'clock 🕐 below.  "
 	_DEPENDSBLOCK_ "$@" 
 	_SYSINFO_ "$@" 
@@ -518,7 +518,7 @@ _PRINT_PE_() {
 
 _PRINT_SHA512SYSCHKER_() {
 	printf "\\n\\e[07;1m\\e[31;1m\\n%s \\e[34;1m\\e[30;1m%s \\n\\e[0;0m\\n" " 🔆 WARNING sha512sum mismatch!  Setup initialization mismatch!" "  Try again, initialization was not successful this time.  Wait a little while.  Then run \`bash ${0##*/}\` again…"
-	printf "\033]2; Run `bash %s` again…\007" "${0##*/} $ARGS" 
+	printf "\\e]2; Run `bash %s` again…\\007" "${0##*/} $ARGS" 
 	exit 
 }
 
@@ -623,7 +623,7 @@ _TAPIN_() {
 _SET_ROOT_DIRECTORY_EXCEPTIONS_() {
 	if [[ "$INSTALLDIR" = "$HOME" ]] || [[ "$INSTALLDIR" = "$HOME"/ ]] || [[ "$INSTALLDIR" = "$HOME"/.. ]] || [[ "$INSTALLDIR" = "$HOME"/../ ]] || [[ "$INSTALLDIR" = "$HOME"/../.. ]] || [[ "$INSTALLDIR" = "$HOME"/../../ ]]
 	then
-		printf  '\033]2;%s\007' "Rootdir exception.  Run bash ${0##*/} $ARGS again with different options…"	
+		printf  '\\e]2;%s\\007' "Rootdir exception.  Run bash ${0##*/} $ARGS again with different options…"	
 		printf "\\n\\e[1;31m%s\\n\\n\\e[0m" "Rootdir exception.  Run the script $ARGS again with different options…"
 		exit
 	fi
@@ -653,9 +653,12 @@ declare APTON=""	## exception string
 declare COMMANDIF=""
 declare CPUABI=""
 declare CPUABI5="armeabi"	## Used for development.
-declare CPUABI7="armeabi-v7a"	## Used for development.
-declare CPUABI8="arm64-v8a"	## Used for development.
-declare CPUABIX86="x86"		## Used for development.
+# declare CPUABI7="armeabi-v7a"	## Used for development.
+# declare CPUABI8="arm64-v8a"	## Used for development.
+# declare CPUABIX86="x86"	## Used for development.
+declare CPUABI7="arm"		## Used for development.
+declare CPUABI8="aarch64"	## Used for development.
+declare CPUABIX86="i686"	## Used for development.
 declare CPUABIX86_64="x86_64"	## Used for development.
 declare DFL=""		## Used for development.  
 declare DMVERBOSE="-q"	## -v for verbose download manager output from curl and wget;  for verbose output throughout runtime also change in `setupTermuxArchConfigs.sh` when using `setupTermuxArch.sh m[anual]`. 
@@ -708,6 +711,10 @@ ONESA="${ONES: -1}"
 STIME="$ONESA$STIME"
 ## 📲 Gets system information with builtin tools such as `getprop`,
 CPUABI="$(getprop ro.product.cpu.abi)" 
+if [[ "$CPUABI" != "$CPUABI5" ]]
+then
+	CPUABI="$(dpkg --print-architecture)" 
+fi
 ## 📲 And all options are optional for install.  
 ## THESE OPTIONS ARE AVAILABLE FOR YOUR CONVENIENCE: 
 ## OPTIONS[a]: `setupTermuxArch.sh [HOW] [DO] [WHERE]`

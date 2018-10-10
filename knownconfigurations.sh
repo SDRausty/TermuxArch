@@ -122,7 +122,7 @@ if [[ -n "$(ls -A "$INSTALLDIR"/var/binds/*.prs)" ]]
       . "$PRSFILES"
     done
 fi
-PROOTSTMNT+="/usr/bin/env -i HOME=/root TERM=$TERM "
+PROOTSTMNT+="-b /dev/ -b /proc/ -b /sys/ /usr/bin/env -i HOME=/root TERM=$TERM "
 PROOTSTMNTU="${PROOTSTMNT//--link2symlink }"
 }
 _PR00TSTRING_
