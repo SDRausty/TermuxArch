@@ -8,7 +8,7 @@ IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-VERSIONID="v1.6.6.id8974"
+VERSIONID="v1.6.6.id0501"
 
 _SET_TRAP_ERROR_() { # Run on script error.
 	local RV="$?"
