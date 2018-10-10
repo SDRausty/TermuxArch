@@ -200,13 +200,6 @@ _MAKEFINISHSETUP_() {
 	then
 		grep "proxy" "$HOME"/.profile | grep "export" >> root/bin/"$BINFNSTP" 2>/dev/null ||:
 	fi
-	if [[ "${LCR:-}" != 2 ]]
-	then
-		cat >> root/bin/"$BINFNSTP" <<- EOM
-		printf "\\n\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\n\\n\\e[1;32m%s\\e[0;32m" "To generate locales in a preferred language use " "Settings > Language & Keyboard > Language " "in Android; Then run " "${0##*/} r " "for a quick system refresh; For full system refresh use " "${0##*/} refresh" ".  Run " "${0##*/} re" " to only refresh the user files without running locale-gen." "==> " 
-		locale-gen ||: 
-		EOM
-	fi
 	if [[ -z "${LCR:-}" ]] 
 	then
 		cat >> root/bin/"$BINFNSTP" <<- EOM
@@ -237,6 +230,13 @@ _MAKEFINISHSETUP_() {
 		else
 			printf "./root/bin/pci \\n" >> root/bin/"$BINFNSTP"
 		fi
+	fi
+	if [[ "${LCR:-}" != 2 ]]
+	then
+		cat >> root/bin/"$BINFNSTP" <<- EOM
+		printf "\\n\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\n\\n\\e[1;32m%s\\e[0;32m" "To generate locales in a preferred language use " "Settings > Language & Keyboard > Language " "in Android; Then run " "${0##*/} r " "for a quick system refresh; For full system refresh use " "${0##*/} refresh" ".  Run " "${0##*/} re" " to only refresh the user files without running locale-gen." "==> " 
+		locale-gen ||: 
+		EOM
 	fi
 	cat >> root/bin/"$BINFNSTP" <<- EOM
 	printf "\\n\\e[1;34m%s  \\e[0m" "🕛 > 🕤 Arch Linux in Termux is installed and configured 📲 " 

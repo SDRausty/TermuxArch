@@ -429,7 +429,7 @@ addkeys() {
 	elif [[ "\$1" = x86 ]]
 	then
 		KEYRINGS[0]="archlinux-keyring"
-		KEYRINGS[1]="archlinux32-keyring-transition"
+		KEYRINGS[1]="archlinux32-keyring"
 		KEYRINGS[2]="ca-certificates-utils"
 	elif [[ "\$1" = x86_64 ]]
 	then
@@ -447,8 +447,8 @@ addkeys() {
 	pacman-key --init ||: 
 	chmod 700 /etc/pacman.d/gnupg ||:
 	pacman-key --populate ||: 
-	printf "\n\e[1;32m==>\e[0m Running \e[1mpacman -Sy \$ARGS --noconfirm --color=always\e[0;32m…\n"
-	pacman -Sy  "\${KEYRINGS[@]}" --noconfirm --color=always ||: 
+	printf "\n\e[1;32m==>\e[0m Running \e[1mpacman -Syy \$ARGS --noconfirm --color=always\e[0;32m…\n"
+	pacman -Syy  "\${KEYRINGS[@]}" --noconfirm --color=always ||: 
 	printf "\n\e[0;34mWhen \e[1;37mAppending keys from archlinux.gpg\e[0;34m appears on the screen, the installation process can be accelerated.  The system desires a lot of entropy at this part of the install procedure.  To generate as much entropy as possible quickly, watch and listen to a file on your device.  \n\nThe program \e[1;32mpacman-key\e[0;34m will want as much entropy as possible when generating keys.  Entropy is also created through tapping, sliding, one, two and more fingers tapping with short and long taps.  When \e[1;37mAppending keys from archlinux.gpg\e[0;34m appears on the screen, use any of these simple methods to accelerate the installation process if it is stalled.  Put even simpler, just do something on device.  Browsing files will create entropy on device.  Slowly swiveling the device in space and time will accelerate the installation process.  This method alone might not generate enough entropy (a measure of randomness in a closed system) for the process to complete quickly.  Use \e[1;32mbash ~${DARCH}/root/bin/we \e[0;34min a new Termux session to watch entropy on device.\n\n\e[1;32m==>\e[0m Running \e[1mpacman-key --populate\e[0;32m…\n"
 	_GENEN_
 	pacman-key --populate ||: 
@@ -532,7 +532,7 @@ addpci() {
 	printf "\\\\n\\\\e[1;32m==> \\\\e[1;37m%s \\\\e[1;32m%s %s %s \\\e[0m%s…\\\\n\\\\n" "Running" "TermuxArch \$(basename "\$0")" "\$ARGS" "\$VERSIONID"  
 	if [[ -z "\${1:-}" ]]
 	then
-	pacman -Syu --noconfirm --color=always 
+	pacman -Syuu --noconfirm --color=always 
 	elif [[ "\$1" = "e" ]]
 	then
 	pacman -Syu base base-devel emacs "\${@:2}" --noconfirm --color=always  
