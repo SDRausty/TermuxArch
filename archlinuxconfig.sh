@@ -286,12 +286,14 @@ _ADDfbindprocstat8_() {
 	EOM
 }
 
-addfbindexample() {
-	_CFLHDRS_ var/binds/fbindexample.prs "# Create a new prs file to append the proot statement in $STARTBIN."
-	cat >> var/binds/fbindexample.prs <<- EOM
-	## THIS FILE WILL BE OVERWRITTEN AT REFRESH!  CREATE A NEW FILE!  This example file is included for convenience.  Add as many proot statements and *.prs files as you want to; Create a new file similar to this file in this directory to append the proot statement on the fly.
+addbindexample() {
+	_CFLHDRS_ var/binds/bindexample.prs "# Create a new prs file to append the proot statement in $STARTBIN."
+	cat >> var/binds/bindexample.prs <<- EOM
+	## THIS FILE WILL BE OVERWRITTEN AT REFRESH!  COPY THIS FILE! 
 	## 
-	## Appending to the PRoot statement can be accomplished on the fly by creating a *.prs file in /var/binds.  The format is straightforward: PROOTSTMNT+="option command ".  The space is required before the last double quote.  Then run \`${0##*/} r[e[f[resh]]]\` to append the proot statement on the fly.  This shall renew the proot init statement and $STARTBIN.  \`${0##*/} r[e[f[resh]]]\` will parse these files at refresh.  
+	## This example file is included for convenience.  Add as many proot statements and *.prs files as you wish; Create a new file similar to this one in this directory to append the proot statement on the fly.  Appending the PRoot statement can be accomplished on the fly by copying this file in /var/binds.  Then use \`setupTermuxArch.sh r[e[f[resh]]]\` to regenerate $STARTBIN.
+	## 
+	## The format is straightforward: PROOTSTMNT+="option command ".  The space is required before the last double quote.  Then run \`${0##*/} r[e[f[resh]]]\` to append the proot statement on the fly.  This shall renew the proot init statement and $STARTBIN.  \`${0##*/} r[e[f[resh]]]\` will parse these files at refresh.  
 	## 
 	## \`info proot\` and \`man proot\` have more information about what can be configured in a proot init statement.  Share more suitable configurations at https://github.com/sdrausty/TermuxArch/issues to improve TermuxArch.  Reference https://raw.githubusercontent.com/proot-me/PRoot/master/doc/proot/manual.txt for details.
 	## 

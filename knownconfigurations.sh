@@ -12,8 +12,8 @@
 # dm=curl		# Uncomment to use curl as the download tool.
 # dm=lftp 		# Uncomment to use lftp as the download tool.
 # dm=wget		# Uncomment to use wget as the download tool.
-# _EXAMPLE_() {	# Match the architecture on the device with one of the functions below. This is a guide for filling out the functions below.  Alternatively, use the matrices below the functions, and fill th out instead.  
-# 	STYPE=md5sum # ( "" md5sum sha256sum sha512sum )
+# _EXAMPLE_() {	# Match the architecture on the device with one of the functions below. This is a guide for filling out the functions below.  Alternatively, match the architecture with the matrices below these functions, and fill those out instead.  
+# 	STYPE=md5sum # ( "" md5sum sha256sum sha512sum … )
 # 	SRMFILE=ArchLinuxARM-armv7-latest.tar.gz.md5
 # 	file=ArchLinuxARM-armv7-latest.tar.gz
 # 	CMIRROR=os.archlinuxarm.org
@@ -91,7 +91,7 @@ SPECS_ARMV7LC_=( [DIST]="$CSYSTEM" [FILE]="ArchLinuxARM-armv7-chromebook-latest.
 SPECS_X86_=( [DIST]="$CSYSTEM" [FILE]="" [PROTOCOL]="https" [RPATH]="/iso/2017.03.01/" [SITE]="archive.archlinux.org" [SFNM]="md5sums.txt" [STYPE]="md5sum" )
 SPECS_X86_64_=( [DIST]="$CSYSTEM" [FILE]="" [PROTOCOL]="https" [RPATH]="/archlinux/iso/latest/" [SITE]="mirror.rackspace.com" [SFNM]="md5sums.txt" [STYPE]="md5sum" )
 
-## To regenerate the start script use `setupTermuxArch.sh r[e[f[resh]]]`.  Usage: PROOTSTMNT+="-b host_path:guest_path "  The space is required before the last double quote.  Appending to the PRoot statement can be accomplished on the fly by creating a *.prs file in /var/binds, and subsequently executing refresh.  The format is straightforward, `PROOTSTMNT+="option command "`.  For more information about configuring the proot init statement see `proot --help`, `info proot`, `man proot` and https://raw.githubusercontent.com/proot-me/PRoot/master/doc/proot/manual.txt for details, and /var/binds/fbindexample.prs.  Use `setupTermuxArch.sh r[e[f[resh]]] [customdir]` to refresh a particular installation. This shall renew the proot init statement and startarch.  Share more suitable configurations at https://github.com/sdrausty/TermuxArch/issues to improve TermuxArch.  
+## To regenerate the start script use `setupTermuxArch.sh r[e[f[resh]]]`.  Usage: PROOTSTMNT+="-b host_path:guest_path "  The space is required before the last double quote.  Appending to the PRoot statement can be accomplished on the fly by creating a *.prs file in /var/binds, and subsequently executing refresh.  The format is straightforward, `PROOTSTMNT+="option command "`.  For more information about configuring the proot init statement see `proot --help`, `info proot`, `man proot` and https://raw.githubusercontent.com/proot-me/PRoot/master/doc/proot/manual.txt for details, and /var/binds/bindexample.prs.  Use `setupTermuxArch.sh r[e[f[resh]]] [customdir]` to refresh a particular installation. This shall renew the proot init statement and startarch.  Share more suitable configurations at https://github.com/sdrausty/TermuxArch/issues to improve TermuxArch.  
 _PR00TSTRING_() { 
 	PROOTSTMNT="exec proot "
        	if [[ -z "${KID:-}" ]]

@@ -22,7 +22,7 @@ _ADDADDS_() {
 	addcdtmp
 	addch 
 	adddfa
-	addfbindexample
+	addbindexample
 	addbinds
 	addexd
 	addfibs
