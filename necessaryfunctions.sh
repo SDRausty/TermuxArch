@@ -270,7 +270,12 @@ _MAKESTARTBIN_() {
 	declare -g ar2ar="\${@:2}"
 	declare -g ar3ar="\${@:3}"
 	_PRINT_USAGE_() { 
-	printf "\\n\\e[1;32m$STARTBIN\\e[0;32m: Start Arch Linux as root.  This account is reserved for system administration.\\n\\n\\e[1;32m$STARTBIN c[md] cmd\\e[0;32m: Run Arch Linux command from Termux as root user.\\n\\n\\e[1;32m$STARTBIN u[ser]|l[ogin] user\\e[0;32m: Login as user.  Use \\e[1;32m$STARTBIN addauser user \\e[0;32mfirst to create this user and user's home directory.\\n\\n\\e[1;32m$STARTBIN r[aw]\\e[0;32m: Construct the \\e[1;32m$STARTBIN \\e[0;32mproot statement from exec.../bin/.  For example \\e[1;32m$STARTBIN r su \\e[0;32mwill exec su in Arch Linux.\\n\\n\\e[1;32m$STARTBIN s[u] user cmd\\e[0;32m: Login as user and execute command.  Use \\e[1;32m$STARTBIN addauser user \\e[0;32mfirst to create this user and user's home directory.\\n\\n\\e[0m"'\\e]2; TermuxArch '$STARTBIN' help 📲  \\007' 
+	printf "\\e]2;%s\\007" "TermuxArch $STARTBIN help 📲" 
+	printf "\\n\\e[1;32m%s\\e[0;32m%s\\n\\n" "$STARTBIN" ": Start Arch Linux as root.  This account is reserved for system administration."  
+	printf "\\e[1;32m%s\\e[0;32m%s\\n\\n" "$STARTBIN c[md] cmd" ": Run Arch Linux command from Termux as root user." 
+	printf "\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\n\\n" "$STARTBIN u[ser]|l[ogin] user" ": Login as user.  Use " "$STARTBIN c addauser user " "first to create this user and user's home directory."
+	printf "\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\n\\n" "$STARTBIN r[aw]" ": Construct the " "$STARTBIN " "proot statement from exec.../bin/.  For example " "$STARTBIN r su " "will exec su in Arch Linux."
+	printf "\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\n\\n\\e[0m" "$STARTBIN s[u] user cmd" ": Login as user and execute command.  Use " "$STARTBIN c addauser user " "first to create this user and user's home directory."
 	}
 
 	# [] Default Arch Linux in Termux PRoot root login.
