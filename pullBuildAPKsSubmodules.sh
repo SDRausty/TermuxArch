@@ -3,6 +3,5 @@
 # by S D Rausty https://sdrausty.github.io
 # Update repository and update submodules.
 #####################################################################
-cd $HOME/buildAPKs
 git pull 
 git submodule update --init --recursive --remote
