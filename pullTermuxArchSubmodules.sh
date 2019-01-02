@@ -4,4 +4,5 @@
 # Update repository and update submodules.
 #####################################################################
 git pull 
+git submodule update --init 
 git submodule update --init --recursive --remote
