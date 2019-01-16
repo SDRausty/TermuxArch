@@ -7,7 +7,8 @@ This Termux bash shell script will attempt to set up Arch Linux on Amazon Fire O
 Install Arch Linux into a Termux PRoot container with [`bash setupTermuxArch.sh`](setupTermuxArch.sh). After succesfull installation start the container with `startarch`.
 
 See https://sdrausty.github.io/TermuxArch/docs/install for options how to run [`setupTermuxArch.sh`](https://sdrausty.github.io/TermuxArch/setupTermuxArch.sh) on device.  
-See https://sdrausty.github.io/docsTermuxArch/startingArch for options how to start the Arch Linux container (`startarch`) on device.
+
+See https://sdrausty.github.io/docsTermuxArch/startingArch for options how to start the Arch Linux container `startarch` on device.
 
 This repository uses submodules.  To get all the pieces of this repository run: 
 ```
