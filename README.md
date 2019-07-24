@@ -11,7 +11,7 @@ Message to [@Neo-Oli](https://github.com/Neo-Oli):  DITTO without Sweden encoura
 
 Message to [@xeffyr](https://github.com/xeffyr):  DITTO without Sweden encouraging me to root my stuff, just you and your group encouraging me to root away my Android castle and to delete my open source GitHub contributions from the Ukraine!
 
-Did you want to root my device to get to my BITCOINS, my Tesla autodrive? Grimler91 BITCOINS+literature? You know, latex is elastic. Read my work through your Termuxed latex *.deb files? I think not Grimler91. Neo-Oli our Termux Swiss liaison can you please confirm? Or are you and your team camping far away from us in the Alpine Mountains with other people's bitcoins?
+Did you want to root my device to get to my BITCOINS?  To bounce my Tesla autodrive? To read my latexed literature? You know, latex is elastic. Read my work through your Termuxed latex *.deb files? I think not Grimler91. Neo-Oli our Termux Swiss liaison can you please confirm? Or are you and your team camping far away from us in the Alpine Mountains with other people's bitcoins?
 
 You didn't like the timings, did you? I did not like them at all. Why is Termux slower? Degustamos rooted bitcoins?
 
