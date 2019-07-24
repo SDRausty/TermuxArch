@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Allow: /sitemap.txt
+Sitemap: https://sdrausty.github.io/TermuxArch/sitemap.txt
+
