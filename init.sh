@@ -4,13 +4,12 @@
 # https://termuxarch.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.
 # Invocation : sh $HOME/init.sh 
 ################################################################################
-set -e
 
 STRING="Command \`au\` enables rollback; Available at https://github.com/sdrausty/au : Continuing..."
 printf "%s\\n" "Beginning TermuxArch init.sh:"
 for CMD in au pkg
 do
-       	[ ! -z "$(command -v "$CMD")" ] && ("$CMD" curl) || (printf "\\e[1;38;5;117m%s\\n" "$STRING") 
+       	[ ! -z "$(command -v "$CMD")" ] && ("$CMD" lftp busybox) || (printf "\\e[1;38;5;117m%s\\n" "$STRING") 
 done
 cd "$PREFIX/bin/applets/"
 ln -s ../busybox awk
