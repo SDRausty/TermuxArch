@@ -14,8 +14,9 @@ do
 done
 cd "$PREFIX/bin/applets/"
 ln -s ../busybox awk
-ln -s ../busybox sha512sum
+ln -s ../busybox md5sum
 ln -s ../busybox rev
+ln -s ../busybox sha512sum
 ln -s ../busybox tar
 ln -s ../busybox uname
 bash "$HOME"/setupTermuxArch.sh # h for more information
