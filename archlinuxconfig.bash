@@ -141,7 +141,7 @@ addch() {
 	}
 	
 	_PRINTTAIL_() {
-		printf "\\\\a\\\\n\\\\e[0m%s \\\\e[0;32m%s %s %s\\\\a\\\\e[1;34m: \\\\a\\\\e[1;32m%s\\\\e[0m 🏁  \\\\n\\\\n\\\\a\\\\e[0m" "TermuxArch" "\$(basename "\$0")" "\$ARGS"  "\$VERSIONID" "DONE"
+		printf "\\\\n\\\\e[0m%s \\\\e[0;32m%s %s %s\\\\e[1;34m: \\\\e[1;32m%s\\\\e[0m 🏁  \\\\n\\\\n\\\\e[0m" "TermuxArch" "\$(basename "\$0")" "\$ARGS"  "\$VERSIONID" "DONE"
 		printf '\033]2;  🔑🗝 TermuxArch '"\$(basename "\$0")"':DONE 📱 \007'
 	}
 
@@ -273,7 +273,7 @@ _ADDfbindprocstat8_() {
 }
 
 addfbindexample() {
-	_CFLHDRS_ var/binds/fbindexample.prs "# To regenerate the start script use \`setupTermuxArch.sh re[fresh]\`.  Add as many proot statements as you want; The init script will parse this file at refresh.  Examples are included for convenience.  Usage: PROOTSTMNT+=\"-b host_path:guest_path \" The space before the last double quote is necessary." 
+	_CFLHDRS_ var/binds/fbindexample.prs "# To regenerate the start script use \`setupTermuxArch.bash re[fresh]\`.  Add as many proot statements as you want; The init script will parse this file at refresh.  Examples are included for convenience.  Usage: PROOTSTMNT+=\"-b host_path:guest_path \" The space before the last double quote is necessary." 
 	cat >> var/binds/fbindexample.prs <<- EOM
 	# PROOTSTMNT+="-b $INSTALLDIR/var/binds/fbindprocstat:/proc/stat " 
 	# if [[ ! -r /dev/shm ]] ; then 
@@ -388,7 +388,7 @@ addkeys() {
 	}
 
 	_PRINTTAIL_() {
-		printf "\\\\a\\\\n\\\\e[0;32m%s %s %s\\\\a\\\\e[1;34m: \\\\a\\\\e[1;32m%s\\\\e[0m 🏁  \\\\n\\\\n\\\\a\\\\e[0m" "TermuxArch \$(basename "\$0")" "\$ARGS" "\$VERSIONID" "DONE"
+		printf "\\\\n\\\\e[0;32m%s %s %s\\\\e[1;34m: \\\\e[1;32m%s\\\\e[0m 🏁  \\\\n\\\\n\\\\e[0m" "TermuxArch \$(basename "\$0")" "\$ARGS" "\$VERSIONID" "DONE"
 		printf '\033]2;  🔑🗝 TermuxArch '"\$(basename "\$0") \$ARGS"': DONE 📱 \007'
 	}
 
@@ -452,7 +452,7 @@ addpc() {
 	}
 	
 	_PRINTTAIL_() {
-		printf "\\\\a\\\\n\\\\e[0;32m%s %s %s\\\\a\\\\e[1;34m: \\\\a\\\\e[1;32m%s\\\\e[0m 🏁  \\\\n\\\\n\\\\a\\\\e[0m" "TermuxArch \$(basename "\$0")" "\$ARGS" "\$VERSIONID" "DONE"
+		printf "\\\\n\\\\e[0;32m%s %s %s\\\\e[1;34m: \\\\e[1;32m%s\\\\e[0m 🏁  \\\\n\\\\n\\\\e[0m" "TermuxArch \$(basename "\$0")" "\$ARGS" "\$VERSIONID" "DONE"
 		printf '\033]2;  🔑🗝 TermuxArch '"\$(basename "\$0") \$ARGS"' 📱 \007'
 	}
 
@@ -488,7 +488,7 @@ addpci() {
 	}
 	
 	_PRINTTAIL_() { 
-		printf "\\\\a\\\\n\\\\e[0;32m%s %s %s\\\\a\\\\e[1;34m: \\\\a\\\\e[1;32m%s\\\\e[0m 🏁  \\\\n\\\\n\\\\a\\\\e[0m" "TermuxArch \$(basename "\$0")" "\$ARGS" "\$VERSIONID" "DONE"
+		printf "\\\\n\\\\e[0;32m%s %s %s\\\\e[1;34m: \\\\e[1;32m%s\\\\e[0m 🏁  \\\\n\\\\n\\\\e[0m" "TermuxArch \$(basename "\$0")" "\$ARGS" "\$VERSIONID" "DONE"
 		printf '\033]2;  🔑🗝 TermuxArch '"\$(basename "\$0") \$ARGS"' 📱 \007'
 	}
 
@@ -507,6 +507,7 @@ addpci() {
 	else
 	pacman --noconfirm --color=always -Syu "\$@" 
 	fi
+	# pci EOF
 	EOM
 	chmod 700 root/bin/pci 
 }
@@ -588,7 +589,7 @@ addtour() {
 addtrim() {
 	_CFLHDR_ root/bin/trim
 	cat >> root/bin/trim <<- EOM
-	printf "\\\\n\\\\e[1;32m==> \\\\e[1;0mRunning \$0 … \\\\e[0m\\\\n\\\\n" 
+	printf "\\\\n\\\\e[1;32m==> \\\\e[1;0mRunning \$0 $@\\\\e[0m\\\\n\\\\n" 
 	echo [1/5] rm -rf /boot/
 	rm -rf /boot/
 	echo [2/5] rm -rf /usr/lib/firmware

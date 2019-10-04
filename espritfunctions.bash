@@ -25,7 +25,7 @@ addlangq() {
 	done
 }
 
-bloom() { # Bloom = `setupTermuxArch.sh manual verbose` 
+bloom() { # Bloom = `setupTermuxArch.bash manual verbose` 
 	if [[ -d "$HOME"/TermuxArchBloom ]];then 
 		rmbloomq 
 	fi
@@ -34,10 +34,10 @@ bloom() { # Bloom = `setupTermuxArch.sh manual verbose`
 	fi
 	cp *sh "$HOME"/TermuxArchBloom
 	cd "$HOME"/TermuxArchBloom
-	printf "\\e[1;34mTermuxArch Bloom option via \\e[1;32msetupTermuxArch.sh bloom\\e[0m 📲\\n\\n\\e[0m"'\033]2; TermuxArch Bloom option via `setupTermuxArch.sh bloom` 📲 \007'
+	printf "\\e[1;34mTermuxArch Bloom option via \\e[1;32msetupTermuxArch.bash bloom\\e[0m 📲\\n\\n\\e[0m"'\033]2; TermuxArch Bloom option via `setupTermuxArch.bash bloom` 📲 \007'
 	printf "\\n"
 	ls -agl
-	printf "\\n\\e[1;34mUse \\e[1;32mcd ~/TermuxArchBloom\\e[1;34m to continue.  Edit any of these files; Then use \\e[1;32mbash $0 [options] \\e[1;34mto run the files in \\e[1;32m~/TermuxArchBloom\\e[1;34m.\\n\\e[0m"'\033]2;  TermuxArch Bloom option via `setupTermuxArch.sh bloom` 📲 \007'
+	printf "\\n\\e[1;34mUse \\e[1;32mcd ~/TermuxArchBloom\\e[1;34m to continue.  Edit any of these files; Then use \\e[1;32mbash $0 [options] \\e[1;34mto run the files in \\e[1;32m~/TermuxArchBloom\\e[1;34m.\\n\\e[0m"'\033]2;  TermuxArch Bloom option via `setupTermuxArch.bash bloom` 📲 \007'
 	exit
 }
 
@@ -59,7 +59,7 @@ _COPYSTARTBIN2PATHQ_() {
 }
 
 _EDITFILES_() {
-	if [[ "${ceds[$i]}" = "applets/vi" ]];then
+	if [[ "${ceds[$i]}" = "vi" ]];then
 		sed -i -e 1,4d "$INSTALLDIR"/etc/pacman.d/mirrorlist
 		sed -i '1i# # # # # # # # # # # # # # # # # # # # # # # # # # #\n# TermuxArch vi instructions:	CTR+r is redo.\n# Use the hjkl keys to navigate. <h down j up k l>\n# Numbers are multipliers.  The u is undelete/undo.\n# 17j then i opens edit mode for the Geo-IP CMIRROR.\n# Enter the # hash/num/pounds symbol to comment it out: \n# Server = http://CMIRROR.archlinuxarm.org/$arch/$repo.\n# Long tap KEYBOARD in the side pane to see ESC, CTR...\n# Tap ESC to return to command mode in vi.\n# CTRL+d and CTRL+b to find your local CMIRROR.\n# / for search, N and n for next match.\n# Tap x to delete # to uncomment your local CMIRROR.\n# Choose only one CMIRROR.  Use :x to save your work.\n# Comment out the Geo-IP CMIRROR	end G	top gg\n# # # # # # # # # # # # # # # # # # # # # # # # # # #' "$INSTALLDIR"/etc/pacman.d/mirrorlist
 		sed -i '1i# # # # # # # # # # # # # # # # # # # # # # # # # # #\n# TermuxArch vi instructions:	CTR+r is redo.\n# Use the hjkl keys to navigate. <h down j up k l>\n# Numbers are multipliers.  The u is undelete/undo.\n# Tap i for insert, ESC to return to command mode in vi.\n# Long tap KEYBOARD in the side pane to see ESC, CTR...\n# Tap x to delete # to uncomment your favorite language(s).\n# Enter the # hash/num/pounds symbol to comment out locales.\n# CTRL+d and CTRL+b for PGUP & PGDN.\n# top gg	bottom G\n# / for search, N and n for next match.\n# Choose as many as you like.  Use :x to save your work.\n# # # # # # # # # # # # # # # # # # # # # # # # # # #\n#' "$INSTALLDIR"/etc/locale.gen
@@ -77,7 +77,7 @@ _EDITFILES_() {
 }
 
 _EDITORS_() {
-	aeds=("zile" "nano" "nvim" "vi" "emacs" "joe" "jupp" "micro" "ne" "applets/vi")
+	aeds=("emacs" "joe" "jupp" "nano" "ne" "nvim" "micro"  "vi""vim" "zile")
 	for i in "${!aeds[@]}"; do
 		if [[ -e "$PREFIX/bin/${aeds[$i]}" ]];then
 			ceds+=("${aeds[$i]}")
@@ -97,7 +97,7 @@ _EDITORS_() {
 edq() {
 	printf "\\e[0;32m"
 	for i in "${!ceds[@]}"; do
-		if [[ "${ceds[$i]}" = "applets/vi" ]];then
+		if [[ "${ceds[$i]}" = "vi" ]];then
 			edq2
 			ind=1
 			break
@@ -118,7 +118,7 @@ edqaquestion() {
 	while true; do
 		printf "\\n"
 		if [[ "$OPT" = bloom ]] || [[ "$OPT" = manual ]];then
-			printf "The following editor(s) $cedst\\b\\b are present.  Would you like to use \`\\e[1;32m${ceds[$i]}\\e[0;32m\` to edit \`\\e[1;32msetupTermuxArchConfigs.sh\\e[0;32m\`?  "
+			printf "The following editor(s) $cedst\\b\\b are present.  Would you like to use \`\\e[1;32m${ceds[$i]}\\e[0;32m\` to edit \`\\e[1;32msetupTermuxArchConfigs.bash\\e[0;32m\`?  "
 			read -n 1 -p "Answer yes or no [Y|n]. "  yn
 		else 
 			printf "Change the worldwide CMIRROR to a CMIRROR that is geographically nearby.  Choose only ONE active CMIRROR in the CMIRRORs file that you are about to edit.  The following editor(s) $cedst\\b\\b are present.  Would you like to use \`\\e[1;32m${ceds[$i]}\\e[0;32m\` to edit the Arch Linux configuration files?  "
@@ -140,7 +140,7 @@ edqaquestion() {
 edq2() {
 	while true; do
 		if [[ "$OPT" = bloom ]] || [[ "$OPT" = manual ]];then
-			printf "\\n\\e[1;34m  Would you like to use \\e[1;32mnano\\e[1;34m or \\e[1;32mvi\\e[1;34m to edit \\e[1;32msetupTermuxArchConfigs.sh\\e[1;34m?  "
+			printf "\\n\\e[1;34m  Would you like to use \\e[1;32mnano\\e[1;34m or \\e[1;32mvi\\e[1;34m to edit \\e[1;32msetupTermuxArchConfigs.bash\\e[1;34m?  "
 			read -n 1 -p "Answer nano or vi [n|V]? "  nv
 		else 
 			printf "\\e[1;34m  Change the worldwide CMIRROR to a CMIRROR that is geographically nearby.  Choose only ONE active CMIRROR in the CMIRRORs file that you are about to edit.  Would you like to use \\e[1;32mnano\\e[1;34m or \\e[1;32mvi\\e[1;34m to edit the Arch Linux configuration files?  "
@@ -152,7 +152,7 @@ edq2() {
 			ind=1
 			break
 		elif [[ "$nv" = [Vv]* ]] || [[ "$nv" = "" ]];then
-			ed="$PREFIX"/bin/applets/vi
+			ed=vi
 			ind=1
 			break
 		else
@@ -175,7 +175,7 @@ nanoif() {
 
 rmbloomq() {
 	if [[ -d "$HOME"/TermuxArchBloom ]];then
-		printf "\\n\\n\\e[0;33mTermuxArch: \\e[1;33mDIRECTORY WARNING!  $HOME/TermuxArchBloom/ \\e[0;33mdirectory detected.  \\e[1;30msetupTermuxArch.sh bloom will continue.\\n"
+		printf "\\n\\n\\e[0;33mTermuxArch: \\e[1;33mDIRECTORY WARNING!  $HOME/TermuxArchBloom/ \\e[0;33mdirectory detected.  \\e[1;30msetupTermuxArch.bash bloom will continue.\\n"
 		while true; do
 			printf "\\n\\e[1;30m"
 			read -n 1 -p "Refresh $HOME/TermuxArchBloom? [Y|n] " rbuanswer
@@ -200,13 +200,13 @@ rmbloomq() {
 
 _RUNFINISHSETUPQ_() {
 	while true; do
-		printf "\\n\\e[0;32mWould you like to run \\e[1;32mfinishsetup.sh\\e[0;32m to complete the Arch Linux configuration and update now, or at a later time?  \\e[1;32mNow is recommended.  \\e[0;32m"
+		printf "\\n\\e[0;32mWould you like to run \\e[1;32mfinishsetup.bash\\e[0;32m to complete the Arch Linux configuration and update now, or at a later time?  \\e[1;32mNow is recommended.  \\e[0;32m"
 		read -n 1 -p "Answer yes to complete the Arch Linux configuration and update now; Or answer no for later [Y|n] " nl
 	if [[ "$nl" = [Yy]* ]] || [[ "$nl" = "" ]];then
 		_RUNFINISHSETUP_ 
 		break
 	elif [[ "$nl" = [Nn]* ]];then
-		printf "\\n\\e[0;32mSet the geographically nearby CMIRROR in \\e[1;32m/etc/pacman.d/mirrorlist\\e[0;32m first.  Then use \\e[1;32m$INSTALLDIR/root/bin/setupbin.sh\\e[0;32m in Termux to run \\e[1;32mfinishsetup.sh\\e[0;32m or simply \\e[1;32mfinishsetup.sh\\e[0;32m in Arch Linux Termux PRoot to complete the Arch Linux configuration and update."
+		printf "\\n\\e[0;32mSet the geographically nearby CMIRROR in \\e[1;32m/etc/pacman.d/mirrorlist\\e[0;32m first.  Then use \\e[1;32m$INSTALLDIR/root/bin/setupbin.bash\\e[0;32m in Termux to run \\e[1;32mfinishsetup.bash\\e[0;32m or simply \\e[1;32mfinishsetup.bash\\e[0;32m in Arch Linux Termux PRoot to complete the Arch Linux configuration and update."
 		break
 	else
 		printf "\\nYou answered \\e[1;36m$nl\\e[1;32m.\\n"

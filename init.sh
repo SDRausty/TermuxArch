@@ -20,4 +20,4 @@ ln -s ../busybox tar
 ln -s ../busybox uname
 bash "$HOME"/setupTermuxArch.sh # h for more information
 
-#init.sh EOF
+# init.sh EOF

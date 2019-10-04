@@ -4,7 +4,7 @@
 # https://sdrausty.github.io/TermuxArch/README has info about this project. 
 # https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.  
 # _STANDARD_="function name" && STANDARD="variable name" are under construction.
-# Printout statement subroutines for `setupTermuxArch.sh`.
+# Printout statement subroutines for `setupTermuxArch.bash`.
 ################################################################################
 FLHDR0[0]="#!/bin/env bash"
 FLHDR0[1]="# Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺 "
@@ -28,13 +28,13 @@ TRPERROR[4]="}"
 TRPERROR[5]=" "
 TRPEXIT[0]="_TRPET_() {  #	Run on exit."
 TRPEXIT[1]="	local RV=\"\$?\" "
-TRPEXIT[2]="  	printf \"\\a\\a\\a\\a\" "
-TRPEXIT[3]="	sleep 0.4 "
+TRPEXIT[2]="  	printf \"\" "
+TRPEXIT[3]="	 "
 TRPEXIT[4]="	if [[ \"\$RV\" = 0 ]] ; then"
-TRPEXIT[5]="		printf \"\\a\\e[0;32m%s\\e[1;34m: \\a\\e[1;32m%s\\e[0m\\n\\n\\a\\e[0m\" \"\${0##*/} \$@ $VERSIONID\" \"DONE 🏁 \""
+TRPEXIT[5]="		printf \"\\e[0;32m%s\\e[1;34m: \\e[1;32m%s\\e[0m\\n\\n\\e[0m\" \"\${0##*/} \$@ $VERSIONID\" \"DONE 🏁 \""
 TRPEXIT[6]="		printf \"\\e]2; %s: %s \007\" \"\${0##*/} \$@\" \"DONE 🏁 \""
 TRPEXIT[7]="	else "
-TRPEXIT[8]="		printf \"\\a\\e[0;32m%s \\a\\e[0m%s\\e[1;34m: \\a\\e[1;32m%s\\e[0m\\n\\n\\a\\e[0m\" \"\${0##*/} \$@ $VERSIONID\" \"[Exit Signal \$RV]\" \"DONE  🏁 \""
+TRPEXIT[8]="		printf \"\\e[0;32m%s \\e[0m%s\\e[1;34m: \\e[1;32m%s\\e[0m\\n\\n\\e[0m\" \"\${0##*/} \$@ $VERSIONID\" \"[Exit Signal \$RV]\" \"DONE  🏁 \""
 TRPEXIT[9]="		printf \"\033]2; %s: %s %s \007\" \"\${0##*/} \$@\" \"[Exit Signal \$RV]\" \"DONE 🏁 \""
 TRPEXIT[10]="	fi"
 TRPEXIT[11]="	printf \"\\e[?25h\\e[0m\""
@@ -147,7 +147,7 @@ _PRINTDOWNLOADINGX86TWO_() {
 }
 
 _PRINTDOWNLOADINGFTCH_() {
-	printf "\033[0;34m 🕛 > 🕓 \033[1;34mDownloading the checksum file and \033[1;34m$file \033[1;34mfrom the geographically local mirror \033[1;32m$NLCMIRROR\033[1;34m.  If contact with the local mirror is not successful, run \033[1;32mbash \033[0;32msetupTermuxArch.sh\033[1;34m again.  Should the worldwide mirror not provide another geographically nearby server after a couple of attempts, use \033[1;32mbash \033[0;32msetupTermuxArch.sh manual \033[1;34mafter locating a local mirror from the Internet; See \033[1;32mbash \033[0;32msetupTermuxArch.sh help \033[1;34mfor additional options.  \033[1;37mDownload of $file pending Internet connection:\n\n\033[0;32m"'\033]2; 🕛 > 🕓 Downloading the checksum and Arch Linux system image file…  \007'
+	printf "\033[0;34m 🕛 > 🕓 \033[1;34mDownloading the checksum file and \033[1;34m$file \033[1;34mfrom the geographically local mirror \033[1;32m$NLCMIRROR\033[1;34m.  If contact with the local mirror is not successful, run \033[1;32mbash \033[0;32msetupTermuxArch.bash\033[1;34m again.  Should the worldwide mirror not provide another geographically nearby server after a couple of attempts, use \033[1;32mbash \033[0;32msetupTermuxArch.bash manual \033[1;34mafter locating a local mirror from the Internet; See \033[1;32mbash \033[0;32msetupTermuxArch.bash help \033[1;34mfor additional options.  \033[1;37mDownload of $file pending Internet connection:\n\n\033[0;32m"'\033]2; 🕛 > 🕓 Downloading the checksum and Arch Linux system image file…  \007'
 }
 
 _PRINT_DOWNLOADING_FTCHIT_() {
@@ -160,7 +160,7 @@ _PRINTCONFIGUP_() {
 }
 
 _PRINTMAX_() {
-	printf "\\n\\e[07;1m\\e[31;1m 🔆 WARNING: Maximum amount of attempts exceeded!\\e[34;1m\\e[30;1m  Run \`bash setupTermuxArch.sh\` again.  See \`bash setupTermuxArch.sh help\` to resolve download errors.  If this keeps repeating, copy \`knownconfigurations.sh\` to \`setupTermuxArchConfigs.sh\` with preferred mirror.  After editing \`setupTermuxArchConfigs.sh\`, run \`bash setupTermuxArch.sh\` and \`setupTermuxArchConfigs.sh\` loads automaticaly from the same directory.  Change mirror to desired geographic location to resolve md5sum errors.\\n\\nUser configurable variables are in \`setupTermuxArchConfigs.sh\`.  Create this file from \`kownconfigurations.sh\` in the working directory.  Use \`bash setupTermuxArch.sh manual\` to create and edit \`setupTermuxArchConfigs.sh\`.\\n\\n	Run \`bash setupTermuxArch.sh\` again…\\n\\e[0;0m\\n"'\033]2;  Thank you for using setupTermuxArch.sh.  Run `bash setupTermuxArch.sh` again…\007'
+	printf "\\n\\e[07;1m\\e[31;1m 🔆 WARNING: Maximum amount of attempts exceeded!\\e[34;1m\\e[30;1m  Run \`bash setupTermuxArch.bash\` again.  See \`bash setupTermuxArch.bash help\` to resolve download errors.  If this keeps repeating, copy \`knownconfigurations.bash\` to \`setupTermuxArchConfigs.bash\` with preferred mirror.  After editing \`setupTermuxArchConfigs.bash\`, run \`bash setupTermuxArch.bash\` and \`setupTermuxArchConfigs.bash\` loads automaticaly from the same directory.  Change mirror to desired geographic location to resolve md5sum errors.\\n\\nUser configurable variables are in \`setupTermuxArchConfigs.bash\`.  Create this file from \`kownconfigurations.bash\` in the working directory.  Use \`bash setupTermuxArch.bash manual\` to create and edit \`setupTermuxArchConfigs.bash\`.\\n\\n	Run \`bash setupTermuxArch.bash\` again…\\n\\e[0;0m\\n"'\033]2;  Thank you for using setupTermuxArch.bash.  Run `bash setupTermuxArch.bash` again…\007'
 }
 
 _PRINTMD5CHECK_() {
@@ -168,7 +168,7 @@ _PRINTMD5CHECK_() {
 }
 
 _PRINTMD5ERROR_() {
-	printf "\n\033[07;1m\033[31;1m 🔆 WARNING md5sum mismatch! The download failed and was removed!\033[34;1m\033[30;1m  Run \`bash setupTermuxArch.sh\` again.  See \`bash setupTermuxArch.sh help\` to resolve md5sum errors.  This kind of error can go away, like magic.  Waiting before executing again is recommended.  There are numerous reasons for checksum errors.  Proxies are one explaination.  Mirroring and mirrors are another explaination for md5sum errors.  Interrupted download is one more reason.  If this keeps repeating, copy \`knownconfigurations.sh\` to \`setupTermuxArchConfigs.sh\` with preferred mirror.  After editing \`setupTermuxArchConfigs.sh\`, run \`bash setupTermuxArch.sh\` and \`setupTermuxArchConfigs.sh\` loads automaticaly from the same directory.  Change mirror to desired geographic location to resolve md5sum errors.\n\nUser configurable variables are in \`setupTermuxArchConfigs.sh\`.  Create this file from \`kownconfigurations.sh\` in the working directory.  Use \`bash setupTermuxArch.sh manual\` to create and edit \`setupTermuxArchConfigs.sh\`.\n\n	Run \`bash setupTermuxArch.sh\` again…\n\033[0;0m\n"'\033]2;  Thank you for using setupTermuxArch.sh.  Run `bash setupTermuxArch.sh` again…\007'
+	printf "\n\033[07;1m\033[31;1m 🔆 WARNING md5sum mismatch! The download failed and was removed!\033[34;1m\033[30;1m  Run \`bash setupTermuxArch.bash\` again.  See \`bash setupTermuxArch.bash help\` to resolve md5sum errors.  This kind of error can go away, like magic.  Waiting before executing again is recommended.  There are numerous reasons for checksum errors.  Proxies are one explaination.  Mirroring and mirrors are another explaination for md5sum errors.  Interrupted download is one more reason.  If this keeps repeating, copy \`knownconfigurations.bash\` to \`setupTermuxArchConfigs.bash\` with preferred mirror.  After editing \`setupTermuxArchConfigs.bash\`, run \`bash setupTermuxArch.bash\` and \`setupTermuxArchConfigs.bash\` loads automaticaly from the same directory.  Change mirror to desired geographic location to resolve md5sum errors.\n\nUser configurable variables are in \`setupTermuxArchConfigs.bash\`.  Create this file from \`kownconfigurations.bash\` in the working directory.  Use \`bash setupTermuxArch.bash manual\` to create and edit \`setupTermuxArchConfigs.bash\`.\n\n	Run \`bash setupTermuxArch.bash\` again…\n\033[0;0m\n"'\033]2;  Thank you for using setupTermuxArch.bash.  Run `bash setupTermuxArch.bash` again…\007'
 	exit 
 }
 
@@ -178,14 +178,14 @@ _PRINTMD5SUCCESS_() {
 }
 
 _PRINTMISMATCH_() {
-	printf "\n\033[07;1m\033[31;1m 🔆 WARNING: Unknown configuration!  Did not find an architecture and operating system match in\033[37;1m knownconfigurations.sh\033[31;1m!  \033[36;1mDetected $(uname -mo).  There still is hope.  Other images are available at http://mirror.archlinuxarm.org/os/ and https://www.archlinux.org/mirrors/ to see if any match might the device.  If you find a match, then please \033[37;1msubmit a pull request\033[36;1m at https://github.com/sdrausty/TermuxArch/pulls with script modifications.  Alternatively, \033[37;1msubmit a modification request\033[36;1m at https://github.com/sdrausty/TermuxArch/issues if you find a configuration match.  Include output from \033[37;1muname -mo\033[36;1m on the device in order to expand autodetection for \033[37;1msetupTermuxArch.sh\033[36;1m.  See https://sdrausty.github.io/docs/TermuxArch/Known_Configurations for more information.\n\n	\033[36;1mRun setupTermuxArch.sh again…\n\033[0m"'\033]2;  Thank you for using setupTermuxArch.sh.  Run `bash setupTermuxArch.sh` again…\007'
+	printf "\n\033[07;1m\033[31;1m 🔆 WARNING: Unknown configuration!  Did not find an architecture and operating system match in\033[37;1m knownconfigurations.bash\033[31;1m!  \033[36;1mDetected $(uname -mo).  There still is hope.  Other images are available at http://mirror.archlinuxarm.org/os/ and https://www.archlinux.org/mirrors/ to see if any match might the device.  If you find a match, then please \033[37;1msubmit a pull request\033[36;1m at https://github.com/sdrausty/TermuxArch/pulls with script modifications.  Alternatively, \033[37;1msubmit a modification request\033[36;1m at https://github.com/sdrausty/TermuxArch/issues if you find a configuration match.  Include output from \033[37;1muname -mo\033[36;1m on the device in order to expand autodetection for \033[37;1msetupTermuxArch.bash\033[36;1m.  See https://sdrausty.github.io/docs/TermuxArch/Known_Configurations for more information.\n\n	\033[36;1mRun setupTermuxArch.bash again…\n\033[0m"'\033]2;  Thank you for using setupTermuxArch.bash.  Run `bash setupTermuxArch.bash` again…\007'
 	exit 
 }
 
 _PRINTFOOTER_() {
-	printf "\033[0;34m 🕛 > 🕥 \033[1;34mUse \033[1;32m$STARTBIN \033[1;34mto launch Arch Linux in Termux PRoot.  Alternatively, run \033[1;32m~$PRINTROOTDIR/$STARTBIN \033[1;34min a BASH shell to start Arch Linux in Termux PRoot for future sessions.  See \033[1;32m$STARTBIN help \033[1;34mfor usage information.\033[0m\n\n"'\033]2;  Thank you for using `setupTermuxArch.sh` to install Arch Linux in Termux 📲  \007'
+	printf "\033[0;34m 🕛 > 🕥 \033[1;34mUse \033[1;32m$STARTBIN \033[1;34mto launch Arch Linux in Termux PRoot.  Alternatively, run \033[1;32m~$PRINTROOTDIR/$STARTBIN \033[1;34min a BASH shell to start Arch Linux in Termux PRoot for future sessions.  See \033[1;32m$STARTBIN help \033[1;34mfor usage information.\033[0m\n\n"'\033]2;  Thank you for using `setupTermuxArch.bash` to install Arch Linux in Termux 📲  \007'
 	_COPYSTARTBIN2PATH_
-	printf "\033[0;32m 🕛 = 🕛 \033[1;34mInformation about \033[0;36m\"Starting Arch Linux from Termux?\"\033[1;34m at \033[1;34mhttps://github.com/sdrausty/TermuxArch/issues/25\033[1;34m.  Use \033[1;32mtour\033[1;34m to run a very short tour to get to know the new Arch Linux in Termux PRoot environment you just set up a little bit better.  If there was more than one error during the update procedure and you would like to refresh the installation, use \033[1;32msetupTermuxArch.sh refresh\033[1;34m.  This will update and recreate the configuration provided.  The TermuxArch command \033[1;32mkeys \033[1;34mhelps install and generate Arch Linux keyring keys.\n\n"
+	printf "\033[0;32m 🕛 = 🕛 \033[1;34mInformation about \033[0;36m\"Starting Arch Linux from Termux?\"\033[1;34m at \033[1;34mhttps://github.com/sdrausty/TermuxArch/issues/25\033[1;34m.  Use \033[1;32mtour\033[1;34m to run a very short tour to get to know the new Arch Linux in Termux PRoot environment you just set up a little bit better.  If there was more than one error during the update procedure and you would like to refresh the installation, use \033[1;32msetupTermuxArch.bash refresh\033[1;34m.  This will update and recreate the configuration provided.  The TermuxArch command \033[1;32mkeys \033[1;34mhelps install and generate Arch Linux keyring keys.\n\n"
 	_PRINTFOOTER2_
 	_PRINTSTARTBIN_USAGE_
 }

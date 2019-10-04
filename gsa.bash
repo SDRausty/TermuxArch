@@ -1,13 +1,13 @@
 #!/bin/env bash
 # Copyright 2019 (c) all rights reserved 
-# by S D Rausty https://sdrausty.github.io
+# by S D Rausty https://termuxarch.github.io/TermuxArch/
 #####################################################################
 set -Eeuo pipefail
 shopt -s nullglob globstar
 
 _SGSATRPERROR_() { # Run on script error.
 	local RV="$?"
-	echo "$RV"
+	printf "\\n%s\\n" "$RV"
 	printf "\\e[?25h\\n\\e[1;48;5;138mBuildAPKs %s ERROR:  Generated script error %s near or at line number %s by \`%s\`!\\e[0m\\n" "gsa.bash" "${3:-VALUE}" "${1:-LINENO}" "${2:-BASH_COMMAND}"
 	exit 179
 }
@@ -36,13 +36,16 @@ trap _SGSATRPSIGNAL_ HUP INT TERM
 trap _SGSATRPQUIT_ QUIT 
 
 _GSA_() {
-	(git submodule add $3 https://github.com/sdrausty/$2 $1) || (echo ; echo "Cannot update $2: continuing...") 
+	(git submodule add $3 https://github.com/termuxarch/$2 $1) || ./pullTermuxArchSubmodules.sh || (printf "\\n\\n%s\\n" "Cannot update $2 : Continuing...") 
 }
 
 _GSA_ docs docsTermuxArch ""
-_GSA_ docs/imgs imgsTermuxArch "-f"
-_GSA_ gens gensTermuxArch ""
+cd docs
+_GSA_ imgs imgsTermuxArch "-f"
+cd ..
+_GSA_ gen genTermuxArch ""
 _GSA_ scripts scriptsTermuxArch ""
-_GSA_ scripts/frags/dfa dfa "-f"
+cd scripts
+_GSA_ frags/dfa dfa "-f"
 
-#EOF
+# gsa.bash EOF

@@ -5,8 +5,8 @@
 # https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.  
 # _STANDARD_="function name" && STANDARD="variable name" are under construction.
 ################################################################################
-# Running `setupTermuxArch.sh manual` shall create `setupTermuxArchConfigs.sh` from this file in the working directory.  Run `setupTermuxArch.sh` and `setupTermuxArchConfigs.sh` loads automaticaly and this file is ignored at runtime; `setupTermuxArch.sh help` has additional information.  Change mirror (https://wiki.archlinux.org/index.php/Mirrors and https://archlinuxarm.org/about/mirrors) to desired geographic location in `setupTermuxArchConfigs.sh` to resolve download, 404 and checksum issues.  The following user configurable variables are available in this file:   
-# DMVERBOSE="-v" 	# Uncomment for verbose download tool output with curl and wget;  for verbose output throughout runtime, change this setting in `setupTermuxArch.sh` also.
+# Running `setupTermuxArch.bash manual` shall create `setupTermuxArchConfigs.bash` from this file in the working directory.  Run `setupTermuxArch.bash` and `setupTermuxArchConfigs.bash` loads automaticaly and this file is ignored at runtime; `setupTermuxArch.bash help` has additional information.  Change mirror (https://wiki.archlinux.org/index.php/Mirrors and https://archlinuxarm.org/about/mirrors) to desired geographic location in `setupTermuxArchConfigs.bash` to resolve download, 404 and checksum issues.  The following user configurable variables are available in this file:   
+# DMVERBOSE="-v" 	# Uncomment for verbose download tool output with curl and wget;  for verbose output throughout runtime, change this setting in `setupTermuxArch.bash` also.
 # dm=aria2c		# Uncomment to use this download tool. 
 # dm=axel 		# Uncomment to use this download tool.
 # dm=curl		# Uncomment to use the curl download tool.
@@ -56,7 +56,7 @@ _X86_64_() { # $file is read from md5sums.txt
 	_MAKESYSTEM_ 
 }
 
-## To regenerate the start script use \`setupTermuxArch.sh re[fresh]\`.  An example is included for convenience.  Usage: PROOTSTMNT+=\"-b host_path:guest_path \" The space before the last double quote is necessary.  Appending to the PRoot statement can be accomplished on the fly by creating a *.prs file in /var/binds.  The format is straightforward, `PROOTSTMNT+="option command "`.  The space is required before the last double quote.  `info proot` and `man proot` have more information about what can be configured in a proot init statement.  `setupTermuxArch.sh manual refresh` will refresh the installation globally.  If more suitable configurations are found, share them at https://github.com/sdrausty/TermuxArch/issues to improve TermuxArch.  
+## To regenerate the start script use \`setupTermuxArch.bash re[fresh]\`.  An example is included for convenience.  Usage: PROOTSTMNT+=\"-b host_path:guest_path \" The space before the last double quote is necessary.  Appending to the PRoot statement can be accomplished on the fly by creating a *.prs file in /var/binds.  The format is straightforward, `PROOTSTMNT+="option command "`.  The space is required before the last double quote.  `info proot` and `man proot` have more information about what can be configured in a proot init statement.  `setupTermuxArch.bash manual refresh` will refresh the installation globally.  If more suitable configurations are found, share them at https://github.com/sdrausty/TermuxArch/issues to improve TermuxArch.  
 
 _PR00TSTRING_() { 
 	PROOTSTMNT="exec proot "
