@@ -10,9 +10,9 @@ FILELIST=( $(find . -type f | grep -v .git | sort) )
 CHECKLIST=(md5sum sha1sum sha224sum sha256sum sha384sum sha512sum)
 for SCHECK in ${CHECKLIST[@]}
 do
- 	printf "%s\\n" "Creating $SCHECK files; Please wait a moment..."
 	for FILE in "${FILELIST[@]}"
 	do
+ 		printf "%s\\n" "Creating $SCHECK for $FILE..."
 		$SCHECK "$FILE" >> ztree.${SCHECK::-3}.sum
 	done
 done
@@ -24,5 +24,4 @@ done
 git add .
 git commit
 git push
-ls -al
 # do.trees.sh EOF
