@@ -1,12 +1,11 @@
 #!/bin/env bash
-# Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
+# Copyright 2017-2019 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
 # Hosted sdrausty.github.io/TermuxArch courtesy https://pages.github.com
 # https://sdrausty.github.io/TermuxArch/README has info about this project. 
 # https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.  
-# _STANDARD_="function name" && STANDARD="variable name" are under construction.
 ################################################################################
 
-addREADME() {
+_ADDREADME_() {
 	_CFLHDR_ root/bin/README.md 
 	cat > root/bin/README.md <<- EOM
 	This directory contains shortcut commands that automate and ease using the command line.
@@ -16,7 +15,7 @@ addREADME() {
 	EOM
 }
 
-addae() {
+_ADDae_() {
 	_CFLHDR_ root/bin/ae "# Contributed by https://github.com/cb125" 
 	cat >> root/bin/ae <<- EOM
 	watch cat /proc/sys/kernel/random/entropy_avail
@@ -24,7 +23,7 @@ addae() {
 	chmod 700 root/bin/ae 
 }
 
-addauser() { 
+_ADDAUSER_() { 
 	_CFLHDR_ root/bin/addauser "# Add Arch Linux user."
 	cat >> root/bin/addauser <<- EOM
 	if [[ -z "\${1:-}" ]] ; then
@@ -39,7 +38,7 @@ addauser() {
 	chmod 700 root/bin/addauser 
 }
 
-addbash_logout() {
+_ADDbash_logout_() {
 	cat > root/.bash_logout <<- EOM
 	if [ ! -e "\$HOME"/.hushlogout ] && [ ! -e "\$HOME"/.chushlogout ] ; then
 		. /etc/moto
@@ -47,7 +46,7 @@ addbash_logout() {
 	EOM
 }
 
-addbash_profile() {
+_ADDbash_profile_() {
 	cat > root/.bash_profile <<- EOM
 	. "\$HOME"/.bashrc
 	if [ ! -e "\$HOME"/.hushlogin ] && [ ! -e "\$HOME"/.chushlogin ] ; then
@@ -68,7 +67,7 @@ addbash_profile() {
 	fi
 }
 
-addbashrc() {
+_ADDbashrc_() {
 	cat > root/.bashrc <<- EOM
 	alias c='cd .. && pwd'
 	alias ..='cd ../.. && pwd'
@@ -87,7 +86,7 @@ addbashrc() {
 	alias h='history >> \$HOME/.historyfile'
 	alias j='jobs'
 	alias i='whoami'
-	alias l='ls -alG'
+	alias l='ls -og'
 	alias lr='ls -alR'
 	alias ls='ls --color=always'
 	alias p='pwd'
@@ -102,7 +101,7 @@ addbashrc() {
 	fi
 }
 
-addcdtd() { 
+_ADDcdtd_() { 
 	_CFLHD_ root/bin/cdtd "# Usage: \`. cdtd\` the dot sources \`cdtd\` which makes this shortcut script work."
 	cat > root/bin/cdtd <<- EOM
 	#!/bin/env bash
@@ -111,7 +110,7 @@ addcdtd() {
 	chmod 700 root/bin/cdtd 
 }
 
-addcdth() { 
+_ADDcdth_() { 
 	_CFLHD_ root/bin/cdth "# Usage: \`. cdth\` the dot sources \`cdth\` which makes this shortcut script work."
 	cat > root/bin/cdth <<- EOM
 	#!/bin/env bash
@@ -120,7 +119,7 @@ addcdth() {
 	chmod 700 root/bin/cdth 
 }
 
-addcdtmp() { 
+_ADDcdtmp_() { 
 	_CFLHD_ root/bin/cdtmp "# Usage: \`. cdtmp\` the dot sources \`cdtmp\` which makes this shortcut script work."
 	cat > root/bin/cdtmp <<- EOM
 	#!/bin/env bash
@@ -129,7 +128,7 @@ addcdtmp() {
 	chmod 700 root/bin/cdtmp 
 }
 
-addch() { 
+_ADDch_() { 
 	_CFLHDR_ root/bin/ch "# This script creates .hushlogin and .hushlogout files."
 	cat >> root/bin/ch <<- EOM
 	declare -a ARGS
@@ -142,7 +141,7 @@ addch() {
 	
 	_PRINTTAIL_() {
 		printf "\\\\n\\\\e[0m%s \\\\e[0;32m%s %s %s\\\\e[1;34m: \\\\e[1;32m%s\\\\e[0m 🏁  \\\\n\\\\n\\\\e[0m" "TermuxArch" "\$(basename "\$0")" "\$ARGS"  "\$VERSIONID" "DONE"
-		printf '\033]2;  🔑🗝 TermuxArch '"\$(basename "\$0")"':DONE 📱 \007'
+		printf '\033]2;  🔑 TermuxArch '"\$(basename "\$0")"':DONE 📱 \007'
 	}
 
 	## ch begin ####################################################################
@@ -169,7 +168,7 @@ addch() {
 	chmod 700 root/bin/ch 
 }
 
-addexd() {
+_ADDexd_() {
 	_CFLHDR_ root/bin/exd "# Usage: \`. exd\` the dot sources \`exd\` which makes this shortcut script work."
 	cat >> root/bin/exd <<- EOM
 	export DISPLAY=:0 PULSE_SERVER=tcp:127.0.0.1:4712
@@ -177,7 +176,7 @@ addexd() {
 	chmod 700 root/bin/exd 
 }
 
-adddfa() {
+_ADDdfa_() {
 	_CFLHDR_ root/bin/dfa
 	cat >> root/bin/dfa <<- EOM
 	units="\$(df 2>/dev/null | awk 'FNR == 1 {print \$2}')"
@@ -187,7 +186,7 @@ adddfa() {
 	chmod 700 root/bin/dfa 
 }
 
-addfbindprocshmem() {
+_ADDfbindprocshmem_() {
 	_CFLHDRS_ var/binds/fbindprocshmem.prs  
 	cat > var/binds/fbindprocshmem.prs  <<- EOM
 	PROOTSTMNT+="-b $INSTALLDIR/var/binds/fbindprocshmem:/proc/shmem " 
@@ -272,7 +271,7 @@ _ADDfbindprocstat8_() {
 	EOM
 }
 
-addfbindexample() {
+_ADDfbindexample_() {
 	_CFLHDRS_ var/binds/fbindexample.prs "# To regenerate the start script use \`setupTermuxArch.bash re[fresh]\`.  Add as many proot statements as you want; The init script will parse this file at refresh.  Examples are included for convenience.  Usage: PROOTSTMNT+=\"-b host_path:guest_path \" The space before the last double quote is necessary." 
 	cat >> var/binds/fbindexample.prs <<- EOM
 	# PROOTSTMNT+="-b $INSTALLDIR/var/binds/fbindprocstat:/proc/stat " 
@@ -282,21 +281,21 @@ addfbindexample() {
 	EOM
 }
 
-addbinds() { # Checks if /proc/stat is usable. 
+_ADDfbinds_() { # Checks if /proc/stat is usable. 
 	if [[ ! -r /proc/stat ]] ; then
 		_ADDfbindprocstat_
 	fi
 }
 
-addfibs() {
+_ADDfibs_() {
 	_CFLHDR_ root/bin/fibs 
 	cat >> root/bin/fibs  <<- EOM
-	find /proc/ -name maps 2>/dev/null |xARGS awk '{print i\$6}' 2>/dev/null| grep '\.so' | sort | uniq
+	find /proc/ -name maps 2>/dev/null | xargs awk '{print \$6}' 2>/dev/null | grep '\.so' | sort | uniq
 	EOM
 	chmod 700 root/bin/fibs 
 }
 
-addga() {
+_ADDga_() {
 	_CFLHDR_ root/bin/ga 
 	cat >> root/bin/ga  <<- EOM
 	if [ ! -e /usr/bin/git ] ; then
@@ -309,7 +308,7 @@ addga() {
 	chmod 700 root/bin/ga 
 }
 
-addgcl() {
+_ADDgcl_() {
 	_CFLHDR_ root/bin/gcl 
 	cat >> root/bin/gcl  <<- EOM
 	if [ ! -e /usr/bin/git ] ; then
@@ -322,7 +321,7 @@ addgcl() {
 	chmod 700 root/bin/gcl 
 }
 
-addgcm() {
+_ADDgcm_() {
 	_CFLHDR_ root/bin/gcm 
 	cat >> root/bin/gcm  <<- EOM
 	if [ ! -e /usr/bin/git ] ; then
@@ -335,7 +334,7 @@ addgcm() {
 	chmod 700 root/bin/gcm 
 }
 
-addgpl() {
+_ADDgpl_() {
 	_CFLHDR_ root/bin/gpl 
 	cat >> root/bin/gpl  <<- EOM
 	if [ ! -e /usr/bin/git ] ; then
@@ -348,7 +347,7 @@ addgpl() {
 	chmod 700 root/bin/gpl 
 }
 
-addgp() {
+_ADDgp_() {
 	_CFLHDR_ root/bin/gp "# git push https://username:password@github.com/username/repository.git master"
 	cat >> root/bin/gp  <<- EOM
 	if [ ! -e /usr/bin/git ] ; then
@@ -361,7 +360,7 @@ addgp() {
 	chmod 700 root/bin/gp 
 }
 
-addkeys() {
+_ADDkeys_() {
 	_CFLHDR_ root/bin/keys 
 	cat >> root/bin/keys <<- EOM
 	declare -a KEYRINGS
@@ -389,7 +388,7 @@ addkeys() {
 
 	_PRINTTAIL_() {
 		printf "\\\\n\\\\e[0;32m%s %s %s\\\\e[1;34m: \\\\e[1;32m%s\\\\e[0m 🏁  \\\\n\\\\n\\\\e[0m" "TermuxArch \$(basename "\$0")" "\$ARGS" "\$VERSIONID" "DONE"
-		printf '\033]2;  🔑🗝 TermuxArch '"\$(basename "\$0") \$ARGS"': DONE 📱 \007'
+		printf '\033]2;  🔑 TermuxArch '"\$(basename "\$0") \$ARGS"': DONE 📱 \007'
 	}
 
 	trap _TRPET_ EXIT
@@ -409,7 +408,7 @@ addkeys() {
 		KEYRINGS="\$@"
 	fi
 	ARGS="\${KEYRINGS[@]}"
-	printf '\033]2;  🔑🗝 TermuxArch '"\$(basename "\$0") \$ARGS"' 📲 \007'
+	printf '\033]2;  🔑 TermuxArch '"\$(basename "\$0") \$ARGS"' 📲 \007'
 	printf "\\\\n\\\\e[1;32m==> \\\\e[1;37m%s \\\\e[0;32m%s \\\\e[1;32m%s %s \\\\e[0m%s…\\\\n" "Running" "TermuxArch" "\$(basename "\$0")" "\$ARGS" "\$VERSIONID"  
 	mv usr/lib/gnupg/scdaemon{,_} 2>/dev/null ||: 
 	printf "\n\e[0;34mWhen \e[0;37mgpg: Generating pacman keyring master key\e[0;34m appears on the screen, the installation process can be accelerated.  The system desires a lot of entropy at this part of the install procedure.  To generate as much entropy as possible quickly, watch and listen to a file on your device.  \n\nThe program \e[1;32mpacman-key\e[0;34m will want as much entropy as possible when generating keys.  Entropy is also created through tapping, sliding, one, two and more fingers tapping with short and long taps.  When \e[0;37mgpg: Generating pacman keyring master key\e[0;34m appears on the screen, use any of these simple methods to accelerate the installation process if it is stalled.  Put even simpler, just do something on device.  Browsing files will create entropy on device.  Slowly swiveling the device in space and time will accelerate the installation process.  This method alone might not generate enough entropy (a measure of randomness in a closed system) for the process to complete quickly.  Use \e[1;32mbash ~${DARCH}/bin/we \e[0;34min a new Termux session to and watch entropy on device.\n\n\e[1;32m==>\e[0m Running \e[1mpacman-key --init\e[0;32m…\n"
@@ -428,19 +427,19 @@ addkeys() {
 	chmod 700 root/bin/keys 
 }
 
-addmotd() {
+_ADDMOTD_() {
 	cat > etc/motd  <<- EOM
 	printf "\n\e[1;34mWelcome to Arch Linux in Termux!\nInstall a package: \e[0;34mpacman -S package\n\e[1;34mMore  information: \e[0;34mpacman -[D|F|Q|R|S|T|U]h\n\e[1;34mSearch   packages: \e[0;34mpacman -Ss query\n\e[1;34mUpgrade  packages: \e[0;34mpacman -Syu\n\n\e[1;34mChat: \e[0mwiki.termux.com/wiki/Community\n\e[1;34mHelp: \e[0;34minfo query \e[1;34mand \e[0;34mman query\n\e[1;34mIRC:  \e[0mwiki.archlinux.org/index.php/IRC_channel\n\n\e[0m"
 	EOM
 }
 
-addmoto() {
+_ADDMOTO_() {
 	cat > etc/moto  <<- EOM
 	printf "\n\e[1;34mShare Your Arch Linux in Termux Experience!\n\n\e[1;34mChat: \e[0mwiki.termux.com/wiki/Community\n\e[1;34mHelp: \e[0;34minfo query \e[1;34mand \e[0;34mman query\n\e[1;34mIRC:  \e[0mwiki.archlinux.org/index.php/IRC_channel\n\n\e[0m"
 	EOM
 }
 
-addpc() { 
+_ADDpc_() { 
 	_CFLHDR_ root/bin/pc "# Pacman install packages wrapper without system update."
 	cat >> root/bin/pc  <<- EOM
 	declare -g ARGS="\$@"
@@ -453,13 +452,13 @@ addpc() {
 	
 	_PRINTTAIL_() {
 		printf "\\\\n\\\\e[0;32m%s %s %s\\\\e[1;34m: \\\\e[1;32m%s\\\\e[0m 🏁  \\\\n\\\\n\\\\e[0m" "TermuxArch \$(basename "\$0")" "\$ARGS" "\$VERSIONID" "DONE"
-		printf '\033]2;  🔑🗝 TermuxArch '"\$(basename "\$0") \$ARGS"' 📱 \007'
+		printf '\033]2;  🔑 TermuxArch '"\$(basename "\$0") \$ARGS"' 📱 \007'
 	}
 
 	trap _TRPET_ EXIT
 	## pc begin ####################################################################
 
-	printf '\033]2;  🔑🗝 TermuxArch '"\$(basename "\$0") \$ARGS"' 📲 \007'
+	printf '\033]2;  🔑 TermuxArch '"\$(basename "\$0") \$ARGS"' 📲 \007'
 	printf "\\\\n\\\\e[1;32m==> \\\\e[1;37m%s \\\\e[0;32m%s \\\\e[1;32m%s %s \\\e[0m%s…\\\\n\\\\n" "Running" "TermuxArch" "\$(basename "\$0")" "\$ARGS" "\$VERSIONID"  
 	if [[ -z "\${1:-}" ]] ; then
 	pacman --noconfirm --color=always -S 
@@ -476,7 +475,7 @@ addpc() {
 	chmod 700 root/bin/pc 
 }
 
-addpci() { 
+_ADDpci_() { 
 	_CFLHDR_ root/bin/pci "# Pacman install packages wrapper with system update."
 	cat >> root/bin/pci  <<- EOM
 	declare ARGS="\$@"
@@ -489,7 +488,7 @@ addpci() {
 	
 	_PRINTTAIL_() { 
 		printf "\\\\n\\\\e[0;32m%s %s %s\\\\e[1;34m: \\\\e[1;32m%s\\\\e[0m 🏁  \\\\n\\\\n\\\\e[0m" "TermuxArch \$(basename "\$0")" "\$ARGS" "\$VERSIONID" "DONE"
-		printf '\033]2;  🔑🗝 TermuxArch '"\$(basename "\$0") \$ARGS"' 📱 \007'
+		printf '\033]2;  🔑 TermuxArch '"\$(basename "\$0") \$ARGS"' 📱 \007'
 	}
 
 	trap _TRPET_ EXIT
@@ -512,7 +511,7 @@ addpci() {
 	chmod 700 root/bin/pci 
 }
 
-addprofile() {
+_ADDprofile_() {
 	cat > root/.profile <<- EOM
 	. "\$HOME"/.bash_profile
 	EOM
@@ -521,7 +520,7 @@ addprofile() {
 	fi
 }
 
-addresolvconf() {
+_ADDaddresolvconf_() {
 	mkdir -p run/systemd/resolve 	
 	cat > run/systemd/resolve/resolv.conf <<- EOM
 	nameserver 8.8.8.8
@@ -529,7 +528,7 @@ addresolvconf() {
 	EOM
 }
 
-addt() {
+_ADDt_() {
 	_CFLHDR_ root/bin/t
 	cat >> root/bin/t  <<- EOM
 	if [ ! -e /usr/bin/tree ] ; then
@@ -542,7 +541,7 @@ addt() {
 	chmod 700 root/bin/t 
 }
 
-addthstartarch() {
+_ADDthstartarch_() {
 	_CFLHDR_ root/bin/th"$STARTBIN" 
 	cat >> root/bin/th"$STARTBIN" <<- EOM
 	echo $STARTBIN help
@@ -563,7 +562,7 @@ addthstartarch() {
 	chmod 700 root/bin/th"$STARTBIN"
 }
 
-addtour() {
+_ADDtour_() {
 	_CFLHDR_ root/bin/tour "# A short tour that shows a few of the new files in ths system." 
 	cat >> root/bin/tour <<- EOM
 	printf "\n\e[1;32m==> \e[1;37mRunning \e[1;32mls -R --color=always \$HOME \e[1;37m\n\n"
@@ -586,10 +585,10 @@ addtour() {
 	chmod 700 root/bin/tour 
 }
 
-addtrim() {
+_ADDtrim_() {
 	_CFLHDR_ root/bin/trim
 	cat >> root/bin/trim <<- EOM
-	printf "\\\\n\\\\e[1;32m==> \\\\e[1;0mRunning \$0 $@\\\\e[0m\\\\n\\\\n" 
+	printf "\\\\n\\\\e[1;32m==> \\\\e[1;0mRunning %s\\\\e[0m\\\\n\\\\n" "${0##*/} $@"
 	echo [1/5] rm -rf /boot/
 	rm -rf /boot/
 	echo [2/5] rm -rf /usr/lib/firmware
@@ -605,7 +604,7 @@ addtrim() {
 	chmod 700 root/bin/trim 
 }
 
-addv() {
+_ADDv_() {
 	_CFLHDR_ root/bin/v
 	cat >> root/bin/v  <<- EOM
 	if [[ -z "\${1:-}" ]] ; then
@@ -623,7 +622,7 @@ addv() {
 	chmod 700 root/bin/v 
 }
 
-addwe() { 
+_ADDwe_() { 
 	_CFLHDR_ usr/bin/we "# Watch available entropy on device." "# cat /proc/sys/kernel/random/entropy_avail contributed by https://github.com/cb125"
 	cat >> usr/bin/we <<- EOM
 
@@ -768,7 +767,7 @@ addwe() {
 	chmod 700 usr/bin/we 
 }
 
-addyt() {
+_ADDyt_() {
 	_CFLHDR_ root/bin/yt
 	cat >> root/bin/yt  <<- EOM
 	if [ ! -e /usr/bin/youtube-dl ] ; then
@@ -780,5 +779,4 @@ addyt() {
 	EOM
 	chmod 700 root/bin/yt 
 }
-
-# EOF
+# archlinuxconfig.bash EOF

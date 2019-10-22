@@ -36,7 +36,7 @@ trap _SGSATRPSIGNAL_ HUP INT TERM
 trap _SGSATRPQUIT_ QUIT 
 
 _GSA_() {
-	(git submodule add $3 https://github.com/termuxarch/$2 $1) || ./pullTermuxArchSubmodules.sh || (printf "\\n\\n%s\\n" "Cannot update $2 : Continuing...") 
+	(git submodule add $3 https://github.com/TermuxArch/$2 $1) || ./pullTermuxArchSubmodules.sh || (printf "\\n\\n%s\\n" "Cannot update $2 : Continuing...") 
 }
 
 _GSA_ docs docsTermuxArch ""

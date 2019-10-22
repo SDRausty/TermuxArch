@@ -1,40 +1,35 @@
 #!/bin/env bash
-# Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
+# Copyright 2017-2019 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
 # Hosted sdrausty.github.io/TermuxArch courtesy https://pages.github.com
 # https://sdrausty.github.io/TermuxArch/README has info about this project. 
 # https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.  
-# _STANDARD_="function name" && STANDARD="variable name" are under construction.
 ################################################################################
 
-copyimage() { # A systemimage.tar.gz file can be used: `setupTermuxArch.bash ./[path/]systemimage.tar.gz` and `setupTermuxArch.bash /absolutepath/systemimage.tar.gz`
- 	cfile="${1##/*/}" 
-	file="$(basename "$cfile")" 
-# 	echo $file
-# 	echo $lcp
-# 	echo lcp
-# 	pwd
-# 	echo pwd
- 	if [[ "$lcp" = "0" ]];then
+_COPYIMAGE_() { # A systemimage.tar.gz file can be used: `setupTermuxArch.bash ./[path/]systemimage.tar.gz` and `setupTermuxArch.bash /absolutepath/systemimage.tar.gz`
+ 	CFILE="${1##/*/}" 
+	IFILE="${CFILE##*/}"
+ 	if [[ "$LCP" = "0" ]]
+	then
 		echo "Copying $1.md5 to $INSTALLDIR…" 
 		cp "$1".md5  "$INSTALLDIR"
 		echo "Copying $1 to $INSTALLDIR…" 
 		cp "$1" "$INSTALLDIR"
- 	elif [[ "$lcp" = "1" ]];then
+ 	elif [[ "$LCP" = "1" ]]
+	then
 		echo "Copying $1.md5 to $INSTALLDIR…" 
 		cp "$WDIR$1".md5  "$INSTALLDIR"
 		echo "Copying $1 to $INSTALLDIR…" 
 		cp "$WDIR$1" "$INSTALLDIR"
  	fi
-# 	ls  "$INSTALLDIR"
 }
 
-loadimage() { 
+_LOADIMAGE_() { 
 	_NAMESTARTARCH_ 
  	_SPACEINFO_
 	printf "\\n" 
 	_WAKELOCK_
 	_PREPINSTALLDIR_ 
-  	copyimage ## "$@" & spinner "Copying" "…" 
+  	_COPYIMAGE_ ## "$@" & spinner "Copying" "…" 
 	_PRINTMD5CHECK_
 	_MD5CHECK_
 	_PRINTCU_ 
@@ -53,7 +48,7 @@ loadimage() {
 	exit
 }
 
-refreshsys() { # Refreshes
+_REFRESHSYS_() { # refreshes installation
 	printf '\033]2; setupTermuxArch.bash refresh 📲 \007'
  	_NAMESTARTARCH_  
  	_SPACEINFO_
@@ -66,7 +61,7 @@ refreshsys() { # Refreshes
 	_SETLOCALE_
 	printf "\\n" 
 	_WAKELOCK_
-	printf "\\n\\e[1;32m==> \\e[1;37m%s \\e[1;32m%s %s �\\n" "Running" "$(basename "$0")" "$ARGS" 
+	printf "\\n\\e[1;32m==> \\e[1;37m%s \\e[1;32m%s %s...\\n" "Running" "${0##*/}" "$ARGS" 
 	"$INSTALLDIR"/root/bin/setupbin.bash ||: 
  	rm -f root/bin/finishsetup.bash
  	rm -f root/bin/setupbin.bash 
@@ -119,7 +114,7 @@ _SPACEINFO_() {
 }
 
 _SPACEINFOGSIZE_() {
-	USERSPACE 
+	_USERSPACE_ 
 	if [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = "$CPUABIX86_64" ]] ; then
 		if [[ "$USRSPACE" = *G ]] ; then 
 			SPACEMESSAGE=""
@@ -152,21 +147,21 @@ _SPACEINFOGSIZE_() {
 }
 
 _SPACEINFOQ_() {
-	if [[ "$suanswer" != [Yy]* ]] ; then
+	if [[ "$SUANSWER" != [Yy]* ]] ; then
 		_SPACEINFO_
 		if [[ -n "$SPACEMESSAGE" ]] ; then
 			while true; do
 				printf "\\n\\e[1;30m"
-				read -n 1 -p "Continue with setupTermuxArch.bash? [Y|n] " suanswer
-				if [[ "$suanswer" = [Ee]* ]] || [[ "$suanswer" = [Nn]* ]] || [[ "$suanswer" = [Qq]* ]] ; then
+				read -n 1 -p "Continue with setupTermuxArch.bash? [Y|n] " SUANSWER
+				if [[ "$SUANSWER" = [Ee]* ]] || [[ "$SUANSWER" = [Nn]* ]] || [[ "$SUANSWER" = [Qq]* ]] ; then
 					printf "\\n" 
 					exit $?
-				elif [[ "$suanswer" = [Yy]* ]] || [[ "$suanswer" = "" ]] ; then
-					suanswer=yes
+				elif [[ "$SUANSWER" = [Yy]* ]] || [[ "$SUANSWER" = "" ]] ; then
+					SUANSWER=yes
 					printf "Continuing with setupTermuxArch.bash.\\n"
 					break
 				else
-					printf "\\nYou answered \\e[33;1m$suanswer\\e[30m.\\n\\nAnswer \\e[32mYes\\e[30m or \\e[1;31mNo\\e[30m. [\\e[32my\\e[30m|\\e[1;31mn\\e[30m]\\n"
+					printf "\\nYou answered \\e[33;1m$SUANSWER\\e[30m.\\n\\nAnswer \\e[32mYes\\e[30m or \\e[1;31mNo\\e[30m. [\\e[32my\\e[30m|\\e[1;31mn\\e[30m]\\n"
 				fi
 			done
 		fi
@@ -174,7 +169,7 @@ _SPACEINFOQ_() {
 }
 
 _SPACEINFOKSIZE_() {
-	USERSPACE 
+	_USERSPACE_ 
 	if [[ "$CPUABI" = "$CPUABI8" ]] ; then
 		if [[ "$USRSPACE" -lt "1500000" ]] ; then
 			SPACEMESSAGE="\\n\\e[0;33mTermuxArch: \\e[1;33mFREE SPACE WARNING!  \\e[1;30mStart thinking about cleaning out some stuff.  \\e[33m$USRSPACE $units of free user space is available on this device.  \\e[1;30mThe recommended minimum to install Arch Linux in Termux PRoot for aarch64 is 1.5G of free user space.\\n\\e[0m"
@@ -266,11 +261,10 @@ _SYSTEMINFO_ () {
 	printf "\\nShare this information along with your issue at https://github.com/sdrausty/TermuxArch/issues; include input and output.  This file is found in \`""${WDIR}setupTermuxArchSysInfo$STIME.log\`.  If you think screenshots will help in a quicker resolution, include them in the post as well.  \\n" >> "${WDIR}setupTermuxArchSysInfo$STIME".log
 }
 
-USERSPACE() {
+_USERSPACE_() {
 	USRSPACE="$(df "$INSTALLDIR" 2>/dev/null | awk 'FNR == 2 {print $4}')"
 	if [[ "$USRSPACE" = "" ]] ; then
 		USRSPACE="$(df "$INSTALLDIR" 2>/dev/null | awk 'FNR == 3 {print $3}')"
 	fi
 }
-
-# EOF
+# maintenanceroutines.bash EOF

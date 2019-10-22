@@ -5,26 +5,26 @@
 set -Eeuo pipefail
 shopt -s nullglob globstar
 
-_STGNTRPERROR_() { # Run on script error.
+_STGNTRPERROR_() { # run on script error
 	local RV="$?"
 	printf "\\n%s\\n" "$RV"
 	printf "\\e[?25h\\n\\e[1;48;5;138mBuildAPKs %s ERROR:  Generated script error %s near or at line number %s by \`%s\`!\\e[0m\\n" "gsa.bash" "${3:-VALUE}" "${1:-LINENO}" "${2:-BASH_COMMAND}"
 	exit 179
 }
 
-_STGNTRPEXIT_() { # Run on exit.
+_STGNTRPEXIT_() { # run on exit
 	printf "\\e[?25h\\e[0m"
 	set +Eeuo pipefail 
 	exit
 }
 
-_STGNTRPSIGNAL_() { # Run on signal.
+_STGNTRPSIGNAL_() { # run on signal
 	local RV="$?"
 	printf "\\e[?25h\\e[1;7;38;5;0mBuildAPKs %s WARNING:  Signal %s received!\\e[0m\\n" "gsa.bash" "$RV"
  	exit 178 
 }
 
-_STGNTRPQUIT_() { # Run on quit.
+_STGNTRPQUIT_() { # run on quit
 	local RV="$?"
 	printf "\\e[?25h\\e[1;7;38;5;0mBuildAPKs %s WARNING:  Quit signal %s received!\\e[0m\\n" "gsa.bash" "$RV"
  	exit 177 
@@ -53,5 +53,5 @@ cd ..
 rm -f gen/*
 sha512sum setupTermuxArch.tar.gz > setupTermuxArch.sha512
 sha512sum -c setupTermuxArch.sha512
-
+./do.sums.bash
 # tgen.bash EOF
