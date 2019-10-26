@@ -28,7 +28,7 @@ See https://TermuxArch.github.io/TermuxArch/docs/install for options how to run 
 
 See https://TermuxArch.github.io/docsTermuxArch/startingArch for options how to start the Arch Linux container `startarch` on device.
 
-This repository uses submodules.  To get all the pieces of this repository run after cloning in the root directory of this repository: 
+This repository uses submodules.  To get all the pieces of this repository run the following code after cloning in the root directory of this repository: 
 
 ```
 git submodule update --init --recursive
