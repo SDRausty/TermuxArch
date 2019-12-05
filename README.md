@@ -10,9 +10,9 @@ This Termux bash setup shell script will attempt to set Arch Linux up in your Te
 #### Screenshot from an Android smartphone 2018
 [![screenshot_20180413-172406](https://user-images.githubusercontent.com/27742457/38758637-ec0ff0dc-3f3f-11e8-802c-82bc511cde88.png)](https://TermuxArch.github.io/docsTermuxArch/install)
 
-* Comments are welcome at [https://github.com/TermuxArch/TermuxArch/issues](https://github.com/TermuxArch/TermuxArch/issues?q=is%3Aissue+is%3Aclosed) ✍ 
+* Comments are welcome at [https://github.com/TermuxArch/TermuxArch/issues](https://github.com/TermuxArch/TermuxArch/issues) ✍ 
 
-* Pull requests are welcome at [https://github.com/TermuxArch/TermuxArch/pulls](https://github.com/TermuxArch/TermuxArch/pulls?q=is%3Apr+is%3Aclosed) ✍ 
+* Pull requests are welcome at [https://github.com/TermuxArch/TermuxArch/pulls](https://github.com/TermuxArch/TermuxArch/pulls) ✍ 
 
 Thank you for making this project work better and please contribute 🔆  [Contributors](CONTRIBUTORS.md) and [Notice to Contributors](NOTICE.md) have more information about this project.
 
