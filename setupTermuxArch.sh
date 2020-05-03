@@ -7,7 +7,7 @@ IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-VERSIONID=2.0.12
+VERSIONID=2.0.13
 ## INIT FUNCTIONS ##############################################################
 _ARG2DIR_() {  # Argument as ROOTDIR.
 	ARG2="${@:2:1}"
