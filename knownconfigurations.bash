@@ -77,6 +77,12 @@ _PR00TSTRING_() {
        	if [[ ! -r /proc/stat ]] ; then
 	       	PROOTSTMNT+="-b $INSTALLDIR/var/binds/fbindprocstat:/proc/stat " 
 	fi
+	# Add termux:api commands to the proot if installed ($PREFIX/libexec/termux-api must exist)
+	# see https://github.com/termux/termux-api/issues/140#issuecomment-605500089
+	# The user can then call it with e.g. /data/data/com.termux/files/usr/bin/termux-toast 'hello' 
+	if [ -x "$PREFIX/libexec/termux-api" ] ; then 
+		PROOTSTMNT+="-b $PREFIX -b /property_contexts -b /system/  "
+	fi
        	if [[ -n "$(ls -A "$INSTALLDIR"/var/binds/*.prs)" ]] ; then
 	       	for PRSFILES in "$INSTALLDIR"/var/binds/*.prs ; do
 		       	. "$PRSFILES"
@@ -84,7 +90,7 @@ _PR00TSTRING_() {
        	fi
        	PROOTSTMNT+="-b /proc/self/fd/1:/dev/stdout "
        	PROOTSTMNT+="-b /proc/self/fd/2:/dev/stderr "
-       	PROOTSTMNT+="-b \"\$ANDROID_DATA\" -b /dev/ -b \"\$EXTERNAL_STORAGE\" -b \"\$HOME\" -b /proc/ -b /storage/ -b /sys/ -w \"\$PWD\" /usr/bin/env -i HOME=/root TERM=$TERM "
+       	PROOTSTMNT+="-b \"\$ANDROID_DATA\" -b /dev/ -b \"\$EXTERNAL_STORAGE\" -b \"\$HOME\" -b /proc/ -b /storage/ -b /sys/ -w \"\$PWD\" /usr/bin/env -i HOME=/root TERM=$TERM ANDROID_DATA=/data"
        	PROOTSTMNTU="${PROOTSTMNT//--link2symlink }"
 }
 _PR00TSTRING_
