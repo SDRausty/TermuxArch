@@ -77,12 +77,9 @@ _PR00TSTRING_() {
        	if [[ ! -r /proc/stat ]] ; then
 	       	PROOTSTMNT+="-b $INSTALLDIR/var/binds/fbindprocstat:/proc/stat " 
 	fi
-	# Add termux:api commands to the proot if installed ($PREFIX/libexec/termux-api must exist)
-	# see https://github.com/termux/termux-api/issues/140#issuecomment-605500089
+	# Add termux:api commands to the proot
 	# The user can then call it with e.g. /data/data/com.termux/files/usr/bin/termux-toast 'hello' 
-	if [ -x "$PREFIX/libexec/termux-api" ] ; then 
-		PROOTSTMNT+="-b $PREFIX -b /property_contexts -b /system/  "
-	fi
+	PROOTSTMNT+="-b $PREFIX -b /property_contexts -b /system/  "
        	if [[ -n "$(ls -A "$INSTALLDIR"/var/binds/*.prs)" ]] ; then
 	       	for PRSFILES in "$INSTALLDIR"/var/binds/*.prs ; do
 		       	. "$PRSFILES"
