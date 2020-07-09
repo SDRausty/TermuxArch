@@ -1,5 +1,5 @@
-#!/bin/env bash
-# Copyright 2017-2019 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
+#!/usr/bin/env bash
+# Copyright 2017-2020 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
 # Hosted sdrausty.github.io/TermuxArch courtesy https://pages.github.com
 # https://sdrausty.github.io/TermuxArch/README has info about this project. 
 # https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.  
@@ -8,9 +8,12 @@
 LC_TYPE=( "LANG" "LANGUAGE" "LC_ADDRESS" "LC_COLLATE" "LC_CTYPE" "LC_IDENTIFICATION" "LC_MEASUREMENT" "LC_MESSAGES" "LC_MONETARY" "LC_NAME" "LC_NUMERIC" "LC_PAPER" "LC_TELEPHONE" "LC_TIME" )
 
 _ADDADDS_() {
-	_ADDREADME_
-	_ADDae_
 	_ADDAUSER_
+	_ADDMOTD_
+	_ADDMOTO_
+	_ADDREADME_
+	_ADDaddresolvconf_ 
+	_ADDae_
 	_ADDbash_logout_ 
 	_ADDbash_profile_ 
 	_ADDbashrc_ 
@@ -19,42 +22,44 @@ _ADDADDS_() {
 	_ADDcdtmp_
 	_ADDch_ 
 	_ADDdfa_
+	_ADDexd_
 	_ADDfbindexample_
 	_ADDfbinds_
-	_ADDexd_
 	_ADDfibs_
 	_ADDga_
 	_ADDgcl_
 	_ADDgcm_
 	_ADDgp_
 	_ADDgpl_
+	_ADDinputrc
 	_ADDkeys_
-	_ADDMOTD_
-	_ADDMOTO_
 	_ADDpc_
 	_ADDpci_
 	_ADDprofile_ 
-	_ADDaddresolvconf_ 
 	_ADDt_ 
 	_ADDtour_
 	_ADDtrim_ 
-	_ADDyt_
-	_ADDwe_  
 	_ADDv_ 
+	_ADDwe_  
+	_ADDyt_
 }
 	
 _CALLSYSTEM_() {
 	declare COUNTER=""
-	if [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = "$CPUABIX86_64" ]];then
+	if [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = "$CPUABIX86_64" ]]
+	then
 		_GETIMAGE_
 	else
-		if [[ "$CMIRROR" = "os.archlinuxarm.org" ]] || [[ "$CMIRROR" = "mirror.archlinuxarm.org" ]]; then
-			until _FTCHSTND_;do
+		if [[ "$CMIRROR" = "os.archlinuxarm.org" ]] || [[ "$CMIRROR" = "mirror.archlinuxarm.org" ]]
+		then
+			until _FTCHSTND_
+			do
 				_FTCHSTND_ ||: 
 				sleep 2
 				printf "\\n"
 				COUNTER=$((COUNTER + 1))
-				if [[ "$COUNTER" = 4 ]];then 
+				if [[ "$COUNTER" = 4 ]]
+				then 
 					_PRINTMAX_ 
 					exit
 				fi
@@ -66,7 +71,8 @@ _CALLSYSTEM_() {
 }
 
 _COPYSTARTBIN2PATH_() {
-	if [[ ":$PATH:" == *":$HOME/bin:"* ]] && [[ -d "$HOME"/bin ]]; then
+	if [[ ":$PATH:" == *":$HOME/bin:"* ]] && [[ -d "$HOME"/bin ]]
+	then
 		BPATH="$HOME"/bin
 	else
 		BPATH="$PREFIX"/bin
@@ -77,26 +83,41 @@ _COPYSTARTBIN2PATH_() {
 
 _DETECTSYSTEM_() {
 	_PRINTDETECTEDSYSTEM_
-	if [[ "$CPUABI" = "$CPUABI5" ]];then
+	if [[ "$CPUABI" = "$CPUABI5" ]]
+	then
 		_ARMV5L_
-	elif [[ "$CPUABI" = "$CPUABI7" ]];then
-		_DETECTSYSTEM2_ 
-	elif [[ "$CPUABI" = "$CPUABI8" ]];then
-		_AARCH64_
-	elif [[ "$CPUABI" = "$CPUABIX86" ]];then
+	elif [[ "$CPUABI" = "$CPUABI7" ]]
+	then
+		_DETECTSYSTEM7_ 
+	elif [[ "$CPUABI" = "$CPUABI8" ]]
+	then
+		_DETECTSYSTEM64_
+	elif [[ "$CPUABI" = "$CPUABIX86" ]]
+	then
 		_I686_ 
-	elif [[ "$CPUABI" = "$CPUABIX86_64" ]];then
+	elif [[ "$CPUABI" = "$CPUABIX86_64" ]]
+	then
 		_X86_64_
 	else
 		_PRINTMISMATCH_ 
 	fi
 }
 
-_DETECTSYSTEM2_() {
-	if [[ "$(getprop ro.product.device)" == *_cheets ]];then
-		armv7lChrome 
+_DETECTSYSTEM7_() {
+	if [[ "$(getprop ro.product.device)" == *_cheets ]]
+	then
+		_ARMV7CHROME_
 	else
-		armv7lAndroid  
+		_ARMV7ANDROID_
+	fi
+}
+
+_DETECTSYSTEM64_() {
+	if [[ "$(getprop ro.product.device)" == *_cheets ]]
+	then
+		_AARCH64CHROME_
+	else
+		_AARCH64ANDROID_
 	fi
 }
 
@@ -107,14 +128,18 @@ _KERNID_() {
 	declare -i MAJOR_REVISION="$(echo "$ur" |awk -F'.' '{print $2}')"
 	declare -- TMP="$(echo "$ur" |awk -F'.' '{print $3}')"
 	declare -- MINOR_REVISION="$(echo "${TMP:0:3}" |sed 's/[^0-9]*//g')"
-	if [[ "$KERNEL_VERSION" -le 2 ]]; then
+	if [[ "$KERNEL_VERSION" -le 2 ]]
+	then
 		KID=1
 	else
-		if [[ "$KERNEL_VERSION" -eq 3 ]]; then
-			if [[ "$MAJOR_REVISION" -lt 2 ]]; then
+		if [[ "$KERNEL_VERSION" -eq 3 ]]
+		then
+			if [[ "$MAJOR_REVISION" -lt 2 ]]
+			then
 				KID=1
 			else
-				if [[ "$MAJOR_REVISION" -eq 2 ]] && [[ "$MINOR_REVISION" -eq 0 ]]; then
+				if [[ "$MAJOR_REVISION" -eq 2 ]] && [[ "$MINOR_REVISION" -eq 0 ]]
+				then
 					KID=1
 				fi
 			fi
@@ -132,48 +157,58 @@ _MAINBLOCK_() {
 	_WAKEUNLOCK_ 
 	_PRINTFOOTER_
 	set +Eeuo pipefail
-	"$INSTALLDIR/$STARTBIN" ||:
+	"$INSTALLDIR/$STARTBIN" || printf "\033[1;31m%s\\n\\n\033[0;34m%s\\n\\n%s\\n\\n%s\\n\\n%s\033[0m" "Signal generated in INSTALLDIR/STARTBIN _MAINBLOCK_" "If error \` env ... not found \` is found, ensure that all the software is up to date.  After updating, reference these links in order to find a resolution if updating Termux app and Termux packages was unsuccessful:" "  * https://github.com/termux/proot/issues?q=\"env\"+\"not+found\"" "  * https://github.com/termux/termux-packages/issues?q=\"not+found\"+\"proot\""
 	set -Eeuo pipefail
-	_PRINTSTARTBIN_USAGE_
 	_PRINTFOOTER2_
+	_PRINTSTARTBIN_USAGE_
 }
 
 _MAKEFINISHSETUP_() {
 	BINFNSTP=finishsetup.bash  
 	_CFLHDR_ root/bin/"$BINFNSTP"
 	cat >> root/bin/"$BINFNSTP" <<- EOM
-	printf "\\n\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\n\\n\\e[1;32m%s\\e[0;32m" "To generate locales in a preferred language use " "Settings > Language & Keyboard > Language " "in Android; Then run " "${0##*/} r " "for a quick system refresh; For full system refresh use ${0##*/} re[fresh]." "==> "
+	printf "\\n\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\n\\n\\e[1;32m%s\\e[0;32m" "To generate locales in a preferred language use " "Settings > Language & Keyboard > Language " "in Android; Then run " "${0##*/} r " "for a quick system refresh; For full system refresh you can use ${0##*/} re[fresh]." "==> "
    	locale-gen ||:
 	printf "\\n\\e[1;34m:: \\e[1;37mRemoving redundant packages for Termux PRoot installation…\\n"
 	EOM
-	if [[ -z "${LCR:-}" ]] ; then
-	 	if [[ "$CPUABI" = "$CPUABI5" ]];then
+	if [[ -z "${LCR:-}" ]]
+	then
+	 	if [[ "$CPUABI" = "$CPUABI5" ]]
+		then
 	 		printf "pacman -Rc linux-armv5 linux-firmware --noconfirm --color=always 2>/dev/null ||:\\n" >> root/bin/"$BINFNSTP"
-	 	elif [[ "$CPUABI" = "$CPUABI7" ]];then
+	 	elif [[ "$CPUABI" = "$CPUABI7" ]]
+		then
 	 		printf "pacman -Rc linux-armv7 linux-firmware --noconfirm --color=always 2>/dev/null ||:\\n" >> root/bin/"$BINFNSTP"
-	 	elif [[ "$CPUABI" = "$CPUABI8" ]];then
+	 	elif [[ "$CPUABI" = "$CPUABI8" ]]
+		then
 	 		printf "pacman -Rc linux-aarch64 linux-firmware --noconfirm --color=always 2>/dev/null ||:\\n" >> root/bin/"$BINFNSTP"
 	 	fi
-		if [[ "$CPUABI" = "$CPUABIX86" ]];then
+		if [[ "$CPUABI" = "$CPUABIX86" ]]
+		then
 			printf "./root/bin/keys x86\\n" >> root/bin/"$BINFNSTP"
-		elif [[ "$CPUABI" = "$CPUABIX86_64" ]];then
+		elif [[ "$CPUABI" = "$CPUABIX86_64" ]]
+		then
 			printf "./root/bin/keys x86_64\\n" >> root/bin/"$BINFNSTP"
 		else
 	 		printf "./root/bin/keys\\n" >> root/bin/"$BINFNSTP"
 		fi
-		if [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = "$CPUABIX86_64" ]];then
+		if [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = "$CPUABIX86_64" ]]
+		then
 			printf "./root/bin/pci gzip sed \\n" >> root/bin/"$BINFNSTP"
 		else
 	 		printf "./root/bin/pci \\n" >> root/bin/"$BINFNSTP"
 		fi
 	fi
-	if [[ -e "$HOME"/.bash_profile ]];then
+	if [[ -e "$HOME"/.bash_profile ]]
+	then
 		grep "proxy" "$HOME"/.bash_profile | grep "export" >> root/bin/"$BINFNSTP" 2>/dev/null ||:
 	fi
-	if [[ -e "$HOME"/.bashrc ]];then
+	if [[ -e "$HOME"/.bashrc ]]
+	then
 		grep "proxy" "$HOME"/.bashrc  | grep "export" >> root/bin/"$BINFNSTP" 2>/dev/null ||:
 	fi
-	if [[ -e "$HOME"/.profile ]];then
+	if [[ -e "$HOME"/.profile ]]
+	then
 		grep "proxy" "$HOME"/.profile | grep "export" >> root/bin/"$BINFNSTP" 2>/dev/null ||:
 	fi
 	cat >> root/bin/"$BINFNSTP" <<- EOM
@@ -199,8 +234,8 @@ _MAKESTARTBIN_() {
 	_CFLHDR_ "$STARTBIN" 
 	printf "%s\\n" "${FLHDRP[@]}" >> "$STARTBIN"
 	cat >> "$STARTBIN" <<- EOM
-	COMMANDIF="\$(command -v getprop)" ||:
-	if [[ "\$COMMANDIF" = "" ]] ; then
+	COMMANDG="\$(command -v getprop)" ||:
+	if [[ "\$COMMANDG" = "" ]] ; then
  		printf "\\n\\e[1;48;5;138m  %s\\e[0m\\n\\n" "\${0##*/} WARNING: Run \${0##*/} and $INSTALLDIR/\${0##*/} from the BASH shell in the OS system in Termux, e.g., Amazon Fire, Android and Chromebook."
 		exit 202
 	fi
@@ -294,7 +329,8 @@ _MAKESYSTEM_() {
 }
 
 _MD5CHECK_() {
-	if md5sum -c "$IFILE".md5 1>/dev/null ; then
+	if md5sum -c "$IFILE".md5 1>/dev/null 
+	then
 		_PRINTMD5SUCCESS_
 		printf "\\e[0;32m"
 		_PREPROOT_ ## & spinner "Unpacking" "$IFILE…" 
@@ -322,7 +358,8 @@ _PREPINSTALLDIR_() {
 }
 
 _PREPROOT_() {
-	if [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = "$CPUABIX86_64" ]];then
+	if [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = "$CPUABIX86_64" ]]
+	then
  		proot --link2symlink -0 bsdtar -xpf "$IFILE" --strip-components 1  
 	else
  		proot --link2symlink -0 bsdtar -xpf "$IFILE" 
@@ -331,15 +368,18 @@ _PREPROOT_() {
 
 _RUNFINISHSETUP_() {
 	printf "\\e[0m"
-	if [[ "$FSTND" ]]; then
+	if [[ "$FSTND" ]]
+	then
 		NMIR="$(echo "$NLCMIRROR" |awk -F'/' '{print $3}')"
 		sed -i '/http\:\/\/mir/ s/^#*/# /' "$INSTALLDIR"/etc/pacman.d/mirrorlist
-		sed -i '/$NMIR/ s/^# *//' "$INSTALLDIR"/etc/pacman.d/mirrorlist
+		sed -i "/$NMIR/ s/^# *//" "$INSTALLDIR"/etc/pacman.d/mirrorlist # sed replace a character in a matched line in place
 	else
-	if [[ "$ed" = "" ]];then
+	if [[ "$ed" = "" ]]
+	then
 		_EDITORS_ 
 	fi
-	if [[ ! "$(sed 1q  "$INSTALLDIR"/etc/pacman.d/mirrorlist)" = "# # # # # # # # # # # # # # # # # # # # # # # # # # #" ]];then
+	if [[ ! "$(sed 1q  "$INSTALLDIR"/etc/pacman.d/mirrorlist)" = "# # # # # # # # # # # # # # # # # # # # # # # # # # #" ]]
+	then
 		_EDITFILES_
 	fi
 		"$ed" "$INSTALLDIR"/etc/pacman.d/mirrorlist
@@ -360,28 +400,34 @@ _SETLANGUAGE_() { # This function uses device system settings to set locale.  To
 	LANGIN+=([7]="$(getprop ro.product.locale.region)")
 	touch "$INSTALLDIR"/etc/locale.gen 
 	ULANGUAGE="${LANGIN[0]:-unknown}_${LANGIN[1]:-unknown}"
-       	if ! grep "$ULANGUAGE" "$INSTALLDIR"/etc/locale.gen 1>/dev/null ; then 
+       	if ! grep "$ULANGUAGE" "$INSTALLDIR"/etc/locale.gen 1>/dev/null 
+	then 
 		ULANGUAGE="unknown"
        	fi 
  	if [[ "$ULANGUAGE" != *_* ]];then
  		ULANGUAGE="${LANGIN[3]:-unknown}_${LANGIN[2]:-unknown}"
- 	       	if ! grep "$ULANGUAGE" "$INSTALLDIR"/etc/locale.gen 1>/dev/null ; then 
+ 	       	if ! grep "$ULANGUAGE" "$INSTALLDIR"/etc/locale.gen 1>/dev/null 
+		then 
  			ULANGUAGE="unknown"
  	       	fi 
  	fi 
-	for i in "${!LANGIN[@]}"; do
-		if [[ "${LANGIN[i]}" = *-* ]];then
+	for i in "${!LANGIN[@]}"
+	do
+		if [[ "${LANGIN[i]}" = *-* ]]
+		then
  	 		ULANGUAGE="${LANGIN[i]//-/_}"
 			break
 		fi
 	done
- 	if [[ "$ULANGUAGE" != *_* ]];then
+ 	if [[ "$ULANGUAGE" != *_* ]]
+	then
  		ULANGUAGE="${LANGIN[6]:-unknown}_${LANGIN[7]:-unknown}"
  	       	if ! grep "$ULANGUAGE" "$INSTALLDIR"/etc/locale.gen 1>/dev/null ; then 
  			ULANGUAGE="unknown"
  	       	fi 
  	fi 
- 	if [[ "$ULANGUAGE" != *_* ]];then
+ 	if [[ "$ULANGUAGE" != *_* ]]
+	then
    		ULANGUAGE="en_US"
  	fi 
 	printf "\\n\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\n" "Setting locales to: " "Language " ">> $ULANGUAGE << " "Region"
@@ -390,7 +436,8 @@ _SETLANGUAGE_() { # This function uses device system settings to set locale.  To
 _SETLOCALE_() { # This function uses device system settings to set locale.  To generate locales in a preferred language, you can use "Settings > Language & Keyboard > Language" in Android; Then run `setupTermuxArch.bash r for a quick system refresh.
 	FTIME="$(date +%F%H%M%S)"
 	echo "##  File locale.conf generated by setupTermuxArch.bash at" ${FTIME//-}. > etc/locale.conf 
-	for i in "${!LC_TYPE[@]}"; do
+	for i in "${!LC_TYPE[@]}"
+	do
 	 	echo "${LC_TYPE[i]}"="$ULANGUAGE".UTF-8 >> etc/locale.conf 
 	done
 	sed -i "/\\#$ULANGUAGE.UTF-8 UTF-8/{s/#//g;s/@/-at-/g;}" etc/locale.gen 

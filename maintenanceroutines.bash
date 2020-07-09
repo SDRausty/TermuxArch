@@ -1,5 +1,5 @@
-#!/bin/env bash
-# Copyright 2017-2019 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
+#!/usr/bin/env bash
+# Copyright 2017-2020 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
 # Hosted sdrausty.github.io/TermuxArch courtesy https://pages.github.com
 # https://sdrausty.github.io/TermuxArch/README has info about this project. 
 # https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.  
@@ -43,8 +43,8 @@ _LOADIMAGE_() {
 	set +Eeuo pipefail
 	"$INSTALLDIR/$STARTBIN" ||:
 	set -Eeuo pipefail
-	_PRINTSTARTBIN_USAGE_
 	_PRINTFOOTER2_
+	_PRINTSTARTBIN_USAGE_
 	exit
 }
 
@@ -96,8 +96,8 @@ _REFRESHSYS_() { # refreshes installation
 	set +Eeuo pipefail
 	"$INSTALLDIR/$STARTBIN" ||:
 	set -Eeuo pipefail
-	_PRINTSTARTBIN_USAGE_
 	_PRINTFOOTER2_
+	_PRINTSTARTBIN_USAGE_
 	exit
 }
 

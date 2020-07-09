@@ -1,5 +1,5 @@
-#!/bin/env bash
-# Copyright 2017-2019 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
+#!/usr/bin/env bash
+# Copyright 2017-2020 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
 # Hosted sdrausty.github.io/TermuxArch courtesy https://pages.github.com
 # https://sdrausty.github.io/TermuxArch/README has info about this project. 
 # https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.  
@@ -30,7 +30,7 @@ _ADDAUSER_() {
 		echo "Use: addauser username"
 		exit 201
 	else
-		useradd "\$1"
+		useradd -s /bin/bash "\$1"
 		cp -r /root /home/"\$1"
 		su - "\$1"
 	fi
@@ -57,18 +57,22 @@ _ADDbash_profile_() {
 	fi
 	PATH="\$HOME/bin:\$PATH"
 	PS1="[\[\e[38;5;148m\]\u\[\e[1;0m\]\A\[\e[1;38;5;112m\]\W\[\e[0m\]]$ "
+	export GPG_TTY="\$(tty)"
 	export TZ="$(getprop persist.sys.timezone)"
 	EOM
-	for i in "${!LC_TYPE[@]}"; do
+	for i in "${!LC_TYPE[@]}"
+	do
 	 	printf "%s=\"%s\"\\n" "export ${LC_TYPE[i]}" "$ULANGUAGE.UTF-8" >> root/.bash_profile 
 	done
-	if [ -e "$HOME"/.bash_profile ] ; then
+	if [ -e "$HOME"/.bash_profile ]
+	then
 		grep proxy "$HOME"/.bash_profile |grep "export" >>  root/.bash_profile 2>/dev/null ||:
 	fi
 }
 
 _ADDbashrc_() {
 	cat > root/.bashrc <<- EOM
+	PATH=\$PATH:$PREFIX/bin:$PREFIX/bin/applets
 	alias c='cd .. && pwd'
 	alias ..='cd ../.. && pwd'
 	alias ...='cd ../../.. && pwd'
@@ -76,25 +80,21 @@ _ADDbashrc_() {
 	alias .....='cd ../../../../.. && pwd'
 	alias d='du -hs'
 	alias e='exit'
-	alias egrep='egrep --color=always'
-	alias f='fgrep --color=always'
-	alias g='ga; gcm; gp'
+	alias f='grep --color=always'
+	alias g='ga ; gcm ; gp'
 	alias gca='git commit -a -S'
 	alias gcam='git commit -a -S -m'
-	alias grep='grep --color=always'
 	alias h='history >> \$HOME/.historyfile'
 	alias j='jobs'
 	alias i='whoami'
-	alias l='ls -og'
-	alias lr='ls -alR'
-	alias ls='ls --color=always'
+	alias l='ls -al --color=always'
+	alias lr='ls -alR --color=always'
+	alias n2='nice -n -20'
 	alias p='pwd'
 	alias pacman='pacman --color=always'
 	alias pcs='pacman -S --color=always'
 	alias pcss='pacman -Ss --color=always'
 	alias q='exit'
-	# Use executables in Termux's PATH as a last resort
-	PATH=\$PATH:/data/data/com.termux/files/usr/bin:/data/data/com.termux/files/usr/bin/applets
 	EOM
 	if [ -e "$HOME"/.bashrc ] ; then
 		grep proxy "$HOME"/.bashrc | grep "export" >>  root/.bashrc 2>/dev/null ||:
@@ -104,7 +104,7 @@ _ADDbashrc_() {
 _ADDcdtd_() { 
 	_CFLHD_ root/bin/cdtd "# Usage: \`. cdtd\` the dot sources \`cdtd\` which makes this shortcut script work."
 	cat > root/bin/cdtd <<- EOM
-	#!/bin/env bash
+	#!/usr/bin/env bash
 	cd "$HOME/storage/downloads" && pwd
 	EOM
 	chmod 700 root/bin/cdtd 
@@ -113,7 +113,7 @@ _ADDcdtd_() {
 _ADDcdth_() { 
 	_CFLHD_ root/bin/cdth "# Usage: \`. cdth\` the dot sources \`cdth\` which makes this shortcut script work."
 	cat > root/bin/cdth <<- EOM
-	#!/bin/env bash
+	#!/usr/bin/env bash
 	cd "$HOME" && pwd
 	EOM
 	chmod 700 root/bin/cdth 
@@ -122,7 +122,7 @@ _ADDcdth_() {
 _ADDcdtmp_() { 
 	_CFLHD_ root/bin/cdtmp "# Usage: \`. cdtmp\` the dot sources \`cdtmp\` which makes this shortcut script work."
 	cat > root/bin/cdtmp <<- EOM
-	#!/bin/env bash
+	#!/usr/bin/env bash
 	cd "$PREFIX/tmp" && pwd
 	EOM
 	chmod 700 root/bin/cdtmp 
@@ -272,12 +272,15 @@ _ADDfbindprocstat8_() {
 }
 
 _ADDfbindexample_() {
-	_CFLHDRS_ var/binds/fbindexample.prs "# To regenerate the start script use \`setupTermuxArch.bash re[fresh]\`.  Add as many proot statements as you want; The init script will parse this file at refresh.  Examples are included for convenience.  Usage: PROOTSTMNT+=\"-b host_path:guest_path \" The space before the last double quote is necessary." 
+	_CFLHDRS_ var/binds/fbindexample.prs "# Before regenerating the start script with \`setupTermuxArch.bash re[fresh]\`, first copy this file to another name such as \`fbinds.prs\`.  Then add as many proot statements as you want; The init script will parse file \`fbinds.prs\` at refresh adding these proot options to \`$STARTBIN\`.  Examples are included for convenience.  The space before the last double quote is necessary." 
 	cat >> var/binds/fbindexample.prs <<- EOM
+	# Usage: PROOTSTMNT+=\"-b host_path:guest_path \" # The space before the last double quote is necessary." 
+	# PROOTSTMNT+=" -q $PREFIX/bin/qemu-x86_64 " 
 	# PROOTSTMNT+="-b $INSTALLDIR/var/binds/fbindprocstat:/proc/stat " 
 	# if [[ ! -r /dev/shm ]] ; then 
 	# 		PROOTSTMNT+="-b $INSTALLDIR/tmp:/dev/shm " 
 	# fi
+	# fbindexample.prs EOF
 	EOM
 }
 
@@ -298,7 +301,8 @@ _ADDfibs_() {
 _ADDga_() {
 	_CFLHDR_ root/bin/ga 
 	cat >> root/bin/ga  <<- EOM
-	if [ ! -e /usr/bin/git ] ; then
+	if [[ ! -x "\$(command -v git)" ]] 
+	then
 		pacman --noconfirm --color=always -S git
 		git add .
 	else
@@ -311,7 +315,8 @@ _ADDga_() {
 _ADDgcl_() {
 	_CFLHDR_ root/bin/gcl 
 	cat >> root/bin/gcl  <<- EOM
-	if [ ! -e /usr/bin/git ] ; then
+	if [[ ! -x "\$(command -v git)" ]] 
+	then
 		pacman --noconfirm --color=always -S git 
 		git clone "\$@"
 	else
@@ -324,7 +329,8 @@ _ADDgcl_() {
 _ADDgcm_() {
 	_CFLHDR_ root/bin/gcm 
 	cat >> root/bin/gcm  <<- EOM
-	if [ ! -e /usr/bin/git ] ; then
+	if [[ ! -x "\$(command -v git)" ]] 
+	then
 		pacman --noconfirm --color=always -S git 
 		git commit
 	else
@@ -337,7 +343,8 @@ _ADDgcm_() {
 _ADDgpl_() {
 	_CFLHDR_ root/bin/gpl 
 	cat >> root/bin/gpl  <<- EOM
-	if [ ! -e /usr/bin/git ] ; then
+	if [[ ! -x "\$(command -v git)" ]] 
+	then
 		pacman --noconfirm --color=always -S git 
 		git pull
 	else
@@ -350,7 +357,8 @@ _ADDgpl_() {
 _ADDgp_() {
 	_CFLHDR_ root/bin/gp "# git push https://username:password@github.com/username/repository.git master"
 	cat >> root/bin/gp  <<- EOM
-	if [ ! -e /usr/bin/git ] ; then
+	if [[ ! -x "\$(command -v git)" ]] 
+	then
 		pacman --noconfirm --color=always -S git 
 		git push
 	else
@@ -358,6 +366,12 @@ _ADDgp_() {
 	fi
 	EOM
 	chmod 700 root/bin/gp 
+}
+
+_ADDinputrc() {
+	cat > root/.inputrc <<- EOM
+	set bell-style none
+	EOM
 }
 
 _ADDkeys_() {
@@ -428,9 +442,16 @@ _ADDkeys_() {
 }
 
 _ADDMOTD_() {
-	cat > etc/motd  <<- EOM
-	printf "\n\e[1;34mWelcome to Arch Linux in Termux!\nInstall a package: \e[0;34mpacman -S package\n\e[1;34mMore  information: \e[0;34mpacman -[D|F|Q|R|S|T|U]h\n\e[1;34mSearch   packages: \e[0;34mpacman -Ss query\n\e[1;34mUpgrade  packages: \e[0;34mpacman -Syu\n\n\e[1;34mChat: \e[0mwiki.termux.com/wiki/Community\n\e[1;34mHelp: \e[0;34minfo query \e[1;34mand \e[0;34mman query\n\e[1;34mIRC:  \e[0mwiki.archlinux.org/index.php/IRC_channel\n\n\e[0m"
-	EOM
+	if [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = "$CPUABIX86_64" ]] 
+	then
+		cat > etc/motd  <<- EOM
+		printf "\n\e[1;34mWelcome to Arch Linux in Termux!\nInstall a package: \e[0;34mpacman -S package\n\e[1;34mMore  information: \e[0;34mpacman -[D|F|Q|R|S|T|U]h\n\e[1;34mSearch   packages: \e[0;34mpacman -Ss query\n\e[1;34mUpgrade  packages: \e[0;34mpacman -Syu\n\n\e[1;34mChat: \e[0mwiki.termux.com/wiki/Community\n\e[1;34mHelp: \e[0;34minfo query \e[1;34mand \e[0;34mman query\n\e[1;34mIRC: \e[0mwiki.archlinux.org/index.php/IRC_channel\n\n\e[0m"
+		EOM
+	else
+		cat > etc/motd  <<- EOM
+		printf "\n\e[1;34mWelcome to Arch Linux in Termux!\nInstall a package: \e[0;34mpacman -S package\n\e[1;34mMore  information: \e[0;34mpacman -[D|F|Q|R|S|T|U]h\n\e[1;34mSearch   packages: \e[0;34mpacman -Ss query\n\e[1;34mUpgrade  packages: \e[0;34mpacman -Syu\n\n\e[1;34mChat:  \e[0mhttps://wiki.termux.com/wiki/Community\n\e[1;34mHelp:  \e[0;34minfo query \e[1;34mand \e[0;34mman query\n\e[1;34mForum: \e[0mhttps://archlinuxarm.org/forum\n\n\e[0m"
+		EOM
+	fi
 }
 
 _ADDMOTO_() {
@@ -531,7 +552,8 @@ _ADDaddresolvconf_() {
 _ADDt_() {
 	_CFLHDR_ root/bin/t
 	cat >> root/bin/t  <<- EOM
-	if [ ! -e /usr/bin/tree ] ; then
+	if [[ ! -x "\$(command -v tree)" ]] 
+	then
 		pacman --noconfirm --color=always -S tree 
 		tree "\$@"
 	else
@@ -608,15 +630,16 @@ _ADDv_() {
 	_CFLHDR_ root/bin/v
 	cat >> root/bin/v  <<- EOM
 	if [[ -z "\${1:-}" ]] ; then
-		ARGS="."
+		ARGS=(".")
 	else
-		ARGS="\$@"
+		ARGS=("\$@")
 	fi
-	if [ ! -e /usr/bin/vim ] ; then
+	if [[ ! -x "\$(command -v vim)" ]] 
+	then
 		pacman --noconfirm --color=always -S vim 
-		vim "\$@"
+		vim "\${ARGS[@]}"
 	else
-		vim "\$@"
+		vim "\${ARGS[@]}"
 	fi
 	EOM
 	chmod 700 root/bin/v 
@@ -688,7 +711,7 @@ _ADDwe_() {
 			tbcif=\$(command -v bc) ||:
 			if [[ \$tbcif = "" ]] ; then
 				printf "\e[1;34mInstalling \e[0;32mbc\e[1;34m…\n\n\e[1;32m"
-				pkg install bc --yes
+				apt install bc --yes
 				printf "\n\e[1;34mInstalling \e[0;32mbc\e[1;34m: \e[1;32mDONE\n\e[0m"
 			fi
 		fi
@@ -770,7 +793,8 @@ _ADDwe_() {
 _ADDyt_() {
 	_CFLHDR_ root/bin/yt
 	cat >> root/bin/yt  <<- EOM
-	if [ ! -e /usr/bin/youtube-dl ] ; then
+	if [[ ! -x "\$(command -v youtube-dl)" ]] 
+	then
 		pacman --noconfirm --color=always -S youtube-dl
 		youtube-dl "\$@"
 	else
