@@ -93,6 +93,8 @@ _ADDbashrc_() {
 	alias pcs='pacman -S --color=always'
 	alias pcss='pacman -Ss --color=always'
 	alias q='exit'
+	# Use executables in Termux's PATH as a last resort
+	PATH=\$PATH:/data/data/com.termux/files/usr/bin:/data/data/com.termux/files/usr/bin/applets
 	EOM
 	if [ -e "$HOME"/.bashrc ] ; then
 		grep proxy "$HOME"/.bashrc | grep "export" >>  root/.bashrc 2>/dev/null ||:
