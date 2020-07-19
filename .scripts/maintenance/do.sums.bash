@@ -1,4 +1,4 @@
-#!/bin/env bash
+#!/usr/bin/env bash
 # Copyright 2019 (c) all rights reserved by S D Rausty; see LICENSE  
 # https://sdrausty.github.io hosted courtesy https://pages.github.com
 # To create checksum files and commit use; ./do.sums.bash
@@ -28,7 +28,7 @@ do
 done
 git add .
 SN="$(sn.sh)" # sn.sh is found in https://github.com/BuildAPKs/maintenance.BuildAPKs/blob/master/sn.sh
-git commit -a -S -m "$SN"
+( [[ -z "${1:-}" ]] && git commit -m "$SN" ) || ( [[ "${1//-}" == [Ss]* ]] && git commit -a -S -m "$SN" && pkill gpg-agent ) || git commit -m "$SN"
 git push
 ls
 printf "%s\\n" "$PWD"
