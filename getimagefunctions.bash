@@ -102,9 +102,9 @@ _GETIMAGE_() {
 _ISX86_() {
 	if [[ "$CPUABI" = "$CPUABIX86" ]]
 	then
-		file="$(grep i686 md5sums.txt | awk {'print $2'})"
+		IFILE="$(grep i686 md5sums.txt | awk {'print $2'})"
 	else
-		file="$(grep boot md5sums.txt | awk {'print $2'})"
+		IFILE="$(grep boot md5sums.txt | awk {'print $2'})"
 	fi
 	sed '2q;d' md5sums.txt > "$IFILE".md5
 	rm md5sums.txt

@@ -318,9 +318,9 @@ _ADDgcl_() {
 	if [[ ! -x "\$(command -v git)" ]] 
 	then
 		pacman --noconfirm --color=always -S git 
-		git clone "\$@"
+		git clone --depth 1 "\$@" --branch master --single-branch
 	else
-		git clone "\$@"
+		git clone --depth 1 "\$@" --branch master --single-branch
 	fi
 	EOM
 	chmod 700 root/bin/gcl 
@@ -536,7 +536,8 @@ _ADDprofile_() {
 	cat > root/.profile <<- EOM
 	. "\$HOME"/.bash_profile
 	EOM
-	if [ -e "$HOME"/.profile ] ; then
+	if [ -e "$HOME"/.profile ] 
+	then
 		grep "proxy" "$HOME"/.profile |grep "export" >>  root/.profile 2>/dev/null||:
 	fi
 }
@@ -547,6 +548,24 @@ _ADDaddresolvconf_() {
 	nameserver 8.8.8.8
 	nameserver 8.8.4.4
 	EOM
+}
+
+_ADDcsystemctl_() {
+	_CFLHDR_ root/bin/csystemctl.bash  
+	cat >> root/bin/csystemctl.bash  <<- EOM
+	printf "%s\\n" "Installing /usr/bin/systemctl replacement: "
+	declare COMMANDL
+	COMMANDL="\$(command -v python3)" || printf "%s\\n" "Command python3 not found; Continuing..."
+	[ "\${COMMANDL:-}" = "/usr/bin/python3" ] || pacman --noconfirm --color=always -S python3
+	SDATE="\$(date +%s)"
+	mv /usr/bin/systemctl ~/systemctl.\$SDATE.old
+	printf "%s\\n" "Moved /usr/bin/systemctl ~/systemctl.\$SDATE.old"
+	printf "%s\\n" "Getting replacement systemctl from https://raw.githubusercontent.com/gdraheim/docker-systemctl-replacement/master/files/docker/systemctl3.py"
+	curl https://raw.githubusercontent.com/gdraheim/docker-systemctl-replacement/master/files/docker/systemctl3.py > /usr/bin/systemctl
+	chmod 700 /usr/bin/systemctl
+	printf "%s\\n" "Installing /usr/bin/systemctl replacement: DONE"
+	EOM
+	chmod 700 root/bin/csystemctl.bash 
 }
 
 _ADDt_() {

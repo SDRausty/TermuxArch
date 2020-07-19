@@ -23,6 +23,24 @@ _COPYIMAGE_() { # A systemimage.tar.gz file can be used: `setupTermuxArch.bash .
  	fi
 }
 
+_FUNLCR2_() { # copy from root to home/USER
+		VAR=($(ls home))
+	for USER in ${VAR[@]}
+	do
+		if [[ "$USER" != alarm ]] 
+		then
+			cp "$INSTALLDIR"/root/.bashrc "$INSTALLDIR"/home/$USER
+			cp "$INSTALLDIR"/root/.bash_profile "$INSTALLDIR"/home/$USER
+			cp "$INSTALLDIR"/root/.profile "$INSTALLDIR"/home/$USER
+			cp "$INSTALLDIR"/root/bin/* "$INSTALLDIR"/home/$USER/bin
+		       	ls "$INSTALLDIR"/home/$USER/.bashrc |cut -f7- -d /
+		       	ls "$INSTALLDIR"/home/$USER/.bash_profile |cut -f7- -d /
+		       	ls "$INSTALLDIR"/home/$USER/.profile |cut -f7- -d /
+		       	ls "$INSTALLDIR"/home/$USER/bin/* |cut -f7- -d /
+		fi
+	done
+}
+
 _LOADIMAGE_() { 
 	_NAMESTARTARCH_ 
  	_SPACEINFO_
@@ -74,21 +92,7 @@ _REFRESHSYS_() { # refreshes installation
 	ls "$INSTALLDIR"/root/bin/* |cut -f7- -d /
 	if [[ "${LCR:-}" = 2 ]] 
 	then
- 		VAR=($(ls home))
-		for USER in ${VAR[@]}
-		do
-			if [[ "$USER" != alarm ]] 
-			then
-				cp "$INSTALLDIR"/root/.bashrc "$INSTALLDIR"/home/$USER
-				cp "$INSTALLDIR"/root/.bash_profile "$INSTALLDIR"/home/$USER
-				cp "$INSTALLDIR"/root/.profile "$INSTALLDIR"/home/$USER
-				cp "$INSTALLDIR"/root/bin/* "$INSTALLDIR"/home/$USER/bin
-			       	ls "$INSTALLDIR"/home/$USER/.bashrc |cut -f7- -d /
-			       	ls "$INSTALLDIR"/home/$USER/.bash_profile |cut -f7- -d /
-			       	ls "$INSTALLDIR"/home/$USER/.profile |cut -f7- -d /
-			       	ls "$INSTALLDIR"/home/$USER/bin/* |cut -f7- -d /
-			fi
-		done
+	_FUNLCR2_
 	fi
 	printf "\\n" 
 	_WAKEUNLOCK_ 
@@ -223,10 +227,15 @@ _SYSTEMINFO_ () {
 	printf "\\nDevice information results:\\n\\n" >> "${WDIR}setupTermuxArchSysInfo$STIME".log
 	if [[ -e /dev/ashmem ]]; then echo "/dev/ashmem exists"; else echo "/dev/ashmem does not exist"; fi >> "${WDIR}setupTermuxArchSysInfo$STIME".log 
 	if [[ -r /dev/ashmem ]]; then echo "/dev/ashmem is readable"; else echo "/dev/ashmem is not readable"; fi >> "${WDIR}setupTermuxArchSysInfo$STIME".log 
+	if [[ -w /dev/ashmem ]]; then echo "/dev/ashmem is writable"; else echo "/dev/ashmem is not writable"; fi >> "${WDIR}setupTermuxArchSysInfo$STIME".log 
 	if [[ -e /dev/shm ]]; then echo "/dev/shm exists"; else echo "/dev/shm does not exist"; fi >> "${WDIR}setupTermuxArchSysInfo$STIME".log 
 	if [[ -r /dev/shm ]]; then echo "/dev/shm is readable"; else echo "/dev/shm is not readable"; fi >> "${WDIR}setupTermuxArchSysInfo$STIME".log 
 	if [[ -e /proc/stat ]]; then echo "/proc/stat exits"; else echo "/proc/stat does not exit"; fi >> "${WDIR}setupTermuxArchSysInfo$STIME".log 
 	if [[ -r /proc/stat ]]; then echo "/proc/stat is readable"; else echo "/proc/stat is not readable"; fi >> "${WDIR}setupTermuxArchSysInfo$STIME".log 
+	[[ -e /sys/ashmem ]] && echo "/sys/ashmmem exists" || echo "/sys/ashmmem does not exist" >> "${WDIR}setupTermuxArchSysInfo$STIME".log 
+	[[ -r /sys/ashmmem ]] && echo "/sys/ashmmem is readable" || echo "/sys/ashmmem is not readable" >> "${WDIR}setupTermuxArchSysInfo$STIME".log 
+	[[ -e /sys/shm ]] && echo "/sys/shm exists" || echo "/sys/shm does not exist" >> "${WDIR}setupTermuxArchSysInfo$STIME".log 
+	[[ -r /sys/shm ]] && echo "/sys/shm is readable" || echo "/sys/shm is not readable" >> "${WDIR}setupTermuxArchSysInfo$STIME".log 
  	printf "\\ngetprop results:\\n\\n" >> "${WDIR}setupTermuxArchSysInfo$STIME".log
 	printf "%s %s\\n" "[getprop gsm.sim.operator.iso-country]:" "[$(getprop gsm.sim.operator.iso-country)]" >> "${WDIR}setupTermuxArchSysInfo$STIME".log
 	printf "%s %s\\n" "[getprop net.bt.name]:" "[$(getprop net.bt.name)]" >> "${WDIR}setupTermuxArchSysInfo$STIME".log
