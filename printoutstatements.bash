@@ -1,21 +1,21 @@
 #!/usr/bin/env bash
 # Copyright 2017-2020 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
 # Hosted sdrausty.github.io/TermuxArch courtesy https://pages.github.com
-# https://sdrausty.github.io/TermuxArch/README has info about this project. 
-# https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.  
+# https://sdrausty.github.io/TermuxArch/README has info about this project.
+# https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.
 # Printout statement subroutines for `setupTermuxArch.bash`.
 ################################################################################
 FLHDR0[0]="#!/usr/bin/env bash"
 FLHDR0[1]="# Copyright 2017-2020 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺 "
-FLHDR0[2]="# Hosting sdrausty.github.io/TermuxArch courtesy https://pages.github.com." 
+FLHDR0[2]="# Hosting sdrausty.github.io/TermuxArch courtesy https://pages.github.com."
 FLHDR0[3]="# https://sdrausty.github.io/TermuxArch/README has info about this project."
-FLHDR0[4]="# https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help." 
+FLHDR0[4]="# https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help."
 FLHDR1[0]="################################################################################"
 FLHDR1[1]="# IFS=$'\\n\\t'"
 FLHDR1[2]="set -Eeuo pipefail"
 FLHDR1[3]="# shopt -s nullglob globstar"
 FLHDR1[4]="unset LD_PRELOAD"
-FLHDR1[5]="VERSIONID=2.0.19"
+FLHDR1[5]="VERSIONID=2.0.20"
 FLHDR1[6]=" "
 FLHDRP[0]="## BEGIN #######################################################################"
 FLHDRP[1]=""
@@ -118,7 +118,7 @@ _PRINTCU_() {
 }
 
 _PRINTDETECTEDSYSTEM_() {
-	printf "\\n\\e[1;34m%s" " 🕛 > 🕝 Detected $(uname -m) " 
+	printf "\\n\\e[1;34m%s" " 🕛 > 🕝 Detected $(uname -m) "
 	if [[ "$(getprop ro.product.device)" == *_cheets ]]
 	then
 		printf "%s\\n\\n\\e[0m" "Chromebook."
@@ -178,7 +178,7 @@ _PRINTMD5CHECK_() {
 _PRINTMD5ERROR_() {
 	printf "\033]2;%s\007" "Run \`bash setupTermuxArch.bash\` again…"
 	printf "\\n\\e[07;1m\\e[31;1m 🔆 WARNING md5sum mismatch! The download failed and was removed!\\e[34;1m\\e[30;1m  Run \`bash setupTermuxArch.bash\` again.  See \`bash setupTermuxArch.bash help\` to resolve md5sum errors.  This kind of error can go away, like magic.  Waiting before executing again is recommended.  There are numerous reasons for checksum errors.  Proxies are one explaination.  Mirroring and mirrors are another explaination for md5sum errors.  Interrupted download is one more reason.  If this keeps repeating, copy \`knownconfigurations.bash\` to \`setupTermuxArchConfigs.bash\` with preferred mirror.  After editing \`setupTermuxArchConfigs.bash\`, run \`bash setupTermuxArch.bash\` and \`setupTermuxArchConfigs.bash\` loads automaticaly from the same directory.  Change mirror to desired geographic location to resolve md5sum errors.\\n\\nUser configurable variables are in \`setupTermuxArchConfigs.bash\`.  Create this file from \`kownconfigurations.bash\` in the working directory.  Use \`bash setupTermuxArch.bash manual\` to create and edit \`setupTermuxArchConfigs.bash\`.\\n\\n	Run \`bash setupTermuxArch.bash\` again…\\n\\e[0;0m\n"
-	exit 
+	exit
 }
 
 _PRINTMD5SUCCESS_() {
@@ -189,7 +189,7 @@ _PRINTMD5SUCCESS_() {
 _PRINTMISMATCH_() {
 	printf "\033]2;%s\007" "Run \`bash setupTermuxArch.bash\` again…"
 	printf "\\n\\e[07;1m\\e[31;1m 🔆 WARNING: Unknown configuration!  Did not find an architecture and operating system match in\\e[37;1m knownconfigurations.bash\\e[31;1m!  \\e[36;1mDetected $(uname -mo).  There still is hope.  Other images are available at http://mirror.archlinuxarm.org/os/ and https://www.archlinux.org/mirrors/ to see if any match might the device.  If you find a match, then please \\e[37;1msubmit a pull request\\e[36;1m at https://github.com/sdrausty/TermuxArch/pulls with script modifications.  Alternatively, \\e[37;1msubmit a modification request\\e[36;1m at https://github.com/sdrausty/TermuxArch/issues if you find a configuration match.  Include output from \\e[37;1muname -mo\\e[36;1m on the device in order to expand autodetection for \\e[37;1msetupTermuxArch.bash\\e[36;1m.  See https://sdrausty.github.io/docs/TermuxArch/Known_Configurations for more information.\\n\\n	\\e[36;1mRun setupTermuxArch.bash again…\\n\\e[0m"
-	exit 
+	exit
 }
 
 _PRINTFOOTER_() {
@@ -201,9 +201,9 @@ _PRINTFOOTER_() {
 }
 
 _PRINTFOOTER2_() {
-	printf "\\e[0;34m%s\\n\\n%s\\n\\n%s\\n\\n%s\\e[0m" "If error \` env ... not found \` is found, ensure that all the software is up to date.  After updating, reference these links in order to find a resolution if updating Termux app and Termux packages was unsuccessful:" "  * https://github.com/termux/proot/issues?q=\"env\"+\"not+found\"" "  * https://github.com/termux/termux-packages/issues?q=\"not+found\"+\"proot\"" 
+	printf "\\e[0;34m%s\\n\\n%s\\n\\n%s\\n\\n%s\\e[0m" "If error \` env ... not found \` is found, ensure that all the software is up to date.  After updating, reference these links in order to find a resolution if updating Termux app and Termux packages was unsuccessful:" "  * https://github.com/termux/proot/issues?q=\"env\"+\"not+found\"" "  * https://github.com/termux/termux-packages/issues?q=\"not+found\"+\"proot\""
 	printf "\\e[1;34m%s\\n\\n%s\\e[1;32m%s\\e[1;34m%s\\e[1;32m%s" "Arch Linux in Termux PRoot is installed in $INSTALLDIR.  This project is in active development.  Contributions to this project are welcome; See https://sdrausty.github.io/TermuxArch/CONTRIBUTORS for information.  The documentation repository for TermuxArch https://sdrausty.github.io/TermuxArch/docs/ is a Termux Arch submodule that is located at https://github.com/sdrausty/docsTermuxArch.  Pull requests and contributions through the issues pages are open to improve the ux (user experience) and this Termux PRoot installation script.i" "Use " "~$PRINTROOTDIR/$STARTBIN " "and " "$STARTBIN " "in a BASH shell to launch Arch Linux in Termux PRoot for future sessions.  If you are new to *nix, http://tldp.org has *nix documentation.  "
-	if [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = "$CPUABIX86_64" ]] 
+	if [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = "$CPUABIX86_64" ]]
 	then
 		printf "\\e[1;34m%s\\e[0m\\n\\n" "See https://wiki.archlinux.org/index.php/IRC_channel for available Arch Linux IRC channels."
 	else
@@ -215,5 +215,5 @@ _PRINTROOTDIRFUNCTION_() {
 	declare -g PRINTROOTDIR
 	PRINTROOTDIR="$(echo "${ROOTDIR%/}" |sed 's#//*#/#g')"
 }
-_PRINTROOTDIRFUNCTION_ 
+_PRINTROOTDIRFUNCTION_
 # printoutstatements.bash EOF

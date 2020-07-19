@@ -1,5 +1,5 @@
 #!/bin/env bash
-# Copyright 2019 (c) all rights reserved 
+# Copyright 2019 (c) all rights reserved
 # by S D Rausty https://termuxarch.github.io/TermuxArch/
 #####################################################################
 set -Eeuo pipefail
@@ -14,26 +14,26 @@ _STGNTRPERROR_() { # run on script error
 
 _STGNTRPEXIT_() { # run on exit
 	printf "\\e[?25h\\e[0m"
-	set +Eeuo pipefail 
+	set +Eeuo pipefail
 	exit
 }
 
 _STGNTRPSIGNAL_() { # run on signal
 	local RV="$?"
 	printf "\\e[?25h\\e[1;7;38;5;0mBuildAPKs %s WARNING:  Signal %s received!\\e[0m\\n" "gsa.bash" "$RV"
- 	exit 178 
+ 	exit 178
 }
 
 _STGNTRPQUIT_() { # run on quit
 	local RV="$?"
 	printf "\\e[?25h\\e[1;7;38;5;0mBuildAPKs %s WARNING:  Quit signal %s received!\\e[0m\\n" "gsa.bash" "$RV"
- 	exit 177 
+ 	exit 177
 }
 
-trap '_STGNTRPERROR_ $LINENO $BASH_COMMAND $?' ERR 
+trap '_STGNTRPERROR_ $LINENO $BASH_COMMAND $?' ERR
 trap _STGNTRPEXIT_ EXIT
-trap _STGNTRPSIGNAL_ HUP INT TERM 
-trap _STGNTRPQUIT_ QUIT 
+trap _STGNTRPSIGNAL_ HUP INT TERM
+trap _STGNTRPQUIT_ QUIT
 
 cp LICENSE gen/
 cp README.md gen/

@@ -1,29 +1,29 @@
 #!/usr/bin/env bash
 # Copyright 2017-2020 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
 # Hosted sdrausty.github.io/TermuxArch courtesy https://pages.github.com
-# https://sdrausty.github.io/TermuxArch/README has info about this project. 
-# https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.  
+# https://sdrausty.github.io/TermuxArch/README has info about this project.
+# https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.
 ################################################################################
 
 _ADDREADME_() {
-	_CFLHDR_ root/bin/README.md 
+	_CFLHDR_ root/bin/README.md
 	cat > root/bin/README.md <<- EOM
 	This directory contains shortcut commands that automate and ease using the command line.
-	
-	* Comments welcome at https://github.com/sdrausty/TermuxArch/issues ✍ 
-	* Pull requests welcome at https://github.com/sdrausty/TermuxArch/pulls ✍ 
+
+	* Comments welcome at https://github.com/sdrausty/TermuxArch/issues ✍
+	* Pull requests welcome at https://github.com/sdrausty/TermuxArch/pulls ✍
 	EOM
 }
 
 _ADDae_() {
-	_CFLHDR_ root/bin/ae "# Contributed by https://github.com/cb125" 
+	_CFLHDR_ root/bin/ae "# Contributed by https://github.com/cb125"
 	cat >> root/bin/ae <<- EOM
 	watch cat /proc/sys/kernel/random/entropy_avail
 	EOM
-	chmod 700 root/bin/ae 
+	chmod 700 root/bin/ae
 }
 
-_ADDAUSER_() { 
+_ADDAUSER_() {
 	_CFLHDR_ root/bin/addauser "# Add Arch Linux user."
 	cat >> root/bin/addauser <<- EOM
 	if [[ -z "\${1:-}" ]] ; then
@@ -35,7 +35,7 @@ _ADDAUSER_() {
 		su - "\$1"
 	fi
 	EOM
-	chmod 700 root/bin/addauser 
+	chmod 700 root/bin/addauser
 }
 
 _ADDbash_logout_() {
@@ -53,7 +53,7 @@ _ADDbash_profile_() {
 		. /etc/motd
 	fi
 	if [ -e "\$HOME"/.chushlogin ] ; then
-		rm "\$HOME"/.chushlogin 
+		rm "\$HOME"/.chushlogin
 	fi
 	PATH="\$HOME/bin:\$PATH"
 	PS1="[\[\e[38;5;148m\]\u\[\e[1;0m\]\A\[\e[1;38;5;112m\]\W\[\e[0m\]]$ "
@@ -62,7 +62,7 @@ _ADDbash_profile_() {
 	EOM
 	for i in "${!LC_TYPE[@]}"
 	do
-	 	printf "%s=\"%s\"\\n" "export ${LC_TYPE[i]}" "$ULANGUAGE.UTF-8" >> root/.bash_profile 
+	 	printf "%s=\"%s\"\\n" "export ${LC_TYPE[i]}" "$ULANGUAGE.UTF-8" >> root/.bash_profile
 	done
 	if [ -e "$HOME"/.bash_profile ]
 	then
@@ -101,44 +101,44 @@ _ADDbashrc_() {
 	fi
 }
 
-_ADDcdtd_() { 
+_ADDcdtd_() {
 	_CFLHD_ root/bin/cdtd "# Usage: \`. cdtd\` the dot sources \`cdtd\` which makes this shortcut script work."
 	cat > root/bin/cdtd <<- EOM
 	#!/usr/bin/env bash
 	cd "$HOME/storage/downloads" && pwd
 	EOM
-	chmod 700 root/bin/cdtd 
+	chmod 700 root/bin/cdtd
 }
 
-_ADDcdth_() { 
+_ADDcdth_() {
 	_CFLHD_ root/bin/cdth "# Usage: \`. cdth\` the dot sources \`cdth\` which makes this shortcut script work."
 	cat > root/bin/cdth <<- EOM
 	#!/usr/bin/env bash
 	cd "$HOME" && pwd
 	EOM
-	chmod 700 root/bin/cdth 
+	chmod 700 root/bin/cdth
 }
 
-_ADDcdtmp_() { 
+_ADDcdtmp_() {
 	_CFLHD_ root/bin/cdtmp "# Usage: \`. cdtmp\` the dot sources \`cdtmp\` which makes this shortcut script work."
 	cat > root/bin/cdtmp <<- EOM
 	#!/usr/bin/env bash
 	cd "$PREFIX/tmp" && pwd
 	EOM
-	chmod 700 root/bin/cdtmp 
+	chmod 700 root/bin/cdtmp
 }
 
-_ADDch_() { 
+_ADDch_() {
 	_CFLHDR_ root/bin/ch "# This script creates .hushlogin and .hushlogout files."
 	cat >> root/bin/ch <<- EOM
 	declare -a ARGS
 
 	_TRPET_() { # on exit
 		printf "\\e[?25h\\e[0m"
-		set +Eeuo pipefail 
-	 	_PRINTTAIL_ "\$ARGS[@]"  
+		set +Eeuo pipefail
+	 	_PRINTTAIL_ "\$ARGS[@]"
 	}
-	
+
 	_PRINTTAIL_() {
 		printf "\\\\n\\\\e[0m%s \\\\e[0;32m%s %s %s\\\\e[1;34m: \\\\e[1;32m%s\\\\e[0m 🏁  \\\\n\\\\n\\\\e[0m" "TermuxArch" "\$(basename "\$0")" "\$ARGS"  "\$VERSIONID" "DONE"
 		printf '\033]2;  🔑 TermuxArch '"\$(basename "\$0")"':DONE 📱 \007'
@@ -152,7 +152,7 @@ _ADDch_() {
 		ARGS="\$@"
 	fi
 
-	printf "\\\\n\\\\e[1;32m==> \\\\e[1;37m%s \\\\e[1;32m%s %s %s\\\e[0m%s…\\\\n\\\\n" "Running" "TermuxArch \$(basename "\$0")" "\$ARGS" "\$VERSIONID"  
+	printf "\\\\n\\\\e[1;32m==> \\\\e[1;37m%s \\\\e[1;32m%s %s %s\\\e[0m%s…\\\\n\\\\n" "Running" "TermuxArch \$(basename "\$0")" "\$ARGS" "\$VERSIONID"
 
 	if [[ -f "\$HOME"/.hushlogin ]] && [[ -f "\$HOME"/.hushlogout ]] ; then
 		rm "\$HOME"/.hushlogin "\$HOME"/.hushlogout
@@ -165,7 +165,7 @@ _ADDch_() {
 		echo "Hushed login and logout: ON"
 	fi
 	EOM
-	chmod 700 root/bin/ch 
+	chmod 700 root/bin/ch
 }
 
 _ADDexd_() {
@@ -173,7 +173,7 @@ _ADDexd_() {
 	cat >> root/bin/exd <<- EOM
 	export DISPLAY=:0 PULSE_SERVER=tcp:127.0.0.1:4712
 	EOM
-	chmod 700 root/bin/exd 
+	chmod 700 root/bin/exd
 }
 
 _ADDdfa_() {
@@ -183,27 +183,27 @@ _ADDdfa_() {
 	USRSPACE="\$(df 2>/dev/null | grep "/data" | awk {'print \$4'})"
 	printf "\e[0;33m%s\n\e[0m" "\$USRSPACE \$units of free user space is available on this device."
 	EOM
-	chmod 700 root/bin/dfa 
+	chmod 700 root/bin/dfa
 }
 
 _ADDfbindprocshmem_() {
-	_CFLHDRS_ var/binds/fbindprocshmem.prs  
+	_CFLHDRS_ var/binds/fbindprocshmem.prs
 	cat > var/binds/fbindprocshmem.prs  <<- EOM
-	PROOTSTMNT+="-b $INSTALLDIR/var/binds/fbindprocshmem:/proc/shmem " 
+	PROOTSTMNT+="-b $INSTALLDIR/var/binds/fbindprocshmem:/proc/shmem "
 	EOM
 	cat > var/binds/fbindprocshmem <<- EOM
 	------ Message Queues --------
 	key        msqid      owner      perms      used-bytes   messages
-	
+
 	------ Shared Memory Segments --------
 	key        shmid      owner      perms      bytes      nattch     status
-	
+
 	------ Semaphore Arrays --------
 	key        semid      owner      perms      nsems
 	EOM
 }
 
-_ADDfbindprocstat_() { # Chooses the appropriate four or eight processor stat file. 
+_ADDfbindprocstat_() { # Chooses the appropriate four or eight processor stat file.
 	NESSOR="$(grep cessor /proc/cpuinfo)"
 	NCESSOR="${NESSOR: -1}"
 	if [[ "$NCESSOR" -le "3" ]] 2>/dev/null ; then
@@ -272,36 +272,36 @@ _ADDfbindprocstat8_() {
 }
 
 _ADDfbindexample_() {
-	_CFLHDRS_ var/binds/fbindexample.prs "# Before regenerating the start script with \`setupTermuxArch.bash re[fresh]\`, first copy this file to another name such as \`fbinds.prs\`.  Then add as many proot statements as you want; The init script will parse file \`fbinds.prs\` at refresh adding these proot options to \`$STARTBIN\`.  Examples are included for convenience.  The space before the last double quote is necessary." 
+	_CFLHDRS_ var/binds/fbindexample.prs "# Before regenerating the start script with \`setupTermuxArch.bash re[fresh]\`, first copy this file to another name such as \`fbinds.prs\`.  Then add as many proot statements as you want; The init script will parse file \`fbinds.prs\` at refresh adding these proot options to \`$STARTBIN\`.  Examples are included for convenience.  The space before the last double quote is necessary."
 	cat >> var/binds/fbindexample.prs <<- EOM
-	# Usage: PROOTSTMNT+=\"-b host_path:guest_path \" # The space before the last double quote is necessary." 
-	# PROOTSTMNT+=" -q $PREFIX/bin/qemu-x86_64 " 
-	# PROOTSTMNT+="-b $INSTALLDIR/var/binds/fbindprocstat:/proc/stat " 
-	# if [[ ! -r /dev/shm ]] ; then 
-	# 		PROOTSTMNT+="-b $INSTALLDIR/tmp:/dev/shm " 
+	# Usage: PROOTSTMNT+=\"-b host_path:guest_path \" # The space before the last double quote is necessary."
+	# PROOTSTMNT+=" -q $PREFIX/bin/qemu-x86_64 "
+	# PROOTSTMNT+="-b $INSTALLDIR/var/binds/fbindprocstat:/proc/stat "
+	# if [[ ! -r /dev/shm ]] ; then
+	# 		PROOTSTMNT+="-b $INSTALLDIR/tmp:/dev/shm "
 	# fi
 	# fbindexample.prs EOF
 	EOM
 }
 
-_ADDfbinds_() { # Checks if /proc/stat is usable. 
+_ADDfbinds_() { # Checks if /proc/stat is usable.
 	if [[ ! -r /proc/stat ]] ; then
 		_ADDfbindprocstat_
 	fi
 }
 
 _ADDfibs_() {
-	_CFLHDR_ root/bin/fibs 
+	_CFLHDR_ root/bin/fibs
 	cat >> root/bin/fibs  <<- EOM
 	find /proc/ -name maps 2>/dev/null | xargs awk '{print \$6}' 2>/dev/null | grep '\.so' | sort | uniq
 	EOM
-	chmod 700 root/bin/fibs 
+	chmod 700 root/bin/fibs
 }
 
 _ADDga_() {
-	_CFLHDR_ root/bin/ga 
+	_CFLHDR_ root/bin/ga
 	cat >> root/bin/ga  <<- EOM
-	if [[ ! -x "\$(command -v git)" ]] 
+	if [[ ! -x "\$(command -v git)" ]]
 	then
 		pacman --noconfirm --color=always -S git
 		git add .
@@ -309,63 +309,63 @@ _ADDga_() {
 		git add .
 	fi
 	EOM
-	chmod 700 root/bin/ga 
+	chmod 700 root/bin/ga
 }
 
 _ADDgcl_() {
-	_CFLHDR_ root/bin/gcl 
+	_CFLHDR_ root/bin/gcl
 	cat >> root/bin/gcl  <<- EOM
-	if [[ ! -x "\$(command -v git)" ]] 
+	if [[ ! -x "\$(command -v git)" ]]
 	then
-		pacman --noconfirm --color=always -S git 
+		pacman --noconfirm --color=always -S git
 		git clone --depth 1 "\$@" --branch master --single-branch
 	else
 		git clone --depth 1 "\$@" --branch master --single-branch
 	fi
 	EOM
-	chmod 700 root/bin/gcl 
+	chmod 700 root/bin/gcl
 }
 
 _ADDgcm_() {
-	_CFLHDR_ root/bin/gcm 
+	_CFLHDR_ root/bin/gcm
 	cat >> root/bin/gcm  <<- EOM
-	if [[ ! -x "\$(command -v git)" ]] 
+	if [[ ! -x "\$(command -v git)" ]]
 	then
-		pacman --noconfirm --color=always -S git 
+		pacman --noconfirm --color=always -S git
 		git commit
 	else
 		git commit
 	fi
 	EOM
-	chmod 700 root/bin/gcm 
+	chmod 700 root/bin/gcm
 }
 
 _ADDgpl_() {
-	_CFLHDR_ root/bin/gpl 
+	_CFLHDR_ root/bin/gpl
 	cat >> root/bin/gpl  <<- EOM
-	if [[ ! -x "\$(command -v git)" ]] 
+	if [[ ! -x "\$(command -v git)" ]]
 	then
-		pacman --noconfirm --color=always -S git 
+		pacman --noconfirm --color=always -S git
 		git pull
 	else
 		git pull
 	fi
 	EOM
-	chmod 700 root/bin/gpl 
+	chmod 700 root/bin/gpl
 }
 
 _ADDgp_() {
 	_CFLHDR_ root/bin/gp "# git push https://username:password@github.com/username/repository.git master"
 	cat >> root/bin/gp  <<- EOM
-	if [[ ! -x "\$(command -v git)" ]] 
+	if [[ ! -x "\$(command -v git)" ]]
 	then
-		pacman --noconfirm --color=always -S git 
+		pacman --noconfirm --color=always -S git
 		git push
 	else
 		git push
 	fi
 	EOM
-	chmod 700 root/bin/gp 
+	chmod 700 root/bin/gp
 }
 
 _ADDinputrc() {
@@ -375,16 +375,16 @@ _ADDinputrc() {
 }
 
 _ADDkeys_() {
-	_CFLHDR_ root/bin/keys 
+	_CFLHDR_ root/bin/keys
 	cat >> root/bin/keys <<- EOM
 	declare -a KEYRINGS
 
 	_TRPET_() { # on exit
 		printf "\\e[?25h\\e[0m"
-		set +Eeuo pipefail 
-	 	_PRINTTAIL_ "\$KEYRINGS[@]"  
+		set +Eeuo pipefail
+	 	_PRINTTAIL_ "\$KEYRINGS[@]"
 	}
-	
+
 	_GENEN_() { # This for loop generates entropy on device for \$t seconds.
 		N=2 # Number of loop generations for generating entropy.
 		T0=256 # Maximum number of seconds loop shall run unless keys completes earlier.
@@ -423,26 +423,26 @@ _ADDkeys_() {
 	fi
 	ARGS="\${KEYRINGS[@]}"
 	printf '\033]2;  🔑 TermuxArch '"\$(basename "\$0") \$ARGS"' 📲 \007'
-	printf "\\\\n\\\\e[1;32m==> \\\\e[1;37m%s \\\\e[0;32m%s \\\\e[1;32m%s %s \\\\e[0m%s…\\\\n" "Running" "TermuxArch" "\$(basename "\$0")" "\$ARGS" "\$VERSIONID"  
-	mv usr/lib/gnupg/scdaemon{,_} 2>/dev/null ||: 
+	printf "\\\\n\\\\e[1;32m==> \\\\e[1;37m%s \\\\e[0;32m%s \\\\e[1;32m%s %s \\\\e[0m%s…\\\\n" "Running" "TermuxArch" "\$(basename "\$0")" "\$ARGS" "\$VERSIONID"
+	mv usr/lib/gnupg/scdaemon{,_} 2>/dev/null ||:
 	printf "\n\e[0;34mWhen \e[0;37mgpg: Generating pacman keyring master key\e[0;34m appears on the screen, the installation process can be accelerated.  The system desires a lot of entropy at this part of the install procedure.  To generate as much entropy as possible quickly, watch and listen to a file on your device.  \n\nThe program \e[1;32mpacman-key\e[0;34m will want as much entropy as possible when generating keys.  Entropy is also created through tapping, sliding, one, two and more fingers tapping with short and long taps.  When \e[0;37mgpg: Generating pacman keyring master key\e[0;34m appears on the screen, use any of these simple methods to accelerate the installation process if it is stalled.  Put even simpler, just do something on device.  Browsing files will create entropy on device.  Slowly swiveling the device in space and time will accelerate the installation process.  This method alone might not generate enough entropy (a measure of randomness in a closed system) for the process to complete quickly.  Use \e[1;32mbash ~${DARCH}/bin/we \e[0;34min a new Termux session to and watch entropy on device.\n\n\e[1;32m==>\e[0m Running \e[1mpacman-key --init\e[0;32m…\n"
 	_GENEN_
-	pacman-key --init ||: 
+	pacman-key --init ||:
 	chmod 700 /etc/pacman.d/gnupg
-	pacman-key --populate ||: 
+	pacman-key --populate ||:
 	printf "\n\e[1;32m==>\e[0m Running \e[1mpacman -S \$ARGS --noconfirm --color=always\e[0;32m…\n"
-	pacman -S "\${KEYRINGS[@]}" --noconfirm --color=always ||: 
+	pacman -S "\${KEYRINGS[@]}" --noconfirm --color=always ||:
 	printf "\n\e[0;34mWhen \e[1;37mAppending keys from archlinux.gpg\e[0;34m appears on the screen, the installation process can be accelerated.  The system desires a lot of entropy at this part of the install procedure.  To generate as much entropy as possible quickly, watch and listen to a file on your device.  \n\nThe program \e[1;32mpacman-key\e[0;34m will want as much entropy as possible when generating keys.  Entropy is also created through tapping, sliding, one, two and more fingers tapping with short and long taps.  When \e[1;37mAppending keys from archlinux.gpg\e[0;34m appears on the screen, use any of these simple methods to accelerate the installation process if it is stalled.  Put even simpler, just do something on device.  Browsing files will create entropy on device.  Slowly swiveling the device in space and time will accelerate the installation process.  This method alone might not generate enough entropy (a measure of randomness in a closed system) for the process to complete quickly.  Use \e[1;32mbash ~${DARCH}/bin/we \e[0;34min a new Termux session to watch entropy on device.\n\n\e[1;32m==>\e[0m Running \e[1mpacman-key --populate\e[0;32m…\n"
 	_GENEN_
-	pacman-key --populate ||: 
+	pacman-key --populate ||:
 	printf "\n\e[1;32m==>\e[0m Running \e[1mpacman -Ss keyring --color=always\e[0m…\n"
-	pacman -Ss keyring --color=always ||: 
+	pacman -Ss keyring --color=always ||:
 	EOM
-	chmod 700 root/bin/keys 
+	chmod 700 root/bin/keys
 }
 
 _ADDMOTD_() {
-	if [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = "$CPUABIX86_64" ]] 
+	if [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = "$CPUABIX86_64" ]]
 	then
 		cat > etc/motd  <<- EOM
 		printf "\n\e[1;34mWelcome to Arch Linux in Termux!\nInstall a package: \e[0;34mpacman -S package\n\e[1;34mMore  information: \e[0;34mpacman -[D|F|Q|R|S|T|U]h\n\e[1;34mSearch   packages: \e[0;34mpacman -Ss query\n\e[1;34mUpgrade  packages: \e[0;34mpacman -Syu\n\n\e[1;34mChat: \e[0mwiki.termux.com/wiki/Community\n\e[1;34mHelp: \e[0;34minfo query \e[1;34mand \e[0;34mman query\n\e[1;34mIRC: \e[0mwiki.archlinux.org/index.php/IRC_channel\n\n\e[0m"
@@ -460,17 +460,17 @@ _ADDMOTO_() {
 	EOM
 }
 
-_ADDpc_() { 
+_ADDpc_() {
 	_CFLHDR_ root/bin/pc "# Pacman install packages wrapper without system update."
 	cat >> root/bin/pc  <<- EOM
 	declare -g ARGS="\$@"
 
 	_TRPET_() { # on exit
 		printf "\\e[?25h\\e[0m"
-		set +Eeuo pipefail 
-	 	_PRINTTAIL_ "\$ARGS"  
+		set +Eeuo pipefail
+	 	_PRINTTAIL_ "\$ARGS"
 	}
-	
+
 	_PRINTTAIL_() {
 		printf "\\\\n\\\\e[0;32m%s %s %s\\\\e[1;34m: \\\\e[1;32m%s\\\\e[0m 🏁  \\\\n\\\\n\\\\e[0m" "TermuxArch \$(basename "\$0")" "\$ARGS" "\$VERSIONID" "DONE"
 		printf '\033]2;  🔑 TermuxArch '"\$(basename "\$0") \$ARGS"' 📱 \007'
@@ -480,34 +480,34 @@ _ADDpc_() {
 	## pc begin ####################################################################
 
 	printf '\033]2;  🔑 TermuxArch '"\$(basename "\$0") \$ARGS"' 📲 \007'
-	printf "\\\\n\\\\e[1;32m==> \\\\e[1;37m%s \\\\e[0;32m%s \\\\e[1;32m%s %s \\\e[0m%s…\\\\n\\\\n" "Running" "TermuxArch" "\$(basename "\$0")" "\$ARGS" "\$VERSIONID"  
+	printf "\\\\n\\\\e[1;32m==> \\\\e[1;37m%s \\\\e[0;32m%s \\\\e[1;32m%s %s \\\e[0m%s…\\\\n\\\\n" "Running" "TermuxArch" "\$(basename "\$0")" "\$ARGS" "\$VERSIONID"
 	if [[ -z "\${1:-}" ]] ; then
-	pacman --noconfirm --color=always -S 
+	pacman --noconfirm --color=always -S
 	elif [[ "\$1" = "a" ]] ; then
-	pacman --noconfirm --color=always -S base base-devel "\${@:2}" 
+	pacman --noconfirm --color=always -S base base-devel "\${@:2}"
 	elif [[ "\$1" = "ae" ]] ; then
-	pacman --noconfirm --color=always -S base base-devel emacs "\${@:2}" 
+	pacman --noconfirm --color=always -S base base-devel emacs "\${@:2}"
 	elif [[ "\$1" = "a8" ]] ; then
-	pacman --noconfirm --color=always -S base base-devel emacs jdk8-openjdk "\${@:2}" 
+	pacman --noconfirm --color=always -S base base-devel emacs jdk8-openjdk "\${@:2}"
 	else
-	pacman --noconfirm --color=always -S "\$@" 
+	pacman --noconfirm --color=always -S "\$@"
 	fi
 	EOM
-	chmod 700 root/bin/pc 
+	chmod 700 root/bin/pc
 }
 
-_ADDpci_() { 
+_ADDpci_() {
 	_CFLHDR_ root/bin/pci "# Pacman install packages wrapper with system update."
 	cat >> root/bin/pci  <<- EOM
 	declare ARGS="\$@"
 
 	_TRPET_() { # on exit
 		printf "\\e[?25h\\e[0m"
-		set +Eeuo pipefail 
-	 	_PRINTTAIL_ "\$ARGS"  
+		set +Eeuo pipefail
+	 	_PRINTTAIL_ "\$ARGS"
 	}
-	
-	_PRINTTAIL_() { 
+
+	_PRINTTAIL_() {
 		printf "\\\\n\\\\e[0;32m%s %s %s\\\\e[1;34m: \\\\e[1;32m%s\\\\e[0m 🏁  \\\\n\\\\n\\\\e[0m" "TermuxArch \$(basename "\$0")" "\$ARGS" "\$VERSIONID" "DONE"
 		printf '\033]2;  🔑 TermuxArch '"\$(basename "\$0") \$ARGS"' 📱 \007'
 	}
@@ -515,35 +515,35 @@ _ADDpci_() {
 	trap _TRPET_ EXIT
 	## pci begin ###################################################################
 
-	printf "\\\\n\\\\e[1;32m==> \\\\e[1;37m%s \\\\e[1;32m%s %s %s \\\e[0m%s…\\\\n\\\\n" "Running" "TermuxArch \$(basename "\$0")" "\$ARGS" "\$VERSIONID"  
+	printf "\\\\n\\\\e[1;32m==> \\\\e[1;37m%s \\\\e[1;32m%s %s %s \\\e[0m%s…\\\\n\\\\n" "Running" "TermuxArch \$(basename "\$0")" "\$ARGS" "\$VERSIONID"
 	if [[ -z "\${1:-}" ]] ; then
 	pacman --noconfirm --color=always -Syu
 	elif [[ "\$1" = "e" ]] ; then
-	pacman --noconfirm --color=always -Syu base base-devel emacs "\${@:2}" 
+	pacman --noconfirm --color=always -Syu base base-devel emacs "\${@:2}"
 	elif [[ "\$1" = "e8" ]] ; then
-	pacman --noconfirm --color=always -Syu base base-devel emacs jdk8-openjdk "\${@:2}" 
+	pacman --noconfirm --color=always -Syu base base-devel emacs jdk8-openjdk "\${@:2}"
 	elif [[ "\$1" = "e10" ]] ; then
-	pacman --noconfirm --color=always -Syu base base-devel emacs jdk10-openjdk "\${@:2}" 
+	pacman --noconfirm --color=always -Syu base base-devel emacs jdk10-openjdk "\${@:2}"
 	else
-	pacman --noconfirm --color=always -Syu "\$@" 
+	pacman --noconfirm --color=always -Syu "\$@"
 	fi
 	# pci EOF
 	EOM
-	chmod 700 root/bin/pci 
+	chmod 700 root/bin/pci
 }
 
 _ADDprofile_() {
 	cat > root/.profile <<- EOM
 	. "\$HOME"/.bash_profile
 	EOM
-	if [ -e "$HOME"/.profile ] 
+	if [ -e "$HOME"/.profile ]
 	then
 		grep "proxy" "$HOME"/.profile |grep "export" >>  root/.profile 2>/dev/null||:
 	fi
 }
 
 _ADDaddresolvconf_() {
-	mkdir -p run/systemd/resolve 	
+	mkdir -p run/systemd/resolve
 	cat > run/systemd/resolve/resolv.conf <<- EOM
 	nameserver 8.8.8.8
 	nameserver 8.8.4.4
@@ -551,7 +551,7 @@ _ADDaddresolvconf_() {
 }
 
 _ADDcsystemctl_() {
-	_CFLHDR_ root/bin/csystemctl.bash  
+	_CFLHDR_ root/bin/csystemctl.bash
 	cat >> root/bin/csystemctl.bash  <<- EOM
 	printf "%s\\n" "Installing /usr/bin/systemctl replacement: "
 	declare COMMANDL
@@ -565,25 +565,25 @@ _ADDcsystemctl_() {
 	chmod 700 /usr/bin/systemctl
 	printf "%s\\n" "Installing /usr/bin/systemctl replacement: DONE"
 	EOM
-	chmod 700 root/bin/csystemctl.bash 
+	chmod 700 root/bin/csystemctl.bash
 }
 
 _ADDt_() {
 	_CFLHDR_ root/bin/t
 	cat >> root/bin/t  <<- EOM
-	if [[ ! -x "\$(command -v tree)" ]] 
+	if [[ ! -x "\$(command -v tree)" ]]
 	then
-		pacman --noconfirm --color=always -S tree 
+		pacman --noconfirm --color=always -S tree
 		tree "\$@"
 	else
 		tree "\$@"
 	fi
 	EOM
-	chmod 700 root/bin/t 
+	chmod 700 root/bin/t
 }
 
 _ADDthstartarch_() {
-	_CFLHDR_ root/bin/th"$STARTBIN" 
+	_CFLHDR_ root/bin/th"$STARTBIN"
 	cat >> root/bin/th"$STARTBIN" <<- EOM
 	echo $STARTBIN help
 	$STARTBIN help
@@ -591,7 +591,7 @@ _ADDthstartarch_() {
 	echo $STARTBIN command "pwd && whoami"
 	$STARTBIN command "pwd && whoami"
 	sleep 1
-	echo $STARTBIN login user 
+	echo $STARTBIN login user
 	$STARTBIN login user ||:
 	echo $STARTBIN raw su user -c "pwd && whoami"
 	$STARTBIN raw su user -c "pwd && whoami"
@@ -604,7 +604,7 @@ _ADDthstartarch_() {
 }
 
 _ADDtour_() {
-	_CFLHDR_ root/bin/tour "# A short tour that shows a few of the new files in ths system." 
+	_CFLHDR_ root/bin/tour "# A short tour that shows a few of the new files in ths system."
 	cat >> root/bin/tour <<- EOM
 	printf "\n\e[1;32m==> \e[1;37mRunning \e[1;32mls -R --color=always \$HOME \e[1;37m\n\n"
 	sleep 1
@@ -623,7 +623,7 @@ _ADDtour_() {
 	cat "\$HOME"/bin/pci
 	printf "\\e[1;32m\\n%s \\e[38;5;121m%s \\n\\n\\e[4;38;5;129m%s\\e[0m\\n\\n\\e[1;34m%s \\e[38;5;135m%s\\e[0m\\n\\n" "==>" "Short tour is complete; Scroll up if you wish to study the output.  Run this script again at a later time, and it might be surprising at how this environment changes over time. " "If you are new to *nix, http://tldp.org has documentation." "IRC: " "https://wiki.archlinux.org/index.php/IRC_channel"
 	EOM
-	chmod 700 root/bin/tour 
+	chmod 700 root/bin/tour
 }
 
 _ADDtrim_() {
@@ -639,10 +639,10 @@ _ADDtrim_() {
 	echo [4/5] pacman -Sc --noconfirm --color=always
 	pacman -Sc --noconfirm --color=always
 	echo [5/5] rm -f /var/cache/pacman/pkg/*xz
-	rm -f /var/cache/pacman/pkg/*xz ||: 
-	printf "\\\\n\\\\e[1;32mtrim: Done \\\\e[0m\\\\n\\\\n" 
+	rm -f /var/cache/pacman/pkg/*xz ||:
+	printf "\\\\n\\\\e[1;32mtrim: Done \\\\e[0m\\\\n\\\\n"
 	EOM
-	chmod 700 root/bin/trim 
+	chmod 700 root/bin/trim
 }
 
 _ADDv_() {
@@ -653,24 +653,24 @@ _ADDv_() {
 	else
 		ARGS=("\$@")
 	fi
-	if [[ ! -x "\$(command -v vim)" ]] 
+	if [[ ! -x "\$(command -v vim)" ]]
 	then
-		pacman --noconfirm --color=always -S vim 
+		pacman --noconfirm --color=always -S vim
 		vim "\${ARGS[@]}"
 	else
 		vim "\${ARGS[@]}"
 	fi
 	EOM
-	chmod 700 root/bin/v 
+	chmod 700 root/bin/v
 }
 
-_ADDwe_() { 
+_ADDwe_() {
 	_CFLHDR_ usr/bin/we "# Watch available entropy on device." "# cat /proc/sys/kernel/random/entropy_avail contributed by https://github.com/cb125"
 	cat >> usr/bin/we <<- EOM
 
 	i=1
 	multi=16
-	entropy0=\$(cat /proc/sys/kernel/random/entropy_avail 2>/dev/null) 
+	entropy0=\$(cat /proc/sys/kernel/random/entropy_avail 2>/dev/null)
 
 	printintro()
 	{
@@ -715,7 +715,7 @@ _ADDwe_() {
 	{
 		sleep 0.1
 	}
-	
+
 	bcif()
 	{
 		commandif=\$(command -v getprop) ||:
@@ -740,10 +740,10 @@ _ADDwe_() {
 	{
 	printf "\n\e[1;32mWatch Entropy Sequential:\n\n"'\033]2; Watch Entropy Sequential 📲  \007'
 	for i in \$(seq 1 \$en0); do
-		entropy0=\$(cat /proc/sys/kernel/random/entropy_avail 2>/dev/null) 
-		infif 
+		entropy0=\$(cat /proc/sys/kernel/random/entropy_avail 2>/dev/null)
+		infif
 		printf "\e[1;30m \$en0 \e[0;32m\$i \e[1;32m\${entropy0}\n"
-		1sleep 
+		1sleep
 	done
 	}
 
@@ -751,10 +751,10 @@ _ADDwe_() {
 	{
 	printf "\n\e[1;32mWatch Entropy Simple:\n\n"'\e]2; Watch Entropy Simple 📲  \007'
 	for i in \$(seq 1 \$en0); do
-		entropy0=\$(cat /proc/sys/kernel/random/entropy_avail 2>/dev/null) 
-		infif 
-		printf "\e[1;32m\${entropy0} " 
-		1sleep 
+		entropy0=\$(cat /proc/sys/kernel/random/entropy_avail 2>/dev/null)
+		infif
+		printf "\e[1;32m\${entropy0} "
+		1sleep
 	done
 	}
 
@@ -762,57 +762,57 @@ _ADDwe_() {
 	{
 	printf "\n\e[1;32mWatch Entropy Verbose:\n\n"'\033]2; Watch Entropy Verbose 📲  \007'
 	for i in \$(seq 1 \$en0); do
-		entropy0=\$(cat /proc/sys/kernel/random/entropy_avail 2>/dev/null) 
-		infif 
+		entropy0=\$(cat /proc/sys/kernel/random/entropy_avail 2>/dev/null)
+		infif
 		printf "\e[1;30m \$en0 \e[0;32m\$i \e[1;32m\${entropy0} \e[0;32m#E&&√♪"
-		esleep 
+		esleep
 		sleep \$int
-		entropy1=\$(cat /proc/sys/kernel/random/uuid 2>/dev/null) 
-		infif 
-		printf "\$entropy1" 
-		esleep 
+		entropy1=\$(cat /proc/sys/kernel/random/uuid 2>/dev/null)
+		infif
+		printf "\$entropy1"
+		esleep
 		sleep \$int
-		printf "&&π™♪&##|♪FLT" 
-		esleep 
+		printf "&&π™♪&##|♪FLT"
+		esleep
 		sleep \$int
 		printf "\$int♪||e"
-		esleep 
+		esleep
 		sleep \$int
 	done
 	}
 
 	# [we sequential] Run sequential watch entropy.
 	if [[ -z "\${1:-}" ]] ; then
-		printintro 
-		entropysequential 
+		printintro
+		entropysequential
 	elif [[ \$1 = [Ss][Ee]* ]] || [[ \$1 = -[Ss][Ee]* ]] || [[ \$1 = --[Ss][Ee]* ]] ; then
-		printintro 
-		entropysequential 
+		printintro
+		entropysequential
 	# [we simple] Run simple watch entropy.
 	elif [[ \$1 = [Ss]* ]] || [[ \$1 = -[Ss]* ]] || [[ \$1 = --[Ss]* ]] ; then
-		printintro 
-		entropysimple 
+		printintro
+		entropysimple
 	# [we verbose] Run verbose watch entropy.
 	elif [[ \$1 = [Vv]* ]] || [[ \$1 = -[Vv]* ]] || [[ \$1 = --[Vv]* ]] ; then
-		printintro 
+		printintro
 		bcif
-		entropyverbose 
+		entropyverbose
 	# [] Run default watch entropy.
 	elif [[ \$1 = "" ]] ; then
-		printintro 
-		entropysequential 
+		printintro
+		entropysequential
 	else
 		_PRINTUSAGE_
 	fi
-	_PRINTTAIL_ 
+	_PRINTTAIL_
 	EOM
-	chmod 700 usr/bin/we 
+	chmod 700 usr/bin/we
 }
 
 _ADDyt_() {
 	_CFLHDR_ root/bin/yt
 	cat >> root/bin/yt  <<- EOM
-	if [[ ! -x "\$(command -v youtube-dl)" ]] 
+	if [[ ! -x "\$(command -v youtube-dl)" ]]
 	then
 		pacman --noconfirm --color=always -S youtube-dl
 		youtube-dl "\$@"
@@ -820,6 +820,6 @@ _ADDyt_() {
 		youtube-dl "\$@"
 	fi
 	EOM
-	chmod 700 root/bin/yt 
+	chmod 700 root/bin/yt
 }
 # archlinuxconfig.bash EOF
