@@ -36,7 +36,7 @@ trap _SGSATRPSIGNAL_ HUP INT TERM
 trap _SGSATRPQUIT_ QUIT
 
 _GSA_() {
-	[[ -f .cong/RONGSA ]] && ((git submodule update --depth 1 --init --recursive --remote "$1") || (git submodule update --depth 1 --init --recursive --remote "$1") || (printf "\\n\\n%s\\n" "Cannot add submodule $2 : Continuing...") || (git submodule add $3 https:/$SIAD$OUNA/$2 $1 && touch .conf/RONGSA)) || ((git submodule update --depth 1 --init --recursive --remote "$1" && touch .conf/RONGSA) || (printf "\\n\\n%s\\n" "Cannot add submodule $2 : Continuing..."))
+	[[ -f .cong/RONGSA ]] && ((git submodule update --init --recursive --remote "$1") || (git submodule update --init --recursive --remote "$1") || (printf "\\n\\n%s\\n" "Cannot add submodule $2 : Continuing...") || (git submodule add $3 https:/$SIAD$OUNA/$2 $1 && touch .conf/RONGSA)) || ((git submodule update --init --recursive --remote "$1" && touch .conf/RONGSA) || (printf "\\n\\n%s\\n" "Cannot add submodule $2 : Continuing..."))
 	sleep 0."$(shuf -i 24-72 -n 1)"	# latency support
 }
 git pull
