@@ -900,7 +900,7 @@ _ADDwe_() {
 
 _ADDyt_() {
 	_CFLHDR_ root/bin/yt
-	printf "%s\\n" "[ ! -x \"\$(command -v youtube-dl)\" ] && ( [ \"\$(id -u)\" = \"0\" ] && pacman --noconfirm --color=always -S youtube-dl || sudo pacman --noconfirm --color=always -S youtube-dl ) || youtube-dl "\$@" " >> root/bin/yt
+	printf "%s\\n%s\\n" "[ \"\$(id -u)\" = \"0\" ] && printf \"\\n%s\\n%s\\n\" \"Cannot run as root : exiting : $STARTBIN command addauser username : creates user accounts in ${INSTALLDIR##*/} : \" && exit" "[ ! -x \"\$(command -v youtube-dl)\" ] && sudo pci youtube-dl && youtube-dl \"\$@\" || youtube-dl \"\$@\" " >> root/bin/yt
 	chmod 700 root/bin/yt
 }
 # archlinuxconfig.bash EOF
