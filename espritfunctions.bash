@@ -65,6 +65,11 @@ _COPYSTARTBIN2PATHQ_() {
 	done
 }
 
+
+_DOTHF_() { # do the file
+	[[ -f $1 ]] && ( printf "%s\\n" "==> mv -f $1 $1.bkp" && mv -f "$1" "$1.bkp" ) || printf "%s" "copy dot files if found : file not found : continuing : "
+}
+
 _EDITFILES_() {
 	if [[ "${ceds[$i]}" = "vi" ]]
 	then
@@ -97,7 +102,7 @@ _EDITORS_() {
 	done
 	for i in "${!ceds[@]}"
 	do
-		cedst+="\`\\e[1;32m${ceds[$i]}\\e[0;32m\`, "
+		cedst+="${ceds[$i]}, "
 	done
 	for i in "${!ceds[@]}"
 	do

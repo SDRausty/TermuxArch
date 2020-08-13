@@ -5,6 +5,7 @@
 # https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.
 ################################################################################
 
+BINFNSTP=finishsetup.bash
 LC_TYPE=( "LANG" "LANGUAGE" "LC_ADDRESS" "LC_COLLATE" "LC_CTYPE" "LC_IDENTIFICATION" "LC_MEASUREMENT" "LC_MESSAGES" "LC_MONETARY" "LC_NAME" "LC_NUMERIC" "LC_PAPER" "LC_TELEPHONE" "LC_TIME" )
 
 _ADDADDS_() {
@@ -21,6 +22,7 @@ _ADDADDS_() {
 	_ADDcdth_
 	_ADDcdtmp_
 	_ADDch_
+	_ADDcsystemctl_
 	_ADDdfa_
 	_ADDexd_
 	_ADDfbindexample_
@@ -33,6 +35,9 @@ _ADDADDS_() {
 	_ADDgpl_
 	_ADDinputrc
 	_ADDkeys_
+	_ADDmakefakeroot-tcp_
+	_ADDmakeyay_
+	_ADDpatchmakepkg_
 	_ADDpc_
 	_ADDpci_
 	_ADDprofile_
@@ -54,14 +59,15 @@ _CALLSYSTEM_() {
 		then
 			until _FTCHSTND_
 			do
-				_FTCHSTND_ ||:
+				_FTCHSTND_ || CRV="$?"
+				[[ $CRV = 22 ]] && printf "%s\\n" "Received curl error message $CRV; Continuing..." && break
 				sleep 2
 				printf "\\n"
 				COUNTER=$((COUNTER + 1))
-				if [[ "$COUNTER" = 4 ]]
+				if [[ "$COUNTER" = 9 ]]
 				then
 					_PRINTMAX_
-					exit
+					break
 				fi
 			done
 		else
@@ -78,7 +84,7 @@ _COPYSTARTBIN2PATH_() {
 		BPATH="$PREFIX"/bin
 	fi
 	cp "$INSTALLDIR/$STARTBIN" "$BPATH"
-	printf "\\e[0;34m 🕛 > 🕦 \\e[1;32m$STARTBIN \\e[0mcopied to \\e[1m$BPATH\\e[0m.\\n\\n"
+	printf "\\e[0;34m%s\\e[1;34m%s\\e[1;32m%s\\e[1;34m%s\\e[1;37m%s\\e[0m.\\n\\n" " 🕛 > 🕦 " "File " "$STARTBIN " "copied to " "$BPATH"
 }
 
 _DETECTSYSTEM_() {
@@ -124,10 +130,10 @@ _DETECTSYSTEM64_() {
 _KERNID_() {
 	declare KID=""
 	ur="$(uname -r)"
-	declare -i KERNEL_VERSION="$(echo "$ur" |awk -F'.' '{print $1}')"
-	declare -i MAJOR_REVISION="$(echo "$ur" |awk -F'.' '{print $2}')"
-	declare -- TMP="$(echo "$ur" |awk -F'.' '{print $3}')"
-	declare -- MINOR_REVISION="$(echo "${TMP:0:3}" |sed 's/[^0-9]*//g')"
+	declare -i KERNEL_VERSION="$(awk -F'.' '{print $1}' <<< "$ur")"
+	declare -i MAJOR_REVISION="$(awk -F'.' '{print $2}' <<< "$ur")"
+	declare -- TMP="$(awk -F'.' '{print $3}' <<< "$ur")"
+	declare -- MINOR_REVISION="$(sed 's/[^0-9]*//g' <<< "${TMP:0:3}")"
 	if [[ "$KERNEL_VERSION" -le 2 ]]
 	then
 		KID=1
@@ -146,7 +152,6 @@ _KERNID_() {
 		fi
 	fi
 }
-
 _KERNID_
 
 _MAINBLOCK_() {
@@ -157,48 +162,13 @@ _MAINBLOCK_() {
 	_WAKEUNLOCK_
 	_PRINTFOOTER_
 	set +Eeuo pipefail
-	"$INSTALLDIR/$STARTBIN" || printf "\033[1;31m%s\\n\\n\033[0;34m%s\\n\\n%s\\n\\n%s\\n\\n%s\033[0m" "Signal generated in INSTALLDIR/STARTBIN _MAINBLOCK_" "If error \` env ... not found \` is found, ensure that all the software is up to date.  After updating, reference these links in order to find a resolution if updating Termux app and Termux packages was unsuccessful:" "  * https://github.com/termux/proot/issues?q=\"env\"+\"not+found\"" "  * https://github.com/termux/termux-packages/issues?q=\"not+found\"+\"proot\""
+	"$INSTALLDIR/$STARTBIN" || _PRINTPROOTERROR_
 	set -Eeuo pipefail
 	_PRINTFOOTER2_
 	_PRINTSTARTBIN_USAGE_
 }
 
-_MAKEFINISHSETUP_() {
-	BINFNSTP=finishsetup.bash
-	_CFLHDR_ root/bin/"$BINFNSTP"
-	cat >> root/bin/"$BINFNSTP" <<- EOM
-	printf "\\n\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\n\\n\\e[1;32m%s\\e[0;32m" "To generate locales in a preferred language use " "Settings > Language & Keyboard > Language " "in Android; Then run " "${0##*/} r " "for a quick system refresh; For full system refresh you can use ${0##*/} re[fresh]." "==> "
-   	locale-gen ||:
-	printf "\\n\\e[1;34m:: \\e[1;37mRemoving redundant packages for Termux PRoot installation…\\n"
-	EOM
-	if [[ -z "${LCR:-}" ]]
-	then
-	 	if [[ "$CPUABI" = "$CPUABI5" ]]
-		then
-	 		printf "pacman -Rc linux-armv5 linux-firmware --noconfirm --color=always 2>/dev/null ||:\\n" >> root/bin/"$BINFNSTP"
-	 	elif [[ "$CPUABI" = "$CPUABI7" ]]
-		then
-	 		printf "pacman -Rc linux-armv7 linux-firmware --noconfirm --color=always 2>/dev/null ||:\\n" >> root/bin/"$BINFNSTP"
-	 	elif [[ "$CPUABI" = "$CPUABI8" ]]
-		then
-	 		printf "pacman -Rc linux-aarch64 linux-firmware --noconfirm --color=always 2>/dev/null ||:\\n" >> root/bin/"$BINFNSTP"
-	 	fi
-		if [[ "$CPUABI" = "$CPUABIX86" ]]
-		then
-			printf "./root/bin/keys x86\\n" >> root/bin/"$BINFNSTP"
-		elif [[ "$CPUABI" = "$CPUABIX86_64" ]]
-		then
-			printf "./root/bin/keys x86_64\\n" >> root/bin/"$BINFNSTP"
-		else
-	 		printf "./root/bin/keys\\n" >> root/bin/"$BINFNSTP"
-		fi
-		if [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = "$CPUABIX86_64" ]]
-		then
-			printf "./root/bin/pci gzip sed \\n" >> root/bin/"$BINFNSTP"
-		else
-	 		printf "./root/bin/pci \\n" >> root/bin/"$BINFNSTP"
-		fi
-	fi
+_DOPROXY_() {
 	if [[ -e "$HOME"/.bash_profile ]]
 	then
 		grep "proxy" "$HOME"/.bash_profile | grep "export" >> root/bin/"$BINFNSTP" 2>/dev/null ||:
@@ -211,9 +181,58 @@ _MAKEFINISHSETUP_() {
 	then
 		grep "proxy" "$HOME"/.profile | grep "export" >> root/bin/"$BINFNSTP" 2>/dev/null ||:
 	fi
+}
+
+_DOKEYS_() {
+	if [[ "$CPUABI" = "$CPUABIX86" ]]
+	then
+		printf "./root/bin/keys x86\\n" >> root/bin/"$BINFNSTP"
+	elif [[ "$CPUABI" = "$CPUABIX86_64" ]]
+	then
+		printf "./root/bin/keys x86_64\\n" >> root/bin/"$BINFNSTP"
+	else
+ 		printf "./root/bin/keys\\n" >> root/bin/"$BINFNSTP"
+	fi
+}
+
+_MAKEFINISHSETUP_() {
+	_CFLHDR_ root/bin/"$BINFNSTP"
+	[[ "${LCR:-}" -ne 1 ]] && LOCGEN="" 
+	[[ "${LCR:-}" -ne 2 ]] && LOCGEN=""
+	[[ -z "${LCR:-}" ]] && LOCGEN="printf \"\\e[1;32m%s\\e[0;32m\"  \"==> \" && locale-gen  ||:"
 	cat >> root/bin/"$BINFNSTP" <<- EOM
-	printf "\\n\\e[1;34m%s  \\e[0m" "🕛 > 🕤 Arch Linux in Termux is installed and configured 📲 "
-	printf "\\e]2;%s\\007" " 🕛 > 🕤 Arch Linux in Termux is installed and configured 📲 "
+	_PMFSESTRING_() {
+	printf "\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\\n\\e[0m" "Something unexpected happened.  Please read the error message.  Correct the error, and run " "setupTermuxArch.bash refresh" " to complete the installation.  If you find an error in this script, please open an issue and a pull request."
+	}
+	printf "\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\n" "To generate locales in a preferred language use " "Settings > Language & Keyboard > Language " "in Android; Then run " "${0##*/} refresh" " for a full system refresh including locale generation; For quick refresh you can use " "${0##*/} r" ".  For a refresh with user directories " "${0##*/} re" " can be used."
+   	$LOCGEN
+	printf "\\n\\e[1;34m:: \\e[1;37m%s\\n" "Processing system for $NASVER $CPUABI, and removing redundant packages for Termux PRoot installation…"
+	EOM
+	_FIXOWNER_
+	if [[ -z "${LCR:-}" ]] # is undefined
+	then
+		printf "%s\\n" "pacman -Syy ||:" >> root/bin/"$BINFNSTP"
+		printf "%s\\n" "/root/bin/keys ||:" >> root/bin/"$BINFNSTP"
+	 	if [[ "$CPUABI" = "$CPUABI5" ]]
+		then
+	 		printf "%s\\n" "pacman -Rc linux-armv5 linux-firmware --noconfirm --color=always 2>/dev/null ||:" >> root/bin/"$BINFNSTP"
+	 	elif [[ "$CPUABI" = "$CPUABI7" ]]
+		then
+	 		printf "%s\\n" "pacman -Rc linux-armv7 linux-firmware --noconfirm --color=always 2>/dev/null ||:" >> root/bin/"$BINFNSTP"
+	 	elif [[ "$CPUABI" = "$CPUABI8" ]]
+		then
+	 		printf "%s\\n" "pacman -Rc linux-aarch64 linux-firmware --noconfirm --color=always 2>/dev/null ||:" >> root/bin/"$BINFNSTP"
+	 	fi
+		if [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = "$CPUABIX86_64" ]]
+		then
+			printf "%s\\n" "pacman -Syu gzip patch sed sudo unzip --noconfirm --color=always 2>/dev/null ||:" >> root/bin/"$BINFNSTP"
+		else
+			printf "%s\\n" "pacman -Syu patch sudo unzip --noconfirm --color=always 2>/dev/null ||:" >> root/bin/"$BINFNSTP"
+		fi
+	fi
+	cat >> root/bin/"$BINFNSTP" <<- EOM
+	printf "\\n\\e[1;34m%s  \\e[0m" "🕛 > 🕤 Arch Linux in Termux is installed and configured 📲  "
+	printf "\\e]2;%s\\007" " 🕛 > 🕤 Arch Linux in Termux is installed and configured 📲"
 	EOM
 	chmod 700 root/bin/"$BINFNSTP"
 }
@@ -223,7 +242,7 @@ _MAKESETUPBIN_() {
 	cat >> root/bin/setupbin.bash <<- EOM
 	set +Eeuo pipefail
 	EOM
-	echo "$PROOTSTMNT /root/bin/finishsetup.bash ||:" >> root/bin/setupbin.bash
+	printf "%s\\n" "$PROOTSTMNT /root/bin/$BINFNSTP ||:" >> root/bin/setupbin.bash
 	cat >> root/bin/setupbin.bash <<- EOM
 	set -Eeuo pipefail
 	EOM
@@ -254,7 +273,7 @@ _MAKESTARTBIN_() {
 	if [[ -z "\${1:-}" ]];then
 		set +Eeuo pipefail
 	EOM
-		echo "$PROOTSTMNT /bin/bash -l ||: " >> "$STARTBIN"
+		printf "%s\\n" "$PROOTSTMNT /bin/bash -l ||: " >> "$STARTBIN"
 	cat >> "$STARTBIN" <<- EOM
 		set -Eeuo pipefail
 		printf '\033]2; TermuxArch $STARTBIN 📲  \007'
@@ -267,7 +286,7 @@ _MAKESTARTBIN_() {
 		touch $INSTALLDIR/root/.chushlogin
 		set +Eeuo pipefail
 	EOM
-		echo "$PROOTSTMNT /bin/bash -lc \"\$ar2ar\" ||:" >> "$STARTBIN"
+		printf "%s\\n" "$PROOTSTMNT /bin/bash -lc \"\$ar2ar\" ||:" >> "$STARTBIN"
 	cat >> "$STARTBIN" <<- EOM
 		set -Eeuo pipefail
 		printf '\033]2; $STARTBIN command 📲  \007'
@@ -277,7 +296,7 @@ _MAKESTARTBIN_() {
 		printf '\033]2; $STARTBIN login user [options] 📲  \007'
 		set +Eeuo pipefail
 	EOM
-		echo "$PROOTSTMNTU /bin/su - \"\$ar2ar\" ||:" >> "$STARTBIN"
+		printf "%s\\n" "$PROOTSTMNT /bin/su - \"\$ar2ar\" ||:" >> "$STARTBIN"
 	cat >> "$STARTBIN" <<- EOM
 		set -Eeuo pipefail
 		printf '\033]2; $STARTBIN login user [options] 📲  \007'
@@ -286,7 +305,7 @@ _MAKESTARTBIN_() {
 		printf '\033]2; $STARTBIN raw ARGS 📲  \007'
 		set +Eeuo pipefail
 	EOM
-		echo "$PROOTSTMNT /bin/\"\$ar2ar\" ||:" >> "$STARTBIN"
+		printf "%s\\n" "$PROOTSTMNT /bin/\"\$ar2ar\" ||:" >> "$STARTBIN"
 	cat >> "$STARTBIN" <<- EOM
 		set -Eeuo pipefail
 		printf '\033]2; $STARTBIN raw ARGS 📲  \007'
@@ -300,7 +319,7 @@ _MAKESTARTBIN_() {
 		fi
 		set +Eeuo pipefail
 	EOM
-		echo "$PROOTSTMNTU /bin/su - \"\$2\" -c \"\$ar3ar\" ||:" >> "$STARTBIN"
+		printf "%s\\n" "$PROOTSTMNT /bin/su - \"\$2\" -c \"\$ar3ar\" ||:" >> "$STARTBIN"
 	cat >> "$STARTBIN" <<- EOM
 		set -Eeuo pipefail
 		printf '\033]2; $STARTBIN su user command 📲  \007'
@@ -322,7 +341,8 @@ _MAKESYSTEM_() {
 	_PRINTMD5CHECK_
 	_MD5CHECK_
 	_PRINTCU_
-	rm -f "$INSTALLDIR"/*.tar.gz "$INSTALLDIR"/*.tar.gz.md5
+       	# set KEEP to 0 in file knownconfigurations.bash after using either `setupTermuxArch.bash bloom` or `setupTermuxArch.bash manual` to disable deleting of INSTALLDIR/*.tar.gz and INSTALLDIR/*.tar.gz.md5 files
+       	[[ "$KEEP" -ne 0 ]] && rm -f "$INSTALLDIR"/*.tar.gz "$INSTALLDIR"/*.tar.gz.md5
 	_PRINTDONE_
 	_PRINTCONFIGUP_
 	_TOUCHUPSYS_
@@ -343,15 +363,17 @@ _MD5CHECK_() {
 _PREPROOTDIR_() {
 	cd "$INSTALLDIR"
 	mkdir -p etc
-	mkdir -p var/binds
+	mkdir -p home
 	mkdir -p root/bin
 	mkdir -p usr/bin
+	mkdir -p var/binds
 }
 
 _PREPINSTALLDIR_() {
 	_PREPROOTDIR_
 	_SETLANGUAGE_
 	_ADDADDS_
+	_DOPROXY_
 	_MAKEFINISHSETUP_
 	_MAKESETUPBIN_
 	_MAKESTARTBIN_
@@ -370,22 +392,29 @@ _RUNFINISHSETUP_() {
 	printf "\\e[0m"
 	if [[ "$FSTND" ]]
 	then
-		NMIR="$(echo "$NLCMIRROR" |awk -F'/' '{print $3}')"
+		NMIR="$(awk -F'/' '{print $3}' <<< "$NLCMIRROR")"
 		sed -i '/http\:\/\/mir/ s/^#*/# /' "$INSTALLDIR"/etc/pacman.d/mirrorlist
-		sed -i "/$NMIR/ s/^# *//" "$INSTALLDIR"/etc/pacman.d/mirrorlist # sed replace a character in a matched line in place
+		if grep "$NMIR" "$INSTALLDIR"/etc/pacman.d/mirrorlist
+		then
+			printf "%s\\n" "Found server $NMIR in /etc/pacman.d/mirrorlist; Uncommenting $NMIR."
+			sed -i "/$NMIR/ s/^# *//" "$INSTALLDIR"/etc/pacman.d/mirrorlist # sed replace a character in a matched line in place
+		else
+			printf "%s\\n" "Did not find server $NMIR in /etc/pacman.d/mirrorlist; Adding $NMIR to file /etc/pacman.d/mirrorlist."
+			printf "%s\\n" "Server = $NLCMIRROR/\$arch/\$repo" >> "$INSTALLDIR"/etc/pacman.d/mirrorlist
+		fi
 	else
-	if [[ "$ed" = "" ]]
-	then
-		_EDITORS_
-	fi
-	if [[ ! "$(sed 1q  "$INSTALLDIR"/etc/pacman.d/mirrorlist)" = "# # # # # # # # # # # # # # # # # # # # # # # # # # #" ]]
-	then
-		_EDITFILES_
-	fi
+		if [[ "$ed" = "" ]]
+		then
+			_EDITORS_
+		fi
+		if [[ ! "$(sed 1q  "$INSTALLDIR"/etc/pacman.d/mirrorlist)" = "# # # # # # # # # # # # # # # # # # # # # # # # # # #" ]]
+		then
+			_EDITFILES_
+		fi
 		"$ed" "$INSTALLDIR"/etc/pacman.d/mirrorlist
 	fi
 	printf "\\n"
-	"$INSTALLDIR"/root/bin/setupbin.bash ||:
+	"$INSTALLDIR"/root/bin/setupbin.bash || _PRINTPROOTERROR_
 }
 
 _SETLANGUAGE_() { # This function uses device system settings to set locale.  To generate locales in a preferred language, you can use "Settings > Language & Keyboard > Language" in Android; Then run `setupTermuxArch.bash r for a quick system refresh.
@@ -435,19 +464,20 @@ _SETLANGUAGE_() { # This function uses device system settings to set locale.  To
 
 _SETLOCALE_() { # This function uses device system settings to set locale.  To generate locales in a preferred language, you can use "Settings > Language & Keyboard > Language" in Android; Then run `setupTermuxArch.bash r for a quick system refresh.
 	FTIME="$(date +%F%H%M%S)"
-	echo "##  File locale.conf generated by setupTermuxArch.bash at" ${FTIME//-}. > etc/locale.conf
+	printf "%s\\n" "##  File locale.conf generated by setupTermuxArch.bash at ${FTIME//-}." > etc/locale.conf
 	for i in "${!LC_TYPE[@]}"
 	do
-	 	echo "${LC_TYPE[i]}"="$ULANGUAGE".UTF-8 >> etc/locale.conf
+	 	printf "%s\\n" "${LC_TYPE[i]}=$ULANGUAGE.UTF-8" >> etc/locale.conf
 	done
 	sed -i "/\\#$ULANGUAGE.UTF-8 UTF-8/{s/#//g;s/@/-at-/g;}" etc/locale.gen
+	sed -i 's/^CheckSpace/\#CheckSpace/g' "$INSTALLDIR"/etc/pacman.conf
 }
 
 _TOUCHUPSYS_() {
 	_ADDMOTD_
 	_SETLOCALE_
 	_RUNFINISHSETUP_
-	rm -f root/bin/finishsetup.bash
+	rm -f root/bin/$BINFNSTP
 	rm -f root/bin/setupbin.bash
 }
 

@@ -23,21 +23,28 @@ _COPYIMAGE_() { # A systemimage.tar.gz file can be used: `setupTermuxArch.bash .
  	fi
 }
 
-_FUNLCR2_() { # copy from root to home/USER
-		VAR=($(ls home))
-	for USER in ${VAR[@]}
-	do
+_DOFUNLCR2_() {
+	if [ -d "$INSTALLDIR/home" ]
+	then
 		if [[ "$USER" != alarm ]]
-		then
-			cp "$INSTALLDIR"/root/.bashrc "$INSTALLDIR"/home/$USER
-			cp "$INSTALLDIR"/root/.bash_profile "$INSTALLDIR"/home/$USER
-			cp "$INSTALLDIR"/root/.profile "$INSTALLDIR"/home/$USER
-			cp "$INSTALLDIR"/root/bin/* "$INSTALLDIR"/home/$USER/bin
-		       	ls "$INSTALLDIR"/home/$USER/.bashrc |cut -f7- -d /
-		       	ls "$INSTALLDIR"/home/$USER/.bash_profile |cut -f7- -d /
-		       	ls "$INSTALLDIR"/home/$USER/.profile |cut -f7- -d /
-		       	ls "$INSTALLDIR"/home/$USER/bin/* |cut -f7- -d /
+		then 
+			_DOTHF_ "$INSTALLDIR/home/$USER"/.bash_profile
+			_DOTHF_ "$INSTALLDIR/home/$USER"/.bashrc
+			cp "$INSTALLDIR"/root/.bash_profile "$INSTALLDIR/home/$USER/"
+			cp "$INSTALLDIR"/root/.bashrc "$INSTALLDIR/home/$USER/"
+			cp "$INSTALLDIR"/root/bin/* "$INSTALLDIR/home/$USER/bin/"
+		       	ls "$INSTALLDIR/home/$USER"/.bash_profile |cut -f7- -d /
+		       	ls "$INSTALLDIR/home/$USER"/.bashrc |cut -f7- -d /
+		       	ls "$INSTALLDIR/home/$USER"/bin/* |cut -f7- -d /
 		fi
+	fi
+}
+
+_FUNLCR2_() { # copy from root to INSTALLDIR/home/USER
+	export FLCRVAR=($(ls "$INSTALLDIR/home/"))
+	for USER in ${FLCRVAR[@]}
+	do
+		_DOFUNLCR2_
 	done
 }
 
@@ -66,7 +73,23 @@ _LOADIMAGE_() {
 	exit
 }
 
-_REFRESHSYS_() { # refreshes installation
+_FIXOWNER_() { # fix owner of INSTALLDIR/home/USER
+	_DOFIXOWNER_() {
+	printf "%s\\n" "Adjusting ownership and permissions..."
+	FXVAR="$(ls "$INSTALLDIR/home")"
+	for USER in ${FXVAR[@]}
+	do
+		if [[ "$USER" != alarm ]]
+		then
+			$STARTBIN c "chown -R $USER:$USER $INSTALLDIR/home/$USER"
+			$STARTBIN c "chmod 700 $INSTALLDIR/home/$USER"
+		fi
+	done
+	}
+	_DOFIXOWNER_ || printf "%s" "signal generated in _DOFIXOWNER_ ${0##*/} maintenanceroutines.bash : continuing : "
+}
+
+_REFRESHSYS_() { # refresh installation
 	printf '\033]2; setupTermuxArch.bash refresh 📲 \007'
  	_NAMESTARTARCH_
  	_SPACEINFO_
@@ -83,16 +106,15 @@ _REFRESHSYS_() { # refreshes installation
 	"$INSTALLDIR"/root/bin/setupbin.bash ||:
  	rm -f root/bin/finishsetup.bash
  	rm -f root/bin/setupbin.bash
-	printf "\\e[1;34mThe following files have been updated to the newest version.\\n\\n\\e[0;32m"
-	ls "$INSTALLDIR/$STARTBIN" |cut -f7- -d /
-	ls "$INSTALLDIR"/bin/we |cut -f7- -d /
-	ls "$INSTALLDIR"/root/.bashrc |cut -f7- -d /
-	ls "$INSTALLDIR"/root/.bash_profile |cut -f7- -d /
-	ls "$INSTALLDIR"/root/.profile |cut -f7- -d /
-	ls "$INSTALLDIR"/root/bin/* |cut -f7- -d /
+	printf "\\e[1;34mFiles moved and updated to the newest version:\\n\\n\\e[0;32m"
+	ls "$INSTALLDIR/$STARTBIN" | cut -f7- -d /
+	ls "$INSTALLDIR"/bin/we | cut -f7- -d /
+	ls "$INSTALLDIR"/root/.bashrc | cut -f7- -d /
+	ls "$INSTALLDIR"/root/.bash_profile | cut -f7- -d /
+	ls "$INSTALLDIR"/root/bin/* | cut -f7- -d /
 	if [[ "${LCR:-}" = 2 ]]
 	then
-	_FUNLCR2_
+		_FUNLCR2_
 	fi
 	printf "\\n"
 	_WAKEUNLOCK_
@@ -245,7 +267,7 @@ _SYSTEMINFO_ () {
 	printf "%s %s\\n" "[getprop net.dns4]:" "[$(getprop net.dns4)]" >> "${WDIR}setupTermuxArchSysInfo$STIME".log
 	printf "%s %s\\n" "[getprop persist.sys.locale]:" "[$(getprop persist.sys.locale)]" >> "${WDIR}setupTermuxArchSysInfo$STIME".log
 	printf "%s %s\\n" "[getprop ro.build.target_country]:" "[$(getprop ro.build.target_country)]" >> "${WDIR}setupTermuxArchSysInfo$STIME".log
-	printf "%s %s\\n" "[getprop ro.build.version.release]:" "[$(getprop ro.build.version.release)]" >> "${WDIR}setupTermuxArchSysInfo$STIME".log
+	printf "%s %s\\n" "[getprop ro.build.version.release]:" "[$SYSVER(getprop ro.build.version.release)]" >> "${WDIR}setupTermuxArchSysInfo$STIME".log
 	printf "%s %s\\n" "[getprop ro.build.version.preview_sdk]:" "[$(getprop ro.build.version.preview_sdk)]" >> "${WDIR}setupTermuxArchSysInfo$STIME".log
 	printf "%s %s\\n" "[getprop ro.build.version.sdk]:" "[$(getprop ro.build.version.sdk)]" >> "${WDIR}setupTermuxArchSysInfo$STIME".log
 	printf "%s %s\\n" "[getprop ro.com.google.clientidbase]:" "[$(getprop ro.com.google.clientidbase)]" >> "${WDIR}setupTermuxArchSysInfo$STIME".log

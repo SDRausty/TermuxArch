@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Copyright 2019-2020 (c) all rights reserved
 # by S D Rausty https://termuxarch.github.io/TermuxArch/
+# This script updates the main git repository and its' submodules.
 #####################################################################
 set -Eeuo pipefail
 
@@ -46,4 +47,4 @@ OUNA="/TermuxArch"
 _GSA_ docs docsTermuxArch ""
 _GSA_ gen genTermuxArch ""
 _GSA_ scripts "scripts\.TermuxArch" ""
-# gsa.bash EOF
+# updateTermuxArch.bash EOF
