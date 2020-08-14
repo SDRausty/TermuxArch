@@ -220,9 +220,6 @@ _ADDcsystemctl_() {
 	chmod 700 /usr/local/bin/systemctl
 	[ ! -d /run/lock ] && mkdir -p /run/lock
 	touch /var/lock/csystemctl.lock
-	sed -i 's/#IgnorePkg   =/IgnorePkg   = systemctl systemd-libs systemd-sysvcompat/g' /etc/pacman.conf
-	sed -i 's/#IgnoreGroup =/IgnoreGroup = systemctl systemd-libs systemd-sysvcompat/g' /etc/pacman.conf
-	sed -i 's/#NoUpgrade   =/NoUpgrade  = systemctl systemd-libs systemd-sysvcompat/g' /etc/pacman.conf
 	printf "%s\\n" "Installing systemctl replacement in /usr/local/bin and /usr/bin: DONE"
 	EOM
 	chmod 700 root/bin/csystemctl.bash
@@ -900,7 +897,14 @@ _ADDwe_() {
 
 _ADDyt_() {
 	_CFLHDR_ root/bin/yt
-	printf "%s\\n%s\\n" "[ \"\$(id -u)\" = \"0\" ] && printf \"\\n%s\\n%s\\n\" \"Cannot run as root : exiting : $STARTBIN command addauser username : creates user accounts in ${INSTALLDIR##*/} : \" && exit" "[ ! -x \"\$(command -v youtube-dl)\" ] && sudo pci youtube-dl && youtube-dl \"\$@\" || youtube-dl \"\$@\" " >> root/bin/yt
+	printf "%s\\n%s\\n" "[ \"\$(id -u)\" = \"0\" ] && printf \"\\n%s\\n%s\\n\" \"Cannot run as root : exiting : the command \`$STARTBIN addauser username\` creates user accounts in ${INSTALLDIR##*/} : \" && exit" "[ ! -x \"\$(command -v youtube-dl)\" ] && sudo pci youtube-dl && youtube-dl \"\$@\" || youtube-dl \"\$@\" " >> root/bin/yt
 	chmod 700 root/bin/yt
+}
+
+_PREPPACMANCONF_() {
+	sed -i 's/^CheckSpace/\#CheckSpace/g' "$INSTALLDIR"/etc/pacman.conf
+	sed -i 's/#IgnorePkg   =/IgnorePkg   = systemctl systemd-libs systemd-sysvcompat/g' "$INSTALLDIR"/etc/pacman.conf
+	sed -i 's/#IgnoreGroup =/IgnoreGroup = systemctl systemd-libs systemd-sysvcompat/g' "$INSTALLDIR"/etc/pacman.conf
+	sed -i 's/#NoUpgrade   =/NoUpgrade  = systemctl systemd-libs systemd-sysvcompat/g' "$INSTALLDIR"/etc/pacman.conf
 }
 # archlinuxconfig.bash EOF

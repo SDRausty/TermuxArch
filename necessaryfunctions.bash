@@ -57,10 +57,9 @@ _CALLSYSTEM_() {
 	else
 		if [[ "$CMIRROR" = "os.archlinuxarm.org" ]] || [[ "$CMIRROR" = "mirror.archlinuxarm.org" ]]
 		then
-			until _FTCHSTND_
+			until _FTCHSTND_ || CRV="$?" && [[ $CRV = 22 ]] && printf "%s\\n" "Received curl error message $CRV; Continuing..." && break
 			do
-				_FTCHSTND_ || CRV="$?"
-				[[ $CRV = 22 ]] && printf "%s\\n" "Received curl error message $CRV; Continuing..." && break
+				_FTCHSTND_
 				sleep 2
 				printf "\\n"
 				COUNTER=$((COUNTER + 1))
@@ -211,8 +210,9 @@ _MAKEFINISHSETUP_() {
 	_FIXOWNER_
 	if [[ -z "${LCR:-}" ]] # is undefined
 	then
-		printf "%s\\n" "pacman -Syy ||:" >> root/bin/"$BINFNSTP"
+		printf "%s\\n" "pacman -Syy || pacman -Syy || printf \"\\n%s\\n\" \"Cannot complete 'pacman -Syy' : continuing : using 'bash setupTermuxArch.bash refresh' is recommended to correct any errors found : \" :" >> root/bin/"$BINFNSTP"
 		printf "%s\\n" "/root/bin/keys ||:" >> root/bin/"$BINFNSTP"
+		printf "%s\\n" "/root/bin/csystemctl.bash ||:" >> root/bin/"$BINFNSTP"
 	 	if [[ "$CPUABI" = "$CPUABI5" ]]
 		then
 	 		printf "%s\\n" "pacman -Rc linux-armv5 linux-firmware --noconfirm --color=always 2>/dev/null ||:" >> root/bin/"$BINFNSTP"
@@ -470,11 +470,11 @@ _SETLOCALE_() { # This function uses device system settings to set locale.  To g
 	 	printf "%s\\n" "${LC_TYPE[i]}=$ULANGUAGE.UTF-8" >> etc/locale.conf
 	done
 	sed -i "/\\#$ULANGUAGE.UTF-8 UTF-8/{s/#//g;s/@/-at-/g;}" etc/locale.gen
-	sed -i 's/^CheckSpace/\#CheckSpace/g' "$INSTALLDIR"/etc/pacman.conf
 }
 
 _TOUCHUPSYS_() {
 	_ADDMOTD_
+	_PREPPACMANCONF_
 	_SETLOCALE_
 	_RUNFINISHSETUP_
 	rm -f root/bin/$BINFNSTP
