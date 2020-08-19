@@ -68,7 +68,7 @@ _ADDbash_logout_() {
 }
 
 _ADDbash_profile_() {
-	[ -e root/.bash_profile ] && _DOTHF_ root/.bash_profile
+	_DOTHF_ root/.bash_profile
 	cat > root/.bash_profile <<- EOM
 	. "\$HOME"/.bashrc
 	if [ ! -e "\$HOME"/.hushlogin ] && [ ! -e "\$HOME"/.chushlogin ] ; then
@@ -89,7 +89,7 @@ _ADDbash_profile_() {
 }
 
 _ADDbashrc_() {
-	[ -e root/.bashrc ] && _DOTHF_ root/.bashrc
+	_DOTHF_ root/.bashrc
 	printf "%s\\n" "PATH=\"\$HOME/bin:/sbin:/bin:/usr/sbin:/usr/bin:/usr/local/sbin:/usr/local/bin:\"" > root/.bashrc
 	cat >> root/.bashrc <<- EOM
 	[ -f /etc/profile.d/perlbin.sh ] && . /etc/profile.d/perlbin.sh
@@ -660,8 +660,8 @@ _ADDpci_() {
 }
 
 _ADDprofile_() {
-	[ -e root/.profile ] && _DOTHF_ root/.profile
-	[ -e "$HOME"/.profile ] && ( grep "proxy" "$HOME"/.profile | grep "export" >>  root/.profile 2>/dev/null )
+	_DOTHF_ root/.profile
+	[ -e "$HOME"/.profile ] && (grep "proxy" "$HOME"/.profile | grep "export" >>  root/.profile 2>/dev/null) ||:
 	touch root/.profile
 }
 

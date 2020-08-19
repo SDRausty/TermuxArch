@@ -361,7 +361,6 @@ _MD5CHECK_() {
 }
 
 _PREPROOTDIR_() {
-	cd "$INSTALLDIR"
 	[[ ! -d etc ]] && mkdir -p etc
 	[[ ! -d home ]] && mkdir -p home
 	[[ ! -d root/bin ]] && mkdir -p root/bin
@@ -370,6 +369,7 @@ _PREPROOTDIR_() {
 }
 
 _PREPINSTALLDIR_() {
+	cd "$INSTALLDIR"
 	_PREPROOTDIR_ || _PSGI1ESTRING_ "_PREPROOTDIR_ _PREPINSTALLDIR_ necessaryfunctions.bash ${0##*/}"
 	_SETLANGUAGE_
 	_ADDADDS_
