@@ -69,7 +69,8 @@ _ADDbash_logout_() {
 
 _ADDbash_profile_() {
 	_DOTHF_ root/.bash_profile
-	cat > root/.bash_profile <<- EOM
+	printf "%s\\n" "PATH=\"\$HOME/bin:/sbin:/bin:/usr/sbin:/usr/bin:/usr/local/sbin:/usr/local/bin:\$PATH\"" > root/.bash_profile
+	cat >> root/.bash_profile <<- EOM
 	. "\$HOME"/.bashrc
 	if [ ! -e "\$HOME"/.hushlogin ] && [ ! -e "\$HOME"/.chushlogin ] ; then
 		. /etc/motd
@@ -90,8 +91,7 @@ _ADDbash_profile_() {
 
 _ADDbashrc_() {
 	_DOTHF_ root/.bashrc
-	printf "%s\\n" "PATH=\"\$HOME/bin:/sbin:/bin:/usr/sbin:/usr/bin:/usr/local/sbin:/usr/local/bin:\"" > root/.bashrc
-	cat >> root/.bashrc <<- EOM
+	cat > root/.bashrc <<- EOM
 	[ -f /etc/profile.d/perlbin.sh ] && . /etc/profile.d/perlbin.sh
 	alias C='cd .. && pwd'
 	alias c='cd .. && pwd'
