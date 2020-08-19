@@ -15,7 +15,7 @@ FLHDR1[1]="# IFS=$'\\n\\t'"
 FLHDR1[2]="set -Eeuo pipefail"
 FLHDR1[3]="# shopt -s nullglob globstar"
 FLHDR1[4]="unset LD_PRELOAD"
-FLHDR1[5]="VERSIONID=2.0.26"
+FLHDR1[5]="VERSIONID=2.0.27"
 FLHDR1[6]=" "
 FLHDRP[0]="## BEGIN #######################################################################"
 FLHDRP[1]=""
@@ -156,7 +156,7 @@ _PRINTDOWNLOADINGX86TWO_() {
 
 _PRINTDOWNLOADINGFTCH_() {
 	printf "\033]2;%s\007" " 🕛 > 🕓 Downloading the checksum and Arch Linux system image files...  "
-	printf "\\e[0;34m 🕛 > 🕓 \\e[1;34mDownloading the checksum file and \\e[1;34m%s \\e[1;34mfrom the geographically local mirror \\e[1;32m%s\\e[1;34m.  If contact with the local mirror is not successful, run \\e[1;32mbash \\e[0;32msetupTermuxArch.bash\\e[1;34m again.  Should the worldwide mirror not provide another geographically nearby server after a couple of attempts, use \\e[1;32mbash \\e[0;32msetupTermuxArch.bash manual \\e[1;34mafter locating a local mirror from the Internet; See \\e[1;32mbash \\e[0;32msetupTermuxArch.bash help \\e[1;34mfor additional options.  \\e[1;37mDownload of %s pending Internet connection...\\n\\n\\e[0;32m" "$IFILE" "$NLCMIRROR" "$IFILE"
+	printf "\\e[0;34m 🕛 > 🕓 \\e[1;34mDownloading the checksum file and \\e[1;34m%s \\e[1;34mfrom the geographically local mirror \\e[1;32m%s\\e[1;34m.  If contact with the local mirror is not successful, run \\e[1;32mbash \\e[0;32msetupTermuxArch.bash\\e[1;34m again.  Should the worldwide mirror not provide another geographically nearby server after a couple of attempts, use \\e[1;32mbash \\e[0;32msetupTermuxArch.bash manual \\e[1;34mafter locating a local mirror from the Internet; The command \\e[1;32mbash \\e[0;32msetupTermuxArch.bash help \\e[1;34mhas information about additional options.  \\e[1;37mDownload of %s pending Internet connection...\\n\\n\\e[0;32m" "$IFILE" "$NLCMIRROR" "$IFILE"
 }
 
 _PRINT_DOWNLOADING_FTCHIT_() {
