@@ -90,7 +90,7 @@ _ADDbash_profile_() {
 
 _ADDbashrc_() {
 	[ -e root/.bashrc ] && _DOTHF_ root/.bashrc
-	[[ -d "$HOME"/bin ]] && printf "%s\\n" "PATH=\"\$HOME/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:\"" > root/.bashrc || printf "%s\\n" "PATH=\"/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:$PREFIX/bin:$PREFIX/bin/applets:$PREFIX/lib:$PREFIX/libexec\"" >> root/.bashrc
+	printf "%s\\n" "PATH=\"\$HOME/bin:/sbin:/bin:/usr/sbin:/usr/bin:/usr/local/sbin:/usr/local/bin:\"" > root/.bashrc
 	cat >> root/.bashrc <<- EOM
 	[ -f /etc/profile.d/perlbin.sh ] && . /etc/profile.d/perlbin.sh
 	alias C='cd .. && pwd'
