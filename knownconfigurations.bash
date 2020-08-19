@@ -71,10 +71,10 @@ _PR00TSTRING_() { # construct proot init statements
 	PROOTSTMNT="exec proot "
        	if [[ -z "${KID:-}" ]]
 	then
-	       	PROOTSTMNT+=""
-       	elif [[ "$KID" ]]
+		PROOTSTMNT+="--kernel-release=$(uname -r)-generic "
+       	elif [[ "$KID" = 0 ]]
 	then
-	       	PROOTSTMNT+="--kernel-release=4.14.15 "
+	       	PROOTSTMNT+="--kernel-release=4.14.15-generic "
        	fi
        	if [[ "$KOE" = 0 ]]
 	then
@@ -123,6 +123,5 @@ _PR00TSTRING_() { # construct proot init statements
 }
 _PR00TSTRING_
 # uncomment the next two lines to test function _PR00TSTRING_
-# printf "%s\\n" "$PROOTSTMNT"
-# exit
+# printf "%s\\n" "$PROOTSTMNT" && exit
 # knownconfigurations.bash EOF

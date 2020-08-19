@@ -6,21 +6,21 @@
 ################################################################################
 
 _COPYIMAGE_() { # A systemimage.tar.gz file can be used: `setupTermuxArch.bash ./[path/]systemimage.tar.gz` and `setupTermuxArch.bash /absolutepath/systemimage.tar.gz`
- 	CFILE="${1##/*/}"
-	IFILE="${CFILE##*/}"
  	if [[ "$LCP" = "0" ]]
 	then
-		echo "Copying $1.md5 to $INSTALLDIR…"
-		cp "$1".md5  "$INSTALLDIR"
-		echo "Copying $1 to $INSTALLDIR…"
-		cp "$1" "$INSTALLDIR"
+		echo "Copying $GFILE.md5 to $INSTALLDIR..."
+		cp "$GFILE".md5  "$INSTALLDIR"
+		echo "Copying $GFILE to $INSTALLDIR..."
+		cp "$GFILE" "$INSTALLDIR"
  	elif [[ "$LCP" = "1" ]]
 	then
-		echo "Copying $1.md5 to $INSTALLDIR…"
-		cp "$WDIR$1".md5  "$INSTALLDIR"
-		echo "Copying $1 to $INSTALLDIR…"
-		cp "$WDIR$1" "$INSTALLDIR"
+		echo "Copying $GFILE.md5 to $INSTALLDIR..."
+		cp "$WDIR$GFILE".md5  "$INSTALLDIR"
+		echo "Copying $GFILE to $INSTALLDIR..."
+		cp "$WDIR$GFILE" "$INSTALLDIR"
  	fi
+  	GFILE="${GFILE##/*/}"
+ 	IFILE="${GFILE##*/}"
 }
 
 _DOFUNLCR2_() {
@@ -54,7 +54,7 @@ _LOADIMAGE_() {
 	printf "\\n"
 	_WAKELOCK_
 	_PREPINSTALLDIR_
-  	_COPYIMAGE_ ## "$@" & spinner "Copying" "…"
+  	_COPYIMAGE_ ## "$@" & spinner "Copying" "..."
 	_PRINTMD5CHECK_
 	_MD5CHECK_
 	_PRINTCU_
@@ -220,8 +220,8 @@ _SPACEINFOKSIZE_() {
 _SYSINFO_() {
  	_NAMESTARTARCH_
 	_SPACEINFO_
-	printf "\\n\\e[1;32mGenerating TermuxArch system information; Please wait…\\n\\n"
-	_SYSTEMINFO_ ## & spinner "Generating" "System Information…"
+	printf "\\n\\e[1;32mGenerating TermuxArch system information; Please wait...\\n\\n"
+	_SYSTEMINFO_ ## & spinner "Generating" "System Information..."
 	printf "\\e[38;5;76m"
 	cat "${WDIR}setupTermuxArchSysInfo$STIME".log
 	printf "\\n\\e[1mThis information may be quite important when planning issue(s) at https://github.com/sdrausty/TermuxArch/issues with the hope of improving \`setupTermuxArch.bash\`;  Include input and output, along with screenshot(s) relavent to X, and similar.\\n\\n"

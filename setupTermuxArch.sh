@@ -7,7 +7,7 @@ IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-VERSIONID=2.0.25
+VERSIONID=2.0.26
 ## INIT FUNCTIONS ##############################################################
 _STRPERROR_() { # run on script error
 	local RV="$?"
@@ -65,9 +65,11 @@ _ARG2DIR_() {  # argument as ROOTDIR
 	fi
 }
 
+#balnck
 _CHK_() {
-	if sha512sum -c termuxarchchecksum.sha512 1>/dev/null
+	if sha512sum -c termuxarchchecksum.sha512
 	then
+		printf "\\n"
  		_CHKSELF_ "$@"
 		printf "\\e[0;34m%s \\e[1;34m%s \\e[1;32m%s\\e[0m\\n" " 🕛 > 🕜" "TermuxArch $VERSIONID integrity:" "OK"
 		_LOADCONF_
@@ -87,6 +89,7 @@ _CHK_() {
 			_MANUAL_
 		fi
 	else
+		printf "\\n"
 		_PRINTSHA512SYSCHKER_
 	fi
 }
@@ -101,15 +104,12 @@ _CHKDWN_() {
 	fi
 }
 
-_CHKSELF_() {
-	if [[ -f "setupTermuxArch.tmp" ]]
-	then # compare the two versions:
-		if [[ "$(<setupTermuxArch.bash)" != "$(<setupTermuxArch.tmp)" ]] # the two versions are not equal:
-		then # copy the newer version to update:
-			cp setupTermuxArch.bash "${WDIR}setupTermuxArch.bash"
-			printf "\\e[0;32m%s\\e[1;34m: \\e[1;32mUPDATED\\n\\e[1;32mRESTARTED\\e[1;34m: \\e[0;32m%s %s \\n\\n\\e[0m"  "${0##*/}" "${0##*/}" "$ARGS"
- 			.  "${WDIR}setupTermuxArch.bash" "$@"
-		fi
+_CHKSELF_() { # compare the two versions of file setupTermuxArch.bash
+	if [[ "$(<$TAMPDIR/setupTermuxArch.bash)" != "$(<$WFILE)" ]] # files differ
+	then # copy the newer version to update file setupTermuxArch.bash
+		cp setupTermuxArch.bash "${WDIR}setupTermuxArch.bash"
+		printf "\\e[0;32m%s\\e[1;34m: \\e[1;32mUPDATED\\n\\e[1;32mRESTARTED\\e[1;34m: \\e[0;32m%s %s \\n\\n\\e[0m"  "${0##*/}" "${0##*/}" "$ARGS"
+		.  "${WDIR}setupTermuxArch.bash" "$@"
 	fi
 }
 
@@ -203,10 +203,10 @@ _DEPENDSBLOCK_() {
 	else
 		cd "$TAMPDIR"
 		_DWNL_
-		if [[ -f "${WDIR}setupTermuxArch.bash" ]]
-		then
-			cp "${WDIR}setupTermuxArch.bash" setupTermuxArch.tmp
-		fi
+# 		if [[ -f "${WDIR}setupTermuxArch.bash" ]]
+# 		then
+# 			cp "${WDIR}setupTermuxArch.bash" setupTermuxArch.tmp
+# 		fi
 		_CHKDWN_
 		_CHK_ "$@"
 	fi
@@ -609,7 +609,8 @@ declare LCC=""
 declare LCP=""
 declare OPT=""
 declare ROOTDIR=""
-declare WDIR="$PWD/"
+declare WFILE=""
+declare WDIR=""
 declare STI=""		## Generates pseudo random number.
 declare STIME=""	## Generates pseudo random number.
 if [[ -z "${TAMPDIR:-}" ]]
@@ -648,6 +649,9 @@ STIME="$ONESA$STIME"
 CPUABI="$(getprop ro.product.cpu.abi)"
 SYSVER="$(getprop ro.build.version.release)"
 NASVER="$(getprop net.bt.name ) $SYSVER"
+WDIR="$PWD/"
+WFILE="$0"
+[[ "$WFILE"  == "setupTermuxArch.bash" ]] && WFILE="$WDIR$WFILE"
 ## 5) And all options are optional for install.
 ## THESE OPTIONS ARE AVAILABLE FOR YOUR CONVENIENCE:
 ## DEFAULTS ARE IMPLIED AND CAN BE OMITTED.

@@ -6,22 +6,30 @@
 ################################################################################
 
 _ADDAUSER_() {
-	_CFLHDR_ root/bin/addauser "# Add Arch Linux user."
+	_CFLHDR_ root/bin/addauser "# add Arch Linux in Termux PRoot user"
 	cat >> root/bin/addauser <<- EOM
-	if [[ -z "\${1:-}" ]] ; then
-		echo "Use: addauser username"
-		exit 201
-	else
-		sed -i "s/required/sufficient/g" /etc/pam.d/su
-		sed -i "s/^#auth/auth/g" /etc/pam.d/su
-		useradd -s /bin/bash "\$1" -U
- 		usermod "\$1" -aG wheel
- 		[[ -d /etc/sudoers.d ]] && printf "%s\\n" "\$1 ALL=(ALL) ALL" >> /etc/sudoers.d/"\$1"
-		sed -i "s/\$1:x/\$1:/g" /etc/passwd
-		cp -r /root /home/"\$1"
-		su - "\$1"
-	fi
-	EOM
+_FUNADDU_() {
+if [[ -z "\${1:-}" ]]
+then
+	printf "\\e[1;31m%s\\\\n" "Use: addauser username: exiting..."
+	exit 201
+else
+	sed -i "s/required/sufficient/g" /etc/pam.d/su
+	sed -i "s/^#auth/auth/g" /etc/pam.d/su
+	useradd -s /bin/bash "\$1" -U
+		usermod "\$1" -aG wheel
+		[[ -d /etc/sudoers.d ]] && printf "%s\\n" "\$1 ALL=(ALL) ALL" >> /etc/sudoers.d/"\$1"
+	sed -i "s/\$1:x/\$1:/g" /etc/passwd
+	cp -r /root /home/"\$1"
+	printf "%s\\n" "Added user \$1 and directory /home/\$1 created.  To use this account run '$STARTBIN login \$1' in Termux.  Remember please to not nest proot in proot by running '$STARTBIN' in '$STARTBIN' as this may cause issues."
+fi
+}
+_PMFSESTRING_() { 
+printf "\\e[1;31m%s\\e[1;37m%s\\e[1;32m%s\\e[1;37m%s\\n\\n" "Signal generated in '\$1' : Cannot complete task : " "Continuing..."
+printf "\\e[1;34m%s\\e[0;34m%s\\e[1;34m%s\\e[0;34m%s\\e[1;34m%s\\e[0m\\n\\n" "  If you find improvements for " "setupTermuxArch.bash" " and " "\$0" " please open an issue and accompanying pull request."
+}
+_FUNADDU_ "\$@"
+EOM
 	chmod 700 root/bin/addauser
 }
 
@@ -30,8 +38,8 @@ _ADDREADME_() {
 	cat > root/bin/README.md <<- EOM
 	This directory contains shortcut commands that automate and ease using the command line.
 
-	* Comments welcome at https://github.com/sdrausty/TermuxArch/issues ✍
-	* Pull requests welcome at https://github.com/sdrausty/TermuxArch/pulls ✍
+	* Comments welcome at https://github.com/TermuxArch/TermuxArch/issues ✍
+	* Pull requests welcome at https://github.com/TermuxArch/TermuxArch/pulls ✍
 	EOM
 }
 
@@ -44,7 +52,7 @@ _ADDae_() {
 }
 
 _ADDaddresolvconf_() {
-	mkdir -p run/systemd/resolve
+	[ ! -e run/systemd/resolve ] && mkdir -p run/systemd/resolve
 	cat > run/systemd/resolve/resolv.conf <<- EOM
 	nameserver 8.8.8.8
 	nameserver 8.8.4.4
@@ -178,7 +186,7 @@ _ADDch_() {
 		ARGS="\$@"
 	fi
 
-	printf "\\\\n\\\\e[1;32m==> \\\\e[1;37m%s \\\\e[1;32m%s %s %s\\\e[0m%s…\\\\n\\\\n" "Running" "TermuxArch \$(basename "\$0")" "\$ARGS" "\$VERSIONID"
+	printf "\\\\n\\\\e[1;32m==> \\\\e[1;37m%s \\\\e[1;32m%s %s %s\\\e[0m%s...\\\\n\\\\n" "Running" "TermuxArch \$(basename "\$0")" "\$ARGS" "\$VERSIONID"
 
 	if [[ -f "\$HOME"/.hushlogin ]] && [[ -f "\$HOME"/.hushlogout ]] ; then
 		rm "\$HOME"/.hushlogin "\$HOME"/.hushlogout
@@ -218,7 +226,7 @@ _ADDcsystemctl_() {
 	curl https://raw.githubusercontent.com/gdraheim/docker-systemctl-replacement/master/files/docker/systemctl3.py | tee /usr/bin/systemctl /usr/local/bin/systemctl >/dev/null
 	chmod 700 /usr/bin/systemctl
 	chmod 700 /usr/local/bin/systemctl
-	[ ! -d /run/lock ] && mkdir -p /run/lock
+	[ ! -e /run/lock ] && mkdir -p /run/lock
 	touch /var/lock/csystemctl.lock
 	printf "%s\\n" "Installing systemctl replacement in /usr/local/bin and /usr/bin: DONE"
 	EOM
@@ -330,25 +338,22 @@ _ADDfbindprocstat8_() {
 
 _ADDfbindprocversion_() {
 	_CFLHDRS_ var/binds/fbindprocversion.prs
-	#Display a fake updated kernel when /proc/version is accessed.
 	cat > var/binds/fbindprocversion.prs  <<- EOM
-	PROOTSTMNT+=" --kernel-release=5.4.0-generic "
+	# bind a fake kernel when /proc/version is accessed
 	PROOTSTMNT+=" -b $INSTALLDIR/var/binds/fbindprocversion:/proc/version "
 	EOM
 	cat > var/binds/fbindprocversion <<- EOM
-	Linux version 5.4.0-generic (root@localhost) (gcc version 4.9.x 20150123 (prerelease) (GCC) ) #1 SMP PREEMPT Tue Aug 04 00:00:00 UTC 2020
+	Linux version $(uname -r)-generic (root@localhost) (gcc version 4.9.x 20150123 (prerelease) (GCC) ) #1 SMP PREEMPT $(date +%a" "%b" "%d" "%X" UTC "%Y)
 	EOM
 }
 
 _ADDfbindexample_() {
-	_CFLHDRS_ var/binds/fbindexample.prs "# Before regenerating the start script with \`setupTermuxArch.bash re[fresh]\`, first copy this file to another name such as \`fbinds.prs\`.  Then add as many proot statements as you want; The init script will parse file \`fbinds.prs\` at refresh adding these proot options to \`$STARTBIN\`.  Examples are included for convenience.  The space before the last double quote is necessary."
+	_CFLHDRS_ var/binds/fbindexample.prs "# Before regenerating the start script with \`setupTermuxArch.bash re[fresh]\`, first copy this file to another name such as \`fbinds.prs\`.  Then add as many proot statements as you want; The init script will parse file \`fbinds.prs\` at refresh adding these proot options to \`$STARTBIN\`.  The space before the last double quote is necessary.  Examples are included for convenience:"
 	cat >> var/binds/fbindexample.prs <<- EOM
-	# Usage: PROOTSTMNT+=\"-b host_path:guest_path \" # The space before the last double quote is necessary."
-	# PROOTSTMNT+=" -q $PREFIX/bin/qemu-x86_64 "
-	# PROOTSTMNT+="-b $INSTALLDIR/var/binds/fbindprocstat:/proc/stat "
-	# if [[ ! -r /dev/shm ]] ; then
-	# 		PROOTSTMNT+="-b $INSTALLDIR/tmp:/dev/shm "
-	# fi
+	# PRoot bind usage: PROOTSTMNT+="-b host_path:guest_path " # the space before the last double quote is necessary
+	# PROOTSTMNT+="-q $PREFIX/bin/qemu-x86_64 "
+	# PROOTSTMNT+="-b /proc/:/proc/ "
+	# [[ ! -r /dev/shm ]] && PROOTSTMNT+="-b $INSTALLDIR/tmp:/dev/shm "
 	# fbindexample.prs EOF
 	EOM
 }
@@ -493,17 +498,17 @@ _ADDkeys_() {
 	fi
 	ARGS="\${KEYRINGS[@]}"
 	printf '\033]2;  🔑 TermuxArch '"\$(basename "\$0") \$ARGS"' 📲 \007'
-	printf "\\\\n\\\\e[1;32m==> \\\\e[1;37m%s \\\\e[0;32m%s \\\\e[1;32m%s %s \\\\e[0m%s…\\\\n" "Running" "TermuxArch" "\$(basename "\$0")" "\$ARGS" "\$VERSIONID"
+	printf "\\\\n\\\\e[1;32m==> \\\\e[1;37m%s \\\\e[0;32m%s \\\\e[1;32m%s %s \\\\e[0m%s...\\\\n" "Running" "TermuxArch" "\$(basename "\$0")" "\$ARGS" "\$VERSIONID"
 	mv usr/lib/gnupg/scdaemon{,_} 2>/dev/null ||:
-	printf "\n\e[0;34mWhen \e[0;37mgpg: Generating pacman keyring master key\e[0;34m appears on the screen, the installation process can be accelerated.  The system desires a lot of entropy at this part of the install procedure.  To generate as much entropy as possible quickly, watch and listen to a file on your device.  \n\nThe program \e[1;32mpacman-key\e[0;34m will want as much entropy as possible when generating keys.  Entropy is also created through tapping, sliding, one, two and more fingers tapping with short and long taps.  When \e[0;37mgpg: Generating pacman keyring master key\e[0;34m appears on the screen, use any of these simple methods to accelerate the installation process if it is stalled.  Put even simpler, just do something on device.  Browsing files will create entropy on device.  Slowly swiveling the device in space and time will accelerate the installation process.  This method alone might not generate enough entropy (a measure of randomness in a closed system) for the process to complete quickly.  Use \e[1;32mbash ~${DARCH}/bin/we \e[0;34min a new Termux session to and watch entropy on device.\n\n\e[1;32m==>\e[0m Running \e[1mpacman-key --init\e[0;32m…\n"
+	printf "\n\e[0;34m[1/2] When \e[0;37mgpg: Generating pacman keyring master key\e[0;34m appears on the screen, the installation process can be accelerated.  The system desires a lot of entropy at this part of the install procedure.  To generate as much entropy as possible quickly, watch and listen to a file on your device.  \n\nThe program \e[1;32mpacman-key\e[0;34m will want as much entropy as possible when generating keys.  Entropy is also created through tapping, sliding, one, two and more fingers tapping with short and long taps.  When \e[0;37mgpg: Generating pacman keyring master key\e[0;34m appears on the screen, use any of these simple methods to accelerate the installation process if it is stalled.  Put even simpler, just do something on device.  Browsing files will create entropy on device.  Slowly swiveling the device in space and time will accelerate the installation process.  This method alone might not generate enough entropy (a measure of randomness in a closed system) for the process to complete quickly.  Use \e[1;32mbash ~${DARCH}/bin/we \e[0;34min a new Termux session to and watch entropy on device.\n\n\e[1;32m==>\e[0m Running \e[1mpacman-key --init\e[0;32m...\n"
 	pacman-key --init ||:
 	chmod 700 /etc/pacman.d/gnupg
 	pacman-key --populate ||:
-	printf "\n\e[1;32m==>\e[0m Running \e[1mpacman -S \$ARGS --noconfirm --color=always\e[0;32m…\n"
+	printf "\n\e[1;32m==>\e[0m Running \e[1mpacman -S \$ARGS --noconfirm --color=always\e[0;32m...\n"
 	pacman -S "\${KEYRINGS[@]}" --noconfirm --color=always ||:
-	printf "\n\e[0;34mWhen \e[1;37mAppending keys from archlinux.gpg\e[0;34m appears on the screen, the installation process can be accelerated.  The system desires a lot of entropy at this part of the install procedure.  To generate as much entropy as possible quickly, watch and listen to a file on your device.  \n\nThe program \e[1;32mpacman-key\e[0;34m will want as much entropy as possible when generating keys.  Entropy is also created through tapping, sliding, one, two and more fingers tapping with short and long taps.  When \e[1;37mAppending keys from archlinux.gpg\e[0;34m appears on the screen, use any of these simple methods to accelerate the installation process if it is stalled.  Put even simpler, just do something on device.  Browsing files will create entropy on device.  Slowly swiveling the device in space and time will accelerate the installation process.  This method alone might not generate enough entropy (a measure of randomness in a closed system) for the process to complete quickly.  Use \e[1;32mbash ~${DARCH}/bin/we \e[0;34min a new Termux session to watch entropy on device.\n\n\e[1;32m==>\e[0m Running \e[1mpacman-key --populate\e[0;32m…\n"
+	printf "\n\e[0;34m[2/2] When \e[1;37mAppending keys from archlinux.gpg\e[0;34m appears on the screen, the installation process can be accelerated.  The system desires a lot of entropy at this part of the install procedure.  To generate as much entropy as possible quickly, watch and listen to a file on your device.  \n\nThe program \e[1;32mpacman-key\e[0;34m will want as much entropy as possible when generating keys.  Entropy is also created through tapping, sliding, one, two and more fingers tapping with short and long taps.  When \e[1;37mAppending keys from archlinux.gpg\e[0;34m appears on the screen, use any of these simple methods to accelerate the installation process if it is stalled.  Put even simpler, just do something on device.  Browsing files will create entropy on device.  Slowly swiveling the device in space and time will accelerate the installation process.  This method alone might not generate enough entropy (a measure of randomness in a closed system) for the process to complete quickly.  Use \e[1;32mbash ~${DARCH}/bin/we \e[0;34min a new Termux session to watch entropy on device.\n\n\e[1;32m==>\e[0m Running \e[1mpacman-key --populate\e[0;32m...\n"
 	pacman-key --populate ||:
-	printf "\e[1;32m==>\e[0m Running \e[1mpacman -Ss keyring --color=always\e[0m…\n"
+	printf "\e[1;32m==>\e[0m Running \e[1mpacman -Ss keyring --color=always\e[0m...\n"
 	pacman -Ss keyring --color=always ||:
 	EOM
 	chmod 700 root/bin/keys
@@ -531,7 +536,7 @@ _ADDMOTO_() {
 _ADDmakefakeroot-tcp_() {
 	_CFLHDR_ root/bin/makefakeroot-tcp.bash "# attempt to build and install fakeroot-tcp"
 	cat >> root/bin/makefakeroot-tcp.bash  <<- EOM
-	if [ "\$(id -u)" = "0" ]
+	if [ "\$UID" = "0" ]
 	then
 		printf "\\n%s\\n\\n" "Error: Should not be used as root."
 	else
@@ -549,9 +554,9 @@ _ADDmakefakeroot-tcp_() {
 _ADDmakeyay_() {
 	_CFLHDR_ root/bin/makeyay.bash "# attempt to build and install yay"
 	cat >> root/bin/makeyay.bash  <<- EOM
-	if [ "\$(id -u)" = "0" ]
+	if [ "\$UID" = "0" ]
 	then
-		printf "\\n%s\\n\\n" "Error: Should not be used as root."
+		printf "\\n%s\\n\\n" "Error: Should not be used as root: Exiting..."
 	else
 		[ ! -f /var/lock/patchmakepkg.lock ] && patchmakepkg.bash
 		! fakeroot ls >/dev/null && makefakeroot-tcp.bash
@@ -602,7 +607,7 @@ _ADDpc_() {
 	## pc begin ####################################################################
 
 	printf '\033]2;  🔑 TermuxArch '"\$(basename "\$0") \$ARGS"' 📲 \007'
-	printf "\\\\n\\\\e[1;32m==> \\\\e[1;37m%s \\\\e[0;32m%s \\\\e[1;32m%s %s \\\e[0m%s…\\\\n\\\\n" "Running" "TermuxArch" "\$(basename "\$0")" "\$ARGS" "\$VERSIONID"
+	printf "\\\\n\\\\e[1;32m==> \\\\e[1;37m%s \\\\e[0;32m%s \\\\e[1;32m%s %s \\\e[0m%s...\\\\n\\\\n" "Running" "TermuxArch" "\$(basename "\$0")" "\$ARGS" "\$VERSIONID"
 	if [[ -z "\${1:-}" ]] ; then
 	pacman --noconfirm --color=always -S
 	elif [[ "\$1" = "a" ]] ; then
@@ -637,7 +642,7 @@ _ADDpci_() {
 	trap _TRPET_ EXIT
 	## pci begin ###################################################################
 
-	printf "\\\\n\\\\e[1;32m==> \\\\e[1;37m%s \\\\e[1;32m%s %s %s \\\e[0m%s…\\\\n\\\\n" "Running" "TermuxArch \$(basename "\$0")" "\$ARGS" "\$VERSIONID"
+	printf "\\\\n\\\\e[1;32m==> \\\\e[1;37m%s \\\\e[1;32m%s %s %s \\\e[0m%s...\\\\n\\\\n" "Running" "TermuxArch \$(basename "\$0")" "\$ARGS" "\$VERSIONID"
 	if [[ -z "\${1:-}" ]] ; then
 	pacman --noconfirm --color=always -Syu
 	elif [[ "\$1" = "e" ]] ; then
@@ -721,18 +726,34 @@ _ADDtour_() {
 _ADDtrim_() {
 	_CFLHDR_ root/bin/trim
 	cat >> root/bin/trim <<- EOM
-	printf "\\\\n\\\\e[1;32m==> \\\\e[1;0m%s\\\\e[0m\\\\n\\\\n" "Running ${0##*/} $@"
-	echo [1/5] rm -rf /boot/
+	_PMFSESTRING_() { 
+	printf "\\e[1;31m%s\\e[1;37m%s\\e[1;32m%s\\e[1;37m%s\\n\\n" "Signal generated in '\$1' : Cannot complete task : " "Continuing..."
+	printf "\\e[1;34m%s\\e[0;34m%s\\e[1;34m%s\\e[0;34m%s\\e[1;34m%s\\e[0m\\n\\n" "  If you find improvements for " "setupTermuxArch.bash" " and " "\$0" " please open an issue and accompanying pull request."
+	}
+	printf "\\\\n\\\\e[1;32m==> \\\\e[1;0m%s\\\\e[0m\\\\n\\\\n" "Running \${0##*/} trim \$@:"
+	if [[ "\$UID" -eq "0" ]]
+	then
+		SUTRIM="pacman -Sc --noconfirm --color=always"
+		_SUTRIM_() {
+			pacman -Sc --noconfirm --color=always || _PMFSESTRING_ "pacman -Sc"
+		}
+	else
+		SUTRIM="sudo pacman -Sc --noconfirm --color=always"
+		_SUTRIM_() {
+			sudo pacman -Sc --noconfirm --color=always || _PMFSESTRING_ "pacman -Sc"
+		}
+	fi
+	printf "%s\\\\n" "[1/5] rm -rf /boot/"
 	rm -rf /boot/
-	echo [2/5] rm -rf /usr/lib/firmware
+	printf "%s\\\\n" "[2/5] rm -rf /usr/lib/firmware"
 	rm -rf /usr/lib/firmware
-	echo [3/5] rm -rf /usr/lib/modules
+	printf "%s\\\\n" "[3/5] rm -rf /usr/lib/modules"
 	rm -rf /usr/lib/modules
-	echo [4/5] pacman -Sc --noconfirm --color=always
-	pacman -Sc --noconfirm --color=always
-	echo [5/5] rm -f /var/cache/pacman/pkg/*xz
-	rm -f /var/cache/pacman/pkg/*xz ||:
-	printf "\\\\n\\\\e[1;32mtrim: Done \\\\e[0m\\\\n\\\\n"
+	printf "%s\\\\n" "[4/5] \$SUTRIM"
+	_SUTRIM_
+	printf "%s\\\\n" "[5/5] rm -f /var/cache/pacman/pkg/*xz"
+	rm -f /var/cache/pacman/pkg/*xz || _PMFSESTRING_ "rm -f"
+	printf "\\\\n\\\\e[1;32m%s\\\\e[0m\\\\n\\\\n" "\${0##*/} trim \$@: Done"
 	EOM
 	chmod 700 root/bin/trim
 }
@@ -746,7 +767,7 @@ _ADDv_() {
 		ARGS=("\$@")
 	fi
 	EOM
-	printf "%s\\n# v EOF#" "[ ! -x \"\$(command -v vim)\" ] && ( [ \"\$(id -u)\" = \"0\" ] && pacman --noconfirm --color=always -S vim || sudo pacman --noconfirm --color=always -S vim ) || vim  \"\${ARGS[@]}\"" >> root/bin/v
+	printf "%s\\n# v EOF#" "[ ! -x \"\$(command -v vim)\" ] && ( [ \"\$UID\" = \"0\" ] && pacman --noconfirm --color=always -S vim || sudo pacman --noconfirm --color=always -S vim ) || vim  \"\${ARGS[@]}\"" >> root/bin/v
 	chmod 700 root/bin/v
 }
 
@@ -808,14 +829,14 @@ _ADDwe_() {
 		if [[ \$commandif = "" ]] ; then
 			abcif=\$(command -v bc) ||:
 			if [[ \$abcif = "" ]] ; then
-				printf "\e[1;34mInstalling \e[0;32mbc\e[1;34m…\n\n\e[1;32m"
+				printf "\e[1;34mInstalling \e[0;32mbc\e[1;34m...\n\n\e[1;32m"
 				pacman -S bc --noconfirm --color=always
 				printf "\n\e[1;34mInstalling \e[0;32mbc\e[1;34m: \e[1;32mDONE\n\e[0m"
 			fi
 		else
 			tbcif=\$(command -v bc) ||:
 			if [[ \$tbcif = "" ]] ; then
-				printf "\e[1;34mInstalling \e[0;32mbc\e[1;34m…\n\n\e[1;32m"
+				printf "\e[1;34mInstalling \e[0;32mbc\e[1;34m...\n\n\e[1;32m"
 				apt install bc --yes
 				printf "\n\e[1;34mInstalling \e[0;32mbc\e[1;34m: \e[1;32mDONE\n\e[0m"
 			fi
@@ -897,14 +918,16 @@ _ADDwe_() {
 
 _ADDyt_() {
 	_CFLHDR_ root/bin/yt
-	printf "%s\\n%s\\n" "[ \"\$(id -u)\" = \"0\" ] && printf \"\\n%s\\n%s\\n\" \"Cannot run as root : exiting : the command \`$STARTBIN addauser username\` creates user accounts in ${INSTALLDIR##*/} : \" && exit" "[ ! -x \"\$(command -v youtube-dl)\" ] && sudo pci youtube-dl && youtube-dl \"\$@\" || youtube-dl \"\$@\" " >> root/bin/yt
+	printf "%s\\n%s\\n" "[ \"\$UID\" = \"0\" ] && printf \"\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\\n\" \"Cannot run '\${0##*/}' as root user :\" \" the command 'addauser username' can create user accounts in $INSTALLDIR : the command '$STARTBIN command addauser username' can create user accounts in $INSTALLDIR from Termux : the command '$STARTBIN help' has more information : \" \"exiting...\" && exit" "[ ! -x \"\$(command -v youtube-dl)\" ] && sudo pci youtube-dl && youtube-dl \"\$@\" || youtube-dl \"\$@\" " >> root/bin/yt
 	chmod 700 root/bin/yt
 }
 
 _PREPPACMANCONF_() {
-	sed -i 's/^CheckSpace/\#CheckSpace/g' "$INSTALLDIR"/etc/pacman.conf
-	sed -i 's/#IgnorePkg   =/IgnorePkg   = systemctl systemd-libs systemd-sysvcompat/g' "$INSTALLDIR"/etc/pacman.conf
-	sed -i 's/#IgnoreGroup =/IgnoreGroup = systemctl systemd-libs systemd-sysvcompat/g' "$INSTALLDIR"/etc/pacman.conf
-	sed -i 's/#NoUpgrade   =/NoUpgrade  = systemctl systemd-libs systemd-sysvcompat/g' "$INSTALLDIR"/etc/pacman.conf
+	if [ -f "$INSTALLDIR"/etc/pacman.conf ] # file is found
+	then # rewrite it for the PRoot environment
+		sed -i 's/^CheckSpace/\#CheckSpace/g' "$INSTALLDIR/etc/pacman.conf" && sed -i 's/^#Color/Color/g' "$INSTALLDIR/etc/pacman.conf" && sed -i 's/#IgnorePkg   =/IgnorePkg   = systemctl systemd-libs systemd-sysvcompat/g' "$INSTALLDIR/etc/pacman.conf" && sed -i 's/#IgnoreGroup =/IgnoreGroup = systemctl systemd-libs systemd-sysvcompat/g' "$INSTALLDIR/etc/pacman.conf" && sed -i 's/#NoUpgrade   =/NoUpgrade  = systemctl systemd-libs systemd-sysvcompat/g' "$INSTALLDIR/etc/pacman.conf"
+	else
+		printf "%s%s" "Cannot find file $INSTALLDIR/etc/pacman.conf : " "Signal generated in _PREPPACMANCONF_ archlinuxconfig.bash ${0##*/} : Continuing... "
+	fi
 }
 # archlinuxconfig.bash EOF

@@ -57,9 +57,9 @@ _CALLSYSTEM_() {
 	else
 		if [[ "$CMIRROR" = "os.archlinuxarm.org" ]] || [[ "$CMIRROR" = "mirror.archlinuxarm.org" ]]
 		then
-			until _FTCHSTND_ || CRV="$?" && [[ $CRV = 22 ]] && printf "%s\\n" "Received curl error message $CRV; Continuing..." && break
+			until _FTCHSTND_ || FRV="$?" && ([[ $FRV = 3 ]] || [[ $FRV = 22 ]] && printf "\\e[1;31m%s\\e[1;37m%s\\e[0m\\n" "Signal $FRV generated in 'until _FTCHSTND_ necessaryfunctions.bash ${0##/*}' :" "  Continuing...") && break
 			do
-				_FTCHSTND_
+				_FTCHSTND_ || CRV="$?" && _PSGI1ESTRING_ "CRV=$CRV _FTCHSTND_ ${0##*/}"
 				sleep 2
 				printf "\\n"
 				COUNTER=$((COUNTER + 1))
@@ -135,17 +135,17 @@ _KERNID_() {
 	declare -- MINOR_REVISION="$(sed 's/[^0-9]*//g' <<< "${TMP:0:3}")"
 	if [[ "$KERNEL_VERSION" -le 2 ]]
 	then
-		KID=1
+		KID=0
 	else
 		if [[ "$KERNEL_VERSION" -eq 3 ]]
 		then
 			if [[ "$MAJOR_REVISION" -lt 2 ]]
 			then
-				KID=1
+				KID=0
 			else
 				if [[ "$MAJOR_REVISION" -eq 2 ]] && [[ "$MINOR_REVISION" -eq 0 ]]
 				then
-					KID=1
+					KID=0
 				fi
 			fi
 		fi
@@ -200,34 +200,35 @@ _MAKEFINISHSETUP_() {
 	[[ "${LCR:-}" -ne 2 ]] && LOCGEN=""
 	[[ -z "${LCR:-}" ]] && LOCGEN="printf \"\\e[1;32m%s\\e[0;32m\"  \"==> \" && locale-gen  ||:"
 	cat >> root/bin/"$BINFNSTP" <<- EOM
-	_PMFSESTRING_() {
-	printf "\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\\n\\e[0m" "Something unexpected happened.  Please read the error message.  Correct the error, and run " "setupTermuxArch.bash refresh" " to complete the installation.  If you find an error in this script, please open an issue and a pull request."
+	_PMFSESTRING_() { 
+	printf "\\e[1;31m%s\\e[1;37m%s\\e[1;32m%s\\e[1;37m%s\\n\\n" "Signal generated in '\$1' : Cannot complete task : " "Continuing...   To correct the error run " "setupTermuxArch.bash refresh" " to attempt to finish the autoconfiguration."
+	printf "\\e[1;34m%s\\e[0;34m%s\\e[1;34m%s\\e[0;34m%s\\e[1;34m%s\\n\\n" "  If you find improvements for " "setupTermuxArch.bash" " and " "\$0" " please open an issue and accompanying pull request."
 	}
 	printf "\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\n" "To generate locales in a preferred language use " "Settings > Language & Keyboard > Language " "in Android; Then run " "${0##*/} refresh" " for a full system refresh including locale generation; For quick refresh you can use " "${0##*/} r" ".  For a refresh with user directories " "${0##*/} re" " can be used."
    	$LOCGEN
-	printf "\\n\\e[1;34m:: \\e[1;37m%s\\n" "Processing system for $NASVER $CPUABI, and removing redundant packages for Termux PRoot installation…"
+	printf "\\n\\e[1;34m:: \\e[1;37m%s\\n" "Processing system for $NASVER $CPUABI, and removing redundant packages for Termux PRoot installation..."
 	EOM
 	_FIXOWNER_
 	if [[ -z "${LCR:-}" ]] # is undefined
 	then
-		printf "%s\\n" "pacman -Syy || pacman -Syy || printf \"\\n%s\\n\" \"Cannot complete 'pacman -Syy' : continuing : using 'bash setupTermuxArch.bash refresh' is recommended to correct any errors found : \" :" >> root/bin/"$BINFNSTP"
-		printf "%s\\n" "/root/bin/keys ||:" >> root/bin/"$BINFNSTP"
-		printf "%s\\n" "/root/bin/csystemctl.bash ||:" >> root/bin/"$BINFNSTP"
+		printf "%s\\n" "pacman -Syy || pacman -Syy || _PMFSESTRING_ \"pacman -Syy $BINFNSTP ${0##/*}\"" >> root/bin/"$BINFNSTP"
+		printf "%s\\n" "/root/bin/keys || _PMFSESTRING_ \"keys $BINFNSTP ${0##/*}\"" >> root/bin/"$BINFNSTP"
+		printf "%s\\n" "/root/bin/csystemctl.bash || _PMFSESTRING_ \"csystemctl.bash $BINFNSTP ${0##/*}\"" >> root/bin/"$BINFNSTP"
 	 	if [[ "$CPUABI" = "$CPUABI5" ]]
 		then
-	 		printf "%s\\n" "pacman -Rc linux-armv5 linux-firmware --noconfirm --color=always 2>/dev/null ||:" >> root/bin/"$BINFNSTP"
+	 		printf "%s\\n" "pacman -Rc linux-armv5 linux-firmware --noconfirm --color=always 2>/dev/null || _PMFSESTRING_ \"pacman -Rc linux-armv5 linux-firmware $BINFNSTP ${0##/*}\"" >> root/bin/"$BINFNSTP"
 	 	elif [[ "$CPUABI" = "$CPUABI7" ]]
 		then
-	 		printf "%s\\n" "pacman -Rc linux-armv7 linux-firmware --noconfirm --color=always 2>/dev/null ||:" >> root/bin/"$BINFNSTP"
+	 		printf "%s\\n" "pacman -Rc linux-armv7 linux-firmware --noconfirm --color=always 2>/dev/null || _PMFSESTRING_ \"pacman -Rc linux-armv7 linux-firmware $BINFNSTP ${0##/*}\"" >> root/bin/"$BINFNSTP"
 	 	elif [[ "$CPUABI" = "$CPUABI8" ]]
 		then
-	 		printf "%s\\n" "pacman -Rc linux-aarch64 linux-firmware --noconfirm --color=always 2>/dev/null ||:" >> root/bin/"$BINFNSTP"
+	 		printf "%s\\n" "pacman -Rc linux-aarch64 linux-firmware --noconfirm --color=always 2>/dev/null || _PMFSESTRING_ \"pacman -Rc linux-aarch64 linux-firmware $BINFNSTP ${0##/*}\"" >> root/bin/"$BINFNSTP"
 	 	fi
 		if [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = "$CPUABIX86_64" ]]
 		then
-			printf "%s\\n" "pacman -Syu gzip patch sed sudo unzip --noconfirm --color=always 2>/dev/null ||:" >> root/bin/"$BINFNSTP"
+			printf "%s\\n" "pacman -Syu gzip patch sed sudo unzip --noconfirm --color=always 2>/dev/null || _PMFSESTRING_ \"pacman -Syu gzip patch sed sudo unzip $BINFNSTP ${0##/*}\"" >> root/bin/"$BINFNSTP"
 		else
-			printf "%s\\n" "pacman -Syu patch sudo unzip --noconfirm --color=always 2>/dev/null ||:" >> root/bin/"$BINFNSTP"
+			printf "%s\\n" "pacman -Syu patch sudo unzip --noconfirm --color=always 2>/dev/null || _PMFSESTRING_ \"pacman -Syu patch sudo unzip $BINFNSTP ${0##/*}\"" >> root/bin/"$BINFNSTP"
 		fi
 	fi
 	cat >> root/bin/"$BINFNSTP" <<- EOM
@@ -255,10 +256,10 @@ _MAKESTARTBIN_() {
 	cat >> "$STARTBIN" <<- EOM
 	COMMANDG="\$(command -v getprop)" ||:
 	if [[ "\$COMMANDG" = "" ]] ; then
- 		printf "\\n\\e[1;48;5;138m  %s\\e[0m\\n\\n" "\${0##*/} WARNING: Run \${0##*/} and $INSTALLDIR/\${0##*/} from the BASH shell in the OS system in Termux, e.g., Amazon Fire, Android and Chromebook."
+ 		printf "\\n\\e[1;48;5;138mScript %s\\e[0m\\n\\n" "$STARTBIN \${0##*/} WARNING:  Run \${0##*/} and $INSTALLDIR/\${0##*/} from the BASH shell in Termux:  Exiting..."
 		exit 202
 	fi
-	declare -g ar2ar="\${@:2}"
+	declare -g AR2AR="\${@:2}"
 	declare -g ar3ar="\${@:3}"
 	_PRINTUSAGE_() {
 	printf "\\e]2;%s\\007" "TermuxArch $STARTBIN help 📲"
@@ -286,7 +287,7 @@ _MAKESTARTBIN_() {
 		touch $INSTALLDIR/root/.chushlogin
 		set +Eeuo pipefail
 	EOM
-		printf "%s\\n" "$PROOTSTMNT /bin/bash -lc \"\$ar2ar\" ||:" >> "$STARTBIN"
+		printf "%s\\n" "$PROOTSTMNT /bin/bash -lc \"\$AR2AR\" ||:" >> "$STARTBIN"
 	cat >> "$STARTBIN" <<- EOM
 		set -Eeuo pipefail
 		printf '\033]2; $STARTBIN command 📲  \007'
@@ -296,7 +297,7 @@ _MAKESTARTBIN_() {
 		printf '\033]2; $STARTBIN login user [options] 📲  \007'
 		set +Eeuo pipefail
 	EOM
-		printf "%s\\n" "$PROOTSTMNT /bin/su - \"\$ar2ar\" ||:" >> "$STARTBIN"
+		printf "%s\\n" "$PROOTSTMNT /bin/su - \"\$AR2AR\" ||:" >> "$STARTBIN"
 	cat >> "$STARTBIN" <<- EOM
 		set -Eeuo pipefail
 		printf '\033]2; $STARTBIN login user [options] 📲  \007'
@@ -305,7 +306,7 @@ _MAKESTARTBIN_() {
 		printf '\033]2; $STARTBIN raw ARGS 📲  \007'
 		set +Eeuo pipefail
 	EOM
-		printf "%s\\n" "$PROOTSTMNT /bin/\"\$ar2ar\" ||:" >> "$STARTBIN"
+		printf "%s\\n" "$PROOTSTMNT /bin/\"\$AR2AR\" ||:" >> "$STARTBIN"
 	cat >> "$STARTBIN" <<- EOM
 		set -Eeuo pipefail
 		printf '\033]2; $STARTBIN raw ARGS 📲  \007'
@@ -341,8 +342,7 @@ _MAKESYSTEM_() {
 	_PRINTMD5CHECK_
 	_MD5CHECK_
 	_PRINTCU_
-       	# set KEEP to 0 in file knownconfigurations.bash after using either `setupTermuxArch.bash bloom` or `setupTermuxArch.bash manual` to disable deleting of INSTALLDIR/*.tar.gz and INSTALLDIR/*.tar.gz.md5 files
-       	[[ "$KEEP" -ne 0 ]] && rm -f "$INSTALLDIR"/*.tar.gz "$INSTALLDIR"/*.tar.gz.md5
+       	[[ "$KEEP" -ne 0 ]] && rm -f "$INSTALLDIR"/*.tar.gz "$INSTALLDIR"/*.tar.gz.md5 # set KEEP to 0 in file 'knownconfigurations.bash' after using either 'setupTermuxArch.bash bloom' or 'setupTermuxArch.bash manual' to keep the INSTALLDIR/*.tar.gz and INSTALLDIR/*.tar.gz.md5 files.
 	_PRINTDONE_
 	_PRINTCONFIGUP_
 	_TOUCHUPSYS_
@@ -353,7 +353,7 @@ _MD5CHECK_() {
 	then
 		_PRINTMD5SUCCESS_
 		printf "\\e[0;32m"
-		_PREPROOT_ ## & spinner "Unpacking" "$IFILE…"
+		_PREPROOT_ ## & spinner "Unpacking" "$IFILE..."
 	else
 		rm -f "$INSTALLDIR"/*.tar.gz "$INSTALLDIR"/*.tar.gz.md5
 		_PRINTMD5ERROR_
@@ -362,11 +362,11 @@ _MD5CHECK_() {
 
 _PREPROOTDIR_() {
 	cd "$INSTALLDIR"
-	mkdir -p etc
-	mkdir -p home
-	mkdir -p root/bin
-	mkdir -p usr/bin
-	mkdir -p var/binds
+	[ ! -e etc ] &&	mkdir -p etc
+	[ ! -e home ] && mkdir -p home
+	[ ! -e root/bin ] && mkdir -p root/bin
+	[ ! -e usr/bin ] && mkdir -p usr/bin
+	[ ! -e var/binds ] && mkdir -p var/binds
 }
 
 _PREPINSTALLDIR_() {
@@ -389,15 +389,19 @@ _PREPROOT_() {
 }
 
 _RUNFINISHSETUP_() {
+	_SEDUNCOM_() {
+			sed -i "/\/mirror.archlinuxarm.org/ s/^# *//" "$INSTALLDIR"/etc/pacman.d/mirrorlist || _PSGI1ESTRING_ "sed -i _SEDUNCOM_ ${0##*/}" # sed replace a character in a matched line in place
+	}
 	printf "\\e[0m"
 	if [[ "$FSTND" ]]
 	then
 		NMIR="$(awk -F'/' '{print $3}' <<< "$NLCMIRROR")"
 		sed -i '/http\:\/\/mir/ s/^#*/# /' "$INSTALLDIR"/etc/pacman.d/mirrorlist
+		# test if NMIR is in mirrorlist file
 		if grep "$NMIR" "$INSTALLDIR"/etc/pacman.d/mirrorlist
 		then
 			printf "%s\\n" "Found server $NMIR in /etc/pacman.d/mirrorlist; Uncommenting $NMIR."
-			sed -i "/$NMIR/ s/^# *//" "$INSTALLDIR"/etc/pacman.d/mirrorlist # sed replace a character in a matched line in place
+			sed -i "/$NMIR/ s/^# *//" "$INSTALLDIR"/etc/pacman.d/mirrorlist  || _SEDUNCOM_ || _PSGI1ESTRING_ "sed -i _RUNFINISHSETUP_ ${0##*/}"
 		else
 			printf "%s\\n" "Did not find server $NMIR in /etc/pacman.d/mirrorlist; Adding $NMIR to file /etc/pacman.d/mirrorlist."
 			printf "%s\\n" "Server = $NLCMIRROR/\$arch/\$repo" >> "$INSTALLDIR"/etc/pacman.d/mirrorlist

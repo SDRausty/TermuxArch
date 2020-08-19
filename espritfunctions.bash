@@ -28,20 +28,14 @@ addlangq() {
 }
 
 _BLOOM_() { # Bloom = `setupTermuxArch.bash manual verbose`
-	if [[ -d "$HOME"/TermuxArchBloom ]]
-	then
-		_RMBLOOMQ_
-	fi
-	if [[ ! -d "$HOME"/TermuxArchBloom ]]
-	then
-		mkdir "$HOME"/TermuxArchBloom
-	fi
-	cp *sh "$HOME"/TermuxArchBloom
+	[[ -d "$HOME"/TermuxArchBloom ]] && _RMBLOOMQ_
+	mkdir -p "$HOME"/TermuxArchBloom
+	cp [aegkmnsp]*sh "$HOME"/TermuxArchBloom
 	cd "$HOME"/TermuxArchBloom
-	printf "\\e[1;34mTermuxArch Bloom option via \\e[1;32msetupTermuxArch.bash bloom\\e[0m 📲\\n\\n\\e[0m"'\033]2; TermuxArch Bloom option via `setupTermuxArch.bash bloom` 📲 \007'
-	printf "\\n"
+	printf "\\e[1;34m%s\\e[1;32m%s\\e[0m 📲\\n\\n" "TermuxArch Bloom option via " "setupTermuxArch.bash bloom"
 	ls -agl
-	printf "\\n\\e[1;34mUse \\e[1;32mcd ~/TermuxArchBloom\\e[1;34m to continue.  Edit any of these files; Then use \\e[1;32mbash $0 [options] \\e[1;34mto run the files in \\e[1;32m~/TermuxArchBloom\\e[1;34m.\\n\\e[0m"'\033]2;  TermuxArch Bloom option via `setupTermuxArch.bash bloom` 📲 \007'
+	printf "\\n\\e[1;34m%s\\e[1;32m%s\\e[1;34m%s\\e[1;32m%s\\e[1;34m%s\\e[1;32m%s\\e[1;34m.\\e[0m\\n" "Use " "cd ~/TermuxArchBloom" " to continue.  Edit any of these files;  Then use " "bash ${0##*/} [options]" " to run the files in " "~/TermuxArchBloom"
+	printf '\033]2;  TermuxArch Bloom option via `setupTermuxArch.bash bloom` 📲 \007'
 	exit
 }
 
@@ -67,7 +61,7 @@ _COPYSTARTBIN2PATHQ_() {
 
 
 _DOTHF_() { # do the file
-	[[ -f $1 ]] && ( printf "%s\\n" "==> mv -f $1 $1.bkp" && mv -f "$1" "$1.bkp" ) || printf "%s" "copy dot files if found : file not found : continuing : "
+	[[ -f $1 ]] && (printf "%s\\n" "==> mv -f $1 $1.bkp" && mv -f "$1" "$1.bkp") || printf "%s" "copy dot files if found : file not found : continuing : "
 }
 
 _EDITFILES_() {
@@ -199,8 +193,8 @@ _NANOIF_() {
 		apt -o APT::Keep-Downloaded-Packages="true" install "nano" -y
 		if [[ ! -x "$PREFIX"/bin/nano ]]
 		then
-				printf "\\n\\e[7;1;31m%s\\e[0;1;32m %s\\n\\n\\e[0m" "PREREQUISITE EXCEPTION!" "RUN ${0##*/} $ARGS AGAIN…"
-				printf "\\e]2;%s %s\\007" "RUN ${0##*/} $ARGS" "AGAIN…"
+				printf "\\n\\e[7;1;31m%s\\e[0;1;32m %s\\n\\n\\e[0m" "PREREQUISITE EXCEPTION!" "RUN ${0##*/} $ARGS AGAIN..."
+				printf "\\e]2;%s %s\\007" "RUN ${0##*/} $ARGS" "AGAIN..."
 				exit
  		fi
 	fi
@@ -209,7 +203,7 @@ _NANOIF_() {
 _RMBLOOMQ_() {
 	if [[ -d "$HOME"/TermuxArchBloom ]]
 	then
-		printf "\\n\\n\\e[0;33mTermuxArch: \\e[1;33mDIRECTORY WARNING!  $HOME/TermuxArchBloom/ \\e[0;33mdirectory detected.  \\e[1;30msetupTermuxArch.bash bloom will continue.\\n"
+		printf "\\n\\n\\e[0;33m%s\\e[1;33m%s\\e[0;33m%s\\e[1;30m%s\\e[0;33m%s\\n" "TermuxArch:  " "DIRECTORY WARNING!  $HOME/TermuxArchBloom/ " "directory detected;  " "setupTermuxArch.bash bloom" " will continue."
 		while true
 		do
 			printf "\\n\\e[1;30m"
@@ -220,17 +214,15 @@ _RMBLOOMQ_() {
 				exit $?
 			elif [[ "$RBUANSWER" = [Yy]* ]] || [[ "$RBUANSWER" = "" ]]
 			then
-				printf "\\e[30mUninstalling $HOME/TermuxArchBloom…\\n"
+				printf "\\e[30m%s\\n" "Uninstalling $HOME/TermuxArchBloom..."
 				if [[ -d "$HOME"/TermuxArchBloom ]]
 				then
 					rm -rf "$HOME"/TermuxArchBloom
-				else
-					printf "Uninstalling $HOME/TermuxArchBloom, nothing to do for $INSTALLDIR.\\n\\n"
 				fi
-				printf "Uninstalling $HOME/TermuxArchBloom done.\\n\\n"
+				printf "%s\\n\\n" "Uninstalling $HOME/TermuxArchBloom done."
 				break
 			else
-				printf "\\nYou answered \\e[33;1m$RBUANSWER\\e[30m.\\n\\nAnswer \\e[32mYes\\e[30m or \\e[1;31mNo\\e[30m. [\\e[32mY\\e[30m|\\e[1;31mn\\e[30m]\\n"
+				printf "\\n%s\\e[33;1m%s\\e[30m.\\n\\nAnswer \\e[32mYes\\e[30m or \\e[1;31mNo\\e[30m. [\\e[32mY\\e[30m|\\e[1;31mn\\e[30m]\\n" "You answered " "$RBUANSWER"
 			fi
 		done
 	fi
