@@ -57,7 +57,7 @@ _CALLSYSTEM_() {
 	else
 		if [[ "$CMIRROR" = "os.archlinuxarm.org" ]] || [[ "$CMIRROR" = "mirror.archlinuxarm.org" ]]
 		then
-			until _FTCHSTND_ || FRV="$?" && [[ $FRV = 22 ]] || && _PSGI1ESTRING_ "FRV=$FRV until _FTCHSTND_ necessaryfunctions.bash ${0##/*}' : Continuing..." && break
+			until _FTCHSTND_ || FRV="$?" && [[ $FRV = 22 ]] && _PSGI1ESTRING_ "FRV=$FRV until _FTCHSTND_ necessaryfunctions.bash ${0##/*}' : Continuing..." && break
 			do
 				_FTCHSTND_ || CRV="$?" && _PSGI1ESTRING_ "CRV=$CRV _FTCHSTND_ necessaryfunctions.bash ${0##*/}"
 				sleep 2
