@@ -339,7 +339,7 @@ _ADDfbindprocstat8_() {
 }
 
 _ADDfbindprocuptime_() {
-	printf "%s\\n" "$(uptime)" > var/binds/fbindprocuptime
+	printf "%s\\n" "350735.47 234388.90" > var/binds/fbindprocuptime
 }
 
 _ADDfbindprocversion_() {
