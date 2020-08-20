@@ -26,6 +26,7 @@ _ADDADDS_() {
 	_ADDdfa_
 	_ADDexd_
 	_ADDfbindexample_
+	_ADDfbindprocuptime_
 	_ADDfbinds_
 	_ADDfibs_
 	_ADDga_

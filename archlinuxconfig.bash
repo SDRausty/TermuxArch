@@ -338,6 +338,10 @@ _ADDfbindprocstat8_() {
 	EOM
 }
 
+_ADDfbindprocuptime_() {
+	printf "%s\\n" "$(uptime)" > var/binds/fbindprocuptime
+}
+
 _ADDfbindprocversion_() {
 	_CFLHDRS_ var/binds/fbindprocversion.prs
 	cat > var/binds/fbindprocversion.prs  <<- EOM

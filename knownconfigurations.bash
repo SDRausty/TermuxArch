@@ -111,7 +111,7 @@ _PR00TSTRING_() { # construct proot init statements
 		fi
 	done
 	# populate NOT readable binds
-	PRSTARR=([/dev/]=/dev/ [/dev/ashmem]="$INSTALLDIR/tmp" [/dev/shm]="$INSTALLDIR/tmp" [/proc/stat]="$INSTALLDIR/var/binds/fbindprocstat" [/sys/]=/sys/)
+	PRSTARR=([/dev/]=/dev/ [/dev/ashmem]="$INSTALLDIR/tmp" [/dev/shm]="$INSTALLDIR/tmp" [/proc/stat]="$INSTALLDIR/var/binds/fbindprocstat" [/sys/]=/sys/ [/proc/uptime]="$INSTALLDIR/var/binds/fbindprocuptime")
 	for PRBIND in ${!PRSTARR[@]}
 	do
 	       	if [[ ! -r "$PRBIND" ]]	# is not readable
