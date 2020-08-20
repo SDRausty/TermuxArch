@@ -57,9 +57,9 @@ _CALLSYSTEM_() {
 	else
 		if [[ "$CMIRROR" = "os.archlinuxarm.org" ]] || [[ "$CMIRROR" = "mirror.archlinuxarm.org" ]]
 		then
-			until _FTCHSTND_ || FRV="$?" && [[ -z "${1:-}" ]] && break || ([[ $FRV = 3 ]] || [[ $FRV = 22 ]]) && _PSGI1ESTRING_ "FRV=$FRV until _FTCHSTND_ necessaryfunctions.bash ${0##/*}' : Continuing..." && break
+			until _FTCHSTND_ || FRV="$?" && [[ -z "${FRV:-}" ]] && break || ([[ $FRV = 3 ]] || [[ $FRV = 22 ]]) && _PSGI1ESTRING_ "FRV=$FRV until _FTCHSTND_ necessaryfunctions.bash ${0##/*} : Continuing..." && break
 			do
-				_FTCHSTND_ || CRV="$?" && _PSGI1ESTRING_ "CRV=$CRV _FTCHSTND_ necessaryfunctions.bash ${0##*/}"
+				_FTCHSTND_
 				sleep 2
 				printf "\\n"
 				COUNTER=$((COUNTER + 1))
@@ -487,13 +487,13 @@ _TOUCHUPSYS_() {
 
 _WAKELOCK_() {
 	_PRINTWLA_
-	am startservice --user 0 -a com.termux.service_wake_lock com.termux/com.termux.app.TermuxService > /dev/null
+	am startservice --user 0 -a com.termux.service_wake_lock com.termux/com.termux.app.TermuxService > /dev/null || _PSGI1ESTRING_ "am startservice _WAKELOCK_ necessaryfunctions.bash ${0##/*} : Continuing..."
 	_PRINTDONE_
 }
 
 _WAKEUNLOCK_() {
 	_PRINTWLD_
-	am startservice --user 0 -a com.termux.service_wake_unlock com.termux/com.termux.app.TermuxService > /dev/null
+	am startservice --user 0 -a com.termux.service_wake_unlock com.termux/com.termux.app.TermuxService > /dev/null || _PSGI1ESTRING_ "am startservice _WAKEUNLOCK_ necessaryfunctions.bash ${0##/*} : Continuing..."
 	_PRINTDONE_
 }
 # necessaryfunctions.bash EOF

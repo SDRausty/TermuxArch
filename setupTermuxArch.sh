@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Copyright 2017-2020 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
+# Copyright 2017-2020 (c) by SDRausty, all rights reserved, see LICENSE 🌎 🌍 🌏 🌐 🗺
 # Hosted termuxarch.github.io/TermuxArch courtesy https://pages.github.com
 # https://termuxarch.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.
 ################################################################################
@@ -7,7 +7,7 @@ IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-VERSIONID=2.0.41
+VERSIONID=2.0.42
 ## INIT FUNCTIONS ##############################################################
 _STRPERROR_() { # run on script error
 	local RV="$?"
@@ -71,12 +71,7 @@ _CHK_() {
 		printf "\\n"
  		_CHKSELF_ "$@"
 		printf "\\e[0;34m%s \\e[1;34m%s \\e[1;32m%s\\e[0m\\n" " 🕛 > 🕜" "TermuxArch $VERSIONID integrity:" "OK"
-		_LOADCONF_
 		_COREFILESLOAD_
-		if [[ "$OPT" = BLOOM ]]
-		then
-			rm -f termuxarchchecksum.sha512
-		fi
 	else
 		printf "\\n"
 		_PRINTSHA512SYSCHKER_
@@ -94,13 +89,25 @@ _CHKDWN_() {
 }
 
 _CHKSELF_() { # compare the two versions of file setupTermuxArch.bash and update
+	cd "$WDIR"
 	if [[ "$(<$TAMPDIR/setupTermuxArch.bash)" != "$(<$WFILE)" ]] # files differ
 	then # copy the newer version to update file setupTermuxArch.bash
-		cp setupTermuxArch.bash "$WFILE"
-		printf "\\e[0;32m%s\\e[1;34m: \\e[1;32mUPDATED\\n\\e[1;32mRESTARTED\\e[1;34m: \\e[0;32m%s %s \\n\\n\\e[0m"  "${0##*/}" "${0##*/}" "$ARGS"
-		unset -f $(grep \_\( "$WFILE" | cut -d"(" -f 1 | sort -u | sed ':a;N;$!ba;s/\n/ /g')
-		bash "$WFILE" "$ARGS"
+		if _COREFILES_
+		then
+			: # do nothing
+		else
+			unset -f $(grep \_\( "$WFILE"|cut -d"(" -f 1|sort -u|sed ':a;N;$!ba;s/\n/ /g')
+			NNVAR="$(grep '="' "$WFILE"|grep -v -e \] -e ARGS -e TAMPDIR -e WFILE|grep -v +|sed 's/declare -a//g'|sed 's/declare//g'|sed 's/export//g'|sed -e "s/[[:space:]]\+//g"|cut -d"=" -f 1|sort -u)"
+			for NNSET in $NNVAR
+			do
+				unset "$NNSET"
+			done
+			cp $TAMPDIR/setupTermuxArch.bash "$WFILE"
+			printf "\\e[0;32m%s\\e[1;34m: \\e[1;32mUPDATED\\n\\e[1;32mRESTARTED\\e[1;34m: \\e[0;32m%s %s \\n\\n\\e[0m"  "${0##*/}" "${0##*/}" "$ARGS"
+			. "$WFILE" "$ARGS"
+		fi
 	fi
+	cd "$TAMPDIR"
 }
 
 _COREFILES_() {
@@ -130,6 +137,10 @@ _COREFILESLOAD_() {
 	if [[ "$OPT" = MANUAL ]]
 	then
 		_MANUAL_
+	fi
+	if [[ "$OPT" = BLOOM ]]
+	then
+		rm -f termuxarchchecksum.sha512
 	fi
 }
 
@@ -304,8 +315,8 @@ _INTROREFRESH_() {
 		fi
 		if [[ "$DIRCHECK" -eq 1 ]]
 		then	# delete superfluous tmp dir
-			rmdir "$INSTALLDIR"/tmp
-			rmdir "$INSTALLDIR"
+			rm -rf "$INSTALLDIR"/tmp
+			rm -rf "$INSTALLDIR"
 		fi
 		exit 204
 	fi
@@ -330,8 +341,7 @@ _MANUAL_() {
 	if [[ -f "${WDIR}setupTermuxArchConfigs.bash" ]]
 	then
 		"$ed" "${WDIR}setupTermuxArchConfigs.bash"
-		. "${WDIR}setupTermuxArchConfigs.bash"
-		_PRINTCONFLOADED_
+		_LOADCONF_
 	else
 		cp knownconfigurations.bash "${WDIR}setupTermuxArchConfigs.bash"
  		sed -i "7s/.*/\# The architecture of this device is $CPUABI; Adjust configurations in the appropriate section.  Change CMIRROR (https:\/\/wiki.archlinux.org\/index.php\/Mirrors and https:\/\/archlinuxarm.org\/about\/mirrors) to desired geographic location to resolve 404 and checksum issues.  /" "${WDIR}setupTermuxArchConfigs.bash"
@@ -450,15 +460,15 @@ _OPT2_() {
 }
 
 _PREPTMPDIR_() {
-	[ ! -e "$INSTALLDIR/tmp" ] && mkdir -p "$INSTALLDIR/tmp" && chmod 777 "$INSTALLDIR/tmp" && chmod +t "$INSTALLDIR/tmp" ||:
+	[[ ! -d "$INSTALLDIR/tmp" ]] && mkdir -p "$INSTALLDIR/tmp" && chmod 777 "$INSTALLDIR/tmp" && chmod +t "$INSTALLDIR/tmp"
  	TAMPDIR="$INSTALLDIR/tmp/setupTermuxArch$$"
-	[ ! -e "$TAMPDIR" ] && mkdir -p "$TAMPDIR"
+	[[ ! -d "$TAMPDIR" ]] && mkdir -p "$TAMPDIR"
 }
 
 _PREPTERMUXARCH_() {
 	_NAMEINSTALLDIR_
 	_NAMESTARTARCH_
-	_PREPTMPDIR_
+	_PREPTMPDIR_ || printf "%s\\n" "signal received _PREPTMPDIR_ _PREPTERMUXARCH_ ${0##*/}"
 }
 
 _PRINTCONFLOADED_() {
@@ -630,8 +640,7 @@ SYSVER="$(getprop ro.build.version.release)"
 NASVER="$(getprop net.bt.name ) $SYSVER"
 WDIR="$PWD/"
 WFILE="$0"
-[[ "$WFILE" == "setupTermuxArch.bash" ]] && WFILE="$WDIR$WFILE"
-[[ "${WFILE%/*}" != "$WDIR" ]] && [[ "$PWD" != "$HOME" ]] && DIRLCR=0
+[[ "${WFILE%/*}" != "$WDIR" ]] && DIRLCR=0
 ## 5) And all options are optional for install.
 ## THESE OPTIONS ARE AVAILABLE FOR YOUR CONVENIENCE:
 ## DEFAULTS ARE IMPLIED AND CAN BE OMITTED.
@@ -739,7 +748,7 @@ then
 	LCC="1"
 	_ARG2DIR_ "$@"
 	_PRINTUSAGE_ "$@"
-## [i[nstall] [customdir]]  Install Arch Linux in a custom directory.  Instructions: Install in userspace. $HOME is appended to installation directory. To install Arch Linux in $HOME/customdir use `bash setupTermuxArch.bash install customdir`. In bash shell use `./setupTermuxArch.bash install customdir`.  All options can be abbreviated to one, two and three letters.  Hence `./setupTermuxArch.bash install customdir` can be run as `./setupTermuxArch.bash i customdir` in BASH.
+## [i[nstall] [customdir]]  Install Arch Linux in a custom directory.  Instructions: Install in userspace.  The HOME directory is appended to the installation directory.  To install Arch Linux in HOME/customdir use `bash setupTermuxArch.bash install customdir`.  In the BASH shell you can use `./setupTermuxArch.bash install customdir`.  All options can be abbreviated to one, two and three letters.  Hence `./setupTermuxArch.bash install customdir` can be run as `./setupTermuxArch.bash i customdir` in BASH.
 elif [[ "${1//-}" = [Ii]* ]]
 then
 	printf "\\nSetting mode to install.\\n"
