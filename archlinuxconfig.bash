@@ -17,8 +17,10 @@ else
 	sed -i "s/required/sufficient/g" /etc/pam.d/su
 	sed -i "s/^#auth/auth/g" /etc/pam.d/su
 	useradd -s /bin/bash "\$1" -U
-		usermod "\$1" -aG wheel
-		[[ -d /etc/sudoers.d ]] && printf "%s\\n" "\$1 ALL=(ALL) ALL" >> /etc/sudoers.d/"\$1"
+	usermod "\$1" -aG wheel
+	passwd -d "\$1"
+	chage -I -1 -m 0 -M -1 -E -1 "\$1"
+	[[ -d /etc/sudoers.d ]] && printf "%s\\n" "\$1 ALL=(ALL) ALL" >> /etc/sudoers.d/"\$1"
 	sed -i "s/\$1:x/\$1:/g" /etc/passwd
 	cp -r /root /home/"\$1"
 	printf "%s\\n" "Added user \$1 and directory /home/\$1 created.  To use this account run '$STARTBIN login \$1' in Termux.  Remember please not to nest proot in proot by running '$STARTBIN' in '$STARTBIN' as this may cause issues."

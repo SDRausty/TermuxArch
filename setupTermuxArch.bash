@@ -7,7 +7,7 @@ IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-VERSIONID=2.0.42
+VERSIONID=2.0.43
 ## INIT FUNCTIONS ##############################################################
 _STRPERROR_() { # run on script error
 	local RV="$?"
@@ -640,7 +640,7 @@ SYSVER="$(getprop ro.build.version.release)"
 NASVER="$(getprop net.bt.name ) $SYSVER"
 WDIR="$PWD/"
 WFILE="$0"
-[[ "${WFILE%/*}" != "$WDIR" ]] && DIRLCR=0
+[[ "${WFILE%/*}" != "$WDIR" ]] && [[ "${WFILE%/*}" != "${0##*/}" ]] && DIRLCR=0
 ## 5) And all options are optional for install.
 ## THESE OPTIONS ARE AVAILABLE FOR YOUR CONVENIENCE:
 ## DEFAULTS ARE IMPLIED AND CAN BE OMITTED.
