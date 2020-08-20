@@ -21,7 +21,7 @@ else
 		[[ -d /etc/sudoers.d ]] && printf "%s\\n" "\$1 ALL=(ALL) ALL" >> /etc/sudoers.d/"\$1"
 	sed -i "s/\$1:x/\$1:/g" /etc/passwd
 	cp -r /root /home/"\$1"
-	printf "%s\\n" "Added user \$1 and directory /home/\$1 created.  To use this account run '$STARTBIN login \$1' in Termux.  Remember please to not nest proot in proot by running '$STARTBIN' in '$STARTBIN' as this may cause issues."
+	printf "%s\\n" "Added user \$1 and directory /home/\$1 created.  To use this account run '$STARTBIN login \$1' in Termux.  Remember please not to nest proot in proot by running '$STARTBIN' in '$STARTBIN' as this may cause issues."
 fi
 }
 _PMFSESTRING_() { 
@@ -68,7 +68,7 @@ _ADDbash_logout_() {
 }
 
 _ADDbash_profile_() {
-	_DOTHF_ root/.bash_profile
+	[ -e root/.bash_profile ] && _DOTHF_ "root/.bash_profile"
 	printf "%s\\n" "PATH=\"\$HOME/bin:/sbin:/bin:/usr/sbin:/usr/bin:/usr/local/sbin:/usr/local/bin:\$PATH\"" > root/.bash_profile
 	cat >> root/.bash_profile <<- EOM
 	. "\$HOME"/.bashrc
@@ -90,7 +90,7 @@ _ADDbash_profile_() {
 }
 
 _ADDbashrc_() {
-	_DOTHF_ root/.bashrc
+	[ -e root/.bashrc ] && _DOTHF_ "root/.bashrc"
 	cat > root/.bashrc <<- EOM
 	[ -f /etc/profile.d/perlbin.sh ] && . /etc/profile.d/perlbin.sh
 	alias C='cd .. && pwd'
@@ -660,7 +660,7 @@ _ADDpci_() {
 }
 
 _ADDprofile_() {
-	_DOTHF_ root/.profile
+	[ -e root/.profile] && _DOTHF_ "root/.profile"
 	[ -e "$HOME"/.profile ] && (grep "proxy" "$HOME"/.profile | grep "export" >>  root/.profile 2>/dev/null) ||:
 	touch root/.profile
 }
@@ -705,7 +705,7 @@ _ADDtour_() {
 	cat >> root/bin/tour <<- EOM
 	printf "\n\e[1;32m==> \e[1;37mRunning \e[1;32mls -R --color=always \$HOME \e[1;37m\n\n"
 	sleep 1
-	ls -R --color=always "\$HOME"
+	ls -alr --color=always "\$HOME"
 	sleep 4
 	printf "\n\e[1;32m==> \e[1;37mRunning \e[1;32mcat \$HOME/.bash_profile\e[1;37m\n\n"
 	sleep 1
@@ -761,13 +761,14 @@ _ADDtrim_() {
 _ADDv_() {
 	_CFLHDR_ root/bin/v
 	cat >> root/bin/v  <<- EOM
-	if [[ -z "\${1:-}" ]] ; then
+	if [[ -z "\${1:-}" ]]
+	then
 		ARGS=(".")
 	else
 		ARGS=("\$@")
 	fi
 	EOM
-	printf "%s\\n# v EOF#" "[ ! -x \"\$(command -v vim)\" ] && ( [ \"\$UID\" = \"0\" ] && pacman --noconfirm --color=always -S vim || sudo pacman --noconfirm --color=always -S vim ) || vim  \"\${ARGS[@]}\"" >> root/bin/v
+	printf "%s\\n# v EOF#" "[ ! -x \"\$(command -v vim)\" ] && ( [ \"\$UID\" = \"0\" ] && pacman --noconfirm --color=always -S vim || sudo pacman --noconfirm --color=always -S vim ) && vim  \"\${ARGS[@]}\" || vim  \"\${ARGS[@]}\"" >> root/bin/v
 	chmod 700 root/bin/v
 }
 
