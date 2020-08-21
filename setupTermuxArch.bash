@@ -7,7 +7,7 @@ IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-VERSIONID=2.0.49
+VERSIONID=2.0.50
 ## INIT FUNCTIONS ##############################################################
 _STRPERROR_() { # run on script error
 	local RV="$?"
@@ -87,12 +87,12 @@ _CHKDWN_() {
 		_PRINTSHA512SYSCHKER_
 	fi
 }
-
-_CHKSELF_() { # compare the two versions of file setupTermuxArch.bash and update
-	cd "$WDIR"
+# compare versions of files setupTermuxArch.{bash,sh} and the newest update
+_CHKSELF_() {	# compare file setupTermuxArch.bash and the file being used
 	if [[ "$(<$TAMPDIR/setupTermuxArch.bash)" != "$(<$WFILE)" ]] # files differ
-	then
-		if _COREFILES_
+	then	# copy the newest version of file setupTermuxArch.bash and update
+		cd "${WFILE%/*}"
+		if _COREFILES_	# core files are found
 		then
 			: # do nothing
 		else # unset functions and variables
@@ -102,11 +102,12 @@ _CHKSELF_() { # compare the two versions of file setupTermuxArch.bash and update
 			do
 				unset "$NNSET"
 			done
-			# copy newer version to update
-			cp "$TAMPDIR/${0##*/}" "$WFILE"
+			# copy newest version to update working file
+			cp "$TAMPDIR/setupTermuxArch.bash" "$WFILE"
  			rm -rf "$TAMPDIR"
 			printf "\\e[0;32m%s\\e[1;34m: \\e[1;32mUPDATED\\n\\e[1;32mRESTARTED\\e[1;34m: \\e[0;32m%s %s \\n\\n\\e[0m"  "${0##*/}" "${0##*/}" "$ARGS"
-			# restart instsllation
+			[[ "$WFILE" == *setupTermuxArch.sh* ]] && sed -i 's/setupTermuxArch.bash EOF/setupTermuxArch.sh EOF/g' "$WFILE"
+			# restart install with the newest updated version
 			. "$WFILE" "$ARGS"
 		fi
 	fi
