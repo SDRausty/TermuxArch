@@ -7,7 +7,7 @@ IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-VERSIONID=2.0.50
+VERSIONID=2.0.51
 ## INIT FUNCTIONS ##############################################################
 _STRPERROR_() { # run on script error
 	local RV="$?"
@@ -69,7 +69,7 @@ _CHK_() {
 	if sha512sum -c termuxarchchecksum.sha512
 	then
 		printf "\\n"
- 		_CHKSELF_ "$@"
+		[[ -z "${SHLCR:-}" ]] && _CHKSELF_ "$@"
 		printf "\\e[0;34m%s \\e[1;34m%s \\e[1;32m%s\\e[0m\\n" " 🕛 > 🕜" "TermuxArch $VERSIONID integrity:" "OK"
 		_COREFILESLOAD_
 	else
@@ -106,7 +106,7 @@ _CHKSELF_() {	# compare file setupTermuxArch.bash and the file being used
 			cp "$TAMPDIR/setupTermuxArch.bash" "$WFILE"
  			rm -rf "$TAMPDIR"
 			printf "\\e[0;32m%s\\e[1;34m: \\e[1;32mUPDATED\\n\\e[1;32mRESTARTED\\e[1;34m: \\e[0;32m%s %s \\n\\n\\e[0m"  "${0##*/}" "${0##*/}" "$ARGS"
-			[[ "$WFILE" == *setupTermuxArch.sh* ]] && sed -i 's/setupTermuxArch.bash EOF/setupTermuxArch.sh EOF/g' "$WFILE"
+			[[ "$WFILE" == *setupTermuxArch.sh* ]] && sed -i 's/setupTermuxArch.bash EOF/setupTermuxArch.sh EOF/g' "$WFILE" && SHLCR=0
 			# restart install with the newest updated version
 			. "$WFILE" "$ARGS"
 		fi
