@@ -2,9 +2,7 @@
 # Copyright 2017-2020 (c) by SDRausty, all rights reserved, see LICENSE 🌎 🌍 🌏 🌐 🗺
 # Hosted termuxarch.github.io/TermuxArch courtesy https://pages.github.com
 # https://termuxarch.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.
-# The names of files `setupTermuxArch` and `setupTermuxArch.sh` in the EOF line of these files is to assist `setupTermuxArch` if this setup script wants to update to the latest version.
-# If you are using this file inside a git repository, simply `git pull` to accomplish updating to the most recent version.  File `updateTermuxArch.bash` will do this for you and populate modules in the repository.  File `updateTermuxArch.bash` be run in the PRoot environment.
-# Files `setupTermuxArch.bash` and `setupTermuxArch.sh` are currently being held for backwards compatibility.  Please reference either files `setupTermuxArch` or `setupTermuxArch.bash` if referencing details about these projects;  `setupTermuxArch.bash` is the current target name for this setup script.  While `setupTermuxArch` is being considered once more for technical reasons;  `setupTermuxArch.bash` is the current target install file name for this project.  A warm thank you to those of you who have helped make this project better!
+# Files `setupTermuxArch.bash` and `setupTermuxArch.sh` are currently being held for backwards compatibility.  Please reference either files `setupTermuxArch` or `setupTermuxArch.bash` if you are supporting this project by referencing details about it;  `setupTermuxArch.bash` is the current target install file name for this project.  While `setupTermuxArch` is being once more considered for technical reasons;  A warm thank you to those of you who have helped make this project better!
 ################################################################################
 IFS=$'\n\t'
 set -Eeuo pipefail
@@ -832,4 +830,5 @@ then
 else
 	_PRINTUSAGE_
 fi
-# setupTermuxArch.bash EOF
+# The name of file `setupTermuxArch` in the EOF line of this file is to assist `setupTermuxArch{.sh,.bash}` if this setup script wants to update to the latest version.  If you are using this file inside a git repository, `git pull` will accomplish updating this script and the repository to the most recent version.  File `updateTermuxArch.bash` will do this for you and populate modules in the repository as well, and file `updateTermuxArch.bash` can be run in the Termux PRoot environment too.
+# setupTermuxArch EOF
