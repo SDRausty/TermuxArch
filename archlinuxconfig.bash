@@ -592,15 +592,19 @@ _ADDmakeyay_() {
 	cat >> root/bin/makeyay.bash  <<- EOM
 	if [ "\$UID" = "0" ]
 	then
-		printf "\\n%s\\n\\n" "Error: Should not be used as root: Exiting..."
+		printf "\\\\n\\\\e[1;37m%s\\\\e[0m\\\\n\\\\n" "ERROR:  Should not be used as root:  Exiting..."
 	else
+		_PRMAKE_() {
+			printf "\\\\e[1;32m==> \\\\e[1;37m%s\\\\n" "Running makepkg -irs --noconfirm..."
+		}
+		printf "\\\\e[1;37m%s\\\\e[0m\\\\n" "Building and installing  yay:"
+		cd 
 		[ ! -f /var/lock/patchmakepkg.lock ] && patchmakepkg.bash
 		! fakeroot ls >/dev/null && makefakeroot-tcp.bash
-		printf "%s\\n" "Attempting to build and install yay: "
-		cd 
-		(git clone https://aur.archlinux.org/yay.git && cd yay && makepkg -irs --noconfirm) || printf "%s\n" "Continuing to build and install yay..." && cd yay && makepkg -irs --noconfirm
-		printf "%s\\n" "Attempting to build and install yay: DONE"
+		(git clone https://aur.archlinux.org/yay.git && cd yay && _PRMAKE_ && makepkg -irs --noconfirm) || printf "\\\\e[1;37m%s\\\\e[0m\\\\n" "Continuing to build and install yay..." && cd yay && _PRMAKE_ && makepkg -irs --noconfirm
+		printf "\\\\e[1;37m%s\\\\e[0m\\\\n" "Building and installing yay: DONE"
 	fi
+	# makeyay.bash EOF 
 	EOM
 	chmod 700 root/bin/makeyay.bash
 }
