@@ -12,7 +12,7 @@
 # DM=lftp 		# uncomment to use this download tool
 # DM=wget		# uncomment to use this download tool
 KEEP=1			# change to 0 to keep downloaded image
-KOE=0
+KOE=0			# do not change, not user configurable
 
 # If there are system image files available not listed here, please open a pull request.
 _AARCH64ANDROID_() {
