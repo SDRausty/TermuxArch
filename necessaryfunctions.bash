@@ -367,6 +367,7 @@ _PREPROOTDIR_() {
 	[[ ! -d home ]] && mkdir -p home
 	[[ ! -d root/bin ]] && mkdir -p root/bin
 	[[ ! -d usr/bin ]] && mkdir -p usr/bin
+	[[ ! -d var/backups/"${INSTALLDIR##*/}/root" ]] && mkdir -p var/backups/"${INSTALLDIR##*/}/root"
 	[[ ! -d var/binds ]] && mkdir -p var/binds
 }
 

@@ -59,9 +59,8 @@ _COPYSTARTBIN2PATHQ_() {
 	done
 }
 
-
-_DOTHF_() { # do the file
-	[[ -f $1 ]] && (printf "%s\\n" "==> mv -f $1 $1.bkp" && mv -f "$1" "$1.bkp") || printf "%s" "copy file '$1' if found : file not found : continuing : "
+_DOTHRF_() { # do the root user files
+	[[ -f $1 ]] && (printf "%s\\n" "==> mv -f $1 var/backups/${INSTALLDIR##*/}/$1.bkp" && mv -f "$1" "var/backups/${INSTALLDIR##*/}/$1.bkp") || printf "%s" "move file '$1' if found : continuing : "
 }
 
 _EDITFILES_() {

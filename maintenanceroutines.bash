@@ -24,12 +24,19 @@ _COPYIMAGE_() { # A systemimage.tar.gz file can be used: `setupTermuxArch.bash .
 }
 
 _DOFUNLCR2_() {
+	_BKPTHF_() { # backup the user files
+		BKPDIR="$INSTALLDIR/var/backups/${INSTALLDIR##*/}/home/$USER"
+		[[ ! -d "$BKPDIR/" ]] && mkdir -p "$BKPDIR/"
+		cd "$INSTALLDIR/home/$USER"
+		[[ -f $1 ]] && printf "%s\\n" "==> mv -f $1 $BKPDIR/$1.bkp" && mv -f "$1" "$BKPDIR/$1.bkp" || printf "%s" "signal generated in move file '$1' if found : continuing : "
+	}
 	if [ -d "$INSTALLDIR/home" ]
 	then
 		if [[ "$USER" != alarm ]]
 		then 
-			_DOTHF_ "$INSTALLDIR/home/$USER"/.bash_profile
-			_DOTHF_ "$INSTALLDIR/home/$USER"/.bashrc
+			export "$USER"
+			_BKPTHF_ .bash_profile
+			_BKPTHF_ .bashrc
 			cp "$INSTALLDIR"/root/.bash_profile "$INSTALLDIR/home/$USER/"
 			cp "$INSTALLDIR"/root/.bashrc "$INSTALLDIR/home/$USER/"
 			cp "$INSTALLDIR"/root/bin/* "$INSTALLDIR/home/$USER/bin/"
@@ -38,9 +45,10 @@ _DOFUNLCR2_() {
 		       	ls "$INSTALLDIR/home/$USER"/bin/* |cut -f7- -d /
 		fi
 	fi
+	cd "$INSTALLDIR/root"
 }
 
-_FUNLCR2_() { # copy from root to INSTALLDIR/home/USER
+_FUNLCR2_() { # copy from root to home/USER
 	export FLCRVAR=($(ls "$INSTALLDIR/home/"))
 	for USER in ${FLCRVAR[@]}
 	do
@@ -95,6 +103,7 @@ _REFRESHSYS_() { # refresh installation
  	_SPACEINFO_
 	cd "$INSTALLDIR"
 	_SETLANGUAGE_
+	_PREPROOTDIR_ || _PSGI1ESTRING_ "_PREPROOTDIR_ _REFRESHSYS_ maintenanceroutines.bash ${0##*/}"
 	_ADDADDS_
 	_MAKEFINISHSETUP_
 	_MAKESETUPBIN_
