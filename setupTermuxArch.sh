@@ -2,12 +2,15 @@
 # Copyright 2017-2020 (c) by SDRausty, all rights reserved, see LICENSE 🌎 🌍 🌏 🌐 🗺
 # Hosted termuxarch.github.io/TermuxArch courtesy https://pages.github.com
 # https://termuxarch.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.
+# The names of files `setupTermuxArch` and `setupTermuxArch.sh` in the EOF line of these files is to assist `setupTermuxArch` if this setup script wants to update to the latest version.
+# If you are using this file inside a git repository, simply `git pull` to accomplish updating to the most recent version.  File `updateTermuxArch.bash` will do this for you and populate modules in the repository.  File `updateTermuxArch.bash` be run in the PRoot environment.
+# Files `setupTermuxArch.bash` and `setupTermuxArch.sh` are currently being held for backwards compatibility.  Please reference either files `setupTermuxArch` or `setupTermuxArch.bash` if referencing details about these projects;  `setupTermuxArch.bash` is the current target name for this setup script.  While `setupTermuxArch` is being considered once more for technical reasons;  `setupTermuxArch.bash` is the current target install file name for this project.  A warm thank you to those of you who have helped make this project better!
 ################################################################################
 IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-VERSIONID=2.0.60
+VERSIONID=2.0.307
 ## INIT FUNCTIONS ##############################################################
 _STRPERROR_() { # run on script error
 	local RV="$?"
