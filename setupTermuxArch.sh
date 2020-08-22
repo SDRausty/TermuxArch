@@ -1,8 +1,9 @@
 #!/usr/bin/env bash
 # Copyright 2017-2020 (c) by SDRausty, all rights reserved, see LICENSE 🌎 🌍 🌏 🌐 🗺
-# Hosted termuxarch.github.io/TermuxArch courtesy https://pages.github.com
+# Hosting termuxarch.github.io/TermuxArch courtesy https://pages.github.com
 # https://termuxarch.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.
-# Files 'setupTermuxArch.bash' and 'setupTermuxArch.sh' are being held for backwards compatibility at the present time;  Please reference either files 'setupTermuxArch' or 'setupTermuxArch.bash' if you are supporting this project through sharing facts about these Arch Linux in Termux PRoot projects;  The file 'setupTermuxArch.bash' is the current target install file name for this project.  While 'setupTermuxArch' is once more considered for technical reasons;  A hardy thank you to those of you who have helped make these Arch Linux in Termux PRoot projects better!
+# File 'updateTermuxArch.bash' will execute 'git pull' and populate repository modules, and file 'updateTermuxArch.bash' can also be run directly in a PRoot environment.  File 'updateTermuxArch.bash's functions are not related to similar functions run by the commands 'setupTermuxArch r[e[fresh]]' which have completely different refreshing functions, updating functions.  The command 'setupTermuxArch h[elp]' has more information about how to use .
+# Files 'setupTermuxArch{.bash,.sh}' are currently being held for backwards compatibility;  Please reference file 'setupTermuxArch' should support for this project come through sharing facts about these Arch Linux in a Termux PRoot container projects in a smartphone;  The file 'setupTermuxArch' is the current target install file name for this project;  A hardy thank you to those of you who have helped make these Arch Linux in Termux PRoot projects better!
 ################################################################################
 IFS=$'\n\t'
 set -Eeuo pipefail
@@ -830,5 +831,5 @@ then
 else
 	_PRINTUSAGE_
 fi
-# The name of file 'setupTermuxArch' in the EOF line at the end of this file is to assist scripts 'setupTermuxArch{.bash,.sh}' if this setup script selfupdates to the latest version.  If you are using this file inside its' git repository 'git pull' must be employed to accomplish updating to the most recent version published.  File 'updateTermuxArch.bash' will execute 'git pull' and populate repository modules, and file 'updateTermuxArch.bash' can also be run directly in the PRoot environment as well.  File 'updateTermuxArch.bash's functions are not related to similar functions run by the commands 'setupTermuxArch r[e[fresh]]' which has a completely different refreshing function, updating function.  The command 'setupTermuxArch h[elp]' has more information.
+# The name of file 'setupTermuxArch' in the EOF line at the end of this file is to assist scripts `setupTermuxArch[.{bash,bin,sh}]` if they selfupdate to the latest version.  These files will not selfupdate to the most recent version published if you are used inside their git repository;  In this case 'git pull' can be employed to accomplish updating.
 # setupTermuxArch EOF
