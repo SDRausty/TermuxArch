@@ -67,7 +67,7 @@ _X86_64_() { # IFILE is read from md5sums.txt
 # To regenerate the start script use `setupTermuxArch.bash [r[e[fresh]]]`.  The command `setupTermuxArch.bash refresh` will refresh the installation globally, including excecuting keys and locales and backup user configuration files that were refreshed.  The command `setupTermuxArch.bash re` will refresh the installation and update user configuration files and backup user configuration files that were refreshed.  While the command `setupTermuxArch.bash r` will only refresh the installation and update the root user configuration files and backup root user configuration files that were refreshed.
 # Appending to the PRoot statement can be accomplished on the fly by creating a .prs file in the var/binds directory.  The format is straightforward, `PROOTSTMNT+="option command "`.  The space is required before the last double quote.  Commands `info proot` and `man proot` have more information about what can be configured in a proot init statement.  If more suitable configurations are found, share them at https://github.com/TermuxArch/TermuxArch/issues to improve TermuxArch.  PRoot bind usage: PROOTSTMNT+="-b host_path:guest_path "  The space before the last double quote is necessary.
 
-_PR00TSTRING_() { # construct proot init statements
+_PR00TSTRING_() { # construct the PRoot init statement
 	PROOTSTMNT="exec proot "
        	if [[ -z "${KID:-}" ]]
 	then
@@ -81,7 +81,7 @@ _PR00TSTRING_() { # construct proot init statements
 	       	PROOTSTMNT+="--kill-on-exit "
        	fi
        	PROOTSTMNT+="--link2symlink -0 -r $INSTALLDIR "
-	# file var/binds/fbindexample.prs has examples
+	# file var/binds/fbindexample.prs has a few more examples
        	if [[ -n "$(ls -A "$INSTALLDIR"/var/binds/*.prs)" ]]
 	then
 	       	for PRSFILES in "$INSTALLDIR"/var/binds/*.prs
@@ -119,7 +119,7 @@ _PR00TSTRING_() { # construct proot init statements
 		       	PROOTSTMNT+="-b ${PRSTARR[$PRBIND]}:$PRBIND "
 		fi
 	done
-	PROOTSTMNT+="-w \"\$PWD\" /usr/bin/env -i HOME=/root TERM=\"\$TERM\" TMPDIR=/tmp ANDROID_DATA=/data " # create PRoot root user string
+	PROOTSTMNT+="-w \"\$PWD\" /usr/bin/env -i HOME=/root TERM=\"\$TERM\" TMPDIR=/tmp ANDROID_DATA=/data " # create PRoot user string
 }
 _PR00TSTRING_
 # uncomment the next line to test function _PR00TSTRING_
