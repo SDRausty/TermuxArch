@@ -606,7 +606,7 @@ _ADDmakeyay_() {
 	cat >> root/bin/makeyay.bash  <<- EOM
 	if [ "\$UID" = "0" ]
 	then
-		printf "\\\\n\\\\e[1;37m%s\\\\e[0m\\\\n\\\\n" "ERROR:  Should not be used as root:  Exiting..."
+		printf "\\\\n\\\\e[1;37m%s\\\\e[0m\\\\n\\\\n" "ERROR:  Script '\${0##*/}' should not be used as root:  The TermuxArch command 'addauser' creates user accounts in Arch Linux in PRoot and configures these user accounts for 'sudo':  The 'addauser' command is intended to be run by the Arch Linux in PRoot root user:  To use 'addauser' directly from Termux, run '$STARTBIN command addauser user' in Termux to create this account in Arch Linux PRoot:  The command '$STARTBIN help' has more information how to use '$STARTBIN':  EXITING..."
 	else
 		_PRMAKE_() {
 			printf "\\\\e[1;32m==> \\\\e[1;37m%s\\\\n" "Running makepkg -irs --noconfirm..."
