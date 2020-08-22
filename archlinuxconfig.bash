@@ -987,7 +987,7 @@ _ADDyt_() {
 _PREPPACMANCONF_() {
 	if [ -f "$INSTALLDIR"/etc/pacman.conf ] # file is found
 	then # rewrite it for the PRoot environment
-		sed -i 's/^CheckSpace/\#CheckSpace/g' "$INSTALLDIR/etc/pacman.conf" && sed -i 's/^#Color/Color/g' "$INSTALLDIR/etc/pacman.conf" && sed -i 's/#IgnorePkg   =/IgnorePkg   = systemctl systemd systemd-libs systemd-sysvcompat/g' "$INSTALLDIR/etc/pacman.conf" && sed -i 's/#IgnoreGroup =/IgnoreGroup = systemctl systemd systemd-libs systemd-sysvcompat/g' "$INSTALLDIR/etc/pacman.conf" && sed -i 's/#NoUpgrade   =/NoUpgrade  = systemctl systemd systemd-libs systemd-sysvcompat/g' "$INSTALLDIR/etc/pacman.conf"
+		sed -i 's/^CheckSpace/\#CheckSpace/g' "$INSTALLDIR/etc/pacman.conf" && sed -i 's/^#Color/Color/g' "$INSTALLDIR/etc/pacman.conf"
 	else
 		printf "%s%s" "Cannot find file $INSTALLDIR/etc/pacman.conf : " "Signal generated in _PREPPACMANCONF_ archlinuxconfig.bash ${0##*/} : Continuing... "
 	fi
