@@ -8,32 +8,33 @@
 _ADDAUSER_() {
 	_CFLHDR_ root/bin/addauser "# add Arch Linux in Termux PRoot user"
 	cat >> root/bin/addauser <<- EOM
-_FUNADDU_() {
-if [[ -z "\${1:-}" ]]
-then
-	printf "\\e[1;31m%s\\\\n" "Use: addauser username: exiting..."
-	exit 201
-else
-	sed -i "s/required/sufficient/g" /etc/pam.d/su
-	sed -i "s/^#auth/auth/g" /etc/pam.d/su
-	useradd -s /bin/bash "\$1" -U
-	usermod "\$1" -aG wheel
-	passwd -d "\$1"
-	chage -I -1 -m 0 -M -1 -E -1 "\$1"
-	[[ -d /etc/sudoers.d ]] && printf "%s\\n" "\$1 ALL=(ALL) ALL" >> /etc/sudoers.d/"\$1"
-	sed -i "s/\$1:x/\$1:/g" /etc/passwd
-	cp -r /root /home/"\$1"
-	printf "%s\\n" "Added user \$1 and directory /home/\$1 created.  To use this account run '$STARTBIN login \$1' in Termux.  Remember please not to nest proot in proot by running '$STARTBIN' in '$STARTBIN' as this may cause issues."
-fi
-}
-_PMFSESTRING_() { 
-printf "\\e[1;31m%s\\e[1;37m%s\\e[1;32m%s\\e[1;37m%s\\n\\n" "Signal generated in '\$1' : Cannot complete task : " "Continuing..."
-printf "\\e[1;34m%s\\e[0;34m%s\\e[1;34m%s\\e[0;34m%s\\e[1;34m%s\\e[0m\\n\\n" "  If you find improvements for " "setupTermuxArch.bash" " and " "\$0" " please open an issue and accompanying pull request."
-}
-_FUNADDU_ "\$@"
-EOM
+	_FUNADDU_() {
+	if [[ -z "\${1:-}" ]]
+	then
+		printf "\\e[1;31m%s\\\\n" "Use: addauser username: exiting..."
+		exit 201
+	else
+		sed -i "s/required/sufficient/g" /etc/pam.d/su
+		sed -i "s/^#auth/auth/g" /etc/pam.d/su
+		useradd -s /bin/bash "\$1" -U
+		usermod "\$1" -aG wheel
+		passwd -d "\$1"
+		chage -I -1 -m 0 -M -1 -E -1 "\$1"
+		[[ -d /etc/sudoers.d ]] && printf "%s\\n" "\$1 ALL=(ALL) ALL" >> /etc/sudoers.d/"\$1"
+		sed -i "s/\$1:x/\$1:/g" /etc/passwd
+		cp -r /root /home/"\$1"
+		printf "%s\\n" "Added user \$1 and directory /home/\$1 created.  To use this account run '$STARTBIN login \$1' in Termux.  Remember please not to nest proot in proot by running '$STARTBIN' in '$STARTBIN' as this may cause issues."
+	fi
+	}
+		_PMFSESTRING_() { 
+		printf "\\e[1;31m%s\\e[1;37m%s\\e[1;32m%s\\e[1;37m%s\\n\\n" "Signal generated in '\$1' : Cannot complete task : " "Continuing..."
+		printf "\\e[1;34m%s\\e[0;34m%s\\e[1;34m%s\\e[0;34m%s\\e[1;34m%s\\e[0m\\n\\n" "  If you find improvements for " "setupTermuxArch.bash" " and " "\$0" " please open an issue and accompanying pull request."
+	}
+	_FUNADDU_ "\$@"
+	# addauser EOF
+	EOM
 	chmod 700 root/bin/addauser
-}
+	}
 
 _ADDREADME_() {
 	_CFLHDR_ root/bin/README.md
@@ -42,6 +43,7 @@ _ADDREADME_() {
 
 	* Comments welcome at https://github.com/TermuxArch/TermuxArch/issues ✍
 	* Pull requests welcome at https://github.com/TermuxArch/TermuxArch/pulls ✍
+	<!--bin/README.md EOF-->
 	EOM
 }
 
@@ -49,6 +51,7 @@ _ADDae_() {
 	_CFLHDR_ root/bin/ae "# Contributed by https://github.com/cb125"
 	cat >> root/bin/ae <<- EOM
 	watch cat /proc/sys/kernel/random/entropy_avail
+	# ae EOF
 	EOM
 	chmod 700 root/bin/ae
 }
@@ -66,6 +69,7 @@ _ADDbash_logout_() {
 	if [ ! -e "\$HOME"/.hushlogout ] && [ ! -e "\$HOME"/.chushlogout ] ; then
 		. /etc/moto
 	fi
+	# .bash_logout EOF
 	EOM
 }
 
@@ -130,6 +134,7 @@ _ADDbashrc_() {
 	alias pcss='pacman -Ss --color=always'
 	alias Q='exit'
 	alias q='exit'
+	# .bashrc EOF
 	EOM
 	if [ -e "$HOME"/.bashrc ] ; then
 		grep proxy "$HOME"/.bashrc | grep "export" >>  root/.bashrc 2>/dev/null ||:
@@ -141,6 +146,7 @@ _ADDcdtd_() {
 	cat > root/bin/cdtd <<- EOM
 	#!/usr/bin/env bash
 	cd "$HOME/storage/downloads" && pwd
+	# cdtd EOF
 	EOM
 	chmod 700 root/bin/cdtd
 }
@@ -150,6 +156,7 @@ _ADDcdth_() {
 	cat > root/bin/cdth <<- EOM
 	#!/usr/bin/env bash
 	cd "$HOME" && pwd
+	# cdth EOF
 	EOM
 	chmod 700 root/bin/cdth
 }
@@ -159,6 +166,7 @@ _ADDcdtmp_() {
 	cat > root/bin/cdtmp <<- EOM
 	#!/usr/bin/env bash
 	cd "$PREFIX/tmp" && pwd
+	# cdtmp EOF
 	EOM
 	chmod 700 root/bin/cdtmp
 }
@@ -199,6 +207,7 @@ _ADDch_() {
 		touch "\$HOME"/.hushlogin "\$HOME"/.hushlogout
 		echo "Hushed login and logout: ON"
 	fi
+	# ch EOF
 	EOM
 	chmod 700 root/bin/ch
 }
@@ -216,7 +225,7 @@ _ADDcsystemctl_() {
 	# path is /usr/local/bin because updates overwrite /usr/bin/systemctl and may make systemctl-replacement obsolete
 	# backup original binary
 	mv /usr/bin/systemctl $INSTALLDIR/var/backups/${INSTALLDIR##*/}/systemctl.\$SDATE.bkp
-	printf "%s\\n" "Moved /usr/bin/systemctl ~/systemctl.\$SDATE.bkp"
+	printf "%s\\n" "Moved /usr/bin/systemctl to $INSTALLDIR/var/backups/${INSTALLDIR##*/}/systemctl.\$SDATE.bkp"
 	printf "%s\\n" "Getting replacement systemctl from https://raw.githubusercontent.com/gdraheim/docker-systemctl-replacement/master/files/docker/systemctl3.py"
 	# copy to both /usr/local/bin and /usr/bin
 	# updates won't halt functioning since /usr/local/bin precedes /usr/bin in PATH
@@ -225,6 +234,7 @@ _ADDcsystemctl_() {
 	[ ! -e /run/lock ] && mkdir -p /run/lock
 	touch /var/lock/csystemctl.lock
 	printf "%s\\n" "Installing systemctl replacement in /usr/local/bin and /usr/bin: DONE"
+	# csystemctl.bash EOF
 	EOM
 	chmod 700 root/bin/csystemctl.bash
 }
@@ -235,6 +245,7 @@ _ADDdfa_() {
 	units="\$(df 2>/dev/null | awk 'FNR == 1 {print \$2}')"
 	USRSPACE="\$(df 2>/dev/null | grep "/data" | awk {'print \$4'})"
 	printf "\e[0;33m%s\n\e[0m" "\$USRSPACE \$units of free user space is available on this device."
+	# dfa EOF
 	EOM
 	chmod 700 root/bin/dfa
 }
@@ -243,6 +254,7 @@ _ADDexd_() {
 	_CFLHDR_ root/bin/exd "# Usage: \`. exd\` the dot sources \`exd\` which makes this shortcut script work."
 	cat >> root/bin/exd <<- EOM
 	export DISPLAY=:0 PULSE_SERVER=tcp:127.0.0.1:4712
+	# exd EOF
 	EOM
 	chmod 700 root/bin/exd
 }
@@ -369,6 +381,7 @@ _ADDfibs_() {
 	_CFLHDR_ root/bin/fibs
 	cat >> root/bin/fibs  <<- EOM
 	find /proc/ -name maps 2>/dev/null | xargs awk '{print \$6}' 2>/dev/null | grep '\.so' | sort | uniq
+	# fibs EOF
 	EOM
 	chmod 700 root/bin/fibs
 }
@@ -383,6 +396,7 @@ _ADDga_() {
 	else
 		git add .
 	fi
+	# ga EOF
 	EOM
 	chmod 700 root/bin/ga
 }
@@ -397,6 +411,7 @@ _ADDgcl_() {
 	else
 		git clone --depth 1 "\$@" --branch master --single-branch
 	fi
+	# gcl EOF
 	EOM
 	chmod 700 root/bin/gcl
 }
@@ -411,6 +426,7 @@ _ADDgcm_() {
 	else
 		git commit
 	fi
+	# gcm EOF
 	EOM
 	chmod 700 root/bin/gcm
 }
@@ -425,6 +441,7 @@ _ADDgpl_() {
 	else
 		git pull
 	fi
+	# gpl EOF
 	EOM
 	chmod 700 root/bin/gpl
 }
@@ -439,6 +456,7 @@ _ADDgp_() {
 	else
 		git push
 	fi
+	# gp EOF
 	EOM
 	chmod 700 root/bin/gp
 }
@@ -510,6 +528,7 @@ _ADDkeys_() {
 	pacman-key --populate ||:
 	printf "\e[1;32m==>\e[0m Running \e[1mpacman -Ss keyring --color=always\e[0m...\n"
 	pacman -Ss keyring --color=always ||:
+	# keys EOF
 	EOM
 	chmod 700 root/bin/keys
 }
@@ -577,6 +596,7 @@ _ADDmakefakeroot-tcp_() {
 		(git clone https://aur.archlinux.org/fakeroot-tcp.git && cd fakeroot-tcp && sed -i 's/  patch/  sudo patch/g' PKGBUILD && makepkg -is) || printf "%s\n" "Continuing to build and install fakeroot-tcp: " && cd fakeroot-tcp && sed -i 's/  patch/  sudo patch/g' PKGBUILD && makepkg -is
 		printf "%s\\n" "Attempting to build and install fakeroot-tcp: DONE"
 	fi
+	# makefakeroot-tcp.bash EOF
 	EOM
 	chmod 700 root/bin/makefakeroot-tcp.bash
 }
@@ -617,6 +637,7 @@ _ADDpatchmakepkg_() {
 	mv makepkg /bin/makepkg
 	touch /var/lock/patchmakepkg.lock
 	printf "%s\\n" "Attempting to patch makepkg: DONE"
+	# patchmakepkg.bash EOF
 	EOM
 	chmod 700 root/bin/patchmakepkg.bash
 }
@@ -653,6 +674,7 @@ _ADDpc_() {
 	else
 	pacman --noconfirm --color=always -S "\$@"
 	fi
+	# pc EOF
 	EOM
 	chmod 700 root/bin/pc
 }
@@ -709,6 +731,7 @@ _ADDt_() {
 	else
 		tree "\$@"
 	fi
+	# t EOF
 	EOM
 	chmod 700 root/bin/t
 }
@@ -730,6 +753,7 @@ _ADDthstartarch_() {
 	echo $STARTBIN su user "pwd && whoami"
 	$STARTBIN su user "pwd && whoami"
 	echo th$STARTBIN done
+	# th"$STARTBIN" EOF
 	EOM
 	chmod 700 root/bin/th"$STARTBIN"
 }
@@ -753,6 +777,7 @@ _ADDtour_() {
 	sleep 1
 	cat "\$HOME"/bin/pci
 	printf "\\e[1;32m\\n%s \\e[38;5;121m%s \\n\\n\\e[4;38;5;129m%s\\e[0m\\n\\n\\e[1;34m%s \\e[38;5;135m%s\\e[0m\\n\\n" "==>" "Short tour is complete; Scroll up if you wish to study the output.  Run this script again at a later time, and it might be surprising at how this environment changes over time. " "If you are new to *nix, http://tldp.org has documentation." "IRC: " "https://wiki.archlinux.org/index.php/IRC_channel"
+	# tour EOF
 	EOM
 	chmod 700 root/bin/tour
 }
@@ -788,6 +813,7 @@ _ADDtrim_() {
 	printf "%s\\\\n" "[5/5] rm -f /var/cache/pacman/pkg/*xz"
 	rm -f /var/cache/pacman/pkg/*xz || _PMFSESTRING_ "rm -f"
 	printf "\\\\n\\\\e[1;32m%s\\\\e[0m\\\\n\\\\n" "\${0##*/} trim \$@: Done"
+	# trim EOF
 	EOM
 	chmod 700 root/bin/trim
 }
@@ -947,13 +973,14 @@ _ADDwe_() {
 		_PRINTUSAGE_
 	fi
 	_PRINTTAIL_
+	# we EOF
 	EOM
 	chmod 700 usr/bin/we
 }
 
 _ADDyt_() {
 	_CFLHDR_ root/bin/yt
-	printf "%s\\n%s\\n" "[ \"\$UID\" = \"0\" ] && printf \"\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\\n\" \"Cannot run '\${0##*/}' as root user :\" \" the command 'addauser username' can create user accounts in $INSTALLDIR : the command '$STARTBIN command addauser username' can create user accounts in $INSTALLDIR from Termux : the command '$STARTBIN help' has more information : \" \"exiting...\" && exit" "[ ! -x \"\$(command -v youtube-dl)\" ] && sudo pci youtube-dl && youtube-dl \"\$@\" || youtube-dl \"\$@\" " >> root/bin/yt
+	printf "%s\\n%s\\n%s\\n" "[ \"\$UID\" = \"0\" ] && printf \"\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\\n\" \"Cannot run '\${0##*/}' as root user :\" \" the command 'addauser username' can create user accounts in $INSTALLDIR : the command '$STARTBIN command addauser username' can create user accounts in $INSTALLDIR from Termux : the command '$STARTBIN help' has more information : \" \"exiting...\" && exit" "[ ! -x \"\$(command -v youtube-dl)\" ] && sudo pci youtube-dl && youtube-dl \"\$@\" || youtube-dl \"\$@\" " "# yt EOF" >> root/bin/yt
 	chmod 700 root/bin/yt
 }
 
