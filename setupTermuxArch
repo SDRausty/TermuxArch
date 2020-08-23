@@ -8,7 +8,7 @@ IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-VERSIONID=2.0.86
+VERSIONID=2.0.87
 ## INIT FUNCTIONS ##############################################################
 _STRPERROR_() { # run on script error
 	local RV="$?"
@@ -89,27 +89,25 @@ _CHKDWN_() {
 	fi
 }
 
-_CHKSELF_() {	# compare file setupTermuxArch.bash and the file being used
+_CHKSELF_() {	# compare file setupTermuxArch.bash and file used
 	if [[ "$(<$TAMPDIR/setupTermuxArch.bash)" != "$(<$WFILE)" ]] # differ
-	then	# either 
+	then
 		cd "${WFILE%/*}"
-		if _COREFILES_	# core files are found
-		then
-			: # do nothing
-		else	# unset functions and variables
-			unset -f $(grep \_\( "$WFILE"|cut -d"(" -f 1|sort -u|sed ':a;N;$!ba;s/\n/ /g')
-			NNVAR="$(grep '="' "$WFILE"|grep -v -e \] -e ARGS -e TAMPDIR -e WFILE|grep -v +|sed 's/declare -a//g'|sed 's/declare//g'|sed 's/export//g'|sed -e "s/[[:space:]]\+//g"|cut -d"=" -f 1|sort -u)"
-			for NNSET in $NNVAR
-			do
-				unset "$NNSET"
-			done
-			# copy to update the working file
-			cp "$TAMPDIR/setupTermuxArch.bash" "$WFILE"
- 			rm -rf "$TAMPDIR"
-			printf "\\e[0;32m%s\\e[1;34m: \\e[1;32mUPDATED\\n\\e[1;32mRESTARTED\\e[1;34m: \\e[0;32m%s %s \\n\\n\\e[0m"  "${0##*/}" "${0##*/}" "$ARGS"
-			# restart with the newest version published 
-			. "$WFILE" "$ARGS"
-		fi
+		# find and unset functions
+		unset -f $(grep \_\( "$WFILE"|cut -d"(" -f 1|sort -u|sed ':a;N;$!ba;s/\n/ /g')
+		# find variables
+		UNVAR="$(grep '="' "$WFILE"|grep -v -e \] -e ARGS -e TAMPDIR -e WFILE|grep -v +|sed 's/declare -a//g'|sed 's/declare//g'|sed 's/export//g'|sed -e "s/[[:space:]]\+//g"|cut -d"=" -f 1|sort -u)"
+		# unset variables
+		for UNSET in $UNVAR
+		do
+			unset "$UNSET"
+		done
+		# update working file
+		cp "$TAMPDIR/setupTermuxArch.bash" "$WFILE"
+		rm -rf "$TAMPDIR"
+		printf "\\e[0;32m%s\\e[1;34m: \\e[1;32mUPDATED\\n\\e[1;32mRESTARTED\\e[1;34m: \\e[0;32m%s %s \\n\\n\\e[0m"  "${0##*/}" "${0##*/}" "$ARGS"
+		# restart with published version
+		. "$WFILE" "$ARGS"
 	fi
 	cd "$TAMPDIR"
 }
@@ -360,17 +358,17 @@ _NAMEINSTALLDIR_() {
 	then
 		ROOTDIR=arch
 	fi
-	INSTALLDIR="$(printf "%s\\n" "$HOME/${ROOTDIR%/}" | sed 's#//*#/#g')"
+	INSTALLDIR="$(printf "%s\\n" "$HOME/${ROOTDIR%/}"|sed 's#//*#/#g')"
 }
 
 _NAMESTARTARCH_() {
- 	DARCH="$(printf "%s\\n" "${ROOTDIR%/}" | sed 's#//*#/#g')" # ${@%/} removes trailing slash
+ 	DARCH="$(printf "%s\\n" "${ROOTDIR%/}"|sed 's#//*#/#g')" # ${@%/} removes trailing slash
 	if [[ "$DARCH" = "/arch" ]]
 	then
 		AARCH=""
 		STARTBI2=arch
 	else
- 		AARCH="$(printf "%s\\n" "$DARCH" | sed 's/\//\+/g')"
+ 		AARCH="$(printf "%s\\n" "$DARCH"|sed 's/\//\+/g')"
 		STARTBI2=arch
 	fi
 	declare -g STARTBIN=start"$STARTBI2$AARCH"
@@ -505,8 +503,8 @@ _PRINTUSAGE_() {
 	printf "\\n\\e[1;32m %s  \\e[1;32m%s \\e[0;32m%s \\e[1;32m%s \\e[0;32m%s \\e[1;32m%s\\e[0;32m%s \\n\\n" "SYSINFO" "${0##*/} sysinfo" "will create file" "setupTermuxArchSysInfo$STIME.log" "and populate it with system information.  Post this file along with detailed information at" "https://github.com/TermuxArch/TermuxArch/issues" ".  If screenshots will help in resolving an issue better, include these along with information from the system information log file in a post as well."
 	if [[ "$LCC" = 1 ]]
 	then
-	printf "\\n\\e[1;38;5;150m"
-	awk 'NR>=600 && NR<=900'  "$0" | awk '$1 == "##"' | awk '{ $1 = ""; print }' | awk '1;{print ""}'
+		printf "\\n\\e[1;38;5;150m"
+		awk 'NR>=600 && NR<=900'  "$0"|awk '$1 == "##"'|awk '{ $1 = ""; print }'|awk '1;{print ""}'
 	fi
 	printf "\\n"
 	_PRINTSTARTBIN_USAGE_
@@ -634,7 +632,7 @@ then
 	STIME="${STIME:0:3}"
 else
 	STIME="$(date +%s)"
-	STIME="$(printf "%s" "${STIME:7:4}" | rev)"
+	STIME="$(printf "%s" "${STIME:7:4}"|rev)"
 fi
 ONESA="$(date +%s)"
 ONESA="${ONESA: -1}"
@@ -833,7 +831,8 @@ else
 	_PRINTUSAGE_
 fi
 ## File 'updateTermuxArch.bash' will execute 'git pull' and populate git repository modules, and file 'updateTermuxArch.bash' can also be run directly in a PRoot environment.  File 'updateTermuxArch.bash's functions are not related to unrelated updating functions run by commands 'setupTermuxArch r[e[fresh]]' which have completely different update functions.
-## Files 'setupTermuxArch{.bash,.sh}' are held for backward compatibility;  Please reference file 'setupTermuxArch' as the chosen install file if help be through sharing insight about this Arch Linux in a Termux PRoot container project which can be used on a smartphone.  File 'setupTermuxArch' is the earmarked install file name for this project.  File 'setupTermuxArch' downloads as file 'setupTermuxArch.bin' through Internet browsers into the Android Downloads folder on smartphone, and Arch Linux in Termux PRoot can be installed directly from there with this command 'bash ~/storage/downloads/setupTermuxArch.bin' which will also checks if there is a newer version since the time it was download.
+## Files 'setupTermuxArch{.bash,.sh}' are held for backward compatibility;  Please reference file 'setupTermuxArch' as the chosen install file if help be through sharing insight about this Arch Linux in a Termux PRoot container project which can be used on a smartphone.
+## File 'setupTermuxArch' is the earmarked install file name for this project.  File 'setupTermuxArch' downloads as file 'setupTermuxArch.bin' through Internet browsers into Android Downloads on smartphone;  And Arch Linux in Termux PRoot can be installed directly from this file with this command 'bash ~/storage/downloads/setupTermuxArch.bin' which will also check whether there is a newer version since the time it was downloaded.  If there is a newer version, this file will self update.
 # The name of file 'setupTermuxArch' in the EOF line at the end of this file is to assist scripts 'setupTermuxArch[.{bash,bin,sh}]' when they selfupdate to the latest version when the user runs them.  These files will NOT selfupdate to the most recent version published if they are used inside their git repository;  In this case 'git pull' or 'updateTermuxArch.bash' can be employed to update to the newest published version.
 ## A very hardy thank you to contributors who are helping to make this open source project better!  Thank you very much!
 # setupTermuxArch EOF
