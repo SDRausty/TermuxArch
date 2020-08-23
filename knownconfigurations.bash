@@ -4,17 +4,17 @@
 # https://sdrausty.github.io/TermuxArch/README has info about this project.
 # https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.
 ################################################################################
-# Running `setupTermuxArch.bash manual` will create `setupTermuxArchConfigs.bash` from this file in the working directory.  Run `setupTermuxArch.bash` and file `setupTermuxArchConfigs.bash` loads automaticaly once created, and this file is ignored at runtime; `setupTermuxArch.bash help` has additional information.  The mirror (information at https://wiki.archlinux.org/index.php/Mirrors and https://archlinuxarm.org/about/mirrors) can be changed to a desired geographic location in `setupTermuxArchConfigs.bash` to resolve download, 404 and checksum issues should these take place.  User configurable variables are present in this file for your convenience:
-# DMVERBOSE="-v" 	# uncomment for verbose download tool output with curl and wget;  for verbose output throughout runtime change this setting in file `setupTermuxArch.bash` also
+# Running 'setupTermuxArch.bash manual' will create 'setupTermuxArchConfigs.bash' from this file in the working directory.  Run 'setupTermuxArch.bash' and file 'setupTermuxArchConfigs.bash' loads automaticaly once created, and this file is ignored at runtime; 'setupTermuxArch.bash help' has additional information.  The mirror (information at https://wiki.archlinux.org/index.php/Mirrors and https://archlinuxarm.org/about/mirrors) can be changed to a desired geographic location in 'setupTermuxArchConfigs.bash' to resolve download, 404 and checksum issues should these take place.  User configurable variables are present in this file for your convenience:
+# DMVERBOSE="-v" 	# uncomment for verbose download tool output with curl and wget;  for verbose output throughout runtime change this setting in file 'setupTermuxArch' also
 # DM=aria2c		# uncomment to use this download tool
 # DM=axel 		# uncomment to use this download tool
 # DM=curl		# uncomment to use this download tool
 # DM=lftp 		# uncomment to use this download tool
 # DM=wget		# uncomment to use this download tool
 KEEP=1			# change to 0 to keep downloaded image
-KOE=0			# do not change, not user configurable
+KOE=0			# do not change, not user configurable;  Used for testing and development.
 
-# If there are system image files available not listed here, please open a pull request.
+# If there are system image files available not listed here, please open an issue and a pull request.
 _AARCH64ANDROID_() {
 	IFILE="ArchLinuxARM-aarch64-latest.tar.gz"
 	CMIRROR="os.archlinuxarm.org"
@@ -64,8 +64,8 @@ _X86_64_() { # IFILE is read from md5sums.txt
 	_MAKESYSTEM_
 }
 
-# To regenerate the start script use `setupTermuxArch.bash [r[e[fresh]]]`.  The command `setupTermuxArch.bash refresh` will refresh the installation globally, including excecuting keys and locales and backup user configuration files that were refreshed.  The command `setupTermuxArch.bash re` will refresh the installation and update user configuration files and backup user configuration files that were refreshed.  While the command `setupTermuxArch.bash r` will only refresh the installation and update the root user configuration files and backup root user configuration files that were refreshed.
-# Appending to the PRoot statement can be accomplished on the fly by creating a .prs file in the var/binds directory.  The format is straightforward, `PROOTSTMNT+="option command "`.  The space is required before the last double quote.  Commands `info proot` and `man proot` have more information about what can be configured in a proot init statement.  If more suitable configurations are found, share them at https://github.com/TermuxArch/TermuxArch/issues to improve TermuxArch.  PRoot bind usage: PROOTSTMNT+="-b host_path:guest_path "  The space before the last double quote is necessary.
+# To regenerate the start script use 'setupTermuxArch.bash [r[e[fresh]]]'.  The command 'setupTermuxArch.bash refresh' will refresh the installation globally, including excecuting keys and locales and backup user configuration files that were refreshed.  The command 'setupTermuxArch.bash re' will refresh the installation and update user configuration files and backup user configuration files that were refreshed.  While the command 'setupTermuxArch.bash r' will only refresh the installation and update the root user configuration files and backup root user configuration files that were refreshed.
+# Appending to the PRoot statement can be accomplished on the fly by creating a .prs file in the var/binds directory.  The format is straightforward, 'PROOTSTMNT+="option command "'.  The space is required before the last double quote.  Commands 'info proot' and 'man proot' have more information about what can be configured in a proot init statement.  If more suitable configurations are found, share them at https://github.com/TermuxArch/TermuxArch/issues to improve TermuxArch.  PRoot bind usage: PROOTSTMNT+="-b host_path:guest_path "  The space before the last double quote is necessary.
 
 _PR00TSTRING_() { # construct the PRoot init statement
 	PROOTSTMNT="exec proot "

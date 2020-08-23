@@ -215,7 +215,7 @@ _MAKEFINISHSETUP_() {
 	then
 		printf "%s\\n" "pacman -Syy || pacman -Syy || _PMFSESTRING_ \"pacman -Syy $BINFNSTP ${0##/*}\"" >> root/bin/"$BINFNSTP"
 		printf "%s\\n" "/root/bin/keys || _PMFSESTRING_ \"keys $BINFNSTP ${0##/*}\"" >> root/bin/"$BINFNSTP"
- 		printf "%s\\n" "/root/bin/csystemctl.bash || _PMFSESTRING_ \"csystemctl.bash $BINFNSTP ${0##/*}\"" >> root/bin/"$BINFNSTP"
+ 		printf "%s\\n" "/root/bin/csystemctl || _PMFSESTRING_ \"csystemctl $BINFNSTP ${0##/*}\"" >> root/bin/"$BINFNSTP"
 	 	if [[ "$CPUABI" = "$CPUABI5" ]]
 		then
 	 		printf "%s\\n" "pacman -Rc linux-armv5 linux-firmware --noconfirm --color=always 2>/dev/null || _PMFSESTRING_ \"pacman -Rc linux-armv5 linux-firmware $BINFNSTP ${0##/*}\"" >> root/bin/"$BINFNSTP"
