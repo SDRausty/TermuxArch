@@ -266,11 +266,11 @@ _MAKESTARTBIN_() {
 	declare -g ar3ar="\${@:3}"
 	_PRINTUSAGE_() {
 	printf "\\e]2;%s\\007" "TermuxArch $STARTBIN help 📲"
-	printf "\\n\\e[1;32m%s\\e[0;32m%s\\n\\n" "$STARTBIN" ": Start Arch Linux as root.  This account is reserved for system administration."
-	printf "\\e[1;32m%s\\e[0;32m%s\\n\\n" "$STARTBIN c[ommand] command" ": Run Arch Linux command from Termux as root user."
-	printf "\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\n\\n" "$STARTBIN u[ser]|l[ogin] user" ": Login as user.  Use " "$STARTBIN c addauser user " "first to create this user and user's home directory."
-	printf "\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\n\\n" "$STARTBIN r[aw]" ": Construct the " "$STARTBIN " "proot statement from exec.../bin/.  For example " "$STARTBIN r su " "will exec su in Arch Linux."
-	printf "\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\n\\n\\e[0m" "$STARTBIN s[u] user command" ": Login as user and execute command.  Use " "$STARTBIN c addauser user " "first to create this user and user's home directory."
+	printf "\\n\\e[1;32m%s\\e[0;32m%s\\n\\n" "$STARTBIN" "  start Arch Linux as root.  This account is reserved for system administration."
+	printf "\\e[1;32m%s\\e[0;32m%s\\n\\n" "$STARTBIN c[ommand] command" "  run Arch Linux command from Termux as root user."
+	printf "\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\n\\n" "$STARTBIN u[ser]|l[ogin] user" "  login as user.  Use " "$STARTBIN c addauser user " "first to create this user and user's home directory."
+	printf "\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\n\\n" "$STARTBIN r[aw]" "  construct the " "$STARTBIN " "proot statement from exec.../bin/.  For example " "$STARTBIN r su " "will exec su in Arch Linux."
+	printf "\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\n\\n\\e[0m" "$STARTBIN s[u] user command" "  login as user and execute command.  Use " "$STARTBIN c addauser user " "first to create this user and user's home directory."
 	}
 
 	# [] Default Arch Linux in Termux PRoot root login.

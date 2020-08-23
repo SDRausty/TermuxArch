@@ -8,7 +8,7 @@ IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-VERSIONID=2.0.88
+VERSIONID=2.0.89
 ## INIT FUNCTIONS ##############################################################
 _STRPERROR_() { # run on script error
 	local RV="$?"
@@ -488,7 +488,7 @@ _PRINTSTARTBIN_USAGE_() {
  	_NAMESTARTARCH_
 	if [[ -x "$(command -v "$STARTBIN")" ]]
 	then
-		printf "%s\\n" "$STARTBIN help"
+		printf "\\n%s\\n" "$STARTBIN help"
 		"$STARTBIN" help
 	fi
 }
@@ -497,16 +497,15 @@ _PRINTUSAGE_() {
 	printf "\\n\\e[1;32m %s     \\e[1;32m%s \\e[0;32m%s\\n" "HELP" "${0##*/} help" "will output the help screen."
 	printf "\\n\\e[1;32m %s    \\e[1;32m%s \\e[0;32m%s\\n" "TERSE" "${0##*/} he[lp]" "will output the terse help screen."
 	printf "\\n\\e[1;32m %s  \\e[1;32m%s \\e[0;32m%s\\n" "VERBOSE" "${0##*/} h" "will output the verbose help screen."
-	printf "\\n\\e[0;32m%s \\e[1;32m%s \\e[0;32m%s \\e[1;32m%s \\e[0;32m%s \\e[1;32m%s \\e[0;32m%s \\e[1;32m%s \\e[0;32m%s \\n\\n%s \\e[1;32m%s\\e[0;32m%s \\e[1;32m%s \\e[0;32m%s \\e[1;32m%s \\e[0;32m%s \\e[1;32m%s\\e[0;32m%s\\n" "Usage information for" "${0##*/}" "$VERSIONID.  Arguments can abbreviated to one, two and three letters each; Two and three letter arguments are acceptable.  For example," "bash ${0##*/} cs" "will use" "curl" "to download TermuxArch and produce a" "setupTermuxArchSysInfo$STIME.log" "system information file." "User configurable variables are in" "setupTermuxArchConfigs.bash" ".  To create this file from" "kownconfigurations.bash" "in the working directory, run" "bash ${0##*/} manual" "to create and edit" "setupTermuxArchConfigs.bash" "."
-	printf "\\n\\e[1;32m %s\\e[0;32m  %s \\e[1;32m%s \\e[0;32m%s \\e[1;32m%s \\e[0;32m%s \\e[1;32m%s \\e[0;32m%s \\e[1;32m%s \\e[0;32m%s \\e[1;32m%s \\e[0;32m%s \\e[1;32m%s \\e[0;32m%s \\e[1;32m%s\\e[0;32m%s \\e[1;32m%s \\e[0;32m%s \\e[1;32m%s \\e[0;32m%s\\n" "INSTALL" "Run" "./${0##*/}" "without arguments in a bash shell to install Arch Linux in Termux.  " "bash ${0##*/} curl" "will envoke" "curl" "as the download manager.  Copy" "knownconfigurations.bash" "to" "setupTermuxArchConfigs.bash" "with" "bash ${0##*/} manual" "to edit preferred CMIRROR site and to access more options.  After editing" "setupTermuxArchConfigs.bash" ", run" "bash ${0##*/}" "and" "setupTermuxArchConfigs.bash" "loads automatically from the working directory.  Change CMIRROR to desired geographic location to resolve download errors."
+	printf "\\n\\e[0;32m%s \\e[1;32m%s \\e[0;32m%s \\e[1;32m%s \\e[0;32m%s \\e[1;32m%s \\e[0;32m%s \\e[1;32m%s \\e[0;32m%s \\n\\n%s \\e[1;32m%s\\e[0;32m%s \\e[1;32m%s \\e[0;32m%s \\e[1;32m%s \\e[0;32m%s \\e[1;32m%s\\e[0;32m%s\\n" "Usage information for" "${0##*/}" "$VERSIONID.  Arguments can abbreviated to one, two and three letters each;  Two and three letter arguments are acceptable.  For example," "bash ${0##*/} cs" "will use" "curl" "to download TermuxArch and produce a file like" "setupTermuxArchSysInfo$STIME.log" "populated with system information.  If you have a new smartphone that you are not familiar with, this file might make for an interesting read in order to find out more about the device you might be holding in the palm of your hand at this moment." "User configurable variables are in" "setupTermuxArchConfigs.bash" ".  To create this file from" "kownconfigurations.bash" "in the working directory, execute" "bash ${0##*/} manual" "to create and edit" "setupTermuxArchConfigs.bash" "."
+	printf "\\n\\e[1;32m %s\\e[0;32m  %s \\e[1;32m%s \\e[0;32m%s \\e[1;32m%s \\e[0;32m%s \\e[1;32m%s \\e[0;32m%s \\e[1;32m%s \\e[0;32m%s \\e[1;32m%s \\e[0;32m%s \\e[1;32m%s \\e[0;32m%s \\e[1;32m%s\\e[0;32m%s \\e[1;32m%s \\e[0;32m%s \\e[1;32m%s \\e[0;32m%s\\n" "INSTALL" "run" "./${0##*/}" "without arguments in a bash shell to install Arch Linux in Termux.  The command" "bash ${0##*/} curl" "will envoke" "curl" "as the download manager.  Copy" "knownconfigurations.bash" "to" "setupTermuxArchConfigs.bash" "with the command" "bash ${0##*/} manual" "to edit preferred CMIRROR site and to access more options.  After editing" "setupTermuxArchConfigs.bash" ", run" "bash ${0##*/}" "and" "setupTermuxArchConfigs.bash" "loads automatically from the working directory.  Change CMIRROR to desired geographic location to resolve download errors."
  	printf "\\n\\e[1;32m %s    \\e[1;32m%s \\e[0;32m%s\\n" "PURGE" "${0##*/} purge" "will uninstall Arch Linux from Termux."
-	printf "\\n\\e[1;32m %s  \\e[1;32m%s \\e[0;32m%s \\e[1;32m%s \\e[0;32m%s \\e[1;32m%s\\e[0;32m%s \\n\\n" "SYSINFO" "${0##*/} sysinfo" "will create file" "setupTermuxArchSysInfo$STIME.log" "and populate it with system information.  Post this file along with detailed information at" "https://github.com/TermuxArch/TermuxArch/issues" ".  If screenshots will help in resolving an issue better, include these along with information from the system information log file in a post as well."
+	printf "\\n\\e[1;32m %s  \\e[1;32m%s \\e[0;32m%s \\e[1;32m%s \\e[0;32m%s \\e[1;32m%s\\e[0;32m%s \\n" "SYSINFO" "${0##*/} sysinfo" "will create file" "setupTermuxArchSysInfo$STIME.log" "and populate it with system information.  Post this file along with detailed information at" "https://github.com/TermuxArch/TermuxArch/issues" ".  If screenshots will help in resolving an issue better, include these along with information from the system information log file in a post as well."
 	if [[ "$LCC" = 1 ]]
 	then
-		printf "\\n\\e[1;38;5;150m"
-		awk 'NR>=600 && NR<=900'  "$0"|awk '$1 == "##"'|awk '{ $1 = ""; print }'|awk '1;{print ""}'
+		printf "\\e[1;38;5;150m"
+		sed -n '600,900p;900p' "$0"|grep "^##"|sed 's/## /\n   /g'
 	fi
-	printf "\\n"
 	_PRINTSTARTBIN_USAGE_
 }
 
