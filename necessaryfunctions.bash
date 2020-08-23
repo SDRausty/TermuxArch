@@ -37,7 +37,7 @@ _ADDADDS_() {
 	_ADDgpl_
 	_ADDinputrc
 	_ADDkeys_
-	_ADDmakefakeroot-tcp_
+	_ADDmakefakeroottcp_
 	_ADDmakeyay_
 	_ADDpatchmakepkg_
 	_ADDpc_
@@ -203,8 +203,8 @@ _MAKEFINISHSETUP_() {
 	[[ -z "${LCR:-}" ]] && LOCGEN="printf \"\\e[1;32m%s\\e[0;32m\"  \"==> \" && locale-gen  ||:"
 	cat >> root/bin/"$BINFNSTP" <<- EOM
 	_PMFSESTRING_() { 
-	printf "\\e[1;31m%s\\e[1;37m%s\\e[1;32m%s\\e[1;37m%s\\n\\n" "Signal generated in '\$1' : Cannot complete task : " "Continuing...   To correct the error run " "setupTermuxArch.bash refresh" " to attempt to finish the autoconfiguration."
-	printf "\\e[1;34m%s\\e[0;34m%s\\e[1;34m%s\\e[0;34m%s\\e[1;34m%s\\n\\n" "  If you find improvements for " "setupTermuxArch.bash" " and " "\$0" " please open an issue and accompanying pull request."
+	printf "\\e[1;31m%s\\e[1;37m%s\\e[1;32m%s\\e[1;37m%s\\n\\n" "Signal generated in '\$1' : Cannot complete task : " "Continuing...   To correct the error run " "setupTermuxArch refresh" " to attempt to finish the autoconfiguration."
+	printf "\\e[1;34m%s\\e[0;34m%s\\e[1;34m%s\\e[0;34m%s\\e[1;34m%s\\n\\n" "  If you find improvements for " "setupTermuxArch" " and " "\$0" " please open an issue and accompanying pull request."
 	}
 	printf "\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\n" "To generate locales in a preferred language use " "Settings > Language & Keyboard > Language " "in Android; Then run " "${0##*/} refresh" " for a full system refresh including locale generation; For quick refresh you can use " "${0##*/} r" ".  For a refresh with user directories " "${0##*/} re" " can be used."
    	$LOCGEN
@@ -257,7 +257,8 @@ _MAKESTARTBIN_() {
 	printf "%s\\n" "${FLHDRP[@]}" >> "$STARTBIN"
 	cat >> "$STARTBIN" <<- EOM
 	COMMANDG="\$(command -v getprop)" ||:
-	if [[ "\$COMMANDG" = "" ]] ; then
+	if [[ "\$COMMANDG" = "" ]]
+	then
  		printf "\\n\\e[1;48;5;138mScript %s\\e[0m\\n\\n" "$STARTBIN \${0##*/} WARNING:  Run \${0##*/} and $INSTALLDIR/\${0##*/} from the BASH shell in Termux:  Exiting..."
 		exit 202
 	fi
@@ -273,7 +274,8 @@ _MAKESTARTBIN_() {
 	}
 
 	# [] Default Arch Linux in Termux PRoot root login.
-	if [[ -z "\${1:-}" ]];then
+	if [[ -z "\${1:-}" ]]
+	then
 		set +Eeuo pipefail
 	EOM
 		printf "%s\\n" "$PROOTSTMNT /bin/bash -l ||: " >> "$STARTBIN"
@@ -281,10 +283,12 @@ _MAKESTARTBIN_() {
 		set -Eeuo pipefail
 		printf '\033]2; TermuxArch $STARTBIN 📲  \007'
 	# [?|help] Displays usage information.
-	elif [[ "\${1//-}" = [?]* ]] || [[ "\${1//-}" = [Hh]* ]] ; then
+	elif [[ "\${1//-}" = [?]* ]] || [[ "\${1//-}" = [Hh]* ]]
+	then
 		_PRINTUSAGE_
 	# [command ARGS] Execute a command in BASH as root.
-	elif [[ "\${1//-}" = [Cc]* ]] ; then
+	elif [[ "\${1//-}" = [Cc]* ]]
+	then
 		printf '\033]2; $STARTBIN command 📲  \007'
 		touch $INSTALLDIR/root/.chushlogin
 		set +Eeuo pipefail
@@ -294,8 +298,9 @@ _MAKESTARTBIN_() {
 		set -Eeuo pipefail
 		printf '\033]2; $STARTBIN command 📲  \007'
 		rm -f $INSTALLDIR/root/.chushlogin
-	# [login user|login user [options]] Login as user [plus options].  Use \`addauser user\` first to create this user and user's home directory.
-	elif [[ "\${1//-}" = [Ll]* ]] || [[ "\${1//-}" = [Uu]* ]] ; then
+	# [login user|login user [options]] Login as user [plus options].  Use 'addauser user' first to create this user and user's home directory.
+	elif [[ "\${1//-}" = [Ll]* ]] || [[ "\${1//-}" = [Uu]* ]]
+	then
 		printf '\033]2; $STARTBIN login user [options] 📲  \007'
 		set +Eeuo pipefail
 	EOM
@@ -303,8 +308,9 @@ _MAKESTARTBIN_() {
 	cat >> "$STARTBIN" <<- EOM
 		set -Eeuo pipefail
 		printf '\033]2; $STARTBIN login user [options] 📲  \007'
-	# [raw ARGS] Construct the \`startarch\` proot statement.  For example \`startarch r su\` will exec su in Arch Linux.  See PROOTSTMNT for more options; share your thoughts at https://github.com/sdrausty/TermuxArch/issues and https://github.com/sdrausty/TermuxArch/pulls.
-	elif [[ "\${1//-}" = [Rr]* ]] ; then
+	# [raw ARGS] Construct the 'startarch' proot statement.  For example 'startarch r su' will exec su in Arch Linux.  See PROOTSTMNT for more options; share your thoughts at https://github.com/sdrausty/TermuxArch/issues and https://github.com/sdrausty/TermuxArch/pulls.
+	elif [[ "\${1//-}" = [Rr]* ]]
+	then
 		printf '\033]2; $STARTBIN raw ARGS 📲  \007'
 		set +Eeuo pipefail
 	EOM
@@ -312,10 +318,12 @@ _MAKESTARTBIN_() {
 	cat >> "$STARTBIN" <<- EOM
 		set -Eeuo pipefail
 		printf '\033]2; $STARTBIN raw ARGS 📲  \007'
-	# [su user command] Login as user and execute command.  Use \`addauser user\` first to create this user and user's home directory.
-	elif [[ "\${1//-}" = [Ss]* ]] ; then
+	# [su user command] Login as user and execute command.  Use 'addauser user' first to create this user and user's home directory.
+	elif [[ "\${1//-}" = [Ss]* ]]
+	then
 		printf '\033]2; $STARTBIN su user command 📲  \007'
-		if [[ "\$2" = root ]];then
+		if [[ "\$2" = root ]]
+		then
 			touch $INSTALLDIR/root/.chushlogin
 		else
 			touch $INSTALLDIR/home/"\$2"/.chushlogin
@@ -326,7 +334,8 @@ _MAKESTARTBIN_() {
 	cat >> "$STARTBIN" <<- EOM
 		set -Eeuo pipefail
 		printf '\033]2; $STARTBIN su user command 📲  \007'
-		if [[ "\$2" = root ]];then
+		if [[ "\$2" = root ]]
+		then
 			rm -f $INSTALLDIR/root/.chushlogin
 		else
 			rm -f $INSTALLDIR/home/"\$2"/.chushlogin
@@ -334,6 +343,7 @@ _MAKESTARTBIN_() {
 	else
 		_PRINTUSAGE_
 	fi
+	# $STARTBIN EOF
 	EOM
 	chmod 700 "$STARTBIN"
 }
@@ -344,7 +354,7 @@ _MAKESYSTEM_() {
 	_PRINTMD5CHECK_
 	_MD5CHECK_
 	_PRINTCU_
-       	[[ "$KEEP" -ne 0 ]] && rm -f "$INSTALLDIR"/*.tar.gz "$INSTALLDIR"/*.tar.gz.md5 # set KEEP to 0 in file 'knownconfigurations.bash' after using either 'setupTermuxArch.bash bloom' or 'setupTermuxArch.bash manual' to keep the INSTALLDIR/*.tar.gz and INSTALLDIR/*.tar.gz.md5 files.
+       	[[ "$KEEP" -ne 0 ]] && rm -f "$INSTALLDIR"/*.tar.gz "$INSTALLDIR"/*.tar.gz.md5 # set KEEP to 0 in file 'knownconfigurations.bash' after using either 'setupTermuxArch bloom' or 'setupTermuxArch manual' to keep the INSTALLDIR/*.tar.gz and INSTALLDIR/*.tar.gz.md5 files.
 	_PRINTDONE_
 	_PRINTCONFIGUP_
 	_TOUCHUPSYS_
@@ -424,7 +434,7 @@ _RUNFINISHSETUP_() {
 	"$INSTALLDIR"/root/bin/setupbin.bash || _PRINTPROOTERROR_
 }
 
-_SETLANGUAGE_() { # This function uses device system settings to set locale.  To generate locales in a preferred language, you can use "Settings > Language & Keyboard > Language" in Android; Then run `setupTermuxArch.bash r for a quick system refresh.
+_SETLANGUAGE_() { # This function uses device system settings to set locale.  To generate locales in a preferred language, you can use "Settings > Language & Keyboard > Language" in Android; Then run 'setupTermuxArch r for a quick system refresh.
 	ULANGUAGE="unkown"
   	LANGIN=([0]="$(getprop user.language)")
 	LANGIN+=([1]="$(getprop user.region)")
@@ -440,7 +450,8 @@ _SETLANGUAGE_() { # This function uses device system settings to set locale.  To
 	then
 		ULANGUAGE="unknown"
        	fi
- 	if [[ "$ULANGUAGE" != *_* ]];then
+ 	if [[ "$ULANGUAGE" != *_* ]]
+	then
  		ULANGUAGE="${LANGIN[3]:-unknown}_${LANGIN[2]:-unknown}"
  	       	if ! grep "$ULANGUAGE" "$INSTALLDIR"/etc/locale.gen 1>/dev/null
 		then
@@ -458,7 +469,8 @@ _SETLANGUAGE_() { # This function uses device system settings to set locale.  To
  	if [[ "$ULANGUAGE" != *_* ]]
 	then
  		ULANGUAGE="${LANGIN[6]:-unknown}_${LANGIN[7]:-unknown}"
- 	       	if ! grep "$ULANGUAGE" "$INSTALLDIR"/etc/locale.gen 1>/dev/null ; then
+ 	       	if ! grep "$ULANGUAGE" "$INSTALLDIR"/etc/locale.gen 1>/dev/null
+		then
  			ULANGUAGE="unknown"
  	       	fi
  	fi
@@ -469,9 +481,9 @@ _SETLANGUAGE_() { # This function uses device system settings to set locale.  To
 	printf "\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\n" "Setting locales to: " "Language " ">> $ULANGUAGE << " "Region"
 }
 
-_SETLOCALE_() { # This function uses device system settings to set locale.  To generate locales in a preferred language, you can use "Settings > Language & Keyboard > Language" in Android; Then run `setupTermuxArch.bash r for a quick system refresh.
+_SETLOCALE_() { # This function uses device system settings to set locale.  To generate locales in a preferred language you can use "Settings > Language & Keyboard > Language" in Android; Then run 'setupTermuxArch r' for a quick system refresh.
 	FTIME="$(date +%F%H%M%S)"
-	printf "%s\\n" "##  File locale.conf generated by setupTermuxArch.bash at ${FTIME//-}." > etc/locale.conf
+	printf "%s\\n" "##  File locale.conf generated by setupTermuxArch at ${FTIME//-}." > etc/locale.conf
 	for i in "${!LC_TYPE[@]}"
 	do
 	 	printf "%s\\n" "${LC_TYPE[i]}=$ULANGUAGE.UTF-8" >> etc/locale.conf

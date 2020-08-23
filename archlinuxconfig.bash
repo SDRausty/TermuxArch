@@ -582,21 +582,21 @@ _ADDMOTO_() {
 	EOM
 }
 
-_ADDmakefakeroot-tcp_() {
-	_CFLHDR_ root/bin/makefakeroottcp "# attempt to build and install fakeroot-tcp"
+_ADDmakefakeroottcp_() {
+	_CFLHDR_ root/bin/makefakeroottcp "# build and install fakeroot-tcp"
 	cat >> root/bin/makefakeroottcp <<- EOM
 	if [ "\$UID" = "0" ]
 	then
 		printf "\\n%s\\n\\n" "Error: Should not be used as root."
 	else
 		[ ! -f /var/lock/patchmakepkg.lock ] && patchmakepkg
-		printf "%s\\n" "Attempting to build and install fakeroot-tcp: "
+		printf "%s\\n" "Building and installing fakeroot-tcp: "
 		([[ ! "\$(command -v automake)" ]] || [[ ! "\$(command -v fakeroot)" ]] || [[ ! "\$(command -v git)" ]] || [[ ! "\$(command -v po4a)" ]]) && sudo pacman --noconfirm --color=always -S automake base-devel fakeroot git po4a libtool
 		cd 
-		(git clone https://aur.archlinux.org/fakeroot-tcp.git && cd fakeroot-tcp && sed -i 's/  patch/  sudo patch/g' PKGBUILD && makepkg -is) || printf "%s\n" "Continuing to build and install fakeroot-tcp: " && cd fakeroot-tcp && sed -i 's/  patch/  sudo patch/g' PKGBUILD && makepkg -is
-		printf "%s\\n" "Attempting to build and install fakeroot-tcp: DONE"
+		(git clone https://aur.archlinux.org/fakeroot-tcp.git && cd fakeroot-tcp && sed -i 's/  patch/  sudo patch/g' PKGBUILD && makepkg -is) || printf "%s\n" "Continuing to build and install fakeroot-tcp: " && cd fakeroo-tcp && sed -i 's/  patch/  sudo patch/g' PKGBUILD && makepkg -is
+		printf "%s\\n" "Building and installing fakeroot-tcp: DONE"
 	fi
-	# makefakeroot-tcp EOF
+	# makefakeroottcp EOF
 	EOM
 	chmod 700 root/bin/makefakeroottcp
 }
@@ -614,7 +614,7 @@ _ADDmakeyay_() {
 		printf "\\\\e[1;37m%s\\\\e[0m\\\\n" "Building and installing  yay:"
 		cd 
 		[ ! -f /var/lock/patchmakepkg.lock ] && patchmakepkg
-		! fakeroot ls >/dev/null && makefakeroot-tcp
+		! fakeroot ls >/dev/null && makefakeroottcp
 		(git clone https://aur.archlinux.org/yay.git && cd yay && _PRMAKE_ && makepkg -irs --noconfirm) || printf "\\\\e[1;37m%s\\\\e[0m\\\\n" "Continuing to build and install yay..." && cd yay && _PRMAKE_ && makepkg -irs --noconfirm
 		printf "\\\\e[1;37m%s\\\\e[0m\\\\n" "Building and installing yay: DONE"
 	fi

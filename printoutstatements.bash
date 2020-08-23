@@ -15,7 +15,7 @@ FLHDR1[1]="# IFS=$'\\n\\t'"
 FLHDR1[2]="set -Eeuo pipefail"
 FLHDR1[3]="# shopt -s nullglob globstar"
 FLHDR1[4]="unset LD_PRELOAD"
-FLHDR1[5]="VERSIONID=2.0.69"
+FLHDR1[5]="VERSIONID=2.0.70"
 FLHDR1[6]=" "
 FLHDRP[0]="## BEGIN #######################################################################"
 FLHDRP[1]=""
@@ -220,7 +220,7 @@ _PRINTROOTDIRFUNCTION_
 
 
 _PSGI1ESTRING_() {
-	printf "\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\\e[1;37m%s\\n\\n\\e[0m" "Signal generated in '$1' : cannot complete '$1' : continuing...   Running " "bash setupTermuxArch.bash refresh" " will attempt to complete the autoconfiguration and installation." "  If you find improvements for 'setupTermuxArch.bash' and '$0', please open an issue and accompanying pull request." 
+	printf "\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\\e[1;37m%s\\n\\n\\e[0m" "Signal generated in '$1' : cannot complete '$1' : continuing...   Running " "bash ${0##*/} refresh" " will attempt to complete the autoconfiguration and installation." "  If you find improvements for '${0##*/}' please open an issue and accompanying pull request." 
 }
 # _PSGI1ESTRING_ "test string" && exit # print signal generated with arg 1 format
 # printoutstatements.bash EOF
