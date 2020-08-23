@@ -111,7 +111,7 @@ _REFRESHSYS_() { # refresh installation
 	_SETLOCALE_
 	printf "\\n"
 	_WAKELOCK_
-	printf "\\n\\e[1;32m==> \\e[1;37m%s \\e[1;32m%s %s...\\n" "Running" "${0##*/}" "$ARGS"
+	printf "\\e[1;32m==> \\e[1;37m%s \\e[1;32m%s %s...\\n" "Running" "${0##*/}" "$ARGS"
 	"$INSTALLDIR"/root/bin/setupbin.bash ||:
  	rm -f root/bin/finishsetup.bash
  	rm -f root/bin/setupbin.bash
