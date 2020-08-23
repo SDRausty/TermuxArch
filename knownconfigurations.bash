@@ -5,14 +5,14 @@
 # https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.
 ################################################################################
 # Running 'setupTermuxArch.bash manual' will create 'setupTermuxArchConfigs.bash' from this file in the working directory.  Run 'setupTermuxArch.bash' and file 'setupTermuxArchConfigs.bash' loads automaticaly once created, and this file is ignored at runtime; 'setupTermuxArch.bash help' has additional information.  The mirror (information at https://wiki.archlinux.org/index.php/Mirrors and https://archlinuxarm.org/about/mirrors) can be changed to a desired geographic location in 'setupTermuxArchConfigs.bash' to resolve download, 404 and checksum issues should these take place.  User configurable variables are present in this file for your convenience:
-# DMVERBOSE="-v" 	# uncomment for verbose download tool output with curl and wget;  for verbose output throughout runtime change this setting in file 'setupTermuxArch' also
+# DMVERBOSE="-v" 	# uncomment for verbose download tool output with curl and wget;  For verbose output throughout runtime change this setting in file 'setupTermuxArch' also.
 # DM=aria2c		# uncomment to use this download tool
 # DM=axel 		# uncomment to use this download tool
 # DM=curl		# uncomment to use this download tool
 # DM=lftp 		# uncomment to use this download tool
 # DM=wget		# uncomment to use this download tool
 KEEP=1			# change to 0 to keep downloaded image
-KOE=0			# do not change, not user configurable;  Used for testing and development.
+KOE=0			# do not change, not user configurable;  Used for testing, timing and development.  Change to 1 and execute script RDR/scripts/frags/stdoutbench.sh for timing Arch Linux in Termux PRoot.
 
 # If there are system image files available not listed here, please open an issue and a pull request.
 _AARCH64ANDROID_() {
@@ -75,6 +75,8 @@ _PR00TSTRING_() { # construct the PRoot init statement
        	elif [[ "$KID" = 0 ]]
 	then
 	       	PROOTSTMNT+="--kernel-release=4.14.15-generic "
+	else
+	       	PROOTSTMNT+=""
        	fi
        	if [[ "$KOE" = 0 ]]
 	then
