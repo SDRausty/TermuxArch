@@ -28,7 +28,7 @@ _ADDAUSER_() {
 	}
 		_PMFSESTRING_() { 
 		printf "\\e[1;31m%s\\e[1;37m%s\\e[1;32m%s\\e[1;37m%s\\n\\n" "Signal generated in '\$1' : Cannot complete task : " "Continuing..."
-		printf "\\e[1;34m%s\\e[0;34m%s\\e[1;34m%s\\e[0;34m%s\\e[1;34m%s\\e[0m\\n\\n" "  If you find improvements for " "setupTermuxArch.bash" " and " "\$0" " please open an issue and accompanying pull request."
+		printf "\\e[1;34m%s\\e[0;34m%s\\e[1;34m%s\\e[0;34m%s\\e[1;34m%s\\e[0m\\n\\n" "  If you find improvements for " "setupTermuxArch" " and " "\$0" " please open an issue and accompanying pull request."
 	}
 	_FUNADDU_ "\$@"
 	# addauser EOF
@@ -213,8 +213,8 @@ _ADDch_() {
 }
 
 _ADDcsystemctl_() {
-	_CFLHDR_ root/bin/csystemctl.bash
-	cat >> root/bin/csystemctl.bash  <<- EOM
+	_CFLHDR_ root/bin/csystemctl
+	cat >> root/bin/csystemctl <<- EOM
 	INSTALLDIR="$INSTALLDIR"
 	printf "%s\\n" "Installing /usr/bin/systemctl replacement: "
 	[ -f /var/lock/csystemctl.lock ] && printf "%s\\n" "Already installed /usr/bin/systemctl replacement: DONE" && exit
@@ -234,9 +234,9 @@ _ADDcsystemctl_() {
 	[ ! -e /run/lock ] && mkdir -p /run/lock
 	touch /var/lock/csystemctl.lock
 	printf "%s\\n" "Installing systemctl replacement in /usr/local/bin and /usr/bin: DONE"
-	# csystemctl.bash EOF
+	# csystemctl EOF
 	EOM
-	chmod 700 root/bin/csystemctl.bash
+	chmod 700 root/bin/csystemctl
 }
 
 _ADDdfa_() {
@@ -261,7 +261,7 @@ _ADDexd_() {
 
 _ADDfbindprocshmem_() {
 	_CFLHDRS_ var/binds/fbindprocshmem.prs
-	cat > var/binds/fbindprocshmem.prs  <<- EOM
+	cat > var/binds/fbindprocshmem.prs <<- EOM
 	PROOTSTMNT+="-b $INSTALLDIR/var/binds/fbindprocshmem:/proc/shmem "
 	EOM
 	cat > var/binds/fbindprocshmem <<- EOM
@@ -350,7 +350,7 @@ _ADDfbindprocuptime_() {
 
 _ADDfbindprocversion_() {
 	_CFLHDRS_ var/binds/fbindprocversion.prs
-	cat > var/binds/fbindprocversion.prs  <<- EOM
+	cat > var/binds/fbindprocversion.prs <<- EOM
 	# bind a fake kernel when /proc/version is accessed
 	PROOTSTMNT+=" -b $INSTALLDIR/var/binds/fbindprocversion:/proc/version "
 	EOM
@@ -360,7 +360,7 @@ _ADDfbindprocversion_() {
 }
 
 _ADDfbindexample_() {
-	_CFLHDRS_ var/binds/fbindexample.prs "# Before regenerating the start script with \`setupTermuxArch.bash re[fresh]\`, first copy this file to another name such as \`fbinds.prs\`.  Then add as many proot statements as you want; The init script will parse file \`fbinds.prs\` at refresh adding these proot options to \`$STARTBIN\`.  The space before the last double quote is necessary.  Examples are included for convenience:"
+	_CFLHDRS_ var/binds/fbindexample.prs "# Before regenerating the start script with \`setupTermuxArch re[fresh]\`, first copy this file to another name such as \`fbinds.prs\`.  Then add as many proot statements as you want; The init script will parse file \`fbinds.prs\` at refresh adding these proot options to \`$STARTBIN\`.  The space before the last double quote is necessary.  Examples are included for convenience:"
 	cat >> var/binds/fbindexample.prs <<- EOM
 	# PRoot bind usage: PROOTSTMNT+="-b host_path:guest_path " # the space before the last double quote is necessary
 	# PROOTSTMNT+="-q $PREFIX/bin/qemu-x86_64 "
@@ -379,7 +379,7 @@ _ADDfbinds_() { # Checks if /proc/stat is usable.
 
 _ADDfibs_() {
 	_CFLHDR_ root/bin/fibs
-	cat >> root/bin/fibs  <<- EOM
+	cat >> root/bin/fibs <<- EOM
 	find /proc/ -name maps 2>/dev/null | xargs awk '{print \$6}' 2>/dev/null | grep '\.so' | sort | uniq
 	# fibs EOF
 	EOM
@@ -388,7 +388,7 @@ _ADDfibs_() {
 
 _ADDga_() {
 	_CFLHDR_ root/bin/ga
-	cat >> root/bin/ga  <<- EOM
+	cat >> root/bin/ga <<- EOM
 	if [[ ! -x "\$(command -v git)" ]]
 	then
 		pacman --noconfirm --color=always -S git
@@ -403,7 +403,7 @@ _ADDga_() {
 
 _ADDgcl_() {
 	_CFLHDR_ root/bin/gcl
-	cat >> root/bin/gcl  <<- EOM
+	cat >> root/bin/gcl <<- EOM
 	if [[ ! -x "\$(command -v git)" ]]
 	then
 		pacman --noconfirm --color=always -S git
@@ -418,7 +418,7 @@ _ADDgcl_() {
 
 _ADDgcm_() {
 	_CFLHDR_ root/bin/gcm
-	cat >> root/bin/gcm  <<- EOM
+	cat >> root/bin/gcm <<- EOM
 	if [[ ! -x "\$(command -v git)" ]]
 	then
 		pacman --noconfirm --color=always -S git
@@ -433,7 +433,7 @@ _ADDgcm_() {
 
 _ADDgpl_() {
 	_CFLHDR_ root/bin/gpl
-	cat >> root/bin/gpl  <<- EOM
+	cat >> root/bin/gpl <<- EOM
 	if [[ ! -x "\$(command -v git)" ]]
 	then
 		pacman --noconfirm --color=always -S git
@@ -448,7 +448,7 @@ _ADDgpl_() {
 
 _ADDgp_() {
 	_CFLHDR_ root/bin/gp "# git push https://username:password@github.com/username/repository.git master"
-	cat >> root/bin/gp  <<- EOM
+	cat >> root/bin/gp <<- EOM
 	if [[ ! -x "\$(command -v git)" ]]
 	then
 		pacman --noconfirm --color=always -S git
@@ -536,11 +536,11 @@ _ADDkeys_() {
 _ADDMOTA_() {
 	if [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = "$CPUABIX86_64" ]]
 	then
-		cat > etc/mota  <<- EOM
+		cat > etc/mota <<- EOM
 		printf "\\n\\e[1;34m%s\\n%s\\e[0;34m%s\\n\\e[1;34m%s\\e[0;34m%s\\n\\e[1;34m%s\\e[0;34m%s\\n\\e[1;34m%s\\e[0;34m%s\\n\\n\\e[1;34m%s\\e[0m%s\\n\\e[1;34m%s\\e[0;34m%s\\e[1;34m%s\\e[0;34m%s\\n\\e[1;34m%s\\e[0m%s\\n\\n" "Welcome to Arch Linux in Termux!" "Install a package: " "pacman -S package" "More  information: " "pacman -[D|F|Q|R|S|T|U]h" "Search   packages: " "pacman -Ss query" "Upgrade  packages: " "pacman -Syu" "Chat:  " "https://wiki.termux.com/wiki/Community" "Help: " "info query " "and " "man query" "IRC: " "wiki.archlinux.org/index.php/IRC_channel"
 		EOM
 	else
-		cat > etc/mota  <<- EOM
+		cat > etc/mota <<- EOM
 		printf "\\n\\e[1;34m%s\\n%s\\e[0;34m%s\\n\\e[1;34m%s\\e[0;34m%s\\n\\e[1;34m%s\\e[0;34m%s\\n\\e[1;34m%s\\e[0;34m%s\\n\\n\\e[1;34m%s\\e[0m%s\\n\\e[1;34m%s\\e[0m%s\\n\\e[1;34m%s\\e[0;34m%s\\e[1;34m%s\\e[0;34m%s\\n\\e[1;34m%s\\e[0m%s\\n\\n" "Welcome to Arch Linux in Termux!" "Install a package: " "pacman -S package" "More  information: " "pacman -[D|F|Q|R|S|T|U]h" "Search   packages: " "pacman -Ss query" "Upgrade  packages: " "pacman -Syu" "Chat:  " "https://wiki.termux.com/wiki/Community" "Forum: " "https://archlinuxarm.org/forum" "Help: " "info query " "and " "man query" "IRC: " "wiki.archlinux.org/index.php/IRC_channel"
 		EOM
 	fi
@@ -549,7 +549,7 @@ _ADDMOTA_() {
 _ADDMOTD_() {
 	if [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = "$CPUABIX86_64" ]]
 	then
-		cat > etc/motd  <<- EOM
+		cat > etc/motd <<- EOM
 		Welcome to Arch Linux in Termux!
 		Install a package: pacman -S package
 		More  information: pacman -[D|F|Q|R|S|T|U]h
@@ -561,7 +561,7 @@ _ADDMOTD_() {
 		IRC: wiki.archlinux.org/index.php/IRC_channel	
 		EOM
 	else
-		cat > etc/motd  <<- EOM
+		cat > etc/motd <<- EOM
 		Welcome to Arch Linux in Termux!
 		Install a package: pacman -S package
 		More  information: pacman -[D|F|Q|R|S|T|U]h
@@ -577,33 +577,33 @@ _ADDMOTD_() {
 }
 
 _ADDMOTO_() {
-	cat > etc/moto  <<- EOM
+	cat > etc/moto <<- EOM
 	printf "\n\e[1;34mShare Your Arch Linux in Termux Experience!\n\n\e[1;34mChat: \e[0mwiki.termux.com/wiki/Community\n\e[1;34mHelp: \e[0;34minfo query \e[1;34mand \e[0;34mman query\n\e[1;34mIRC:  \e[0mwiki.archlinux.org/index.php/IRC_channel\n\n\e[0m"
 	EOM
 }
 
 _ADDmakefakeroot-tcp_() {
-	_CFLHDR_ root/bin/makefakeroot-tcp.bash "# attempt to build and install fakeroot-tcp"
-	cat >> root/bin/makefakeroot-tcp.bash  <<- EOM
+	_CFLHDR_ root/bin/makefakeroottcp "# attempt to build and install fakeroot-tcp"
+	cat >> root/bin/makefakeroottcp <<- EOM
 	if [ "\$UID" = "0" ]
 	then
 		printf "\\n%s\\n\\n" "Error: Should not be used as root."
 	else
-		[ ! -f /var/lock/patchmakepkg.lock ] && patchmakepkg.bash
+		[ ! -f /var/lock/patchmakepkg.lock ] && patchmakepkg
 		printf "%s\\n" "Attempting to build and install fakeroot-tcp: "
 		([[ ! "\$(command -v automake)" ]] || [[ ! "\$(command -v fakeroot)" ]] || [[ ! "\$(command -v git)" ]] || [[ ! "\$(command -v po4a)" ]]) && sudo pacman --noconfirm --color=always -S automake base-devel fakeroot git po4a libtool
 		cd 
 		(git clone https://aur.archlinux.org/fakeroot-tcp.git && cd fakeroot-tcp && sed -i 's/  patch/  sudo patch/g' PKGBUILD && makepkg -is) || printf "%s\n" "Continuing to build and install fakeroot-tcp: " && cd fakeroot-tcp && sed -i 's/  patch/  sudo patch/g' PKGBUILD && makepkg -is
 		printf "%s\\n" "Attempting to build and install fakeroot-tcp: DONE"
 	fi
-	# makefakeroot-tcp.bash EOF
+	# makefakeroot-tcp EOF
 	EOM
-	chmod 700 root/bin/makefakeroot-tcp.bash
+	chmod 700 root/bin/makefakeroottcp
 }
 
 _ADDmakeyay_() {
-	_CFLHDR_ root/bin/makeyay.bash "# attempt to build and install yay"
-	cat >> root/bin/makeyay.bash  <<- EOM
+	_CFLHDR_ root/bin/makeyay "# attempt to build and install yay"
+	cat >> root/bin/makeyay <<- EOM
 	if [ "\$UID" = "0" ]
 	then
 		printf "\\\\n\\\\e[1;37m%s\\\\e[0m\\\\n\\\\n" "ERROR:  Script '\${0##*/}' should not be used as root:  The TermuxArch command 'addauser' creates user accounts in Arch Linux in PRoot and configures these user accounts for 'sudo':  The 'addauser' command is intended to be run by the Arch Linux in PRoot root user:  To use 'addauser' directly from Termux, run '$STARTBIN command addauser user' in Termux to create this account in Arch Linux PRoot:  The command '$STARTBIN help' has more information how to use '$STARTBIN':  EXITING..."
@@ -613,38 +613,38 @@ _ADDmakeyay_() {
 		}
 		printf "\\\\e[1;37m%s\\\\e[0m\\\\n" "Building and installing  yay:"
 		cd 
-		[ ! -f /var/lock/patchmakepkg.lock ] && patchmakepkg.bash
-		! fakeroot ls >/dev/null && makefakeroot-tcp.bash
+		[ ! -f /var/lock/patchmakepkg.lock ] && patchmakepkg
+		! fakeroot ls >/dev/null && makefakeroot-tcp
 		(git clone https://aur.archlinux.org/yay.git && cd yay && _PRMAKE_ && makepkg -irs --noconfirm) || printf "\\\\e[1;37m%s\\\\e[0m\\\\n" "Continuing to build and install yay..." && cd yay && _PRMAKE_ && makepkg -irs --noconfirm
 		printf "\\\\e[1;37m%s\\\\e[0m\\\\n" "Building and installing yay: DONE"
 	fi
-	# makeyay.bash EOF 
+	# makeyay EOF 
 	EOM
-	chmod 700 root/bin/makeyay.bash
+	chmod 700 root/bin/makeyay
 }
 
 _ADDpatchmakepkg_() {
-	_CFLHDR_ root/bin/patchmakepkg.bash "# attempt to build and install yay"
-	cat >> root/bin/patchmakepkg.bash  <<- EOM
+	_CFLHDR_ root/bin/patchmakepkg "# attempt to build and install yay"
+	cat >> root/bin/patchmakepkg <<- EOM
 	printf "%s\\n" "Attempting to patch makepkg: "
 	[ -f /var/lock/patchmakepkg.lock ] && printf "%s\\n" "Already patched makepkg: DONE" && exit
 	cd && curl -O https://raw.githubusercontent.com/TermuxArch/TermuxArch/master/diff.makepkg.zip && unzip diff.makepkg.zip 
 	patch -n -i makepkg.diff -o makepkg /bin/makepkg
-	cp /bin/makepkg makepkg.\$(date +%s).bkp 
+	cp /bin/makepkg $INSTALLDIR/var/backups/${INSTALLDIR##*/}/makepkg.\$(date +%s).bkp
 	chmod 700 makepkg /bin/makepkg
 	# copy to /usr/local/bin to make it update-proof (fail safe measure)
 	cp makepkg /usr/local/bin/makepkg
 	mv makepkg /bin/makepkg
 	touch /var/lock/patchmakepkg.lock
 	printf "%s\\n" "Attempting to patch makepkg: DONE"
-	# patchmakepkg.bash EOF
+	# patchmakepkg EOF
 	EOM
-	chmod 700 root/bin/patchmakepkg.bash
+	chmod 700 root/bin/patchmakepkg
 }
 
 _ADDpc_() {
 	_CFLHDR_ root/bin/pc "# pacman install packages wrapper without system update"
-	cat >> root/bin/pc  <<- EOM
+	cat >> root/bin/pc <<- EOM
 	declare -g ARGS="\$@"
 
 	_TRPET_() { # on exit
@@ -681,7 +681,7 @@ _ADDpc_() {
 
 _ADDpci_() {
 	_CFLHDR_ root/bin/pci "# Pacman install packages wrapper with system update."
-	cat >> root/bin/pci  <<- EOM
+	cat >> root/bin/pci <<- EOM
 	declare ARGS="\$@"
 
 	_TRPET_() { # on exit
@@ -723,7 +723,7 @@ _ADDprofile_() {
 
 _ADDt_() {
 	_CFLHDR_ root/bin/t
-	cat >> root/bin/t  <<- EOM
+	cat >> root/bin/t <<- EOM
 	if [[ ! -x "\$(command -v tree)" ]]
 	then
 		pacman --noconfirm --color=always -S tree
@@ -787,7 +787,7 @@ _ADDtrim_() {
 	cat >> root/bin/trim <<- EOM
 	_PMFSESTRING_() { 
 	printf "\\e[1;31m%s\\e[1;37m%s\\e[1;32m%s\\e[1;37m%s\\n\\n" "Signal generated in '\$1' : Cannot complete task : " "Continuing..."
-	printf "\\e[1;34m%s\\e[0;34m%s\\e[1;34m%s\\e[0;34m%s\\e[1;34m%s\\e[0m\\n\\n" "  If you find improvements for " "setupTermuxArch.bash" " and " "\$0" " please open an issue and accompanying pull request."
+	printf "\\e[1;34m%s\\e[0;34m%s\\e[1;34m%s\\e[0;34m%s\\e[1;34m%s\\e[0m\\n\\n" "  If you find improvements for " "setupTermuxArch" " and " "\$0" " please open an issue and accompanying pull request."
 	}
 	printf "\\\\n\\\\e[1;32m==> \\\\e[1;0m%s\\\\e[0m\\\\n\\\\n" "Running \${0##*/} trim \$@:"
 	if [[ "\$UID" -eq "0" ]]
@@ -820,7 +820,7 @@ _ADDtrim_() {
 
 _ADDv_() {
 	_CFLHDR_ root/bin/v
-	cat >> root/bin/v  <<- EOM
+	cat >> root/bin/v <<- EOM
 	if [[ -z "\${1:-}" ]]
 	then
 		ARGS=(".")
