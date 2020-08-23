@@ -8,7 +8,7 @@ IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-VERSIONID=2.0.75
+VERSIONID=2.0.76
 ## INIT FUNCTIONS ##############################################################
 _STRPERROR_() { # run on script error
 	local RV="$?"
@@ -506,7 +506,7 @@ _PRINTUSAGE_() {
 	if [[ "$LCC" = 1 ]]
 	then
 	printf "\\n\\e[1;38;5;150m"
-	awk 'NR>=600 && NR<=900'  "${0##*/}" | awk '$1 == "##"' | awk '{ $1 = ""; print }' | awk '1;{print ""}'
+	awk 'NR>=600 && NR<=900'  "$0" | awk '$1 == "##"' | awk '{ $1 = ""; print }' | awk '1;{print ""}'
 	fi
 	printf "\\n"
 	_PRINTSTARTBIN_USAGE_
