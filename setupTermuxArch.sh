@@ -8,7 +8,7 @@ IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-VERSIONID=2.0.78
+VERSIONID=2.0.79
 ## INIT FUNCTIONS ##############################################################
 _STRPERROR_() { # run on script error
 	local RV="$?"
@@ -615,7 +615,7 @@ ROOTDIR=/arch
 STRING1="COMMAND 'au' enables rollback, available at https://wae.github.io/au/ IS NOT FOUND: Continuing... "
 STRING2="Cannot update 'setupTermuxArch.bash' prerequisite: Continuing..."
 ## TERMUXARCH FEATURES INCLUDE:
-## 1) Creates aliases and commands which aid in using the command line, and also help to access more advanced features easily.  The HOME and HOME/bin directories have more details about this feature,
+## 1) Creates aliases and commands which aid in using the command line, and also help to access more advanced features easily;  The HOME and HOME/bin directories have more details about this feature,
 ## 2) Sets timezone and locales from device,
 ## 3) Tests for correct OS,
 COMMANDG="$(command -v getprop)" ||:

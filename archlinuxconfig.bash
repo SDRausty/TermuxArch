@@ -39,7 +39,14 @@ _ADDAUSER_() {
 _ADDREADME_() {
 	_CFLHDR_ root/bin/README.md
 	cat > root/bin/README.md <<- EOM
-	This directory contains shortcut commands that automate and ease using the command line.
+	The HOME/bin directory may contain shortcut commands that automate and ease using the command line.  Some of these commands are listed here:
+
+	* The command 'keys' installs Arch Linux keys,
+	* The command 'makefakeroottcp' creates the 'fakeroot-tcp' command,
+	* The command 'makeyay' creates the 'fakeroot-tcp' and 'yay' commands, and also patches the 'makepkg' command,
+	* The command 'patchmakepkg' patches the 'makepkg' command.
+
+	This file can be expanded so the beginning user can get to know the Linux experience easier.  Would you like to create an issue along with a pull request to add information to this file so that the beginning user can get to know the Arch Linux in Termux PRoot experience easier?  If you do want to expand this file, visit these links:
 
 	* Comments welcome at https://github.com/TermuxArch/TermuxArch/issues ✍
 	* Pull requests welcome at https://github.com/TermuxArch/TermuxArch/pulls ✍
