@@ -620,7 +620,7 @@ _ADDmakefakeroottcp_() {
 }
 
 _ADDmakeyay_() {
-	_CFLHDR_ root/bin/makeyay "# attempt to build and install yay"
+	_CFLHDR_ root/bin/makeyay "# build and install yay"
 	cat >> root/bin/makeyay <<- EOM
 	if [ "\$UID" = "0" ]
 	then
@@ -642,7 +642,7 @@ _ADDmakeyay_() {
 }
 
 _ADDpatchmakepkg_() {
-	_CFLHDR_ root/bin/patchmakepkg "# attempt to build and install yay"
+	_CFLHDR_ root/bin/patchmakepkg "# patch makepkg"
 	cat >> root/bin/patchmakepkg <<- EOM
 	printf "%s\\n" "Attempting to patch makepkg: "
 	[ -f /var/lock/patchmakepkg.lock ] && printf "%s\\n" "Already patched makepkg: DONE" && exit
