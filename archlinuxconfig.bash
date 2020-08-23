@@ -46,7 +46,7 @@ _ADDREADME_() {
 	* The command 'makeyay' creates the 'fakeroot-tcp' and 'yay' commands, and also patches the 'makepkg' command,
 	* The command 'patchmakepkg' patches the 'makepkg' command.
 
-	This file can be expanded so the beginning user can get to know the Linux experience easier.  Would you like to create an issue along with a pull request to add information to this file so that the beginning user can get to know the Arch Linux in Termux PRoot experience easier?  If you do want to expand this file, visit these links:
+	This file can be expanded so the beginning user can get to know the Linux experience easier.  Would you like to create an issue along with a pull request to add information to this file so that the beginning user can get to know the Arch Linux in Termux PRoot experience easier?  If you do want to expand this file to enhance this experience, visit these links:
 
 	* Comments welcome at https://github.com/TermuxArch/TermuxArch/issues ✍
 	* Pull requests welcome at https://github.com/TermuxArch/TermuxArch/pulls ✍
@@ -735,7 +735,7 @@ _ADDpci_() {
 	then
 		pacman --noconfirm --color=always -Syu base base-devel emacs jdk10-openjdk "\${@:2}" || sudo pacman --noconfirm --color=always -Syu base base-devel emacs jdk10-openjdk "\${@:2}"
 	else
-		pacman --noconfirm --color=always -Syu "\$@"
+		pacman --noconfirm --color=always -Syu "\$@" || sudo pacman --noconfirm --color=always -Syu "\$@"
 	fi
 	# pci EOF
 	EOM
