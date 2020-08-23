@@ -1,16 +1,14 @@
 #!/usr/bin/env bash
-# Copyright 2017-2020 (c) by SDRausty, all rights reserved, see LICENSE 🌎 🌍 🌏 🌐 🗺
-# Hosting termuxarch.github.io/TermuxArch courtesy https://pages.github.com
-# https://termuxarch.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.
-# The command 'setupTermuxArch h[elp]' has more information about how to use this file.
-# File 'updateTermuxArch.bash' will execute 'git pull' and populate repository modules, and file 'updateTermuxArch.bash' can also be run directly in a PRoot environment.  File 'updateTermuxArch.bash's functions are not related to similar functions run by the commands 'setupTermuxArch r[e[fresh]]' which have completely different update functions.
-# Files 'setupTermuxArch{.bash,.sh}' are currently held for backwards compatibility;  Please reference file 'setupTermuxArch' as the install file should support for this project come through sharing insight about these Arch Linux in a Termux PRoot container projects in a smartphone;  File 'setupTermuxArch' is the target install file name for this project;  A hardy thank you to those of you who have helped make these projects better!
+# copyright 2017-2020 (c) by SDRausty, all rights reserved, see LICENSE
+# hosting termuxarch.github.io/TermuxArch courtesy pages.github.com
+# https://termuxarch.github.io/TermuxArch/CONTRIBUTORS thank you for helping
+# command 'setupTermuxArch h[elp]' has information about how to use this file
 ################################################################################
 IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-VERSIONID=2.0.73
+VERSIONID=2.0.74
 ## INIT FUNCTIONS ##############################################################
 _STRPERROR_() { # run on script error
 	local RV="$?"
@@ -98,7 +96,7 @@ _CHKSELF_() {	# compare file setupTermuxArch.bash and the file being used
 		if _COREFILES_	# core files are found
 		then
 			: # do nothing
-		else # unset functions and variables
+		else	# unset functions and variables
 			unset -f $(grep \_\( "$WFILE"|cut -d"(" -f 1|sort -u|sed ':a;N;$!ba;s/\n/ /g')
 			NNVAR="$(grep '="' "$WFILE"|grep -v -e \] -e ARGS -e TAMPDIR -e WFILE|grep -v +|sed 's/declare -a//g'|sed 's/declare//g'|sed 's/export//g'|sed -e "s/[[:space:]]\+//g"|cut -d"=" -f 1|sort -u)"
 			for NNSET in $NNVAR
@@ -832,5 +830,8 @@ then
 else
 	_PRINTUSAGE_
 fi
+# A hardy thank you to those who have helped make these projects better!
+# File 'updateTermuxArch.bash' will execute 'git pull' and populate repository modules, and file 'updateTermuxArch.bash' can also be run directly in a PRoot environment.  File 'updateTermuxArch.bash's functions are not related to similar functions run by the commands 'setupTermuxArch r[e[fresh]]' which have completely different update functions.
+# Files 'setupTermuxArch{.bash,.sh}' are currently held for backwards compatibility;  Please reference file 'setupTermuxArch' as the install file should support for this project come through sharing insight about these Arch Linux in a Termux PRoot container projects in a smartphone;  File 'setupTermuxArch' is the target install file name for this project.
 # The name of file 'setupTermuxArch' in the EOF line at the end of this file is to assist scripts 'setupTermuxArch[.{bash,bin,sh}]' when they selfupdate to the latest version.  These files will not selfupdate to the most recent version published if they are used inside their git repository;  In this case 'git pull' can be employed to accomplish updating.
 # setupTermuxArch EOF
