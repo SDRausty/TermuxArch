@@ -8,7 +8,7 @@ IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-VERSIONID=2.0.94
+VERSIONID=2.0.95
 ## INIT FUNCTIONS ##############################################################
 _STRPERROR_() { # run on script error
 	local RV="$?"
@@ -643,16 +643,17 @@ NASVER="$(getprop net.bt.name ) $SYSVER"
 WDIR="$PWD/"
 WFILE="$0"
 [[ "${WFILE%/*}" != "$WDIR" ]] && [[ "${WFILE%/*}" != "${0##*/}" ]] && DIRLCR=0
-## 6) And all options are optional for install.
+## 6) Create a default user account with the 'addauser' command that configures this account for use with the 'sudo' command,
+## 7) And all options are optional for install.
 ## THESE OPTIONS ARE AVAILABLE FOR YOUR CONVENIENCE:
-## DEFAULTS ARE IMPLIED AND CAN BE OMITTED.
-## GRAMMAR[a]: 'setupTermuxArch.bash [HOW] [DO] [WHERE]'
-## OPTIONS[a]: 'setupTermuxArch.bash [HOW] [DO] [WHERE]'
+## GRAMMAR[a]: setupTermuxArch.bash [HOW] [DO] [WHERE]
+## OPTIONS[a]: setupTermuxArch.bash [HOW] [DO] [WHERE]
+## GRAMMAR[b]: setupTermuxArch.bash [WHAT] [WHERE]
+## OPTIONS[b]: setupTermuxArch.bash [~/|./|/absolute/path/]image.tar.gz [WHERE]
+## DEFAULTS ARE IMPLIED AND CAN BE OMITTED
 ## SYNTAX[1]: [HOW (aria2|axel|curl|lftp|wget (default1: present on system (default2: lftp)))]
 ## SYNTAX[2]: [DO (help|install|manual|purge|refresh|sysinfo (default: install))]
 ## SYNTAX[3]: [WHERE (default: arch)]  Install in userspace, not external storage.
-## GRAMMAR[b]: 'setupTermuxArch.bash [WHAT] [WHERE]'
-## OPTIONS[b]: 'setupTermuxArch.bash [~/|./|/absolute/path/]image.tar.gz [WHERE]'
 ## USAGE[1]: 'setupTermuxArch.bash wget sysinfo' will use wget as the download manager and produce a system information file in the working directory.  This can be abbreviated to 'setupTermuxArch.bash ws' and 'setupTermuxArch.bash w s'.
 ## USAGE[2]: 'setupTermuxArch.bash wget manual customdir' will install the installation in customdir with wget and use manual mode during instalation.
 ## USAGE[3]: 'setupTermuxArch.bash wget refresh customdir' will refresh this installation using wget as the download manager.

@@ -232,6 +232,7 @@ _MAKEFINISHSETUP_() {
 		else
 			printf "%s\\n" "pacman -Syu patch sudo unzip --noconfirm --color=always 2>/dev/null || _PMFSESTRING_ \"pacman -Syu patch sudo unzip $BINFNSTP ${0##/*}\"" >> root/bin/"$BINFNSTP"
 		fi
+ 		printf "%s\\n" "/root/bin/addauser user || _PMFSESTRING_ \"addauser user$BINFNSTP ${0##/*}\"" >> root/bin/"$BINFNSTP"
 	fi
 	cat >> root/bin/"$BINFNSTP" <<- EOM
 	printf "\\n\\e[1;34m%s  \\e[0m" "🕛 > 🕤 Arch Linux in Termux is installed and configured 📲  "
