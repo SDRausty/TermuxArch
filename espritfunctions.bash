@@ -30,7 +30,8 @@ addlangq() {
 _BLOOM_() { # Bloom = `setupTermuxArch.bash manual verbose`
 	[[ -d "$HOME"/TermuxArchBloom ]] && _RMBLOOMQ_
 	mkdir -p "$HOME"/TermuxArchBloom
-	cp [aegkmnsp]*sh "$HOME"/TermuxArchBloom
+	cp *sh "$HOME"/TermuxArchBloom
+	cp setupTermuxArch "$HOME"/TermuxArchBloom
 	cd "$HOME"/TermuxArchBloom
 	printf "\\e[1;34m%s\\e[1;32m%s\\e[0m 📲\\n\\n" "TermuxArch Bloom option via " "setupTermuxArch.bash bloom"
 	ls -agl
