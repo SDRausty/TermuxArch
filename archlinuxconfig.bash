@@ -749,16 +749,7 @@ _ADDprofile_() {
 
 _ADDt_() {
 	_CFLHDR_ root/bin/t
-	cat >> root/bin/t <<- EOM
-	if [[ ! -x "\$(command -v tree)" ]]
-	then
-		pacman --noconfirm --color=always -S tree
-		tree "\$@"
-	else
-		tree "\$@"
-	fi
-	# t EOF
-	EOM
+	printf "%s\\n%s\\n%s\\n" "[ \"\$UID\" = \"0\" ] && printf \"\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\\n\" \"Cannot run '\${0##*/}' as root user :\" \" the command 'addauser username' creates user accounts in $INSTALLDIR : the command '$STARTBIN command addauser username' can create user accounts in $INSTALLDIR from Termux : a default user account is created during setup : the default username 'user' can be used to access the PRoot system employing a user account : command '$STARTBIN help' has more information : \" \"exiting...\" && exit" "[ ! -x \"\$(command -v tree)\" ] && sudo pci tree && tree || tree" "# t EOF" >> root/bin/t
 	chmod 700 root/bin/t
 }
 
@@ -854,7 +845,7 @@ _ADDv_() {
 		ARGS=("\$@")
 	fi
 	EOM
-	printf "%s\\n# v EOF#" "[ ! -x \"\$(command -v vim)\" ] && ( [ \"\$UID\" = \"0\" ] && pacman --noconfirm --color=always -S vim || sudo pacman --noconfirm --color=always -S vim ) && vim  \"\${ARGS[@]}\" || vim  \"\${ARGS[@]}\"" >> root/bin/v
+	printf "%s\\n%s\\n%s\\n" "[ \"\$UID\" = \"0\" ] && printf \"\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\\n\" \"Cannot run '\${0##*/}' as root user :\" \" the command 'addauser username' creates user accounts in $INSTALLDIR : the command '$STARTBIN command addauser username' can create user accounts in $INSTALLDIR from Termux : a default user account is created during setup : the default username 'user' can be used to access the PRoot system employing a user account : command '$STARTBIN help' has more information : \" \"exiting...\" && exit" "[ ! -x \"\$(command -v vim)\" ] && sudo pci vim && vim \"\${ARGS[@]}\" || vim \"\${ARGS[@]}\"" "# v EOF" >> root/bin/v
 	chmod 700 root/bin/v
 }
 
@@ -1007,7 +998,7 @@ _ADDwe_() {
 
 _ADDyt_() {
 	_CFLHDR_ root/bin/yt
-	printf "%s\\n%s\\n%s\\n" "[ \"\$UID\" = \"0\" ] && printf \"\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\\n\" \"Cannot run '\${0##*/}' as root user :\" \" the command 'addauser username' can create user accounts in $INSTALLDIR : the command '$STARTBIN command addauser username' can create user accounts in $INSTALLDIR from Termux : the command '$STARTBIN help' has more information : \" \"exiting...\" && exit" "[ ! -x \"\$(command -v youtube-dl)\" ] && sudo pci youtube-dl && youtube-dl \"\$@\" || youtube-dl \"\$@\" " "# yt EOF" >> root/bin/yt
+	printf "%s\\n%s\\n%s\\n" "[ \"\$UID\" = \"0\" ] && printf \"\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\\n\" \"Cannot run '\${0##*/}' as root user :\" \" the command 'addauser username' creates user accounts in $INSTALLDIR : the command '$STARTBIN command addauser username' can create user accounts in $INSTALLDIR from Termux : a default user account is created during setup : the default username 'user' can be used to access the PRoot system employing a user account : command '$STARTBIN help' has more information : \" \"exiting...\" && exit" "[ ! -x \"\$(command -v youtube-dl)\" ] && sudo pci youtube-dl && youtube-dl \"\$@\" || youtube-dl \"\$@\" " "# yt EOF" >> root/bin/yt
 	chmod 700 root/bin/yt
 }
 
