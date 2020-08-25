@@ -7,7 +7,7 @@
 IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
-VERSIONID=2.0.111
+VERSIONID=2.0.112
 ## INIT FUNCTIONS ##############################################################
 _STRPERROR_() { # run on script error
 	local RV="$?"
@@ -66,7 +66,7 @@ _ARG2DIR_() {  # argument as ROOTDIR
 }
 
 _CHK_() {
-	if sha512sum -c termuxarchchecksum.sha512
+	if sha512sum -c termuxarchchecksum.sha512 1>/dev/null
 	then
 		printf "\\n"
 		_CHKSELF_
