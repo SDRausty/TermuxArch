@@ -23,7 +23,7 @@ _ADDAUSER_() {
 		[[ -d /etc/sudoers.d ]] && printf "%s\\n" "\$1 ALL=(ALL) ALL" >> /etc/sudoers.d/"\$1"
 		sed -i "s/\$1:x/\$1:/g" /etc/passwd
 		cp -r /root /home/"\$1"
-		printf "%s\\n" "Added user \$1 and directory /home/\$1 created.  To use this account run '$STARTBIN login \$1' in Termux.  Remember please not to nest proot in proot by running '$STARTBIN' in '$STARTBIN' as this may cause issues."
+		printf "%s\\n" "Added Arch Linux in Termux PRoot user \$1 and created Arch Linux in Termux PRoot user \$1's home directory in /home/\$1.  To use this account run '$STARTBIN login \$1'.  To add user accounts use '$STARTBIN command addauser username' in the default Termux shell.  Please remember not to nest proot in proot unknowingly by using '$STARTBIN' in '$STARTBIN' as this is known to cause issues for PRoot in Termux users."
 	fi
 	}
 		_PMFSESTRING_() { 
