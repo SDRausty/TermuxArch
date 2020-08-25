@@ -7,7 +7,7 @@
 IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
-VERSIONID=2.0.103
+VERSIONID=2.0.104
 ## INIT FUNCTIONS ##############################################################
 _STRPERROR_() { # run on script error
 	local RV="$?"
@@ -503,16 +503,19 @@ _PRINTSTARTBIN_USAGE_() {
 _PRINTUSAGE_() {
 	printf "\\n\\e[1;32m  %s     \\e[0;32mcommand \\e[1;32m%s \\e[0;32m%s\\n" "HELP" "'${0##*/} help'" "prints out this help screen"
 	printf "\\n\\e[1;32m  %s    \\e[0;32mcommand \\e[1;32m%s \\e[0;32m%s\\n" "TERSE" "'${0##*/} he[lp]'" "prints out the terse help screen"
-	printf "\\n\\e[1;32m  %s  \\e[0;32mcommand \\e[1;32m%s \\e[0;32m%s\\n" "VERBOSE" "'${0##*/} h'" "prints out the verbose help screen"
+	printf "\\n\\e[1;32m  %s  \\e[0;32mcommand \\e[1;32m%s \\e[0;32m%s\\n" "VERBOSE" "'${0##*/} h'" "prints out both terse and verbose help screens"
 	printf "\\n\\e[0;32m%s \\e[1;32m%s \\e[0;32m%s \\e[1;32m%s \\e[0;32m%s \\e[1;32m%s \\e[0;32m%s \\e[1;32m%s \\e[0;32m%s \\n\\n%s \\e[1;32m%s\\e[0;32m%s \\e[1;32m%s \\e[0;32m%s \\e[1;32m%s \\e[0;32m%s \\e[1;32m%s\\e[0;32m%s\\n" "Usage information for" "${0##*/}" "$VERSIONID.  Arguments can abbreviated to one, two and three letters each;  Two and three letter arguments are acceptable.  For example" "'bash ${0##*/} cs'" "will use" "curl" "to download TermuxArch and produce a file like" "setupTermuxArchSysInfo$STIME.log" "populated with system information.  If you have a new smartphone that you are not familiar with, this file might make for an interesting read in order to find out more about the device you might be holding in the palm of your hand at this moment." "User configurable variables are in" "setupTermuxArchConfigs.bash" ".  To create this file from" "kownconfigurations.bash" "in the working directory, execute" "'bash ${0##*/} manual'" "to create and edit" "setupTermuxArchConfigs.bash" "."
-	printf "\\n\\e[1;32m  %s\\e[0;32m  %s \\e[1;32m%s \\e[0;32m%s \\e[1;32m%s \\e[0;32m%s \\e[1;32m%s \\e[0;32m%s \\e[1;32m%s \\e[0;32m%s \\e[1;32m%s \\e[0;32m%s \\e[1;32m%s \\e[0;32m%s \\e[1;32m%s\\e[0;32m%s \\e[1;32m%s \\e[0;32m%s \\e[1;32m%s \\e[0;32m%s\\n" "INSTALL" "You can run" "./${0##*/}" "without arguments in a bash shell to install Arch Linux in Termux PRoot in a smartphone, table and smartTV.  Command" "'bash ${0##*/} curl'" "will envoke" "curl" "as the download manager.  Copy" "knownconfigurations.bash" "to" "setupTermuxArchConfigs.bash" "with the command" "'bash ${0##*/} manual'" "to edit preferred CMIRROR site, refine the init statement and to access more options.  Change CMIRROR to desired geographic location to resolve download, 404 and checksum issues should these take place...  After editing" "setupTermuxArchConfigs.bash" ", you can run" "'bash ${0##*/}'" "and" "setupTermuxArchConfigs.bash" "loads automatically from the working directory.  User configurable variables are present in this file for your convenience."
+	printf "\\n\\e[1;32m  %s\\e[0;32m  %s \\e[1;32m%s \\e[0;32m%s \\e[1;32m%s \\e[0;32m%s \\e[1;32m%s \\e[0;32m%s \\e[1;32m%s \\e[0;32m%s \\e[1;32m%s \\e[0;32m%s \\e[1;32m%s \\e[0;32m%s \\e[1;32m%s\\e[0;32m%s \\e[1;32m%s \\e[0;32m%s \\e[1;32m%s \\e[0;32m%s\\n" "INSTALL" "You can run" "./${0##*/}" "without arguments in a bash shell to install Arch Linux in Termux PRoot in a smartphone, table and smartTV.  Command" "'bash ${0##*/} curl'" "will envoke" "curl" "as the download manager.  Copy" "knownconfigurations.bash" "to" "setupTermuxArchConfigs.bash" "with the command" "'bash ${0##*/} manual'" "to edit preferred CMIRROR site, refine the init statement and to access more options.  Change CMIRROR to desired geographic location to resolve download, 404 and checksum issues should these occur.  After editing" "setupTermuxArchConfigs.bash" ", you can run" "'bash ${0##*/}'" "and" "setupTermuxArchConfigs.bash" "loads automatically from the working directory.  User configurable variables are present in this file for your convenience." "This link https://github.com/SDRausty/TermuxArch/issues/212 at GitHub has information about setting Arch Linux in Termux PRoot as the default login shell in Termux in your smartphone, tablet, smartTV, wearable and more.  If you choose to or are simply curious about setting Arch Linux in Termux PRoot as the default login shell, please be thoroughly familiar with safe mode; Long tap on NEW SESSION will open a new session in safe mode.  You can use safe mode to reset the default shell."
  	printf "\\n\\e[1;32m  %s    \\e[0;32mcommand \\e[1;32m%s \\e[0;32m%s\\n" "PURGE" "'${0##*/} purge'" "uninstalls Arch Linux from Termux."
 	printf "\\n\\e[1;32m  %s  \\e[0;32mcommand \\e[1;32m%s \\e[0;32m%s \\e[1;32m%s \\e[0;32m%s \\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\n\\n" "SYSINFO" "'${0##*/} sysinfo'" "creates a system information file; " "setupTermuxArchSysInfo$STIME.log" "will be populated with device and system information.  Please post information from this file along with details at" "https://github.com/TermuxArch/TermuxArch/issues" ".  If screenshots will help in resolving an issue better, include these with information from the system information log file in a post as well.  If you are sharing an issue, please consider sharing a pull request at " "https://github.com/TermuxArch/TermuxArch/pulls" " too.  Sharing a pull request can give a better perspective of how an issue can be improved."
-	printf "\\e[0;32m  The command \\e[1;32m%s\\e[0;32m has %s usage information.\\n\\n" "'$STARTBIN help'" "$STARTBIN"
 	if [[ "$LCC" = 1 ]]
 	then
+		printf "\\e[0;32m  Command \\e[1;32m%s\\e[0;32m has %s usage information:\\n\\n" "'$STARTBIN help'" "$STARTBIN"
 		_PRINTSTARTBIN_USAGE_
 		printf "\\e[1;38;5;150m%s\\n\\n" "$(sed -n '600,900p;900p' "$0"|grep "^##"|sed 's/## /\n  /g')"
+	else
+		printf "\\e[0;32m  command \\e[1;32m%s\\e[0;32m has %s usage information\\n\\n" "'$STARTBIN help'" "$STARTBIN"
+
 	fi
 #	
 }
