@@ -18,7 +18,7 @@ _ADDAUSER_() {
 		sed -i "s/^#auth/auth/g" /etc/pam.d/su
 		useradd -s /bin/bash "\$1" -U
 		usermod "\$1" -aG wheel
-		passwd -d "\$1"
+		passwd -d "\$1" 2>/dev/null
 		chage -I -1 -m 0 -M -1 -E -1 "\$1"
 		[[ -d /etc/sudoers.d ]] && printf "%s\\n" "\$1 ALL=(ALL) ALL" >> /etc/sudoers.d/"\$1"
 		sed -i "s/\$1:x/\$1:/g" /etc/passwd
@@ -241,8 +241,8 @@ _ADDcsystemctl_() {
 	mv /usr/bin/systemctl $INSTALLDIR/var/backups/${INSTALLDIR##*/}/systemctl.\$SDATE.bkp
 	printf "\\e[38;5;148m%s\\n\\e[0m" "Moved /usr/bin/systemctl to $INSTALLDIR/var/backups/${INSTALLDIR##*/}/systemctl.\$SDATE.bkp"
 	printf "%s\\n" "Getting replacement systemctl from https://raw.githubusercontent.com/TermuxArch/docker-systemctl-replacement/master/files/docker/systemctl3.py"
-	# copy to both /usr/local/bin and /usr/bin
-	# updates won't halt functioning as /usr/local/bin precedes /usr/bin in PATH
+	# Arch Linux package 'systemctl' updates will mot halt functioning as /usr/local/bin precedes /usr/bin in the PATH
+	# downlaodvand copy to both /usr/local/bin and /usr/bin
 	curl https://raw.githubusercontent.com/TermuxArch/docker-systemctl-replacement/master/files/docker/systemctl3.py|tee /usr/bin/systemctl /usr/local/bin/systemctl >/dev/null
 	chmod 700 /usr/bin/systemctl /usr/local/bin/systemctl
 	[ ! -e /run/lock ] && mkdir -p /run/lock
