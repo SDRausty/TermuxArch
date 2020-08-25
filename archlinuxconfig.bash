@@ -18,12 +18,13 @@ _ADDAUSER_() {
 		sed -i "s/^#auth/auth/g" /etc/pam.d/su
 		useradd -s /bin/bash "\$1" -U
 		usermod "\$1" -aG wheel
-		passwd -d "\$1" 2>/dev/null
+		printf "\\n\\e[1;32m"
+		passwd -d "\$1"
 		chage -I -1 -m 0 -M -1 -E -1 "\$1"
 		[[ -d /etc/sudoers.d ]] && printf "%s\\n" "\$1 ALL=(ALL) ALL" >> /etc/sudoers.d/"\$1"
 		sed -i "s/\$1:x/\$1:/g" /etc/passwd
 		cp -r /root /home/"\$1"
-		printf "%s\\n" "Added Arch Linux in Termux PRoot user \$1 and created Arch Linux in Termux PRoot user \$1's home directory in /home/\$1.  To use this account run '$STARTBIN login \$1'.  To add user accounts use '$STARTBIN command addauser username' in the default Termux shell.  Please remember not to nest proot in proot unknowingly by using '$STARTBIN' in '$STARTBIN' as this is known to cause issues for PRoot in Termux users."
+		printf "\\n%s\\e[0m\\n\\n" "Added Arch Linux in Termux PRoot user \$1 and created Arch Linux in Termux PRoot user \$1's home directory in /home/\$1.  To use this account run '$STARTBIN login \$1'.  To add user accounts use '$STARTBIN command addauser username' in the default Termux shell.  Please remember not to nest proot in proot unknowingly by using '$STARTBIN' in '$STARTBIN' as this is known to cause issues for PRoot in Termux users."
 	fi
 	}
 		_PMFSESTRING_() { 
