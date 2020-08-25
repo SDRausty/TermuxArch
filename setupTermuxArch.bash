@@ -7,7 +7,7 @@
 IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
-VERSIONID=2.0.107
+VERSIONID=2.0.108
 ## INIT FUNCTIONS ##############################################################
 _STRPERROR_() { # run on script error
 	local RV="$?"
@@ -90,8 +90,8 @@ _CHKDWN_() {
 
 _CHKSELF_() {	# compare file setupTermuxArc.bash and the file being used
 	if [[ "$(<$TAMPDIR/setupTermuxArch.bash)" != "$(<$WFILE)" ]] # differ
-	then
-		cd "${WFILE%/*}"
+	then	# change directory to where file resides
+		cd "${WFILE%/*}" || printf "\\e[1;31m%s\\e[0m%s\\n" "signal received during update :" " please try using an absolute PATH or pretending your PATH to file '${0##*/}' with a tilda ~ for file $0."
 		# find and unset functions
 		unset -f $(grep \_\( "$WFILE"|cut -d"(" -f 1|sort -u|sed ':a;N;$!ba;s/\n/ /g')
 		# find variables
