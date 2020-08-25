@@ -13,7 +13,6 @@ _SGSATRPERROR_() { # run on script error signal
 }
 
 _SGSATRPEXIT_() { # run on exit signal
-	[[ ! -f .conf/RONGSA ]] && touch .conf/RONGSA
 	printf "\\e[?25h\\e[0m"
 	set +Eeuo pipefail
 	exit
@@ -52,4 +51,4 @@ OUNA="/TermuxArch"
 _GSA_ docs docsTermuxArch "" || printf "\\n\\n%s\\n" "Cannot add or update module docs : Continuing..."
 _GSA_ gen genTermuxArch "" || printf "\\n\\n%s\\n" "Cannot add or update module gen : Continuing..."
 _GSA_ scripts "scripts.TermuxArch" "" || printf "\\n\\n%s\\n" "Cannot add or update module scripts : Continuing..."
-# urepoTermuxArch.bash EOF
+# uprTermuxArch.bash EOF

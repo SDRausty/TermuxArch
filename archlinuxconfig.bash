@@ -230,7 +230,7 @@ _ADDcsystemctl_() {
 	_CFLHDR_ root/bin/csystemctl
 	cat >> root/bin/csystemctl <<- EOM
 	INSTALLDIR="$INSTALLDIR"
-	printf "%s\\n" "Installing /usr/bin/systemctl replacement: "
+	printf "\\e[38;5;148m%s\\e[0m\\n" "Installing /usr/bin/systemctl replacement: "
 	[ -f /var/lock/csystemctl.lock ] && printf "%s\\n" "Already installed /usr/bin/systemctl replacement: DONE" && exit
 	declare COMMANDP
 	COMMANDP="\$(command -v python3)" || printf "%s\\n" "Command python3 not found: continuing..."
@@ -239,15 +239,15 @@ _ADDcsystemctl_() {
 	# path is /usr/local/bin because updates overwrite /usr/bin/systemctl and may make systemctl-replacement obsolete
 	# backup original binary
 	mv /usr/bin/systemctl $INSTALLDIR/var/backups/${INSTALLDIR##*/}/systemctl.\$SDATE.bkp
-	printf "%s\\n" "Moved /usr/bin/systemctl to $INSTALLDIR/var/backups/${INSTALLDIR##*/}/systemctl.\$SDATE.bkp"
-	printf "%s\\n" "Getting replacement systemctl from https://raw.githubusercontent.com/gdraheim/docker-systemctl-replacement/master/files/docker/systemctl3.py"
+	printf "\\e[38;5;148m%s\\n\\e[0m" "Moved /usr/bin/systemctl to $INSTALLDIR/var/backups/${INSTALLDIR##*/}/systemctl.\$SDATE.bkp"
+	printf "%s\\n" "Getting replacement systemctl from https://raw.githubusercontent.com/TermuxArch/docker-systemctl-replacement/master/files/docker/systemctl3.py"
 	# copy to both /usr/local/bin and /usr/bin
-	# updates won't halt functioning since /usr/local/bin precedes /usr/bin in PATH
-	curl https://raw.githubusercontent.com/gdraheim/docker-systemctl-replacement/master/files/docker/systemctl3.py | tee /usr/bin/systemctl /usr/local/bin/systemctl >/dev/null
+	# updates won't halt functioning as /usr/local/bin precedes /usr/bin in PATH
+	curl https://raw.githubusercontent.com/TermuxArch/docker-systemctl-replacement/master/files/docker/systemctl3.py|tee /usr/bin/systemctl /usr/local/bin/systemctl >/dev/null
 	chmod 700 /usr/bin/systemctl /usr/local/bin/systemctl
 	[ ! -e /run/lock ] && mkdir -p /run/lock
 	touch /var/lock/csystemctl.lock
-	printf "%s\\n" "Installing systemctl replacement in /usr/local/bin and /usr/bin: DONE"
+	printf "\\e[38;5;148m%s\\e[1;32m%s\\e[0m\\n" "Installing systemctl replacement in /usr/local/bin and /usr/bin: DONE"
 	# csystemctl EOF
 	EOM
 	chmod 700 root/bin/csystemctl
