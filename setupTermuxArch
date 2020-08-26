@@ -7,7 +7,7 @@
 IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
-VERSIONID=2.0.122
+VERSIONID=2.0.123
 ## INIT FUNCTIONS ##############################################################
 _STRPERROR_() { # run on script error
 	local RV="$?"
@@ -89,8 +89,7 @@ _CHKDWN_() {
 }
 
 _CHKSELF_() {	# compare file setupTermuxArch and the file being used
-	# change directory to where file resides
-	cd "$WFDIR"
+	cd "$WFDIR" # change directory to where file resides
 	if [[ "$(<$TAMPDIR/setupTermuxArch)" != "$(<${0##*/})" ]] # files differ
 	then	# find and unset functions
 		unset -f $(grep \_\( "${0##*/}"|cut -d"(" -f 1|sort -u|sed ':a;N;$!ba;s/\n/ /g')
@@ -106,7 +105,7 @@ _CHKSELF_() {	# compare file setupTermuxArch and the file being used
 		rm -rf "$TAMPDIR"
 		cd "$WDIR"
 		printf "\\e[0;32m%s\\e[1;34m: \\e[1;32mUPDATED\\n\\e[1;32mRESTARTED\\e[1;34m: \\e[0;32m%s %s \\n\\n\\e[0m"  "${0##*/}" "${0##*/}" "$ARGS"
-		# restart with published version
+		# restart with updated version
 		. "$0" "$ARGS"
 	fi
 	cd "$TAMPDIR"
