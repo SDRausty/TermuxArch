@@ -634,8 +634,8 @@ _ADDmakeyay_() {
 		cd 
 		[ ! -f /var/lock/patchmakepkg.lock ] && patchmakepkg
 		! fakeroot ls >/dev/null && makefakeroottcp
-		(git clone https://aur.archlinux.org/yay.git && cd yay && _PRMAKE_ && makepkg -irs --noconfirm) || printf "\\\\e[1;37m%s\\\\e[0m\\\\n" "Continuing to build and install yay..." && cd yay && _PRMAKE_ && makepkg -irs --noconfirm || printf "\\\\e[1;31m%s\\\\e[0%s\\\\n" "Received exiting signal," " maybe the data connection?""Something went wrong," " maybe the data connection?""Something went wrong," " maybe the data connection?"
-		yay cmatrix || printf "\\\\e[1;31m%s\\\\e[0%s\\\\n" "Received exiting signal," " maybe the data connection?"
+		(git clone https://aur.archlinux.org/yay.git&&cd yay&&_PRMAKE_&&makepkg -irs --noconfirm)||printf "\\\\e[1;37m%s\\\\e[0m\\\\n" "Continuing to build and install yay..."&&cd yay&&_PRMAKE_&&makepkg -irs --noconfirm||printf "\\\\e[1;31m%s\\\\e[0%s\\\\n" "Received exit signal," " maybe the data connection?"
+		yay cmatrix --noconfirm||printf "\\\\e[1;31m%s\\\\e[0%s\\\\n" "Received exi signal," " maybe the data connection?"
 		printf "\\\\e[1;37m%s\\\\e[0m\\\\n" "Building and installing yay: DONE"
 	fi
 	# makeyay EOF 
