@@ -7,7 +7,7 @@
 IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
-VERSIONID=2.0.112
+VERSIONID=2.0.113
 ## INIT FUNCTIONS ##############################################################
 _STRPERROR_() { # run on script error
 	local RV="$?"
@@ -89,24 +89,23 @@ _CHKDWN_() {
 }
 
 _CHKSELF_() {	# compare file setupTermuxArc.bash and the file being used
-	if [[ "$(<$TAMPDIR/setupTermuxArch.bash)" != "$(<$WFILE)" ]] # differ
-	then	# change directory to where file resides
-		cd "${WFILE%/*}" || printf "\\e[1;31m%s\\e[0m%s\\n" "signal received during update :" " please try using an absolute PATH or prepending your PATH to file '${0##*/}' with a tilda ~ for file '$0'."
-		# find and unset functions
-		unset -f $(grep \_\( "$WFILE"|cut -d"(" -f 1|sort -u|sed ':a;N;$!ba;s/\n/ /g')
+	cd "$WFDIR"	# change directory to where file resides
+	if [[ "$(<$TAMPDIR/setupTermuxArch.bash)" != "$(<${0##*/})" ]] # files differ
+	then	# find and unset functions
+		unset -f $(grep \_\( "${0##*/}"|cut -d"(" -f 1|sort -u|sed ':a;N;$!ba;s/\n/ /g')
 		# find variables
-		UNVAR="$(grep '="' "$WFILE"|grep -v -e \] -e ARGS -e TAMPDIR -e WFILE|grep -v +|sed 's/declare -a//g'|sed 's/declare//g'|sed 's/export//g'|sed -e "s/[[:space:]]\+//g"|cut -d"=" -f 1|sort -u)"
+		UNVAR="$(grep '="' "${0##*/}"|grep -v -e \] -e ARGS -e TAMPDIR -e WFDIR|grep -v +|sed 's/declare -a//g'|sed 's/declare//g'|sed 's/export//g'|sed -e "s/[[:space:]]\+//g"|cut -d"=" -f 1|sort -u)"
 		# unset variables
 		for UNSET in $UNVAR
 		do
 			unset "$UNSET"
 		done
 		# update working file
-		cp "$TAMPDIR/setupTermuxArch.bash" "$WFILE"
+		cp "$TAMPDIR/setupTermuxArch.bash" "${0##*/}"
 		rm -rf "$TAMPDIR"
 		printf "\\e[0;32m%s\\e[1;34m: \\e[1;32mUPDATED\\n\\e[1;32mRESTARTED\\e[1;34m: \\e[0;32m%s %s \\n\\n\\e[0m"  "${0##*/}" "${0##*/}" "$ARGS"
 		# restart with published version
-		. "$WFILE" "$ARGS"
+		. "${0##*/}" "$ARGS"
 	fi
 	cd "$TAMPDIR"
 }
@@ -214,13 +213,7 @@ _DEPENDS_() {	# check for missing commands
 
 _DEPENDSBLOCK_() {
 	_DEPENDS_ || printf "%s\\n" "signal received _DEPENDS_ _DEPENDSBLOCK_ ${0##*/}"
-	if [[ $DIRLCR == 0 ]]
-	then
-		cd "${WFILE%/*}" 
-		_COREFILESDO_
-	else
-		_COREFILESDO_
-	fi
+	_COREFILESDO_
 	unset LD_PRELOAD
 }
 
@@ -602,7 +595,6 @@ declare CPUABIX86_64="x86_64"	## Used for development.
 declare DFL=""		## Used for development.
 declare DMVERBOSE="-q"	## -v for verbose download manager output from curl and wget;  for verbose output throughout runtime also change in 'setupTermuxArchConfigs.bash' when using 'setupTermuxArch.bash m[anual]'.
 declare ed=""
-declare DIRLCR=""
 declare DM=""
 declare FSTND=""
 declare -A FILE
@@ -612,7 +604,7 @@ declare LCP=""
 declare OPT=""
 declare ROOTDIR=""
 declare WDIR=""
-declare WFILE=""
+declare WFDIR=""
 declare STI=""		## Generates pseudo random number.
 declare STIME=""	## Generates pseudo random number.
 if [[ -z "${TAMPDIR:-}" ]]
@@ -653,11 +645,11 @@ CPUABI="$(getprop ro.product.cpu.abi)"
 SYSVER="$(getprop ro.build.version.release)"
 NASVER="$(getprop net.bt.name ) $SYSVER"
 WDIR="$PWD/"
-WFILE="$0"
-[[ "${WFILE%/*}" != "$WDIR" ]] && [[ "${WFILE%/*}" != "${0##*/}" ]] && DIRLCR=0
-[ ! -d ${WFILE%/*} ]&&WFILE="$PWD/$WFILE" 
-## 6) Create a default user account with the 'addauser' command that configures this account for use with the 'sudo' command,
-## 7) And all options are optional for install.
+## 6) Determine its own name and location of invocation,
+WFDIR="$(realpath "$0")"
+WFDIR="${WFDIR%/*}"
+## 7) Create a default user Arch Linux in Termux PRoot account with the TermuxArch command 'addauser' that configures user accounts for use with the Arch Linux 'sudo' command,
+## 8) And all options are optional for install!
 ## THESE OPTIONS ARE AVAILABLE FOR YOUR CONVENIENCE:
 ## GRAMMAR[a]: setupTermuxArch.bash [HOW] [DO] [WHERE]
 ## OPTIONS[a]: setupTermuxArch.bash [HOW] [DO] [WHERE]
