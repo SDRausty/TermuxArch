@@ -17,10 +17,10 @@ _ADDAUSER_() {
 		printf "\\\\e[0;32m%s\\\n\\\\e[1;32m" "Adding Arch Linux in Termux PRoot user '\$1' and creating Arch Linux in Termux PRoot user \$1's home directory in /home/\$1:"
 		sed -i "s/required/sufficient/g" /etc/pam.d/su
 		sed -i "s/^#auth/auth/g" /etc/pam.d/su
-		useradd -s /bin/bash "\$1" -U
-		usermod "\$1" -aG wheel
-		passwd -d "\$1"
-		chage -I -1 -m 0 -M -1 -E -1 "\$1"
+		useradd -s /bin/bash "\$1" -U || sudo useradd -s /bin/bash "\$1" -U
+		usermod "\$1" -aG wheel || sudo usermod "\$1" -aG wheel
+		passwd -d "\$1" || sudo passwd -d "\$1"
+		chage -I -1 -m 0 -M -1 -E -1 "\$1" || sudo chage -I -1 -m 0 -M -1 -E -1 "\$1"
 		[[ -d /etc/sudoers.d ]] && printf "%s\\n" "\$1 ALL=(ALL) ALL" >> /etc/sudoers.d/"\$1"
 		sed -i "s/\$1:x/\$1:/g" /etc/passwd
 		cp -r /root /home/"\$1"
