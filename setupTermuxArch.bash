@@ -7,7 +7,7 @@
 IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
-VERSIONID=2.0.118
+VERSIONID=2.0.119
 ## INIT FUNCTIONS ##############################################################
 _STRPERROR_() { # run on script error
 	local RV="$?"
@@ -95,7 +95,7 @@ _CHKSELF_() {	# compare file setupTermuxArc.bash and the file being used
 	then	# find and unset functions
 		unset -f $(grep \_\( "${0##*/}"|cut -d"(" -f 1|sort -u|sed ':a;N;$!ba;s/\n/ /g')
 		# find variables
-		UNVAR="$(grep '="' "${0##*/}"|grep -v -e \] -e ARGS -e TAMPDIR -e WDIR -e WFDIR|grep -v +|sed 's/declare -a//g'|sed 's/declare//g'|sed 's/export//g'|sed -e "s/[[:space:]]\+//g"|cut -d"=" -f 1|sort -u)"
+		UNVAR="$(grep '="' "${0##*/}"|grep -v -e \] -e ARGS -e TAMPDIR -e WDIR -e WFDIR -e INSTALLDIR|grep -v +|sed 's/declare -a//g'|sed 's/declare//g'|sed 's/export//g'|sed -e "s/[[:space:]]\+//g"|cut -d"=" -f 1|sort -u)"
 		# unset variables
 		for UNSET in $UNVAR
 		do

@@ -14,22 +14,22 @@ _ADDAUSER_() {
 		printf "\\e[1;31m%s\\\\n" "Use: addauser username: exiting..."
 		exit 201
 	else
+		printf "\\\\e[0;32m%s\\\n\\\\e[1;32m" "Adding Arch Linux in Termux PRoot user '\$1' and creating Arch Linux in Termux PRoot user \$1's home directory in /home/\$1:"
 		sed -i "s/required/sufficient/g" /etc/pam.d/su
 		sed -i "s/^#auth/auth/g" /etc/pam.d/su
 		useradd -s /bin/bash "\$1" -U
 		usermod "\$1" -aG wheel
-		printf "\\n\\e[1;32m"
 		passwd -d "\$1"
 		chage -I -1 -m 0 -M -1 -E -1 "\$1"
 		[[ -d /etc/sudoers.d ]] && printf "%s\\n" "\$1 ALL=(ALL) ALL" >> /etc/sudoers.d/"\$1"
 		sed -i "s/\$1:x/\$1:/g" /etc/passwd
 		cp -r /root /home/"\$1"
-		printf "\\n%s\\e[0m\\n\\n" "Added Arch Linux in Termux PRoot user \$1 and created Arch Linux in Termux PRoot user \$1's home directory in /home/\$1.  To use this account run '$STARTBIN login \$1'.  To add user accounts use '$STARTBIN command addauser username' in the default Termux shell.  Please remember not to nest proot in proot unknowingly by using '$STARTBIN' in '$STARTBIN' as this is known to cause issues for PRoot in Termux users."
+		printf "\\\\e[0;32m%s\\\\e[1;32m%s\\\\e[0;32m%s\\\\e[0m\\\\n" "Added Arch Linux in Termux PRoot user '\$1'. Configured user '\$1' for use with the Arch Linux command 'sudo'.  Created Arch Linux in Termux PRoot user \$1's home directory in /home/\$1.  To use this account run '$STARTBIN login \$1' from the shell in Termux.  To add user accounts use " "'$STARTBIN command addauser username'" " in the default Termux shell.  Please remember not to nest proot in proot unknowingly by using '$STARTBIN' in '$STARTBIN' as this is known to cause issues for PRoot in Termux users."
 	fi
 	}
 		_PMFSESTRING_() { 
-		printf "\\e[1;31m%s\\e[1;37m%s\\e[1;32m%s\\e[1;37m%s\\n\\n" "Signal generated in '\$1' : Cannot complete task : " "Continuing..."
-		printf "\\e[1;34m%s\\e[0;34m%s\\e[1;34m%s\\e[0;34m%s\\e[1;34m%s\\e[0m\\n\\n" "  If you find improvements for " "setupTermuxArch" " and " "\$0" " please open an issue and accompanying pull request."
+		printf "\\\\e[1;31m%s\\e[1;37m%s\\\\e[1;32m%s\\\\e[1;37m%s\\\\n\\\\n" "Signal generated in '\$1' : Cannot complete task : " "Continuing..."
+		printf "\\\\e[1;34m%s\\\\e[0;34m%s\\\\e[1;34m%s\\\\e[0;34m%s\\\\e[1;34m%s\\\\e[0m\\\\n\\\\n" "  If you find improvements for " "setupTermuxArch" " and " "\$0" " please open an issue and accompanying pull request."
 	}
 	_FUNADDU_ "\$@"
 	# addauser EOF
