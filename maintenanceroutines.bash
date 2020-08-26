@@ -5,7 +5,7 @@
 # https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.
 ################################################################################
 
-_COPYIMAGE_() { # A systemimage.tar.gz file can be used: `setupTermuxArch.bash ./[path/]systemimage.tar.gz` and `setupTermuxArch.bash /absolutepath/systemimage.tar.gz`
+_COPYIMAGE_() { # A systemimage.tar.gz file can be used: `setupTermuxArch ./[path/]systemimage.tar.gz` and `setupTermuxArch /absolutepath/systemimage.tar.gz`
  	if [[ "$LCP" = "0" ]]
 	then
 		echo "Copying $GFILE.md5 to $INSTALLDIR..."
@@ -98,7 +98,7 @@ _FIXOWNER_() { # fix owner of INSTALLDIR/home/USER
 }
 
 _REFRESHSYS_() { # refresh installation
-	printf '\033]2; setupTermuxArch.bash refresh 📲 \007'
+	printf '\033]2; setupTermuxArch refresh 📲 \007'
  	_NAMESTARTARCH_
  	_SPACEINFO_
 	cd "$INSTALLDIR"
@@ -200,7 +200,7 @@ _SPACEINFOQ_() {
 		then
 			while true; do
 				printf "\\n\\e[1;30m"
-				read -n 1 -p "Continue with setupTermuxArch.bash? [Y|n] " SUANSWER
+				read -n 1 -p "Continue with setupTermuxArch? [Y|n] " SUANSWER
 				if [[ "$SUANSWER" = [Ee]* ]] || [[ "$SUANSWER" = [Nn]* ]] || [[ "$SUANSWER" = [Qq]* ]]
 				then
 					printf "\\n"
@@ -208,7 +208,7 @@ _SPACEINFOQ_() {
 				elif [[ "$SUANSWER" = [Yy]* ]] || [[ "$SUANSWER" = "" ]]
 				then
 					SUANSWER=yes
-					printf "Continuing with setupTermuxArch.bash.\\n"
+					printf "Continuing with setupTermuxArch.\\n"
 					break
 				else
 					printf "\\nYou answered \\e[33;1m$SUANSWER\\e[30m.\\n\\nAnswer \\e[32mYes\\e[30m or \\e[1;31mNo\\e[30m. [\\e[32my\\e[30m|\\e[1;31mn\\e[30m]\\n"
@@ -254,7 +254,7 @@ _SYSINFO_() {
 	_SYSTEMINFO_ ## & spinner "Generating" "System Information..."
 	printf "\\e[38;5;76m"
 	cat "${WDIR}setupTermuxArchSysInfo$STIME".log
-	printf "\\n\\e[1mThis information may be quite important when planning issue(s) at https://github.com/sdrausty/TermuxArch/issues with the hope of improving \`setupTermuxArch.bash\`;  Include input and output, along with screenshot(s) relavent to X, and similar.\\n\\n"
+	printf "\\n\\e[1mThis information may be quite important when planning issue(s) at https://github.com/sdrausty/TermuxArch/issues with the hope of improving \`setupTermuxArch\`;  Include input and output, along with screenshot(s) relavent to X, and similar.\\n\\n"
 	exit
 }
 

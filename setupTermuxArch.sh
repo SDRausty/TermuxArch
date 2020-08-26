@@ -7,7 +7,7 @@
 IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
-VERSIONID=2.0.121
+VERSIONID=2.0.122
 ## INIT FUNCTIONS ##############################################################
 _STRPERROR_() { # run on script error
 	local RV="$?"
@@ -88,10 +88,10 @@ _CHKDWN_() {
 	fi
 }
 
-_CHKSELF_() {	# compare file setupTermuxArc.bash and the file being used
+_CHKSELF_() {	# compare file setupTermuxArch and the file being used
 	# change directory to where file resides
 	cd "$WFDIR"
-	if [[ "$(<$TAMPDIR/setupTermuxArch.bash)" != "$(<${0##*/})" ]] # files differ
+	if [[ "$(<$TAMPDIR/setupTermuxArch)" != "$(<${0##*/})" ]] # files differ
 	then	# find and unset functions
 		unset -f $(grep \_\( "${0##*/}"|cut -d"(" -f 1|sort -u|sed ':a;N;$!ba;s/\n/ /g')
 		# find variables
@@ -102,7 +102,7 @@ _CHKSELF_() {	# compare file setupTermuxArc.bash and the file being used
 			unset "$UNSET"
 		done
 		# update working file
-		cp "$TAMPDIR/setupTermuxArch.bash" "${0##*/}"
+		cp "$TAMPDIR/setupTermuxArch" "${0##*/}"
 		rm -rf "$TAMPDIR"
 		cd "$WDIR"
 		printf "\\e[0;32m%s\\e[1;34m: \\e[1;32mUPDATED\\n\\e[1;32mRESTARTED\\e[1;34m: \\e[0;32m%s %s \\n\\n\\e[0m"  "${0##*/}" "${0##*/}" "$ARGS"
@@ -113,7 +113,7 @@ _CHKSELF_() {	# compare file setupTermuxArc.bash and the file being used
 }
 
 _COREFILES_() {
-	[[ -f archlinuxconfig.bash ]] && [[ -f espritfunctions.bash ]] && [[ -f getimagefunctions.bash ]] && [[ -f knownconfigurations.bash ]] && [[ -f maintenanceroutines.bash ]] && [[ -f necessaryfunctions.bash ]] && [[ -f printoutstatements.bash ]] && [[ -f setupTermuxArch.bash ]]
+	[[ -f archlinuxconfig.bash ]] && [[ -f espritfunctions.bash ]] && [[ -f getimagefunctions.bash ]] && [[ -f knownconfigurations.bash ]] && [[ -f maintenanceroutines.bash ]] && [[ -f necessaryfunctions.bash ]] && [[ -f printoutstatements.bash ]] && [[ -f setupTermuxArch ]]
 }
 
 _COREFILESDO_() {
@@ -594,7 +594,7 @@ declare CPUABI8="arm64-v8a"	## Used for development.
 declare CPUABIX86="x86"		## Used for development.
 declare CPUABIX86_64="x86_64"	## Used for development.
 declare DFL=""		## Used for development.
-declare DMVERBOSE="-q"	## -v for verbose download manager output from curl and wget;  for verbose output throughout runtime also change in 'setupTermuxArchConfigs.bash' when using 'setupTermuxArch.bash m[anual]'.
+declare DMVERBOSE="-q"	## -v for verbose download manager output from curl and wget;  for verbose output throughout runtime also change in 'setupTermuxArchConfigs.bash' when using 'setupTermuxArch m[anual]'.
 declare ed=""
 declare DM=""
 declare FSTND=""
@@ -651,17 +651,17 @@ WFDIR="${WFDIR%/*}"
 ## 7) Create a default user Arch Linux in Termux PRoot account with the TermuxArch command 'addauser' that configures user accounts for use with the Arch Linux 'sudo' command,
 ## 8) And all options are optional for install!
 ## THESE OPTIONS ARE AVAILABLE FOR YOUR CONVENIENCE:
-## GRAMMAR[a]: setupTermuxArch.bash [HOW] [DO] [WHERE]
-## OPTIONS[a]: setupTermuxArch.bash [HOW] [DO] [WHERE]
-## GRAMMAR[b]: setupTermuxArch.bash [WHAT] [WHERE]
-## OPTIONS[b]: setupTermuxArch.bash [~/|./|/absolute/path/]image.tar.gz [WHERE]
+## GRAMMAR[a]: setupTermuxArch [HOW] [DO] [WHERE]
+## OPTIONS[a]: setupTermuxArch [HOW] [DO] [WHERE]
+## GRAMMAR[b]: setupTermuxArch [WHAT] [WHERE]
+## OPTIONS[b]: setupTermuxArch [~/|./|/absolute/path/]image.tar.gz [WHERE]
 ## DEFAULTS ARE IMPLIED AND CAN BE OMITTED
 ## SYNTAX[1]: [HOW (aria2|axel|curl|lftp|wget (default1: present on system (default2: lftp)))]
 ## SYNTAX[2]: [DO (help|install|manual|purge|refresh|sysinfo (default: install))]
 ## SYNTAX[3]: [WHERE (default: arch)]  Install in userspace, not external storage.
-## USAGE[1]: 'setupTermuxArch.bash wget sysinfo' will use wget as the download manager and produce a system information file in the working directory.  This can be abbreviated to 'setupTermuxArch.bash ws' and 'setupTermuxArch.bash w s'.
-## USAGE[2]: 'setupTermuxArch.bash wget manual customdir' will install the installation in customdir with wget and use manual mode during instalation.
-## USAGE[3]: 'setupTermuxArch.bash wget refresh customdir' will refresh this installation using wget as the download manager.
+## USAGE[1]: 'setupTermuxArch wget sysinfo' will use wget as the download manager and produce a system information file in the working directory.  This can be abbreviated to 'setupTermuxArch ws' and 'setupTermuxArch w s'.
+## USAGE[2]: 'setupTermuxArch wget manual customdir' will install the installation in customdir with wget and use manual mode during instalation.
+## USAGE[3]: 'setupTermuxArch wget refresh customdir' will refresh this installation using wget as the download manager.
 ## >>>>>>>>>>>>>>>>>>
 ## >> OPTION  HELP >>
 ## >>>>>>>>>>>>>>>>>>
@@ -670,7 +670,7 @@ if [[ -z "${1:-}" ]]
 then
 	_PREPTERMUXARCH_
 	_INTRO_ "$@"
-## [./path/systemimage.tar.gz [customdir]]  Install directory argument is optional.  Network install can be substituted by copying systemimage.tar.gz and systemimage.tar.gz.md5 files with 'setupTermuxArch.bash ./[path/]systemimage.tar.gz' and 'setupTermuxArch.bash /absolutepath/systemimage.tar.gz'.
+## [./path/systemimage.tar.gz [customdir]]  Install directory argument is optional.  Network install can be substituted by copying systemimage.tar.gz and systemimage.tar.gz.md5 files with 'setupTermuxArch ./[path/]systemimage.tar.gz' and 'setupTermuxArch /absolutepath/systemimage.tar.gz'.
 elif [[ "${ARGS:0:1}" = . ]]
 then
  	printf "\\n%s\\n" "Setting mode to copy system image."
@@ -679,7 +679,7 @@ then
  	LCP="1"
  	_ARG2DIR_ "$@"
  	_INTRO_ "$@"
-## [systemimage.tar.gz [customdir]]  Install directory argument is optional.  Network install can be substituted by copying systemimage.tar.gz and systemimage.tar.gz.md5 files with 'setupTermuxArch.bash systemimage.tar.gz'.
+## [systemimage.tar.gz [customdir]]  Install directory argument is optional.  Network install can be substituted by copying systemimage.tar.gz and systemimage.tar.gz.md5 files with 'setupTermuxArch systemimage.tar.gz'.
 elif [[ "$ARGS" = *.tar.gz* ]]
 then
  	printf "\\n%s\\n" "Setting mode to copy system image."
@@ -718,7 +718,7 @@ then
 	DM=aria2
 	_OPT1_ "$@"
 	_INTRO_ "$@"
-## [b[loom]]  Create and run a local copy of TermuxArch in TermuxArchBloom.  Useful for running a customized setupTermuxArch.bash locally, for developing and hacking TermuxArch.
+## [b[loom]]  Create and run a local copy of TermuxArch in TermuxArchBloom.  Useful for running a customized setupTermuxArch locally, for developing and hacking TermuxArch.
 elif [[ "${1//-}" = [Bb]* ]]
 then
 	printf "\\nSetting mode to bloom. \\n"
@@ -756,7 +756,7 @@ then
 	LCC="1"
 	_ARG2DIR_ "$@"
 	_PRINTUSAGE_ "$@"
-## [i[nstall] [customdir]]  Install Arch Linux in a custom directory.  Instructions: Install in userspace.  The HOME directory is appended to the installation directory.  To install Arch Linux in HOME/customdir use 'bash setupTermuxArch.bash install customdir'.  In the BASH shell you can use './setupTermuxArch.bash install customdir'.  All options can be abbreviated to one, two and three letters.  Hence './setupTermuxArch.bash install customdir' can be run as './setupTermuxArch.bash i customdir' in BASH.
+## [i[nstall] [customdir]]  Install Arch Linux in a custom directory.  Instructions: Install in userspace.  The HOME directory is appended to the installation directory.  To install Arch Linux in HOME/customdir use 'bash setupTermuxArch install customdir'.  In the BASH shell you can use './setupTermuxArch install customdir'.  All options can be abbreviated to one, two and three letters.  Hence './setupTermuxArch install customdir' can be run as './setupTermuxArch i customdir' in BASH.
 elif [[ "${1//-}" = [Ii]* ]]
 then
 	printf "\\nSetting mode to install.\\n"
@@ -834,10 +834,10 @@ then
 else
 	_PRINTUSAGE_
 fi
-## File 'uprTermuxArch.bash' will execute 'git pull' and populate git repository modules, and file 'uprTermuxArch.bash' can be run directly in a PRoot environment.  File uprTermuxArch.bash's functions are not related to updating functions run by command 'setupTermuxArch r[e[fresh]]' that have completely different update functions.  The command 'setupTermuxArch r[e[fresh]]' attempts to refresh the Arch Linux in Termux PRoot installation and the TermuxArch generated scripts to the newest version.  It also helps in the installation and configuration process if everything did not go smoothly on the first try to install Arch Linux in Termux PRoot.
+## File 'uprTermuxArch' will execute 'git pull' and populate git repository modules, and file 'uprTermuxArch' can be run directly in a PRoot environment.  File uprTermuxArch's functions are not related to updating functions run by command 'setupTermuxArch r[e[fresh]]' that have completely different update functions.  The command 'setupTermuxArch r[e[fresh]]' attempts to refresh the Arch Linux in Termux PRoot installation and the TermuxArch generated scripts to the newest version.  It also helps in the installation and configuration process if everything did not go smoothly on the first try to install Arch Linux in Termux PRoot.
 ## Files 'setupTermuxArch{.bash,.sh}' are held for backward compatibility;  Please reference file 'setupTermuxArch' as the chosen install file if aid and assistance be through sharing insight about this Arch Linux in a Termux PRoot container project which can be used on a smartphone, smartTV, tablet, wearable and more.  File 'setupTermuxArch' is earmarked as the install file name for this project.
 ## File 'setupTermuxArch' downloads as files 'setupTermuxArch.[bin,\ \(1\),\ \(2\),etc...]' through Internet browsers into Android Downloads on smartphone and Arch Linux in Termux PRoot can be installed directly from this file in Android with this command 'bash ~/storage/downloads/setupTermuxArch.bin' and similar which may also check whether there is a newer version automatically since the time it was downloaded.  If there is a newer version, this file might self update.  If this updating process went smoothly, this file will restart the process that was initially initiated by the user.
-## These files 'setupTermuxArch[.{bash,sh}]' will NOT selfupdate to the most recent version published if they are used inside their git repository;  In this case 'git pull' or 'uprTermuxArch.bash' can be employed to update to the newest published version.
+## These files 'setupTermuxArch[.{bash,sh}]' will NOT selfupdate to the most recent version published if they are used inside their git repository;  In this case 'git pull' or 'uprTermuxArch' can be employed to update to the newest published version.
 ## Very many hardy thank yous to contributors who are helping and have already helped to make this open source resource better!  Please accept a wholehearted thank you for using this product!
 # The name of file 'setupTermuxArch' in the EOF line at the end of this file is to assist scripts 'setupTermuxArch[.{bash,bin,sh}]' when they selfupdate to the latest version when the user runs them.
 # setupTermuxArch EOF

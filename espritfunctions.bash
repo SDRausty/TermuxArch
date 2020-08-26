@@ -27,16 +27,16 @@ addlangq() {
 	done
 }
 
-_BLOOM_() { # Bloom = `setupTermuxArch.bash manual verbose`
+_BLOOM_() { # Bloom = `setupTermuxArch manual verbose`
 	[[ -d "$HOME"/TermuxArchBloom ]] && _RMBLOOMQ_
 	mkdir -p "$HOME"/TermuxArchBloom
 	cp *sh "$HOME"/TermuxArchBloom
 	cp setupTermuxArch "$HOME"/TermuxArchBloom
 	cd "$HOME"/TermuxArchBloom
-	printf "\\e[1;34m%s\\e[1;32m%s\\e[0m 📲\\n\\n" "TermuxArch Bloom option via " "setupTermuxArch.bash bloom"
+	printf "\\e[1;34m%s\\e[1;32m%s\\e[0m 📲\\n\\n" "TermuxArch Bloom option via " "setupTermuxArch bloom"
 	ls -agl
 	printf "\\n\\e[1;34m%s\\e[1;32m%s\\e[1;34m%s\\e[1;32m%s\\e[1;34m%s\\e[1;32m%s\\e[1;34m.\\e[0m\\n" "Use " "cd ~/TermuxArchBloom" " to continue.  Edit any of these files;  Then use " "bash ${0##*/} [options]" " to run the files in " "~/TermuxArchBloom"
-	printf '\033]2;  TermuxArch Bloom option via `setupTermuxArch.bash bloom` 📲 \007'
+	printf '\033]2;  TermuxArch Bloom option via `setupTermuxArch bloom` 📲 \007'
 	exit
 }
 
@@ -203,7 +203,7 @@ _NANOIF_() {
 _RMBLOOMQ_() {
 	if [[ -d "$HOME"/TermuxArchBloom ]]
 	then
-		printf "\\n\\n\\e[0;33m%s\\e[1;33m%s\\e[0;33m%s\\e[1;30m%s\\e[0;33m%s\\n" "TermuxArch:  " "DIRECTORY WARNING!  $HOME/TermuxArchBloom/ " "directory detected;  " "setupTermuxArch.bash bloom" " will continue."
+		printf "\\n\\n\\e[0;33m%s\\e[1;33m%s\\e[0;33m%s\\e[1;30m%s\\e[0;33m%s\\n" "TermuxArch:  " "DIRECTORY WARNING!  $HOME/TermuxArchBloom/ " "directory detected;  " "setupTermuxArch bloom" " will continue."
 		while true
 		do
 			printf "\\n\\e[1;30m"
