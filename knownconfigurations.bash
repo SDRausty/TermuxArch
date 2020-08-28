@@ -82,12 +82,7 @@ _PR00TSTRING_() { # construct the PRoot init statement
 	then
 	       	PROOTSTMNT+="--kill-on-exit "
        	fi
-	if [[ -z "${INSTALLDIR:-}" ]]	# is unset on self update
-	then	# exit here or the program will continue to run on
-		exit
-	else
-	       	PROOTSTMNT+="--link2symlink -0 -r $INSTALLDIR "
-	fi
+       	PROOTSTMNT+="--link2symlink -0 -r $INSTALLDIR "
 	# file var/binds/fbindexample.prs has a few more examples
        	if [[ -n "$(ls -A "$INSTALLDIR"/var/binds/*.prs)" ]]
 	then
