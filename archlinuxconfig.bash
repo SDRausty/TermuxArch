@@ -22,11 +22,11 @@ _ADDAUSER_() {
 # 		passwd -d "\$1" || sudo passwd -d "\$1"
 		chage -I -1 -m 0 -M -1 -E -1 "\$1" || sudo chage -I -1 -m 0 -M -1 -E -1 "\$1"
 		cp -r /root /home/"\$1"
-		chmod 777 /home/\$1
-		chown -R \$1:\$1 /home/\$1
+		chmod 777 /home/\$1 || sudo chmod 777 /home/\$1
+		chown -R \$1:\$1 /home/\$1 || sudo chown -R \$1:\$1 /home/\$1
 		[[ -d /etc/sudoers.d ]] && printf "%s\\n" "\$1 ALL=(ALL) ALL" >> /etc/sudoers.d/"\$1"
 		sed -i "s/\$1:x/\$1:/g" /etc/passwd
-		printf "\\\\e[0;32m%s\\\\e[1;32m%s\\\\e[0;32m%s\\\\e[1;32m%s\\\\e[0;32m%s\\\\e[1;32m%s\\\\e[0;32m%s\\\\e[1;32m%s\\\\e[0;32m%s\\\\e[0m\\\\n" "Added Arch Linux in Termux PRoot user " "'\$1'" " and configured user '\$1' for use with the Arch Linux command 'sudo'.  Created Arch Linux user \$1's home directory in /home/\$1.  To use this account run " "'$STARTBIN login \$1'" " from the shell in Termux.  To add user accounts you can use " "'addauser \$1'" " in Arch Linux and " "'$STARTBIN command addauser \$1'" " in the default Termux shell.  Please remember not to nest proot in proot unknowingly by using '$STARTBIN' in '$STARTBIN' as this is known to cause issues for PRoot users."
+		printf "\\\\e[0;32m%s\\\\e[1;32m%s\\\\e[0;32m%s\\\\e[1;32m%s\\\\e[0;32m%s\\\\e[1;32m%s\\\\e[0;32m%s\\\\e[1;32m%s\\\\e[0;32m%s\\\\e[0m\\\\n" "Added Arch Linux in Termux PRoot user " "'\$1'" " and configured user '\$1' for use with the Arch Linux command 'sudo'.  Created Arch Linux user \$1's home directory in /home/\$1.  To use this account run " "'$STARTBIN login \$1'" " from the shell in Termux.  To add user accounts you can use " "'addauser \$1'" " in Arch Linux and " "'$STARTBIN c[ommand] addauser \$1'" " in the default Termux shell.  Please remember not to nest proot in proot unknowingly by using '$STARTBIN' in '$STARTBIN' as this is known to cause issues for PRoot users."
 	fi
 	}
 		_PMFSESTRING_() { 
@@ -245,7 +245,7 @@ _ADDcsystemctl_() {
 	printf "%s\\\\n" "Getting replacement systemctl from https://raw.githubusercontent.com/TermuxArch/docker-systemctl-replacement/master/files/docker/systemctl3.py"
 	# Arch Linux package 'systemctl' updates will mot halt functioning as /usr/local/bin precedes /usr/bin in the PATH
 	# downlaodvand copy to both /usr/local/bin and /usr/bin
-	curl https://raw.githubusercontent.com/TermuxArch/docker-systemctl-replacement/master/files/docker/systemctl3.py|tee /usr/bin/systemctl /usr/local/bin/systemctl >/dev/null
+	curl --fail --retry 2 https://raw.githubusercontent.com/TermuxArch/docker-systemctl-replacement/master/files/docker/systemctl3.py|tee /usr/bin/systemctl /usr/local/bin/systemctl >/dev/null
 	chmod 700 /usr/bin/systemctl /usr/local/bin/systemctl
 	[ ! -e /run/lock ] && mkdir -p /run/lock
 	touch /var/lock/csystemctl.lock
@@ -648,7 +648,7 @@ _ADDpatchmakepkg_() {
 	cat >> root/bin/patchmakepkg <<- EOM
 	printf "%s\\n" "Attempting to patch makepkg: "
 	[ -f /var/lock/patchmakepkg.lock ] && printf "%s\\n" "Already patched makepkg: DONE" && exit
-	cd && curl -O https://raw.githubusercontent.com/TermuxArch/TermuxArch/master/diff.makepkg.zip && unzip diff.makepkg.zip 
+	cd && curl --fail --retry 2 -O https://raw.githubusercontent.com/TermuxArch/TermuxArch/master/diff.makepkg.zip && unzip diff.makepkg.zip 
 	patch -n -i makepkg.diff -o makepkg /bin/makepkg
 	cp /bin/makepkg $INSTALLDIR/var/backups/${INSTALLDIR##*/}/makepkg.\$SDATE.bkp
 	chmod 700 makepkg /bin/makepkg

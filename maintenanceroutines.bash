@@ -93,8 +93,8 @@ _FIXOWNER_() { # fix owner of INSTALLDIR/home/USER
 	do
 		if [[ "$USER" != alarm ]]
 		then
+			$STARTBIN c "chmod -R 1777 $INSTALLDIR/home/$USER"
 			$STARTBIN c "chown -R $USER:$USER $INSTALLDIR/home/$USER"
-			$STARTBIN c "chmod 777 $INSTALLDIR/home/$USER"
 		fi
 	done
 	}
