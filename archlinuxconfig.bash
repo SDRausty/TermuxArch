@@ -20,6 +20,8 @@ _ADDAUSER_() {
 		useradd -s /bin/bash "\$1" -U || sudo useradd -s /bin/bash "\$1" -U
 		usermod "\$1" -aG wheel || sudo usermod "\$1" -aG wheel
 		passwd -d "\$1" || sudo passwd -d "\$1"
+		chown -R \$1:\$1 /home/\$1
+		chmod 777 /home/\$1
 		chage -I -1 -m 0 -M -1 -E -1 "\$1" || sudo chage -I -1 -m 0 -M -1 -E -1 "\$1"
 		[[ -d /etc/sudoers.d ]] && printf "%s\\n" "\$1 ALL=(ALL) ALL" >> /etc/sudoers.d/"\$1"
 		sed -i "s/\$1:x/\$1:/g" /etc/passwd

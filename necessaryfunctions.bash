@@ -210,7 +210,6 @@ _MAKEFINISHSETUP_() {
    	$LOCGEN
 	printf "\\n\\e[1;34m:: \\e[1;37m%s\\n" "Processing system for $NASVER $CPUABI, and removing redundant packages for Termux PRoot installation..."
 	EOM
-	_FIXOWNER_
 	if [[ -z "${LCR:-}" ]] # is undefined
 	then
 		printf "%s\\n" "pacman -Syy || pacman -Syy || _PMFSESTRING_ \"pacman -Syy $BINFNSTP ${0##/*}\"" >> root/bin/"$BINFNSTP"
@@ -388,10 +387,12 @@ _PREPINSTALLDIR_() {
 	_SETLANGUAGE_
 	_ADDADDS_
 	_DOPROXY_
-#  	exit || _PSGI1ESTRING_ "necessaryfunctions.bash ${0##*/}"
 	_MAKEFINISHSETUP_
 	_MAKESETUPBIN_
 	_MAKESTARTBIN_
+  	[[ $ELCR -eq 0 ]] && exit || _PSGI1ESTRING_ "necessaryfunctions.bash ${0##*/}"
+	
+
 }
 
 _PREPROOT_() {

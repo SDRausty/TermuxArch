@@ -37,7 +37,6 @@ _BLOOM_() { # Bloom = `setupTermuxArch manual verbose`
 	ls -agl
 	printf "\\n\\e[1;34m%s\\e[1;32m%s\\e[1;34m%s\\e[1;32m%s\\e[1;34m%s\\e[1;32m%s\\e[1;34m.\\e[0m\\n" "Use " "cd ~/TermuxArchBloom" " to continue.  Edit any of these files;  Then use " "bash ${0##*/} [options]" " to run the files in " "~/TermuxArchBloom"
 	printf '\033]2;  TermuxArch Bloom option via `setupTermuxArch bloom` 📲 \007'
-	exit
 }
 
 _COPYSTARTBIN2PATHQ_() {

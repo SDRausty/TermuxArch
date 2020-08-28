@@ -7,7 +7,7 @@
 IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
-VERSIONID=2.0.131
+VERSIONID=2.0.132
 ## INIT FUNCTIONS ##############################################################
 _STRPERROR_() { # run on script error
 	local RV="$?"
@@ -65,6 +65,13 @@ _ARG2DIR_() {  # argument as ROOTDIR
 	fi
 }
 
+_BLOOMSKEL_() {
+	printf "\\nSetting mode to option.\\n"
+	ELCR=0
+	_INTROBLOOM_ "$@"
+	_PREPTERMUXARCH_
+	_INTRO_ "$@" || exit
+}	
 _CHK_() {
 	if sha512sum -c termuxarchchecksum.sha512 1>/dev/null
 	then
@@ -603,6 +610,7 @@ declare LCP=""
 declare OPT=""
 declare ROOTDIR=""
 declare WDIR=""
+declare SDATE=""
 declare STI=""		## Generates pseudo random number.
 declare STIME=""	## Generates pseudo random number.
 if [[ -z "${TAMPDIR:-}" ]]
@@ -625,17 +633,17 @@ fi
 COMMANDR="$(command -v au)" || COMMANDR="$(command -v pkg)" || COMMANDR="$(command -v apt)"
 COMMANDIF="${COMMANDR##*/}"
 ## 4) Generate pseudo random number to create uniq strings,
+SDATE="$(date +%s)"
 if [[ -r  /proc/sys/kernel/random/uuid ]]
 then
 	STIME="$(cat /proc/sys/kernel/random/uuid)"
 	STIME="${STIME//-}"
 	STIME="${STIME:0:3}"
 else
-	STIME="$(date +%s)"
+	STIME="$(SDATE)"
 	STIME="$(printf "%s" "${STIME:7:4}"|rev)"
 fi
-ONESA="$(date +%s)"
-ONESA="${ONESA: -1}"
+ONESA="${SDATE: -1}"
 PKGS=(bsdtar proot)
 STIME="$ONESA$STIME"
 ## 5) Get device information via the 'getprop' command,
@@ -716,11 +724,15 @@ then
 	DM=aria2
 	_OPT1_ "$@"
 	_INTRO_ "$@"
-## [b[loom]]  Create and run a local copy of TermuxArch in TermuxArchBloom.  Useful for running a customized setupTermuxArch locally, for developing and hacking TermuxArch.
+## [b[loom]]  Create and run a local copy of TermuxArch in TermuxArchBloom.  Useful for running a customized setupTermuxArch locally and for developing and hacking TermuxArch.
 elif [[ "${1//-}" = [Bb]* ]]
 then
 	printf "\\nSetting mode to bloom. \\n"
 	_INTROBLOOM_ "$@"
+## [bl[oom]]  Create and run a local copy of TermuxArch in TermuxArchBloom and create the TermuxArch root tree skeleton and skeleton files.  Useful for running a customized setupTermuxArch locally and for developing and hacking TermuxArch.
+elif [[ "${1//-}" = [Bb][Ll]* ]]
+then
+	_BLOOMSKEL_
 ## [cd|cs]  Get device system information with 'curl'.
 elif [[ "${1//-}" = [Cc][Dd]* ]] || [[ "${1//-}" = [Cc][Ss]* ]]
 then
@@ -785,9 +797,7 @@ then
 ## [o[ption]]  Option under development.
 elif [[ "${1//-}" = [Oo]* ]]
 then
-	printf "\\nSetting mode to option.\\n"
-	LCC="1"
-	_PRINTUSAGE_ "$@"
+	_BLOOMSKEL_
 ## [p[urge] [customdir]]  Remove Arch Linux.
 elif [[ "${1//-}" = [Pp]* ]]
 then
@@ -830,6 +840,8 @@ then
 	_OPT1_ "$@"
 	_INTRO_ "$@"
 else
+	LCC="1"
+	_ARG2DIR_ "$@"
 	_PRINTUSAGE_
 fi
 ## File 'uprTermuxArch' will execute 'git pull' and populate git repository modules, and file 'uprTermuxArch' can be run directly in a PRoot environment.  File uprTermuxArch's functions are not related to updating functions run by command 'setupTermuxArch r[e[fresh]]' that have completely different update functions.  The command 'setupTermuxArch r[e[fresh]]' attempts to refresh the Arch Linux in Termux PRoot installation and the TermuxArch generated scripts to the newest version.  It also helps in the installation and configuration process if everything did not go smoothly on the first try to install Arch Linux in Termux PRoot.

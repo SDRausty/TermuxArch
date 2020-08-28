@@ -29,6 +29,10 @@ _DOFUNLCR2_() {
 		[[ ! -d "$BKPDIR/" ]] && mkdir -p "$BKPDIR/"
 		cd "$INSTALLDIR/home/$USER"
 		[[ -f $1 ]] && printf "%s\\n" "==> mv -f $1 $BKPDIR/$1.bkp" && mv -f "$1" "$BKPDIR/$1.bkp" || printf "%s" "signal generated in move file '$1' if found : continuing : "
+		echo $SDATE
+		echo $SDATE
+		echo $SDATE
+		echo $SDATE
 	}
 	if [ -d "$INSTALLDIR/home" ]
 	then
@@ -83,14 +87,14 @@ _LOADIMAGE_() {
 
 _FIXOWNER_() { # fix owner of INSTALLDIR/home/USER
 	_DOFIXOWNER_() {
-	printf "%s\\n" "Adjusting ownership and permissions..."
-	FXVAR="$(ls "$INSTALLDIR/home")"
-	for USER in ${FXVAR[@]}
+	printf "\\e[1;32m%s\\e[0m\\n" "Adjusting ownership and permissions..."
+	FXARR="$(ls "$INSTALLDIR/home")"
+	for USER in ${FXARR[@]}
 	do
 		if [[ "$USER" != alarm ]]
 		then
 			$STARTBIN c "chown -R $USER:$USER $INSTALLDIR/home/$USER"
-			$STARTBIN c "chmod 700 $INSTALLDIR/home/$USER"
+			$STARTBIN c "chmod 777 $INSTALLDIR/home/$USER"
 		fi
 	done
 	}
@@ -115,7 +119,7 @@ _REFRESHSYS_() { # refresh installation
 	"$INSTALLDIR"/root/bin/setupbin.bash ||:
  	rm -f root/bin/finishsetup.bash
  	rm -f root/bin/setupbin.bash
-	printf "\\e[1;34mFiles moved and updated to the newest version:\\n\\n\\e[0;32m"
+	printf "\\e[1;34mFiles moved and updated to the newest version:\\n\\e[0;32m"
 	ls "$INSTALLDIR/$STARTBIN" | cut -f7- -d /
 	ls "$INSTALLDIR"/bin/we | cut -f7- -d /
 	ls "$INSTALLDIR"/root/.bashrc | cut -f7- -d /
