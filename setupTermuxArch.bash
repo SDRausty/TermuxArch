@@ -7,7 +7,7 @@
 IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
-VERSIONID=2.0.136
+VERSIONID=2.0.137
 ## INIT FUNCTIONS ##############################################################
 _STRPERROR_() { # run on script error
 	local RV="$?"
@@ -257,7 +257,7 @@ _INTRO_() {
 	_SETROOT_EXCEPTION_
 	if [[ -d "$INSTALLDIR" ]] && [[ -d "$INSTALLDIR"/root/bin ]] && [[ -d "$INSTALLDIR"/var/binds ]] && [[ -f "$INSTALLDIR"/bin/we ]] && [[ -f "$INSTALLDIR"/usr/bin/env ]]
 	then
-		printf "\\n\\e[0;33m%s\\e[1;33m%s\\e[0;33m.\\e[0m\\n\\n" "TermuxArch WARNING!  " "The root directory structure of ~/${INSTALLDIR##*/} is correct; Cannot continue '${0##*/} install' to install Arch Linux in Termux PRoot!  See '${0##*/} help' and '$STARTBIN help' for more information"
+		printf "\\n\\e[0;33m%s\\e[1;33m%s\\e[0;33m.\\e[0m\\n\\n" "TermuxArch WARNING!  " "The root directory structure of ~/${INSTALLDIR##*/} is correct; Cannot continue '${0##*/} install' to install Arch Linux in Termux PRoot!  See '${0##*/} h[elp]' and '$STARTBIN h[elp]' for more information"
 		exit 205
 	fi
 	printf "\\n\\e[0;34m 🕛 > 🕛 \\e[1;34mＴｅｒｍｕｘＡｒｃｈ %s will attempt to install Linux in \\e[0;32m%s\\e[1;34m.  Arch Linux in Termux PRoot will be available upon successful completion.  To run this BASH script again, use '!!'.  Ensure background data is not restricted.  Check the wireless connection if you do not see one o'clock 🕐 below.  \\e[0;34m" "$VERSIONID" "$INSTALLDIR"
@@ -502,7 +502,7 @@ _PRINTSTARTBIN_USAGE_() {
 
 _PRINTUSAGE_() {
 	printf "\\n\\e[1;32m  %s     \\e[0;32mcommand \\e[1;32m%s \\e[0;32m%s\\n" "HELP" "'${0##*/} help'" "prints out this help screen"
-	printf "\\n\\e[1;32m  %s    \\e[0;32mcommand \\e[1;32m%s \\e[0;32m%s\\n" "TERSE" "'${0##*/} he[lp]'" "prints out the terse help screen"
+	printf "\\n\\e[1;32m  %s    \\e[0;32mcommand \\e[1;32m%s \\e[0;32m%s\\n" "TERSE" "'${0##*/} h[elp]'" "prints out the terse help screen"
 	printf "\\n\\e[1;32m  %s  \\e[0;32mcommand \\e[1;32m%s \\e[0;32m%s\\n" "VERBOSE" "'${0##*/} h'" "prints out both terse and verbose help screens"
 	printf "\\n\\e[0;32m%s \\e[1;32m%s \\e[0;32m%s \\e[1;32m%s \\e[0;32m%s \\e[1;32m%s \\e[0;32m%s \\e[1;32m%s \\e[0;32m%s \\n\\n%s \\e[1;32m%s\\e[0;32m%s \\e[1;32m%s \\e[0;32m%s \\e[1;32m%s \\e[0;32m%s \\e[1;32m%s\\e[0;32m%s\\n" "Usage information for" "${0##*/}" "$VERSIONID.  Arguments can abbreviated to one, two and three letters each;  Two and three letter arguments are acceptable.  For example" "'bash ${0##*/} cs'" "will use" "curl" "to download TermuxArch and produce a file like" "setupTermuxArchSysInfo$STIME.log" "populated with system information.  If you have a new smartphone that you are not familiar with, this file might make for an interesting read in order to find out more about the device you might be holding in the palm of your hand at this moment." "User configurable variables are in" "setupTermuxArchConfigs.bash" ".  To create this file from" "kownconfigurations.bash" "in the working directory, execute" "'bash ${0##*/} manual'" "to create and edit" "setupTermuxArchConfigs.bash" "."
 	printf "\\n\\e[1;32m  %s\\e[0;32m  %s \\e[1;32m%s \\e[0;32m%s \\e[1;32m%s \\e[0;32m%s \\e[1;32m%s \\e[0;32m%s \\e[1;32m%s \\e[0;32m%s \\e[1;32m%s \\e[0;32m%s \\e[1;32m%s \\e[0;32m%s \\e[1;32m%s\\e[0;32m%s \\e[1;32m%s \\e[0;32m%s \\e[1;32m%s \\e[0;32m%s\\n" "INSTALL" "You can run" "./${0##*/}" "without arguments in a bash shell to install Arch Linux in Termux PRoot in a smartphone, table and smartTV.  Command" "'bash ${0##*/} curl'" "will envoke" "curl" "as the download manager.  Copy" "knownconfigurations.bash" "to" "setupTermuxArchConfigs.bash" "with the command" "'bash ${0##*/} manual'" "to edit preferred CMIRROR site, refine the init statement and to access more options.  Change CMIRROR to desired geographic location to resolve download, 404 and checksum issues should these occur.  After editing" "setupTermuxArchConfigs.bash" ", you can run" "'bash ${0##*/}'" "and" "setupTermuxArchConfigs.bash" "loads automatically from the working directory.  User configurable variables are present in this file for your convenience." "  This link https://github.com/SDRausty/TermuxArch/issues/212 at GitHub has the most current information about setting Arch Linux in Termux PRoot as the default login shell in Termux in your smartphone, tablet, smartTV, wearable and more.  If you choose to or are simply curious about setting Arch Linux in Termux PRoot as the default login shell, please be thoroughly familiar with safe mode; Long tap on NEW SESSION will open a new session in safe mode.  You can use safe mode to reset the default shell."
