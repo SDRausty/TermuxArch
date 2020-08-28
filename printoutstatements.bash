@@ -15,7 +15,7 @@ FLHDR1[1]="# IFS=$'\\n\\t'"
 FLHDR1[2]="set -Eeuo pipefail"
 FLHDR1[3]="shopt -s nullglob globstar"
 FLHDR1[4]="unset LD_PRELOAD"
-FLHDR1[5]="VERSIONID=2.0.125"
+FLHDR1[5]="VERSIONID=2.0.126"
 FLHDR1[6]=" "
 FLHDRP[0]="## BEGIN #####################################################################"
 FLHDRP[1]=""
@@ -205,12 +205,12 @@ _PRINTFOOTER_() {
 }
 
 _PRINTFOOTER2_() {
-	printf "\\\\e[1;34m%s\\\\n\\\\n%s\\\\e[1;32m%s\\\\e[1;34m%s\\\\e[1;32m%s" "Arch Linux in Termux PRoot is installed in $INSTALLDIR.  This project is in active development.  Contributions to this project are welcome; See https://sdrausty.github.io/TermuxArch/CONTRIBUTORS for information.  The documentation repository for TermuxArch https://sdrausty.github.io/TermuxArch/docs/ is a TermuxArch module that is located at https://github.com/sdrausty/docsTermuxArch.  Pull requests and contributions through the issues pages are open to improve the ux (user experience) and this Termux PRoot installation script. " "Use " "~$PRINTROOTDIR/$STARTBIN " "and " "$STARTBIN " "in a BASH shell to launch Arch Linux in Termux PRoot for future sessions.  If you are new to *nix, http://tldp.org has *nix documentation.  "
-	( [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = "$CPUABIX86_64" ]] ) && printf "\\\\e[1;34m%s\\\\e[0m\\\\n\\\\n" "See https://wiki.archlinux.org/index.php/IRC_channel for available Arch Linux IRC channels." || printf "\\\\e[1;34m%s\\\\e[0m\\\\n\\\\n" "See https://archlinuxarm.org/forum/ for available Arch Linux ARM Forums."
+	printf "\\e[1;34m%s\\n\\n%s\\e[1;32m%s\\e[1;34m%s\\e[1;32m%s" "Arch Linux in Termux PRoot is installed in $INSTALLDIR.  This project is in active development.  Contributions to this project are welcome; See https://sdrausty.github.io/TermuxArch/CONTRIBUTORS for information.  The documentation repository for TermuxArch https://sdrausty.github.io/TermuxArch/docs/ is a TermuxArch module that is located at https://github.com/sdrausty/docsTermuxArch.  Pull requests and contributions through the issues pages are open to improve the ux (user experience) and this Termux PRoot installation script. " "Use " "~$PRINTROOTDIR/$STARTBIN " "and " "$STARTBIN " "in a BASH shell to launch Arch Linux in Termux PRoot for future sessions.  If you are new to *nix, http://tldp.org has *nix documentation.  "
+	( [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = "$CPUABIX86_64" ]] ) && printf "\\e[1;34m%s\\e[0m\\n\\n" "See https://wiki.archlinux.org/index.php/IRC_channel for available Arch Linux IRC channels." || printf "\\e[1;34m%s\\e[0m\\n\\n" "See https://archlinuxarm.org/forum/ for available Arch Linux ARM Forums."
 }
 
 _PRINTPROOTERROR_() {
-	printf "\\\\e[0;34m%s\\\\n\\\\n%s\\\\n\\\\n%s\\\\n\\\\n%s\\\\e[0m" "If error \` env ... not found \` is found, ensure that all the software is up to date.  After updating, reference these links in order to find a resolution if updating Termux app and Termux packages was unsuccessful:" "  * https://github.com/termux/proot/issues?q=\"env\"+\"not+found\"" "  * https://github.com/termux/termux-packages/issues?q=\"not+found\"+\"proot\""
+	printf "\\e[0;34m%s\\n\\n%s\\n\\n%s\\n\\n%s\\e[0m" "If error \` env ... not found \` is found, ensure that all the software is up to date.  After updating, reference these links in order to find a resolution if updating Termux app and Termux packages was unsuccessful:" "  * https://github.com/termux/proot/issues?q=\"env\"+\"not+found\"" "  * https://github.com/termux/termux-packages/issues?q=\"not+found\"+\"proot\""
 }
 
 _PRINTROOTDIRFUNCTION_() {
@@ -219,7 +219,7 @@ _PRINTROOTDIRFUNCTION_() {
 }
 _PRINTROOTDIRFUNCTION_
 _PSGI1ESTRING_() {
-	printf "\\\\e[1;33m%s\\\\e[1;37m%s\\\\e[1;33m%s\\\\e[1;37m%s\\\\n\\\\n\\\\e[0m" "Signal generated in '$1' : cannot complete '$1' : continuing...   Running " "bash ${0##*/} refresh" " will attempt to complete the autoconfiguration and installation." "  If you find improvements for '${0##*/}' please open an issue and accompanying pull request." 
+	printf "\\e[1;33m%s\\e[1;37m%s\\e[1;33m%s\\e[1;37m%s\\n\\n\\e[0m" "Signal generated in '$1' : cannot complete '$1' : continuing...   Running " "bash ${0##*/} refresh" " will attempt to complete the autoconfiguration and installation." "  If you find improvements for '${0##*/}' please open an issue and accompanying pull request." 
 }
 # print signal generated with arg 1 format
 # _PSGI1ESTRING_ "test string" && exit
