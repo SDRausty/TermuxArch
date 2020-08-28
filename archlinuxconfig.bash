@@ -14,7 +14,7 @@ _ADDAUSER_() {
 		printf "\\e[1;31m%s\\\\n" "Use: addauser username: exiting..."
 		exit 201
 	else
-		printf "\\\\e[0;32m%s\\\n\\\\e[1;32m" "Adding Arch Linux in Termux PRoot user '\$1' and creating Arch Linux in Termux PRoot user \$1's home directory in /home/\$1:"
+		printf "\\\\e[0;32m%s\\\n\\\\e[1;32m" "Adding Arch Linux in Termux PRoot user '\$1' and creating Arch Linux in Termux PRoot user \$1's home directory in /home/\$1..."
 		sed -i "s/required/sufficient/g" /etc/pam.d/su
 		sed -i "s/^#auth/auth/g" /etc/pam.d/su
 		useradd -s /bin/bash "\$1" -U || sudo useradd -s /bin/bash "\$1" -U
@@ -646,6 +646,7 @@ _ADDmakeyay_() {
 _ADDpatchmakepkg_() {
 	_CFLHDR_ root/bin/patchmakepkg "# patch makepkg"
 	cat >> root/bin/patchmakepkg <<- EOM
+	SDATE="\$(date +%s)"
 	printf "%s\\n" "Attempting to patch makepkg: "
 	[ -f /var/lock/patchmakepkg.lock ] && printf "%s\\n" "Already patched makepkg: DONE" && exit
 	cd && curl --fail --retry 2 -O https://raw.githubusercontent.com/TermuxArch/TermuxArch/master/diff.makepkg.zip && unzip diff.makepkg.zip 
@@ -745,7 +746,7 @@ _ADDpci_() {
 
 _ADDprofile_() {
 	[ -e root/.profile ] && _DOTHRF_ "root/.profile"
-	[ -e "$HOME"/.profile ] && (grep "proxy" "$HOME"/.profile | grep "export" >>  root/.profile 2>/dev/null)
+	[ -e "$HOME"/.profile ] && (grep proxy "$HOME"/.profile | grep "export" >> root/.profile 2>/dev/null) ||:
 	touch root/.profile
 }
 
