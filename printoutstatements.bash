@@ -15,7 +15,7 @@ FLHDR1[1]="# IFS=$'\\n\\t'"
 FLHDR1[2]="set -Eeuo pipefail"
 FLHDR1[3]="shopt -s nullglob globstar"
 FLHDR1[4]="unset LD_PRELOAD"
-FLHDR1[5]="VERSIONID=2.0.126"
+FLHDR1[5]="VERSIONID=2.0.127"
 FLHDR1[6]=" "
 FLHDRP[0]="## BEGIN #####################################################################"
 FLHDRP[1]=""
@@ -219,8 +219,8 @@ _PRINTROOTDIRFUNCTION_() {
 }
 _PRINTROOTDIRFUNCTION_
 _PSGI1ESTRING_() {
-	printf "\\e[1;33m%s\\e[1;37m%s\\e[1;33m%s\\e[1;37m%s\\n\\n\\e[0m" "Signal generated in '$1' : cannot complete '$1' : continuing...   Running " "bash ${0##*/} refresh" " will attempt to complete the autoconfiguration and installation." "  If you find improvements for '${0##*/}' please open an issue and accompanying pull request." 
+	printf "\\e[1;33m%s\\e[1;37m%s\\e[1;33m%s\\e[1;37m%s\\n\\n\\e[0m" "Signal generated in '$1' : signal generated in '$1' : continuing...   Executing " "bash ${0##*/} refresh" " after this installation and configuration process completes will attempt to complete the autoconfiguration and installation if it was unsuccessful." "  If you can find improvements for '${0##*/}' please open an issue and accompanying pull request." 
 }
-# print signal generated with arg 1 format
+# print signal generated in arg 1 format
 # _PSGI1ESTRING_ "test string" && exit
 # printoutstatements.bash EOF

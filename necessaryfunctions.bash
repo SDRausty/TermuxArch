@@ -374,20 +374,21 @@ _MD5CHECK_() {
 }
 
 _PREPROOTDIR_() {
-	[[ ! -d etc ]] && mkdir -p etc
-	[[ ! -d home ]] && mkdir -p home
-	[[ ! -d root/bin ]] && mkdir -p root/bin
-	[[ ! -d usr/bin ]] && mkdir -p usr/bin
-	[[ ! -d var/backups/"${INSTALLDIR##*/}/root" ]] && mkdir -p var/backups/"${INSTALLDIR##*/}/root"
-	[[ ! -d var/binds ]] && mkdir -p var/binds
+	# create local array of directories to be created for setupTermuxArch 
+	local DRARRLST=([0]="etc" [1]="home" [2]="root/bin" [3]="usr/bin" [4]="var/backups/${INSTALLDIR##*/}/root" [5]="var/binds")
+	for ISDIR in ${DRARRLST[@]}
+	do
+		[[ ! -d "$ISDIR" ]] && printf "\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[0m\\n" "Creating directory " "'/$ISDIR'" "..." && mkdir -p "$ISDIR" || printf "\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[0m\\n" "Directory " "'/$ISDIR'" " exists; Continuing..."
+	done
 }
 
 _PREPINSTALLDIR_() {
 	cd "$INSTALLDIR"
-	_PREPROOTDIR_ || _PSGI1ESTRING_ "_PREPROOTDIR_ _PREPINSTALLDIR_ necessaryfunctions.bash ${0##*/}"
+	_PREPROOTDIR_
 	_SETLANGUAGE_
 	_ADDADDS_
 	_DOPROXY_
+#  	exit || _PSGI1ESTRING_ "necessaryfunctions.bash ${0##*/}"
 	_MAKEFINISHSETUP_
 	_MAKESETUPBIN_
 	_MAKESTARTBIN_
