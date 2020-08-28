@@ -86,9 +86,8 @@ _ADDbash_logout_() {
 
 _ADDbash_profile_() {
 	[ -e root/.bash_profile ] && _DOTHRF_ "root/.bash_profile"
-	printf "%s\\n" "PATH=\"\$HOME/bin:\$PATH:/usr/sbin:/sbin:/bin\"" > root/.bash_profile
+	printf "%s\\n%s\\n%s\\n" "PATH=\"\$HOME/bin:\$PATH:/usr/sbin:/sbin:/bin\"" "cd" ". "\$HOME"/.bashrc" > root/.bash_profile
 	cat >> root/.bash_profile <<- EOM
-	. "\$HOME"/.bashrc
 	if [ ! -e "\$HOME"/.hushlogin ] && [ ! -e "\$HOME"/.chushlogin ]
 	then
 		[ -e /etc/mota ] && . /etc/mota
@@ -651,7 +650,7 @@ _ADDpatchmakepkg_() {
 	[ -f /var/lock/patchmakepkg.lock ] && printf "%s\\n" "Already patched makepkg: DONE" && exit
 	cd && curl -O https://raw.githubusercontent.com/TermuxArch/TermuxArch/master/diff.makepkg.zip && unzip diff.makepkg.zip 
 	patch -n -i makepkg.diff -o makepkg /bin/makepkg
-	cp /bin/makepkg $INSTALLDIR/var/backups/${INSTALLDIR##*/}/makepkg.\$(date +%s).bkp
+	cp /bin/makepkg $INSTALLDIR/var/backups/${INSTALLDIR##*/}/makepkg.\$SDATE.bkp
 	chmod 700 makepkg /bin/makepkg
 	# copy to /usr/local/bin to make it update-proof (fail safe measure)
 	cp makepkg /usr/local/bin/makepkg

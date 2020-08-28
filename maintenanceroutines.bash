@@ -28,7 +28,7 @@ _DOFUNLCR2_() {
 		BKPDIR="$INSTALLDIR/var/backups/${INSTALLDIR##*/}/home/$USER"
 		[[ ! -d "$BKPDIR/" ]] && mkdir -p "$BKPDIR/"
 		cd "$INSTALLDIR/home/$USER"
-		[[ -f $1 ]] && printf "%s\\n" "==> mv -f $1 $BKPDIR/$1.bkp" && mv -f "$1" "$BKPDIR/$1.bkp" || printf "%s" "signal generated in move file '$1' if found : continuing : "
+		[[ -f $1 ]] && printf "%s\\n" "==> mv -f $1 $BKPDIR/$1.$SDATE.bkp" && mv -f "$1" "$BKPDIR/$1.$SDATE.bkp" || printf "%s" "signal generated in move file '$1' if found : continuing : "
 		echo $SDATE
 		echo $SDATE
 		echo $SDATE
