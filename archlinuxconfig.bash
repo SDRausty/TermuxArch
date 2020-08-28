@@ -19,14 +19,14 @@ _ADDAUSER_() {
 		sed -i "s/^#auth/auth/g" /etc/pam.d/su
 		useradd -s /bin/bash "\$1" -U || sudo useradd -s /bin/bash "\$1" -U
 		usermod "\$1" -aG wheel || sudo usermod "\$1" -aG wheel
-		passwd -d "\$1" || sudo passwd -d "\$1"
-		chown -R \$1:\$1 /home/\$1
-		chmod 777 /home/\$1
+# 		passwd -d "\$1" || sudo passwd -d "\$1"
 		chage -I -1 -m 0 -M -1 -E -1 "\$1" || sudo chage -I -1 -m 0 -M -1 -E -1 "\$1"
+		cp -r /root /home/"\$1"
+		chmod 777 /home/\$1
+		chown -R \$1:\$1 /home/\$1
 		[[ -d /etc/sudoers.d ]] && printf "%s\\n" "\$1 ALL=(ALL) ALL" >> /etc/sudoers.d/"\$1"
 		sed -i "s/\$1:x/\$1:/g" /etc/passwd
-		cp -r /root /home/"\$1"
-		printf "\\\\e[0;32m%s\\\\e[1;32m%s\\\\e[0;32m%s\\\\e[1;32m%s\\\\e[0;32m%s\\\\e[1;32m%s\\\\e[0;32m%s\\\\e[1;32m%s\\\\e[0;32m%s\\\\e[0m\\\\n" "Added Arch Linux in Termux PRoot user " "'\$1'" ". Configured user '\$1' for use with the Arch Linux command 'sudo'.  Created Arch Linux user \$1's home directory in /home/\$1.  To use this account run " "'$STARTBIN login \$1'" " from the shell in Termux.  To add user accounts you can use " "'addauser \$1'" " in Arch Linux and " "'$STARTBIN command addauser \$1'" " in the default Termux shell.  Please remember not to nest proot in proot unknowingly by using '$STARTBIN' in '$STARTBIN' as this is known to cause issues for PRoot users."
+		printf "\\\\e[0;32m%s\\\\e[1;32m%s\\\\e[0;32m%s\\\\e[1;32m%s\\\\e[0;32m%s\\\\e[1;32m%s\\\\e[0;32m%s\\\\e[1;32m%s\\\\e[0;32m%s\\\\e[0m\\\\n" "Added Arch Linux in Termux PRoot user " "'\$1'" "and configured user '\$1' for use with the Arch Linux command 'sudo'.  Created Arch Linux user \$1's home directory in /home/\$1.  To use this account run " "'$STARTBIN login \$1'" " from the shell in Termux.  To add user accounts you can use " "'addauser \$1'" " in Arch Linux and " "'$STARTBIN command addauser \$1'" " in the default Termux shell.  Please remember not to nest proot in proot unknowingly by using '$STARTBIN' in '$STARTBIN' as this is known to cause issues for PRoot users."
 	fi
 	}
 		_PMFSESTRING_() { 
@@ -240,7 +240,7 @@ _ADDcsystemctl_() {
 	SDATE="\$(date +%s)"
 	# path is /usr/local/bin because updates overwrite /usr/bin/systemctl and may make systemctl-replacement obsolete
 	# backup original binary
-	mv /usr/bin/systemctl $INSTALLDIR/var/backups/${INSTALLDIR##*/}/systemctl.\$SDATE.bkp
+	mv -f /usr/bin/systemctl $INSTALLDIR/var/backups/${INSTALLDIR##*/}/systemctl.\$SDATE.bkp
 	printf "\\\\e[38;5;148m%s\\\\n\\\\e[0m" "Moved /usr/bin/systemctl to $INSTALLDIR/var/backups/${INSTALLDIR##*/}/systemctl.\$SDATE.bkp"
 	printf "%s\\\\n" "Getting replacement systemctl from https://raw.githubusercontent.com/TermuxArch/docker-systemctl-replacement/master/files/docker/systemctl3.py"
 	# Arch Linux package 'systemctl' updates will mot halt functioning as /usr/local/bin precedes /usr/bin in the PATH
@@ -538,7 +538,7 @@ _ADDkeys_() {
 	ARGS="\${KEYRINGS[@]}"
 	printf '\033]2;  🔑 TermuxArch %s 📲 \007' "'\${0##*/} \$ARGS'"
 	printf "\\\\n\\\\e[1;32m==> \\\\e[1;37m%s \\\\e[0;32m%s \\\\e[1;32m%s %s \\\\e[0m%s...\\\\n" "Running" "TermuxArch" "\${0##*/}" "\$ARGS" "\$VERSIONID"
-	mv usr/lib/gnupg/scdaemon{,_} 2>/dev/null ||:
+	mv -f usr/lib/gnupg/scdaemon{,_} 2>/dev/null
 	printf "\\\\n\\\\e[1;32m[1/2] \\\\e[0;34mWhen \\\\e[0;37mgpg: Generating pacman keyring master key\\\\e[0;34m appears on the screen, the installation process can be accelerated.  The system desires a lot of entropy at this part of the install procedure.  To generate as much entropy as possible quickly, watch and listen to a file on your device.  \\\\n\\\\nThe program \\\\e[1;32mpacman-key\\\\e[0;34m will want as much entropy as possible when generating keys.  Entropy is also created through tapping, sliding, one, two and more fingers tapping with short and long taps.  When \\\\e[0;37mgpg: Generating pacman keyring master key\\\\e[0;34m appears on the screen, use any of these simple methods to accelerate the installation process if it is stalled.  Put even simpler, just do something on device.  Browsing files will create entropy on device.  Slowly swiveling the device in space and time will accelerate the installation process.  This method alone might not generate enough entropy (a measure of randomness in a closed system) for the process to complete quickly.  You can use \\\\e[1;32mbash ~%s/bin/we \\\\e[0;34min a new Termux session to watch entropy on device.\\\\n\\\\n\\\\e[1;32m==>\\\\e[0m Running \\\\e[1mpacman-key --init\\\\e[0;32m...\\\\n" "$DARCH"
 	pacman-key --init || sudo pacman-key --init ||:
 	chmod 700 /etc/pacman.d/gnupg
@@ -654,7 +654,7 @@ _ADDpatchmakepkg_() {
 	chmod 700 makepkg /bin/makepkg
 	# copy to /usr/local/bin to make it update-proof (fail safe measure)
 	cp makepkg /usr/local/bin/makepkg
-	mv makepkg /bin/makepkg
+	mv -f makepkg /bin/makepkg
 	touch /var/lock/patchmakepkg.lock
 	printf "%s\\n" "Attempting to patch makepkg: DONE"
 	# patchmakepkg EOF
@@ -745,7 +745,7 @@ _ADDpci_() {
 
 _ADDprofile_() {
 	[ -e root/.profile ] && _DOTHRF_ "root/.profile"
-	[ -e "$HOME"/.profile ] && (grep "proxy" "$HOME"/.profile | grep "export" >>  root/.profile 2>/dev/null) ||:
+	[ -e "$HOME"/.profile ] && (grep "proxy" "$HOME"/.profile | grep "export" >>  root/.profile 2>/dev/null)
 	touch root/.profile
 }
 

@@ -4,7 +4,6 @@
 # https://sdrausty.github.io/TermuxArch/README has info about this project.
 # https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.
 ################################################################################
-
 addlangq() {
 	while true
 	do
@@ -60,7 +59,7 @@ _COPYSTARTBIN2PATHQ_() {
 }
 
 _DOTHRF_() { # do the root user files
-	[[ -f $1 ]] && (printf "%s\\n" "==> mv -f /$1 /var/backups/${INSTALLDIR##*/}/$1.$SDATE.bkp" && mv -f "$1" "var/backups/${INSTALLDIR##*/}/$1.$SDATE.bkp") || printf "%s" "move file '$1' if found : continuing : "
+	[[ -f $1 ]] && (printf "\\e[0;32m%s\\e[0m\\n" "==> mv -f /$1 /var/backups/${INSTALLDIR##*/}/$1.$SDATE.bkp" && mv -f "$1" "var/backups/${INSTALLDIR##*/}/$1.$SDATE.bkp") || printf "%s" "move file '$1' if found : continuing : "
 }
 
 _EDITFILES_() {
