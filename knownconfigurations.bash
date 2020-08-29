@@ -12,7 +12,7 @@
 # DM=lftp 		# uncomment to use this download tool
 # DM=wget		# uncomment to use this download tool
 KEEP=1			# change to 0 to keep downloaded image;  Testing the installation process repeatedly can be made easier with this fragment of code  'mkdir ~/arch; cp ~/ArchLinuxARM-armv7-latest.tar.gz* ~/arch/'.  The variable KEEP when changed to 0 will keep the downloaded image and md5 files instead of deleting them for later reuse if desired.  The root file system image and md5 files can be saved and used again on subsequent installs when testing the install feature with this code.  Copying these files lowers the Internet bandwidth requirement when testing the install feature.
-KOE=0			# do not change, not user configurable
+KOE=0			# do not change, not user configurable;  was used previously for testing and variable KOE lingers for retesting if desired.  Change to 1 to change the proot init statement.
 # KID=1			# do not change, not user configurable;  Used for testing, timing and development.  Change to 1 and then execute script TermuxArch/scripts/frags/stdoutbench.sh in Arch Linux PRoot for timing Arch Linux in PRoot.
 # If there are system image files available not listed here, please open an issue and a pull request.
 _AARCH64ANDROID_() {
@@ -125,5 +125,5 @@ _PR00TSTRING_() { # construct the PRoot init statement
 _PR00TSTRING_
 # uncomment the next line to test function _PR00TSTRING_
 # printf "%s\\n" "$PROOTSTMNT" && exit
-# You can use 'setupTermuxArch r[e[fresh]]' to regenerate the start script to the newest version if there is a newer version published.  The command 'setupTermuxArch refresh' will refresh the installation globally, including excecuting keys and locales and backup user configuration files that were refreshed.  The command 'setupTermuxArch re' will refresh the installation and update user configuration files and backup user configuration files that were refreshed.  While the command 'setupTermuxArch r' will only refresh the installation and update the root user configuration files and backup root user configuration files that were refreshed.
+##  The commands 'setupTermuxArch r[e[fresh]]' can be used to regenerate the start script to the newest version if there is a newer version published and can be customized as wanted.  Command 'setupTermuxArch refresh' will refresh the installation globally, including excecuting 'keys' and 'locales-gen' and backup user configuration files that were initially created and are refreshed.  The command 'setupTermuxArch re' will refresh the installation and update user configuration files and backup user configuration files that were initially created and are refreshed.  Command 'setupTermuxArch r' will only refresh the installation and update the root user configuration files and backup root user configuration files that were initially created and are refreshed.
 # knownconfigurations.bash EOF
