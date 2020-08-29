@@ -11,7 +11,7 @@
 # DM=curl		# uncomment to use this download tool
 # DM=lftp 		# uncomment to use this download tool
 # DM=wget		# uncomment to use this download tool
-KEEP=1			# change to 0 to keep downloaded image; This fragment of code makes testing the installation easier 'mkdir ~/arch; cp ~/ArchLinuxARM-armv7-latest.tar.gz* ~/arch/'. The variable KEEP when changed to 0 will keep the downloaded image files instead of deleting them for reuse. These can be saved and used again on subsequent installs when testing the install feature to lower the bandwidth requirements when testing install.
+KEEP=1			# change to 0 to keep downloaded image; This fragment of code makes testing the installation easier 'mkdir ~/arch; cp ~/ArchLinuxARM-armv7-latest.tar.gz* ~/arch/'. The variable KEEP when changed to 0 will keep the downloaded image and md5 files instead of deleting them for reuse. These root file system image and md5 files can be saved and used again on subsequent installs when testing the install feature.  Copying these files lowers the Internet bandwidth requirement when testing the  install feature.  Thank 
 KOE=0			# do not change, not user configurable
 # KID=1			# do not change, not user configurable;  Used for testing, timing and development.  Change to 1 and then execute script TermuxArch/scripts/frags/stdoutbench.sh in Arch Linux PRoot for timing Arch Linux in PRoot.
 # If there are system image files available not listed here, please open an issue and a pull request.
