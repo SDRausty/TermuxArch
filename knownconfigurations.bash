@@ -12,7 +12,7 @@
 # DM=lftp 		# uncomment to use this download tool
 # DM=wget		# uncomment to use this download tool
 KEEP=1			# change to 0 to keep downloaded image
-KOE=0			# do not change, not user configurable;  Used for testing, timing and development.  Change to 1 and execute script RDR/scripts/frags/stdoutbench.sh for timing Arch Linux in Termux PRoot.
+KOE=0			# do not change, not user configurable;  Used for testing, timing and development.  Change to 1 and execute script TermuxArch/scripts/frags/stdoutbench.sh for timing Arch Linux in Termux PRoot.
 
 # If there are system image files available not listed here, please open an issue and a pull request.
 _AARCH64ANDROID_() {
