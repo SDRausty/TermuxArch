@@ -11,10 +11,9 @@
 # DM=curl		# uncomment to use this download tool
 # DM=lftp 		# uncomment to use this download tool
 # DM=wget		# uncomment to use this download tool
-KEEP=1			# change to 0 to keep downloaded image
+KEEP=1			# change to 0 to keep downloaded image; This fragment of code makes testing the installation easier 'mkdir ~/arch; cp ~/ArchLinuxARM-armv7-latest.tar.gz* ~/arch/'. The variable KEEP when changed to 0 will keep the downloaded image files instead of deleting them for reuse. These can be saved and used again on subsequent installs when testing the install feature to lower the bandwidth requirements when testing install.
 KOE=0			# do not change, not user configurable
-# KID=1			# do not change, not user configurable;  Used for testing, timing and development.  Change to 1 and execute script TermuxArch/scripts/frags/stdoutbench.sh for timing Arch Linux in Termux PRoot.
-
+# KID=1			# do not change, not user configurable;  Used for testing, timing and development.  Change to 1 and then execute script TermuxArch/scripts/frags/stdoutbench.sh in Arch Linux PRoot for timing Arch Linux in PRoot.
 # If there are system image files available not listed here, please open an issue and a pull request.
 _AARCH64ANDROID_() {
 	IFILE="ArchLinuxARM-aarch64-latest.tar.gz"
@@ -51,7 +50,7 @@ _ARMV7CHROME_() {
 	_MAKESYSTEM_
 }
 
-# Information at https://www.archlinux.org/news/phasing-out-i686-support/ and https://archlinux32.org/ regarding why i686 is currently frozen at release 2017.03.01-i686.  IFILE is read from the md5sums.txt file.
+# Information at https://www.archlinux.org/news/phasing-out-i686-support/ and https://archlinux32.org/ regarding why i686 is currently frozen at release 2017.03.01-i686.  IFILE is read from the md5sums.txt file for these two architectures.
 
 _I686_() { # IFILE is read from md5sums.txt
 	CMIRROR="archive.archlinux.org"
@@ -65,7 +64,6 @@ _X86_64_() { # IFILE is read from md5sums.txt
 	_MAKESYSTEM_
 }
 
-# To regenerate the start script use 'setupTermuxArch [r[e[fresh]]]'.  The command 'setupTermuxArch refresh' will refresh the installation globally, including excecuting keys and locales and backup user configuration files that were refreshed.  The command 'setupTermuxArch re' will refresh the installation and update user configuration files and backup user configuration files that were refreshed.  While the command 'setupTermuxArch r' will only refresh the installation and update the root user configuration files and backup root user configuration files that were refreshed.
 # Appending to the PRoot statement can be accomplished on the fly by creating a .prs file in the var/binds directory.  The format is straightforward, 'PROOTSTMNT+="option command "'.  The space is required before the last double quote.  Commands 'info proot' and 'man proot' have more information about what can be configured in a proot init statement.  If more suitable configurations are found, share them at https://github.com/TermuxArch/TermuxArch/issues to improve TermuxArch.  PRoot bind usage: PROOTSTMNT+="-b host_path:guest_path "  The space before the last double quote is necessary.
 
 _PR00TSTRING_() { # construct the PRoot init statement
@@ -127,4 +125,5 @@ _PR00TSTRING_() { # construct the PRoot init statement
 _PR00TSTRING_
 # uncomment the next line to test function _PR00TSTRING_
 # printf "%s\\n" "$PROOTSTMNT" && exit
+# You can use 'setupTermuxArch r[e[fresh]]' to regenerate the start script to the newest version if there is a newer version published.  The command 'setupTermuxArch refresh' will refresh the installation globally, including excecuting keys and locales and backup user configuration files that were refreshed.  The command 'setupTermuxArch re' will refresh the installation and update user configuration files and backup user configuration files that were refreshed.  While the command 'setupTermuxArch r' will only refresh the installation and update the root user configuration files and backup root user configuration files that were refreshed.
 # knownconfigurations.bash EOF
