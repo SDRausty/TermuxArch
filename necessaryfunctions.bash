@@ -390,7 +390,7 @@ _PREPINSTALLDIR_() {
 	_MAKESETUPBIN_
 	_MAKESTARTBIN_
 	_FIXOWNER_
-  	[[ $ELCR == 0 ]] && exit || _PSGI1ESTRING_ "_PREPINSTALLDIR_ necessaryfunctions ${0##*/}"	##  Create ~/TermuxArchBloom directory and Arch Linux in Termux PRoot root directory skeleton.  Commands 'setupTermuxArch b[l[oom]]' can be used to access these features.  These options do NOT install the complete root file system.
+  	[[ $ELCR == 0 ]] && exit ||: # _PSGI1ESTRING_ "_PREPINSTALLDIR_ necessaryfunctions.bash ${0##*/}"	##  Create ~/TermuxArchBloom directory and Arch Linux in Termux PRoot root directory skeleton.  Commands 'setupTermuxArch b[l[oom]]' can be used to access these features.  These options do NOT install the complete root file system.
 }
 
 _PREPROOT_() {
