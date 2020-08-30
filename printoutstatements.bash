@@ -15,7 +15,7 @@ FLHDR1[1]="# IFS=$'\\n\\t'"
 FLHDR1[2]="set -Eeuo pipefail"
 FLHDR1[3]="shopt -s nullglob globstar"
 FLHDR1[4]="unset LD_PRELOAD"
-FLHDR1[5]="VERSIONID=2.0.153"
+FLHDR1[5]="VERSIONID=2.0.154"
 FLHDR1[6]=" "
 FLHDRP[0]="## BEGIN #####################################################################"
 FLHDRP[1]=""
@@ -219,8 +219,7 @@ _PRINTROOTDIRFUNCTION_() {
 }
 _PRINTROOTDIRFUNCTION_
 _PSGI1ESTRING_() {
-	printf "\\e[1;33m%s\\e[1;37m%s\\e[1;33m%s\\e[1;37m%s\\n\\n\\e[0m" "Signal generated in '$1' : continuing...   Executing " "bash ${0##*/} refresh" " after this installation and configuration processes complete will attempt to finish the autoconfiguration and installation if this process was unsuccessful." "  If you can find improvements for '${0##*/}' please open an issue and accompanying pull request if possible.  This entire script can be reviewed by creating a ~/TermuxArchBloom directory with the command 'setupTermuxArch b[loom]' that can be used to access this entire installation script.  This option does NOT install the complete root file system." 
-
+	printf "\\e[1;33m%s\\e[1;34m : \\e[1;32m%s\\e[0;34m%s\\e[1;32m%s\\e[0;34m%s\\n\\e[1;37m%s\\e[1;32m%s\\e[1;37m%s\\e[1;32m%s\\e[1;37m%s\\e[1;32m%s\\e[1;37m%s\\e[0m\\n" "Signal generated in '$1'" "CONTINUING...   " "Executing " "'bash ${0##*/} refresh'" " in the native shell after this installation and configuration processes completes will attempt to finish the autoconfiguration and installation if this process was unsuccessful." "  If you can find improvements for " "'${0##*/}'" " please open an issue and accompanying pull request if possible.  This entire script can be reviewed by creating a ~/TermuxArchBloom/ directory with the command " "'setupTermuxArch b'" " that can be used to access this entire installation script.  This option does NOT configure and install the root file system.  The command " "'setupTermuxArch help'" " has more information."
 }
 # print signal generated in arg 1 format
 # _PSGI1ESTRING_ "test string" && exit

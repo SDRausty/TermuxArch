@@ -28,11 +28,7 @@ _DOFUNLCR2_() {
 		BKPDIR="$INSTALLDIR/var/backups/${INSTALLDIR##*/}/home/$USER"
 		[[ ! -d "$BKPDIR/" ]] && mkdir -p "$BKPDIR/"
 		cd "$INSTALLDIR/home/$USER"
-		[[ -f $1 ]] && printf "%s\\n" "==> mv -f $1 $BKPDIR/$1.$SDATE.bkp" && mv -f "$1" "$BKPDIR/$1.$SDATE.bkp" || printf "%s" "signal generated in move file '$1' if found : continuing : "
-		echo $SDATE
-		echo $SDATE
-		echo $SDATE
-		echo $SDATE
+		[[ -f $1 ]] && printf "%s\\n" "==> mv -f $1 $BKPDIR/$1.$SDATE.bkp" && mv -f "$1" "$BKPDIR/$1.$SDATE.bkp" || _PSGI1ESTRING_ "mv -f '$1' if found maintenanceroutines.bash ${0##*/}"
 	}
 	if [ -d "$INSTALLDIR/home" ]
 	then
@@ -98,7 +94,7 @@ _FIXOWNER_() { # fix owner of INSTALLDIR/home/USER
 		fi
 	done
 	}
-	_DOFIXOWNER_ || printf "%s" "signal generated in _DOFIXOWNER_ ${0##*/} maintenanceroutines.bash : continuing : "
+	_DOFIXOWNER_ || _PSGI1ESTRING_ "_DOFIXOWNER_ maintenanceroutines.bash ${0##*/}"
 }
 
 _REFRESHSYS_() { # refresh installation
