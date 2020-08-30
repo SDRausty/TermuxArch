@@ -196,7 +196,7 @@ _ADDch_() {
 	}
 
 	_PRINTTAIL_() {
-		printf "\\\\n\\\\e[0m%s \\\\e[0;32m%s %s %s\\\\e[1;34m: \\\\e[1;32m%s\\\\e[0m 🏁  \\\\n\\\\n\\\\e[0m" "TermuxArch" "\$(basename "\$0")" "\$ARGS"  "\$VERSIONID" "DONE"
+		printf "\\\\n\\\\e[0m%s \\\\e[0;32m%s %s %s\\\\e[1;34m: \\\\e[1;32m%s\\\\e[0m 🏁  \\\\n\\\\n\\\\e[0m" "TermuxArch" "\$(basename "\$0")" "\$ARGS"  "\$VERSIONID" "DONE 📱"
 		printf '\033]2;  🔑 TermuxArch '"\$(basename "\$0")"':DONE 📱 \007'
 	}
 
@@ -233,7 +233,7 @@ _ADDcsystemctl_() {
 	cat >> root/bin/csystemctl <<- EOM
 	INSTALLDIR="$INSTALLDIR"
 	printf "\\\\e[38;5;148m%s\\\\e[0m\\\\n" "Installing /usr/bin/systemctl replacement: "
-	[ -f /var/lock/csystemctl.lock ] && printf "%s\\\\n" "Already installed /usr/bin/systemctl replacement: DONE" && exit
+	[ -f /var/lock/csystemctl.lock ] && printf "%s\\\\n" "Already installed /usr/bin/systemctl replacement: DONE 🏁" && exit
 	declare COMMANDP
 	COMMANDP="\$(command -v python3)" || printf "%s\\\\n" "Command python3 not found: continuing..."
 	[[ "\${COMMANDP:-}" == *python3* ]] || pacman --noconfirm --color=always -S python3 || sudo pacman --noconfirm --color=always -S python3
@@ -249,7 +249,7 @@ _ADDcsystemctl_() {
 	chmod 700 /usr/bin/systemctl /usr/local/bin/systemctl
 	[ ! -e /run/lock ] && mkdir -p /run/lock
 	touch /var/lock/csystemctl.lock
-	printf "\\\\e[38;5;148m%s\\\\e[1;32m%s\\\\e[0m\\\\n" "Installing systemctl replacement in /usr/local/bin and /usr/bin: " "DONE"
+	printf "\\\\e[38;5;148m%s\\\\e[1;32m%s\\\\e[0m\\\\n" "Installing systemctl replacement in /usr/local/bin and /usr/bin: " "DONE 🏁"
 	# csystemctl EOF
 	EOM
 	chmod 700 root/bin/csystemctl
@@ -512,7 +512,7 @@ _ADDkeys_() {
 	}
 
 	_PRINTTAIL_() {
-		printf "\\\\n\\\\e[0;32m%s %s %s\\\\e[1;34m: \\\\e[1;32m%s\\\\e[0m 🏁  \\\\n\\\\n\\\\e[0m" "TermuxArch \$(basename "\$0")" "\$ARGS" "\$VERSIONID" "DONE"
+		printf "\\\\n\\\\e[0;32m%s %s %s\\\\e[1;34m: \\\\e[1;32m%s\\\\e[0m 🏁  \\\\n\\\\n\\\\e[0m" "TermuxArch \$(basename "\$0")" "\$ARGS" "\$VERSIONID" "DONE 📱"
 		printf '\033]2;  🔑 TermuxArch '"\$(basename "\$0") \$ARGS"': DONE 📱 \007'
 	}
 
@@ -614,7 +614,7 @@ _ADDmakefakeroottcp_() {
 		printf "%s\\n" "Building and installing fakeroot-tcp: "
 		([[ ! "\$(command -v automake)" ]] || [[ ! "\$(command -v fakeroot)" ]] || [[ ! "\$(command -v git)" ]] || [[ ! "\$(command -v po4a)" ]]) 2>/dev/null && sudo pacman --noconfirm --color=always -S automake base-devel fakeroot git po4a libtool
 		cd && (git clone https://aur.archlinux.org/fakeroot-tcp.git && cd fakeroot-tcp && sed -i 's/  patch/  sudo patch/g' PKGBUILD && makepkg -is) || printf "%s\n" "Continuing to build and install fakeroot-tcp: " && cd fakeroot-tcp && sed -i 's/  patch/  sudo patch/g' PKGBUILD && makepkg -is
-		printf "%s\\n" "Building and installing fakeroot-tcp: DONE"
+		printf "%s\\n" "Building and installing fakeroot-tcp: DONE 🏁"
 	fi
 	# makefakeroottcp EOF
 	EOM
@@ -636,7 +636,7 @@ _ADDmakeyay_() {
 		[ ! -f /var/lock/patchmakepkg.lock ] && patchmakepkg
 		! fakeroot ls >/dev/null && makefakeroottcp
 		(git clone https://aur.archlinux.org/yay.git&&cd yay&&_PRMAKE_&&makepkg -irs --noconfirm)||printf "\\\\e[1;37m%s\\\\e[0m\\\\n" "Continuing to build and install yay..."&&cd yay&&_PRMAKE_&&makepkg -irs --noconfirm||printf "\\\\e[1;31m%s\\\\e[1;37m%s\\\\n" "==> ERROR: " "The command 'makepkg -irs --noconfirm' did not run as expected. "
-		printf "\\\\e[0;32m%s\\\\n%s\\\\n%s\\\\e[1;32m%s\\\\e[0m\\\\n" "A couple of paths to follow after having built 'yay' are 'yay cmatrix' which builds a couple of nice matrix screensavers and 'yay pikaur' which builds one more aur installer much like 'yay' that you can use in your smartphone to download aur repositories and build packages." "If you have trouble importing Keys try this command 'gpg --keyserver keyserver.ubuntu.com --recv-keys 71A1D0EFCFEB6281FD0437C71A1D0EFCFEB6281F' please.  Change the number to the number of the key being imported." "Building and installing yay: " "DONE"
+		printf "\\\\e[0;32m%s\\\\n%s\\\\n%s\\\\e[1;32m%s\\\\e[0m\\\\n" "A couple of paths to follow after having built 'yay' are 'yay cmatrix' which builds a couple of nice matrix screensavers and 'yay pikaur' which builds one more aur installer much like 'yay' that you can use in your smartphone to download aur repositories and build packages." "If you have trouble importing Keys try this command 'gpg --keyserver keyserver.ubuntu.com --recv-keys 71A1D0EFCFEB6281FD0437C71A1D0EFCFEB6281F' please.  Change the number to the number of the key being imported." "Building and installing yay: " "DONE 🏁"
 	fi
 	# makeyay EOF 
 	EOM
@@ -648,7 +648,7 @@ _ADDpatchmakepkg_() {
 	cat >> root/bin/patchmakepkg <<- EOM
 	SDATE="\$(date +%s)"
 	printf "%s\\n" "Attempting to patch makepkg: "
-	[ -f /var/lock/patchmakepkg.lock ] && printf "%s\\n" "Already patched makepkg: DONE" && exit
+	[ -f /var/lock/patchmakepkg.lock ] && printf "%s\\n" "Already patched makepkg: DONE 🏁" && exit
 	cd && curl --fail --retry 2 -O https://raw.githubusercontent.com/TermuxArch/TermuxArch/master/diff.makepkg.zip && unzip diff.makepkg.zip 
 	patch -n -i makepkg.diff -o makepkg /bin/makepkg
 	cp /bin/makepkg $INSTALLDIR/var/backups/${INSTALLDIR##*/}/makepkg.\$SDATE.bkp
@@ -657,7 +657,7 @@ _ADDpatchmakepkg_() {
 	cp makepkg /usr/local/bin/makepkg
 	mv -f makepkg /bin/makepkg
 	touch /var/lock/patchmakepkg.lock
-	printf "%s\\n" "Attempting to patch makepkg: DONE"
+	printf "%s\\n" "Attempting to patch makepkg: DONE 🏁"
 	# patchmakepkg EOF
 	EOM
 	chmod 700 root/bin/patchmakepkg
@@ -675,7 +675,7 @@ _ADDpc_() {
 	}
 
 	_PRINTTAIL_() {
-		printf "\\\\n\\\\e[0;32m%s %s %s\\\\e[1;34m: \\\\e[1;32m%s\\\\e[0m 🏁  \\\\n\\\\n\\\\e[0m" "TermuxArch \$(basename "\$0")" "\$ARGS" "\$VERSIONID" "DONE"
+		printf "\\\\n\\\\e[0;32m%s %s %s\\\\e[1;34m: \\\\e[1;32m%s\\\\e[0m 🏁  \\\\n\\\\n\\\\e[0m" "TermuxArch \$(basename "\$0")" "\$ARGS" "\$VERSIONID" "DONE 📱"
 		printf '\033]2;  🔑 TermuxArch '"\$(basename "\$0") \$ARGS"' 📱 \007'
 	}
 
@@ -716,7 +716,7 @@ _ADDpci_() {
 	}
 
 	_PRINTTAIL_() {
-		printf "\\\\n\\\\e[0;32m%s %s %s\\\\e[1;34m: \\\\e[1;32m%s\\\\e[0m 🏁  \\\\n\\\\n\\\\e[0m" "TermuxArch \$(basename "\$0")" "\$ARGS" "\$VERSIONID" "DONE"
+		printf "\\\\n\\\\e[0;32m%s %s %s\\\\e[1;34m: \\\\e[1;32m%s\\\\e[0m 🏁  \\\\n\\\\n\\\\e[0m" "TermuxArch \$(basename "\$0")" "\$ARGS" "\$VERSIONID" "DONE 📱"
 		printf '\033]2;  🔑 TermuxArch '"\$(basename "\$0") \$ARGS"' 📱 \007'
 	}
 
@@ -910,7 +910,7 @@ _ADDwe_() {
 			then
 				printf "\e[1;34mInstalling \e[0;32mbc\e[1;34m...\n\n\e[1;32m"
 				pci bc
-				printf "\n\e[1;34mInstalling \e[0;32mbc\e[1;34m: \e[1;32mDONE\n\e[0m"
+				printf "\n\e[1;34mInstalling \e[0;32mbc\e[1;34m: \e[1;32mDONE 🏁\n\e[0m"
 			fi
 		else
 			tbcif=\$(command -v bc) ||:
@@ -918,7 +918,7 @@ _ADDwe_() {
 			then
 				printf "\e[1;34mInstalling \e[0;32mbc\e[1;34m...\n\n\e[1;32m"
 				apt install bc --yes
-				printf "\n\e[1;34mInstalling \e[0;32mbc\e[1;34m: \e[1;32mDONE\n\e[0m"
+				printf "\n\e[1;34mInstalling \e[0;32mbc\e[1;34m: \e[1;32mDONE 🏁\n\e[0m"
 			fi
 		fi
 	}
