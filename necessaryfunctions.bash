@@ -373,7 +373,7 @@ _MD5CHECK_() {
 
 _PREPROOTDIR_() {
 	# create local array of directories to be created for setupTermuxArch 
-	local DRARRLST=([0]="etc" [1]="home" [2]="root/bin" [3]="usr/bin" [4]="var/backups/${INSTALLDIR##*/}/root" [5]="var/binds")
+	local DRARRLST=("etc" "home" "root/bin" "usr/bin" "var/backups/${INSTALLDIR##*/}/etc" "var/backups/${INSTALLDIR##*/}/root" "var/binds")
 	for ISDIR in ${DRARRLST[@]}
 	do
 		[[ ! -d "$ISDIR" ]] && printf "\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[0m\\n" "Creating directory " "'/$ISDIR'" "..." && mkdir -p "$ISDIR" || printf "\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[0m\\n" "Directory " "'/$ISDIR'" " exists; Continuing..."
@@ -403,22 +403,23 @@ _PREPROOT_() {
 }
 
 _RUNFINISHSETUP_() {
+	cp  "$INSTALLDIR/etc/pacman.d/mirrorlist" "$INSTALLDIR/var/backups/${INSTALLDIR##*/}/etc/mirrorlist.$SDATE.bkp"
 	_SEDUNCOM_() {
-			sed -i "/\/mirror.archlinuxarm.org/ s/^# *//" "$INSTALLDIR"/etc/pacman.d/mirrorlist || _PSGI1ESTRING_ "sed -i _SEDUNCOM_ necessaryfunctions.bash ${0##*/}" # sed replace a character in a matched line in place
+			sed -i "/\/mirror.archlinuxarm.org/ s/^# *//" "$INSTALLDIR/etc/pacman.d/mirrorlist" || _PSGI1ESTRING_ "sed -i _SEDUNCOM_ necessaryfunctions.bash ${0##*/}" # sed replace a character in a matched line in place
 	}
 	printf "\\e[0m"
 	if [[ "$FSTND" ]]
 	then
 		NMIR="$(awk -F'/' '{print $3}' <<< "$NLCMIRROR")"
-		sed -i '/http\:\/\/mir/ s/^#*/# /' "$INSTALLDIR"/etc/pacman.d/mirrorlist
+		sed -i '/http\:\/\/mir/ s/^#*/# /' "$INSTALLDIR/etc/pacman.d/mirrorlist"
 		# test if NMIR is in mirrorlist file
-		if grep "$NMIR" "$INSTALLDIR"/etc/pacman.d/mirrorlist
+		if grep "$NMIR" "$INSTALLDIR/etc/pacman.d/mirrorlist"
 		then
 			printf "%s\\n" "Found server $NMIR in /etc/pacman.d/mirrorlist; Uncommenting $NMIR."
-			sed -i "/$NMIR/ s/^# *//" "$INSTALLDIR"/etc/pacman.d/mirrorlist  || _SEDUNCOM_ || _PSGI1ESTRING_ "sed -i _RUNFINISHSETUP_ necessaryfunctions.bash ${0##*/}"
+			sed -i "/$NMIR/ s/^# *//" "$INSTALLDIR/etc/pacman.d/mirrorlist"  || _SEDUNCOM_ || _PSGI1ESTRING_ "sed -i _RUNFINISHSETUP_ necessaryfunctions.bash ${0##*/}"
 		else
 			printf "%s\\n" "Did not find server $NMIR in /etc/pacman.d/mirrorlist; Adding $NMIR to file /etc/pacman.d/mirrorlist."
-			printf "%s\\n" "Server = $NLCMIRROR/\$arch/\$repo" >> "$INSTALLDIR"/etc/pacman.d/mirrorlist
+			printf "%s\\n" "Server = $NLCMIRROR/\$arch/\$repo" >> "$INSTALLDIR/etc/pacman.d/mirrorlist"
 		fi
 	else
 		if [[ "$ed" = "" ]]
@@ -429,9 +430,10 @@ _RUNFINISHSETUP_() {
 		then
 			_EDITFILES_
 		fi
-		"$ed" "$INSTALLDIR"/etc/pacman.d/mirrorlist
+		"$ed" "$INSTALLDIR/etc/pacman.d/mirrorlist"
 	fi
-	"$INSTALLDIR"/root/bin/setupbin.bash || _PRINTPROOTERROR_
+	cp  "$INSTALLDIR/etc/profile" "$INSTALLDIR/var/backups/${INSTALLDIR##*/}/profile.$SDATE.bkp" && sed -i "s/.*umask .*/umask 002/" "$INSTALLDIR/etc/profile" || _PSGI1ESTRING_ "sed -i _SEDUNCOM_ necessaryfunctions.bash ${0##*/}" # sed replace a character in a matched line in place
+	"$INSTALLDIR/root/bin/setupbin.bash" || _PRINTPROOTERROR_
 }
 
 _SETLANGUAGE_() { # This function uses device system settings to set locale.  To generate locales in a preferred language, you can use "Settings > Language & Keyboard > Language" in Android; Then run 'setupTermuxArch r' for a quick system refresh to regenerate locales in your preferred language.

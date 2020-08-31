@@ -4,17 +4,17 @@
 # https://sdrausty.github.io/TermuxArch/README has info about this project.
 # https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.
 ################################################################################
-# Running 'setupTermuxArch manual' will create 'setupTermuxArchConfigs.bash' from this file in the working directory.  Run 'setupTermuxArch' and file 'setupTermuxArchConfigs.bash' loads automaticaly once created, and this file is ignored at runtime; 'setupTermuxArch help' has additional information.  The mirror (information at https://wiki.archlinux.org/index.php/Mirrors and https://archlinuxarm.org/about/mirrors) can be changed to a desired geographic location in 'setupTermuxArchConfigs.bash' to resolve download, 404 and checksum issues should these take place.  User configurable variables are present in this file for your convenience:
-# DMVERBOSE="-v" 	# uncomment for verbose download tool output with curl and wget;  For verbose output throughout runtime change this setting in file 'setupTermuxArch' also.
-# DM=aria2c		# uncomment to use this download tool
-# DM=axel 		# uncomment to use this download tool
-# DM=curl		# uncomment to use this download tool
-# DM=lftp 		# uncomment to use this download tool
-# DM=wget		# uncomment to use this download tool
-KEEP=1			# change to 0 to keep downloaded image;  Testing the installation process repeatedly can be made easier with this fragment of code  'mkdir ~/arch; cp ~/ArchLinuxARM-armv7-latest.tar.gz* ~/arch/'.  The variable KEEP when changed to 0 will keep the downloaded image and md5 files instead of deleting them for later reuse if desired.  The root file system image and md5 files can be saved and used again on subsequent installs when testing the install feature with this code.  Copying these files lowers the Internet bandwidth requirement when testing the install feature.
-KOE=0			# do not change, not user configurable;  was used previously for testing and variable KOE lingers for retesting if desired.  Change to 1 to change the proot init statement.
-# KID=1			# do not change, not user configurable;  Used for testing, timing and development.  Change to 1 and then execute script TermuxArch/scripts/frags/stdoutbench.sh in Arch Linux PRoot for timing Arch Linux in PRoot.
-# If there are system image files available not listed here, please open an issue and a pull request.
+##  Running 'setupTermuxArch manual' will create 'setupTermuxArchConfigs.bash' from this file in the working directory.  Run 'setupTermuxArch' and file 'setupTermuxArchConfigs.bash' loads automaticaly once created, and this file is ignored at runtime; 'setupTermuxArch help' has additional information.  The mirror (information at https://wiki.archlinux.org/index.php/Mirrors and https://archlinuxarm.org/about/mirrors) can be changed to a desired geographic location in 'setupTermuxArchConfigs.bash' to resolve download, 404 and checksum issues should these take place.  User configurable variables are present in this file for your convenience:
+# DMVERBOSE="-v" 	##  uncomment for verbose download tool output with curl and wget;  For verbose output throughout runtime change this setting in file 'setupTermuxArch' also.
+# DM=aria2c		##  uncomment to use this download tool
+# DM=axel 		##  uncomment to use this download tool
+# DM=curl		##  uncomment to use this download tool
+# DM=lftp 		##  uncomment to use this download tool
+# DM=wget		##  uncomment to use this download tool
+KEEP=1			##  change to 0 to keep downloaded image;  Testing the installation process repeatedly can be made easier and lighter on your Internet bandwith and SAR with this fragment of code  'mkdir ~/arch; cp ~/ArchLinux*.tar.gz* ~/arch/'.  The variable KEEP when changed to 0 will keep the downloaded image and md5 files instead of deleting them for later reuse if desired.  The root file system image and md5 files can be saved and used again on subsequent installs when testing the install feature with this and similar fragments of code.
+KOE=0			##  do not change, not user configurable;  Was previously used for testing, and variable KOE lingers here for retesting if desired.  Change to 1 to change the proot init statement.
+# KID=1			##  do not change, not user configurable;  Used for testing, timing and development.   For timing Arch Linux in PRoot, uncomment and then run script TermuxArch/scripts/frags/stdoutbench.sh in Arch Linux PRoot for timing Arch Linux in PRoot if desired.
+##  If there are system image files available not listed here, please open an issue and a pull request.
 _AARCH64ANDROID_() {
 	IFILE="ArchLinuxARM-aarch64-latest.tar.gz"
 	CMIRROR="os.archlinuxarm.org"
@@ -50,7 +50,7 @@ _ARMV7CHROME_() {
 	_MAKESYSTEM_
 }
 
-# Information at https://www.archlinux.org/news/phasing-out-i686-support/ and https://archlinux32.org/ regarding why i686 is currently frozen at release 2017.03.01-i686.  IFILE is read from the md5sums.txt file for these two architectures.
+##  Information at https://www.archlinux.org/news/phasing-out-i686-support/ and https://archlinux32.org/ regarding why i686 is currently frozen at release 2017.03.01-i686.  IFILE is read from the md5sums.txt file for these two architectures.
 
 _I686_() { # IFILE is read from md5sums.txt
 	CMIRROR="archive.archlinux.org"
@@ -64,7 +64,7 @@ _X86_64_() { # IFILE is read from md5sums.txt
 	_MAKESYSTEM_
 }
 
-# Appending to the PRoot statement can be accomplished on the fly by creating a .prs file in the var/binds directory.  The format is straightforward, 'PROOTSTMNT+="option command "'.  The space is required before the last double quote.  Commands 'info proot' and 'man proot' have more information about what can be configured in a proot init statement.  If more suitable configurations are found, share them at https://github.com/TermuxArch/TermuxArch/issues to improve TermuxArch.  PRoot bind usage: PROOTSTMNT+="-b host_path:guest_path "  The space before the last double quote is necessary.
+##  Appending to the PRoot statement can be accomplished on the fly by creating a .prs file in the var/binds directory.  The format is straightforward, 'PROOTSTMNT+="option command "'.  The space is required before the last double quote.  Commands 'info proot' and 'man proot' have more information about what can be configured in a proot init statement.  If more suitable configurations are found, share them at https://github.com/TermuxArch/TermuxArch/issues to improve TermuxArch.  PRoot bind usage: PROOTSTMNT+="-b host_path:guest_path "  The space before the last double quote is necessary.
 
 _PR00TSTRING_() { # construct the PRoot init statement
 	PROOTSTMNT="exec proot "
@@ -91,7 +91,7 @@ _PR00TSTRING_() { # construct the PRoot init statement
 	       	done
 	fi
 	[[ "$SYSVER" -ge 10 ]] && PROOTSTMNT+="-b /apex:/apex "
-	# Function _PR00TSTRING_ which creates the PRoot init statement PROOTSTMNT uses associative arrays.  Page https://www.gnu.org/software/bash/manual/html_node/Arrays.html has information about BASH arrays and is also available at https://www.gnu.org/software/bash/manual/ this link.  
+	##  Function _PR00TSTRING_ which creates the PRoot init statement PROOTSTMNT uses associative arrays.  Page https://www.gnu.org/software/bash/manual/html_node/Arrays.html has information about BASH arrays and is also available at https://www.gnu.org/software/bash/manual/ this link.  
 	declare -A PRSTARR # associative array
 	# populate writable binds
 	PRSTARR=([/dev/ashmem]=/dev/ashmem [/dev/shm]=/dev/shm)
@@ -123,7 +123,7 @@ _PR00TSTRING_() { # construct the PRoot init statement
 	PROOTSTMNT+="-w \"\$PWD\" /usr/bin/env -i HOME=/root TERM=\"\$TERM\" TMPDIR=/tmp ANDROID_DATA=/data " # create PRoot user string
 }
 _PR00TSTRING_
-# uncomment the next line to test function _PR00TSTRING_
-# printf "%s\\n" "$PROOTSTMNT" && exit
+##  uncomment the next line to test function _PR00TSTRING_
+##  printf "%s\\n" "$PROOTSTMNT" && exit
 ##  The commands 'setupTermuxArch r[e[fresh]]' can be used to regenerate the start script to the newest version if there is a newer version published and can be customized as wanted.  Command 'setupTermuxArch refresh' will refresh the installation globally, including excecuting 'keys' and 'locales-gen' and backup user configuration files that were initially created and are refreshed.  The command 'setupTermuxArch re' will refresh the installation and update user configuration files and backup user configuration files that were initially created and are refreshed.  Command 'setupTermuxArch r' will only refresh the installation and update the root user configuration files and backup root user configuration files that were initially created and are refreshed.
 # knownconfigurations.bash EOF

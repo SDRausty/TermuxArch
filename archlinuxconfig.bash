@@ -4,7 +4,6 @@
 # https://sdrausty.github.io/TermuxArch/README has info about this project.
 # https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.
 ################################################################################
-
 _ADDAUSER_() {
 	_CFLHDR_ root/bin/addauser "# add Arch Linux in Termux PRoot user"
 	cat >> root/bin/addauser <<- EOM
@@ -15,16 +14,20 @@ _ADDAUSER_() {
 		exit 201
 	else
 		printf "\\\\e[0;32m%s\\\n\\\\e[1;32m" "Adding Arch Linux in Termux PRoot user '\$1' and creating Arch Linux in Termux PRoot user \$1's home directory in /home/\$1..."
+		sed -i "/# %wheel ALL=(ALL) NOPASSWD: ALL/ s/^# *//" "/etc/sudoers" 
+		sed -i "/# ALL ALL=(ALL) ALL/ s/ALL ALL=(ALL) NOPASSWD: ALL
+# this line added by TermuxArch//" "/etc/sudoers" 
+		ALL ALL=(ALL) NOPASSWD: ALL
+		# ALL ALL=(ALL) ALL  # WARNING: only use this together with 'Defaults targetpw'
 		sed -i "s/required/sufficient/g" /etc/pam.d/su
 		sed -i "s/^#auth/auth/g" /etc/pam.d/su
-		useradd -s /bin/bash "\$1" -U || sudo useradd -s /bin/bash "\$1" -U
+		useradd -k /root -m -s /bin/bash "\$1" -U || sudo useradd -k /root -m -s /bin/bash "\$1" -U
 		usermod "\$1" -aG wheel || sudo usermod "\$1" -aG wheel
 		chage -I -1 -m 0 -M -1 -E -1 "\$1" || sudo chage -I -1 -m 0 -M -1 -E -1 "\$1"
  		passwd -d "\$1" || sudo passwd -d "\$1"
-		cp -r /root /home/"\$1"
-		chmod 777 /home/\$1
+		chmod 775 /home/\$1
 		chown -R \$1:\$1 /home/\$1
-		[[ -d /etc/sudoers.d ]] && printf "%s\\n" "\$1 ALL=(ALL) ALL" >> /etc/sudoers.d/"\$1"
+ 		[[ -d /etc/sudoers.d ]] && printf "%s\\n" "\$1 ALL=(ALL) ALL" >> /etc/sudoers.d/"\$1"
 		sed -i "s/\$1:x/\$1:/g" /etc/passwd
 		printf "\\\\e[0;32m%s\\\\e[1;32m%s\\\\e[0;32m%s\\\\e[1;32m%s\\\\e[0;32m%s\\\\e[1;32m%s\\\\e[0;32m%s\\\\e[1;32m%s\\\\e[0;32m%s\\\\e[0m\\\\n" "Added Arch Linux in Termux PRoot user " "'\$1'" " and configured user '\$1' for use with the Arch Linux command 'sudo'.  Created Arch Linux user \$1's home directory in /home/\$1.  To use this account run " "'$STARTBIN login \$1'" " from the shell in Termux.  To add user accounts you can use " "'addauser \$1'" " in Arch Linux and " "'$STARTBIN c[ommand] addauser \$1'" " in the default Termux shell.  Please remember not to nest proot in proot unknowingly by using '$STARTBIN' in '$STARTBIN' as this is known to cause issues for PRoot users."
 	fi
@@ -80,13 +83,14 @@ _ADDbash_logout_() {
 	then
 		. /etc/moto
 	fi
+	h # write session history to file HOME/.historyfile
 	# .bash_logout EOF
 	EOM
 }
 
 _ADDbash_profile_() {
 	[ -e root/.bash_profile ] && _DOTHRF_ "root/.bash_profile"
-	printf "%s\\n%s\\n%s\\n" "PATH=\"\$HOME/bin:\$PATH:/usr/sbin:/sbin:/bin\"" "cd" ". "\$HOME"/.bashrc" > root/.bash_profile
+	printf "%s\\n%s\\n%s\\n" "PATH=\"\$HOME/bin:\$PATH:/usr/sbin:/sbin:/bin\"" "cd" "[[ -f "\$HOME"/.bashrc ]] && . "\$HOME"/.bashrc" > root/.bash_profile
 	cat >> root/.bash_profile <<- EOM
 	if [ ! -e "\$HOME"/.hushlogin ] && [ ! -e "\$HOME"/.chushlogin ]
 	then
@@ -538,7 +542,6 @@ _ADDkeys_() {
 	ARGS="\${KEYRINGS[@]}"
 	printf '\033]2;  🔑 TermuxArch %s 📲 \007' "'\${0##*/} \$ARGS'"
 	printf "\\\\n\\\\e[1;32m==> \\\\e[1;37m%s \\\\e[0;32m%s \\\\e[1;32m%s %s \\\\e[0m%s...\\\\n" "Running" "TermuxArch" "\${0##*/}" "\$ARGS" "\$VERSIONID"
-# 	mv usr/lib/gnupg/scdaemon{,_} 2>/dev/null || printf "%s\\\\n" "signal generated mv keys \${0##*/}"
 	printf "\\\\n\\\\e[1;32m[1/2] \\\\e[0;34mWhen \\\\e[0;37mgpg: Generating pacman keyring master key\\\\e[0;34m appears on the screen, the installation process can be accelerated.  The system desires a lot of entropy at this part of the install procedure.  To generate as much entropy as possible quickly, watch and listen to a file on your device.  \\\\n\\\\nThe program \\\\e[1;32mpacman-key\\\\e[0;34m will want as much entropy as possible when generating keys.  Entropy is also created through tapping, sliding, one, two and more fingers tapping with short and long taps.  When \\\\e[0;37mgpg: Generating pacman keyring master key\\\\e[0;34m appears on the screen, use any of these simple methods to accelerate the installation process if it is stalled.  Put even simpler, just do something on device.  Browsing files will create entropy on device.  Slowly swiveling the device in space and time will accelerate the installation process.  This method alone might not generate enough entropy (a measure of randomness in a closed system) for the process to complete quickly.  You can use \\\\e[1;32mbash ~%s/bin/we \\\\e[0;34min a new Termux session to watch entropy on device.\\\\n\\\\n\\\\e[1;32m==>\\\\e[0m Running \\\\e[1mpacman-key --init\\\\e[0;32m...\\\\n" "$DARCH"
 	pacman-key --init || sudo pacman-key --init ||:
 	chmod 700 /etc/pacman.d/gnupg
@@ -612,13 +615,14 @@ _ADDmakefakeroottcp_() {
 	else
 		[ ! -f /var/lock/patchmakepkg.lock ] && patchmakepkg
 		printf "%s\\n" "Building and installing fakeroot-tcp: "
-		([[ ! "\$(command -v automake)" ]] || [[ ! "\$(command -v fakeroot)" ]] || [[ ! "\$(command -v git)" ]] || [[ ! "\$(command -v po4a)" ]]) 2>/dev/null && sudo pacman --noconfirm --color=always -S automake base-devel fakeroot git po4a libtool
-		cd && (git clone https://aur.archlinux.org/fakeroot-tcp.git && cd fakeroot-tcp && sed -i 's/  patch/  sudo patch/g' PKGBUILD && makepkg -is) || printf "%s\n" "Continuing to build and install fakeroot-tcp: " && cd fakeroot-tcp && sed -i 's/  patch/  sudo patch/g' PKGBUILD && makepkg -is
+		([[ ! "\$(command -v automake)" ]] || [[ ! "\$(command -v fakeroot)" ]] || [[ ! "\$(command -v git)" ]] || [[ ! "\$(command -v po4a)" ]]) 2>/dev/null && (pci automake base-devel fakeroot git po4a libtool || sudo pci automake base-devel fakeroot git po4a libtool)
+		cd && (git clone https://aur.archlinux.org/fakeroot-tcp.git && cd fakeroot-tcp && sed -i 's/  patch/  sudo patch/g' PKGBUILD && makepkg -is && libtool --finish /usr/lib/libfakeroot) || printf "%s\n" "Continuing to build and install fakeroot-tcp: " && cd fakeroot-tcp && sed -i 's/  patch/  sudo patch/g' PKGBUILD && makepkg -is
 		printf "%s\\n" "Building and installing fakeroot-tcp: DONE 🏁"
 	fi
 	# makefakeroottcp EOF
 	EOM
 	chmod 700 root/bin/makefakeroottcp
+
 }
 
 _ADDmakeyay_() {
