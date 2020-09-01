@@ -15,7 +15,7 @@ FLHDR1[1]="# IFS=$'\\n\\t'"
 FLHDR1[2]="set -Eeuo pipefail"
 FLHDR1[3]="shopt -s nullglob globstar"
 FLHDR1[4]="unset LD_PRELOAD"
-FLHDR1[5]="VERSIONID=2.0.157"
+FLHDR1[5]="VERSIONID=2.0.158"
 FLHDR1[6]=" "
 FLHDRP[0]="## BEGIN #####################################################################"
 FLHDRP[1]=""
@@ -219,7 +219,7 @@ _PRINTROOTDIRFUNCTION_() {
 }
 _PRINTROOTDIRFUNCTION_
 _PSGI1ESTRING_() {
-	printf "\\e[1;33m%s\\e[1;34m : \\e[1;32m%s\\e[0;34m%s\\e[1;32m%s\\e[0;34m%s\\n\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[0m\\n" "Signal generated in '$1'" "CONTINUING...   " "Executing " "'bash ${0##*/} refresh'" " in the native shell once the installation and configuration process completes will attempt to finish the autoconfiguration and installation if this process was unsuccessful." "  Should improvements for " "'${0##*/}'" " be found, please open an issue and accompanying pull request if possible.  The entire script can be reviewed by creating a " "'~/TermuxArchBloom/'" " directory with the command " "'setupTermuxArch b'" " which can be used to access this installation script.  This option does NOT configure and install the root file system.  It transfers the entire script into the home directory for hacking, modification and review.  The command " "'setupTermuxArch help'" " has more information."
+	printf "\\e[1;33m%s\\e[1;34m : \\e[1;32m%s\\e[0;34m%s\\e[1;32m%s\\e[0;34m%s\\n\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[0m\\n" "Signal generated in '$1'" "CONTINUING...   " "Executing " "'bash ${0##*/} refresh'" " in the native shell once the installation and configuration process completes will attempt to finish the autoconfiguration and installation if this process was unsuccessful." "  Should better solutions for " "'${0##*/}'" " be found, please open an issue and accompanying pull request if possible.  The entire script can be reviewed by creating a " "'~/TermuxArchBloom/'" " directory with the command " "'setupTermuxArch b'" " which can be used to access this installation script.  This option does NOT configure and install the root file system.  It transfers the entire script into the home directory for hacking, modification and review.  The command " "'setupTermuxArch help'" " has more information."
 }
 # print signal generated in arg 1 format
 # _PSGI1ESTRING_ "test string" && exit

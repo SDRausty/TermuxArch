@@ -204,7 +204,7 @@ _MAKEFINISHSETUP_() {
 	cat >> root/bin/"$BINFNSTP" <<- EOM
 	_PMFSESTRING_() { 
 	printf "\\e[1;31m%s\\e[1;37m%s\\e[1;32m%s\\e[1;37m%s\\n\\n" "Signal generated in '\$1' : Cannot complete task : " "Continuing...   To correct the error run " "setupTermuxArch refresh" " to attempt to finish the autoconfiguration."
-	printf "\\e[1;34m%s\\e[0;34m%s\\e[1;34m%s\\e[0;34m%s\\e[1;34m%s\\n\\n" "  If you find improvements for " "setupTermuxArch" " and " "\$0" " please open an issue and accompanying pull request."
+	printf "\\e[1;34m%s\\e[0;34m%s\\e[1;34m%s\\e[0;34m%s\\e[1;34m%s\\n\\n" "  If you find better resolves for " "setupTermuxArch" " and " "\$0" ", please open an issue and accompanying pull request."
 	}
 	printf "\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\n" "To generate locales in a preferred language use " "Settings > Language & Keyboard > Language " "in Android; Then run " "${0##*/} refresh" " for a full system refresh including locale generation; For quick refresh you can use " "${0##*/} r" ".  For a refresh with user directories " "${0##*/} re" " can be used."
    	$LOCGEN
@@ -216,22 +216,21 @@ _MAKEFINISHSETUP_() {
 		printf "%s\\n" "/root/bin/keys || _PMFSESTRING_ \"keys $BINFNSTP ${0##/*}\"" >> root/bin/"$BINFNSTP"
 	 	if [[ "$CPUABI" = "$CPUABI5" ]]
 		then
-	 		printf "%s\\n" "pacman -Rc linux-armv5 linux-firmware --noconfirm --color=always 2>/dev/null || _PMFSESTRING_ \"pacman -Rc linux-armv5 linux-firmware $BINFNSTP ${0##/*}\"" >> root/bin/"$BINFNSTP"
+	 		printf "%s\\n" "pacman -Rc linux-armv5 linux-firmware --noconfirm --color=always || _PMFSESTRING_ \"pacman -Rc linux-armv5 linux-firmware $BINFNSTP ${0##/*}\"" >> root/bin/"$BINFNSTP"
 	 	elif [[ "$CPUABI" = "$CPUABI7" ]]
 		then
-	 		printf "%s\\n" "pacman -Rc linux-armv7 linux-firmware --noconfirm --color=always 2>/dev/null || _PMFSESTRING_ \"pacman -Rc linux-armv7 linux-firmware $BINFNSTP ${0##/*}\"" >> root/bin/"$BINFNSTP"
+	 		printf "%s\\n" "pacman -Rc linux-armv7 linux-firmware --noconfirm --color=always || _PMFSESTRING_ \"pacman -Rc linux-armv7 linux-firmware $BINFNSTP ${0##/*}\"" >> root/bin/"$BINFNSTP"
 	 	elif [[ "$CPUABI" = "$CPUABI8" ]]
 		then
-	 		printf "%s\\n" "pacman -Rc linux-aarch64 linux-firmware --noconfirm --color=always 2>/dev/null || _PMFSESTRING_ \"pacman -Rc linux-aarch64 linux-firmware $BINFNSTP ${0##/*}\"" >> root/bin/"$BINFNSTP"
+	 		printf "%s\\n" "pacman -Rc linux-aarch64 linux-firmware --noconfirm --color=always || _PMFSESTRING_ \"pacman -Rc linux-aarch64 linux-firmware $BINFNSTP ${0##/*}\"" >> root/bin/"$BINFNSTP"
 	 	fi
 		if [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = "$CPUABIX86_64" ]]
 		then
-			printf "%s\\n" "pacman -Syu gzip patch python3 sed sudo unzip --noconfirm --color=always 2>/dev/null || _PMFSESTRING_ \"pacman -Syu gzip patch sed sudo unzip $BINFNSTP ${0##/*}\"" >> root/bin/"$BINFNSTP"
+			printf "%s\\n" "pacman -Syu gzip patch sed sudo unzip --noconfirm --color=always || pacman -Syu gzip patch sed sudo unzip --noconfirm --color=always || _PMFSESTRING_ \"pacman -Syu gzip patch sed sudo unzip $BINFNSTP ${0##/*}\"" >> root/bin/"$BINFNSTP"
 		else
-			printf "%s\\n" "pacman -Syu patch python3 sudo unzip --noconfirm --color=always 2>/dev/null || _PMFSESTRING_ \"pacman -Syu patch sudo unzip $BINFNSTP ${0##/*}\"" >> root/bin/"$BINFNSTP"
+			printf "%s\\n" "pacman -Syu patch sudo unzip --noconfirm --color=always || pacman -Syu patch sudo unzip --noconfirm --color=always || _PMFSESTRING_ \"pacman -Syu patch sudo unzip $BINFNSTP ${0##/*}\"" >> root/bin/"$BINFNSTP"
 		fi
- 		printf "%s\\n" "/root/bin/csystemctl || _PMFSESTRING_ \"csystemctl $BINFNSTP ${0##/*}\"" >> root/bin/"$BINFNSTP"
- 		printf "%s\\n" "/root/bin/addauser user || _PMFSESTRING_ \"addauser user$BINFNSTP ${0##/*}\"" >> root/bin/"$BINFNSTP"
+ 		printf "%s\\n" "/root/bin/addauser user || _PMFSESTRING_ \"addauser user $BINFNSTP ${0##/*}\"" >> root/bin/"$BINFNSTP"
 	fi
 	cat >> root/bin/"$BINFNSTP" <<- EOM
 	printf "\\n\\e[1;34m%s  \\e[0m" "🕛 > 🕤 Arch Linux in Termux is installed and configured 📲  "
@@ -432,7 +431,7 @@ _RUNFINISHSETUP_() {
 		fi
 		"$ed" "$INSTALLDIR/etc/pacman.d/mirrorlist"
 	fi
-	cp  "$INSTALLDIR/etc/profile" "$INSTALLDIR/var/backups/${INSTALLDIR##*/}/profile.$SDATE.bkp" && sed -i "s/.*umask .*/umask 002/" "$INSTALLDIR/etc/profile" || _PSGI1ESTRING_ "sed -i _SEDUNCOM_ necessaryfunctions.bash ${0##*/}" # sed replace a character in a matched line in place
+	cp "$INSTALLDIR/etc/profile" "$INSTALLDIR/var/backups/${INSTALLDIR##*/}/etc/profile.$SDATE.bkp" && sed -i "s/.*umask .*/umask 002/" "$INSTALLDIR/etc/profile" || _PSGI1ESTRING_ "sed _RUNFINISHSETUP_ necessaryfunctions.bash ${0##*/}"
 	"$INSTALLDIR/root/bin/setupbin.bash" || _PRINTPROOTERROR_
 }
 

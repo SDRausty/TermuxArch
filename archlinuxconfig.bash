@@ -15,10 +15,10 @@ _ADDAUSER_() {
 	else
 		printf "\\\\e[0;32m%s\\\n\\\\e[1;32m" "Adding Arch Linux in Termux PRoot user '\$1' and creating Arch Linux in Termux PRoot user \$1's home directory in /home/\$1..."
 		sed -i "/# %wheel ALL=(ALL) NOPASSWD: ALL/ s/^# *//" "/etc/sudoers" 
-		sed -i "/# ALL ALL=(ALL) ALL/ s/ALL ALL=(ALL) NOPASSWD: ALL
-# this line added by TermuxArch//" "/etc/sudoers" 
-		ALL ALL=(ALL) NOPASSWD: ALL
-		# ALL ALL=(ALL) ALL  # WARNING: only use this together with 'Defaults targetpw'
+		sed -i "/# ALL ALL=(ALL) ALL/ s/^# *//" "/etc/sudoers"
+		sed -i "s/# ALL ALL=(ALL) ALL/ALL ALL=(ALL) NOPASSWD: ALL/g" "/etc/sudoers" 
+	cp "$INSTALLDIR/etc/sudoers" "$INSTALLDIR/var/backups/${INSTALLDIR##*/}/sudoers.$SDATE.bkp" &&	printf "%s\\n" "ALL ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers || _PSGI1ESTRING_ "printf _RUNFINISHSETUP_ necessaryfunctions.bash ${0##*/}"
+# 	cp "$INSTALLDIR/etc/sudoers" "$INSTALLDIR/var/backups/${INSTALLDIR##*/}/sudoers.$SDATE.bkp" &&	printf "%s\\n" "ALL ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers || _PSGI1ESTRING_ "printf _RUNFINISHSETUP_ necessaryfunctions.bash ${0##*/}"
 		sed -i "s/required/sufficient/g" /etc/pam.d/su
 		sed -i "s/^#auth/auth/g" /etc/pam.d/su
 		useradd -k /root -m -s /bin/bash "\$1" -U || sudo useradd -k /root -m -s /bin/bash "\$1" -U
@@ -213,7 +213,7 @@ _ADDch_() {
 		ARGS="\$@"
 	fi
 
-	printf "\\\\n\\\\e[1;32m==> \\\\e[1;37m%s \\\\e[1;32m%s %s %s\\\e[0m%s...\\\\n\\\\n" "Running" "TermuxArch \$(basename "\$0")" "\$ARGS" "\$VERSIONID"
+	printf "\\\\n\\\\e[1;32m==> \\\\e[1;37m%s \\\\e[1;32m%s\\\e[0m%s...\\\\n\\\\n" "Running" "TermuxArch \${0##*/} \$ARGS \$VERSIONID"
 
 	if [[ -f "\$HOME"/.hushlogin ]] && [[ -f "\$HOME"/.hushlogout ]]
 	then
@@ -639,7 +639,7 @@ _ADDmakeyay_() {
 		cd 
 		[ ! -f /var/lock/patchmakepkg.lock ] && patchmakepkg
 		! fakeroot ls >/dev/null && makefakeroottcp
-		(git clone https://aur.archlinux.org/yay.git&&cd yay&&_PRMAKE_&&makepkg -irs --noconfirm)||printf "\\\\e[1;37m%s\\\\e[0m\\\\n" "Continuing to build and install yay..."&&cd yay&&_PRMAKE_&&makepkg -irs --noconfirm||printf "\\\\e[1;31m%s\\\\e[1;37m%s\\\\n" "==> ERROR: " "The command 'makepkg -irs --noconfirm' did not run as expected. "
+		(git clone https://aur.archlinux.org/yay.git&&cd yay&&_PRMAKE_&&makepkg -irs --noconfirm)||printf "\\\\e[1;37m%s\\\\e[0m\\\\n" "Continuing to build and install yay..."&&cd yay&&_PRMAKE_&&makepkg -irs --noconfirm||printf "\\\\e[1;31m%s\\\\e[1;37m%s\\\\n" "ERROR: " "The command 'makepkg -irs --noconfirm' did not run expected; CONTINUING..."
 		printf "\\\\e[0;32m%s\\\\n%s\\\\n%s\\\\e[1;32m%s\\\\e[0m\\\\n" "A couple of paths to follow after having built 'yay' are 'yay cmatrix' which builds a couple of nice matrix screensavers and 'yay pikaur' which builds one more aur installer much like 'yay' that you can use in your smartphone to download aur repositories and build packages." "If you have trouble importing Keys try this command 'gpg --keyserver keyserver.ubuntu.com --recv-keys 71A1D0EFCFEB6281FD0437C71A1D0EFCFEB6281F' please.  Change the number to the number of the key being imported." "Building and installing yay: " "DONE 🏁"
 	fi
 	# makeyay EOF 
@@ -686,8 +686,8 @@ _ADDpc_() {
 	trap _TRPET_ EXIT
 	## pc begin ####################################################################
 
-	printf '\033]2;  🔑 TermuxArch '"\$(basename "\$0") \$ARGS"' 📲 \007'
-	printf "\\\\n\\\\e[1;32m==> \\\\e[1;37m%s \\\\e[0;32m%s \\\\e[1;32m%s %s \\\e[0m%s...\\\\n\\\\n" "Running" "TermuxArch" "\$(basename "\$0")" "\$ARGS" "\$VERSIONID"
+	printf '\033]2;  🔑 TermuxArch %s 📲 \007' "\${0##*/} \$ARGS"
+	printf "\\\\n\\\\e[1;32m==> \\\\e[1;37m%s \\\\e[0;32m%s \\\\e[1;32m%s \\\\e[0;32m%s\\\\e[0m\\\\n\\\\n" "Running" "TermuxArch" "\${0##*/} \$ARGS" "\$VERSIONID..."
 	if [[ -z "\${1:-}" ]]
 	then
 	pacman --noconfirm --color=always -S
