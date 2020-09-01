@@ -17,8 +17,6 @@ _ADDAUSER_() {
 		sed -i "/# %wheel ALL=(ALL) NOPASSWD: ALL/ s/^# *//" "/etc/sudoers" 
 		sed -i "/# ALL ALL=(ALL) ALL/ s/^# *//" "/etc/sudoers"
 		sed -i "s/# ALL ALL=(ALL) ALL/ALL ALL=(ALL) NOPASSWD: ALL/g" "/etc/sudoers" 
-	cp "$INSTALLDIR/etc/sudoers" "$INSTALLDIR/var/backups/${INSTALLDIR##*/}/sudoers.$SDATE.bkp" &&	printf "%s\\n" "ALL ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers || _PSGI1ESTRING_ "printf _RUNFINISHSETUP_ necessaryfunctions.bash ${0##*/}"
-# 	cp "$INSTALLDIR/etc/sudoers" "$INSTALLDIR/var/backups/${INSTALLDIR##*/}/sudoers.$SDATE.bkp" &&	printf "%s\\n" "ALL ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers || _PSGI1ESTRING_ "printf _RUNFINISHSETUP_ necessaryfunctions.bash ${0##*/}"
 		sed -i "s/required/sufficient/g" /etc/pam.d/su
 		sed -i "s/^#auth/auth/g" /etc/pam.d/su
 		useradd -k /root -m -s /bin/bash "\$1" -U || sudo useradd -k /root -m -s /bin/bash "\$1" -U
