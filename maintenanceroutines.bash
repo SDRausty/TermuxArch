@@ -28,7 +28,7 @@ _DOFUNLCR2_() {
 		BKPDIR="$INSTALLDIR/var/backups/${INSTALLDIR##*/}/home/$USER"
 		[[ ! -d "$BKPDIR/" ]] && mkdir -p "$BKPDIR/"
 		cd "$INSTALLDIR/home/$USER"
-		[[ -f $1 ]] && printf "%s\\n" "==> mv -f $1 $BKPDIR/$1.$SDATE.bkp" && mv -f "$1" "$BKPDIR/$1.$SDATE.bkp" || _PSGI1ESTRING_ "mv -f '$1' if found maintenanceroutines.bash ${0##*/}"
+		[[ -f $1 ]] && printf "\\e[1;32m==>\\e[0;32m %s\\n" "mv -f $1 $BKPDIR/$1.$SDATE.bkp" && mv -f "$1" "$BKPDIR/$1.$SDATE.bkp" || _PSGI1ESTRING_ "mv -f '$1' if found maintenanceroutines.bash ${0##*/}"
 	}
 	if [ -d "$INSTALLDIR/home" ]
 	then

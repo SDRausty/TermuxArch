@@ -7,8 +7,8 @@
 IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
-umask 002
-VERSIONID=2.0.161
+umask 000
+VERSIONID=2.0.162
 ## INIT FUNCTIONS ##############################################################
 _STRPERROR_() { # run on script error
 	local RV="$?"
@@ -584,21 +584,22 @@ _SETROOT_EXCEPTION_() {
 }
 
 ## User Information:  Configurable variables such as mirrors and download manager options are in 'setupTermuxArchConfigs.bash'.  Working with 'kownconfigurations.bash' in the working directory is simple.  'bash setupTermuxArch manual' will create 'setupTermuxArchConfigs.bash' in the working directory for editing; See 'setupTermuxArch help' for more information.
-declare -A ADM		## Declare associative array for all available download tools.
-declare -A ATM		## Declare associative array for all available tar tools.
-declare -a ARGS="$@"	## Declare arguments as string.
-declare APTIN=""	## apt install string
+declare -A ADM		# Declare associative array for all available download tools.
+declare -A ATM		# Declare associative array for all available tar tools.
+declare ARGS		# Declare arguments as string.
+ARGS="${@%/}"
+declare APTIN=""	# apt install string
 declare COMMANDIF=""
 declare COMMANDR
 declare COMMANDG=""
 declare CPUABI=""
-declare CPUABI5="armeabi"	## Used for development;  The command 'getprop ro.product.cpu.abi' can be used to ascertain the device architecture.  Matching an alternate CPUABI* will install an alternate architecture on device.  The original device architecture must be changed to something else so it does not match.  This is usefull with QEMU to install alternate architectures on device.
-declare CPUABI7="armeabi-v7a"	## used for development
-declare CPUABI8="arm64-v8a"	## used for development
-declare CPUABIX86="x86"		## used for development
-declare CPUABIX86_64="x86_64"	## used for development
-declare DFL=""		## used for development
-declare DMVERBOSE="-q"	## -v for verbose download manager output from curl and wget;  for verbose output throughout runtime also change in 'setupTermuxArchConfigs.bash' when using 'setupTermuxArch m[anual]'
+declare CPUABI5="armeabi"	# Used for development;  The command 'getprop ro.product.cpu.abi' can be used to ascertain the device architecture.  Matching an alternate CPUABI* will install an alternate architecture on device.  The original device architecture must be changed to something else so it does not match.  This is usefull with QEMU to install alternate architectures on device.
+declare CPUABI7="armeabi-v7a"	# used for development
+declare CPUABI8="arm64-v8a"	# used for development
+declare CPUABIX86="x86"		# used for development
+declare CPUABIX86_64="x86_64"	# used for development
+declare DFL=""		# used for development
+declare DMVERBOSE="-q"	# -v for verbose download manager output from curl and wget;  for verbose output throughout runtime also change in 'setupTermuxArchConfigs.bash' when using 'setupTermuxArch m[anual]'
 declare DM=""
 declare ELCR=1
 declare ed=""
@@ -611,8 +612,8 @@ declare OPT=""
 declare ROOTDIR=""
 declare WDIR=""
 declare SDATE=""
-declare STI=""		## generates pseudo random number
-declare STIME=""	## generates pseudo random number
+declare STI=""		# generates pseudo random number
+declare STIME=""	# generates pseudo random number
 declare STRING1
 declare STRING2
 if [[ -z "${TAMPDIR:-}" ]]

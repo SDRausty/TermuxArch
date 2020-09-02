@@ -10,28 +10,34 @@ _ADDAUSER_() {
 	_FUNADDU_() {
 	if [[ -z "\${1:-}" ]]
 	then
-		printf "\\e[1;31m%s\\\\n" "Use: addauser username: exiting..."
+		printf "\\\\e[1;31m%s\\\\n" "Use: addauser username: exiting..."
 		exit 201
 	else
-		printf "\\\\e[0;32m%s\\\n\\\\e[1;32m" "Adding Arch Linux in Termux PRoot user '\$1' and creating Arch Linux in Termux PRoot user \$1's home directory in /home/\$1..."
-		sed -i "/# %wheel ALL=(ALL) NOPASSWD: ALL/ s/^# *//" "/etc/sudoers" 
-		sed -i "/# ALL ALL=(ALL) ALL/ s/^# *//" "/etc/sudoers"
-		sed -i "s/# ALL ALL=(ALL) ALL/ALL ALL=(ALL) NOPASSWD: ALL/g" "/etc/sudoers" 
-		sed -i "s/required/sufficient/g" /etc/pam.d/su
-		sed -i "s/^#auth/auth/g" /etc/pam.d/su
-		useradd -k /root -m -s /bin/bash "\$1" -U || sudo useradd -k /root -m -s /bin/bash "\$1" -U
-		usermod "\$1" -aG wheel || sudo usermod "\$1" -aG wheel
-		chage -I -1 -m 0 -M -1 -E -1 "\$1" || sudo chage -I -1 -m 0 -M -1 -E -1 "\$1"
- 		passwd -d "\$1" || sudo passwd -d "\$1"
-		chmod 775 /home/\$1
-		chown -R \$1:\$1 /home/\$1
-#  		[[ -d /etc/sudoers.d ]] && printf "%s\\n" "\$1 ALL=(ALL) ALL" >> /etc/sudoers.d/"\$1"
-		sed -i "s/\$1:x/\$1:/g" /etc/passwd
-		printf "\\\\e[0;32m%s\\\\e[1;32m%s\\\\e[0;32m%s\\\\e[1;32m%s\\\\e[0;32m%s\\\\e[1;32m%s\\\\e[0;32m%s\\\\e[1;32m%s\\\\e[0;32m%s\\\\e[0m\\\\n" "Added Arch Linux in Termux PRoot user " "'\$1'" " and configured user '\$1' for use with the Arch Linux command 'sudo'.  Created Arch Linux user \$1's home directory in /home/\$1.  To use this account run " "'$STARTBIN login \$1'" " from the shell in Termux.  To add user accounts you can use " "'addauser \$1'" " in Arch Linux and " "'$STARTBIN c[ommand] addauser \$1'" " in the default Termux shell.  Please remember not to nest proot in proot unknowingly by using '$STARTBIN' in '$STARTBIN' as this is known to cause issues for PRoot users."
+		if [ "\$UID" != "0" ]
+		then
+			printf "\\\\n\\\\e[1;31mERROR:\\\\e[1;37m %s\\\\e[1;31mEXITING...\\\\e[0m\\\\n\\\\n" "Script '\${0##*/}' should be prefixed with 'sudo': 'sudu \${0##*/} \$1': "
+		else
+			printf "\\\\e[0;32m%s\\\\n\\\\e[1;32m" "Adding Arch Linux in Termux PRoot user '\$1' and creating Arch Linux in Termux PRoot user \$1's home directory in /home/\$1..."
+			sed -i "/# %wheel ALL=(ALL) NOPASSWD: ALL/ s/^# *//" "/etc/sudoers" 
+			sed -i "/# ALL ALL=(ALL) ALL/ s/^# *//" "/etc/sudoers"
+			sed -i "s/# ALL ALL=(ALL) ALL/ALL ALL=(ALL) NOPASSWD: ALL/g" "/etc/sudoers" 
+			sed -i "s/required/sufficient/g" /etc/pam.d/su
+			sed -i "s/^#auth/auth/g" /etc/pam.d/su
+			useradd -k /root -m -s /bin/bash "\$1" -U || sudo useradd -k /root -m -s /bin/bash "\$1" -U
+			usermod "\$1" -aG wheel || sudo usermod "\$1" -aG wheel
+			chage -I -1 -m 0 -M -1 -E -1 "\$1" || sudo chage -I -1 -m 0 -M -1 -E -1 "\$1"
+	 		passwd -d "\$1" || sudo passwd -d "\$1"
+			chmod 775 /home/\$1
+			chown -R \$1:\$1 /home/\$1
+	#		method depreciated
+	#  		[[ -d /etc/sudoers.d ]] && printf "%s\\\\n" "\$1 ALL=(ALL) ALL" >> /etc/sudoers.d/"\$1"
+			sed -i "s/\$1:x/\$1:/g" /etc/passwd
+			printf "\\\\e[0;32m%s\\\\e[1;32m%s\\\\e[0;32m%s\\\\e[1;32m%s\\\\e[0;32m%s\\\\e[1;32m%s\\\\e[0;32m%s\\\\e[1;32m%s\\\\e[0;32m%s\\\\e[0m\\\\n" "Added Arch Linux in Termux PRoot user " "'\$1'" " and configured user '\$1' for use with the Arch Linux command 'sudo'.  Created Arch Linux user \$1's home directory in /home/\$1.  To use this account run " "'$STARTBIN login \$1'" " from the shell in Termux.  To add user accounts you can use " "'addauser \$1'" " in Arch Linux and " "'$STARTBIN c[ommand] addauser \$1'" " in the default Termux shell.  Please remember not to nest proot in proot unknowingly by using '$STARTBIN' in '$STARTBIN' as this is known to cause issues for PRoot users."
+		fi
 	fi
 	}
 		_PMFSESTRING_() { 
-		printf "\\\\e[1;31m%s\\e[1;37m%s\\\\e[1;32m%s\\\\e[1;37m%s\\\\n\\\\n" "Signal generated in '\$1' : Cannot complete task : " "Continuing..."
+		printf "\\\\e[1;31m%s\\\\e[1;37m%s\\\\e[1;32m%s\\\\e[1;37m%s\\\\n\\\\n" "Signal generated in '\$1' : Cannot complete task : " "Continuing..."
 		printf "\\\\e[1;34m%s\\\\e[0;34m%s\\\\e[1;34m%s\\\\e[0;34m%s\\\\e[1;34m%s\\\\e[0m\\\\n\\\\n" "  If you find improvements for " "setupTermuxArch" " and " "\$0" " please open an issue and accompanying pull request."
 	}
 	_FUNADDU_ "\$@"
@@ -192,14 +198,14 @@ _ADDch_() {
 	declare -a ARGS
 
 	_TRPET_() { # on exit
-		printf "\\e[?25h\\e[0m"
+		printf "\\\\e[?25h\\\\e[0m"
 		set +Eeuo pipefail
 	 	_PRINTTAIL_ "\$ARGS[@]"
 	}
 
 	_PRINTTAIL_() {
-		printf "\\\\n\\\\e[0m%s \\\\e[0;32m%s %s %s\\\\e[1;34m: \\\\e[1;32m%s\\\\e[0m 🏁  \\\\n\\\\n\\\\e[0m" "TermuxArch" "\$(basename "\$0")" "\$ARGS"  "\$VERSIONID" "DONE 📱"
-		printf '\033]2;  🔑 TermuxArch '"\$(basename "\$0")"':DONE 📱 \007'
+		printf "\\\\n\\\\e[0m%s \\\\e[0;32m%s %s %s\\\\e[1;34m: \\\\e[1;32m%s\\\\e[0m 🏁  \\\\n\\\\n\\\\e[0m" "TermuxArch" "\${0##*/}" "\$ARGS"  "\$VERSIONID" "DONE 📱"
+		printf '\033]2;  🔑 TermuxArch %s:DONE 📱 \007' "\${0##*/}"
 	}
 
 	## ch begin ####################################################################
@@ -211,7 +217,7 @@ _ADDch_() {
 		ARGS="\$@"
 	fi
 
-	printf "\\\\n\\\\e[1;32m==> \\\\e[1;37m%s \\\\e[1;32m%s\\\e[0m%s...\\\\n\\\\n" "Running" "TermuxArch \${0##*/} \$ARGS \$VERSIONID"
+	printf "\\\\n\\\\e[1;32m==> \\\\e[1;37m%s \\\\e[1;32m%s\\\\e[0m%s...\\\\n\\\\n" "Running" "TermuxArch \${0##*/} \$ARGS \$VERSIONID"
 
 	if [[ -f "\$HOME"/.hushlogin ]] && [[ -f "\$HOME"/.hushlogout ]]
 	then
@@ -262,7 +268,7 @@ _ADDdfa_() {
 	cat >> root/bin/dfa <<- EOM
 	units="\$(df 2>/dev/null | awk 'FNR == 1 {print \$2}')"
 	USRSPACE="\$(df 2>/dev/null | grep "/data" | awk {'print \$4'})"
-	printf "\e[0;33m%s\n\e[0m" "\$USRSPACE \$units of free user space is available on this device."
+	printf "\\\\e[0;33m%s\\\\n\\\\e[0m" "\$USRSPACE \$units of free user space is available on this device."
 	# dfa EOF
 	EOM
 	chmod 700 root/bin/dfa
@@ -364,7 +370,7 @@ _ADDfbindprocstat8_() {
 }
 
 _ADDfbindprocuptime_() {
-	printf "%s\\n" "350735.47 234388.90" > var/binds/fbindprocuptime
+	printf "%s\\\\n" "350735.47 234388.90" > var/binds/fbindprocuptime
 }
 
 _ADDfbindprocversion_() {
@@ -400,7 +406,7 @@ _ADDfbinds_() { # Checks if /proc/stat is usable.
 _ADDfibs_() {
 	_CFLHDR_ root/bin/fibs
 	cat >> root/bin/fibs <<- EOM
-	find /proc/ -name maps 2>/dev/null | xargs awk '{print \$6}' 2>/dev/null | grep '\.so' | sort | uniq
+	find /proc/ -name maps 2>/dev/null | xargs awk '{print \$6}' 2>/dev/null | grep '\.so' | sort | uniq && exit
 	# fibs EOF
 	EOM
 	chmod 700 root/bin/fibs
@@ -514,8 +520,8 @@ _ADDkeys_() {
 	}
 
 	_PRINTTAIL_() {
-		printf "\\\\n\\\\e[0;32m%s %s %s\\\\e[1;34m: \\\\e[1;32m%s\\\\e[0m 🏁  \\\\n\\\\n\\\\e[0m" "TermuxArch \$(basename "\$0")" "\$ARGS" "\$VERSIONID" "DONE 📱"
-		printf '\033]2;  🔑 TermuxArch '"\$(basename "\$0") \$ARGS"': DONE 📱 \007'
+		printf "\\\\n\\\\e[0;32m%s %s %s\\\\e[1;34m: \\\\e[1;32m%s\\\\e[0m 🏁  \\\\n\\\\n\\\\e[0m" "TermuxArch \${0##*/}" "\$ARGS" "\$VERSIONID" "DONE 📱"
+		printf '\033]2;  🔑 TermuxArch %s:DONE 📱 \007' "\${0##*/}"
 	}
 
 	trap _TRPET_ EXIT
@@ -612,10 +618,10 @@ _ADDmakefakeroottcp_() {
 		printf "\\\\n\\\\e[1;37m%s\\\\e[0m\\\\n\\\\n" "ERROR:  Script '\${0##*/}' should not be used as root:  The TermuxArch command 'addauser' creates user accounts in Arch Linux in PRoot and configures these user accounts for 'sudo':  The 'addauser' command is intended to be run by the Arch Linux in PRoot root user:  To use 'addauser' directly from Termux, run '$STARTBIN command addauser user' in Termux to create this account in Arch Linux PRoot:  The command '$STARTBIN help' has more information about using '$STARTBIN':  EXITING..."
 	else
 		[ ! -f /var/lock/patchmakepkg.lock ] && patchmakepkg
-		printf "%s\\n" "Building and installing fakeroot-tcp: "
+		printf "%s\\\\n" "Building and installing fakeroot-tcp: "
 		([[ ! "\$(command -v automake)" ]] || [[ ! "\$(command -v fakeroot)" ]] || [[ ! "\$(command -v git)" ]] || [[ ! "\$(command -v po4a)" ]]) 2>/dev/null && (pci automake base-devel fakeroot git po4a libtool || sudo pci automake base-devel fakeroot git po4a libtool)
-		cd && (git clone https://aur.archlinux.org/fakeroot-tcp.git && cd fakeroot-tcp && sed -i 's/  patch/  sudo patch/g' PKGBUILD && makepkg -is && libtool --finish /usr/lib/libfakeroot) || printf "%s\n" "Continuing to build and install fakeroot-tcp: " && cd fakeroot-tcp && sed -i 's/  patch/  sudo patch/g' PKGBUILD && makepkg -is
-		printf "%s\\n" "Building and installing fakeroot-tcp: DONE 🏁"
+		cd && (git clone https://aur.archlinux.org/fakeroot-tcp.git && cd fakeroot-tcp && sed -i 's/  patch/  sudo patch/g' PKGBUILD && makepkg -is && libtool --finish /usr/lib/libfakeroot) || printf "%s\\\\n" "Continuing to build and install fakeroot-tcp: " && cd fakeroot-tcp && sed -i 's/  patch/  sudo patch/g' PKGBUILD && makepkg -is
+		printf "%s\\\\n" "Building and installing fakeroot-tcp: DONE 🏁"
 	fi
 	# makefakeroottcp EOF
 	EOM
@@ -633,12 +639,24 @@ _ADDmakeyay_() {
 		_PRMAKE_() {
 			printf "\\\\e[1;32m==> \\\\e[1;37m%s\\\\n" "Running makepkg -irs --noconfirm..."
 		}
-		printf "\\\\e[1;37m%s\\\\e[0m\\\\n" "Building and installing  yay:"
+		printf "\\\\e[0;32m%s\\\\e[0m\\\\n" "Building and installing 'yay':"
+		printf "%s\\\\n" "When this message:
+		libtool: warning: remember to run 'libtool --finish /usr/lib/libfakeroot'
+		When this message is displayed on the screen '\${0##*/}' will deal with it a little bit later in the build proccess, and there will be a short pause when this message is displayed:
+		\"Libraries have been installed in:\"
+		A difficult part of any build process can be choosing the correct answers.  Here are the correct answers:
+		:: fakeroot-tcp and fakeroot are in conflict. Remove fakeroot? [y/N] y
+		Tap the 'y' key first, then enter.  For the first question, the 'y' key must be tapped first, then enter.  Yes will be chosen when enter is tapped in all of the questions after the first question:
+		:: Proceed with installation? [Y/n]
+		Tap enter x4 as this build proccess continues.  If everything goes well, you will see these messages:
+		Libraries have been installed in:
+		makefakeroottcp  2.0.476: DONE 🏁
+		and then this will go on to make 'yay' which is much simpler.  It is simply tapping enter which chooses the yes answer."
 		cd 
 		[ ! -f /var/lock/patchmakepkg.lock ] && patchmakepkg
 		! fakeroot ls >/dev/null && makefakeroottcp
 		(git clone https://aur.archlinux.org/yay.git&&cd yay&&_PRMAKE_&&makepkg -irs --noconfirm)||printf "\\\\e[1;37m%s\\\\e[0m\\\\n" "Continuing to build and install yay..."&&cd yay&&_PRMAKE_&&makepkg -irs --noconfirm||printf "\\\\e[1;31m%s\\\\e[1;37m%s\\\\n" "ERROR: " "The command 'makepkg -irs --noconfirm' did not run expected; CONTINUING..."
-		printf "\\\\e[0;32m%s\\\\n%s\\\\n%s\\\\e[1;32m%s\\\\e[0m\\\\n" "A couple of paths to follow after having built 'yay' are 'yay cmatrix' which builds a couple of nice matrix screensavers and 'yay pikaur' which builds one more aur installer much like 'yay' that you can use in your smartphone to download aur repositories and build packages." "If you have trouble importing Keys try this command 'gpg --keyserver keyserver.ubuntu.com --recv-keys 71A1D0EFCFEB6281FD0437C71A1D0EFCFEB6281F' please.  Change the number to the number of the key being imported." "Building and installing yay: " "DONE 🏁"
+		printf "\\\\e[0;32m%s\\\\n%s\\\\n%s\\\\e[1;32m%s\\\\e[0m\\\\n" "A couple of paths to follow after having built 'yay' are 'yay cmatrix' which builds a couple of nice matrix screensavers.  The commands 'yay [pikaur|pikaur-git|tpac]' build more aur installers you can also use in your smartphone to download aur repositories and build packages like with 'yay'.  Did you know that 'android-studio' is available with the command 'yay android'?" "If you have trouble importing keys, this command 'gpg --keyserver keyserver.ubuntu.com --recv-keys 71A1D0EFCFEB6281FD0437C71A1D0EFCFEB6281F' might help.  Change the number to the number of the key being imported." "Building and installing yay: " "DONE 🏁"
 	fi
 	# makeyay EOF 
 	EOM
@@ -649,8 +667,8 @@ _ADDpatchmakepkg_() {
 	_CFLHDR_ root/bin/patchmakepkg "# patch makepkg"
 	cat >> root/bin/patchmakepkg <<- EOM
 	SDATE="\$(date +%s)"
-	printf "%s\\n" "Attempting to patch makepkg: "
-	[ -f /var/lock/patchmakepkg.lock ] && printf "%s\\n" "Already patched makepkg: DONE 🏁" && exit
+	printf "%s\\\\n" "Attempting to patch makepkg: "
+	[ -f /var/lock/patchmakepkg.lock ] && printf "%s\\\\n" "Already patched makepkg: DONE 🏁" && exit
 	cd && curl --fail --retry 2 -O https://raw.githubusercontent.com/TermuxArch/TermuxArch/master/diff.makepkg.zip && unzip diff.makepkg.zip 
 	patch -n -i makepkg.diff -o makepkg /bin/makepkg
 	cp /bin/makepkg $INSTALLDIR/var/backups/${INSTALLDIR##*/}/makepkg.\$SDATE.bkp
@@ -659,7 +677,7 @@ _ADDpatchmakepkg_() {
 	cp makepkg /usr/local/bin/makepkg
 	mv -f makepkg /bin/makepkg
 	touch /var/lock/patchmakepkg.lock
-	printf "%s\\n" "Attempting to patch makepkg: DONE 🏁"
+	printf "%s\\\\n" "Attempting to patch makepkg: DONE 🏁"
 	# patchmakepkg EOF
 	EOM
 	chmod 700 root/bin/patchmakepkg
@@ -671,14 +689,14 @@ _ADDpc_() {
 	declare -g ARGS="\$@"
 
 	_TRPET_() { # on exit
-		printf "\\e[?25h\\e[0m"
+		printf "\\\\e[?25h\\\\e[0m"
 		set +Eeuo pipefail
 	 	_PRINTTAIL_ "\$ARGS"
 	}
 
 	_PRINTTAIL_() {
-		printf "\\\\n\\\\e[0;32m%s %s %s\\\\e[1;34m: \\\\e[1;32m%s\\\\e[0m 🏁  \\\\n\\\\n\\\\e[0m" "TermuxArch \$(basename "\$0")" "\$ARGS" "\$VERSIONID" "DONE 📱"
-		printf '\033]2;  🔑 TermuxArch '"\$(basename "\$0") \$ARGS"' 📱 \007'
+		printf "\\\\n\\\\e[0;32m%s %s %s\\\\e[1;34m: \\\\e[1;32m%s\\\\e[0m 🏁  \\\\n\\\\n\\\\e[0m" "TermuxArch \${0##*/}" "\$ARGS" "\$VERSIONID" "DONE 📱"
+		printf '\033]2;  🔑 TermuxArch %s:DONE 📱 \007' "\${0##*/}"
 	}
 
 	trap _TRPET_ EXIT
@@ -712,20 +730,20 @@ _ADDpci_() {
 	declare ARGS="\$@"
 
 	_TRPET_() { # on exit
-		printf "\\e[?25h\\e[0m"
+		printf "\\\\e[?25h\\\\e[0m"
 		set +Eeuo pipefail
 	 	_PRINTTAIL_ "\$ARGS"
 	}
 
 	_PRINTTAIL_() {
-		printf "\\\\n\\\\e[0;32m%s %s %s\\\\e[1;34m: \\\\e[1;32m%s\\\\e[0m 🏁  \\\\n\\\\n\\\\e[0m" "TermuxArch \$(basename "\$0")" "\$ARGS" "\$VERSIONID" "DONE 📱"
-		printf '\033]2;  🔑 TermuxArch '"\$(basename "\$0") \$ARGS"' 📱 \007'
+		printf "\\\\n\\\\e[0;32m%s %s %s\\\\e[1;34m: \\\\e[1;32m%s\\\\e[0m 🏁  \\\\n\\\\n\\\\e[0m" "TermuxArch \${0##*/}" "\$ARGS" "\$VERSIONID" "DONE 📱"
+		printf '\033]2;  🔑 TermuxArch %s:DONE 📱 \007' "\${0##*/}"
 	}
 
 	trap _TRPET_ EXIT
 	## pci begin ###################################################################
 
-	printf "\\\\n\\\\e[1;32m==> \\\\e[1;37m%s \\\\e[1;32m%s %s %s \\\e[0m%s...\\\\n\\\\n" "Running" "TermuxArch \$(basename "\$0")" "\$ARGS" "\$VERSIONID"
+	printf "\\\\n\\\\e[1;32m==> \\\\e[1;37m%s \\\\e[1;32m%s %s %s \\\\e[0m%s...\\\\n\\\\n" "Running" "TermuxArch \${0##*/}" "\$ARGS" "\$VERSIONID"
 	if [[ -z "\${1:-}" ]]
 	then
 		pacman --noconfirm --color=always -Syu || sudo pacman --noconfirm --color=always -Syu
@@ -783,22 +801,22 @@ _ADDthstartarch_() {
 _ADDtour_() {
 	_CFLHDR_ root/bin/tour "# A short tour that shows a few of the new files in ths system."
 	cat >> root/bin/tour <<- EOM
-	printf "\n\e[1;32m==> \e[1;37mRunning \e[1;32mls -alr --color=always \$HOME \e[1;37m\n\n"
+	printf "\\\\n\\\\e[1;32m==> \\\\e[1;37mRunning \\\\e[1;32mls -alr --color=always \$HOME \\\\e[1;37m\\\\n\\\\n"
 	sleep 1
 	ls -alr --color=always "\$HOME"
 	sleep 4
-	printf "\n\e[1;32m==> \e[1;37mRunning \e[1;32mcat \$HOME/.bash_profile\e[1;37m\n\n"
+	printf "\\\\n\\\\e[1;32m==> \\\\e[1;37mRunning \\\\e[1;32mcat \$HOME/.bash_profile\\\\e[1;37m\\\\n\\\\n"
 	sleep 1
 	cat "\$HOME"/.bash_profile
 	sleep 4
-	printf "\n\e[1;32m==> \e[1;37mRunning \e[1;32mcat \$HOME/.bashrc\e[1;37m\n\n"
+	printf "\\\\n\\\\e[1;32m==> \\\\e[1;37mRunning \\\\e[1;32mcat \$HOME/.bashrc\\\\e[1;37m\\\\n\\\\n"
 	sleep 1
 	cat "\$HOME"/.bashrc
 	sleep 4
-	printf "\n\e[1;32m==> \e[1;37mRunning \e[1;32mcat \$HOME/bin/pci\e[1;37m\n\n"
+	printf "\\\\n\\\\e[1;32m==> \\\\e[1;37mRunning \\\\e[1;32mcat \$HOME/bin/pci\\\\e[1;37m\\\\n\\\\n"
 	sleep 1
 	cat "\$HOME"/bin/pci
-	printf "\\e[1;32m\\n%s \\e[38;5;121m%s \\n\\n\\e[4;38;5;129m%s\\e[0m\\n\\n\\e[1;34m%s \\e[38;5;135m%s\\e[0m\\n\\n" "==>" "Short tour is complete; Scroll up if you wish to study the output.  Run this script again at a later time, and it might be surprising at how this environment changes over time. " "If you are new to *nix, http://tldp.org has documentation." "IRC: " "https://wiki.archlinux.org/index.php/IRC_channel"
+	printf "\\\\e[1;32m\\\\n%s \\\\e[38;5;121m%s \\\\n\\\\n\\\\e[4;38;5;129m%s\\\\e[0m\\\\n\\\\n\\\\e[1;34m%s \\\\e[38;5;135m%s\\\\e[0m\\\\n\\\\n" "==>" "Short tour is complete; Scroll up if you wish to study the output.  Run this script again at a later time, and it might be surprising at how this environment changes over time. " "If you are new to *nix, http://tldp.org has documentation." "IRC: " "https://wiki.archlinux.org/index.php/IRC_channel"
 	# tour EOF
 	EOM
 	chmod 700 root/bin/tour
@@ -808,8 +826,8 @@ _ADDtrim_() {
 	_CFLHDR_ root/bin/trim
 	cat >> root/bin/trim <<- EOM
 	_PMFSESTRING_() { 
-	printf "\\e[1;31m%s\\e[1;37m%s\\e[1;32m%s\\e[1;37m%s\\n\\n" "Signal generated in '\$1' : Cannot complete task : " "Continuing..."
-	printf "\\e[1;34m%s\\e[0;34m%s\\e[1;34m%s\\e[0;34m%s\\e[1;34m%s\\e[0m\\n\\n" "  If you find improvements for " "setupTermuxArch" " and " "\$0" " please open an issue and accompanying pull request."
+	printf "\\\\e[1;31m%s\\\\e[1;37m%s\\\\e[1;32m%s\\\\e[1;37m%s\\\\n\\\\n" "Signal generated in '\$1' : Cannot complete task : " "Continuing..."
+	printf "\\\\e[1;34m%s\\\\e[0;34m%s\\\\e[1;34m%s\\\\e[0;34m%s\\\\e[1;34m%s\\\\e[0m\\\\n\\\\n" "  If you find improvements for " "setupTermuxArch" " and " "\$0" " please open an issue and accompanying pull request."
 	}
 	printf "\\\\n\\\\e[1;32m==> \\\\e[1;0m%s\\\\e[0m\\\\n\\\\n" "Running \${0##*/} trim \$@:"
 	if [[ "\$UID" -eq "0" ]]
@@ -863,22 +881,22 @@ _ADDwe_() {
 	entropy0=\$(cat /proc/sys/kernel/random/entropy_avail 2>/dev/null)
 
 	printintro() {
-		printf "\n\e[1;32mTermuxArch Watch Entropy:\n"'\033]2; TermuxArch Watch Entropy 📲  \007'
+		printf "\\\\n\\\\e[1;32mTermuxArch Watch Entropy:\\\\n"'\033]2; TermuxArch Watch Entropy 📲  \007'
 	}
 
 	_PRINTTAIL_() {
-		printf "\n\n\e[1;32mTermuxArch Watch Entropy 🏁 \n\n"'\033]2; TermuxArch Watch Entropy 🏁 \007'
+		printf "\\\\n\\\\n\\\\e[1;32mTermuxArch Watch Entropy 🏁 \\\\n\\\\n"'\033]2; TermuxArch Watch Entropy 🏁 \007'
 	}
 
 	_PRINTUSAGE_() {
-		printf "\n\e[0;32mUsage:  \e[1;32mwe \e[0;32m Watch Entropy sequential.\n\n	\e[1;32mwe sequential\e[0;32m Watch Entropy sequential.\n\n	\e[1;32mwe simple\e[0;32m Watch Entropy simple.\n\n	\e[1;32mwe verbose\e[0;32m Watch Entropy verbose.\n\n"'\033]2; TermuxArch Watch Entropy 📲  \007'
+		printf "\\\\n\\\\e[0;32mUsage:  \\\\e[1;32mwe \\\\e[0;32m Watch Entropy sequential.\\\\n\\\\n	\\\\e[1;32mwe sequential\\\\e[0;32m Watch Entropy sequential.\\\\n\\\\n	\\\\e[1;32mwe simple\\\\e[0;32m Watch Entropy simple.\\\\n\\\\n	\\\\e[1;32mwe verbose\\\\e[0;32m Watch Entropy verbose.\\\\n\\\\n"'\033]2; TermuxArch Watch Entropy 📲  \007'
 	}
 
 	infif() {
 		if [[ \$entropy0 = "inf" ]] || [[ \$entropy0 = "" ]] || [[ \$entropy0 = "0" ]]
 		then
 			entropy0=1000
-			printf "\e[1;32m∞^∞infifinfif2minfifinfifinfifinfif∞=1\e[0;32minfifinfifinfifinfif\e[0;32m∞==0infifinfifinfifinfif\e[0;32minfifinfifinfif∞"
+			printf "\\\\e[1;32m∞^∞infifinfif2minfifinfifinfifinfif∞=1\\\\e[0;32minfifinfifinfifinfif\\\\e[0;32m∞==0infifinfifinfifinfif\\\\e[0;32minfifinfifinfif∞"
 		fi
 	}
 
@@ -910,47 +928,47 @@ _ADDwe_() {
 			abcif=\$(command -v bc) ||:
 			if [[ \$abcif = "" ]]
 			then
-				printf "\e[1;34mInstalling \e[0;32mbc\e[1;34m...\n\n\e[1;32m"
+				printf "\\\\e[1;34mInstalling \\\\e[0;32mbc\\\\e[1;34m...\\\\n\\\\n\\\\e[1;32m"
 				pci bc
-				printf "\n\e[1;34mInstalling \e[0;32mbc\e[1;34m: \e[1;32mDONE 🏁\n\e[0m"
+				printf "\\\\n\\\\e[1;34mInstalling \\\\e[0;32mbc\\\\e[1;34m: \\\\e[1;32mDONE 🏁\\\\n\\\\e[0m"
 			fi
 		else
 			tbcif=\$(command -v bc) ||:
 			if [[ \$tbcif = "" ]]
 			then
-				printf "\e[1;34mInstalling \e[0;32mbc\e[1;34m...\n\n\e[1;32m"
+				printf "\\\\e[1;34mInstalling \\\\e[0;32mbc\\\\e[1;34m...\\\\n\\\\n\\\\e[1;32m"
 				apt install bc --yes
-				printf "\n\e[1;34mInstalling \e[0;32mbc\e[1;34m: \e[1;32mDONE 🏁\n\e[0m"
+				printf "\\\\n\\\\e[1;34mInstalling \\\\e[0;32mbc\\\\e[1;34m: \\\\e[1;32mDONE 🏁\\\\n\\\\e[0m"
 			fi
 		fi
 	}
 
 	entropysequential() {
-	printf "\n\e[1;32mWatch Entropy Sequential:\n\n"'\033]2; Watch Entropy Sequential 📲  \007'
+	printf "\\\\n\\\\e[1;32mWatch Entropy Sequential:\\\\n\\\\n"'\033]2; Watch Entropy Sequential 📲  \007'
 	for i in \$(seq 1 \$en0); do
 		entropy0=\$(cat /proc/sys/kernel/random/entropy_avail 2>/dev/null)
 		infif
-		printf "\e[1;30m \$en0 \e[0;32m\$i \e[1;32m\${entropy0}\n"
+		printf "\\\\e[1;30m \$en0 \\\\e[0;32m\$i \\\\e[1;32m\${entropy0}\\\\n"
 		1sleep
 	done
 	}
 
 	entropysimple() {
-	printf "\n\e[1;32mWatch Entropy Simple:\n\n"'\e]2; Watch Entropy Simple 📲  \007'
+	printf "\\\\n\\\\e[1;32mWatch Entropy Simple:\\\\n\\\\n"'\\\\e]2; Watch Entropy Simple 📲  \007'
 	for i in \$(seq 1 \$en0); do
 		entropy0=\$(cat /proc/sys/kernel/random/entropy_avail 2>/dev/null)
 		infif
-		printf "\e[1;32m\${entropy0} "
+		printf "\\\\e[1;32m\${entropy0} "
 		1sleep
 	done
 	}
 
 	entropyverbose() {
-	printf "\n\e[1;32mWatch Entropy Verbose:\n\n"'\033]2; Watch Entropy Verbose 📲  \007'
+	printf "\\\\n\\\\e[1;32mWatch Entropy Verbose:\\\\n\\\\n"'\033]2; Watch Entropy Verbose 📲  \007'
 	for i in \$(seq 1 \$en0); do
 		entropy0=\$(cat /proc/sys/kernel/random/entropy_avail 2>/dev/null)
 		infif
-		printf "\e[1;30m \$en0 \e[0;32m\$i \e[1;32m\${entropy0} \e[0;32m#E&&√♪"
+		printf "\\\\e[1;30m \$en0 \\\\e[0;32m\$i \\\\e[1;32m\${entropy0} \\\\e[0;32m#E&&√♪"
 		esleep
 		sleep \$int
 		entropy1=\$(cat /proc/sys/kernel/random/uuid 2>/dev/null)
