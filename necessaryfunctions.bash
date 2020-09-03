@@ -433,7 +433,6 @@ _RUNFINISHSETUP_() {
 		fi
 		"$ed" "$INSTALLDIR/etc/pacman.d/mirrorlist"
 	fi
-	cp "$INSTALLDIR/etc/profile" "$INSTALLDIR/var/backups/${INSTALLDIR##*/}/etc/profile.$SDATE.bkp" && sed -i "s/.*umask .*/umask 0002/" "$INSTALLDIR/etc/profile" || _PSGI1ESTRING_ "sed _RUNFINISHSETUP_ necessaryfunctions.bash ${0##*/}"
 	"$INSTALLDIR/root/bin/setupbin.bash" || _PRINTPROOTERROR_
 }
 
