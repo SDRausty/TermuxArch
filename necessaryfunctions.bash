@@ -264,7 +264,7 @@ _MAKESTARTBIN_() {
 		exit 202
 	fi
 	declare -g AR2AR="\${@:2}"
-	declare -g ar3ar="\${@:3}"
+	declare -g AR3AR="\${@:3}"
 	_PRINTUSAGE_() {
 	printf "\\e]2;%s\\007" "TermuxArch $STARTBIN help 📲"
 	printf "\\n\\e[1;32m%s\\e[0;32m%s\\n\\n" "$STARTBIN" "  start Arch Linux as root.  This account is reserved for system administration."
@@ -293,7 +293,7 @@ _MAKESTARTBIN_() {
 		touch $INSTALLDIR/root/.chushlogin
 		set +Eeuo pipefail
 	EOM
-		printf "%s\\n" "$PROOTSTMNTU /bin/bash -lc \"\$AR2AR\" ||:" >> "$STARTBIN"
+		printf "%s\\n" "$PROOTSTMNT /bin/bash -lc \"\$AR2AR\" ||:" >> "$STARTBIN"
 	cat >> "$STARTBIN" <<- EOM
 		set -Eeuo pipefail
 		printf '\033]2; $STARTBIN command 📲  \007'
@@ -330,7 +330,7 @@ _MAKESTARTBIN_() {
 		fi
 		set +Eeuo pipefail
 	EOM
-		printf "%s\\n" "$PROOTSTMNT /bin/su - \"\$2\" -c \"\$ar3ar\" ||:" >> "$STARTBIN"
+		printf "%s\\n" "$PROOTSTMNTU /bin/su - \"\$2\" -c \"\$AR3AR\" ||:" >> "$STARTBIN"
 	cat >> "$STARTBIN" <<- EOM
 		set -Eeuo pipefail
 		printf '\033]2; $STARTBIN su user command 📲  \007'
