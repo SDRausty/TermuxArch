@@ -669,10 +669,10 @@ _ADDmakeyay_() {
 		:: fakeroot-tcp and fakeroot are in conflict. Remove fakeroot? [y/N] y
 		Tap the 'y' key first, then enter.  For the first question, the 'y' key must be tapped first, then enter.  Yes will be chosen when enter is tapped in all of the questions after the first question:
 		:: Proceed with installation? [Y/n]
-		Tap enter x4 as this build proccess continues.  If everything goes well, you will see these messages:
+		Tap enter once more as this build proccess continues.  If everything goes well, you will see these messages:
 		Libraries have been installed in:
 		makefakeroottcp  2.0.476: DONE 🏁
-		and then this will go on to make 'yay' which is much simpler.  It is simply tapping enter which chooses the yes answer."
+		and then this will go on to make 'yay' which is much simpler.  There is no tapping yes enter to do."
 		cd 
 		[ ! -f /var/lock/patchmakepkg.lock ] && patchmakepkg
 		! fakeroot ls >/dev/null && makefakeroottcp
