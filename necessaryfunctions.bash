@@ -293,7 +293,7 @@ _MAKESTARTBIN_() {
 		touch $INSTALLDIR/root/.chushlogin
 		set +Eeuo pipefail
 	EOM
-		printf "%s\\n" "$PROOTSTMNT /bin/bash -lc \"\$AR2AR\" ||:" >> "$STARTBIN"
+		printf "%s\\n" "$PROOTSTMNTU /bin/bash -lc \"\$AR2AR\" ||:" >> "$STARTBIN"
 	cat >> "$STARTBIN" <<- EOM
 		set -Eeuo pipefail
 		printf '\033]2; $STARTBIN command 📲  \007'
@@ -304,7 +304,7 @@ _MAKESTARTBIN_() {
 		printf '\033]2; $STARTBIN login user [options] 📲  \007'
 		set +Eeuo pipefail
 	EOM
-		printf "%s\\n" "$PROOTSTMNT /bin/su - \"\$AR2AR\" ||:" >> "$STARTBIN"
+		printf "%s\\n" "$PROOTSTMNTU /bin/su - \"\$AR2AR\" ||:" >> "$STARTBIN"
 	cat >> "$STARTBIN" <<- EOM
 		set -Eeuo pipefail
 		printf '\033]2; $STARTBIN login user [options] 📲  \007'

@@ -10,12 +10,12 @@ _ADDAUSER_() {
 	_FUNADDU_() {
 	if [[ -z "\${1:-}" ]]
 	then
-		printf "\\\\e[1;31m%s\\\\n" "Use: addauser username: exiting..."
+		printf "\\\\e[1;31mUSE: \\\\e[1;37m'addauser username'\\\\e[1;31m: EXITING...\\\\n"
 		exit 201
 	else
 		if [ "\$UID" != "0" ]
 		then
-			printf "\\\\n\\\\e[1;31mERROR:\\\\e[1;37m %s\\\\e[1;31mEXITING...\\\\e[0m\\\\n\\\\n" "Script '\${0##*/}' should be prefixed with 'sudo': 'sudu \${0##*/} \$1': "
+			printf "\\\\n\\\\e[1;31mERROR:\\\\e[1;37m %s\\\\e[1;31m: EXITING...\\\\e[0m\\\\n\\\\n" "Script '\${0##*/}' should be prefixed with 'sudo' when run in user account '\$(whoami)': 'sudu \${0##*/} \$1'"
 		else
 			printf "\\\\e[0;32m%s\\\\n\\\\e[1;32m" "Adding Arch Linux in Termux PRoot user '\$1' and creating Arch Linux in Termux PRoot user \$1's home directory in /home/\$1..."
 			sed -i "/# %wheel ALL=(ALL) NOPASSWD: ALL/ s/^# *//" "/etc/sudoers" 
@@ -1050,7 +1050,7 @@ _PREPPACMANCONF_() {
 	then # rewrite it for the PRoot environment
 		sed -i 's/^CheckSpace/\#CheckSpace/g' "$INSTALLDIR/etc/pacman.conf" && sed -i 's/^#Color/Color/g' "$INSTALLDIR/etc/pacman.conf"
 	else
-		printf "%s%s" "Cannot find file $INSTALLDIR/etc/pacman.conf : " "Signal generated in _PREPPACMANCONF_ archlinuxconfig.bash ${0##*/} : Continuing... "
+		_PSGI1ESTRING_ "Cannot find file $INSTALLDIR/etc/pacman.conf : _PREPPACMANCONF_ archlinuxconfig.bash ${0##*/}"
 	fi
 }
 # archlinuxconfig.bash EOF
