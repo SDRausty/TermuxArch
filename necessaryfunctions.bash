@@ -304,7 +304,7 @@ _MAKESTARTBIN_() {
 		printf '\033]2; $STARTBIN login user [options] 📲  \007'
 		set +Eeuo pipefail
 	EOM
-		printf "%s\\n" "$PROOTSTMNTU /bin/su - \"\$AR2AR\" ||:" >> "$STARTBIN"
+		printf "%s\\n" "$PROOTSTMNT /bin/su - \"\$AR2AR\" ||:" >> "$STARTBIN"
 	cat >> "$STARTBIN" <<- EOM
 		set -Eeuo pipefail
 		printf '\033]2; $STARTBIN login user [options] 📲  \007'
@@ -330,7 +330,7 @@ _MAKESTARTBIN_() {
 		fi
 		set +Eeuo pipefail
 	EOM
-		printf "%s\\n" "$PROOTSTMNTU /bin/su - \"\$2\" -c \"\$AR3AR\" ||:" >> "$STARTBIN"
+		printf "%s\\n" "$PROOTSTMNT /bin/su - \"\$2\" -c \"\$AR3AR\" ||:" >> "$STARTBIN"
 	cat >> "$STARTBIN" <<- EOM
 		set -Eeuo pipefail
 		printf '\033]2; $STARTBIN su user command 📲  \007'

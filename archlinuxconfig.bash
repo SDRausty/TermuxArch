@@ -10,12 +10,12 @@ _ADDAUSER_() {
 	_FUNADDU_() {
 	if [[ -z "\${1:-}" ]]
 	then
-		printf "\\\\e[1;31mUSE: \\\\e[1;37m'addauser username'\\\\e[1;31m: EXITING...\\\\n"
+		printf "\\\\e[1;31mUSAGE: \\\\e[1;37m'addauser username'\\\\e[1;31m: EXITING...\\\\n"
 		exit 201
 	else
 		if [ "\$UID" != "0" ]
 		then
-			printf "\\\\n\\\\e[1;31mERROR:\\\\e[1;37m %s\\\\e[1;31m: EXITING...\\\\e[0m\\\\n\\\\n" "Script '\${0##*/}' must be run using the root account, not the '\$(whoami)' account"
+			printf "\\\\n\\\\e[1;31mUSAGE:\\\\e[1;37m %s\\\\e[1;31m: EXITING...\\\\e[0m\\\\n\\\\n" "Script '\${0##*/}' must be run using the root account, not the '\$(whoami)' account"
 		else
 			printf "\\\\e[0;32m%s\\\\n\\\\e[1;32m" "Adding Arch Linux in Termux PRoot user '\$1' and creating Arch Linux in Termux PRoot user \$1's home directory in /home/\$1..."
 			sed -i "/# %wheel ALL=(ALL) NOPASSWD: ALL/ s/^# *//" "/etc/sudoers" 
@@ -640,8 +640,8 @@ _ADDmakefakeroottcp_() {
 	else
 		[ ! -f /var/lock/patchmakepkg.lock ] && patchmakepkg
 		printf "%s\\\\n" "Building and installing fakeroot-tcp: "
-		([[ ! "\$(command -v automake)" ]] || [[ ! "\$(command -v fakeroot)" ]] || [[ ! "\$(command -v git)" ]] || [[ ! "\$(command -v po4a)" ]]) 2>/dev/null && (pci automake base-devel fakeroot git po4a libtool || sudo pci automake base-devel fakeroot git po4a libtool)
-		cd && (git clone https://aur.archlinux.org/fakeroot-tcp.git && cd fakeroot-tcp && makepkg -irs && libtool --finish /usr/lib/libfakeroot) || printf "%s\\\\n" "Continuing to build and install fakeroot-tcp: " && cd fakeroot-tcp && sed -i 's/  patch/  sudo patch/g' PKGBUILD && makepkg -irs
+		([[ ! "\$(command -v automake)" ]] || [[ ! "\$(command -v fakeroot)" ]] || [[ ! "\$(command -v git)" ]] || [[ ! "\$(command -v gcc)" ]] || [[ ! "\$(command -v po4a)" ]]) 2>/dev/null && (pci automake base-devel fakeroot git gcc po4a libtool || sudo pci automake base-devel fakeroot git gcc po4a libtool)
+		cd && (git clone https://aur.archlinux.org/fakeroot-tcp.git && cd fakeroot-tcp && sed -i 's/  patch/  sudo patch/g' PKGBUILD && makepkg -irs && libtool --finish /usr/lib/libfakeroot) || printf "%s\\\\n" "Continuing to build and install fakeroot-tcp: " && cd fakeroot-tcp && sed -i 's/  patch/  sudo patch/g' PKGBUILD && makepkg -irs
 		printf "%s\\\\n" "Building and installing fakeroot-tcp: DONE 🏁"
 	fi
 	# makefakeroottcp EOF
