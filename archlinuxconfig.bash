@@ -15,7 +15,7 @@ _ADDAUSER_() {
 	else
 		if [ "\$UID" != "0" ]
 		then
-			printf "\\\\n\\\\e[1;31mERROR:\\\\e[1;37m %s\\\\e[1;31m: EXITING...\\\\e[0m\\\\n\\\\n" "Script '\${0##*/}' should be prefixed with 'sudo' when run in user account '\$(whoami)': 'sudu \${0##*/} \$1'"
+			printf "\\\\n\\\\e[1;31mERROR:\\\\e[1;37m %s\\\\e[1;31m: EXITING...\\\\e[0m\\\\n\\\\n" "Script '\${0##*/}' must be run using the root account, not the '\$(whoami)' account"
 		else
 			printf "\\\\e[0;32m%s\\\\n\\\\e[1;32m" "Adding Arch Linux in Termux PRoot user '\$1' and creating Arch Linux in Termux PRoot user \$1's home directory in /home/\$1..."
 			sed -i "/# %wheel ALL=(ALL) NOPASSWD: ALL/ s/^# *//" "/etc/sudoers" 
@@ -23,10 +23,10 @@ _ADDAUSER_() {
 			sed -i "s/# ALL ALL=(ALL) ALL/ALL ALL=(ALL) NOPASSWD: ALL/g" "/etc/sudoers" 
 			sed -i "s/required/sufficient/g" /etc/pam.d/su
 			sed -i "s/^#auth/auth/g" /etc/pam.d/su
-			useradd -k /root -m -s /bin/bash "\$1" -U || sudo useradd -k /root -m -s /bin/bash "\$1" -U
-			usermod "\$1" -aG wheel || sudo usermod "\$1" -aG wheel
-			chage -I -1 -m 0 -M -1 -E -1 "\$1" || sudo chage -I -1 -m 0 -M -1 -E -1 "\$1"
-	 		passwd -d "\$1" || sudo passwd -d "\$1"
+			useradd -k /root -m -s /bin/bash "\$1" -U
+			usermod "\$1" -aG wheel
+			chage -I -1 -m 0 -M -1 -E -1 "\$1"
+			passwd -d "\$1"
 			chmod 775 /home/\$1
 			chown -R \$1:\$1 /home/\$1
 	#		method depreciated
