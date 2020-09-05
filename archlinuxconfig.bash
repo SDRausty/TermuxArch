@@ -641,7 +641,7 @@ _ADDmakefakeroottcp_() {
 		[ ! -f /var/lock/patchmakepkg.lock ] && patchmakepkg
 		printf "%s\\\\n" "Building and installing fakeroot-tcp: "
 		([[ ! "\$(command -v automake)" ]] || [[ ! "\$(command -v fakeroot)" ]] || [[ ! "\$(command -v git)" ]] || [[ ! "\$(command -v po4a)" ]]) 2>/dev/null && (pci automake base-devel fakeroot git po4a libtool || sudo pci automake base-devel fakeroot git po4a libtool)
-		cd && (git clone https://aur.archlinux.org/fakeroot-tcp.git && cd fakeroot-tcp && sed -i 's/  patch/  sudo patch/g' PKGBUILD && makepkg -irs && libtool --finish /usr/lib/libfakeroot) || printf "%s\\\\n" "Continuing to build and install fakeroot-tcp: " && cd fakeroot-tcp && sed -i 's/  patch/  sudo patch/g' PKGBUILD && makepkg -is
+		cd && (git clone https://aur.archlinux.org/fakeroot-tcp.git && cd fakeroot-tcp && makepkg -irs && libtool --finish /usr/lib/libfakeroot) || printf "%s\\\\n" "Continuing to build and install fakeroot-tcp: " && cd fakeroot-tcp && sed -i 's/  patch/  sudo patch/g' PKGBUILD && makepkg -irs
 		printf "%s\\\\n" "Building and installing fakeroot-tcp: DONE 🏁"
 	fi
 	# makefakeroottcp EOF
