@@ -35,17 +35,15 @@ _DOFUNLCR2_() {
 		if [[ "$USER" != alarm ]]
 		then 
 			export "$USER"
-			_BKPTHF_ .bash_profile
-			_BKPTHF_ .bashrc
-			_BKPTHF_ .vimrc
-			cp "$INSTALLDIR"/root/.bash_profile "$INSTALLDIR/home/$USER/"
-			cp "$INSTALLDIR"/root/.bashrc "$INSTALLDIR/home/$USER/"
-			cp "$INSTALLDIR"/root/.vimrc "$INSTALLDIR/home/$USER/"
-			cp "$INSTALLDIR"/root/bin/* "$INSTALLDIR/home/$USER/bin/"
-		       	ls "$INSTALLDIR/home/$USER"/.bash_profile | cut -f7- -d /
-		       	ls "$INSTALLDIR/home/$USER"/.bashrc | cut -f7- -d /
-		       	ls "$INSTALLDIR/home/$USER"/.vimrc | cut -f7- -d /
-		       	ls "$INSTALLDIR/home/$USER"/bin/* | cut -f7- -d /
+ 			cp "$INSTALLDIR/root/bin/"* "$INSTALLDIR/home/$USER/bin/"
+			printf "\\n\\e[0;32mCopied files in \\e[1;32m%s\\e[0;32m to %s.\\n\\e[0m" "/${INSTALLDIR##*/}/root/bin/" "/${INSTALLDIR##*/}/home/$USER/bin/"
+			DOFLIST=(.bash_profile .bashrc .gitconfig .vimrc)
+			for DOFLNAME in "${DOFLIST[@]}"
+			do
+				_BKPTHF_ "$DOFLNAME" 
+				cp "$INSTALLDIR/root/$DOFLNAME" "$INSTALLDIR/home/$USER/" 
+				printf "\\n\\e[0;32mCopied file \\e[1;32m%s\\e[0;32m to %s.\\n\\e[0m" "/${INSTALLDIR##*/}/root/$DOFLNAME" "/${INSTALLDIR##*/}/home/$USER/$DOFLNAME"
+			done
 		fi
 	fi
 	cd "$INSTALLDIR/root"
@@ -123,6 +121,8 @@ _REFRESHSYS_() { # refresh installation
 	ls "$INSTALLDIR"/bin/we | cut -f7- -d /
 	ls "$INSTALLDIR"/root/.bashrc | cut -f7- -d /
 	ls "$INSTALLDIR"/root/.bash_profile | cut -f7- -d /
+	ls "$INSTALLDIR"/root/.vimrc | cut -f7- -d /
+	ls "$INSTALLDIR"/root/.gitconfig | cut -f7- -d /
 	ls "$INSTALLDIR"/root/bin/* | cut -f7- -d /
 	if [[ "${LCR:-}" = 2 ]]
 	then

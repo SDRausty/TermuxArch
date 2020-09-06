@@ -35,6 +35,7 @@ _ADDADDS_() {
 	_ADDga_
 	_ADDgcl_
 	_ADDgcm_
+	_ADDgitconfig_
 	_ADDgp_
 	_ADDgpl_
 	_ADDinputrc

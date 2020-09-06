@@ -449,6 +449,21 @@ _ADDga_() {
 	chmod 700 root/bin/ga
 }
 
+_ADDgitconfig_() {
+	if [[ -f "$HOME/.gitconfig" ]] 
+	then 
+		if [[ -f "$INSTALLDIR/root/.gitconfig" ]] 
+		then 
+			_DOTHRF_ "root/.gitconfig"
+			cp "$HOME/.gitconfig" "$INSTALLDIR/root/.gitconfig"
+		else	
+			cp "$HOME/.gitconfig" "$INSTALLDIR/root/.gitconfig"
+		fi
+	else	
+		touch "$INSTALLDIR/root/.gitconfig"
+	fi
+}
+
 _ADDgcl_() {
 	_CFLHDR_ root/bin/gcl
 	cat >> root/bin/gcl <<- EOM
@@ -1045,9 +1060,8 @@ _ADDyt_() {
 	printf "%s\\n%s\\n%s\\n" "[ \"\$UID\" = \"0\" ] && printf \"\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\\n\" \"Cannot run '\${0##*/}' as root user :\" \" the command 'addauser username' creates user accounts in $INSTALLDIR : the command '$STARTBIN command addauser username' can create user accounts in $INSTALLDIR from Termux : a default user account is created during setup : the default username 'user' can be used to access the PRoot system employing a user account : command '$STARTBIN help' has more information : \" \"exiting...\" && exit" "[ ! -x \"\$(command -v youtube-dl)\" ] && sudo pci youtube-dl && youtube-dl \"\$@\" || youtube-dl \"\$@\" " "# yt EOF" >> root/bin/yt
 	chmod 700 root/bin/yt
 }
-
+# add 'set belloff=all' to file /root/.vimrc 
 _MODvimrc_() {
-	# add 'set belloff=all' to file .vimrc 
 	if [[ -f "$INSTALLDIR/root/.vimrc" ]] 
 	then 
 		_DOTHRF_ "root/.vimrc"
