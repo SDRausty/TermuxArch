@@ -28,7 +28,7 @@ _DOFUNLCR2_() {
 		BKPDIR="$INSTALLDIR/var/backups/${INSTALLDIR##*/}/home/$USER"
 		[[ ! -d "$BKPDIR/" ]] && mkdir -p "$BKPDIR/"
 		cd "$INSTALLDIR/home/$USER"
-		[[ -f $1 ]] && printf "\\e[1;32m==>\\e[0;32m %s\\n" "mv -f $1 $BKPDIR/$1.$SDATE.bkp" && mv -f "$1" "$BKPDIR/$1.$SDATE.bkp" || _PSGI1ESTRING_ "mv -f '$1' if found maintenanceroutines.bash ${0##*/}"
+		[[ -f $1 ]] && printf "\\e[1;32m==>\\e[0;32m %s\\n" "cp $1 $BKPDIR/$1.$SDATE.bkp" && cp "$1" "$BKPDIR/$1.$SDATE.bkp" || _PSGI1ESTRING_ "cp '$1' if found maintenanceroutines.bash ${0##*/}"
 	}
 	if [ -d "$INSTALLDIR/home" ]
 	then
@@ -37,12 +37,15 @@ _DOFUNLCR2_() {
 			export "$USER"
 			_BKPTHF_ .bash_profile
 			_BKPTHF_ .bashrc
+			_BKPTHF_ .vimrc
 			cp "$INSTALLDIR"/root/.bash_profile "$INSTALLDIR/home/$USER/"
 			cp "$INSTALLDIR"/root/.bashrc "$INSTALLDIR/home/$USER/"
+			cp "$INSTALLDIR"/root/.vimrc "$INSTALLDIR/home/$USER/"
 			cp "$INSTALLDIR"/root/bin/* "$INSTALLDIR/home/$USER/bin/"
-		       	ls "$INSTALLDIR/home/$USER"/.bash_profile |cut -f7- -d /
-		       	ls "$INSTALLDIR/home/$USER"/.bashrc |cut -f7- -d /
-		       	ls "$INSTALLDIR/home/$USER"/bin/* |cut -f7- -d /
+		       	ls "$INSTALLDIR/home/$USER"/.bash_profile | cut -f7- -d /
+		       	ls "$INSTALLDIR/home/$USER"/.bashrc | cut -f7- -d /
+		       	ls "$INSTALLDIR/home/$USER"/.vimrc | cut -f7- -d /
+		       	ls "$INSTALLDIR/home/$USER"/bin/* | cut -f7- -d /
 		fi
 	fi
 	cd "$INSTALLDIR/root"

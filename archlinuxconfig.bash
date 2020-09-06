@@ -1046,6 +1046,24 @@ _ADDyt_() {
 	chmod 700 root/bin/yt
 }
 
+_MODvimrc_() {
+	# add 'set belloff=all' to file .vimrc 
+	if [[ -f "$INSTALLDIR/root/.vimrc" ]] 
+	then 
+		_DOTHRF_ "root/.vimrc"
+		if ! grep "set belloff=all" "$INSTALLDIR/root/.vimrc" 1>/dev/null
+		then
+			printf "set belloff=all\\n" >> "$INSTALLDIR/root/.vimrc"
+			printf "\\e[0;33mline %s not found in %s.vimrc file\\e[0m\\n" "'set belloff=all'" "/${INSTALLDIR##*/}/root/"
+		else
+			printf "\\e[0;34mline %s found in %s.vimrc file\\e[0m\\n" "'set belloff=all'" "/${INSTALLDIR##*/}/root/"
+		fi
+	else
+		printf "set belloff=all\\n" >> "$INSTALLDIR/root/.vimrc"
+		printf "\\e[0;33mline %s not found in %s.vimrc file\\e[0m\\n" "'set belloff=all'" "/${INSTALLDIR##*/}/root/"
+	fi
+}
+
 _PREPPACMANCONF_() {
 	if [ -f "$INSTALLDIR"/etc/pacman.conf ] # file is found
 	then # rewrite it for the PRoot environment

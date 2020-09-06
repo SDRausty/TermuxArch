@@ -51,6 +51,7 @@ _ADDADDS_() {
 	_ADDv_
 	_ADDwe_
 	_ADDyt_
+	_MODvimrc_
 }
 
 _CALLSYSTEM_() {
