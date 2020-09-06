@@ -94,7 +94,7 @@ _ADDbash_logout_() {
 
 _ADDbash_profile_() {
 	[ -e root/.bash_profile ] && _DOTHRF_ "root/.bash_profile"
-	printf "%s\\n%s\\n%s\\n" "PATH=\"\$HOME/bin:\$PATH:/usr/sbin:/sbin:/bin:$PATH\"" "cd" "[[ -f "\$HOME"/.bashrc ]] && . "\$HOME"/.bashrc" > root/.bash_profile
+	printf "%s\\n%s\\n" "PATH=\"\$HOME/bin:\$PATH:/usr/sbin:/sbin:/bin\"" "[[ -f "\$HOME"/.bashrc ]] && . "\$HOME"/.bashrc" > root/.bash_profile
 	cat >> root/.bash_profile <<- EOM
 	if [ ! -e "\$HOME"/.hushlogin ] && [ ! -e "\$HOME"/.chushlogin ]
 	then

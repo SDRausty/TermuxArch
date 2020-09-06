@@ -82,7 +82,7 @@ _PR00TSTRING_() { # construct the PRoot init statement
 	       	PROOTSTMNT+="--kill-on-exit "
        	fi
 #        	PROOTSTMNT+="--link2symlink -S $INSTALLDIR "
-	PROOTSTMNT+="--link2symlink -i \"\$AR2AR:wheel\" -S $INSTALLDIR "
+	PROOTSTMNT+="--link2symlink -i \"\$AR2AR:wheel\" -0 -r $INSTALLDIR "
 	# file var/binds/fbindexample.prs has a few more examples
        	if [[ -n "$(ls -A "$INSTALLDIR"/var/binds/*.prs)" ]]
 	then
@@ -121,14 +121,15 @@ _PR00TSTRING_() { # construct the PRoot init statement
 		       	PROOTSTMNT+="-b ${PRSTARR[$PRBIND]}:$PRBIND "
 		fi
 	done
-	PROOTSTMNT+="-w \"\$PWD\" /usr/bin/env -i HOME=/root TERM=\"$TERM\" TMPDIR=/tmp ANDROID_DATA=/data " # create PRoot user string
-	PROOTSTMNTUUU="${PROOTSTMNT//--link2symlink }" # create PRoot user strin
-	PROOTSTMNTUU="${PROOTSTMNTUUU//-S /-R }" # create PRoot user strin
-	PROOTSTMNTU="${PROOTSTMNTUU//HOME=\/root/HOME=\/home\/\$AR2AR}" # create PRoot user string
-	PROOTSTMNT="${PROOTSTMNT//-i \"\$AR2AR:wheel\" }" # create PRoot user string
+	PROOTSTMNT+="-w /root /usr/bin/env -i HOME=/root TERM=\"$TERM\" TMPDIR=/tmp ANDROID_DATA=/data " # create PRoot user string
+	PROOTSTMNTUUUU="${PROOTSTMNT//HOME=\/root/HOME=\/home\/\$AR2AR}" # create PRoot user string
+	PROOTSTMNTUUU="${PROOTSTMNTUUUU//-0 }"
+	PROOTSTMNTUU="${PROOTSTMNTUUU//-w \/root/-w \/home\/\$AR2AR}" # create PRoot user string with link2symlink option enabled
+	PROOTSTMNTU="${PROOTSTMNTUU//--link2symlink }" # create PRoot user string with link2symlink option disabled
+	PROOTSTMNT="${PROOTSTMNT//-i \"\$AR2AR:wheel\" }" # create PRoot root user string
 }
 _PR00TSTRING_
 ##  uncomment the next line to test function _PR00TSTRING_
-#  printf "%s\\n" "$PROOTSTMNT" && printf "%s\\n" "$PROOTSTMNTU" && exit
+#   printf "%s\\n" "$PROOTSTMNT" && printf "%s\\n" "$PROOTSTMNTU" && printf "%s\\n" "$PROOTSTMNTUU" && exit
 ##  The commands 'setupTermuxArch r[e[fresh]]' can be used to regenerate the start script to the newest version if there is a newer version published and can be customized as wanted.  Command 'setupTermuxArch refresh' will refresh the installation globally, including excecuting 'keys' and 'locales-gen' and backup user configuration files that were initially created and are refreshed.  The command 'setupTermuxArch re' will refresh the installation and update user configuration files and backup user configuration files that were initially created and are refreshed.  Command 'setupTermuxArch r' will only refresh the installation and update the root user configuration files and backup root user configuration files that were initially created and are refreshed.
 # knownconfigurations.bash EOF

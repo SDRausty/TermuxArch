@@ -300,8 +300,19 @@ _MAKESTARTBIN_() {
 		set -Eeuo pipefail
 		printf '\033]2; $STARTBIN command 📲  \007'
 		rm -f $INSTALLDIR/root/.chushlogin
-	# [login user|login user [options]] Login as user [plus options].  Use 'addauser user' first to create this user and user's home directory.
+	# [l[ogin] user|u[ser] user [options]] Login as user [plus options].  Use 'addauser user' first to create this user and the user's home directory.  This option is for installing and working with programs that build other programs, and for working with the 'git' command, but the 'git’ might not work as expected in all situations.
 	elif [[ "\${1//-}" = [Ll]* ]] || [[ "\${1//-}" = [Uu]* ]]
+	then
+		printf '\033]2; $STARTBIN login user [options] 📲  \007'
+		set +Eeuo pipefail
+	EOM
+		printf "%s\\n" "$PROOTSTMNTUU /bin/su - \"\$AR2AR\" ||:" >> "$STARTBIN"
+	cat >> "$STARTBIN" <<- EOM
+		set -Eeuo pipefail
+		printf '\033]2; $STARTBIN command 📲  \007'
+		rm -f $INSTALLDIR/root/.chushlogin
+	# [el[ogin] user|eu[ser] user [options]] Login as user [plus options].  Use 'addauser user' first to create this user and the user's home directory.  This option is for working with programs that have already been installed, and for working with the 'git' command.
+	elif [[ "\${1//-}" = e[Ll]* ]] || [[ "\${1//-}" = e[Uu]* ]]
 	then
 		printf '\033]2; $STARTBIN login user [options] 📲  \007'
 		set +Eeuo pipefail
