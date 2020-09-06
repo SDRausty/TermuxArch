@@ -783,7 +783,7 @@ _ADDpci_() {
 	printf "\\\\n\\\\e[1;32m==> \\\\e[1;37m%s \\\\e[1;32m%s %s %s \\\\e[0m%s...\\\\n\\\\n" "Running" "TermuxArch \${0##*/}" "\$ARGS" "\$VERSIONID"
 	if [[ -z "\${1:-}" ]]
 	then
-		pacman --noconfirm --color=always -Syu || sudo pacman --noconfirm --color=always -Syu
+		pacman --noconfirm --color=always -Syu || pacman --noconfirm --color=always -Syu
 	elif [[ "\$1" = "e" ]]
 	then
 		pacman --noconfirm --color=always -Syu base base-devel emacs "\${@:2}" || sudo pacman --noconfirm --color=always -Syu base base-devel emacs "\${@:2}"
