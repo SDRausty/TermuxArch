@@ -154,7 +154,7 @@ _ADDbashrc_() {
 	alias pcss='pacman -Ss --color=always'
 	alias Q='exit'
 	alias q='exit'
-	alias $STARTBIN='printf "\\e[1:31m%s\\e[0m\\n" "Nested proots are not currently supported: EXITING..."'
+	alias $STARTBIN='printf "\\e[1;48;5;139m Nested proots are not currently supported: EXITING...\\e[0m\\n"'
 	# .bashrc EOF
 	EOM
 	if [ -e "$HOME"/.bashrc ]
