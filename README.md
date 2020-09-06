@@ -4,10 +4,10 @@
 
 ## TermuxArch
 
-##### -r--r--r-- [setupTermuxArch.bash](https://raw.githubusercontent.com/TermuxArch/TermuxArch/master/setupTermuxArch.bash)
-##### -rwxrwx--- [setupTermuxArch.bash](https://TermuxArch.github.io/TermuxArch/setupTermuxArch.bash) 
+##### -r--r--r-- [setupTermuxArch](https://raw.githubusercontent.com/TermuxArch/TermuxArch/master/setupTermuxArch)
+##### -rwxrwx--- [setupTermuxArch](https://TermuxArch.github.io/TermuxArch/setupTermuxArch) 
 
-This Termux bash setup shell script will attempt to set Arch Linux up in your Termux environment.  See [install](https://TermuxArch.github.io/docsTermuxArch/install) for options how to run [`setupTermuxArch.bash`](https://raw.githubusercontent.com/TermuxArch/TermuxArch/master/setupTermuxArch.bash) on device.  Use `bash setupTermuxArch.bash` to install [Arch Linux](https://wiki.archlinux.org/) in a [Termux PRoot](https://github.com/termux/proot) container on your Android smartphone and tablet, and Chromebook too.  When successfully completed, you will be experiencing the pleasure of the Linux command prompt in Arch Linux in Termux PRoot on Android, Chromebook and Fire OS on smartphone, tablet and wearable.
+This Termux bash setup shell script will attempt to set Arch Linux up in your Termux environment.  See [install](https://TermuxArch.github.io/docsTermuxArch/install) for options how to run [`setupTermuxArch`](https://raw.githubusercontent.com/TermuxArch/TermuxArch/master/setupTermuxArch) on device.  Use `bash setupTermuxArch` to install [Arch Linux](https://wiki.archlinux.org/) in a [Termux PRoot](https://github.com/termux/proot) container on your Android smartphone and tablet, and Chromebook too.  When successfully completed, you will be experiencing the pleasure of the Linux command prompt in Arch Linux in Termux PRoot on Android, Chromebook and Fire OS on smartphone, tablet and wearable.
 
 #### Screenshot from an Android smartphone 2018
 [![screenshot_20180413-172406](https://user-images.githubusercontent.com/27742457/38758637-ec0ff0dc-3f3f-11e8-802c-82bc511cde88.png)](https://TermuxArch.github.io/docsTermuxArch/install)
@@ -24,9 +24,9 @@ Thank you for making this project work better and please contribute 🔆  [Cont
 
 Share https://wiki.termux.com/wiki/Development everwhere🌎🌍🌏🌐!
 
-Install Arch Linux into a Termux PRoot container with [`bash setupTermuxArch.bash`](setupTermuxArch.bash).  After succesfull installation start the container with `startarch`.
+Install Arch Linux into a Termux PRoot container with [`bash setupTermuxArch`](setupTermuxArch).  After succesfull installation start the container with `startarch`.
 
-See https://TermuxArch.github.io/TermuxArch/docs/install for options how to run [`setupTermuxArch.bash`](https://TermuxArch.github.io/TermuxArch/setupTermuxArch.bash) on device.  
+See https://TermuxArch.github.io/TermuxArch/docs/install for options how to run [`setupTermuxArch`](https://TermuxArch.github.io/TermuxArch/setupTermuxArch) on device.  
 
 See https://TermuxArch.github.io/docsTermuxArch/startingArch for options how to start the Arch Linux container `startarch` on device.
 
