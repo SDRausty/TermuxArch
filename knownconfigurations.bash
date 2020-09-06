@@ -81,7 +81,8 @@ _PR00TSTRING_() { # construct the PRoot init statement
 	then
 	       	PROOTSTMNT+="--kill-on-exit "
        	fi
-       	PROOTSTMNT+="--link2symlink -S $INSTALLDIR "
+#        	PROOTSTMNT+="--link2symlink -S $INSTALLDIR "
+	PROOTSTMNT+="--link2symlink -i \"\$AR2AR:wheel\" -S $INSTALLDIR "
 	# file var/binds/fbindexample.prs has a few more examples
        	if [[ -n "$(ls -A "$INSTALLDIR"/var/binds/*.prs)" ]]
 	then
@@ -120,8 +121,11 @@ _PR00TSTRING_() { # construct the PRoot init statement
 		       	PROOTSTMNT+="-b ${PRSTARR[$PRBIND]}:$PRBIND "
 		fi
 	done
-	PROOTSTMNT+="-w \"\$PWD\" /usr/bin/env -i HOME=/root TERM=\"\$TERM\" TMPDIR=/tmp ANDROID_DATA=/data " # create PRoot user string
-	PROOTSTMNTU="${PROOTSTMNT//-S/-R}" # create PRoot user string
+	PROOTSTMNT+="-w \"\$PWD\" /usr/bin/env -i HOME=/root TERM=\"$TERM\" TMPDIR=/tmp ANDROID_DATA=/data " # create PRoot user string
+	PROOTSTMNTUUU="${PROOTSTMNT//--link2symlink }" # create PRoot user strin
+	PROOTSTMNTUU="${PROOTSTMNTUUU//-S /-R }" # create PRoot user strin
+	PROOTSTMNTU="${PROOTSTMNTUU//HOME=\/root/HOME=\/home\/\$AR2AR}" # create PRoot user string
+	PROOTSTMNT="${PROOTSTMNT//-i \"\$AR2AR:wheel\" }" # create PRoot user string
 }
 _PR00TSTRING_
 ##  uncomment the next line to test function _PR00TSTRING_
