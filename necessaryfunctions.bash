@@ -5,8 +5,8 @@
 # https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.
 ################################################################################
 
-BINFNSTP=finishsetup.bash
-LC_TYPE=( "LANG" "LANGUAGE" "LC_ADDRESS" "LC_COLLATE" "LC_CTYPE" "LC_IDENTIFICATION" "LC_MEASUREMENT" "LC_MESSAGES" "LC_MONETARY" "LC_NAME" "LC_NUMERIC" "LC_PAPER" "LC_TELEPHONE" "LC_TIME" )
+BINFNSTP="finishsetup.bash"
+LC_TYPE=("LANG" "LANGUAGE" "LC_ADDRESS" "LC_COLLATE" "LC_CTYPE" "LC_IDENTIFICATION" "LC_MEASUREMENT" "LC_MESSAGES" "LC_MONETARY" "LC_NAME" "LC_NUMERIC" "LC_PAPER" "LC_TELEPHONE" "LC_TIME")
 
 _ADDADDS_() {
 	_ADDAUSER_
@@ -52,7 +52,7 @@ _ADDADDS_() {
 	_ADDv_
 	_ADDwe_
 	_ADDyt_
-	_MODvimrc_
+	_DOMODdotfiles_
 }
 
 _CALLSYSTEM_() {
@@ -202,17 +202,17 @@ _DOKEYS_() {
 
 _MAKEFINISHSETUP_() {
 	_CFLHDR_ root/bin/"$BINFNSTP"
-	[[ "${LCR:-}" -ne 1 ]] && LOCGEN="" 
+	[[ "${LCR:-}" -ne 1 ]] && LOCGEN=""
 	[[ "${LCR:-}" -ne 2 ]] && LOCGEN=""
 	[[ -z "${LCR:-}" ]] && LOCGEN="printf \"\\e[1;32m%s\\e[0;32m\"  \"==> \" && locale-gen  ||:"
 	cat >> root/bin/"$BINFNSTP" <<- EOM
-	_PMFSESTRING_() { 
+	_PMFSESTRING_() {
 	printf "\\e[1;31m%s\\e[1;37m%s\\e[1;32m%s\\e[1;37m%s\\n\\n" "Signal generated in '\$1' : Cannot complete task : " "Continuing...   To correct the error run " "setupTermuxArch refresh" " to attempt to finish the autoconfiguration."
 	printf "\\e[1;34m%s\\e[0;34m%s\\e[1;34m%s\\e[0;34m%s\\e[1;34m%s\\n\\n" "  If you find better resolves for " "setupTermuxArch" " and " "\$0" ", please open an issue and accompanying pull request."
 	}
 	printf "\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\n" "To generate locales in a preferred language use " "Settings > Language & Keyboard > Language " "in Android; Then run " "${0##*/} refresh" " for a full system refresh including locale generation; For quick refresh you can use " "${0##*/} r" ".  For a refresh with user directories " "${0##*/} re" " can be used."
    	$LOCGEN
-	printf "\\n\\e[1;34m:: \\e[1;37m%s\\n" "Processing system for $NASVER $CPUABI, and removing redundant packages for Termux PRoot installation..."
+	printf "\\n\\e[1;34m:: \\e[1;32m%s\\n" "Processing system for $NASVER $CPUABI, and removing redundant packages for Termux PRoot installation if necessary..."
 	EOM
 	if [[ -z "${LCR:-}" ]] # is undefined
 	then
@@ -386,7 +386,7 @@ _MD5CHECK_() {
 }
 
 _PREPROOTDIR_() {
-	# create local array of directories to be created for setupTermuxArch 
+	# create local array of directories to be created for setupTermuxArch
 	local DRARRLST=("etc" "home" "root/bin" "usr/bin" "var/backups/${INSTALLDIR##*/}/etc" "var/backups/${INSTALLDIR##*/}/root" "var/binds")
 	for ISDIR in ${DRARRLST[@]}
 	do

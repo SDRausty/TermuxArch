@@ -18,9 +18,9 @@ _ADDAUSER_() {
 			printf "\\\\n\\\\e[1;31mUSAGE:\\\\e[1;37m %s\\\\e[1;31m: EXITING...\\\\e[0m\\\\n\\\\n" "Script '\${0##*/}' must be run using the root account, not the '\$(whoami)' account"
 		else
 			printf "\\\\e[0;32m%s\\\\n\\\\e[1;32m" "Adding Arch Linux in Termux PRoot user '\$1' and creating Arch Linux in Termux PRoot user \$1's home directory in /home/\$1..."
-			sed -i "/# %wheel ALL=(ALL) NOPASSWD: ALL/ s/^# *//" "/etc/sudoers" 
+			sed -i "/# %wheel ALL=(ALL) NOPASSWD: ALL/ s/^# *//" "/etc/sudoers"
 			sed -i "/# ALL ALL=(ALL) ALL/ s/^# *//" "/etc/sudoers"
-			sed -i "s/# ALL ALL=(ALL) ALL/ALL ALL=(ALL) NOPASSWD: ALL/g" "/etc/sudoers" 
+			sed -i "s/# ALL ALL=(ALL) ALL/ALL ALL=(ALL) NOPASSWD: ALL/g" "/etc/sudoers"
 			sed -i "s/required/sufficient/g" /etc/pam.d/su
 			sed -i "s/^#auth/auth/g" /etc/pam.d/su
 			useradd -k /root -m -s /bin/bash "\$1" -U
@@ -36,7 +36,7 @@ _ADDAUSER_() {
 		fi
 	fi
 	}
-		_PMFSESTRING_() { 
+		_PMFSESTRING_() {
 		printf "\\\\e[1;31m%s\\\\e[1;37m%s\\\\e[1;32m%s\\\\e[1;37m%s\\\\n\\\\n" "Signal generated in '\$1' : Cannot complete task : " "Continuing..."
 		printf "\\\\e[1;34m%s\\\\e[0;34m%s\\\\e[1;34m%s\\\\e[0;34m%s\\\\e[1;34m%s\\\\e[0m\\\\n\\\\n" "  If you find improvements for " "setupTermuxArch" " and " "\$0" " please open an issue and accompanying pull request."
 	}
@@ -154,7 +154,7 @@ _ADDbashrc_() {
 	alias pcss='pacman -Ss --color=always'
 	alias Q='exit'
 	alias q='exit'
-	alias $STARTBIN='printf "\\e[1;48;5;139m Nested proots are not currently supported: EXITING...\\e[0m\\n"'
+	alias $STARTBIN='printf "\\e[1;48;5;139mINFO:  Nested proots are not currently supported;  You can assist in supporting nested proots by sharing a PR.  Please use $STARTBIN from the native shell in Termux:  EXITING... 	\\e[0m\\n"'
 	# .bashrc EOF
 	EOM
 	if [ -e "$HOME"/.bashrc ]
@@ -450,16 +450,16 @@ _ADDga_() {
 }
 
 _ADDgitconfig_() {
-	if [[ -f "$HOME/.gitconfig" ]] 
-	then 
-		if [[ -f "$INSTALLDIR/root/.gitconfig" ]] 
-		then 
+	if [[ -f "$HOME/.gitconfig" ]]
+	then
+		if [[ -f "$INSTALLDIR/root/.gitconfig" ]]
+		then
 			_DOTHRF_ "root/.gitconfig"
 			cp "$HOME/.gitconfig" "$INSTALLDIR/root/.gitconfig"
-		else	
+		else
 			cp "$HOME/.gitconfig" "$INSTALLDIR/root/.gitconfig"
 		fi
-	else	
+	else
 		touch "$INSTALLDIR/root/.gitconfig"
 	fi
 }
@@ -620,10 +620,10 @@ _ADDMOTD_() {
 		More  information: pacman -[D|F|Q|R|S|T|U]h
 		Search   packages: pacman -Ss query
 		Upgrade  packages: pacman -Syu
-		
+
 		Chat:  https://wiki.termux.com/wiki/Community
 		Help: info query and man query
-		IRC: wiki.archlinux.org/index.php/IRC_channel	
+		IRC: wiki.archlinux.org/index.php/IRC_channel
 		EOM
 	else
 		cat > etc/motd <<- EOM
@@ -632,11 +632,11 @@ _ADDMOTD_() {
 		More  information: pacman -[D|F|Q|R|S|T|U]h
 		Search   packages: pacman -Ss query
 		Upgrade  packages: pacman -Syu
-		
+
 		Chat:  https://wiki.termux.com/wiki/Community
 		Forum: https://archlinuxarm.org/forum
 		Help: info query and man query
-		IRC: wiki.archlinux.org/index.php/IRC_channel	
+		IRC: wiki.archlinux.org/index.php/IRC_channel
 		EOM
 	fi
 }
@@ -689,13 +689,13 @@ _ADDmakeyay_() {
 		Libraries have been installed in:
 		makefakeroottcp  2.0.476: DONE 🏁
 		Then this pocess will go on to try to make 'yay' which is much simpler for the user;  There is no tapping yes enter needed to be done whatsoever."
-		cd 
+		cd
 		[ ! -f /var/lock/patchmakepkg.lock ] && patchmakepkg
 		! fakeroot ls >/dev/null && makefakeroottcp
 		(git clone https://aur.archlinux.org/yay.git&&cd yay&&_PRMAKE_&&makepkg -irs --noconfirm)||printf "\\\\e[1;37m%s\\\\e[0m\\\\n" "Continuing to build and install yay..."&&cd yay&&_PRMAKE_&&makepkg -irs --noconfirm||printf "\\\\e[1;31m%s\\\\e[1;37m%s\\\\n" "ERROR: " "The command 'makepkg -irs --noconfirm' did not run expected; CONTINUING..."
 		printf "\\\\e[0;32m%s\\\\n%s\\\\n%s\\\\e[1;32m%s\\\\e[0m\\\\n" "Paths that can be followed after building 'yay' are 'yay cmatrix' which builds matrix screensavers.  The commands 'yay pikaur|pikaur-git|tpac' build more aur installers which can also be used to download aur repositories and build packages like with 'yay' in your Android smartphone, tablet, wearable and more.  Did you know that 'android-studio' is available with the command 'yay android'?" "If you have trouble importing keys, this command 'gpg --keyserver keyserver.ubuntu.com --recv-keys 71A1D0EFCFEB6281FD0437C71A1D0EFCFEB6281F' might help.  Change the number to the number of the key being imported." "Building and installing yay: " "DONE 🏁"
 	fi
-	# makeyay EOF 
+	# makeyay EOF
 	EOM
 	chmod 700 root/bin/makeyay
 }
@@ -706,7 +706,7 @@ _ADDpatchmakepkg_() {
 	SDATE="\$(date +%s)"
 	printf "%s\\\\n" "Attempting to patch makepkg: "
 	[ -f /var/lock/patchmakepkg.lock ] && printf "%s\\\\n" "Already patched makepkg: DONE 🏁" && exit
-	cd && curl --fail --retry 2 -O https://raw.githubusercontent.com/TermuxArch/TermuxArch/master/diff.makepkg.zip && unzip diff.makepkg.zip 
+	cd && curl --fail --retry 2 -O https://raw.githubusercontent.com/TermuxArch/TermuxArch/master/diff.makepkg.zip && unzip diff.makepkg.zip
 	patch -n -i makepkg.diff -o makepkg /bin/makepkg
 	cp /bin/makepkg $INSTALLDIR/var/backups/${INSTALLDIR##*/}/makepkg.\$SDATE.bkp
 	chmod 700 makepkg /bin/makepkg
@@ -861,7 +861,7 @@ _ADDtour_() {
 _ADDtrim_() {
 	_CFLHDR_ root/bin/trim
 	cat >> root/bin/trim <<- EOM
-	_PMFSESTRING_() { 
+	_PMFSESTRING_() {
 	printf "\\\\e[1;31m%s\\\\e[1;37m%s\\\\e[1;32m%s\\\\e[1;37m%s\\\\n\\\\n" "Signal generated in '\$1' : Cannot complete task : " "Continuing..."
 	printf "\\\\e[1;34m%s\\\\e[0;34m%s\\\\e[1;34m%s\\\\e[0;34m%s\\\\e[1;34m%s\\\\e[0m\\\\n\\\\n" "  If you find improvements for " "setupTermuxArch" " and " "\$0" " please open an issue and accompanying pull request."
 	}
@@ -1060,22 +1060,29 @@ _ADDyt_() {
 	printf "%s\\n%s\\n%s\\n" "[ \"\$UID\" = \"0\" ] && printf \"\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\\n\" \"Cannot run '\${0##*/}' as root user :\" \" the command 'addauser username' creates user accounts in $INSTALLDIR : the command '$STARTBIN command addauser username' can create user accounts in $INSTALLDIR from Termux : a default user account is created during setup : the default username 'user' can be used to access the PRoot system employing a user account : command '$STARTBIN help' has more information : \" \"exiting...\" && exit" "[ ! -x \"\$(command -v youtube-dl)\" ] && sudo pci youtube-dl && youtube-dl \"\$@\" || youtube-dl \"\$@\" " "# yt EOF" >> root/bin/yt
 	chmod 700 root/bin/yt
 }
-# add 'set belloff=all' to file /root/.vimrc 
-_MODvimrc_() {
-	if [[ -f "$INSTALLDIR/root/.vimrc" ]] 
-	then 
-		_DOTHRF_ "root/.vimrc"
-		if ! grep "set belloff=all" "$INSTALLDIR/root/.vimrc" 1>/dev/null
-		then
-			printf "set belloff=all\\n" >> "$INSTALLDIR/root/.vimrc"
-			printf "\\e[0;33mline %s not found in %s.vimrc file\\e[0m\\n" "'set belloff=all'" "/${INSTALLDIR##*/}/root/"
-		else
-			printf "\\e[0;34mline %s found in %s.vimrc file\\e[0m\\n" "'set belloff=all'" "/${INSTALLDIR##*/}/root/"
-		fi
-	else
-		printf "set belloff=all\\n" >> "$INSTALLDIR/root/.vimrc"
-		printf "\\e[0;33mline %s not found in %s.vimrc file\\e[0m\\n" "'set belloff=all'" "/${INSTALLDIR##*/}/root/"
-	fi
+
+_MODdotfile_() {
+	_MODdotfNF_() {
+			printf "\\e[0;33mline %s not found in %s file \\e[0;34m: adding line %s to %s file \\e[0m\\n" "'$MODFILEADD'" "/${INSTALLDIR##*/}/root/$MODFILENAME" "'$MODFILEADD'" "/${INSTALLDIR##*/}/root/$MODFILENAME"
+			printf "$MODFILEADD\\n" >> "$INSTALLDIR/root/$MODFILENAME"
+	}
+	# add MODFILEADD to file /root/MODFILENAME
+	[[ -f "$INSTALLDIR/root/$MODFILENAME" ]] && (_DOTHRF_ "root/$MODFILENAME" && ! grep "$MODFILEADD" "$INSTALLDIR/root/$MODFILENAME" 1>/dev/null && _MODdotfNF_ || printf "\\e[0;34mline %s found in %s file\\e[0m\\n" "'$MODFILEADD'" "/${INSTALLDIR##*/}/root/$MODFILENAME") || _MODdotfNF_
+}
+
+_DOMODdotfiles_() {
+	# Have you heard of metacarpals syndrome?  My metacarpals flare from vibrations.  To disable this feature replace the contents of this function with a colon (:) like in this example:
+# 	_DOMODdotfiles_() {
+# 		:
+# 	}
+	# add (setq visible-bell 1) to file /root/.emacs
+	MODFILENAME=".emacs"
+	MODFILEADD='(setq visible-bell 1)'
+	_MODdotfile_
+	# add set belloff=all to file /root/.vimrc
+	MODFILENAME=".vimrc"
+	MODFILEADD='set belloff=all'
+	_MODdotfile_
 }
 
 _PREPPACMANCONF_() {

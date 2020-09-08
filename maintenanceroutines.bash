@@ -33,15 +33,15 @@ _DOFUNLCR2_() {
 	if [ -d "$INSTALLDIR/home" ]
 	then
 		if [[ "$USER" != alarm ]]
-		then 
+		then
 			export "$USER"
  			cp "$INSTALLDIR/root/bin/"* "$INSTALLDIR/home/$USER/bin/"
 			printf "\\n\\e[0;32mCopied files in \\e[1;32m%s\\e[0;32m to %s.\\n\\e[0m" "/${INSTALLDIR##*/}/root/bin/" "/${INSTALLDIR##*/}/home/$USER/bin/"
 			DOFLIST=(.bash_profile .bashrc .gitconfig .vimrc)
 			for DOFLNAME in "${DOFLIST[@]}"
 			do
-				_BKPTHF_ "$DOFLNAME" 
-				cp "$INSTALLDIR/root/$DOFLNAME" "$INSTALLDIR/home/$USER/" 
+				_BKPTHF_ "$DOFLNAME"
+				cp "$INSTALLDIR/root/$DOFLNAME" "$INSTALLDIR/home/$USER/"
 				printf "\\n\\e[0;32mCopied file \\e[1;32m%s\\e[0;32m to %s.\\n\\e[0m" "/${INSTALLDIR##*/}/root/$DOFLNAME" "/${INSTALLDIR##*/}/home/$USER/$DOFLNAME"
 			done
 		fi

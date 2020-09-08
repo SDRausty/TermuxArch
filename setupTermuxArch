@@ -8,7 +8,7 @@ IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 umask 022
-VERSIONID=2.0.181
+VERSIONID=2.0.182
 ## INIT FUNCTIONS ##############################################################
 _STRPERROR_() { # run on script error
 	local RV="$?"
@@ -72,11 +72,11 @@ _BLOOMSKEL_() {
 	_INTROBLOOM_ "$@"
 	_PREPTERMUXARCH_
 	_INTRO_ "$@" || exit
-}	
+}
 _CHK_() {
 	if sha512sum -c termuxarchchecksum.sha512 1>/dev/null
 	then
-		if [[ -z "${INSTALLDIR:-}" ]]	# is unset 
+		if [[ -z "${INSTALLDIR:-}" ]]	# is unset
 		then	# exit here or the program will continue to run on
 			printf "\\e[0;34m%s \\e[1;34m%s \\e[1;32m%s\\e[0m\\n" " 🕛 = 🕛" "TermuxArch $VERSIONID integrity:" "OK"
 			exit
@@ -517,7 +517,11 @@ _PRINTUSAGE_() {
 	else
 		printf "\\e[0;32m  command \\e[1;32m%s\\e[0;32m has %s usage information\\n\\n" "'$STARTBIN help'" "$STARTBIN"
 	fi
-#	
+#
+}
+# print signal generated in arg 1 format
+_PSGI1ESTRING_() {
+	printf "\\e[1;33mSIGNAL GENERATED in %s\\e[1;34m : \\e[1;32mCONTINUING...  \\e[0;34mExecuting \\e[0;32m%s\\e[0;34m in the native shell once the installation and configuration process completes will attempt to finish the autoconfiguration and installation if the installation and configuration processes were not completely successful.  Should better solutions for \\e[0;32m%s\\e[0;34m be found, please open an issue and accompanying pull request if possible.\\nThe entire script can be reviewed by creating a \\e[0;32m%s\\e[0;34m directory with the command \\e[0;32m%s\\e[0;34m which can be used to access the entire installation script.  This option does NOT configure and install the root file system.  This command transfers the entire script into the home directory for hacking, modification and review.  The command \\e[0;32m%s\\e[0;34m has more information about how to use use \\e[0;32m%s\\e[0;34m in an effective way.\\e[0;32m%s\\e[0m\\n" "'$1'" "'bash ${0##*/} refresh'" "'${0##*/}'" "'~/TermuxArchBloom/'" "'setupTermuxArch b'" "'setupTermuxArch help'" "'${0##*/}'"
 }
 
 _RMARCH_() {
@@ -561,17 +565,13 @@ _RMARCH_() {
 
 _RMARCHRM_() {
 	_SETROOT_EXCEPTION_
-	rm -rf "${INSTALLDIR:?}"/* 2>/dev/null ||:
-	find  "$INSTALLDIR" -type d -exec chmod 700 {} \; 2>/dev/null ||:
-	rm -rf "$INSTALLDIR" 2>/dev/null ||:
+	rm -rf "${INSTALLDIR:?}"/* 2>/dev/null ||: # _PSGI1ESTRING_ "rm -rf _RMARCHRM_ setupTermuxArch ${0##*/}"
+	find  "$INSTALLDIR" -type d -exec chmod 700 {} \; 2>/dev/null || _PSGI1ESTRING_ "find _RMARCHRM_ setupTermuxArch ${0##*/}"
+	rm -rf "$INSTALLDIR" 2>/dev/null || _PSGI1ESTRING_ "rm -rf _RMARCHRM_ setupTermuxArch ${0##*/}"
 }
 
 _RMARCHQ_() {
-	if [[ -d "$INSTALLDIR" ]]
-	then
-		printf "\\n\\e[0;33m %s \\e[1;33m%s \\e[0;33m%s\\n\\n\\e[1;30m%s\\n" "TermuxArch:" "DIRECTORY WARNING!  $INSTALLDIR/" "directory detected." "Purge $INSTALLDIR as requested?"
-		_RMARCH_
-	fi
+	[[ -d "$INSTALLDIR" ]] && printf "\\n\\e[0;33m %s \\e[1;33m%s \\e[0;33m%s\\n\\n\\e[1;30m%s\\n" "TermuxArch:" "DIRECTORY WARNING!  $INSTALLDIR/" "directory detected." "Purge $INSTALLDIR as requested?" && _RMARCH_ || _PSGI1ESTRING_ "_RMARCHQ_ setupTermuxArch ${0##*/}"
 }
 
 _SETROOT_EXCEPTION_() {
@@ -584,75 +584,55 @@ _SETROOT_EXCEPTION_() {
 }
 
 ## User Information:  Configurable variables such as mirrors and download manager options are in 'setupTermuxArchConfigs.bash'.  Working with 'kownconfigurations.bash' in the working directory is simple.  'bash setupTermuxArch manual' will create 'setupTermuxArchConfigs.bash' in the working directory for editing; See 'setupTermuxArch help' for more information.
-declare -A ADM		# Declare associative array for all available download tools.
-declare -A ATM		# Declare associative array for all available tar tools.
-declare ARGS		# Declare arguments as string.
+declare -A ADM		# declare associative array for download tools
+declare -A ATM		# declare associative array for tar tools
+declare -a ECLAVARR	# declare array for arrays and variables
+declare -a PRFXTOLS	# declare array for device tools that should be accessible in the PRoot environment
+PRFXTOLS=(am getprop toolbox toybox)	# patial implementaion : system tools that work and can be found can be added to this array
+declare -A EMPARIAS	# declare associative array for empty variables
+EMPARIAS=([APTIN]="# apt install string" [COMMANDIF]="" [COMMANDG]="" [CPUABI]="" [DFL]="# used for development" [DM]="" [ed]="" [FSTND]="" [INSTALLDIR]="" [LCC]="" [LCP]="" [OPT]="" [ROOTDIR]="" [WDIR]="" [SDATE]="" [STI]="# generates pseudo random number" [STIME]="# generates pseudo random number")
+# set empty variables
+for PKG in ${!EMPARIAS[@]} ; do declare "$PKG"="" ; done
+declare -a LC_TYPE	# declare array for locale types
+declare -A FILE		# declare associative array
+ECLAVARR=(ARGS APTIN BINFNSTP COMMANDIF COMMANDR COMMANDG CPUABI CPUABI5 CPUABI7 CPUABI8 CPUABIX86 CPUABIX86_64 DFL DMVERBOSE DM ELCR ed FSTND INSTALLDIR LCC LCP OPT ROOTDIR WDIR SDATE STI STIME STRING1 STRING2)
+for ECLAVARS in ${ECLAVARR[@]} ; do declare $ECLAVARS ; done
 ARGS="${@%/}"
-declare APTIN=""	# apt install string
-declare COMMANDIF=""
-declare COMMANDR
-declare COMMANDG=""
-declare CPUABI=""
-declare CPUABI5="armeabi"	# Used for development;  The command 'getprop ro.product.cpu.abi' can be used to ascertain the device architecture.  Matching an alternate CPUABI* will install an alternate architecture on device.  The original device architecture must be changed to something else so it does not match.  This is usefull with QEMU to install alternate architectures on device.
-declare CPUABI7="armeabi-v7a"	# used for development
-declare CPUABI8="arm64-v8a"	# used for development
-declare CPUABIX86="x86"		# used for development
-declare CPUABIX86_64="x86_64"	# used for development
-declare DFL=""		# used for development
-declare DMVERBOSE="-q"	# -v for verbose download manager output from curl and wget;  for verbose output throughout runtime also change in 'setupTermuxArchConfigs.bash' when using 'setupTermuxArch m[anual]'
-declare DM=""
-declare ELCR=1
-declare ed=""
-declare FSTND=""
-declare -A FILE
-declare INSTALLDIR=""
-declare LCC=""
-declare LCP=""
-declare OPT=""
-declare ROOTDIR=""
-declare WDIR=""
-declare SDATE=""
-declare STI=""		# generates pseudo random number
-declare STIME=""	# generates pseudo random number
-declare STRING1
-declare STRING2
+CPUABI5="armeabi"	# Used for development;  The command 'getprop ro.product.cpu.abi' can be used to ascertain the device architecture.  Matching an alternate CPUABI* will install an alternate architecture on device.  The original device architecture must be changed to something else so it does not match.  This is usefull with QEMU to install alternate architectures on device.
+CPUABI7="armeabi-v7a"	# used for development
+CPUABI8="arm64-v8a"	# used for development
+CPUABIX86="x86"		# used for development
+CPUABIX86_64="x86_64"	# used for development
+DMVERBOSE="-q"	# -v for verbose download manager output from curl and wget;  for verbose output throughout runtime also change in 'setupTermuxArchConfigs.bash' when using 'setupTermuxArch m[anual]'
+EMPARIAS=([APTIN]="# apt install string" [COMMANDIF]="" [COMMANDG]="" [CPUABI]="" [DFL]="# used for development" [DM]="" [ed]="" [FSTND]="" [INSTALLDIR]="" [LCC]="" [LCP]="" [OPT]="" [ROOTDIR]="" [WDIR]="" [SDATE]="" [STI]="# generates pseudo random number" [STIME]="# generates pseudo random number")
+ELCR=1
 if [[ -z "${TAMPDIR:-}" ]]
 then
 	TAMPDIR=""
 fi
-ROOTDIR=/arch
+ROOTDIR="/arch"
 STRING1="COMMAND 'au' enables auto upgrade and rollback.  Available at https://wae.github.io/au/ IS NOT FOUND: Continuing... "
 STRING2="Cannot update '${0##*/}' prerequisite: Continuing..."
 ## TERMUXARCH FEATURES INCLUDE:
 ## 1) Create aliases and commands that aid in using the command line, and assist in accessing the more advanced features like the commands 'pikaur' and 'yay' easily;  The files '.bashrc' '.bash_profile' and 'bin/README.md' have detailed information about this feature,
 ## 2) Set timezone and locales from device,
 ## 3) Test for correct OS,
-COMMANDG="$(command -v getprop)" ||:
-if [[ "$COMMANDG" = "" ]]
-then
-	printf "\\n\\e[1;48;5;138m %s\\e[0m\\n\\n" "TermuxArch WARNING:  Run 'bash ${0##*/}' and './${0##*/}' from the BASH shell in the shell in native Termux:  exiting..."
-	exit
-fi
+_COMMANDG_() { printf "\\n\\e[1;48;5;138m %s\\e[0m\\n\\n" "TermuxArch WARNING:  Run 'bash ${0##*/}' and './${0##*/}' from the native BASH shell in Termux:  EXITING...";}
+COMMANDG="$(command -v getprop)" ||: # _COMMANDG_ && _PSGI1ESTRING_ "COMMANDG setupTermuxArch ${0##*/}"
+[[ "$COMMANDG" = "" ]] && _COMMANDG_ && exit
 COMMANDR="$(command -v au)" || COMMANDR="$(command -v pkg)" || COMMANDR="$(command -v apt)"
 COMMANDIF="${COMMANDR##*/}"
 ## 4) Generate pseudo random number to create uniq strings,
-SDATE="$(date +%s)"
-if [[ -r  /proc/sys/kernel/random/uuid ]]
-then
-	STIME="$(cat /proc/sys/kernel/random/uuid)"
-	STIME="${STIME//-}"
-	STIME="${STIME:0:3}"
-else
-	STIME="$(SDATE)"
-	STIME="$(printf "%s" "${STIME:7:4}"|rev)"
-fi
+SDATE="$(date +%s)" || SDATE="$(shuf -i 0-99999999 -n 1)" || _PSGI1ESTRING_ "SDATE setupTermuxArch ${0##*/}"
+# STIME=""
+[[ -r  /proc/sys/kernel/random/uuid ]] && (STIME="$(cat /proc/sys/kernel/random/uuid)" && STIME="${STIME//-}" && STIME="${STIME//[[:alpha:]]}" && STIME="${STIME:0:3}") || STIME="$SDATE" && STIME="$(printf "%s" "${STIME:7:4}"|rev)"
 ONESA="${SDATE: -1}"
 PKGS=(bsdtar proot)
 STIME="$ONESA$STIME"
 ## 5) Get device information via the 'getprop' command,
-CPUABI="$(getprop ro.product.cpu.abi)"
-SYSVER="$(getprop ro.build.version.release)"
-NASVER="$(getprop net.bt.name ) $SYSVER"
+## If your target install system is aarch64/arm64 then this line of code CPUABI="$(getprop ro.product.cpu.abi)" should be changed to CPUABI="arm64-v8a".
+## QEMU implementation #25 https://github.com/TermuxArch/TermuxArch/issues/25 has more information.
+CPUABI="$(getprop ro.product.cpu.abi)" && SYSVER="$(getprop ro.build.version.release)" && NASVER="$(getprop net.bt.name ) $SYSVER" || _PSGI1ESTRING_ "CPUABI setupTermuxArch ${0##*/}"
 WDIR="$PWD/"
 ## 6) Determine its own name and location of invocation,
 WFDIR="$(realpath "$0")" || printf "\\e[1;31m%s\\e[0m%s\\n" "signal received during update :" " please try using an absolute PATH or prepending your PATH to file '${0##*/}' with a tilda ~ for file '$0'."
