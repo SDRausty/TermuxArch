@@ -154,7 +154,6 @@ _ADDbashrc_() {
 	alias pcss='pacman -Ss --color=always'
 	alias Q='exit'
 	alias q='exit'
-	alias $STARTBIN='printf "\\e[1;48;5;139mINFO:  Nested proots are not currently supported;  You can assist in supporting nested proots by sharing a PR.  Please use $STARTBIN from the native shell in Termux:  EXITING... 	\\e[0m\\n"'
 	# .bashrc EOF
 	EOM
 	if [ -e "$HOME"/.bashrc ]
@@ -687,6 +686,8 @@ _ADDmakeyay_() {
 		:: Proceed with installation? [Y/n]
 		Tap enter once more as this build proccess continues.  If everything goes well, you will see these messages:
 		Libraries have been installed in:
+		The message above will be displayed for a short time with more information.  Then ${0##*/} will go on, and there will be one more tap enter yo touch before script ${0##*/} is done;  SLEEPING SIX SECONDS...
+		sleep 6
 		makefakeroottcp  2.0.476: DONE 🏁
 		Then this pocess will go on to try to make 'yay' which is much simpler for the user;  There is no tapping yes enter needed to be done whatsoever."
 		cd
