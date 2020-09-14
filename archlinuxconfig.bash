@@ -17,6 +17,7 @@ _ADDAUSER_() {
 		then
 			printf "\\\\n\\\\e[1;31mUSAGE:\\\\e[1;37m %s\\\\e[1;31m: EXITING...\\\\e[0m\\\\n\\\\n" "Script '\${0##*/}' must be run using the root account, not the '\$(whoami)' account"
 		else
+			[[ ! "\$(command -v sudo)" ]] 2>/dev/null && pci sudo
 			printf "\\\\e[0;32m%s\\\\n\\\\e[1;32m" "Adding Arch Linux in Termux PRoot user '\$1' and creating Arch Linux in Termux PRoot user \$1's home directory in /home/\$1..."
 			sed -i "/# %wheel ALL=(ALL) NOPASSWD: ALL/ s/^# *//" "/etc/sudoers"
 			sed -i "/# ALL ALL=(ALL) ALL/ s/^# *//" "/etc/sudoers"
@@ -833,18 +834,18 @@ _ADDthstartarch_() {
 }
 
 _ADDtools_() {
- 	PRFXTOLS=(am dpkg getprop termux-change-repo termux-info termux-open termux-open-url)	# patial implementaion : system tools that work and can be found can be added to this array
+ 	PRFXTOLS=(getprop termux-change-repo termux-info)	# patial implementaion : system tools that work and can be found can be added to this array
 # 	PRFXTOLS=(am dpkg getprop termux-change-repo termux-info termux-open termux-open-url termux-wake-lock termux-wake-unlock)	# patial implementaion : system tools that work and can be found can be added to this array
 #  	PRFXTOLS=(am getprop toolbox toybox)	# patial implementaion : system tools that work and can be found can be added to this array
  	for STOOL in ${PRFXTOLS[@]}
  	do
- 		cp $(which "$STOOL") root/bin || printf "%s\\n" "System tool $STOOL cannot be found: continuing..."
+ 		cp $(which "$STOOL") usr/local/bin/ || printf "%s\\n" "System tool $STOOL cannot be found: continuing..."
  	done
 	[ -d "$HOME/storage" ] && cp -R "$HOME/storage" root/ || printf "%s\\n" "Directory ~/storage cannot be found: continuing..."
 }
 
 _ADDtour_() {
-	_CFLHDR_ root/bin/tour "# A short tour that shows a few of the new files in ths system."
+	_CFLHDR_ root/bin/tour "# A short tour that shows a few of the new featires of this system."
 	cat >> root/bin/tour <<- EOM
 	printf "\\\\n\\\\e[1;32m==> \\\\e[1;37mRunning \\\\e[1;32mls -alr --color=always \$HOME \\\\e[1;37m\\\\n\\\\n"
 	sleep 1
