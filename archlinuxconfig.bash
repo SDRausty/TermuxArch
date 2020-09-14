@@ -44,28 +44,31 @@ _ADDAUSER_() {
 	# addauser EOF
 	EOM
 	chmod 700 root/bin/addauser
-	}
+}
 
 _ADDREADME_() {
 	_CFLHDR_ root/bin/README.md
 	cat > root/bin/README.md <<- EOM
-	The HOME/bin directory may contain shortcut commands that automate and ease using the command line.  Some of these commands are listed here:
+	The HOME/bin directory contains shortcut commands that automate and ease using the command line.  Some of these commands are listed here:
 
-	* The command 'keys' installs Arch Linux keys,
-	* The command 'makefakeroottcp' creates the 'fakeroot-tcp' command,
-	* The command 'makeyay' creates the 'fakeroot-tcp' and 'yay' commands, and also patches the 'makepkg' command,
-	* The command 'patchmakepkg' patches the 'makepkg' command.
+	* Command 'csystemctl' replaces systemctl with https://github.com/TermuxArch/docker-systemctl-replacement,
+	* Command 'keys' installs Arch Linux keys,
+	* Command 'makefakeroottcp' creates the 'fakeroot-tcp' command,
+	* Command 'makeyay' creates the 'fakeroot-tcp' and 'yay' commands, and also patches the 'makepkg' command,
+	* Command 'patchmakepkg' patches the 'makepkg' command,
+	* Command 'tour' runs a short tour of the Arch Linux system directories,
+	* Command 'trim' removes downloaded packages from the Arch Linux system directories.
 
 	This file can be expanded so the beginning user can get to know the Linux experience easier.  Would you like to create an issue along with a pull request to add information to this file so that the beginning user can get to know the Arch Linux in Termux PRoot experience easier?  If you do want to expand this file to enhance this experience, visit these links:
 
-	* Comments welcome at https://github.com/TermuxArch/TermuxArch/issues ✍
-	* Pull requests welcome at https://github.com/TermuxArch/TermuxArch/pulls ✍
+	* Comments are welcome at https://github.com/TermuxArch/TermuxArch/issues ✍
+	* Pull requests are welcome at https://github.com/TermuxArch/TermuxArch/pulls ✍
 	<!--bin/README.md EOF-->
 	EOM
 }
 
 _ADDae_() {
-	_CFLHDR_ root/bin/ae "# Contributed by https://github.com/cb125"
+	_CFLHDR_ root/bin/ae "# contributor https://github.com/cb125"
 	cat >> root/bin/ae <<- EOM
 	watch cat /proc/sys/kernel/random/entropy_avail
 	# ae EOF
@@ -74,7 +77,7 @@ _ADDae_() {
 }
 
 _ADDaddresolvconf_() {
-	[ ! -e run/systemd/resolve ] && mkdir -p run/systemd/resolve
+	[ ! -d run/systemd/resolve ] && mkdir -p run/systemd/resolve
 	cat > run/systemd/resolve/resolv.conf <<- EOM
 	nameserver 8.8.8.8
 	nameserver 8.8.4.4
@@ -83,10 +86,7 @@ _ADDaddresolvconf_() {
 
 _ADDbash_logout_() {
 	cat > root/.bash_logout <<- EOM
-	if [ ! -e "\$HOME"/.hushlogout ] && [ ! -e "\$HOME"/.chushlogout ]
-	then
-		. /etc/moto
-	fi
+	[ ! -f "\$HOME"/.hushlogout ] && [ ! -f "\$HOME"/.chushlogout ] && . /etc/moto
 	h # write session history to file HOME/.historyfile
 	# .bash_logout EOF
 	EOM
@@ -112,7 +112,7 @@ _ADDbash_profile_() {
 	do
 	 	printf "%s=\"%s\"\\n" "export ${LC_TYPE[i]}" "$ULANGUAGE.UTF-8" >> root/.bash_profile
 	done
-	[[ -f "$HOME"/.bash_profile ]] && grep proxy "$HOME"/.bash_profile | grep "export" >> root/.bash_profile ||:
+	[[ -f "$HOME"/.bash_profile ]] && grep proxy "$HOME"/.bash_profile | grep "export" >> root/.bash_profile 2>/dev/null ||:
 }
 
 _ADDbashrc_() {
@@ -156,10 +156,7 @@ _ADDbashrc_() {
 	alias q='exit'
 	# .bashrc EOF
 	EOM
-	if [ -e "$HOME"/.bashrc ]
-	then
-		grep proxy "$HOME"/.bashrc | grep "export" >>  root/.bashrc 2>/dev/null ||:
-	fi
+	[ -f "$HOME"/.bashrc ] && grep proxy "$HOME"/.bashrc | grep "export" >>  root/.bashrc 2>/dev/null ||:
 }
 
 _ADDcdtd_() {
@@ -246,7 +243,7 @@ _ADDchperms.cache+gnupg_() {
 }
 
 _ADDcsystemctl_() {
-	_CFLHDR_ root/bin/csystemctl
+	_CFLHDR_ root/bin/csystemctl "# contributor https://github.com/petkar"
 	cat >> root/bin/csystemctl <<- EOM
 	INSTALLDIR="$INSTALLDIR"
 	printf "\\\\e[38;5;148m%s\\\\e[0m\\\\n" "Installing /usr/bin/systemctl replacement: "
@@ -464,7 +461,7 @@ _ADDgitconfig_() {
 }
 
 _ADDgcl_() {
-	_CFLHDR_ root/bin/gcl
+	_CFLHDR_ root/bin/gcl "# contributor u/ElectricalUnion"
 	cat >> root/bin/gcl <<- EOM
 	if [[ ! -x "\$(command -v git)" ]]
 	then
@@ -666,7 +663,7 @@ _ADDmakefakeroottcp_() {
 }
 
 _ADDmakeyay_() {
-	_CFLHDR_ root/bin/makeyay "# build and install yay"
+	_CFLHDR_ root/bin/makeyay "# build and install command yay; contributors https://github.com/cb125 and https://github.com/SampsonCrowley"
 	cat >> root/bin/makeyay <<- EOM
 	if [ "\$UID" = "0" ]
 	then
@@ -835,6 +832,17 @@ _ADDthstartarch_() {
 	chmod 700 root/bin/th"$STARTBIN"
 }
 
+_ADDtools_() {
+ 	PRFXTOLS=(am dpkg getprop termux-change-repo termux-info termux-open termux-open-url)	# patial implementaion : system tools that work and can be found can be added to this array
+# 	PRFXTOLS=(am dpkg getprop termux-change-repo termux-info termux-open termux-open-url termux-wake-lock termux-wake-unlock)	# patial implementaion : system tools that work and can be found can be added to this array
+#  	PRFXTOLS=(am getprop toolbox toybox)	# patial implementaion : system tools that work and can be found can be added to this array
+ 	for STOOL in ${PRFXTOLS[@]}
+ 	do
+ 		cp $(which "$STOOL") root/bin || printf "%s\\n" "System tool $STOOL cannot be found: continuing..."
+ 	done
+	[ -d "$HOME/storage" ] && cp -R "$HOME/storage" root/ || printf "%s\\n" "Directory ~/storage cannot be found: continuing..."
+}
+
 _ADDtour_() {
 	_CFLHDR_ root/bin/tour "# A short tour that shows a few of the new files in ths system."
 	cat >> root/bin/tour <<- EOM
@@ -910,7 +918,7 @@ _ADDv_() {
 }
 
 _ADDwe_() {
-	_CFLHDR_ usr/bin/we "# Watch available entropy on device." "# cat /proc/sys/kernel/random/entropy_avail contributed by https://github.com/cb125"
+	_CFLHDR_ usr/bin/we "# Watch available entropy on device." "# cat /proc/sys/kernel/random/entropy_avail contributor by https://github.com/cb125"
 	cat >> usr/bin/we <<- EOM
 
 	i=1
@@ -1072,8 +1080,8 @@ _MODdotfile_() {
 }
 
 _DOMODdotfiles_() {
-	# Have you heard of metacarpals syndrome?  My metacarpals flare from vibrations.  To disable this feature replace the contents of this function with a colon (:) like in this example:
-# 	_DOMODdotfiles_() {
+	# Have you heard of metacarpals syndrome?  My metacarpals flare from vibrations.  To disable the silent bell feature replace the contents of this function with a colon (:) like in this example:
+# 	_DOMODexample_() {
 # 		:
 # 	}
 	# add (setq visible-bell 1) to file /root/.emacs

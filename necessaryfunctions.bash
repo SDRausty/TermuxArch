@@ -47,6 +47,7 @@ _ADDADDS_() {
 	_ADDpci_
 	_ADDprofile_
 	_ADDt_
+	_ADDtools_
 	_ADDtour_
 	_ADDtrim_
 	_ADDv_
@@ -173,31 +174,14 @@ _MAINBLOCK_() {
 	_PRINTSTARTBIN_USAGE_
 }
 
-_DOPROXY_() {
-	if [[ -e "$HOME"/.bash_profile ]]
-	then
-		grep "proxy" "$HOME"/.bash_profile | grep "export" >> root/bin/"$BINFNSTP" 2>/dev/null ||:
-	fi
-	if [[ -e "$HOME"/.bashrc ]]
-	then
-		grep "proxy" "$HOME"/.bashrc  | grep "export" >> root/bin/"$BINFNSTP" 2>/dev/null ||:
-	fi
-	if [[ -e "$HOME"/.profile ]]
-	then
-		grep "proxy" "$HOME"/.profile | grep "export" >> root/bin/"$BINFNSTP" 2>/dev/null ||:
-	fi
+_DOKEYS_() {
+	[[ "$CPUABI" = "$CPUABIX86" ]] && printf "/root/bin/keys x86\\n" >> root/bin/"$BINFNSTP"|| [[ "$CPUABI" = "$CPUABIX86_64" ]] && printf "./root/bin/keys x86_64\\n" >> root/bin/"$BINFNSTP" || printf "/root/bin/keys\\n" >> root/bin/"$BINFNSTP"
 }
 
-_DOKEYS_() {
-	if [[ "$CPUABI" = "$CPUABIX86" ]]
-	then
-		printf "./root/bin/keys x86\\n" >> root/bin/"$BINFNSTP"
-	elif [[ "$CPUABI" = "$CPUABIX86_64" ]]
-	then
-		printf "./root/bin/keys x86_64\\n" >> root/bin/"$BINFNSTP"
-	else
- 		printf "./root/bin/keys\\n" >> root/bin/"$BINFNSTP"
-	fi
+_DOPROXY_() {
+	[[ -f "$HOME"/.bash_profile ]] && grep "proxy" "$HOME"/.bash_profile | grep "export" >> root/bin/"$BINFNSTP" 2>/dev/null ||:
+	[[ -f "$HOME"/.bashrc ]] && grep "proxy" "$HOME"/.bashrc  | grep "export" >> root/bin/"$BINFNSTP" 2>/dev/null ||:
+	[[ -f "$HOME"/.profile ]] && grep "proxy" "$HOME"/.profile | grep "export" >> root/bin/"$BINFNSTP" 2>/dev/null ||:
 }
 
 _MAKEFINISHSETUP_() {
@@ -205,6 +189,8 @@ _MAKEFINISHSETUP_() {
 	[[ "${LCR:-}" -ne 1 ]] && LOCGEN=""
 	[[ "${LCR:-}" -ne 2 ]] && LOCGEN=""
 	[[ -z "${LCR:-}" ]] && LOCGEN="printf \"\\e[1;32m%s\\e[0;32m\"  \"==> \" && locale-gen  ||:"
+	_DOPROXY_
+#	_DOKEYS_
 	cat >> root/bin/"$BINFNSTP" <<- EOM
 	_PMFSESTRING_() {
 	printf "\\e[1;31m%s\\e[1;37m%s\\e[1;32m%s\\e[1;37m%s\\n\\n" "Signal generated in '\$1' : Cannot complete task : " "Continuing...   To correct the error run " "setupTermuxArch refresh" " to attempt to finish the autoconfiguration."
@@ -247,6 +233,7 @@ _MAKESETUPBIN_() {
 	_CFLHDR_ root/bin/setupbin.bash
 	cat >> root/bin/setupbin.bash <<- EOM
 	set +Eeuo pipefail
+	umask 0022
 	EOM
 	printf "%s\\n" "$PROOTSTMNT /root/bin/$BINFNSTP ||:" >> root/bin/setupbin.bash
 	cat >> root/bin/setupbin.bash <<- EOM
@@ -259,6 +246,7 @@ _MAKESTARTBIN_() {
 	_CFLHDR_ "$STARTBIN"
 	printf "%s\\n" "${FLHDRP[@]}" >> "$STARTBIN"
 	cat >> "$STARTBIN" <<- EOM
+	umask 0022
 	COMMANDG="\$(command -v getprop)" ||:
 	if [[ "\$COMMANDG" = "" ]]
 	then
@@ -399,7 +387,6 @@ _PREPINSTALLDIR_() {
 	_PREPROOTDIR_
 	_SETLANGUAGE_
 	_ADDADDS_
-	_DOPROXY_
 	_MAKEFINISHSETUP_
 	_MAKESETUPBIN_
 	_MAKESTARTBIN_

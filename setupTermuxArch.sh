@@ -7,8 +7,8 @@
 IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
-umask 022
-VERSIONID=2.0.184
+umask 0022
+VERSIONID=2.0.185
 ## INIT FUNCTIONS ##############################################################
 _STRPERROR_() { # run on script error
 	local RV="$?"
@@ -230,8 +230,8 @@ _DWNL_() { # download TermuxArch from Github
 		FILE[sha]="https://raw.githubusercontent.com/TermuxArch/gensTermuxArch/master/setupTermuxArch.sha512"
 		FILE[tar]="https://raw.githubusercontent.com/TermuxArch/gensTermuxArch/master/setupTermuxArch.tar.gz"
 	else	# get stable version from:
-		FILE[sha]="https://raw.githubusercontent.com/TermuxArch/TermuxArch/master/setupTermuxArch.sha512"
-		FILE[tar]="https://raw.githubusercontent.com/TermuxArch/TermuxArch/master/setupTermuxArch.tar.gz"
+		FILE[sha]="https://raw.githubusercontent.com/SDRausty/Termux-Arch/master/setupTermuxArch.sha512"
+		FILE[tar]="https://raw.githubusercontent.com/SDRausty/Termux-Arch/master/setupTermuxArch.tar.gz"
 	fi
 	if [[ "$DM" = aria2 ]]
 	then	# use https://github.com/aria2/aria2
@@ -257,7 +257,7 @@ _INTRO_() {
 	_SETROOT_EXCEPTION_
 	if [[ -d "$INSTALLDIR" ]] && [[ -d "$INSTALLDIR"/root/bin ]] && [[ -d "$INSTALLDIR"/var/binds ]] && [[ -f "$INSTALLDIR"/bin/we ]] && [[ -f "$INSTALLDIR"/usr/bin/env ]]
 	then
-		printf "\\n\\e[0;33m%s\\e[1;33m%s\\e[0;33m.\\e[0m\\n\\n" "TermuxArch WARNING!  " "The root directory structure of ~/${INSTALLDIR##*/} is correct; Cannot continue '${0##*/} install' to install Arch Linux in Termux PRoot!  See '${0##*/} h[e[lp]]' and '$STARTBIN h[elp]' for more information"
+		printf "\\n\\e[0;33m%s\\e[1;33m%s\\e[0;33m.\\e[0m\\n\\n" "TermuxArch WARNING!  " "The root directory structure of ~/${INSTALLDIR##*/} is correct; Cannot continue '${0##*/} install' to install Arch Linux in Termux PRoot!  Commands '${0##*/} h[e[lp]]' and '$STARTBIN h[elp]' have more information"
 		exit 205
 	fi
 	printf "\\n\\e[0;34m 🕛 > 🕛 \\e[1;34mＴｅｒｍｕｘＡｒｃｈ %s will attempt to install Linux in \\e[0;32m%s\\e[1;34m.  Arch Linux in Termux PRoot will be available upon successful completion.  To run this BASH script again, use '!!'.  Ensure background data is not restricted.  Check the wireless connection if you do not see one o'clock 🕐 below.  \\e[0;34m" "$VERSIONID" "$INSTALLDIR"
@@ -309,7 +309,7 @@ _INTROREFRESH_() {
 	_SETROOT_EXCEPTION_
 	if [[ ! -d "$INSTALLDIR" ]] || [[ ! -d "$INSTALLDIR"/root/bin ]] || [[ ! -d "$INSTALLDIR"/var/binds ]] || [[ ! -f "$INSTALLDIR"/bin/we ]] || [[ ! -f "$INSTALLDIR"/usr/bin/env ]]
 	then
-		printf "\\n\\e[0;33m%s\\e[1;33m%s\\e[0;33m.\\e[0m\\n\\n" "ＴｅｒｍｕｘＡｒｃｈ WARNING!  " "The root directory structure is incorrect; Cannot continue ${0##*/} refresh!  See '${0##*/} help' and '$STARTBIN help' for more information"
+		printf "\\n\\e[0;33m%s\\e[1;33m%s\\e[0;33m.\\e[0m\\n\\n" "ＴｅｒｍｕｘＡｒｃｈ WARNING!  " "The root directory structure is incorrect; Cannot continue '${0##*/} $ARGS'!  These commands '${0##*/} help' and '$STARTBIN help' have more information"
 		if [[ -d "$INSTALLDIR"/tmp ]]
 		then	# check for superfluous tmp directory
 			DIRCHECK=0
@@ -582,7 +582,7 @@ _SETROOT_EXCEPTION_() {
 	fi
 }
 
-## User Information:  Configurable variables such as mirrors and download manager options are in 'setupTermuxArchConfigs.bash'.  Working with 'kownconfigurations.bash' in the working directory is simple.  'bash setupTermuxArch manual' will create 'setupTermuxArchConfigs.bash' in the working directory for editing; See 'setupTermuxArch help' for more information.
+## User Information:  Configurable variables such as mirrors and download manager options are in 'setupTermuxArchConfigs.bash'.  Working with 'kownconfigurations.bash' in the working directory is simple.  'bash setupTermuxArch manual' will create 'setupTermuxArchConfigs.bash' in the working directory for editing; The command 'setupTermuxArch help' has more information.
 declare -A ADM		# declare associative array for download tools
 declare -A ATM		# declare associative array for tar tools
 declare -a ECLAVARR	# declare array for arrays and variables
