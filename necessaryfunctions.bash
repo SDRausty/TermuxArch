@@ -167,9 +167,7 @@ _MAINBLOCK_() {
 	_DETECTSYSTEM_
 	_WAKEUNLOCK_
 	_PRINTFOOTER_
-	set +Eeuo pipefail
 	"$INSTALLDIR/$STARTBIN" || _PRINTPROOTERROR_
-	set -Eeuo pipefail
 	_PRINTFOOTER2_
 	_PRINTSTARTBIN_USAGE_
 }
@@ -196,7 +194,7 @@ _MAKEFINISHSETUP_() {
 	printf "\\e[1;31m%s\\e[1;37m%s\\e[1;32m%s\\e[1;37m%s\\n\\n" "Signal generated in '\$1' : Cannot complete task : " "Continuing...   To correct the error run " "setupTermuxArch refresh" " to attempt to finish the autoconfiguration."
 	printf "\\e[1;34m%s\\e[0;34m%s\\e[1;34m%s\\e[0;34m%s\\e[1;34m%s\\n\\n" "  If you find better resolves for " "setupTermuxArch" " and " "\$0" ", please open an issue and accompanying pull request."
 	}
-	printf "\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\n" "To generate locales in a preferred language use " "Settings > Language & Keyboard > Language " "in Android; Then run " "${0##*/} refresh" " for a full system refresh including locale generation; For quick refresh you can use " "${0##*/} r" ".  For a refresh with user directories " "${0##*/} re" " can be used."
+	printf "\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\n" "To generate locales in a preferred language use " "Settings > Language & Keyboard > Language " "in Android; Then run " "${0##*/} refresh" " for a full system refresh including locale generation; For a quick refresh you can use " "${0##*/} r" ".  For a refresh with user directories " "${0##*/} re" " can be used."
    	$LOCGEN
 	printf "\\n\\e[1;34m:: \\e[1;32m%s\\n" "Processing system for $NASVER $CPUABI, and removing redundant packages for Termux PRoot installation if necessary..."
 	EOM
@@ -233,7 +231,7 @@ _MAKESETUPBIN_() {
 	_CFLHDR_ root/bin/setupbin.bash
 	cat >> root/bin/setupbin.bash <<- EOM
 	set +Eeuo pipefail
-	umask 0022
+	umask 022
 	EOM
 	printf "%s\\n" "$PROOTSTMNT /root/bin/$BINFNSTP ||:" >> root/bin/setupbin.bash
 	cat >> root/bin/setupbin.bash <<- EOM
@@ -246,7 +244,6 @@ _MAKESTARTBIN_() {
 	_CFLHDR_ "$STARTBIN"
 	printf "%s\\n" "${FLHDRP[@]}" >> "$STARTBIN"
 	cat >> "$STARTBIN" <<- EOM
-	umask 0022
 	COMMANDG="\$(command -v getprop)" ||:
 	if [[ "\$COMMANDG" = "" ]]
 	then
@@ -267,6 +264,7 @@ _MAKESTARTBIN_() {
 	if [[ -z "\${1:-}" ]]
 	then
 		set +Eeuo pipefail
+		umask 022
 	EOM
 		printf "%s\\n" "$PROOTSTMNT /bin/bash -l ||: " >> "$STARTBIN"
 	cat >> "$STARTBIN" <<- EOM
@@ -282,6 +280,7 @@ _MAKESTARTBIN_() {
 		printf '\033]2; $STARTBIN command 📲  \007'
 		touch $INSTALLDIR/root/.chushlogin
 		set +Eeuo pipefail
+		umask 022
 	EOM
 		printf "%s\\n" "$PROOTSTMNT /bin/bash -lc \"\$AR2AR\" ||:" >> "$STARTBIN"
 	cat >> "$STARTBIN" <<- EOM
@@ -293,6 +292,7 @@ _MAKESTARTBIN_() {
 	then
 		printf '\033]2; $STARTBIN login user [options] 📲  \007'
 		set +Eeuo pipefail
+		umask 022
 	EOM
 		printf "%s\\n" "$PROOTSTMNTUU /bin/su - \"\$AR2AR\" ||:" >> "$STARTBIN"
 	cat >> "$STARTBIN" <<- EOM
@@ -304,6 +304,7 @@ _MAKESTARTBIN_() {
 	then
 		printf '\033]2; $STARTBIN login user [options] 📲  \007'
 		set +Eeuo pipefail
+		umask 022
 	EOM
 		printf "%s\\n" "$PROOTSTMNTU /bin/su - \"\$AR2AR\" ||:" >> "$STARTBIN"
 	cat >> "$STARTBIN" <<- EOM
@@ -314,6 +315,7 @@ _MAKESTARTBIN_() {
 	then
 		printf '\033]2; $STARTBIN raw ARGS 📲  \007'
 		set +Eeuo pipefail
+		umask 022
 	EOM
 		printf "%s\\n" "$PROOTSTMNT /bin/\"\$AR2AR\" ||:" >> "$STARTBIN"
 	cat >> "$STARTBIN" <<- EOM
@@ -330,6 +332,7 @@ _MAKESTARTBIN_() {
 			touch $INSTALLDIR/home/"\$2"/.chushlogin
 		fi
 		set +Eeuo pipefail
+		umask 022
 	EOM
 		printf "%s\\n" "$PROOTSTMNTU /bin/su - \"\$2\" -c \"\$AR3AR\" ||:" >> "$STARTBIN"
 	cat >> "$STARTBIN" <<- EOM
@@ -397,9 +400,9 @@ _PREPINSTALLDIR_() {
 _PREPROOT_() {
 	if [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = "$CPUABIX86_64" ]]
 	then
- 		proot --link2symlink -0 bsdtar -xpf "$IFILE" --strip-components 1
+ 		proot --link2symlink -0 bsdtar -x -p -f "$IFILE" --strip-components 1
 	else
- 		proot --link2symlink -0 bsdtar -xpf "$IFILE"
+ 		proot --link2symlink -0 bsdtar -x -p -f "$IFILE"
 	fi
 }
 

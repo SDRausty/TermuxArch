@@ -7,8 +7,8 @@
 IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
-umask 0022
-VERSIONID=2.0.186
+umask 022
+VERSIONID=2.0.187
 ## INIT FUNCTIONS ##############################################################
 _STRPERROR_() { # run on script error
 	local RV="$?"
@@ -91,7 +91,7 @@ _CHK_() {
 }
 
 _CHKDWN_() {
-	$( sha512sum -c setupTermuxArch.sha512 1>/dev/null ) && printf "\\e[0;34m%s\\e[1;34m%s\\e[1;32m%s\\n\\n" " 🕛 > 🕐 " "TermuxArch download: " "OK" && bsdtar -xpf setupTermuxArch.tar.gz || _PRINTSHA512SYSCHKER_
+	$( sha512sum -c setupTermuxArch.sha512 1>/dev/null ) && printf "\\e[0;34m%s\\e[1;34m%s\\e[1;32m%s\\n\\n" " 🕛 > 🕐 " "TermuxArch download: " "OK" && bsdtar -x -p -f setupTermuxArch.tar.gz || _PRINTSHA512SYSCHKER_
 }
 
 _CHKSELF_() {	# compare file setupTermuxArch and the file being used
