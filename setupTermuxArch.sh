@@ -8,7 +8,7 @@ IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 umask 022
-VERSIONID=2.0.189
+VERSIONID=2.0.190
 ## INIT FUNCTIONS ##############################################################
 _STRPERROR_() { # run on script error
 	local RV="$?"
@@ -76,7 +76,7 @@ _CHK_() {
 	if sha512sum -c termuxarchchecksum.sha512 1>/dev/null
 	then
 		if [[ -z "${INSTALLDIR:-}" ]]	# is unset
-		then	# exit here or the program will continue to run on
+		then	# exit here or the program will run on
 			printf "\\e[0;34m%s \\e[1;34m%s \\e[1;32m%s\\e[0m\\n" " 🕛 = 🕛" "TermuxArch $VERSIONID integrity:" "OK"
 			exit
 		else
@@ -94,24 +94,15 @@ _CHKDWN_() {
 	$( sha512sum -c setupTermuxArch.sha512 1>/dev/null ) && printf "\\e[0;34m%s\\e[1;34m%s\\e[1;32m%s\\n\\n" " 🕛 > 🕐 " "TermuxArch download: " "OK" && bsdtar -x -p -f setupTermuxArch.tar.gz || _PRINTSHA512SYSCHKER_
 }
 
-_CHKSELF_() {	# compare file setupTermuxArch and the file being used
-	cd "$WFDIR" # change directory to where file resides
-	if [[ "$(<$TAMPDIR/setupTermuxArch)" != "$(<$0)" ]] # files differ
-	then	# find and unset functions
-# 		unset -f $(grep \_\( "$0"|cut -d"(" -f 1|sort -u|sed ':a;N;$!ba;s/\n/ /g')
-# 		# find variables
-# 		UNVAR="$(grep '="' "$0"|grep -v -e \] -e ARGS -e CPUABI -e INSTALLDIR -e ROOTDIR -e TAMPDIR -e VERSIONID -e WDIR|grep -v +|sed 's/declare -a//g'|sed 's/declare//g'|sed 's/export//g'|sed -e "s/[[:space:]]\+//g"|cut -d"=" -f 1|sort -u)"
-# 		# unset variables
-# 		for UNSET in $UNVAR
-# 		do
-# 			unset "$UNSET"
-# 		done
-		# update working file
+_CHKSELF_() {	# compare setupTermuxArch and file being used
+	cd "$WFDIR"	# change directory to working file directory
+	if [[ "$(<$TAMPDIR/setupTermuxArch)" != "$(<${0##*/})" ]] # differ
+	then	# update the working file to newest version
 		cp "$TAMPDIR/setupTermuxArch" "$0"
 		rm -rf "$TAMPDIR"
-		cd "$WDIR"
+		cd "$WDIR"	# change directory back to working directory
 		[[ -z "${ARGS:-}" ]] && printf "\\e[1;32mFile \\e[0;32m'%s'\\e[1;32m UPDATED\\e[1;34m:\\e[0;32m run 'bash %s' again if this automatic update was unsuccessful.\\n\\e[1;32mRESTARTED \\e[0;32m'%s'\\e[1;34m:\\e[1;32m CONTINUING...\\n\\n\\e[0m" "${0##*/}" "${0##*/}" "${0##*/}" || printf "\\e[0;32m'%s'\\e[1;32m UPDATED\\e[1;34m:\\e[0;32m run 'bash %s' again if this automatic update was unsuccessful.\\n\\e[1;32mRESTARTED \\e[0;32m'%s'\\e[1;34m:\\e[1;32m CONTINUING...\\n\\n\\e[0m" "${0##*/} $ARGS" "${0##*/} $ARGS" "${0##*/} $ARGS"
-		# restart with updated version
+		# restart updated version
 		. "$0" "$ARGS"
 	fi
 	cd "$TAMPDIR"
