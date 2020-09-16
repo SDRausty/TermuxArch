@@ -8,7 +8,7 @@ IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 umask 022
-VERSIONID=2.0.194
+VERSIONID=2.0.195
 ## INIT FUNCTIONS ##############################################################
 _STRPERROR_() { # run on script error
 	local RV="$?"
@@ -69,9 +69,15 @@ _ARG2DIR_() {  # argument as ROOTDIR
 _BLOOMSKEL_() {
 	ELCR=0
 	_INTROBLOOM_ "$@"
-	_PREPTERMUXARCH_
-	_INTRO_ "$@" || exit
+	if [[ -d "$INSTALLDIR" ]] && [[ -d "$INSTALLDIR"/root/bin ]] && [[ -d "$INSTALLDIR"/var/binds ]] && [[ -f "$INSTALLDIR"/bin/we ]] && [[ -f "$INSTALLDIR"/usr/bin/env ]]
+	then
+		printf "\\n\\e[0;33m%s\\e[1;33m%s\\e[0;33m.\\e[0m\\n\\n" "TermuxArch WARNING!  " "The root directory structure of ~/${INSTALLDIR##*/} is correct; Cannot continue '${0##*/} $ARGS' to create the ditectory skeleton!  Commands '${0##*/} h[e[lp]]' and '$STARTBIN h[elp]' have more information"
+	else
+		_PREPTERMUXARCH_
+		_INTRO_ "$@" || exit
+	fi
 }
+
 _CHK_() {
 	if sha512sum -c termuxarchchecksum.sha512 1>/dev/null
 	then
