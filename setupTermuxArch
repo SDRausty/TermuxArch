@@ -8,7 +8,7 @@ IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 umask 022
-VERSIONID=2.0.193
+VERSIONID=2.0.194
 ## INIT FUNCTIONS ##############################################################
 _STRPERROR_() { # run on script error
 	local RV="$?"
@@ -98,12 +98,12 @@ _CHKSELF_() {	# compare setupTermuxArch and file being used
 	cd "$WFDIR"	# change directory to working file directory
 	if [[ "$(<$TAMPDIR/setupTermuxArch)" != "$(<${0##*/})" ]] # differ
 	then	# update the working file to newest version
-		cp "$TAMPDIR/setupTermuxArch" "$0"
+		cp "$TAMPDIR/setupTermuxArch" "${0##*/}"
 		rm -rf "$TAMPDIR"
 		cd "$WDIR"	# change directory back to working directory
 		[[ -z "${ARGS:-}" ]] && printf "\\e[1;32mFile \\e[0;32m'%s'\\e[1;32m UPDATED\\e[1;34m:\\e[0;32m run 'bash %s' again if this automatic update was unsuccessful.\\n\\e[1;32mRESTARTED \\e[0;32m'%s'\\e[1;34m:\\e[1;32m CONTINUING...\\n\\n\\e[0m" "${0##*/}" "${0##*/}" "${0##*/}" || printf "\\e[0;32m'%s'\\e[1;32m UPDATED\\e[1;34m:\\e[0;32m run 'bash %s' again if this automatic update was unsuccessful.\\n\\e[1;32mRESTARTED \\e[0;32m'%s'\\e[1;34m:\\e[1;32m CONTINUING...\\n\\n\\e[0m" "${0##*/} $ARGS" "${0##*/} $ARGS" "${0##*/} $ARGS"
 		# restart updated version
-		. "$0" "$ARGS"
+		. $(echo "$ARGS" | xargs "${0##*/}") 
 	fi
 	cd "$TAMPDIR"
 }
@@ -210,7 +210,7 @@ _DEPENDS_() {	# check for missing commands
 }
 
 _DEPENDSBLOCK_() {
-	_DEPENDS_ || printf "%s\\n" "signal received _DEPENDS_ _DEPENDSBLOCK_ ${0##*/}"
+	_DEPENDS_ || _PSGI1ESTRING_ "_DEPENDS_ _DEPENDSBLOCK_ ${0##*/}"
 	_COREFILESDO_
 	unset LD_PRELOAD
 }
@@ -468,7 +468,7 @@ _PREPTMPDIR_() {
 _PREPTERMUXARCH_() {
 	_NAMEINSTALLDIR_
 	_NAMESTARTARCH_
-	_PREPTMPDIR_ || printf "%s\\n" "signal received _PREPTMPDIR_ _PREPTERMUXARCH_ ${0##*/}"
+	_PREPTMPDIR_ || _PSGI1ESTRING_ "_PREPTMPDIR_ _PREPTERMUXARCH_ ${0##*/}"
 }
 
 _PRINTCONFLOADED_() {
@@ -507,10 +507,9 @@ _PRINTUSAGE_() {
 	else
 		printf "\\e[0;32m  command \\e[1;32m%s\\e[0;32m has %s usage information\\n\\n" "'$STARTBIN help'" "$STARTBIN"
 	fi
-#
 }
-# print signal generated in arg 1 format
-_PSGI1ESTRING_() {
+
+_PSGI1ESTRING_() {	# print signal generated in arg 1 format
 	printf "\\e[1;33mSIGNAL GENERATED in %s\\e[1;34m : \\e[1;32mCONTINUING...  \\e[0;34mExecuting \\e[0;32m%s\\e[0;34m in the native shell once the installation and configuration process completes will attempt to finish the autoconfiguration and installation if the installation and configuration processes were not completely successful.  Should better solutions for \\e[0;32m%s\\e[0;34m be found, please open an issue and accompanying pull request if possible.\\nThe entire script can be reviewed by creating a \\e[0;32m%s\\e[0;34m directory with the command \\e[0;32m%s\\e[0;34m which can be used to access the entire installation script.  This option does NOT configure and install the root file system.  This command transfers the entire script into the home directory for hacking, modification and review.  The command \\e[0;32m%s\\e[0;34m has more information about how to use use \\e[0;32m%s\\e[0;34m in an effective way.\\e[0;32m%s\\e[0m\\n" "'$1'" "'bash ${0##*/} refresh'" "'${0##*/}'" "'~/TermuxArchBloom/'" "'setupTermuxArch b'" "'setupTermuxArch help'" "'${0##*/}'"
 }
 
@@ -585,7 +584,7 @@ EMPARIAS=([APTIN]="# apt install string" [COMMANDIF]="" [COMMANDG]="" [CPUABI]="
 for PKG in ${!EMPARIAS[@]} ; do declare "$PKG"="" ; done
 declare -a LC_TYPE	# declare array for locale types
 declare -A FILE		# declare associative array
-ECLAVARR=(ARGS APTIN BINFNSTP COMMANDIF COMMANDR COMMANDG CPUABI CPUABI5 CPUABI7 CPUABI8 CPUABIX86 CPUABIX86_64 DFL DMVERBOSE DM ELCR ed FSTND INSTALLDIR LCC LCP OPT ROOTDIR WDIR SDATE STI STIME STRING1 STRING2)
+ECLAVARR=(ARGS APTIN BINFNSTP COMMANDIF COMMANDR COMMANDG CPUABI CPUABI5 CPUABI7 CPUABI8 CPUABIX86 CPUABIX86_64 DFL DMVERBOSE DM EDO01LCR ELCR ed FSTND INSTALLDIR LCC LCP OPT ROOTDIR WDIR SDATE STI STIME STRING1 STRING2)
 for ECLAVARS in ${ECLAVARR[@]} ; do declare $ECLAVARS ; done
 ARGS="${@%/}"
 CPUABI5="armeabi"	# Used for development;  The command 'getprop ro.product.cpu.abi' can be used to ascertain the device architecture.  Matching an alternate CPUABI* will install an alternate architecture on device.  The original device architecture must be changed to something else so it does not match.  This is usefull with QEMU to install alternate architectures on device.
@@ -622,7 +621,7 @@ STIME="$ONESA$STIME"
 CPUABI="$(getprop ro.product.cpu.abi)" && SYSVER="$(getprop ro.build.version.release)" && NASVER="$(getprop net.bt.name ) $SYSVER" || _PSGI1ESTRING_ "CPUABI setupTermuxArch ${0##*/}"
 WDIR="$PWD/"
 ## 6) Determine its own name and location of invocation,
-WFDIR="$(realpath "$0")" || printf "\\e[1;31m%s\\e[0m%s\\n" "signal received during update :" " please try using an absolute PATH or prepending your PATH to file '${0##*/}' with a tilda ~ for file '$0'."
+WFDIR="$(realpath "$0")" || _PSGI1ESTRING_ "please try using an absolute PATH or prepending your PATH to file '${0##*/}' with a tilda ~ for file '$0'."
 WFDIR="${WFDIR%/*}"
 ## 7) Create a default user Arch Linux in Termux PRoot account with the TermuxArch command 'addauser' that configures user accounts for use with the Arch Linux 'sudo' command,
 ## 8) And all options are optional for install!
@@ -765,17 +764,21 @@ then
 	OPT=MANUAL
 	_OPT1_ "$@"
 	_INTRO_ "$@"
+## [mat[ix]]  Print TermuxArch source code as Matrix
+elif [[ "${1//-}" = [Mm][Aa][Tt]* ]]
+then
+	printf "\\nSetting mode to matrix.\\n"
+	_TAMATRIX_
 ## [o[ption]]  Option under development.
 elif [[ "${1//-}" = [Oo]* ]]
 then
 	printf "\\nSetting mode to option.\\n"
- 	printf "\\e[1;32m%s \\e[0m" "$(tr -d '\n' < $0)"
-	# split the string
-	IFS=';' read -ra my_array <<< "$(tr -d '\n' < $0)"
-	# print the split string
- 	for EMSTRING in "${my_array[@]}" ; do printf "\\e[0;32m%s" "$EMSTRING" && sleep 0.0"$(shuf -i 0-999 -n 1)" ; done
+	EDO01LCR=0 
+	LCR="2"
+	printf "\\n\\e[0;32mSetting mode\\e[1;34m : \\e[1;32mminimal refresh with refresh user directories\\e[1;34m :\\e[0;32m For a full refresh you can use the%s \\e[1;32mbash '%s' \\e[0;32m%s\\e[1;34m...\\n\\e[0m" "" "${0##*/} ref[resh]" "command"
+	_ARG2DIR_ "$@"
+	_INTROREFRESH_ "$@"
 ## [p[urge] [customdir]]  Remove Arch Linux.
-	tail -n 8 "$0"
 elif [[ "${1//-}" = [Pp]* ]]
 then
 	printf "\\nSetting mode to purge.\\n"
@@ -790,14 +793,14 @@ then
 ## [re [customdir]]  Refresh the Arch Linux in Termux PRoot scripts created by TermuxArch.  Useful for refreshing the root user's home directory and user home directories and the TermuxArch generated scripts to their newest version.
 elif [[ "${1//-}" = [Rr][Ee] ]]
 then
-	export LCR="2"
+	LCR="2"
 	printf "\\n\\e[0;32mSetting mode\\e[1;34m : \\e[1;32mminimal refresh with refresh user directories\\e[1;34m :\\e[0;32m For a full refresh you can use the%s \\e[1;32mbash '%s' \\e[0;32m%s\\e[1;34m...\\n\\e[0m" "" "${0##*/} ref[resh]" "command"
 	_ARG2DIR_ "$@"
 	_INTROREFRESH_ "$@"
 ## [r [customdir]]  Refresh the Arch Linux in Termux PRoot scripts created by TermuxArch.  Useful for refreshing the root user's home directory and the TermuxArch generated scripts to their newest version.
 elif [[ "${1//-}" = [Rr] ]]
 then
-	export LCR="1"
+	LCR="1"
 	printf "\\n\\e[0;32mSetting mode\\e[1;34m : \\e[1;32mminimal refresh\\e[1;34m :\\e[0;32m For a full refresh you can use the%s \\e[1;32mbash '%s' \\e[0;32m%s\\e[1;34m...\\n\\e[0m" "" "${0##*/} ref[resh]" "command"
 	_ARG2DIR_ "$@"
 	_INTROREFRESH_ "$@"

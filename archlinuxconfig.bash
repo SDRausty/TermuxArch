@@ -724,7 +724,7 @@ _ADDpc_() {
 	_CFLHDR_ root/bin/pc "# pacman install packages wrapper without system update"
 	cat >> root/bin/pc <<- EOM
 	declare -g ARGS="\$@"
-
+	umask 022
 	_TRPET_() { # on exit
 		printf "\\\\e[?25h\\\\e[0m"
 		set +Eeuo pipefail
@@ -733,7 +733,7 @@ _ADDpc_() {
 
 	_PRINTTAIL_() {
 		printf "\\\\n\\\\e[0;32m%s %s %s\\\\e[1;34m: \\\\e[1;32m%s\\\\e[0m 🏁  \\\\n\\\\n\\\\e[0m" "TermuxArch \${0##*/}" "\$ARGS" "\$VERSIONID" "DONE 📱"
-		printf '\033]2;  🔑 TermuxArch %s:DONE 📱 \007' "\${0##*/}"
+		printf '\033]2;  🔑 TermuxArch %s:DONE 📱 \007' "\${0##*/} \$ARGS"
 	}
 
 	trap _TRPET_ EXIT
@@ -765,7 +765,7 @@ _ADDpci_() {
 	_CFLHDR_ root/bin/pci "# Pacman install packages wrapper with system update."
 	cat >> root/bin/pci <<- EOM
 	declare ARGS="\$@"
-
+	umask 022
 	_TRPET_() { # on exit
 		printf "\\\\e[?25h\\\\e[0m"
 		set +Eeuo pipefail
@@ -774,7 +774,7 @@ _ADDpci_() {
 
 	_PRINTTAIL_() {
 		printf "\\\\n\\\\e[0;32m%s %s %s\\\\e[1;34m: \\\\e[1;32m%s\\\\e[0m 🏁  \\\\n\\\\n\\\\e[0m" "TermuxArch \${0##*/}" "\$ARGS" "\$VERSIONID" "DONE 📱"
-		printf '\033]2;  🔑 TermuxArch %s:DONE 📱 \007' "\${0##*/}"
+		printf '\033]2;  🔑 TermuxArch %s:DONE 📱 \007' "\${0##*/} \$ARGS"
 	}
 
 	trap _TRPET_ EXIT
@@ -783,18 +783,18 @@ _ADDpci_() {
 	printf "\\\\n\\\\e[1;32m==> \\\\e[1;37m%s \\\\e[1;32m%s %s %s \\\\e[0m%s...\\\\n\\\\n" "Running" "TermuxArch \${0##*/}" "\$ARGS" "\$VERSIONID"
 	if [[ -z "\${1:-}" ]]
 	then
-		pacman --noconfirm --color=always -Syu || pacman --noconfirm --color=always -Syu
+		pacman --noconfirm --color=always -Syu "\$@"
 	elif [[ "\$1" = "e" ]]
 	then
-		pacman --noconfirm --color=always -Syu base base-devel emacs "\${@:2}" || sudo pacman --noconfirm --color=always -Syu base base-devel emacs "\${@:2}"
+		pacman --noconfirm --color=always -Syu base base-devel emacs "\${@:2}"
 	elif [[ "\$1" = "e8" ]]
 	then
-		pacman --noconfirm --color=always -Syu base base-devel emacs jdk8-openjdk "\${@:2}" || sudo pacman --noconfirm --color=always -Syu base base-devel emacs jdk8-openjdk "\${@:2}"
+		pacman --noconfirm --color=always -Syu base base-devel emacs jdk8-openjdk "\${@:2}"
 	elif [[ "\$1" = "e10" ]]
 	then
-		pacman --noconfirm --color=always -Syu base base-devel emacs jdk10-openjdk "\${@:2}" || sudo pacman --noconfirm --color=always -Syu base base-devel emacs jdk10-openjdk "\${@:2}"
+		pacman --noconfirm --color=always -Syu base base-devel emacs jdk10-openjdk "\${@:2}"
 	else
-		pacman --noconfirm --color=always -Syu "\$@" || sudo pacman --noconfirm --color=always -Syu "\$@"
+		pacman --noconfirm --color=always -Syu "\$@"
 	fi
 	# pci EOF
 	EOM
@@ -834,10 +834,9 @@ _ADDthstartarch_() {
 	chmod 700 root/bin/th"$STARTBIN"
 }
 
-_ADDtools_() {
- 	PRFXTOLS=(getprop termux-change-repo termux-info)	# patial implementaion : system tools that work and can be found can be added to this array
-# 	PRFXTOLS=(am dpkg getprop termux-change-repo termux-info termux-open termux-open-url termux-wake-lock termux-wake-unlock)	# patial implementaion : system tools that work and can be found can be added to this array
-#  	PRFXTOLS=(am getprop toolbox toybox)	# patial implementaion : system tools that work and can be found can be added to this array
+_ADDtools_() {	# developing implementaion : working system tools that work can be added to array PRFXTOLS
+[[ -z "${EDO01LCR:-}" ]] && PRFXTOLS=(getprop termux-change-repo termux-info) || [[ $EDO01LCR = 0 ]] && PRFXTOLS=(am dpkg getprop termux-change-repo termux-info termux-open termux-open-url termux-wake-lock termux-wake-unlock)
+#  	PRFXTOLS=(am getprop toolbox toybox)
  	for STOOL in ${PRFXTOLS[@]}
  	do
  		cp $(which "$STOOL") usr/local/bin/ || printf "%s\\n" "System tool $STOOL cannot be found: continuing..."
@@ -1082,7 +1081,7 @@ _MODdotfile_() {
 }
 
 _DOMODdotfiles_() {
-	# Have you heard of metacarpals syndrome?  My metacarpals flare from vibrations.  To disable the silent bell feature replace the contents of this function with a colon (:) like in this example:
+	# Are you familiar with metacarpals syndrome?  Metacarpals can flare from vibrations.  To disable the silent bell feature replace the contents of this function with a colon (:) as in this example:
 # 	_DOMODexample_() {
 # 		:
 # 	}
