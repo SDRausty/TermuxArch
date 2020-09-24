@@ -81,7 +81,6 @@ _PR00TSTRING_() { # construct the PRoot init statement
 	then
 	       	PROOTSTMNT+="--kill-on-exit "
        	fi
-#        	PROOTSTMNT+="--link2symlink -S $INSTALLDIR "
 	PROOTSTMNT+="--link2symlink -i \"\$AR2AR:wheel\" -0 -r $INSTALLDIR "
 	# file var/binds/fbindexample.prs has a few more examples
        	if [[ -n "$(ls -A "$INSTALLDIR"/var/binds/*.prs)" ]]
@@ -128,6 +127,7 @@ _PR00TSTRING_() { # construct the PRoot init statement
 	PROOTSTMNTU="${PROOTSTMNTUU//--link2symlink }" # create PRoot user string with link2symlink option disabled
 	PROOTSTMNT="${PROOTSTMNT//-i \"\$AR2AR:wheel\" }" # create PRoot root user string
 }
+[[ -z "${QEMUCR:-}" ]] && CPUABI="$(getprop ro.product.cpu.abi)" && SYSVER="$(getprop ro.build.version.release)" && NASVER="$(getprop net.bt.name ) $SYSVER" || [[ $QEMUCR="0" ]] && SYSVER="$(getprop ro.build.version.release)" && NASVER="$(getprop net.bt.name ) $SYSVER" || _PSGI1ESTRING_ "CPUABI knownconfigurations.bash ${0##*/}" 
 _PR00TSTRING_
 ##  uncomment the next line to test function _PR00TSTRING_
 #   printf "%s\\n" "$PROOTSTMNT" && printf "%s\\n" "$PROOTSTMNTU" && printf "%s\\n" "$PROOTSTMNTUU" && exit

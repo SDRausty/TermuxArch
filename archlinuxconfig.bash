@@ -78,12 +78,22 @@ _ADDae_() {
 	chmod 700 root/bin/ae
 }
 
-_ADDaddresolvconf_() {
+_ADDresolvconf_() {
 	[ ! -d run/systemd/resolve ] && mkdir -p run/systemd/resolve
 	cat > run/systemd/resolve/resolv.conf <<- EOM
 	nameserver 8.8.8.8
 	nameserver 8.8.4.4
 	EOM
+	if [ -f etc/resolve.conf ]
+	then 
+		if ! grep nameserver etc/resolv.conf 1>/dev/null
+		then
+			cat >> etc/resolv.conf <<- EOM
+			nameserver 8.8.8.8
+			nameserver 8.8.4.4
+			EOM
+		fi
+	fi
 }
 
 _ADDbash_logout_() {
@@ -724,7 +734,7 @@ _ADDpc_() {
 	_CFLHDR_ root/bin/pc "# pacman install packages wrapper without system update"
 	cat >> root/bin/pc <<- EOM
 	declare -g ARGS="\$@"
-	umask 022
+	umask 0022
 	_TRPET_() { # on exit
 		printf "\\\\e[?25h\\\\e[0m"
 		set +Eeuo pipefail
@@ -765,7 +775,7 @@ _ADDpci_() {
 	_CFLHDR_ root/bin/pci "# Pacman install packages wrapper with system update."
 	cat >> root/bin/pci <<- EOM
 	declare ARGS="\$@"
-	umask 022
+	umask 0022
 	_TRPET_() { # on exit
 		printf "\\\\e[?25h\\\\e[0m"
 		set +Eeuo pipefail

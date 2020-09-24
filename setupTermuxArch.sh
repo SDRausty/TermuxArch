@@ -7,8 +7,9 @@
 IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
-umask 022
-VERSIONID=2.0.196
+umask 0022
+unset LD_PRELOAD
+VERSIONID=2.0.197
 ## INIT FUNCTIONS ##############################################################
 _STRPERROR_() { # run on script error
 	local RV="$?"
@@ -39,13 +40,13 @@ _STRPEXIT_() { # run on exit
 }
 
 _STRPSIGNAL_() { # run on signal
-	printf "\\e[?25h\\e[1;7;38;5;0mTermuxArch WARNING:  Signal $? received!\\e[0m\\n"
+	printf "\\e[?25h\\e[1;7;38;5;0mTermuxArch WARNING:  Signal %s received!\\e[0m\\n" "$?"
  	rm -rf "$TAMPDIR"
  	exit 211
 }
 
 _STRPQUIT_() { # run on quit
-	printf "\\e[?25h\\e[1;7;38;5;0mTermuxArch WARNING:  Quit signal $? received!\\e[0m\\n"
+	printf "\\e[?25h\\e[1;7;38;5;0mTermuxArch WARNING:  Quit signal %s received!\\e[0m\\n" "$?"
  	exit 221
 }
 
@@ -97,11 +98,10 @@ _CHK_() {
 }
 
 _CHKDWN_() {
-	$(sha512sum -c setupTermuxArch.sha512 1>/dev/null) && printf "\\e[0;34m%s\\e[1;34m%s\\e[1;32m%s\\n\\n" " 🕛 > 🕐 " "TermuxArch download: " "OK" && bsdtar -x -p -f setupTermuxArch.tar.gz || _PRINTSHA512SYSCHKER_
+	sha512sum -c setupTermuxArch.sha512 1>/dev/null && printf "\\e[0;34m%s\\e[1;34m%s\\e[1;32m%s\\n\\n" " 🕛 > 🕐 " "TermuxArch download: " "OK" && bsdtar -x -p -f setupTermuxArch.tar.gz || _PRINTSHA512SYSCHKER_
 }
 
 _CHKSELF_() {	# compare setupTermuxArch and file being used
-	cd "$WFDIR"	# change directory to working file directory
 	if [[ "$(<$TAMPDIR/setupTermuxArch)" != "$(<${0##*/})" ]] # differ
 	then	# update the working file to newest version
 		cp "$TAMPDIR/setupTermuxArch" "${0##*/}"
@@ -119,6 +119,7 @@ _COREFILES_() {
 }
 
 _COREFILESDO_() {
+	cd "$WFDIR"	# change directory to working file directory
 	if _COREFILES_
 	then
 		_COREFILESLOAD_
@@ -218,7 +219,6 @@ _DEPENDS_() {	# check for missing commands
 _DEPENDSBLOCK_() {
 	_DEPENDS_ || _PSGI1ESTRING_ "_DEPENDS_ _DEPENDSBLOCK_ ${0##*/}"
 	_COREFILESDO_
-	unset LD_PRELOAD
 }
 
 _DWNL_() { # download TermuxArch from Github
@@ -227,8 +227,8 @@ _DWNL_() { # download TermuxArch from Github
 		FILE[sha]="https://raw.githubusercontent.com/TermuxArch/gensTermuxArch/master/setupTermuxArch.sha512"
 		FILE[tar]="https://raw.githubusercontent.com/TermuxArch/gensTermuxArch/master/setupTermuxArch.tar.gz"
 	else	# get stable version from:
-		FILE[sha]="https://raw.githubusercontent.com/TermuxArch/TermuxArch/master/setupTermuxArch.sha512"
-		FILE[tar]="https://raw.githubusercontent.com/TermuxArch/TermuxArch/master/setupTermuxArch.tar.gz"
+		FILE[sha]="https://raw.githubusercontent.com/SDRausty/termux-arch/master/setupTermuxArch.sha512"
+		FILE[tar]="https://raw.githubusercontent.com/SDRausty/termux-arch/master/setupTermuxArch.tar.gz"
 	fi
 	if [[ "$DM" = aria2 ]]
 	then	# use https://github.com/aria2/aria2
@@ -519,6 +519,16 @@ _PSGI1ESTRING_() {	# print signal generated in arg 1 format
 	printf "\\e[1;33mSIGNAL GENERATED in %s\\e[1;34m : \\e[1;32mCONTINUING...  \\e[0;34mExecuting \\e[0;32m%s\\e[0;34m in the native shell once the installation and configuration process completes will attempt to finish the autoconfiguration and installation if the installation and configuration processes were not completely successful.  Should better solutions for \\e[0;32m%s\\e[0;34m be found, please open an issue and accompanying pull request if possible.\\nThe entire script can be reviewed by creating a \\e[0;32m%s\\e[0;34m directory with the command \\e[0;32m%s\\e[0;34m which can be used to access the entire installation script.  This option does NOT configure and install the root file system.  This command transfers the entire script into the home directory for hacking, modification and review.  The command \\e[0;32m%s\\e[0;34m has more information about how to use use \\e[0;32m%s\\e[0;34m in an effective way.\\e[0;32m%s\\e[0m\\n" "'$1'" "'bash ${0##*/} refresh'" "'${0##*/}'" "'~/TermuxArchBloom/'" "'setupTermuxArch b'" "'setupTermuxArch help'" "'${0##*/}'"
 }
 
+_QEMU_ () {
+	printf "Setting mode to qemu.\\n"
+	printf "%s\\n" "This feature is being developed.  Please select the architecture by number from this list:"
+	select ARCHITECTURE in armeabi armeabi-v7a arm64-v8a x86 x86_64;
+	do
+		CPUABI="$ARCHITECTURE" 
+		[[ $CPUABI == *arm* ]] || [[ $CPUABI == *86* ]] && printf "%s\\n" "You picked ($REPLY) $CPUABI.  The chosen architecture for installation is $CPUABI." && QEMUCR="0" && break || printf "%s\\n" "Please select the architecture by number."
+	done
+}
+
 _RMARCH_() {
 	_NAMESTARTARCH_
 	_NAMEINSTALLDIR_
@@ -599,7 +609,6 @@ CPUABI8="arm64-v8a"	# used for development
 CPUABIX86="x86"		# used for development
 CPUABIX86_64="x86_64"	# used for development
 DMVERBOSE="-q"	# -v for verbose download manager output from curl and wget;  for verbose output throughout runtime also change in 'setupTermuxArchConfigs.bash' when using 'setupTermuxArch m[anual]'
-EMPARIAS=([APTIN]="# apt install string" [COMMANDIF]="" [COMMANDG]="" [CPUABI]="" [DFL]="# used for development" [DM]="" [ed]="" [FSTND]="" [INSTALLDIR]="" [LCC]="" [LCP]="" [OPT]="" [ROOTDIR]="" [WDIR]="" [SDATE]="" [STI]="# generates pseudo random number" [STIME]="# generates pseudo random number")
 ELCR=1
 [[ -z "${TAMPDIR:-}" ]] && TAMPDIR=""
 ROOTDIR="/arch"
@@ -622,12 +631,9 @@ ONESA="${SDATE: -1}"
 PKGS=(bsdtar proot)
 STIME="$ONESA$STIME"
 ## 5) Get device information via the 'getprop' command,
-## If your target install system is aarch64/arm64 then this line of code CPUABI="$(getprop ro.product.cpu.abi)" should be changed to CPUABI="arm64-v8a".
 ## QEMU implementation #25 https://github.com/TermuxArch/TermuxArch/issues/25 has more information.
-CPUABI="$(getprop ro.product.cpu.abi)" && SYSVER="$(getprop ro.build.version.release)" && NASVER="$(getprop net.bt.name ) $SYSVER" || _PSGI1ESTRING_ "CPUABI setupTermuxArch ${0##*/}"
-WDIR="$PWD/"
 ## 6) Determine its own name and location of invocation,
-WFDIR="$(realpath "$0")" || _PSGI1ESTRING_ "please try using an absolute PATH or prepending your PATH to file '${0##*/}' with a tilda ~ for file '$0'."
+WDIR="$PWD/" && WFDIR="$(realpath "$0")" || _PSGI1ESTRING_ "please try using an absolute PATH or prepending your PATH to file '${0##*/}' with a tilda ~ for file '$0'."
 WFDIR="${WFDIR%/*}"
 ## 7) Create a default user Arch Linux in Termux PRoot account with the TermuxArch command 'addauser' that configures user accounts for use with the Arch Linux 'sudo' command,
 ## 8) And all options are optional for install!
@@ -791,6 +797,12 @@ then
 	printf "\\nSetting mode to purge.\\n"
 	_ARG2DIR_ "$@"
 	_RMARCHQ_
+## [q[emu] [customdir]]  Partial Implementation:  Install alternate architecture on smartphone with QEMU.
+elif [[ "${1//-}" = [Qq]* ]]
+then
+	_QEMU_
+	_OPT1_ "$@"
+	_INTRO_ "$@"
 ## [ref[resh] [customdir]]  Refresh the Arch Linux in Termux PRoot scripts created by TermuxArch and the installation itself.  Useful for refreshing the installation, the root user's home directory, user home directories and the TermuxArch generated scripts to their newest version and also runs keys and generates locales.
 elif [[ "${1//-}" = [Rr][Ee][Ff]* ]]
 then
