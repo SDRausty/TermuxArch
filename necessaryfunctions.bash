@@ -27,8 +27,9 @@ _ADDADDS_() {
 	_ADDcsystemctl_
 	_ADDdfa_
 	_ADDexd_
-	_ADDfbindexample_
-	_ADDfbindprocpcidevices_
+	_ADDbindexample_
+	_ADDfbindprocpcidevices.prs_
+	_ADDfbindprocshmem.prs_
 	_ADDfbindprocuptime_
 	_ADDfbinds_
 	_ADDfibs_
@@ -173,10 +174,6 @@ _MAINBLOCK_() {
 	exit
 }
 
-_DOKEYS_() {
-	[[ "$CPUABI" = "$CPUABIX86" ]] && printf "/root/bin/keys x86\\n" >> root/bin/"$BINFNSTP"|| [[ "$CPUABI" = "$CPUABIX86_64" ]] && printf "./root/bin/keys x86_64\\n" >> root/bin/"$BINFNSTP" || printf "/root/bin/keys\\n" >> root/bin/"$BINFNSTP"
-}
-
 _DOPROXY_() {
 	[[ -f "$HOME"/.bash_profile ]] && grep "proxy" "$HOME"/.bash_profile | grep "export" >> root/bin/"$BINFNSTP" 2>/dev/null ||:
 	[[ -f "$HOME"/.bashrc ]] && grep "proxy" "$HOME"/.bashrc  | grep "export" >> root/bin/"$BINFNSTP" 2>/dev/null ||:
@@ -184,19 +181,37 @@ _DOPROXY_() {
 }
 
 _MAKEFINISHSETUP_() {
-	_CFLHDR_ root/bin/"$BINFNSTP"
+	_CFLHDR_ "root/bin/$BINFNSTP"
+	_DOKEYS_() {
+		if [[ "$CPUABI" = "$CPUABIX86" ]]
+		then 
+			printf "/root/bin/keys x86\\n" >> root/bin/"$BINFNSTP"
+		elif [[ "$CPUABI" = "$CPUABIX86_64" ]]
+		then
+			 printf "/root/bin/keys x86_64\\n" >> root/bin/"$BINFNSTP" 
+		else
+			printf "/root/bin/keys\\n" >> root/bin/"$BINFNSTP"
+		fi
+	}
+	_DOPROXY_
+	_DOKEYS_
 	[[ "${LCR:-}" -ne 1 ]] && LOCGEN=""
 	[[ "${LCR:-}" -ne 2 ]] && LOCGEN=""
-	[[ -z "${LCR:-}" ]] && LOCGEN="printf \"\\e[1;32m%s\\e[0;32m\"  \"==> \" && locale-gen  ||:"
-	_DOPROXY_
-#	_DOKEYS_
+	[[ -z "${LCR:-}" ]] && LOCGEN="printf \"\\e[1;32m%s\\e[0;32m\"  \"==> \" 
+	if locale-gen 
+	then
+		:
+	else
+		_DOKEYS_
+		pacman -Sy grep gzip sed sudo --noconfirm --color=always 
+		locale-gen 
+	fi"
 	cat >> root/bin/"$BINFNSTP" <<- EOM
 	_PMFSESTRING_() {
 	printf "\\e[1;31m%s\\e[1;37m%s\\e[1;32m%s\\e[1;37m%s\\n\\n" "Signal generated in '\$1' : Cannot complete task : " "Continuing...   To correct the error run " "setupTermuxArch refresh" " to attempt to finish the autoconfiguration."
 	printf "\\e[1;34m%s\\e[0;34m%s\\e[1;34m%s\\e[0;34m%s\\e[1;34m%s\\n\\n" "  If you find better resolves for " "setupTermuxArch" " and " "\$0" ", please open an issue and accompanying pull request."
 	}
 	printf "\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\n" "To generate locales in a preferred language use " "Settings > Language & Keyboard > Language " "in Android; Then run " "${0##*/} refresh" " for a full system refresh including locale generation; For a quick refresh you can use " "${0##*/} r" ".  For a refresh with user directories " "${0##*/} re" " can be used."
-   	$LOCGEN
 	printf "\\n\\e[1;34m:: \\e[1;32m%s\\n" "Processing system for $NASVER $CPUABI, and removing redundant packages for Termux PRoot installation if necessary..."
 	EOM
 	if [[ -z "${LCR:-}" ]] # is undefined
@@ -222,6 +237,7 @@ _MAKEFINISHSETUP_() {
  		printf "%s\\n" "/root/bin/addauser user || _PMFSESTRING_ \"addauser user $BINFNSTP ${0##/*}\"" >> root/bin/"$BINFNSTP"
 	fi
 	cat >> root/bin/"$BINFNSTP" <<- EOM
+   	$LOCGEN
 	printf "\\n\\e[1;34m%s  \\e[0m" "🕛 > 🕤 Arch Linux in Termux is installed and configured 📲  "
 	printf "\\e]2;%s\\007" " 🕛 > 🕤 Arch Linux in Termux is installed and configured 📲"
 	EOM

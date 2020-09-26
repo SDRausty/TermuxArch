@@ -67,6 +67,7 @@ _X86_64_() { # IFILE is read from md5sums.txt
 ##  Appending to the PRoot statement can be accomplished on the fly by creating a .prs file in the var/binds directory.  The format is straightforward, 'PROOTSTMNT+="option command "'.  The space is required before the last double quote.  Commands 'info proot' and 'man proot' have more information about what can be configured in a proot init statement.  If more suitable configurations are found, share them at https://github.com/TermuxArch/TermuxArch/issues to improve TermuxArch.  PRoot bind usage: PROOTSTMNT+="-b host_path:guest_path "  The space before the last double quote is necessary.
 
 _PR00TSTRING_() { # construct the PRoot init statement
+	[[ -z "${QEMUCR:-}" ]] && CPUABI="$(getprop ro.product.cpu.abi)" && SYSVER="$(getprop ro.build.version.release)" && NASVER="$(getprop net.bt.name ) $SYSVER" || [[ $QEMUCR="0" ]] && SYSVER="$(getprop ro.build.version.release)" && NASVER="$(getprop net.bt.name) $(getprop ro.product.cpu.abi) $SYSVER" || _PSGI1ESTRING_ "CPUABI knownconfigurations.bash ${0##*/}" 
 	PROOTSTMNT="exec proot "
        	if [[ -z "${KID:-}" ]]
 	then
@@ -89,6 +90,13 @@ _PR00TSTRING_() { # construct the PRoot init statement
 		do
 		       	. "$PRSFILES"
 	       	done
+	fi
+	if [[ -z "${QEMUCR:-}" ]]
+	then
+		:
+	else [[ "$QEMUCR" == 0 ]]
+		# change qemu architecture to desired architecture
+		PROOTSTMNT+="-q $PREFIX/bin/qemu-$ARCHITEC "
 	fi
 	[[ "$SYSVER" -ge 10 ]] && PROOTSTMNT+="-b /apex:/apex "
 	##  Function _PR00TSTRING_ which creates the PRoot init statement PROOTSTMNT uses associative arrays.  Page https://www.gnu.org/software/bash/manual/html_node/Arrays.html has information about BASH arrays and is also available at https://www.gnu.org/software/bash/manual/ this link.
@@ -127,7 +135,6 @@ _PR00TSTRING_() { # construct the PRoot init statement
 	PROOTSTMNTU="${PROOTSTMNTUU//--link2symlink }" # create PRoot user string with link2symlink option disabled
 	PROOTSTMNT="${PROOTSTMNT//-i \"\$AR2AR:wheel\" }" # create PRoot root user string
 }
-[[ -z "${QEMUCR:-}" ]] && CPUABI="$(getprop ro.product.cpu.abi)" && SYSVER="$(getprop ro.build.version.release)" && NASVER="$(getprop net.bt.name ) $SYSVER" || [[ $QEMUCR="0" ]] && SYSVER="$(getprop ro.build.version.release)" && NASVER="$(getprop net.bt.name ) $SYSVER" || _PSGI1ESTRING_ "CPUABI knownconfigurations.bash ${0##*/}" 
 _PR00TSTRING_
 ##  uncomment the next line to test function _PR00TSTRING_
 #   printf "%s\\n" "$PROOTSTMNT" && printf "%s\\n" "$PROOTSTMNTU" && printf "%s\\n" "$PROOTSTMNTUU" && exit

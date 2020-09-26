@@ -7,6 +7,14 @@
 _ADDAUSER_() {
 	_CFLHDR_ root/bin/addauser "# add Arch Linux in Termux PRoot user"
 	cat >> root/bin/addauser <<- EOM
+	_HUSDIRC_() {
+	if [[ ! -d "/home/\$@" ]]
+	then
+		_FUNADDU_ "\$@"
+	else
+		printf "\\\\e[1;31mDIRECTORY: \\\\e[1;37m'/home/\$@ exists'\\\\e[1;31m: EXITING...\\\\n"
+	fi
+	}
 	_FUNADDU_() {
 	if [[ -z "\${1:-}" ]]
 	then
@@ -42,7 +50,7 @@ _ADDAUSER_() {
 		printf "\\\\e[1;31m%s\\\\e[1;37m%s\\\\e[1;32m%s\\\\e[1;37m%s\\\\n\\\\n" "Signal generated in '\$1' : Cannot complete task : " "Continuing..."
 		printf "\\\\e[1;34m%s\\\\e[0;34m%s\\\\e[1;34m%s\\\\e[0;34m%s\\\\e[1;34m%s\\\\e[0m\\\\n\\\\n" "  If you find improvements for " "setupTermuxArch" " and " "\$0" " please open an issue and accompanying pull request."
 	}
-	_FUNADDU_ "\$@"
+	_HUSDIRC_ "\$@"
 	# addauser EOF
 	EOM
 	chmod 700 root/bin/addauser
@@ -84,16 +92,22 @@ _ADDresolvconf_() {
 	nameserver 8.8.8.8
 	nameserver 8.8.4.4
 	EOM
-	if [ -f etc/resolve.conf ]
-	then 
-		if ! grep nameserver etc/resolv.conf 1>/dev/null
-		then
-			cat >> etc/resolv.conf <<- EOM
-			nameserver 8.8.8.8
-			nameserver 8.8.4.4
-			EOM
+	_ADDTORESOLVE_() {
+		cat >> etc/resolv.conf <<- EOM
+		nameserver 8.8.8.8
+		nameserver 8.8.4.4
+		EOM
+	}
+	_CHECKRESOLVE_() {
+		if [ -f etc/resolv.conf ]
+		then 
+			if ! grep nameserver etc/resolv.conf 1>/dev/null
+			then
+				_ADDTORESOLVE_
+			fi
 		fi
-	fi
+	}
+	_CHECKRESOLVE_
 }
 
 _ADDbash_logout_() {
@@ -301,7 +315,7 @@ _ADDexd_() {
 	chmod 700 root/bin/exd
 }
 
-_ADDfbindprocpcidevices_() {
+_ADDfbindprocpcidevices.prs_() {
 	touch var/binds/fbindprocpcidevices
 	_CFLHDRS_ var/binds/fbindprocpcidevices.prs
 	cat >> var/binds/fbindprocpcidevices.prs <<- EOM
@@ -311,7 +325,7 @@ _ADDfbindprocpcidevices_() {
 	EOM
 }
 
-_ADDfbindprocshmem_() {
+_ADDfbindprocshmem.prs_() {
 	cat > var/binds/fbindprocshmem <<- EOM
 	------ Message Queues --------
 	key        msqid      owner      perms      used-bytes   messages
@@ -414,14 +428,14 @@ _ADDfbindprocversion_() {
 	EOM
 }
 
-_ADDfbindexample_() {
-	_CFLHDRS_ var/binds/fbindexample.prs "# Before regenerating the start script with \`setupTermuxArch re[fresh]\`, first copy this file to another name such as \`fbinds.prs\`.  Then add as many proot statements as you want; The init script will parse file \`fbinds.prs\` at refresh adding these proot options to \`$STARTBIN\`.  The space before the last double quote is necessary.  Examples are included for convenience:"
-	cat >> var/binds/fbindexample.prs <<- EOM
+_ADDbindexample_() {
+	_CFLHDRS_ var/binds/bindexample.prs "# Before regenerating the start script with \`setupTermuxArch re[fresh]\`, first copy this file to another name such as \`fbinds.prs\`.  Then add as many proot statements as you want; The init script will parse file \`fbinds.prs\` at refresh adding these proot options to \`$STARTBIN\`.  The space before the last double quote is necessary.  Examples are included for convenience:"
+	cat >> var/binds/bindexample.prs <<- EOM
 	# PRoot bind usage: PROOTSTMNT+="-b host_path:guest_path " # the space before the last double quote is necessary
 	# PROOTSTMNT+="-q $PREFIX/bin/qemu-x86_64 "
 	# PROOTSTMNT+="-b /proc/:/proc/ "
 	# [[ ! -r /dev/shm ]] && PROOTSTMNT+="-b $INSTALLDIR/tmp:/dev/shm "
-	# fbindexample.prs EOF
+	# bindexample.prs EOF
 	EOM
 }
 

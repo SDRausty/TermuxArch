@@ -9,7 +9,7 @@ set -Eeuo pipefail
 shopt -s nullglob globstar
 umask 0022
 unset LD_PRELOAD
-VERSIONID=2.0.200
+VERSIONID=2.0.201
 ## INIT FUNCTIONS ##############################################################
 _STRPERROR_() { # run on script error
 	local RV="$?"
@@ -24,7 +24,7 @@ _STRPERROR_() { # run on script error
 
 _STRPEXIT_() { # run on exit
 	local RV="$?"
- 	rm -rf "$TAMPDIR"
+	rm -rf "$TAMPDIR"
 	sleep 0.04
 	if [[ "$RV" = 0 ]]
 	then
@@ -41,19 +41,18 @@ _STRPEXIT_() { # run on exit
 
 _STRPSIGNAL_() { # run on signal
 	printf "\\e[?25h\\e[1;7;38;5;0mTermuxArch WARNING:  Signal %s received!\\e[0m\\n" "$?"
- 	rm -rf "$TAMPDIR"
- 	exit 211
+	rm -rf "$TAMPDIR"
+	exit 211
 }
 
 _STRPQUIT_() { # run on quit
 	printf "\\e[?25h\\e[1;7;38;5;0mTermuxArch WARNING:  Quit signal %s received!\\e[0m\\n" "$?"
- 	exit 221
+	exit 221
 }
-
 trap '_STRPERROR_ $LINENO $BASH_COMMAND $?' ERR
-trap _STRPEXIT_ EXIT
-trap _STRPSIGNAL_ HUP INT TERM
-trap _STRPQUIT_ QUIT
+trap '_STRPEXIT_ $LINENO $BASH_COMMAND $?' EXIT
+trap '_STRPSIGNAL_ $LINENO $BASH_COMMAND $?' HUP INT TERM
+trap '_STRPQUIT_ $LINENO $BASH_COMMAND $?' QUIT
 
 _ARG2DIR_() {  # argument as ROOTDIR
 	ARG2="${@:2:1}"
@@ -72,7 +71,7 @@ _BLOOMSKEL_() {
 	_INTROBLOOM_ "$@"
 	if [[ -d "$INSTALLDIR" ]] && [[ -d "$INSTALLDIR"/root/bin ]] && [[ -d "$INSTALLDIR"/var/binds ]] && [[ -f "$INSTALLDIR"/bin/we ]] && [[ -f "$INSTALLDIR"/usr/bin/env ]]
 	then
-		printf "\\n\\e[0;33m%s\\e[1;33m%s\\e[0;33m.\\e[0m\\n\\n" "TermuxArch WARNING!  " "The root directory structure of ~/${INSTALLDIR##*/} is correct; Cannot continue '${0##*/} $ARGS' to create the ditectory skeleton!  Commands '${0##*/} h[e[lp]]' and '$STARTBIN h[elp]' have more information"
+		printf "\\n\\e[0;33m%s\\e[1;33m%s\\e[0;33m.\\e[0m\\n\\n" "TermuxArch WARNING!  " "The root directory structure of ~/${INSTALLDIR##*/} is correct; Cannot continue '${0##*/} $ARGS' to create the directory skeleton!  Commands '${0##*/} h[e[lp]]' and '$STARTBIN h[elp]' have more information"
 	else
 		_PREPTERMUXARCH_
 		_INTRO_ "$@" || exit
@@ -108,7 +107,7 @@ _CHKSELF_() {	# compare setupTermuxArch and file being used
 		rm -rf "$TAMPDIR"
 		cd "$WDIR"	# change directory back to working directory
 		[[ -z "${ARGS:-}" ]] && printf "\\e[1;32mFile \\e[0;32m'%s'\\e[1;32m UPDATED\\e[1;34m:\\e[0;32m run 'bash %s' again if this automatic update was unsuccessful.\\n\\e[1;32mRESTARTED \\e[0;32m'%s'\\e[1;34m:\\e[1;32m CONTINUING...\\n\\n\\e[0m" "${0##*/}" "${0##*/}" "${0##*/}" || printf "\\e[0;32m'%s'\\e[1;32m UPDATED\\e[1;34m:\\e[0;32m run 'bash %s' again if this automatic update was unsuccessful.\\n\\e[1;32mRESTARTED \\e[0;32m'%s'\\e[1;34m:\\e[1;32m CONTINUING...\\n\\n\\e[0m" "${0##*/} $ARGS" "${0##*/} $ARGS" "${0##*/} $ARGS"
-		# restart updated version
+		# restart with updated version
 		bash "${0##*/}" "$ARGS"
 	fi
 	cd "$TAMPDIR"
@@ -154,7 +153,7 @@ _DEPENDDM_() { # checks and sets download manager
 	do
 		if [[ -x $(command -v "${ADM[$PKG]}") ]]
 		then
- 			DM="$PKG"
+			DM="$PKG"
 			printf "\\nFound download tool '%s': Continuing...\\n" "$PKG"
 			break
 		fi
@@ -166,7 +165,7 @@ _DEPENDTM_() { # checks and sets tar manager: depreciated
 	do
 		if [[ -x $(command -v "${ATM[$PKG]}") ]]
 		then
- 			tm="$PKG"
+			tm="$PKG"
 			printf "\\nFound tar tool '%s': Continuing...\\n" "$PKG"
 			break
 		fi
@@ -174,14 +173,14 @@ _DEPENDTM_() { # checks and sets tar manager: depreciated
 }
 
 _DEPENDIFDM_() { # checks if download tool is set and sets install if available
- 	for PKG in "${!ADM[@]}" # checks from available toolset and sets one for install if available
+	for PKG in "${!ADM[@]}" # checks from available toolset and sets one for install if available
 	do #	checks for both set DM and if tool exists on device.
- 		if [[ "$DM" = "$PKG" ]] && [[ ! -x $(command -v "${ADM[$PKG]}") ]]
+		if [[ "$DM" = "$PKG" ]] && [[ ! -x $(command -v "${ADM[$PKG]}") ]]
 		then	#	sets both download tool for install and exception check.
- 			APTIN+="$PKG "
+			APTIN+="$PKG "
 			printf "\\nSetting download tool '%s' for install: Continuing...\\n" "$PKG"
- 		fi
- 	done
+		fi
+	done
 }
 
 _DEPENDS_() {	# check for missing commands
@@ -227,8 +226,8 @@ _DWNL_() { # download TermuxArch from Github
 		FILE[sha]="https://raw.githubusercontent.com/TermuxArch/gensTermuxArch/master/setupTermuxArch.sha512"
 		FILE[tar]="https://raw.githubusercontent.com/TermuxArch/gensTermuxArch/master/setupTermuxArch.tar.gz"
 	else	# get stable version from:
-		FILE[sha]="https://raw.githubusercontent.com/TermuxArch/TermuxArch/master/setupTermuxArch.sha512"
-		FILE[tar]="https://raw.githubusercontent.com/TermuxArch/TermuxArch/master/setupTermuxArch.tar.gz"
+		FILE[sha]="https://raw.githubusercontent.com/SDRausty/termux-arch/master/setupTermuxArch.sha512"
+		FILE[tar]="https://raw.githubusercontent.com/SDRausty/termux-arch/master/setupTermuxArch.tar.gz"
 	fi
 	if [[ "$DM" = aria2 ]]
 	then	# use https://github.com/aria2/aria2
@@ -350,7 +349,7 @@ _MANUAL_() {
 		_LOADCONF_
 	else
 		cp knownconfigurations.bash "${WDIR}setupTermuxArchConfigs.bash"
- 		sed -i "7s/.*/\# The architecture of this device is $CPUABI; Adjust configurations in the appropriate section.  Change CMIRROR (https:\/\/wiki.archlinux.org\/index.php\/Mirrors and https:\/\/archlinuxarm.org\/about\/mirrors) to desired geographic location to resolve 404 and checksum issues.  /" "${WDIR}setupTermuxArchConfigs.bash"
+		sed -i "7s/.*/\# The architecture of this device is $CPUABI; Adjust configurations in the appropriate section.  Change CMIRROR (https:\/\/wiki.archlinux.org\/index.php\/Mirrors and https:\/\/archlinuxarm.org\/about\/mirrors) to desired geographic location to resolve 404 and checksum issues.  /" "${WDIR}setupTermuxArchConfigs.bash"
 		"$ed" "${WDIR}setupTermuxArchConfigs.bash"
 		. "${WDIR}setupTermuxArchConfigs.bash"
 		_PRINTCONFLOADED_
@@ -366,13 +365,13 @@ _NAMEINSTALLDIR_() {
 }
 
 _NAMESTARTARCH_() {
- 	DARCH="$(printf "%s\\n" "${ROOTDIR%/}"|sed 's#//*#/#g')" # ${@%/} removes trailing slash
+	DARCH="$(printf "%s\\n" "${ROOTDIR%/}"|sed 's#//*#/#g')" # ${@%/} removes trailing slash
 	if [[ "$DARCH" = "/arch" ]]
 	then
 		AARCH=""
 		STARTBI2=arch
 	else
- 		AARCH="$(printf "%s\\n" "$DARCH"|sed 's/\//\+/g')"
+		AARCH="$(printf "%s\\n" "$DARCH"|sed 's/\//\+/g')"
 		STARTBI2=arch
 	fi
 	declare -g STARTBIN=start"$STARTBI2$AARCH"
@@ -401,7 +400,7 @@ _OPT1_() {
 	then
 		printf "%s\\n" "Setting mode to manual."
 		OPT=MANUAL
- 		_OPT2_ "$@"
+		_OPT2_ "$@"
 	elif [[ "$2" = [Rr][Ee][Ff]* ]]
 	then
 		printf "\\n%s\\n" "Setting mode to refresh."
@@ -467,7 +466,7 @@ _OPT2_() {
 
 _PREPTMPDIR_() {
 	[[ ! -d "$INSTALLDIR/tmp" ]] && mkdir -p "$INSTALLDIR/tmp" && chmod 777 "$INSTALLDIR/tmp" && chmod +t "$INSTALLDIR/tmp"
- 	TAMPDIR="$INSTALLDIR/tmp/setupTermuxArch$$"
+	TAMPDIR="$INSTALLDIR/tmp/setupTermuxArch$$"
 	[[ ! -d "$TAMPDIR" ]] && mkdir -p "$TAMPDIR"
 }
 
@@ -489,7 +488,7 @@ _PRINTSHA512SYSCHKER_() {
 
 _PRINTSTARTBIN_USAGE_() {
 	printf "\\e[1;38;5;155m"
- 	_NAMESTARTARCH_
+	_NAMESTARTARCH_
 	if [[ -x "$(command -v "$STARTBIN")" ]]
 	then
 		printf "\\n%s\\n" "$STARTBIN help"
@@ -503,7 +502,7 @@ _PRINTUSAGE_() {
 	printf "\\n\\e[1;32m  %s  \\e[0;32mcommand \\e[1;32m%s \\e[0;32m%s\\n" "VERBOSE" "'${0##*/} h'" "shows the verbose help screen"
 	printf "\\n\\e[0;32m%s \\e[1;32m%s \\e[0;32m%s \\e[1;32m%s \\e[0;32m%s \\e[1;32m%s \\e[0;32m%s \\e[1;32m%s \\e[0;32m%s \\e[1;32m%s \\e[0;32m%s \\n\\n%s \\e[1;32m%s\\e[0;32m%s \\e[1;32m%s \\e[0;32m%s \\e[1;32m%s \\e[0;32m%s \\e[1;32m%s\\e[0;32m%s\\n" "Usage information for" "${0##*/}" "$VERSIONID.  Arguments can be abbreviated to one, two and three letters each;  Two and three letter arguments are acceptable.  For example" "'bash ${0##*/} cs'" "will use" "'curl'" "to download TermuxArch and produce a file like" "'setupTermuxArchSysInfo$STIME.log'" "populated with system information.  If you have a new smartphone that you are not familiar with, this file" "'setupTermuxArchSysInfo$STIME.log'" "might make for an interesting read in order to find out more about the device you might be holding in the palm of your hand right at this moment." "User configurable variables are in file" "'setupTermuxArchConfigs.bash'" ".  To create this file from file" "kownconfigurations.bash" "in the working directory, execute" "'bash ${0##*/} manual'" "to create and edit file" "setupTermuxArchConfigs.bash" "."
 	printf "\\n\\e[1;32m  %s\\e[0;32m  %s \\e[1;32m%s \\e[0;32m%s \\e[1;32m%s \\e[0;32m%s \\e[1;32m%s \\e[0;32m%s \\e[1;32m%s \\e[0;32m%s \\e[1;32m%s \\e[0;32m%s \\e[1;32m%s \\e[0;32m%s \\e[1;32m%s\\e[0;32m%s \\e[1;32m%s \\e[0;32m%s \\e[1;32m%s \\e[0;32m%s\\n" "INSTALL" "You can run" "./${0##*/}" "without arguments in a bash shell to install Arch Linux in Termux PRoot container in a smartphone, smartTV, table, wearable and more...  Command" "'bash ${0##*/} curl'" "will envoke" "curl" "as the download manager.  You can copy" "knownconfigurations.bash" "to" "setupTermuxArchConfigs.bash" "with the command" "'bash ${0##*/} manual'" "to edit your preferred CMIRROR site, refine the init statement and to access more options.  Change CMIRROR to desired geographic location to resolve download, 404 and checksum issues should these occur.  After editing" "setupTermuxArchConfigs.bash" ", you can run" "'bash ${0##*/}'" "and" "setupTermuxArchConfigs.bash" "loads automatically from the working directory.  User configurable variables are present in this file for your convenience." "  This link https://github.com/SDRausty/TermuxArch/issues/212 at GitHub has the most current information about setting Arch Linux in Termux PRoot as the default login shell in Termux in your smartphone, tablet, smartTV, wearable and more.  If you choose to, or are simply curious about setting Arch Linux in Termux PRoot as the default login shell, please be well acquainted with safe mode;  Long tapping on NEW SESSION will open a new session in safe mode.  This mode can be used to reset the default shell."
- 	printf "\\n\\e[1;32m  %s    \\e[0;32mcommand \\e[1;32m%s \\e[0;32m%s\\n" "PURGE" "'${0##*/} purge'" "uninstalls Arch Linux in PRoot from Termux"
+	printf "\\n\\e[1;32m  %s    \\e[0;32mcommand \\e[1;32m%s \\e[0;32m%s\\n" "PURGE" "'${0##*/} purge'" "uninstalls Arch Linux in PRoot from Termux"
 	printf "\\n\\e[1;32m  %s  \\e[0;32mcommand \\e[1;32m%s \\e[0;32m%s \\e[1;32m%s \\e[0;32m%s \\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\n\\n" "SYSINFO" "'${0##*/} sysinfo'" "creates a system information file;  A file like" "setupTermuxArchSysInfo$STIME.log" "will be populated with device and system information in the working directory.  Please post information from this file along with details at" "https://github.com/TermuxArch/TermuxArch/issues" " if questions or comments are related to a particular device;  Should screenshots help in resolving an issue, include these with information from this system information log file as well.  If you are sharing an issue please consider creating a pull request at " "https://github.com/TermuxArch/TermuxArch/pulls" " also.  A pull request can give a much better perspective of how an issue can be easily resolved."
 	if [[ "$LCC" = 1 ]]
 	then
@@ -520,12 +519,29 @@ _PSGI1ESTRING_() {	# print signal generated in arg 1 format
 }
 
 _QEMU_ () {
-	printf "Setting mode to qemu.\\n"
-	printf "%s\\n" "This feature is being developed.  Please select the architecture by number from this list:"
+	printf "Setting mode to qemu.  This feature is being developed.\\n"
+	printf "%s\\n" "Please install one of the qemu tools from this list in a new session if not already installed before continuing:"
+	QEMUUSER=("$(pkg list-available 2>/dev/null|grep qemu|grep user)")
+	printf "%s\\n" "${QEMUUSER[@]}"
+	printf "%s\\n" "Please select the architecture by number from this list:"
 	select ARCHITECTURE in armeabi armeabi-v7a arm64-v8a x86 x86_64;
 	do
 		CPUABI="$ARCHITECTURE" 
-		[[ $CPUABI == *arm* ]] || [[ $CPUABI == *86* ]] && printf "%s\\n" "You picked ($REPLY) $CPUABI.  The chosen architecture for installation is $CPUABI." && QEMUCR="0" && break || printf "%s\\n" "Please select the architecture by number."
+		if [[ "$ARCHITECTURE" == armeabi ]] || [[ "$ARCHITECTURE" == armeabi-v7a ]]
+		then
+			ARCHITEC="arm" 
+		elif [[ "$ARCHITECTURE" == arm64-v8a ]] 
+		then
+			ARCHITEC="aarch64" 
+		elif [[ "$ARCHITECTURE" == x86 ]] 
+		then
+			ARCHITEC="i386" 
+		elif [[ "$ARCHITECTURE" == x86_64 ]] 
+		then
+			ARCHITEC="x86_64" 
+		fi
+		APTIN+="qemu-user-${ARCHITECTURE//$ARCHITEC} "
+		[[ $CPUABI == *arm* ]] || [[ $CPUABI == *86* ]] && printf "%s\\n" "You picked ($REPLY) $CPUABI.  The chosen architecture for installation is $CPUABI." && QEMUCR=0 && break || printf "%s\\n" "Please select the architecture by number."
 	done
 }
 
@@ -592,10 +608,11 @@ _SETROOT_EXCEPTION_() {
 declare -A ADM		# declare associative array for download tools
 declare -A ATM		# declare associative array for tar tools
 declare -a ECLAVARR	# declare array for arrays and variables
+declare -a QEMUUSER	# declare array for qemu user tools
 declare -a PRFXTOLS	# declare array for device tools that should be accessible in the PRoot environment
 PRFXTOLS=(am getprop toolbox toybox)	# patial implementaion : system tools that work and can be found can be added to this array
 declare -A EMPARIAS	# declare associative array for empty variables
-EMPARIAS=([APTIN]="# apt install string" [COMMANDIF]="" [COMMANDG]="" [CPUABI]="" [DFL]="# used for development" [DM]="" [ed]="" [FSTND]="" [INSTALLDIR]="" [LCC]="" [LCP]="" [OPT]="" [ROOTDIR]="" [WDIR]="" [SDATE]="" [STI]="# generates pseudo random number" [STIME]="# generates pseudo random number")
+EMPARIAS=([APTIN]="# apt install string" [COMMANDIF]="" [COMMANDG]="" [CPUABI]="" [DFL]="# used for development" [DM]="" [ed]="" [FSTND]="" [INSTALLDIR]="" [LCC]="" [LCP]="" [OPT]="" [QEMUCR]="" [ROOTDIR]="" [WDIR]="" [SDATE]="" [STI]="# generates pseudo random number" [STIME]="# generates pseudo random number")
 # set empty variables
 for PKG in ${!EMPARIAS[@]} ; do declare "$PKG"="" ; done
 declare -a LC_TYPE	# declare array for locale types
@@ -603,7 +620,7 @@ declare -A FILE		# declare associative array
 ECLAVARR=(ARGS APTIN BINFNSTP COMMANDIF COMMANDR COMMANDG CPUABI CPUABI5 CPUABI7 CPUABI8 CPUABIX86 CPUABIX86_64 DFL DMVERBOSE DM EDO01LCR ELCR ed FSTND INSTALLDIR LCC LCP OPT ROOTDIR WDIR SDATE STI STIME STRING1 STRING2)
 for ECLAVARS in ${ECLAVARR[@]} ; do declare $ECLAVARS ; done
 ARGS="${@%/}"
-CPUABI5="armeabi"	# Used for development;  The command 'getprop ro.product.cpu.abi' can be used to ascertain the device architecture.  Matching an alternate CPUABI* will install an alternate architecture on device.  The original device architecture must be changed to something else so it does not match.  This is usefull with QEMU to install alternate architectures on device.
+CPUABI5="armeabi"	# used for development; 'getprop ro.product.cpu.abi' ascertains architecture
 CPUABI7="armeabi-v7a"	# used for development
 CPUABI8="arm64-v8a"	# used for development
 CPUABIX86="x86"		# used for development
@@ -660,17 +677,17 @@ then
 ## [./path/systemimage.tar.gz [customdir]]  Install directory argument is optional.  Network install can be substituted by copying systemimage.tar.gz and systemimage.tar.gz.md5 files with 'setupTermuxArch ./[path/]systemimage.tar.gz' and 'setupTermuxArch /absolutepath/systemimage.tar.gz'.
 elif [[ "${ARGS:0:1}" = . ]]
 then
- 	printf "\\n%s\\n" "Setting mode to copy system image."
- 	GFILE="$1"
- 	LCC="1"
- 	LCP="1"
- 	_ARG2DIR_ "$@"
- 	_INTRO_ "$@"
+	printf "\\n%s\\n" "Setting mode to copy system image."
+	GFILE="$1"
+	LCC="1"
+	LCP="1"
+	_ARG2DIR_ "$@"
+	_INTRO_ "$@"
 ## [systemimage.tar.gz [customdir]]  Install directory argument is optional.  Network install can be substituted by copying systemimage.tar.gz and systemimage.tar.gz.md5 files with 'setupTermuxArch systemimage.tar.gz'.
 elif [[ "$ARGS" = *.tar.gz* ]]
 then
- 	printf "\\n%s\\n" "Setting mode to copy system image."
- 	GFILE="$1"
+	printf "\\n%s\\n" "Setting mode to copy system image."
+	GFILE="$1"
 	LCC="1"
 	LCP="0"
 	_ARG2DIR_ "$@"
@@ -848,5 +865,5 @@ fi
 ## File 'setupTermuxArch' downloads as files 'setupTermuxArch.[bin,\ \(1\),\ \(2\),etc...]' through Internet browsers into Android Downloads on smartphone and Arch Linux in Termux PRoot can be installed directly from this file in Android with this command 'bash ~/storage/downloads/setupTermuxArch.bin' and similar which may also check whether there is a newer version automatically since the time it was downloaded.  If there is a newer version, this file might self update.  If this updating process went smoothly, this file will restart the process that was initially initiated by the user.
 ## These files 'setupTermuxArch[.{bash,sh}]' will NOT selfupdate to the most recent version published if they are used inside their git repository;  In this case 'git pull' or 'pullTermuxArchSubmodules.bash' can update to the newest published version.
 ## Very many hardy thank yous to contributors who are helping and have already helped to make this open source resource better!  Please accept a wholehearted thank you for using this product!
-# The name of file 'setupTermuxArch' in the EOF line at the end of this file is to assist scripts 'setupTermuxArch[.{bash,bin,sh}]' when they selfupdate to the latest version when the user runs them.
+# The name of file 'setupTermuxArch' in the EOF line at the end of this file is to assist scripts 'setupTermuxArch[.{bash,bin,sh}]' if this file selfupdates to the latest version when run.
 # setupTermuxArch EOF
