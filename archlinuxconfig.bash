@@ -728,15 +728,19 @@ _ADDpatchmakepkg_() {
 	_CFLHDR_ root/bin/patchmakepkg "# patch makepkg"
 	cat >> root/bin/patchmakepkg <<- EOM
 	SDATE="\$(date +%s)"
+	BKPDIR="$INSTALLDIR/var/backups/${INSTALLDIR##*/}/makepkg.\$SDATE.bkp"
 	printf "%s\\\\n" "Attempting to patch makepkg: "
 	[ -f /var/lock/patchmakepkg.lock ] && printf "%s\\\\n" "Already patched makepkg: DONE 🏁" && exit
+	mkdir -p "\$BKPDIR"
+	cp /bin/makepkg "\$BKPDIR"
 	cd && curl --fail --retry 2 -O https://raw.githubusercontent.com/TermuxArch/TermuxArch/master/diff.makepkg.zip && unzip diff.makepkg.zip
 	patch -n -i makepkg.diff -o makepkg /bin/makepkg
-	cp /bin/makepkg $INSTALLDIR/var/backups/${INSTALLDIR##*/}/makepkg.\$SDATE.bkp
 	chmod 700 makepkg /bin/makepkg
-	# copy to /usr/local/bin to make it update-proof (fail safe measure)
+	# copy to /usr/local/bin to make it update proof (fail safe measure)
 	cp makepkg /usr/local/bin/makepkg
 	mv -f makepkg /bin/makepkg
+	mv -f diff.makepkg.zip "\$BKPDIR"
+	# create lock file to update proof patchmakepkg
 	touch /var/lock/patchmakepkg.lock
 	printf "%s\\\\n" "Attempting to patch makepkg: DONE 🏁"
 	# patchmakepkg EOF
