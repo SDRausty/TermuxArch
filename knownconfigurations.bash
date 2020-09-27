@@ -95,7 +95,6 @@ _PR00TSTRING_() { # construct the PRoot init statement
 	then
 		:
 	else [[ "$QEMUCR" == 0 ]]
-		# change qemu architecture to desired architecture
 		PROOTSTMNT+="-q $PREFIX/bin/qemu-$ARCHITEC "
 	fi
 	[[ "$SYSVER" -ge 10 ]] && PROOTSTMNT+="-b /apex:/apex "

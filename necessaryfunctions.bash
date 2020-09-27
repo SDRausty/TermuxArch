@@ -194,7 +194,6 @@ _MAKEFINISHSETUP_() {
 		fi
 	}
 	_DOPROXY_
-	_DOKEYS_
 	[[ "${LCR:-}" -ne 1 ]] && LOCGEN=""
 	[[ "${LCR:-}" -ne 2 ]] && LOCGEN=""
 	[[ -z "${LCR:-}" ]] && LOCGEN="printf \"\\e[1;32m%s\\e[0;32m\"  \"==> \" 
@@ -217,7 +216,7 @@ _MAKEFINISHSETUP_() {
 	if [[ -z "${LCR:-}" ]] # is undefined
 	then
 		printf "%s\\n" "pacman -Syy || pacman -Syy || _PMFSESTRING_ \"pacman -Syy $BINFNSTP ${0##/*}\"" >> root/bin/"$BINFNSTP"
-		printf "%s\\n" "/root/bin/keys || _PMFSESTRING_ \"keys $BINFNSTP ${0##/*}\"" >> root/bin/"$BINFNSTP"
+		_DOKEYS_
 	 	if [[ "$CPUABI" = "$CPUABI5" ]]
 		then
 	 		printf "%s\\n" "pacman -Rc linux-armv5 linux-firmware --noconfirm --color=always || _PMFSESTRING_ \"pacman -Rc linux-armv5 linux-firmware $BINFNSTP ${0##/*}\"" >> root/bin/"$BINFNSTP"

@@ -101,7 +101,7 @@ _ADDresolvconf_() {
 	_CHECKRESOLVE_() {
 		if [ -f etc/resolv.conf ]
 		then 
-			if ! grep nameserver etc/resolv.conf 1>/dev/null
+			if ! grep 'nameserver 8.8.8.8' etc/resolv.conf 1>/dev/null
 			then
 				_ADDTORESOLVE_
 			fi
@@ -711,7 +711,7 @@ _ADDmakeyay_() {
 		Libraries have been installed in:
 		The message above will be displayed for a short time with more information.  Then ${0##*/} will go on, and there will be one more tap enter yo touch before script ${0##*/} is done;  SLEEPING SIX SECONDS...
 		makefakeroottcp $VERSIONID: DONE 🏁
-		Then this pocess will go on to try to make 'yay' which is much simpler for the user;  There is no tapping yes enter needed to be done whatsoever."
+		Then this process will go on to try to make 'yay' which is much simpler for the user;  There is no tapping yes enter needed to be done whatsoever."
 		sleep 6
 		cd
 		[ ! -f /var/lock/patchmakepkg.lock ] && patchmakepkg
