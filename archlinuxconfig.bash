@@ -693,7 +693,7 @@ _ADDmakeyay_() {
 	cat >> root/bin/makeyay <<- EOM
 	if [ "\$UID" = "0" ]
 	then
-		printf "\\\\n\\\\e[1;37m%s\\\\e[0m\\\\n\\\\n" "ERROR:  Script '\${0##*/}' should not be used as root:  The TermuxArch command 'addauser' creates user accounts in Arch Linux in PRoot and configures these user accounts for 'sudo':  The 'addauser' command is intended to be run by the Arch Linux in PRoot root user:  To use 'addauser' directly from Termux, run '$STARTBIN command addauser user' in Termux to create this account in Arch Linux PRoot:  The command '$STARTBIN help' has more information about using '$STARTBIN':  EXITING..."
+		printf "\\\\e[1;31m%s\\\\e[1;37m%s\\\\e[1;31m%s\\\\e[0m\\\\n" "Error:" "  Script '\${0##*/}' should not be used as root:  The TermuxArch command 'addauser' creates user accounts in Arch Linux in PRoot and configures these user accounts for 'sudo':  The 'addauser' command is intended to be run by the Arch Linux in PRoot root user:  To use 'addauser' directly from Termux, run '$STARTBIN command addauser user' in Termux to create this account in Arch Linux PRoot:  The command '$STARTBIN help' has more information about using '$STARTBIN':  " "Exiting..."
 	else
 		_PRMAKE_() {
 			printf "\\\\e[1;32m==> \\\\e[1;37m%s\\\\n" "Running makepkg -irs --noconfirm..."
@@ -760,29 +760,33 @@ _ADDpc_() {
 	}
 
 	_PRINTTAIL_() {
-		printf "\\\\n\\\\e[0;32m%s %s %s\\\\e[1;34m: \\\\e[1;32m%s\\\\e[0m 🏁  \\\\n\\\\n\\\\e[0m" "TermuxArch \${0##*/}" "\$ARGS" "\$VERSIONID" "DONE 📱"
+		printf "\\\\e[0;32m%s %s %s\\\\e[1;34m: \\\\e[1;32m%s\\\\e[0m 🏁  \\\\n\\\\n\\\\e[0m" "TermuxArch \${0##*/}" "\$ARGS" "\$VERSIONID" "DONE 📱"
 		printf '\033]2;  🔑 TermuxArch %s:DONE 📱 \007' "\${0##*/} \$ARGS"
 	}
 
 	trap _TRPET_ EXIT
 	## pc begin ####################################################################
-
+	if [[ \$# == 0 ]]
+	then
+		printf "\\\\e[1;31m%s \\\\e[0m\\\\n" "Run command '\${0##*/}' with at least one argument: exiting..."
+		exit
+	fi
 	printf '\033]2;  🔑 TermuxArch %s 📲 \007' "\${0##*/} \$ARGS"
 	printf "\\\\n\\\\e[1;32m==> \\\\e[1;37m%s \\\\e[0;32m%s \\\\e[1;32m%s \\\\e[0;32m%s\\\\e[0m\\\\n\\\\n" "Running" "TermuxArch" "\${0##*/} \$ARGS" "\$VERSIONID..."
 	if [[ -z "\${1:-}" ]]
 	then
-	pacman --noconfirm --color=always -S "\$@"
+		pacman --noconfirm --color=always -S "\$@" || sudo pacman --noconfirm --color=always -S "\$@"
 	elif [[ "\$1" = "a" ]]
 	then
-	pacman --noconfirm --color=always -S base base-devel "\${@:2}"
+		pacman --noconfirm --color=always -S base base-devel "\${@:2}" || sudo pacman --noconfirm --color=always -S base base-devel "\${@:2}"
 	elif [[ "\$1" = "ae" ]]
 	then
-	pacman --noconfirm --color=always -S base base-devel emacs "\${@:2}"
+		pacman --noconfirm --color=always -S base base-devel emacs "\${@:2}" || sudo pacman --noconfirm --color=always -S base base-devel emacs "\${@:2}"
 	elif [[ "\$1" = "a8" ]]
 	then
-	pacman --noconfirm --color=always -S base base-devel emacs jdk8-openjdk "\${@:2}"
+		pacman --noconfirm --color=always -S base base-devel emacs jdk8-openjdk "\${@:2}" || sudo pacman --noconfirm --color=always -S base base-devel emacs jdk8-openjdk "\${@:2}"
 	else
-	pacman --noconfirm --color=always -S "\$@"
+		pacman --noconfirm --color=always -S "\$@"
 	fi
 	# pc EOF
 	EOM
@@ -801,7 +805,7 @@ _ADDpci_() {
 	}
 
 	_PRINTTAIL_() {
-		printf "\\\\n\\\\e[0;32m%s %s %s\\\\e[1;34m: \\\\e[1;32m%s\\\\e[0m 🏁  \\\\n\\\\n\\\\e[0m" "TermuxArch \${0##*/}" "\$ARGS" "\$VERSIONID" "DONE 📱"
+		printf "\\\\e[0;32m%s %s %s\\\\e[1;34m: \\\\e[1;32m%s\\\\e[0m 🏁  \\\\n\\\\n\\\\e[0m" "TermuxArch \${0##*/}" "\$ARGS" "\$VERSIONID" "DONE 📱"
 		printf '\033]2;  🔑 TermuxArch %s:DONE 📱 \007' "\${0##*/} \$ARGS"
 	}
 
@@ -811,18 +815,18 @@ _ADDpci_() {
 	printf "\\\\n\\\\e[1;32m==> \\\\e[1;37m%s \\\\e[1;32m%s %s %s \\\\e[0m%s...\\\\n\\\\n" "Running" "TermuxArch \${0##*/}" "\$ARGS" "\$VERSIONID"
 	if [[ -z "\${1:-}" ]]
 	then
-		pacman --noconfirm --color=always -Syu "\$@"
+		pacman --noconfirm --color=always -Syu "\$@" || sudo pacman --noconfirm --color=always -Syu "\$@"
 	elif [[ "\$1" = "e" ]]
 	then
-		pacman --noconfirm --color=always -Syu base base-devel emacs "\${@:2}"
+		pacman --noconfirm --color=always -Syu base base-devel emacs "\${@:2}" || sudo pacman --noconfirm --color=always -Syu base base-devel emacs "\${@:2}"
 	elif [[ "\$1" = "e8" ]]
 	then
-		pacman --noconfirm --color=always -Syu base base-devel emacs jdk8-openjdk "\${@:2}"
+		pacman --noconfirm --color=always -Syu base base-devel emacs jdk8-openjdk "\${@:2}" || sudo pacman --noconfirm --color=always -Syu base base-devel emacs jdk8-openjdk "\${@:2}"
 	elif [[ "\$1" = "e10" ]]
 	then
-		pacman --noconfirm --color=always -Syu base base-devel emacs jdk10-openjdk "\${@:2}"
+		pacman --noconfirm --color=always -Syu base base-devel emacs jdk10-openjdk "\${@:2}" || sudo pacman --noconfirm --color=always -Syu base base-devel emacs jdk10-openjdk "\${@:2}"
 	else
-		pacman --noconfirm --color=always -Syu "\$@"
+		pacman --noconfirm --color=always -Syu "\$@" || sudo pacman --noconfirm --color=always -Syu "\$@"
 	fi
 	# pci EOF
 	EOM
