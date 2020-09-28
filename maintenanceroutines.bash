@@ -136,7 +136,7 @@ _REFRESHSYS_() { # refresh installation
 	_WAKEUNLOCK_
 	_PRINTFOOTER_
 	set +Eeuo pipefail
-	"$INSTALLDIR/$STARTBIN" || _PRINTPROOTERROR_
+	"$STARTBIN" || _PRINTPROOTERROR_
 	set -Eeuo pipefail
 	_PRINTFOOTER2_
 	_PRINTSTARTBIN_USAGE_
