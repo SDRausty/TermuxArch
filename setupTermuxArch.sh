@@ -9,11 +9,12 @@ set -Eeuo pipefail
 shopt -s nullglob globstar
 umask 0022
 unset LD_PRELOAD
-VERSIONID=2.0.210
+VERSIONID=2.0.211
 ## INIT FUNCTIONS ##############################################################
 _STRPERROR_() { # run on script error
 	local RV="$?"
 	printf "\\e[?25h\\n\\e[1;48;5;138m %s\\e[0m\\n" "TermuxArch WARNING:  Generated script signal ${RV:-unknown} near or at line number ${1:-unknown} by '${2:-command}'!"
+	[[ -z "${ARGS:-}" ]] && printf "\\e[1;32mPlease run 'bash %s' again.\\n\\e[1;32m\\n\\e[0m" "${0##*/}" || printf "\\e[1;32mPlease run 'bash %s' again.\\n\\e[1;32m\\n\\e[0m" "${0##*/} $ARGS"
 	if [[ "$RV" = 4 ]]
 	then
 		printf "\\n\\e[1;48;5;139m %s\\e[0m\\n" "Ensure background data is not restricted.  Check the wireless connection."
@@ -41,7 +42,6 @@ _STRPEXIT_() { # run on exit
 
 _STRPSIGNAL_() { # run on signal
 	printf "\\e[?25h\\e[1;7;38;5;0mTermuxArch WARNING:  Signal %s received!\\e[0m\\n" "$?"
-	[[ -z "${ARGS:-}" ]] && printf "\\e[1;32mPlease run 'bash %s' again.\\n\\e[1;32m\\n\\e[0m" "${0##*/}" || printf "\\e[1;32mPlease run 'bash %s' again.\\n\\e[1;32m\\n\\e[0m" "${0##*/} $ARGS"
 	rm -rf "$TAMPDIR"
 	exit 211
 }
