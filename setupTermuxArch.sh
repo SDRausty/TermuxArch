@@ -9,7 +9,7 @@ set -Eeuo pipefail
 shopt -s nullglob globstar
 umask 0022
 unset LD_PRELOAD
-VERSIONID=2.0.209
+VERSIONID=2.0.210
 ## INIT FUNCTIONS ##############################################################
 _STRPERROR_() { # run on script error
 	local RV="$?"
@@ -41,6 +41,7 @@ _STRPEXIT_() { # run on exit
 
 _STRPSIGNAL_() { # run on signal
 	printf "\\e[?25h\\e[1;7;38;5;0mTermuxArch WARNING:  Signal %s received!\\e[0m\\n" "$?"
+	[[ -z "${ARGS:-}" ]] && printf "\\e[1;32mPlease run 'bash %s' again.\\n\\e[1;32m\\n\\e[0m" "${0##*/}" || printf "\\e[1;32mPlease run 'bash %s' again.\\n\\e[1;32m\\n\\e[0m" "${0##*/} $ARGS"
 	rm -rf "$TAMPDIR"
 	exit 211
 }
@@ -101,6 +102,7 @@ _CHKDWN_() {
 }
 
 _CHKSELF_() {	# compare setupTermuxArch and file being used
+	cd "$WFDIR"	# change directory to working file directory
 	if [[ "$(<$TAMPDIR/setupTermuxArch)" != "$(<${0##*/})" ]] # differ
 	then	# update the working file to newest version
 		cp "$TAMPDIR/setupTermuxArch" "${0##*/}"
