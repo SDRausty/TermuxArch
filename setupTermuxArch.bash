@@ -9,7 +9,7 @@ set -Eeuo pipefail
 shopt -s nullglob globstar
 umask 0022
 unset LD_PRELOAD
-VERSIONID=2.0.212
+VERSIONID=2.0.213
 ## INIT FUNCTIONS ##############################################################
 _STRPERROR_() { # run on script error
 	local RV="$?"
@@ -526,25 +526,20 @@ _QEMU_ () {
 	COMMANDIF="${COMMANDR##*/}"
 	STRING1="COMMAND \`au\` enables rollback, available at https://wae.github.io/au/ IS NOT FOUND: Continuing... "
 	STRING2="Cannot update ~/${0##*/} prerequisite: Continuing..."
-	PKGS="$2"
+	PKG="$2"
 	_INPKGS_() {
 		if [ "$COMMANDIF" = au ]
 		then 
-			au "$PKGS" || printf "%s\\n" "$STRING2"
+			au "$PKG" || printf "%s\\n" "$STRING2"
 		else
-			apt install "$PKGS" || printf "%s\\n" "$STRING2"
+			apt install "$PKG" || printf "%s\\n" "$STRING2"
 		fi
 	}
-	for COMMA in "$COMMS"
-	do
-		COMMANDP="$(command -v "$COMMA")" || printf "Command %s not found: Continuing...\\n" "$COMMA" # test if command exists
-		COMMANDPF="${COMMANDP##*/}"
-		if [ "$COMMANDPF" != "$COMMA" ]
-		then 
-			printf "%s\\n" "Beginning qemu \`$3\` setup:"
-			_INPKGS_
-		fi
-	done
+	if ! command -v "$COMMS"
+	then
+		printf "%s\\n" "Beginning qemu '$3' setup:"
+		_INPKGS_
+	fi
 	}
 	printf "Setting mode to qemu.  This feature is being developed.\\n"
 	printf "%s\\n" "Please select the architecture by number from this list:"
@@ -565,12 +560,12 @@ _QEMU_ () {
 			ARCHITEC="x86_64" 
 		fi
 		INCOMM="qemu-user-$ARCHITEC"
-		if ! command -v "$INCOMM"
-		then
-			_INST_ "$INCOMM" "$INCOMM" "${0##*/}" || _PSGI1ESTRING_ "_INST_ _QEMU_ setupTermuxArch ${0##*/}"
-		fi
 		[[ $CPUABI == *arm* ]] || [[ $CPUABI == *86* ]] && printf "%s\\n" "You picked ($REPLY) $CPUABI.  The chosen architecture for installation is $CPUABI." && QEMUCR=0 && break || printf "%s\\n" "Please select the architecture by number."
 	done
+	if ! command -v "${INCOMM//-user}"
+	then
+		_INST_ "${INCOMM//-user}" "$INCOMM" "${0##*/}" || _PSGI1ESTRING_ "_INST_ _QEMU_ setupTermuxArch ${0##*/}"
+	fi
 }
 
 _RMARCH_() {
@@ -676,12 +671,13 @@ ONESA="${SDATE: -1}"
 PKGS=(bsdtar proot)
 STIME="$ONESA$STIME"
 ## 5) Get device information via the 'getprop' command,
-## QEMU implementation #25 https://github.com/TermuxArch/TermuxArch/issues/25 has more information.
 ## 6) Determine its own name and location of invocation,
 WDIR="$PWD/" && WFDIR="$(realpath "$0")" || _PSGI1ESTRING_ "please try using an absolute PATH or prepending your PATH to file '${0##*/}' with a tilda ~ for file '$0'."
 WFDIR="${WFDIR%/*}"
-## 7) Create a default user Arch Linux in Termux PRoot account with the TermuxArch command 'addauser' that configures user accounts for use with the Arch Linux 'sudo' command,
-## 8) And all options are optional for install!
+## 7) Create a default Arch Linux in Termux PRoot user account with the TermuxArch command 'addauser' which configures user accounts for use with the Arch Linux 'sudo' command,
+## 8) Install alternate architectures with QEMU in your smartphone with two taps,
+## 9) Create and install the Arch Linux aur installer 'yay' with command 'makeyay',
+## 10) And all options are optional for install!
 ## THESE OPTIONS ARE AVAILABLE FOR YOUR CONVENIENCE:
 ## GRAMMAR[a]: setupTermuxArch [HOW] [DO] [WHERE]
 ## OPTIONS[a]: setupTermuxArch [HOW] [DO] [WHERE]
