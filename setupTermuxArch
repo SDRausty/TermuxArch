@@ -9,7 +9,7 @@ set -Eeuo pipefail
 shopt -s nullglob globstar
 umask 0022
 unset LD_PRELOAD
-VERSIONID=2.0.208
+VERSIONID=2.0.209
 ## INIT FUNCTIONS ##############################################################
 _STRPERROR_() { # run on script error
 	local RV="$?"
@@ -518,10 +518,33 @@ _PSGI1ESTRING_() {	# print signal generated in arg 1 format
 }
 
 _QEMU_ () {
+	_INST_() { # checks for neccessary commands
+	COMMS="$1"
+	COMMANDR="$(command -v au)" || (printf "%s\\n\\n" "$STRING1") 
+	COMMANDIF="${COMMANDR##*/}"
+	STRING1="COMMAND \`au\` enables rollback, available at https://wae.github.io/au/ IS NOT FOUND: Continuing... "
+	STRING2="Cannot update ~/${0##*/} prerequisite: Continuing..."
+	PKGS="$2"
+	_INPKGS_() {
+		if [ "$COMMANDIF" = au ]
+		then 
+			au "$PKGS" || printf "%s\\n" "$STRING2"
+		else
+			apt install "$PKGS" || printf "%s\\n" "$STRING2"
+		fi
+	}
+	for COMMA in "$COMMS"
+	do
+		COMMANDP="$(command -v "$COMMA")" || printf "Command %s not found: Continuing...\\n" "$COMMA" # test if command exists
+		COMMANDPF="${COMMANDP##*/}"
+		if [ "$COMMANDPF" != "$COMMA" ]
+		then 
+			printf "%s\\n" "Beginning qemu \`$3\` setup:"
+			_INPKGS_
+		fi
+	done
+	}
 	printf "Setting mode to qemu.  This feature is being developed.\\n"
-	printf "%s\\n" "Please install one of the qemu tools from this list in a new session if not already installed before continuing:"
-	QEMUUSER=("$(pkg list-available 2>/dev/null|grep qemu|grep user)")
-	printf "%s\\n" "${QEMUUSER[@]}"
 	printf "%s\\n" "Please select the architecture by number from this list:"
 	select ARCHITECTURE in armeabi armeabi-v7a arm64-v8a x86 x86_64;
 	do
@@ -539,7 +562,11 @@ _QEMU_ () {
 		then
 			ARCHITEC="x86_64" 
 		fi
-		APTIN+="qemu-user-${ARCHITECTURE//$ARCHITEC} "
+		INCOMM="qemu-user-$ARCHITEC"
+		if ! command -v "$INCOMM"
+		then
+			_INST_ "$INCOMM" "$INCOMM" "${0##*/}" || _PSGI1ESTRING_ "_INST_ _QEMU_ setupTermuxArch ${0##*/}"
+		fi
 		[[ $CPUABI == *arm* ]] || [[ $CPUABI == *86* ]] && printf "%s\\n" "You picked ($REPLY) $CPUABI.  The chosen architecture for installation is $CPUABI." && QEMUCR=0 && break || printf "%s\\n" "Please select the architecture by number."
 	done
 }
