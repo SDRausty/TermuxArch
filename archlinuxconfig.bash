@@ -766,27 +766,23 @@ _ADDpc_() {
 
 	trap _TRPET_ EXIT
 	## pc begin ####################################################################
-	if [[ \$# == 0 ]]
-	then
-		printf "\\\\e[1;31m%s \\\\e[0m\\\\n" "Run command '\${0##*/}' with at least one argument: exiting..."
-		exit
-	fi
 	printf '\033]2;  🔑 TermuxArch %s 📲 \007' "\${0##*/} \$ARGS"
 	printf "\\\\n\\\\e[1;32m==> \\\\e[1;37m%s \\\\e[0;32m%s \\\\e[1;32m%s \\\\e[0;32m%s\\\\e[0m\\\\n\\\\n" "Running" "TermuxArch" "\${0##*/} \$ARGS" "\$VERSIONID..."
+	[ "\$UID" = "0" ] && SUDOCONF="" || SUDOCONF="sudo"
 	if [[ -z "\${1:-}" ]]
 	then
-		pacman --noconfirm --color=always -S "\$@" || sudo pacman --noconfirm --color=always -S "\$@"
+		printf "\\\\e[1;31m%s \\\\e[0m\\\\n" "Run command '\${0##*/}' with at least one argument: exiting..."
 	elif [[ "\$1" = "a" ]]
 	then
-		pacman --noconfirm --color=always -S base base-devel "\${@:2}" || sudo pacman --noconfirm --color=always -S base base-devel "\${@:2}"
+		\$SUDOCONF pacman --noconfirm --color=always -S base base-devel "\${@:2}"
 	elif [[ "\$1" = "ae" ]]
 	then
-		pacman --noconfirm --color=always -S base base-devel emacs "\${@:2}" || sudo pacman --noconfirm --color=always -S base base-devel emacs "\${@:2}"
+		\$SUDOCONF pacman --noconfirm --color=always -S base base-devel emacs "\${@:2}" 
 	elif [[ "\$1" = "a8" ]]
 	then
-		pacman --noconfirm --color=always -S base base-devel emacs jdk8-openjdk "\${@:2}" || sudo pacman --noconfirm --color=always -S base base-devel emacs jdk8-openjdk "\${@:2}"
+		\$SUDOCONF pacman --noconfirm --color=always -S base base-devel emacs jdk8-openjdk "\${@:2}" 
 	else
-		pacman --noconfirm --color=always -S "\$@"
+		\$SUDOCONF pacman --noconfirm --color=always -S "\$@"
 	fi
 	# pc EOF
 	EOM
@@ -811,22 +807,22 @@ _ADDpci_() {
 
 	trap _TRPET_ EXIT
 	## pci begin ###################################################################
-
+	[ "\$UID" = "0" ] && SUDOCONF="" || SUDOCONF="sudo"
 	printf "\\\\n\\\\e[1;32m==> \\\\e[1;37m%s \\\\e[1;32m%s %s %s \\\\e[0m%s...\\\\n\\\\n" "Running" "TermuxArch \${0##*/}" "\$ARGS" "\$VERSIONID"
 	if [[ -z "\${1:-}" ]]
 	then
-		pacman --noconfirm --color=always -Syu "\$@" || sudo pacman --noconfirm --color=always -Syu "\$@"
+		\$SUDOCONF pacman --noconfirm --color=always -Syu
 	elif [[ "\$1" = "e" ]]
 	then
-		pacman --noconfirm --color=always -Syu base base-devel emacs "\${@:2}" || sudo pacman --noconfirm --color=always -Syu base base-devel emacs "\${@:2}"
+		\$SUDOCONF pacman --noconfirm --color=always -Syu base base-devel emacs "\${@:2}"
 	elif [[ "\$1" = "e8" ]]
 	then
-		pacman --noconfirm --color=always -Syu base base-devel emacs jdk8-openjdk "\${@:2}" || sudo pacman --noconfirm --color=always -Syu base base-devel emacs jdk8-openjdk "\${@:2}"
+		\$SUDOCONF pacman --noconfirm --color=always -Syu base base-devel emacs jdk8-openjdk "\${@:2}"
 	elif [[ "\$1" = "e10" ]]
 	then
-		pacman --noconfirm --color=always -Syu base base-devel emacs jdk10-openjdk "\${@:2}" || sudo pacman --noconfirm --color=always -Syu base base-devel emacs jdk10-openjdk "\${@:2}"
+		\$SUDOCONF pacman --noconfirm --color=always -Syu base base-devel emacs jdk10-openjdk "\${@:2}"
 	else
-		pacman --noconfirm --color=always -Syu "\$@" || sudo pacman --noconfirm --color=always -Syu "\$@"
+		\$SUDOCONF pacman --noconfirm --color=always -Syu "\$@"
 	fi
 	# pci EOF
 	EOM
