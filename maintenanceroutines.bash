@@ -24,11 +24,11 @@ _COPYIMAGE_() { # A systemimage.tar.gz file can be used: `setupTermuxArch ./[pat
 }
 
 _DOFUNLCR2_() {
+	BKPDIR="$INSTALLDIR/var/backups/${INSTALLDIR##*/}/home/$USER"
 	_BKPTHF_() { # backup the user files
-		BKPDIR="$INSTALLDIR/var/backups/${INSTALLDIR##*/}/home/$USER"
 		[[ ! -d "$BKPDIR/" ]] && mkdir -p "$BKPDIR/"
 		cd "$INSTALLDIR/home/$USER"
-		[[ -f $1 ]] && printf "\\e[1;32m==>\\e[0;32m %s\\n" "cp $1 $BKPDIR/$1.$SDATE.bkp" && cp "$1" "$BKPDIR/$1.$SDATE.bkp" || _PSGI1ESTRING_ "cp '$1' if found maintenanceroutines.bash ${0##*/}"
+		[[ -f $1 ]] && printf "\\e[1;32m==>\\e[0;32m %s" "File $1 backed up to /${INSTALLDIR##*/}/$1.$SDATE.bkp" && cp "$1" "$BKPDIR/$1.$SDATE.bkp" || _PSGI1ESTRING_ "cp '$1' if found maintenanceroutines.bash ${0##*/}"
 	}
 	if [ -d "$INSTALLDIR/home" ]
 	then
@@ -36,13 +36,13 @@ _DOFUNLCR2_() {
 		then
 			export "$USER"
  			cp "$INSTALLDIR/root/bin/"* "$INSTALLDIR/home/$USER/bin/"
-			printf "\\n\\e[0;32mCopied files in \\e[1;32m%s\\e[0;32m to %s.\\n\\e[0m" "/${INSTALLDIR##*/}/root/bin/" "/${INSTALLDIR##*/}/home/$USER/bin/"
+			printf "\\n\\e[0;32mCopied files from \\e[0;32m%s to \\e[1;32m%s\\e[0;32m:\\e[0m\\n" "/${INSTALLDIR##*/}/root/bin/" "/${INSTALLDIR##*/}/home/$USER/bin/"
 			DOFLIST=(.bash_profile .bashrc .gitconfig .vimrc)
 			for DOFLNAME in "${DOFLIST[@]}"
 			do
 				_BKPTHF_ "$DOFLNAME"
 				cp "$INSTALLDIR/root/$DOFLNAME" "$INSTALLDIR/home/$USER/"
-				printf "\\n\\e[0;32mCopied file \\e[1;32m%s\\e[0;32m to %s.\\n\\e[0m" "/${INSTALLDIR##*/}/root/$DOFLNAME" "/${INSTALLDIR##*/}/home/$USER/$DOFLNAME"
+				printf "\\n\\e[0;32mCopied file %s to \\e[1;32m%s\\e[0;32m.\\e[0m\\n" "/${INSTALLDIR##*/}/root/$DOFLNAME" "/${INSTALLDIR##*/}/home/$USER/$DOFLNAME"
 			done
 		fi
 	fi
@@ -50,7 +50,7 @@ _DOFUNLCR2_() {
 }
 
 _DOTHRF_() { # do the root user files
-	[[ -f $1 ]] && (printf "\\e[1;32m%s\\e[0;32m%s\\e[0m\\n" "==>" " cp $1 /var/backups/${INSTALLDIR##*/}/$1.$SDATE.bkp" && cp "$1" "var/backups/${INSTALLDIR##*/}/$1.$SDATE.bkp") || printf "%s" "copy file '$1' if found : file not found : continuing : "
+	[[ -f $1 ]] && (printf "\\e[1;32m%s\\e[0;32m%s\\e[0m\\n" "==>" " cp $1 /var/backups/${INSTALLDIR##*/}/$1.$SDATE.bkp" && cp "$1" "$INSTALLDIR/var/backups/${INSTALLDIR##*/}/$1.$SDATE.bkp") || printf "%s" "copy file '$1' if found : file not found : continuing : "
 }
 
 _FUNLCR2_() { # copy from root to home/USER
@@ -86,7 +86,7 @@ _LOADIMAGE_() {
 	exit
 }
 
-_FIXOWNER_() { # fix owner of INSTALLDIR/home/USER
+_FIXOWNER_() { # fix owner of INSTALLDIR/home/USER, PR9 by @petkar
 	_DOFIXOWNER_() {
 	printf "\\e[1;32m%s\\e[0m\\n" "Adjusting ownership and permissions..."
 	FXARR="$(ls "$INSTALLDIR/home")"
@@ -108,7 +108,7 @@ _REFRESHSYS_() { # refresh installation
  	_SPACEINFO_
 	cd "$INSTALLDIR"
 	_SETLANGUAGE_
-	_PREPROOTDIR_ ||: #_PSGI1ESTRING_ "_PREPROOTDIR_ _REFRESHSYS_ maintenanceroutines.bash ${0##*/}"
+	_PREPROOTDIR_ || _PSGI1ESTRING_ "_PREPROOTDIR_ _REFRESHSYS_ maintenanceroutines.bash ${0##*/}"
 	_ADDADDS_
 	_MAKEFINISHSETUP_
 	_MAKESETUPBIN_
@@ -117,10 +117,10 @@ _REFRESHSYS_() { # refresh installation
 	printf "\\n"
 	_WAKELOCK_
 	printf "\\e[1;32m==> \\e[1;37m%s \\e[1;32m%s %s...\\n" "Running" "${0##*/}" "$ARGS"
-	"$INSTALLDIR"/root/bin/setupbin.bash ||:
+	"$INSTALLDIR"/root/bin/setupbin.bash || _PRINTPROOTERROR_
  	rm -f root/bin/finishsetup.bash
  	rm -f root/bin/setupbin.bash
-	printf "\\e[1;34mFiles moved and updated to the newest version:\\n\\e[0;32m"
+	printf "\\n\\e[1;32mFiles updated to the newest version $VERSIONID:\\n\\e[0;32m"
 	ls "$INSTALLDIR/$STARTBIN" | cut -f7- -d /
 	ls "$INSTALLDIR"/bin/we | cut -f7- -d /
 	ls "$INSTALLDIR"/root/.bashrc | cut -f7- -d /
