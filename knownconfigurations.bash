@@ -14,7 +14,7 @@
 KEEP=1			##  change to 0 to keep downloaded image;  Testing the installation process repeatedly can be made easier and lighter on your Internet bandwith and SAR with this fragment of code  'mkdir ~/arch; cp ~/ArchLinux*.tar.gz* ~/arch/'.  The variable KEEP when changed to 0 will keep the downloaded image and md5 files instead of deleting them for later reuse if desired.  The root file system image and md5 files can be saved and used again on subsequent installs when testing the install feature with this and similar fragments of code.
 KOE=0			##  do not change, not user configurable;  Was previously used for testing, and variable KOE lingers here for retesting if desired.  Change to 1 to change the proot init statement.
 # KID=1			##  do not change, not user configurable;  Used for testing, timing and development.   For timing Arch Linux in PRoot, uncomment and then run script TermuxArch/scripts/frags/stdoutbench.sh in Arch Linux PRoot for timing Arch Linux in PRoot if desired.
-##  If there are system image files available not listed here, please open an issue and a pull request.
+##  If there are system image files available not listed here, and if there are system image file worldwide mirrors available not listed here, please open an issue and a pull request.
 _AARCH64ANDROID_() {
 	IFILE="ArchLinuxARM-aarch64-latest.tar.gz"
 	CMIRROR="os.archlinuxarm.org"
@@ -50,9 +50,12 @@ _ARMV7CHROME_() {
 	_MAKESYSTEM_
 }
 
-##  Information at https://www.archlinux.org/news/phasing-out-i686-support/ and https://archlinux32.org/ regarding why i686 is currently frozen at release 2017.03.01-i686.  IFILE is read from the md5sums.txt file for these two architectures.
-
+##  Information at https://www.archlinux.org/news/phasing-out-i686-support/ and https://archlinux32.org/ regarding why i686 is currently frozen at release 2017.03.01-i686.
+##  Update: https://github.com/TermuxArch/TermuxArch/issues/25 Implementing QEMU #25 20201001 and https://github.com/TermuxArch/TermuxArch/issues/25 Implementing QEMU #25 20201001.
 _I686_() { # IFILE is read from md5sums.txt
+	# CMIRROR="archive.archlinux32.org"
+	# RPATH="iso/latest"
+	# updating from 20170301 version does not work as of 2020 as Arch Linux 32 was updated beyondvthe currently publish root system file.
 	CMIRROR="archive.archlinux.org"
 	RPATH="iso/2017.03.01"
 	_MAKESYSTEM_

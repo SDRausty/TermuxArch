@@ -863,7 +863,7 @@ _ADDthstartarch_() {
 }
 
 _ADDtools_() {	# developing implementaion : working system tools that work can be added to array PRFXTOLS
-[[ -z "${EDO01LCR:-}" ]] && PRFXTOLS=(getprop termux-change-repo termux-info) || [[ $EDO01LCR = 0 ]] && PRFXTOLS=(am dpkg getprop termux-change-repo termux-info termux-open termux-open-url termux-wake-lock termux-wake-unlock)
+[[ -z "${EDO01LCR:-}" ]] && PRFXTOLS=(getprop termux-change-repo termux-info) || [[ $EDO01LCR = 0 ]] && PRFXTOLS=(am dpkg getprop mkfifo termux-change-repo termux-info termux-open termux-open-url termux-wake-lock termux-wake-unlock)
 #  	PRFXTOLS=(am getprop toolbox toybox)
  	for STOOL in ${PRFXTOLS[@]}
  	do
