@@ -9,7 +9,7 @@ set -Eeuo pipefail
 shopt -s nullglob globstar
 umask 0022
 unset LD_PRELOAD
-VERSIONID=2.0.214
+VERSIONID=2.0.215
 ## INIT FUNCTIONS ##############################################################
 _STRPERROR_() { # run on script error
 	local RV="$?"
@@ -813,6 +813,7 @@ then
 elif [[ "${1//-}" = [Mm][Aa][Tt]* ]]
 then
 	printf "\\nSetting mode to matrix.\\n"
+	_PREPTERMUXARCH_
 	_DEPENDSBLOCK_ "$@"
 	_TAMATRIX_
 ## [m[anual]]  Manual Arch Linux install, useful for resolving download issues.
