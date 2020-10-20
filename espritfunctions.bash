@@ -180,6 +180,17 @@ _RMBLOOMQ_() {
 	fi
 }
 
+_SPINNER_() {	# print spinner; based on https://github.com/vozdev/termux-setup
+	INTERVAL=1
+  	SPINNERL='\|/-'
+        SPNDELAY=0.6
+        while :
+	        do
+	        printf "\b%s" "${SPINNERL:INTERVAL++%${#SPINNERL}:1}"
+	        sleep $SPNDELAY
+        done
+}
+
 _TAMATRIX_() {	# print TermuxArch source code as matrix
  	printf "\\e[1;32m%s" "$(tr -d '\n' < $0)"
 	# split the string and print the split string

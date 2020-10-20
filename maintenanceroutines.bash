@@ -155,6 +155,11 @@ _SPACEINFO_() {
 		_SPACEINFOKSIZE_
 		printf "$SPACEMESSAGE"
 	fi
+	SPACSLEP="$(shuf -i 8-14 -n 1).$(shuf -i 0-999 -n 1)"
+	printf "Sleeping %s seconds:  " "$SPACSLEP"
+	_SPINNER_ & sleep "$SPACSLEP" ; kill $!
+	printf "\b\b Continuing...\n"
+	sleep "0.$(shuf -i 2-4 -n 1)"
 }
 
 _SPACEINFOGSIZE_() {
@@ -169,7 +174,7 @@ _SPACEINFOGSIZE_() {
 			usspace="${USRSPACE: : -1}"
 			if [[ "$usspace" < "800" ]]
 			then
-				SPACEMESSAGE="\\n\\e[0;33mTermuxArch: \\e[1;33mFREE SPACE WARNING!  \\e[1;30mStart thinking about cleaning out some stuff.  \\e[33m$USRSPACE of free user space is available on this device.  \\e[1;30mThe recommended minimum to install Arch Linux in Termux PRoot for x86 and x86_64 is 800M of free user space.\\n\\e[0m"
+				SPACEMESSAGE="\\e[0;33mTermuxArch: \\e[1;33mFREE SPACE WARNING!  \\e[1;30mStart thinking about cleaning out some stuff.  \\e[33m$USRSPACE of free user space is available on this device.  \\e[1;30mThe recommended minimum to install Arch Linux in Termux PRoot for x86 and x86_64 is 800M of free user space.\\n\\e[0m"
 			fi
 		fi
 	elif [[ "$USRSPACE" = *G ]]
@@ -179,7 +184,7 @@ _SPACEINFOGSIZE_() {
 		then
 			if [[ "$usspace" < "1.5" ]]
 			then
-				SPACEMESSAGE="\\n\\e[0;33mTermuxArch: \\e[1;33mFREE SPACE WARNING!  \\e[1;30mStart thinking about cleaning out some stuff.  \\e[33m$USRSPACE of free user space is available on this device.  \\e[1;30mThe recommended minimum to install Arch Linux in Termux PRoot for aarch64 is 1.5G of free user space.\\n\\e[0m"
+				SPACEMESSAGE="\\e[0;33mTermuxArch: \\e[1;33mFREE SPACE WARNING!  \\e[1;30mStart thinking about cleaning out some stuff.  \\e[33m$USRSPACE of free user space is available on this device.  \\e[1;30mThe recommended minimum to install Arch Linux in Termux PRoot for aarch64 is 1.5G of free user space.\\n\\e[0m"
 			else
 				SPACEMESSAGE=""
 			fi
@@ -187,7 +192,7 @@ _SPACEINFOGSIZE_() {
 		then
 			if [[ "$usspace" < "1.23" ]]
 			then
-				SPACEMESSAGE="\\n\\e[0;33mTermuxArch: \\e[1;33mFREE SPACE WARNING!  \\e[1;30mStart thinking about cleaning out some stuff.  \\e[33m$USRSPACE of free user space is available on this device.  \\e[1;30mThe recommended minimum to install Arch Linux in Termux PRoot for armv7 is 1.23G of free user space.\\n\\e[0m"
+				SPACEMESSAGE="\\e[0;33mTermuxArch: \\e[1;33mFREE SPACE WARNING!  \\e[1;30mStart thinking about cleaning out some stuff.  \\e[33m$USRSPACE of free user space is available on this device.  \\e[1;30mThe recommended minimum to install Arch Linux in Termux PRoot for armv7 is 1.23G of free user space.\\n\\e[0m"
 			else
 				SPACEMESSAGE=""
 			fi
@@ -195,33 +200,7 @@ _SPACEINFOGSIZE_() {
 			SPACEMESSAGE=""
 		fi
 	else
-		SPACEMESSAGE="\\n\\e[0;33mTermuxArch: \\e[1;33mFREE SPACE WARNING!  \\e[1;30mStart thinking about cleaning out some stuff.  \\e[33m$USRSPACE of free user space is available on this device.  \\e[1;30mThe recommended minimum to install Arch Linux in Termux PRoot is more than 1.5G for aarch64, more than 1.25G for armv7 and about 800M of free user space for x86 and x86_64 architectures.\\n\\e[0m"
-	fi
-}
-
-_SPACEINFOQ_() {
-	if [[ "$SUANSWER" != [Yy]* ]]
-	then
-		_SPACEINFO_
-		if [[ -n "$SPACEMESSAGE" ]]
-		then
-			while true; do
-				printf "\\n\\e[1;30m"
-				read -n 1 -p "Continue with setupTermuxArch? [Y|n] " SUANSWER
-				if [[ "$SUANSWER" = [Ee]* ]] || [[ "$SUANSWER" = [Nn]* ]] || [[ "$SUANSWER" = [Qq]* ]]
-				then
-					printf "\\n"
-					exit $?
-				elif [[ "$SUANSWER" = [Yy]* ]] || [[ "$SUANSWER" = "" ]]
-				then
-					SUANSWER=yes
-					printf "Continuing with setupTermuxArch.\\n"
-					break
-				else
-					printf "\\nYou answered \\e[33;1m$SUANSWER\\e[30m.\\n\\nAnswer \\e[32mYes\\e[30m or \\e[1;31mNo\\e[30m. [\\e[32my\\e[30m|\\e[1;31mn\\e[30m]\\n"
-				fi
-			done
-		fi
+		SPACEMESSAGE="\\e[0;33mTermuxArch: \\e[1;33mFREE SPACE WARNING!  \\e[1;30mStart thinking about cleaning out some stuff.  \\e[33m$USRSPACE of free user space is available on this device.  \\e[1;30mThe recommended minimum to install Arch Linux in Termux PRoot is more than 1.5G for aarch64, more than 1.25G for armv7 and about 800M of free user space for x86 and x86_64 architectures.\\n\\e[0m"
 	fi
 }
 
