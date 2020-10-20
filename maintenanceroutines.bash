@@ -144,6 +144,13 @@ _REFRESHSYS_() { # refresh installation
 }
 
 _SPACEINFO_() {
+	_SPACEINFOSPIN_() {
+		SPACSLEP="$(shuf -i 8-14 -n 1).$(shuf -i 0-99 -n 1)"
+		printf "Sleeping %s seconds:  " "$SPACSLEP"
+		_TASPINNER_ & sleep "$SPACSLEP" ; kill $!
+		printf "\b\b Continuing...\n"
+		sleep "0.$(shuf -i 2-4 -n 1)"
+	}
 	declare SPACEMESSAGE=""
 	units="$(df "$INSTALLDIR" 2>/dev/null | awk 'FNR == 1 {print $2}')"
 	if [[ "$units" = Size ]]
@@ -155,11 +162,11 @@ _SPACEINFO_() {
 		_SPACEINFOKSIZE_
 		printf "$SPACEMESSAGE"
 	fi
-	SPACSLEP="$(shuf -i 8-14 -n 1).$(shuf -i 0-9999 -n 1)"
-	printf "Sleeping %s seconds:  " "$SPACSLEP"
-	_TASPINNER_ & sleep "$SPACSLEP" ; kill $!
-	printf "\b\b Continuing...\n"
-	sleep "0.$(shuf -i 2-4 -n 1)"
+	if [[ "$SPACEMESSAGE" != "" ]]
+	then
+		_SPACEINFOSPIN_
+	fi
+
 }
 
 _SPACEINFOGSIZE_() {
