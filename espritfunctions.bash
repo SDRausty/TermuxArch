@@ -148,7 +148,7 @@ _NANOIF_() {
 				printf "\\n\\e[7;1;31m%s\\e[0;1;32m %s\\n\\n\\e[0m" "PREREQUISITE EXCEPTION!" "RUN ${0##*/} $ARGS AGAIN..."
 				printf "\\e]2;%s %s\\007" "RUN ${0##*/} $ARGS" "AGAIN..."
 				exit
- 		fi
+		fi
 	fi
 }
 
@@ -180,19 +180,19 @@ _RMBLOOMQ_() {
 	fi
 }
 
-_SPINNER_() {	# print spinner; based on https://github.com/vozdev/termux-setup
+_TASPINNER_() {	# print spinner; based on https://github.com/vozdev/termux-setup
 	INTERVAL=1
-  	SPINNERL='\|/-'
-        SPNDELAY=0.6
-        while :
-	        do
-	        printf "\b%s" "${SPINNERL:INTERVAL++%${#SPINNERL}:1}"
-	        sleep $SPNDELAY
-        done
+	SPINNERL='\|/-'
+	SPNDELAY=0.6
+	while :
+		do
+		printf "\b%s" "${SPINNERL:INTERVAL++%${#SPINNERL}:1}"
+		sleep $SPNDELAY
+	done
 }
 
 _TAMATRIX_() {	# print TermuxArch source code as matrix
- 	printf "\\e[1;32m%s" "$(tr -d '\n' < $0)"
+	printf "\\e[1;32m%s" "$(tr -d '\n' < $0)"
 	# split the string and print the split string
 	IFS=';' read -ra TAMATARR <<< "$(tr -d '\n' < $0)" && for EMSTRING in "${TAMATARR[@]}" ; do printf "\\e[0;32m%s" "$EMSTRING" ; sleep 0.0"$(shuf -i 0-999 -n 1)" ; done ; tail -n 8 "$0" ; printf "\\e[0m" ; exit
 }
