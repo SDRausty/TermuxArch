@@ -730,7 +730,7 @@ _ADDpatchmakepkg_() {
 	printf "%s\\\\n" "Attempting to patch makepkg: "
 	SDATE="\$(date +%s)"
 	BKPDIR="$INSTALLDIR/var/backups/${INSTALLDIR##*/}/makepkg.\$SDATE.bkp"
-	if [[ ! "\$(command -v unzip)" ]] 2>/dev/null || [[ ! "\$(command -v unzip)" ]] 2>/dev/null
+	if [[ ! "\$(command -v patch)" ]] 2>/dev/null || [[ ! "\$(command -v unzip)" ]] 2>/dev/null
 	then
 		pci patch unzip
 	fi
