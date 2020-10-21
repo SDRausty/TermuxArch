@@ -727,9 +727,13 @@ _ADDmakeyay_() {
 _ADDpatchmakepkg_() {
 	_CFLHDR_ root/bin/patchmakepkg "# patch makepkg"
 	cat >> root/bin/patchmakepkg <<- EOM
+	printf "%s\\\\n" "Attempting to patch makepkg: "
 	SDATE="\$(date +%s)"
 	BKPDIR="$INSTALLDIR/var/backups/${INSTALLDIR##*/}/makepkg.\$SDATE.bkp"
-	printf "%s\\\\n" "Attempting to patch makepkg: "
+	if [[ ! "\$(command -v unzip)" ]] 2>/dev/null || [[ ! "\$(command -v unzip)" ]] 2>/dev/null
+	then
+		pci patch unzip
+	fi
 	[ -f /var/lock/patchmakepkg.lock ] && printf "%s\\\\n" "Already patched makepkg: DONE 🏁" && exit
 	mkdir -p "\$BKPDIR"
 	cp /bin/makepkg "\$BKPDIR"
