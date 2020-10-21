@@ -182,12 +182,12 @@ _RMBLOOMQ_() {
 
 _TASPINNER_() {	# print spinner; based on https://github.com/vozdev/termux-setup
 	INTERVAL=1
-	SPINNERL='\|/-'
-	SPNDELAY=0.6
+	SPINNERL="🌑🌒🌓🌔🌕🌖🌗🌘"
+	SPINDLAY="0.$(shuf -i 1-4 -n 1)"
 	while :
 		do
-		printf "\b%s" "${SPINNERL:INTERVAL++%${#SPINNERL}:1}"
-		sleep $SPNDELAY
+		printf "\b%s\b" "${SPINNERL:INTERVAL++%${#SPINNERL}:1}"
+		sleep $SPINDLAY
 	done
 }
 

@@ -7,7 +7,7 @@
 IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
-VERSIONID=2.0.219
+VERSIONID=2.0.220
 umask 0022
 unset LD_PRELOAD
 ## INIT FUNCTIONS ##############################################################
@@ -467,7 +467,7 @@ _OPT2_() {
 
 _PREPTMPDIR_() {
 	[[ ! -d "$INSTALLDIR/tmp" ]] && mkdir -p "$INSTALLDIR/tmp" && chmod 777 "$INSTALLDIR/tmp" && chmod +t "$INSTALLDIR/tmp"
-	TAMPDIR="$INSTALLDIR/tmp/setupTermuxArch$$"
+	TAMPDIR="$INSTALLDIR/tmp/setupTermuxArch$$$RANDOM$PPID$SECONDS"
 	[[ ! -d "$TAMPDIR" ]] && mkdir -p "$TAMPDIR"
 }
 
@@ -541,27 +541,32 @@ _QEMU_ () {
 		_INPKGS_
 	fi
 	}
-	printf "Setting mode to qemu.  This feature is being developed.\\n"
-	printf "%s\\n" "Please select the architecture by number from this list:"
-	select ARCHITECTURE in armeabi armeabi-v7a arm64-v8a x86 x86_64;
-	do
-		CPUABI="$ARCHITECTURE" 
-		if [[ "$ARCHITECTURE" == armeabi ]] || [[ "$ARCHITECTURE" == armeabi-v7a ]]
-		then
-			ARCHITEC="arm" 
-		elif [[ "$ARCHITECTURE" == arm64-v8a ]] 
-		then
-			ARCHITEC="aarch64" 
-		elif [[ "$ARCHITECTURE" == x86 ]] 
-		then
-			ARCHITEC="i386" 
-		elif [[ "$ARCHITECTURE" == x86_64 ]] 
-		then
-			ARCHITEC="x86_64" 
-		fi
-		INCOMM="qemu-user-$ARCHITEC"
-		[[ $CPUABI == *arm* ]] || [[ $CPUABI == *86* ]] && printf "%s\\n" "($REPLY) $CPUABI was picked;  The chosen architecture for installation is $CPUABI." && QEMUCR=0 && break || printf "%s\\n" "Please select the architecture by number."
-	done
+	printf "Setting mode to qemu.\\n"
+	if [[ -f "$INSTALLDIR/$STARTBIN" ]] && grep qemu- "$INSTALLDIR/$STARTBIN" 1>/dev/null
+	then	# set installed qemu architecture
+		ARCHITEC="$(ARCTEVAR="$(grep -m1 qemu $INSTALLDIR/$STARTBIN)" && ARCTFVAR=${ARCTEVAR#*qemu-} && cut -d" " -f1 <<< $ARCTFVAR)" && CPUABI="$ARCHITEC" && INCOMM="qemu-user-$ARCHITEC" && QEMUCR=0 
+	else	# user chooses qemu architecture to installed 
+		printf "%s\\n" "Please select the architecture by number from this list:"
+		select ARCHITECTURE in armeabi armeabi-v7a arm64-v8a x86 x86_64;
+		do
+			CPUABI="$ARCHITECTURE" 
+			if [[ "$ARCHITECTURE" == armeabi ]] || [[ "$ARCHITECTURE" == armeabi-v7a ]]
+			then
+				ARCHITEC="arm" 
+			elif [[ "$ARCHITECTURE" == arm64-v8a ]] 
+			then
+				ARCHITEC="aarch64" 
+			elif [[ "$ARCHITECTURE" == x86 ]] 
+			then
+				ARCHITEC="i386" 
+			elif [[ "$ARCHITECTURE" == x86_64 ]] 
+			then
+				ARCHITEC="x86_64" 
+			fi
+			INCOMM="qemu-user-$ARCHITEC"
+			[[ $CPUABI == *arm* ]] || [[ $CPUABI == *86* ]] && printf "%s\\n" "Architecture number $REPLY $CPUABI was picked from the list;  The chosen architecture for installation is $CPUABI." && QEMUCR=0 && break || printf "%s\\n" "Please select the architecture by number."
+		done
+	fi
 	if ! command -v "${INCOMM//-user}"
 	then
 		_INST_ "${INCOMM//-user}" "$INCOMM" "${0##*/}" || _PSGI1ESTRING_ "_INST_ _QEMU_ setupTermuxArch ${0##*/}"
@@ -830,6 +835,7 @@ then
 ## [q[emu] [customdir]]  Partial Implementation:  Install alternate architecture on smartphone with QEMU.
 elif [[ "${1//-}" = [Qq]* ]]
 then
+	_PREPTERMUXARCH_
 	_QEMU_
 	_OPT1_ "$@"
 	_INTRO_ "$@"

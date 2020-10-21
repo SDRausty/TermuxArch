@@ -424,7 +424,11 @@ _PREPROOT_() {
 }
 
 _RUNFINISHSETUP_() {
-	cp  "$INSTALLDIR/etc/pacman.d/mirrorlist" "$INSTALLDIR/var/backups/${INSTALLDIR##*/}/etc/mirrorlist.$SDATE.bkp"
+	cp "$INSTALLDIR/etc/pacman.d/mirrorlist" "$INSTALLDIR/var/backups/${INSTALLDIR##*/}/etc/mirrorlist.$SDATE.bkp"
+	if [[ "$CPUABI" = "$CPUABIX86" ]] 
+	then
+		curl https://git.archlinux32.org/packages/plain/core/pacman-mirrorlist/mirrorlist -o "$INSTALLDIR/etc/pacman.d/mirrorlist"
+	fi
 	_SEDUNCOM_() {
 			sed -i "/\/mirror.archlinuxarm.org/ s/^# *//" "$INSTALLDIR/etc/pacman.d/mirrorlist" || _PSGI1ESTRING_ "sed -i _SEDUNCOM_ necessaryfunctions.bash ${0##*/}" # sed replace a character in a matched line in place
 	}
