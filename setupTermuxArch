@@ -7,7 +7,7 @@
 IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
-VERSIONID=2.0.221
+VERSIONID=2.0.222
 umask 0022
 unset LD_PRELOAD
 ## INIT FUNCTIONS ##############################################################
@@ -564,7 +564,7 @@ _QEMU_ () {
 				ARCHITEC="x86_64" 
 			fi
 			INCOMM="qemu-user-$ARCHITEC"
-			[[ $CPUABI == *arm* ]] || [[ $CPUABI == *86* ]] && printf "%s\\n" "Architecture number $REPLY $CPUABI was picked from the list;  The chosen architecture for installation is $CPUABI." && QEMUCR=0 && break || printf "%s\\n" "Please select the architecture by number."
+			[[ $CPUABI == *arm* ]] || [[ $CPUABI == *86* ]] && printf "%s\\n" "Architecture number $REPLY ($CPUABI) was picked from the list;  The chosen architecture for installation is $CPUABI." && QEMUCR=0 && break || printf "%s\\n" "Please select the architecture by number."
 		done
 	fi
 	if ! command -v "${INCOMM//-user}"

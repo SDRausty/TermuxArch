@@ -424,6 +424,7 @@ _PREPROOT_() {
 }
 
 _RUNFINISHSETUP_() {
+	_ADDresolvconf_
 	cp "$INSTALLDIR/etc/pacman.d/mirrorlist" "$INSTALLDIR/var/backups/${INSTALLDIR##*/}/etc/mirrorlist.$SDATE.bkp"
 	if [[ "$CPUABI" = "$CPUABIX86" ]] 
 	then
