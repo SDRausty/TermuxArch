@@ -7,7 +7,7 @@
 IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
-VERSIONID=2.0.224
+VERSIONID=2.0.225
 umask 0022
 unset LD_PRELOAD
 ## INIT FUNCTIONS ##############################################################
@@ -421,7 +421,7 @@ _OPT1_() {
 	elif [[ "$2" = [Rr]* ]]
 	then
 		export LCR="1"
-		printf "\\n\\e[1;32m%s\\e[1;34m: \\e[0;32m%s '%s' %s\\n\\e[0m" "Setting mode" "minimal refresh;  Use" "${0##*/} re[fresh]" "for full refresh."
+		printf "\\n\\e[1;32m%s\\e[1;34m: \\e[0;32m%s '%s' %s\\n\\e[0m" "Setting mode" "minimal refresh;  You can use" "${0##*/} re[fresh]" "for full refresh."
 		shift
 		_ARG2DIR_ "$@"
 		_INTROREFRESH_ "$@"
