@@ -4,10 +4,10 @@
 # https://termuxarch.github.io/TermuxArch/CONTRIBUTORS thank you for helping
 # command 'setupTermuxArch h[elp]' has information how to use this file
 ################################################################################
+VERSIONID=2.0.229
 IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
-VERSIONID=2.0.228
 umask 0022
 unset LD_PRELOAD
 ## INIT FUNCTIONS ##############################################################
@@ -32,7 +32,7 @@ _STRPEXIT_() { # run on exit
 	sleep 0.04
 	if [[ "$RV" = 0 ]]
 	then
-		printf "\\e[0;32m%s %s \\e[0m$VERSIONID\\e[1;34m: \\e[0;32m%s\\e[0m\\n\\n" "${0##*/}" "$ARGS" "DONE 🏁 "
+		printf "\\e[0;32mCommand \\e[1;32m%s \\e[0;32mversion %s\\e[1;34m: \\e[1;32m%s\\e[0m\\n\\n" "'${0##*/} $ARGS'" "$VERSIONID" "DONE 🏁 "
 		printf "\\e]2; %s: %s \\007" "${0##*/} $ARGS" "DONE 🏁 "
 	else
 		printf "\\e[0;32m%s %s \\e[0m$VERSIONID\\e[1;34m: \\e[0;32m%s %s\\e[0m\\n\\n" "${0##*/}" "$ARGS" "[Exit Signal $RV]" "DONE 🏁 "
@@ -511,10 +511,10 @@ _PRINTUSAGE_() {
 	if [[ "$LCC" = 1 ]]
 	then
 		printf "\\e[1;38;5;150m%s\\n\\n" "$(sed -n '600,900p;900p' "$0"|grep "^##"|sed 's/## /\n  /g')"
-		printf "\\e[0;32m  COMMAND \\e[1;32m%s\\e[0;32m HAS \\e[1;32m%s\\e[0;32m USAGE INFORMATION:\\n" "'$STARTBIN help'" "'$STARTBIN'"
+		printf "\\e[0;32m  Command \\e[1;32m%s\\e[0;32m has \\e[1;32m%s\\e[0;32m usage information:\\n" "'$STARTBIN help'" "'$STARTBIN'"
 		_PRINTSTARTBIN_USAGE_
 	else
-		printf "\\e[0;32m  command \\e[1;32m%s\\e[0;32m has %s usage information\\n\\n" "'$STARTBIN help'" "$STARTBIN"
+		printf "\\e[0;32m  Command \\e[1;32m%s\\e[0;32m has \\e[1;32m%s\\e[0;32m usage information.\\n\\n" "'$STARTBIN help'" "'$STARTBIN'"
 	fi
 }
 
