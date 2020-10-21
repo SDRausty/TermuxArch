@@ -61,7 +61,7 @@ _CALLSYSTEM_() {
 	declare COUNTER=""
 	if [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = "$CPUABIX86_64" ]]
 	then
-		_GETIMAGE_
+		_GETIMAGE_ || FRV="$?" && [[ -z "${FRV:-}" ]] && _PSGI1ESTRING_ "_GETIMAGE_ _CALLSYSTEM_ necessaryfunctions.bash ${0##}" && exit || ([[ $FRV = 3 ]] || [[ $FRV = 22 ]]) && _PSGI1ESTRING_ "FRV=$FRV _GETIMAGE_ _CALLSYSTEM_ necessaryfunctions.bash ${0##}"
 	else
 		if [[ "$CMIRROR" = "os.archlinuxarm.org" ]] || [[ "$CMIRROR" = "mirror.archlinuxarm.org" ]]
 		then

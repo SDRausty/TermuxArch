@@ -146,7 +146,7 @@ _REFRESHSYS_() { # refresh installation
 _SPACEINFO_() {
 	_SPACEINFOSPIN_() {
 		SPACSLEP="$(shuf -i 2-4 -n 1).$(shuf -i 0-99 -n 1)"
-		printf "Sleeping %0.2f seconds:  " "$SPACSLEP"
+		printf "Sleeping %0.2f seconds;  " "$SPACSLEP"
 		_TASPINNER_ & sleep "$SPACSLEP" ; kill $!
 		printf "\nContinuing...\n"
 		sleep "0.$(shuf -i 2-4 -n 1)"
