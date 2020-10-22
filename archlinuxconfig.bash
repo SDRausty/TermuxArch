@@ -101,7 +101,7 @@ _ADDresolvconf_() {
 	_CHECKRESOLVE_() {
 		if [ -f etc/resolv.conf ]
 		then 
-			if ! grep 'nameserver 8.8.8.8' etc/resolv.conf 1>/dev/null
+			if ! grep -q 'nameserver 8.8.8.8' etc/resolv.conf
 			then
 				_ADDTORESOLVE_
 			fi
@@ -138,7 +138,7 @@ _ADDbash_profile_() {
 	do
 	 	printf "%s=\"%s\"\\n" "export ${LC_TYPE[i]}" "$ULANGUAGE.UTF-8" >> root/.bash_profile
 	done
-	[[ -f "$HOME"/.bash_profile ]] && grep proxy "$HOME"/.bash_profile | grep "export" >> root/.bash_profile 2>/dev/null ||:
+	[[ -f "$HOME"/.bash_profile ]] && grep proxy "$HOME"/.bash_profile | grep -s "export" >> root/.bash_profile || _PSGI1ESTRING_ "grep _ADDbash_profile_ archlinuxconfig.bash ${0##*/}"
 }
 
 _ADDbashrc_() {
@@ -182,7 +182,7 @@ _ADDbashrc_() {
 	alias q='exit'
 	# .bashrc EOF
 	EOM
-	[ -f "$HOME"/.bashrc ] && grep proxy "$HOME"/.bashrc | grep "export" >>  root/.bashrc 2>/dev/null ||:
+	[ -f "$HOME"/.bashrc ] && grep -s proxy "$HOME"/.bashrc | grep -s "export" >>  root/.bashrc || _PSGI1ESTRING_ "grep _ADDbashrc_ archlinuxconfig.bash ${0##*/}"
 }
 
 _ADDcdtd_() {
@@ -834,7 +834,7 @@ _ADDpci_() {
 }
 
 _ADDprofile_() {
-	[ -e "$HOME"/.profile ] && ([ -e root/.profile ] && _DOTHRF_ "root/.profile") && (grep proxy "$HOME"/.profile | grep "export" >> root/.profile 2>/dev/null) ||:
+	[ -e "$HOME"/.profile ] && ([ -e root/.profile ] && _DOTHRF_ "root/.profile") && (grep -s proxy "$HOME"/.profile | grep -s "export" >> root/.profile) || _PSGI1ESTRING_ "grep _ADDprofile_ archlinuxconfig.bash ${0##*/}"
 	touch root/.profile
 }
 
@@ -1109,7 +1109,7 @@ _MODdotfile_() {
 			printf "$MODFILEADD\\n" >> "$INSTALLDIR/root/$MODFILENAME"
 	}
 	# add MODFILEADD to file /root/MODFILENAME
-	[[ -f "$INSTALLDIR/root/$MODFILENAME" ]] && (_DOTHRF_ "root/$MODFILENAME" && ! grep "$MODFILEADD" "$INSTALLDIR/root/$MODFILENAME" 1>/dev/null && _MODdotfNF_ || printf "\\e[0;34mline %s found in %s file\\e[0m\\n" "'$MODFILEADD'" "/${INSTALLDIR##*/}/root/$MODFILENAME") || _MODdotfNF_
+	[[ -f "$INSTALLDIR/root/$MODFILENAME" ]] && (_DOTHRF_ "root/$MODFILENAME" && ! grep -q "$MODFILEADD" "$INSTALLDIR/root/$MODFILENAME" && _MODdotfNF_ || printf "\\e[0;34mline %s found in %s file\\e[0m\\n" "'$MODFILEADD'" "/${INSTALLDIR##*/}/root/$MODFILENAME") || _MODdotfNF_
 }
 
 _DOMODdotfiles_() {

@@ -175,9 +175,9 @@ _MAINBLOCK_() {
 }
 
 _DOPROXY_() {
-	[[ -f "$HOME"/.bash_profile ]] && grep "proxy" "$HOME"/.bash_profile | grep "export" >> root/bin/"$BINFNSTP" 2>/dev/null ||:
-	[[ -f "$HOME"/.bashrc ]] && grep "proxy" "$HOME"/.bashrc  | grep "export" >> root/bin/"$BINFNSTP" 2>/dev/null ||:
-	[[ -f "$HOME"/.profile ]] && grep "proxy" "$HOME"/.profile | grep "export" >> root/bin/"$BINFNSTP" 2>/dev/null ||:
+	[[ -f "$HOME"/.bash_profile ]] && grep -s "proxy" "$HOME"/.bash_profile | grep -s "export" >> root/bin/"$BINFNSTP" ||:
+	[[ -f "$HOME"/.bashrc ]] && grep -s "proxy" "$HOME"/.bashrc  | grep -s "export" >> root/bin/"$BINFNSTP" ||:
+	[[ -f "$HOME"/.profile ]] && grep -s "proxy" "$HOME"/.profile | grep -s "export" >> root/bin/"$BINFNSTP" ||:
 }
 
 _MAKEFINISHSETUP_() {
@@ -473,14 +473,14 @@ _SETLANGUAGE_() { # This function uses device system settings to set locale.  To
 	LANGIN+=([7]="$(getprop ro.product.locale.region)")
 	touch "$INSTALLDIR"/etc/locale.gen
 	ULANGUAGE="${LANGIN[0]:-unknown}_${LANGIN[1]:-unknown}"
-       	if ! grep "$ULANGUAGE" "$INSTALLDIR"/etc/locale.gen 1>/dev/null
+       	if ! grep -q "$ULANGUAGE" "$INSTALLDIR"/etc/locale.gen
 	then
 		ULANGUAGE="unknown"
        	fi
  	if [[ "$ULANGUAGE" != *_* ]]
 	then
  		ULANGUAGE="${LANGIN[3]:-unknown}_${LANGIN[2]:-unknown}"
- 	       	if ! grep "$ULANGUAGE" "$INSTALLDIR"/etc/locale.gen 1>/dev/null
+ 	       	if ! grep -q "$ULANGUAGE" "$INSTALLDIR"/etc/locale.gen
 		then
  			ULANGUAGE="unknown"
  	       	fi
@@ -496,7 +496,7 @@ _SETLANGUAGE_() { # This function uses device system settings to set locale.  To
  	if [[ "$ULANGUAGE" != *_* ]]
 	then
  		ULANGUAGE="${LANGIN[6]:-unknown}_${LANGIN[7]:-unknown}"
- 	       	if ! grep "$ULANGUAGE" "$INSTALLDIR"/etc/locale.gen 1>/dev/null
+ 	       	if ! grep -q "$ULANGUAGE" "$INSTALLDIR"/etc/locale.gen
 		then
  			ULANGUAGE="unknown"
  	       	fi
