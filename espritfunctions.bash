@@ -180,7 +180,7 @@ _RMBLOOMQ_() {
 	fi
 }
 
-_TASPINNER_() {	# print spinner; based on https://github.com/vozdev/termux-setup
+_TASPINNER_() {	# print spinner; derivation based on https://github.com/ringohub/sh-spinner and https://github.com/vozdev/termux-setup
 	INCREMNT=1
 	if [[ -z "${1:-}" ]]
 	then
@@ -196,7 +196,7 @@ _TASPINNER_() {	# print spinner; based on https://github.com/vozdev/termux-setup
 	printf "\\e[?25l"
 	while :
 		do
-		printf "\b%s\b" "${SPINNERL:INCREMNT++%${#SPINNERL}:1}"
+		printf "  \b\b\b%s\b" "${SPINNERL:INCREMNT++%${#SPINNERL}:1}"
 		sleep $SPINDLAY
 	done
 	printf "\\e[?25h"
