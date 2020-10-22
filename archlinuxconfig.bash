@@ -138,7 +138,7 @@ _ADDbash_profile_() {
 	do
 	 	printf "%s=\"%s\"\\n" "export ${LC_TYPE[i]}" "$ULANGUAGE.UTF-8" >> root/.bash_profile
 	done
-	[[ -f "$HOME"/.bash_profile ]] && grep proxy "$HOME"/.bash_profile | grep -s "export" >> root/.bash_profile || _PSGI1ESTRING_ "grep _ADDbash_profile_ archlinuxconfig.bash ${0##*/}"
+	[[ -f "$HOME"/.bash_profile ]] && grep proxy "$HOME"/.bash_profile | grep -s "export" >> root/.bash_profile ||:
 }
 
 _ADDbashrc_() {
@@ -182,7 +182,7 @@ _ADDbashrc_() {
 	alias q='exit'
 	# .bashrc EOF
 	EOM
-	[ -f "$HOME"/.bashrc ] && grep -s proxy "$HOME"/.bashrc | grep -s "export" >>  root/.bashrc || _PSGI1ESTRING_ "grep _ADDbashrc_ archlinuxconfig.bash ${0##*/}"
+	[ -f "$HOME"/.bashrc ] && grep -s proxy "$HOME"/.bashrc | grep -s "export" >>  root/.bashrc ||:
 }
 
 _ADDcdtd_() {
@@ -834,7 +834,7 @@ _ADDpci_() {
 }
 
 _ADDprofile_() {
-	[ -e "$HOME"/.profile ] && ([ -e root/.profile ] && _DOTHRF_ "root/.profile") && (grep -s proxy "$HOME"/.profile | grep -s "export" >> root/.profile) || _PSGI1ESTRING_ "grep _ADDprofile_ archlinuxconfig.bash ${0##*/}"
+	[ -e "$HOME"/.profile ] && ([ -e root/.profile ] && _DOTHRF_ "root/.profile") && (grep -s proxy "$HOME"/.profile | grep -s "export" >> root/.profile) ||:
 	touch root/.profile
 }
 

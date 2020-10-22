@@ -192,8 +192,9 @@ _TASPINNER_() {	# print spinner; based on https://github.com/vozdev/termux-setup
 }
 
 _TAMATRIX_() {	# print TermuxArch source code as matrix
-	printf "\\e[1;32m%s" "$(tr -d '\n' < $0)"
-	# split the string and print the split string
-	IFS=';' read -ra TAMATARR <<< "$(tr -d '\n' < $0)" && for EMSTRING in "${TAMATARR[@]}" ; do printf "\\e[0;32m%s" "$EMSTRING" ; sleep 0.0"$(shuf -i 0-999 -n 1)" ; done ; tail -n 8 "$0" ; printf "\\e[0m" ; exit
+	# Terminal codes VT100 \\e[?25l information at https://wiki.bash-hackers.org/scripting/terminalcodes website.
+	printf "\\e[?25l\\e[1;32m%s" "$(tr -d '\n' < $0)"
+	# split a string from file and print this split string
+	IFS=';' read -ra TAMATARR <<< "$(tr -d '\n' < $0)" && for EMSTRING in "${TAMATARR[@]}" ; do printf "\\e[0;32m%s" "$EMSTRING" ; sleep 0.0"$(shuf -i 0-999 -n 1)" ; done ; tail -n 8 "$0" ; printf "\\e[0m" ; printf "\\e[?25h"; exit
 }
 # espritfunctions.bash EOF
