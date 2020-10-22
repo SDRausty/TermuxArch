@@ -184,11 +184,13 @@ _TASPINNER_() {	# print spinner; based on https://github.com/vozdev/termux-setup
 	INTERVAL=1
 	SPINNERL="🌑🌒🌓🌔🌕🌖🌗🌘"
 	SPINDLAY="0.$(shuf -i 1-4 -n 1)"
+	printf "\\e[?25l"
 	while :
 		do
 		printf "\b%s\b" "${SPINNERL:INTERVAL++%${#SPINNERL}:1}"
 		sleep $SPINDLAY
 	done
+	printf "\\e[?25h"
 }
 
 _TAMATRIX_() {	# print TermuxArch source code as matrix
