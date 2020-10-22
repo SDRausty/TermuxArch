@@ -67,7 +67,7 @@ _LOADIMAGE_() {
 	printf "\\n"
 	_WAKELOCK_
 	_PREPINSTALLDIR_
-	_TASPINNER_ & _COPYIMAGE_ ; kill $!
+	_TASPINNER_ & _COPYIMAGE_ clock ; kill $!
 	_PRINTMD5CHECK_
 	_MD5CHECK_
 	_PRINTCU_
@@ -145,9 +145,9 @@ _REFRESHSYS_() { # refresh installation
 
 _SPACEINFO_() {
 	_SPACEINFOSPIN_() {
-		SPACSLEP="$(shuf -i 2-4 -n 1).$(shuf -i 0-99 -n 1)"
-		printf "Sleeping %0.2f seconds;  " "$SPACSLEP"
-		_TASPINNER_ & sleep "$SPACSLEP" ; kill $!
+		SPACSLEP="$(shuf -i 4-8 -n 1).$(shuf -i 0-99 -n 1)"
+		printf "Sleeping ${0##*/} for %0.2f seconds;  " "$SPACSLEP"
+		_TASPINNER_ moon & sleep "$SPACSLEP" ; kill $!
 		printf "\nContinuing...\n"
 		sleep "0.$(shuf -i 2-4 -n 1)"
 	}

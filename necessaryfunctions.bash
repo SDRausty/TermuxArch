@@ -370,13 +370,16 @@ _MAKESTARTBIN_() {
 }
 
 _MAKESYSTEM_() {
-	_WAKELOCK_
-	_CALLSYSTEM_
-	_PRINTMD5CHECK_
-	_MD5CHECK_
-	_PRINTCU_
-       	[[ "$KEEP" -ne 0 ]] && rm -f "$INSTALLDIR"/*.tar.gz "$INSTALLDIR"/*.tar.gz.md5 # set KEEP to 0 in file 'knownconfigurations.bash' after using either 'setupTermuxArch bloom' or 'setupTermuxArch manual' to keep the INSTALLDIR/*.tar.gz and INSTALLDIR/*.tar.gz.md5 files.
-	_PRINTDONE_
+	_DOSYS_() {
+		_WAKELOCK_
+		_CALLSYSTEM_
+		_PRINTMD5CHECK_
+		_MD5CHECK_
+		_PRINTCU_
+	       	[[ "$KEEP" -ne 0 ]] && rm -f "$INSTALLDIR"/*.tar.gz "$INSTALLDIR"/*.tar.gz.md5 # set KEEP to 0 in file 'knownconfigurations.bash' after using either 'setupTermuxArch bloom' or 'setupTermuxArch manual' to keep the INSTALLDIR/*.tar.gz and INSTALLDIR/*.tar.gz.md5 files.
+		_PRINTDONE_
+	}
+	_TASPINNER_ clock & _DOSYS_ ; kill $!
 	_PRINTCONFIGUP_
 	_TOUCHUPSYS_
 }

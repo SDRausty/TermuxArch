@@ -181,13 +181,22 @@ _RMBLOOMQ_() {
 }
 
 _TASPINNER_() {	# print spinner; based on https://github.com/vozdev/termux-setup
-	INTERVAL=1
-	SPINNERL="🌑🌒🌓🌔🌕🌖🌗🌘"
+	INCREMNT=1
+	if [[ -z "${1:-}" ]]
+	then
+	  	SPINNERL="⠋⠙⠹⠸⠼⠴⠦⠧⠇⠏"
+	elif [[ "${1//-}" = clock ]]
+	then
+		SPINNERL="🕛🕐🕑🕓🕔🕕🕖🕗🕘🕙🕚"
+	elif [[ "${1//-}" = moon ]]
+	then
+		SPINNERL="🌑🌒🌓🌔🌕🌖🌗🌘"
+	fi
 	SPINDLAY="0.$(shuf -i 1-4 -n 1)"
 	printf "\\e[?25l"
 	while :
 		do
-		printf "\b%s\b" "${SPINNERL:INTERVAL++%${#SPINNERL}:1}"
+		printf "\b%s\b" "${SPINNERL:INCREMNT++%${#SPINNERL}:1}"
 		sleep $SPINDLAY
 	done
 	printf "\\e[?25h"
