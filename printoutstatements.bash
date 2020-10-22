@@ -15,13 +15,13 @@ FLHDR1[1]="# IFS=$'\\n\\t'"
 FLHDR1[2]="set -Eeuo pipefail"
 FLHDR1[3]="shopt -s nullglob globstar"
 FLHDR1[4]="unset LD_PRELOAD"
-FLHDR1[5]="VERSIONID=2.0.234"
+FLHDR1[5]="VERSIONID=2.0.235"
 FLHDR1[6]=" "
 FLHDRP[0]="## BEGIN #####################################################################"
 FLHDRP[1]=""
 TRPERROR[0]="_TRPERR_() {  # run on script error"
 TRPERROR[1]="	local RV=\"\$?\""
-TRPERROR[2]="	printf \"\\\\e[?25h\\\\n\\\\e[1;48;5;138m %s\\\\e[0m\\\\n\\\\n\" \"TermuxArch WARNING:  Generated script signal \${RV:-unknown} near or at line number \${1:-unknown} by \`\${2:-command}\`!\""
+TRPERROR[2]="	printf \"\\\\e[?25h\\\\n\\\\e[1;48;5;138m %s\\\\e[0m\\\\n\\\\n\" \"TermuxArch WARNING:  Generated script signal \${RV:-unknown} near or at line number \${1:-unknown} by '\${2:-command}'!\""
 TRPERROR[3]="	exit 201"
 TRPERROR[4]="}"
 TRPERROR[5]=" "
@@ -157,7 +157,7 @@ _PRINTDOWNLOADINGX86TWO_() {
 
 _PRINTDOWNLOADINGFTCH_() {
 	printf "\033]2;%s\007" " 🕛 > 🕓 Downloading the checksum and Arch Linux system image files...  "
-	printf "\\e[0;34m 🕛 > 🕓 \\e[1;34mDownloading the checksum file and \\e[1;34m%s \\e[1;34mfrom the geographically local mirror \\e[1;32m%s\\e[1;34m.  If contact with the local mirror is not successful, run \\e[1;32mbash \\e[0;32m${0##*/}\\e[1;34m again.  Should the worldwide mirror not provide another geographically nearby server after a couple of attempts, use \\e[1;32mbash \\e[0;32m${0##*/} manual \\e[1;34mafter locating a local mirror from the Internet; The command \\e[1;32mbash \\e[0;32m${0##*/} help \\e[1;34mhas information about additional options.  \\e[1;37mDownload of %s pending Internet connection...\\n\\n\\e[0;32m" "$IFILE" "$NLCMIRROR" "$IFILE"
+	printf "\\e[0;34m 🕛 > 🕓 \\e[1;34mDownloading the checksum file and \\e[1;34m%s \\e[1;34mfrom the geographically local mirror \\e[1;32m%s\\e[1;34m.  If contact with the local mirror is not successful, run \\e[1;32mbash \\e[0;32m%s\\e[1;34m again.  Should the worldwide mirror not provide another geographically nearby server after a couple of attempts, use \\e[1;32mbash \\e[0;32m%s manual \\e[1;34mafter locating a local mirror from the Internet; The command \\e[1;32mbash \\e[0;32m%s help \\e[1;34mhas information about additional options.  \\e[1;37mDownload of %s pending Internet connection...\\n\\n\\e[0;32m" "$IFILE" "$NLCMIRROR" "${0##*/}" "${0##*/}" "${0##*/}" "$IFILE"
 }
 
 _PRINT_DOWNLOADING_FTCHIT_() {
@@ -171,8 +171,8 @@ _PRINTCONFIGUP_() {
 }
 
 _PRINTMAX_() {
-	printf "\033]2;%s\007" "Please %s \`bash ${0##*/}\` again if necessary..." "run"
-	printf "\\n\\e[07;1m\\e[31;1m 🔆 WARNING: Maximum amount of attempts exceeded!\\e[34;1m\\e[30;1m  Run \`bash ${0##*/}\` again.  See \`bash ${0##*/} help\` to resolve download errors.  If this keeps repeating, copy \`knownconfigurations.bash\` to \`setupTermuxArchConfigs.bash\` with preferred mirror.  After editing \`setupTermuxArchConfigs.bash\`, run \`bash ${0##*/}\` and \`setupTermuxArchConfigs.bash\` loads automaticaly from the same directory.  Change mirror to desired geographic location to resolve md5sum errors.\\n\\nUser configurable variables are in \`setupTermuxArchConfigs.bash\`.  Create this file from \`kownconfigurations.bash\` in the working directory.  Use \`bash ${0##*/} manual\` to create and edit \`setupTermuxArchConfigs.bash\`.\\n\\n	Run \`bash ${0##*/}\` again if necessary...\\n\\e[0;0m\\n"
+	printf "\033]2;%s\007" "Please run 'bash ${0##*/}' again."
+	printf "\\n\\e[07;1m\\e[31;1m 🔆 WARNING: Maximum amount of attempts exceeded.\\e[34;1m\\e[30;1m\\n\\nPlease run 'bash %s' again.  See 'bash %s help' to resolve download errors.  If this keeps repeating, copy 'knownconfigurations.bash' to 'setupTermuxArchConfigs.bash' with preferred mirror.  After editing 'setupTermuxArchConfigs.bash', run 'bash %s' and 'setupTermuxArchConfigs.bash' loads automaticaly from the same directory.  Change mirror to desired geographic location to resolve md5sum errors.\\n\\nUser configurable variables are in 'setupTermuxArchConfigs.bash'.  To create this file from 'kownconfigurations.bash' in the working directory the command 'bash %s manual' can be used to create and edit 'setupTermuxArchConfigs.bash'.\\n\\nPlease run 'bash %s' again.\\n\\e[0;0m\\n" "${0##*/}" "${0##*/}" "${0##*/}" "${0##*/}" "${0##*/}"
 }
 
 _PRINTMD5CHECK_() {
@@ -180,24 +180,24 @@ _PRINTMD5CHECK_() {
 }
 
 _PRINTMD5ERROR_() {
-	printf "\033]2;%s\007" "Run \`bash ${0##*/}\` again..."
-	printf "\\n\\e[07;1m\\e[31;1m 🔆 WARNING md5sum mismatch! The download failed and was removed!\\e[34;1m\\e[30;1m  Run \`bash ${0##*/}\` again.  See \`bash ${0##*/} help\` to resolve md5sum errors.  This kind of error can go away, like magic.  Waiting before executing again is recommended.  There are numerous reasons for checksum errors.  Proxies are one explaination.  Mirroring and mirrors are another explaination for md5sum errors.  Interrupted download is one more reason.  If this keeps repeating, copy \`knownconfigurations.bash\` to \`setupTermuxArchConfigs.bash\` with preferred mirror.  After editing \`setupTermuxArchConfigs.bash\`, run \`bash ${0##*/}\` and \`setupTermuxArchConfigs.bash\` loads automaticaly from the same directory.  Change mirror to desired geographic location to resolve md5sum errors.\\n\\nUser configurable variables are in \`setupTermuxArchConfigs.bash\`.  Create this file from \`kownconfigurations.bash\` in the working directory.  Use \`bash ${0##*/} manual\` to create and edit \`setupTermuxArchConfigs.bash\`.\\n\\n	Run \`bash ${0##*/}\` again...\\n\\e[0;0m\n"
+	printf "\033]2;%s\007" "Run 'bash ${0##*/}' again..."
+	printf "\\n\\e[07;1m\\e[31;1m 🔆 WARNING md5sum mismatch! The download failed and was removed!\\e[34;1m\\e[30;1m  Run 'bash ${0##*/}' again.  See 'bash ${0##*/} help' to resolve md5sum errors.  This kind of error can go away, like magic.  Waiting before executing again is recommended.  There are numerous reasons for checksum errors.  Proxies are one explaination.  Mirroring and mirrors are another explaination for md5sum errors.  Interrupted download is one more reason.  If this keeps repeating, copy 'knownconfigurations.bash' to 'setupTermuxArchConfigs.bash' with preferred mirror.  After editing 'setupTermuxArchConfigs.bash', run 'bash ${0##*/}' and 'setupTermuxArchConfigs.bash' loads automaticaly from the same directory.  Change mirror to desired geographic location to resolve md5sum errors.\\n\\nUser configurable variables are in 'setupTermuxArchConfigs.bash'.  Create this file from 'kownconfigurations.bash' in the working directory.  Use 'bash ${0##*/} manual' to create and edit 'setupTermuxArchConfigs.bash'.\\n\\n	Run 'bash ${0##*/}' again...\\n\\e[0;0m\n"
 	exit
 }
 
 _PRINTMD5SUCCESS_() {
  	printf "\\e]2;%s\\007" " 🕛 > 🕡 Unpacking $IFILE..."
-	printf "\\e[0;34m 🕛 > 🕕 \\e[1;34mSystem image file download integrity: \\e[1;32mOK\\n\\n\\e[0;34m 🕛 > 🕡 \\e[1;34mUnpacking $IFILE into $INSTALLDIR.  The option to create Arch Linux system users is available through \\e[1;32maddauser.  \\e[1;34mArch Linux user login from Termux with \\e[1;32m$STARTBIN \\e[1;34mis now implemented.  See \\e[0;36mAbility for Scripts to Launch Commands for Arch Linux in Termux PRoot on Device\\e[1;34m https://github.com/sdrausty/TermuxArch/issues/54 for more information about these brand new options.  \\n\\nWhile waiting, you can use \\e[0;36mdf\\e[1;34m, \\e[0;36mdu -hs\\e[1;34m, \\e[0;36mhtop\\e[1;34m, \\e[0;36mps\\e[1;34m, \\e[0;36mtop\\e[1;34m and \\e[0;36mwatch\\e[1;34m in a new Termux session to watch the unpacking while this session completes.  Use \\e[0;36minfo query \\e[1;34mand \\e[0;36mman query \\e[1;34mto learn more about your Linux system in the palm of your hand.  See The Linux Documentation Project http://tldp.org to learn more about Linux and CLI commands.  \\e[1;37mUnpacking \\e[37m$IFILE\\e[1;37m will take a long time;  Please be patient...  \\e[0m"
+	printf "\\e[0;34m 🕛 > 🕕 \\e[1;34mSystem image file download integrity: \\e[1;32mOK\\n\\n\\e[0;34m 🕛 > 🕡 \\e[1;34mUnpacking $IFILE into $INSTALLDIR.  The option to create Arch Linux system users is available through \\e[1;32maddauser.  \\e[1;34mArch Linux user login from Termux with \\e[1;32m$STARTBIN \\e[1;34mis now implemented.  See \\e[0;36mAbility for Scripts to Launch Commands for Arch Linux in Termux PRoot on Device\\e[1;34m https://github.com/sdrausty/TermuxArch/issues/54 for more information about these brand new options.  \\n\\nWhile waiting, you can use \\e[0;36mdf\\e[1;34m, \\e[0;36mdu -hs\\e[1;34m, \\e[0;36mhtop\\e[1;34m, \\e[0;36mps\\e[1;34m, \\e[0;36mtop\\e[1;34m and \\e[0;36mwatch\\e[1;34m in a new Termux session to watch the unpacking while this session completes.  Use \\e[0;36minfo query \\e[1;34mand \\e[0;36mman query \\e[1;34mto learn more about your Linux system in the palm of your hand.  See The Linux Documentation Project http://tldp.org to learn more about Linux and CLI commands.  \\e[1;37mUnpacking \\e[37m$IFILE\\e[1;37m will take a long time;  Please be patient  \\e[0m"
 }
 
 _PRINTMISMATCH_() {
-	printf "\033]2;%s\007" "Run \`bash ${0##*/}\` again..."
+	printf "\033]2;%s\007" "Run 'bash ${0##*/}' again..."
 	printf "\\n\\e[07;1m\\e[31;1m 🔆 WARNING: Unknown configuration!  Did not find an architecture and operating system match in\\e[37;1m knownconfigurations.bash\\e[31;1m!  \\e[36;1mDetected $NASVER $CPUABI.  There still is hope.  Other images are available at http://mirror.archlinuxarm.org/os/ and https://www.archlinux.org/mirrors/ to see if any match might the device.  If you find a match, then please \\e[37;1msubmit a pull request\\e[36;1m at https://github.com/sdrausty/TermuxArch/pulls with script modifications.  Alternatively, \\e[37;1msubmit a modification request\\e[36;1m at https://github.com/sdrausty/TermuxArch/issues if you find a configuration match.  Include output from \\e[37;1muname -mo\\e[36;1m on the device in order to expand autodetection for \\e[37;1m${0##*/}\\e[36;1m.  See https://sdrausty.github.io/docs/TermuxArch/Known_Configurations for more information.\\n\\n	\\e[36;1mRun ${0##*/} again...\\n\\e[0m"
 	exit
 }
 
 _PRINTFOOTER_() {
-	printf "\033]2;%s\007" "Thank you for using \`${0##*/}\` to install Arch Linux in Termux PRoot 📲 "
+	printf "\033]2;%s\007" "Thank you for using '${0##*/}' to install Arch Linux in Termux PRoot 📲 "
 	printf "\\e[0;34m 🕛 > 🕥 \\e[1;34mUse \\e[1;32m$STARTBIN \\e[1;34mto launch Arch Linux in Termux PRoot.  Alternatively, you can run \\e[1;32m~$PRINTROOTDIR/$STARTBIN \\e[1;34min a BASH shell to start Arch Linux in Termux PRoot for future sessions.  See \\e[1;32m$STARTBIN help \\e[1;34mfor usage information.\\e[0m\\n\\n"
 	_COPYSTARTBIN2PATH_
 	printf "\\e[0;32m 🕛 = 🕛 \\e[1;34mInformation about \\e[0;36m\"Starting Arch Linux from Termux?\"\\e[1;34m at \\e[1;34mhttps://github.com/sdrausty/TermuxArch/issues/25\\e[1;34m.  Use \\e[1;32mtour\\e[1;34m to run a very short tour to get to know the new Arch Linux in Termux PRoot environment you just set up a little bit better.  If there was more than one error during the update procedure and you would like to refresh the installation, use \\e[1;32m${0##*/} refresh\\e[1;34m.  This will update and recreate the configuration provided.  The TermuxArch command \\e[1;32mkeys \\e[1;34mhelps install and generate Arch Linux keyring keys.\\n\\n"
@@ -227,7 +227,7 @@ _PRINTFOOTER2_() {
 }
 
 _PRINTPROOTERROR_() {
-	printf "\\e[0;34m%s\\n\\n%s\\n\\n%s\\n\\n%s\\e[0m" "If error \` env ... not found \` is found, ensure that all the software is up to date.  After updating, please reference these links in order to find a resolution if updating Termux app and Termux packages was unsuccessful:" "  * https://github.com/termux/proot/issues?q=\"env\"+\"not+found\"" "  * https://github.com/termux/termux-packages/issues?q=\"not+found\"+\"proot\""
+	printf "\\e[0;34m%s\\n\\n%s\\n\\n%s\\n\\n%s\\e[0m" "If error ' env ... not found ' is found, ensure that all the software is up to date.  After updating, please reference these links in order to find a resolution if updating Termux app and Termux packages was unsuccessful:" "  * https://github.com/termux/proot/issues?q=\"env\"+\"not+found\"" "  * https://github.com/termux/termux-packages/issues?q=\"not+found\"+\"proot\""
 }
 
 _PRINTROOTDIRFUNCTION_() {
