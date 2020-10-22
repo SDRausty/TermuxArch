@@ -429,10 +429,13 @@ _PREPROOT_() {
 
 _RUNFINISHSETUP_() {
 	_ADDresolvconf_
-	cp "$INSTALLDIR/etc/pacman.d/mirrorlist" "$INSTALLDIR/var/backups/${INSTALLDIR##*/}/etc/mirrorlist.$SDATE.bkp" || _PSGI1ESTRING_ "cp _RUNFINISHSETUP_ necessaryfunctions.bash ${0##*/}"
+	ALMLLOCN="$INSTALLDIR/etc/pacman.d/mirrorlist"
+	cp "$ALMLLOCN" "$INSTALLDIR/var/backups/${INSTALLDIR##*/}/etc/mirrorlist.$SDATE.bkp" || _PSGI1ESTRING_ "cp _RUNFINISHSETUP_ necessaryfunctions.bash ${0##*/}"
 	if [[ "$CPUABI" = "$CPUABIX86" ]] 
 	then
-		curl https://git.archlinux32.org/packages/plain/core/pacman-mirrorlist/mirrorlist -o "$INSTALLDIR/etc/pacman.d/mirrorlist"
+		AL32MRLT="https://git.archlinux32.org/packages/plain/core/pacman-mirrorlist/mirrorlist"
+		printf "\\e[0m\\n%s\\n" "Updating ${ALMLLOCN##*/} from $AL32MRLT."
+		curl "$AL32MRLT" -o "$ALMLLOCN"
 	fi
 	_SEDUNCOM_() {
 			sed -i "/\/mirror.archlinuxarm.org/ s/^# *//" "$INSTALLDIR/etc/pacman.d/mirrorlist" || _PSGI1ESTRING_ "sed -i _SEDUNCOM_ necessaryfunctions.bash ${0##*/}" # sed replace a character in a matched line in place
