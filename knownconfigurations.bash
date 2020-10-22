@@ -11,7 +11,7 @@
 # DM=curl		##  uncomment to use this download tool
 # DM=lftp 		##  uncomment to use this download tool
 # DM=wget		##  uncomment to use this download tool
-KEEP=1			##  change to 0 to keep downloaded image;  Testing the installation process repeatedly can be made easier and lighter on your Internet bandwith and SAR with this fragment of code  'mkdir ~/arch; cp ~/ArchLinux*.tar.gz* ~/arch/'.  The variable KEEP when changed to 0 will keep the downloaded image and md5 files instead of deleting them for later reuse if desired.  The root file system image and md5 files can be saved and used again on subsequent installs when testing the install feature with this and similar fragments of code.
+KEEP=1			##  change to 0 to keep downloaded image;  Testing the installation process repeatedly can be made easier and lighter on your Internet bandwith and SAR with 'KEEP=0' and this fragment of code  'mkdir ~/arch; cp ~/ArchLinux*.tar.gz* ~/arch/' and similar.  The variable KEEP when changed to 0 (true) will keep the downloaded image and md5 files instead of deleting them for later reuse if desired.  The root file system image and md5 files can be saved and used again on subsequent installs when testing the install feature with this and similar fragments of code.
 KOE=0			##  do not change, not user configurable;  Was previously used for testing, and variable KOE lingers here for retesting if desired.  Change to 1 to change the proot init statement.
 # KID=1			##  do not change, not user configurable;  Used for testing, timing and development.   For timing Arch Linux in PRoot, uncomment and then run script TermuxArch/scripts/frags/stdoutbench.sh in Arch Linux PRoot for timing Arch Linux in PRoot if desired.
 ##  If there are system image files available not listed here, and if there are system image file worldwide mirrors available not listed here, please open an issue and a pull request.
@@ -73,7 +73,7 @@ _PR00TSTRING_() { # construct the PRoot init statement
 	[[ -z "${QEMUCR:-}" ]] && CPUABI="$(getprop ro.product.cpu.abi)" && SYSVER="$(getprop ro.build.version.release)" && NASVER="$(getprop net.bt.name ) $SYSVER" || [[ $QEMUCR="0" ]] && SYSVER="$(getprop ro.build.version.release)" && NASVER="$(getprop net.bt.name) $(getprop ro.product.cpu.abi) $SYSVER" || _PSGI1ESTRING_ "CPUABI knownconfigurations.bash ${0##*/}" 
 	PROOTSTMNT="exec proot "
        	if [[ -z "${KID:-}" ]]
-	then
+	then	# command 'grep -w KID *h' shows variable KID usage
 		PROOTSTMNT+="--kernel-release=$(uname -r)-generic "
        	elif [[ "$KID" = 0 ]]
 	then
