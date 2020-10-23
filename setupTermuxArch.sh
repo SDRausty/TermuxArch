@@ -5,7 +5,7 @@
 # command 'setupTermuxArch h[elp]' has information how to use this file
 ################################################################################
 IFS=$'\n\t'
-VERSIONID=2.0.249
+VERSIONID=2.0.250
 set -Eeuo pipefail
 shopt -s nullglob globstar
 umask 0022
@@ -350,12 +350,12 @@ _MANUAL_() {
 	_EDITORS_
 	if [[ -f "${WDIR}setupTermuxArchConfigs.bash" ]]
 	then
-		"$ed" "${WDIR}setupTermuxArchConfigs.bash"
+		editor "${WDIR}setupTermuxArchConfigs.bash"
 		_LOADCONF_
 	else
 		cp knownconfigurations.bash "${WDIR}setupTermuxArchConfigs.bash"
 		sed -i "7s/.*/\# The architecture of this device is $CPUABI; Adjust configurations in the appropriate section.  Change CMIRROR (https:\/\/wiki.archlinux.org\/index.php\/Mirrors and https:\/\/archlinuxarm.org\/about\/mirrors) to desired geographic location to resolve 404 and checksum issues.  /" "${WDIR}setupTermuxArchConfigs.bash"
-		"$ed" "${WDIR}setupTermuxArchConfigs.bash"
+		editor "${WDIR}setupTermuxArchConfigs.bash"
 		. "${WDIR}setupTermuxArchConfigs.bash"
 		_PRINTCONFLOADED_
 	fi
