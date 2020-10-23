@@ -43,6 +43,7 @@ _ADDADDS_() {
 	_ADDkeys_
 	_ADDmakefakeroottcp_
 	_ADDmakeyay_
+	_ADDorcaconf_
 	_ADDpatchmakepkg_
 	_ADDpc_
 	_ADDpci_

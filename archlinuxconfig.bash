@@ -86,30 +86,6 @@ _ADDae_() {
 	chmod 700 root/bin/ae
 }
 
-_ADDresolvconf_() {
-	[ ! -d run/systemd/resolve ] && mkdir -p run/systemd/resolve
-	cat > run/systemd/resolve/resolv.conf <<- EOM
-	nameserver 8.8.8.8
-	nameserver 8.8.4.4
-	EOM
-	_ADDTORESOLVE_() {
-		cat >> etc/resolv.conf <<- EOM
-		nameserver 8.8.8.8
-		nameserver 8.8.4.4
-		EOM
-	}
-	_CHECKRESOLVE_() {
-		if [ -f etc/resolv.conf ]
-		then 
-			if ! grep -q 'nameserver 8.8.8.8' etc/resolv.conf
-			then
-				_ADDTORESOLVE_
-			fi
-		fi
-	}
-	_CHECKRESOLVE_
-}
-
 _ADDbash_logout_() {
 	cat > root/.bash_logout <<- EOM
 	[ ! -f "\$HOME"/.hushlogout ] && [ ! -f "\$HOME"/.chushlogout ] && . /etc/moto
@@ -487,7 +463,7 @@ _ADDgitconfig_() {
 }
 
 _ADDgcl_() {
-	_CFLHDR_ root/bin/gcl "# contributor u/ElectricalUnion"
+	_CFLHDR_ root/bin/gcl "# contributor https://reddit.com/u/ElectricalUnion"
 	cat >> root/bin/gcl <<- EOM
 	if [[ ! -x "\$(command -v git)" ]]
 	then
@@ -724,6 +700,32 @@ _ADDmakeyay_() {
 	chmod 700 root/bin/makeyay
 }
 
+_ADDorcaconf_() {
+	_CFLHDR_ root/bin/orcaconf "# orcaconf contributor https://github.com/JanuszChmiel" "# Reference https://github.com/SDRausty/termux-archlinux/issues/66 Let us expand setupTermuxArch so users can install Orca screen reader (assistive technology) and also have VNC support added easily."
+	cat >> root/bin/orcaconf <<- EOM
+	[ -d \$HOME/bin/lock ] && printf "%s\\\\n" "Already confugured orca: DONE 🏁" && exit
+	[ -f \$HOME/bin/lock/orcaconf.lock ] && printf "%s\\\\n" "Already configured orca: DONE 🏁" && exit
+	nice -n 18 pci espeak-ng mate mate-extra orca pulseaudio-alsa tigervnc vncserver || printf ”%s\\n" "failed" && exit
+	printf ”%s\\n" "export DISPLAY=:0
+		export PULSE_SERVER=127.0.0.1
+		unset DBUS_SESSION_BUS_ADDRESS
+		unset SESSION_MANAGER" >> \$HOME/.profile 
+	[ ! -f \$HOME/bin/lock/orcaconf.lock ] && touch \$HOME/orcaconf.lock
+	# orcaconf EOF
+	EOM
+	chmod 700 root/bin/orcaconf
+	_ADDmateconf_() {
+	_CFLHDR_ root/bin/mateconf "# mateconf contributor https://github.com/JanuszChmiel " "# Reference https://github.com/SDRausty/termux-archlinux/issues/66 Let's expand setupTermuxArch so users can install Orca screen reader (assistive technology) and also have VNC support added easily."
+	cat >> root/bin/mateconf <<- EOM
+		vncserver -kill :0
+		vncserver -extension MIT-SHM -localhost -geometry 1024x768 -depth 24 -name remote-desktop :0 -SecurityTypes=None
+	# mateconf EOF
+	EOM
+	chmod 700 root/bin/mateconf
+	}	
+	_ADDmateconf_
+}
+
 _ADDpatchmakepkg_() {
 	_CFLHDR_ root/bin/patchmakepkg "# patch makepkg"
 	cat >> root/bin/patchmakepkg <<- EOM
@@ -836,6 +838,30 @@ _ADDpci_() {
 _ADDprofile_() {
 	[ -e "$HOME"/.profile ] && ([ -e root/.profile ] && _DOTHRF_ "root/.profile") && (grep -s proxy "$HOME"/.profile | grep -s "export" >> root/.profile) ||:
 	touch root/.profile
+}
+
+_ADDresolvconf_() {
+	[ ! -d run/systemd/resolve ] && mkdir -p run/systemd/resolve
+	cat > run/systemd/resolve/resolv.conf <<- EOM
+	nameserver 8.8.8.8
+	nameserver 8.8.4.4
+	EOM
+	_ADDTORESOLVE_() {
+		cat >> etc/resolv.conf <<- EOM
+		nameserver 8.8.8.8
+		nameserver 8.8.4.4
+		EOM
+	}
+	_CHECKRESOLVE_() {
+		if [ -f etc/resolv.conf ]
+		then 
+			if ! grep -q 'nameserver 8.8.8.8' etc/resolv.conf
+			then
+				_ADDTORESOLVE_
+			fi
+		fi
+	}
+	_CHECKRESOLVE_
 }
 
 _ADDt_() {
@@ -951,7 +977,7 @@ _ADDv_() {
 }
 
 _ADDwe_() {
-	_CFLHDR_ usr/bin/we "# Watch available entropy on device." "# cat /proc/sys/kernel/random/entropy_avail contributor by https://github.com/cb125"
+	_CFLHDR_ usr/bin/we "# Watch available entropy on device." "# cat /proc/sys/kernel/random/entropy_avail contributor https://github.com/cb125"
 	cat >> usr/bin/we <<- EOM
 
 	i=1

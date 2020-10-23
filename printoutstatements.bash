@@ -3,7 +3,7 @@
 # Hosted sdrausty.github.io/TermuxArch courtesy https://pages.github.com
 # https://sdrausty.github.io/TermuxArch/README has info about this project.
 # https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.
-# Printout statement subroutines for `setupTermuxArch`.
+# printout statement subroutines for 'setupTermuxArch'
 ################################################################################
 FLHDR0[0]="#!/usr/bin/env bash"
 FLHDR0[1]="# Copyright 2017-2020 by SDRausty. All rights reserved, see LICENSE 🌎 🌍 🌏"
@@ -11,11 +11,11 @@ FLHDR0[2]="# Hosting sdrausty.github.io/TermuxArch courtesy https://pages.github
 FLHDR0[3]="# https://sdrausty.github.io/TermuxArch/README has info about this project."
 FLHDR0[4]="# https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help."
 FLHDR1[0]="##############################################################################"
-FLHDR1[1]="# IFS=$'\\n\\t'"
+FLHDR1[1]="IFS=$'\\n\\t'"
 FLHDR1[2]="set -Eeuo pipefail"
 FLHDR1[3]="shopt -s nullglob globstar"
 FLHDR1[4]="unset LD_PRELOAD"
-FLHDR1[5]="VERSIONID=2.0.256"
+FLHDR1[5]="VERSIONID=2.0.257"
 FLHDR1[6]=" "
 FLHDRP[0]="## BEGIN #####################################################################"
 FLHDRP[1]=""
@@ -83,7 +83,10 @@ _CFLHDR_() { #	creates BASH script boilerplate, file header and inserts comments
 		printf "%s\\n" "${FLHDR1[@]}" >> "$1"
   	else
 		printf "%s\\n" "${FLHDR0[@]}" > "$1"
-   		printf "%s\\n"  "${@:2}" >> "$1"
+		for LINENUMR in $((${#@}-1))
+		do
+   			printf "%s\\n" "${@:LINENUMR}" >> "$1"
+		done
 		printf "%s\\n" "${FLHDR1[@]}" >> "$1"
   	fi
 	printf "%s\\n" "${TRPERROR[@]}" >> "$1"
@@ -187,7 +190,7 @@ _PRINTMD5ERROR_() {
 
 _PRINTMD5SUCCESS_() {
  	printf "\\e]2;%s\\007" " 🕛 > 🕡 Unpacking $IFILE..."
-	printf "\\e[0;34m 🕛 > 🕕 \\e[1;34mSystem image file download integrity: \\e[1;32mOK\\n\\n\\e[0;34m 🕛 > 🕡 \\e[1;34mUnpacking $IFILE into $INSTALLDIR.  The option to create Arch Linux system users is available through \\e[1;32maddauser.  \\e[1;34mArch Linux user login from Termux with \\e[1;32m$STARTBIN \\e[1;34mis now implemented.  See \\e[0;36mAbility for Scripts to Launch Commands for Arch Linux in Termux PRoot on Device\\e[1;34m https://github.com/sdrausty/TermuxArch/issues/54 for more information about these brand new options.  \\n\\nWhile waiting, you can use \\e[0;36mdf\\e[1;34m, \\e[0;36mdu -hs\\e[1;34m, \\e[0;36mhtop\\e[1;34m, \\e[0;36mps\\e[1;34m, \\e[0;36mtop\\e[1;34m and \\e[0;36mwatch\\e[1;34m in a new Termux session to watch the unpacking while this session completes.  Use \\e[0;36minfo query \\e[1;34mand \\e[0;36mman query \\e[1;34mto learn more about your Linux system in the palm of your hand.  See The Linux Documentation Project http://tldp.org to learn more about Linux and CLI (command line interface) commands.\\n\\nIn order to scroll this screen up to be able to read the output, please long tap until the popup menu shows.  Let go, then scroll up without loosing touch with the screen and without touching the popup menu.  \\e[1;37mUnpacking \\e[37m$IFILE\\e[1;37m will take a long time;  Please be patient  \\e[0m"
+	printf "\\e[0;34m 🕛 > 🕕 \\e[1;34mSystem image file download integrity: \\e[1;32mOK\\n\\n\\e[0;34m 🕛 > 🕡 \\e[1;34mUnpacking $IFILE into $INSTALLDIR.  The option to create Arch Linux system users is available through \\e[1;32maddauser.  \\e[1;34mArch Linux user login from Termux with \\e[1;32m$STARTBIN \\e[1;34mis now implemented.  See \\e[0;36mAbility for Scripts to Launch Commands for Arch Linux in Termux PRoot on Device\\e[1;34m https://github.com/sdrausty/TermuxArch/issues/54 for more information about these brand new options.  \\n\\nWhile waiting, you can use \\e[0;36mdf\\e[1;34m, \\e[0;36mdu -hs\\e[1;34m, \\e[0;36mhtop\\e[1;34m, \\e[0;36mps\\e[1;34m, \\e[0;36mtop\\e[1;34m and \\e[0;36mwatch\\e[1;34m in a new Termux session to watch the unpacking while this session completes.  Use \\e[0;36minfo query \\e[1;34mand \\e[0;36mman query \\e[1;34mto learn more about your Linux system in the palm of your hand.  See The Linux Documentation Project http://tldp.org to learn more about Linux and CLI (command line interface) commands.\\n\\nIn order to scroll this screen down to be able to read the output, long tap until the popup menu shows.  Let go, then scroll down without loosing touch with the screen and without touching the popup menu.  \\e[1;37mUnpacking \\e[37m$IFILE\\e[1;37m will take a long time;  Please be patient  \\e[0m"
 }
 
 _PRINTMISMATCH_() {
