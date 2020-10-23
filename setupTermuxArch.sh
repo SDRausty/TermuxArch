@@ -5,7 +5,7 @@
 # command 'setupTermuxArch h[elp]' has information how to use this file
 ################################################################################
 IFS=$'\n\t'
-VERSIONID=2.0.255
+VERSIONID=2.0.256
 set -Eeuo pipefail
 shopt -s nullglob globstar
 umask 0022
@@ -324,7 +324,10 @@ _DODIRCHK_() {
 				fi
 			done
 		fi
-		if [[ "$DIRCHECK" -eq 1 ]]
+		if [[ -z "${DIRCHECK:-}" ]]
+		then
+			printf "‰s\\n" "Variable DIRCHECK is unbound."
+		elif [[ "$DIRCHECK" -eq 1 ]]
 		then	# delete superfluous tmp dir
 			rm -rf "$INSTALLDIR"/tmp
 			rm -rf "$INSTALLDIR"

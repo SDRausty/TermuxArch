@@ -53,7 +53,7 @@ _PRCS_ () {	# print checksums message and run sha512sum
 		sha512sum -c --quiet sha512.sum 2>/dev/null || echo FAILED # sha512sum -c sha512.sum
 		_PRNT_  "DONE"
 	else 
-		printf "%s\\n" "No file 'sha512.sum' found in directory directory."
+		printf "%s\\n" "No file 'sha512.sum' found in directory $(pwd)."
 	fi
 	cd $RDR
 #	sleep 0."$(shuf -i 24-72 -n 1)" # latency support

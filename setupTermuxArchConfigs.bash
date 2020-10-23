@@ -4,7 +4,7 @@
 # https://sdrausty.github.io/TermuxArch/README has info about this project.
 # https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.
 ################################################################################
-# The architecture of this device is armeabi-v7a; Adjust configurations in the appropriate section.  Change CMIRROR (https://wiki.archlinux.org/index.php/Mirrors and https://archlinuxarm.org/about/mirrors) to desired geographic location to resolve 404 and checksum issues.  
+# The architecture of this device is x86; Adjust configurations in the appropriate section.  Change CMIRROR (https://wiki.archlinux.org/index.php/Mirrors and https://archlinuxarm.org/about/mirrors) to desired geographic location to resolve 404 and checksum issues.  
 # DMVERBOSE="-v" 	##  uncomment for verbose download tool output with curl and wget;  For verbose output throughout runtime change this setting in file 'setupTermuxArch' also.
 # DM=aria2c		##  uncomment to use this download tool
 # DM=axel 		##  uncomment to use this download tool
