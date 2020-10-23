@@ -35,14 +35,31 @@ trap _SGSATRPEXIT_ EXIT
 trap _SGSATRPSIGNAL_ HUP INT TERM
 trap _SGSATRPQUIT_ QUIT
 
+_GSA_() { # git repository update modules
+	(git submodule update $3 --depth 1 --init --recursive --remote "$1") || _PESTRG_ "$1" update # the command ` git submodule help ` and the book https://git-scm.com/book/en/v2/Git-Tools-Submodules have more information about git submodules
+	_PRCS_
+#	sleep 0."$(shuf -i 24-72 -n 1)" # latency support
+}
+
 _PESTRG_() {
 	printf "\\n\\n%s\\n" "Cannot $2 module $1 : Continuing..."
 }
 
-_GSA_() { # git repository update modules
-	(git submodule update $3 --depth 1 --init --recursive --remote "$1") || _PESTRG_ "$1" update # the command ` git submodule help ` and the book https://git-scm.com/book/en/v2/Git-Tools-Submodules have more information about git submodules
-	sleep 0."$(shuf -i 24-72 -n 1)" # latency support
+_PRCS_ () {	# print checksums message and run sha512sum 
+	_PRT_  "Checking checksums in direcory ~/$(pwd) with sha512sum: "
+	sleep 4
+	sha512sum -c --quiet sha512.sum 2>/dev/null || sha512sum -c sha512.sum
+	_PRNT_  "DONE"
 }
+
+_PRT_ () {	# print message with no trialing newline
+	printf "%s" "$1"
+}
+
+_PRNT_ () {	# print message with one trialing newline
+	printf "%s\\n" "$1"
+}
+
 git pull || printf "\\n\\n%s\\n" "Cannot git pull : Continuing..."
 SIAD="$(grep url .git/config|cut -d"=" -f 2|head -n 1|cut -d"/" -f 2-3)"
 OUNA="/shlibs"

@@ -5,7 +5,7 @@
 # command 'setupTermuxArch h[elp]' has information how to use this file
 ################################################################################
 IFS=$'\n\t'
-VERSIONID=2.0.252
+VERSIONID=2.0.253
 set -Eeuo pipefail
 shopt -s nullglob globstar
 umask 0022
@@ -851,7 +851,7 @@ then
 	printf "\\nSetting mode to purge.\\n"
 	_ARG2DIR_ "$@"
 	_RMARCHQ_
-## [q[emu] [customdir]]  Partial Implementation:  Install alternate architecture on smartphone with QEMU.
+## [q[emu] [refresh] [customdir]]  Install alternate architecture on smartphone with QEMU.
 elif [[ "${1//-}" = [Qq]* ]]
 then
 	_PREPTERMUXARCH_
@@ -878,6 +878,13 @@ then
 	printf "\\n\\e[0;32mSetting mode\\e[1;34m: \\e[1;32mminimal refresh\\e[1;34m:\\e[0;32m For a full refresh you can use the \\e[1;32m'%s' \\e[0;32m%s\\e[1;34m...\\n\\e[0m" "${0##*/} refresh" "command"
 	_ARG2DIR_ "$@"
 	_INTROREFRESH_ "$@"
+## [u[nicorn] [refresh] [customdir]]  Partial Implementation:  Install alternate architecture on smartphone with Unicorn.  This option currently defaults to option qemu.
+elif [[ "${1//-}" = [Uu]* ]]
+then
+	_PREPTERMUXARCH_
+	_QEMU_ # this option currently defaults to option qemu
+	_OPT1_ "$@"
+	_INTRO_ "$@"
 ## [wd|ws]  Get device system information with 'wget'.
 elif [[ "${1//-}" = [Ww][Dd]* ]] || [[ "${1//-}" = [Ww][Ss]* ]]
 then
