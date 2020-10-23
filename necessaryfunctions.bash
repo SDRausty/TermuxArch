@@ -409,7 +409,7 @@ _PREPINSTALLDIR_() {
 	cd "$INSTALLDIR"
 	_PREPROOTDIR_
 	_SETLANGUAGE_ 
-	_TASPINNER_ clock & _ADDADDS_ ; kill $!
+	_TASPINNER_ clock & _ADDADDS_ ; kill $! && printf "\\n"
 	_MAKEFINISHSETUP_
 	_MAKESETUPBIN_
 	_MAKESTARTBIN_
@@ -511,7 +511,7 @@ _SETLANGUAGE_() { # This function uses device system settings to set locale.  To
 	then
    		ULANGUAGE="en_US"
  	fi
-	printf "\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\n" "Setting locales to: " "Language " ">> $ULANGUAGE << " "Region" ": Please wait a moment."
+	printf "\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s  " "Setting locales to: " "Language " ">> $ULANGUAGE << " "Region" ": Please wait a moment  "
 }
 
 _SETLOCALE_() { # This function uses device system settings to set locale.  To generate locales in a preferred language you can use "Settings > Language & Keyboard > Language" in Android; Then run 'setupTermuxArch r' for a quick system refresh.
