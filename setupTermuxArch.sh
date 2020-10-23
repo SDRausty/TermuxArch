@@ -4,13 +4,14 @@
 # https://termuxarch.github.io/TermuxArch/CONTRIBUTORS thank you for helping
 # command 'setupTermuxArch h[elp]' has information how to use this file
 ################################################################################
-VERSIONID=2.0.248
 IFS=$'\n\t'
+VERSIONID=2.0.249
 set -Eeuo pipefail
 shopt -s nullglob globstar
 umask 0022
 unset LD_PRELOAD
 ## INIT FUNCTIONS ##############################################################
+## The entire dataset can be viewed and work on with command 'setupTermuxArch bloom' which downloads all the components of TermuxArch into a ~/TermuxArchBloom directory in the home directory.  The command 'setupTermuxArch bloom' is very similar to command 'setupTermuxArch manual' but much more expansive, verbose.  Command 'setupTermuxArch h[elp]' has additional information how to use this file.
 _STRPERROR_() { # run on script error
 	local RV="$?"
 	printf "\\e[?25h\\n\\e[1;48;5;138m %s\\e[0m\\n" "TermuxArch WARNING:  Generated script signal ${RV:-unknown} near or at line number ${1:-unknown} by '${2:-command}'!"
@@ -568,7 +569,7 @@ _QEMU_ () {
 			then
 				exit
 			fi
-			[[ $CPUABI == *arm* ]] || [[ $CPUABI == *86* ]] && printf "%s\\n" "Option ($REPLY architecture $CPUABI) was picked from this list;  The chosen Arch Linux architecture for installation with emulation is $CPUABI:  " && INCOMM="qemu-user-$ARCHITEC" && QEMUCR=0 && break || printf "%s\\n" "Answer ($REPLY) was chosen;  Please select the architecture by number from this list: (1) armeabi, (2) armeabi-v7a, (3) arm64-v8a, (4) x86, (5) x86_64 or choose option (6) exit to exit command '${0##*/}':"
+			[[ $CPUABI == *arm* ]] || [[ $CPUABI == *86* ]] && printf "%s\\n" "Option ($REPLY) with architecture $CPUABI was picked from this list;  The chosen Arch Linux architecture for installation with emulation is $CPUABI:  " && INCOMM="qemu-user-$ARCHITEC" && QEMUCR=0 && break || printf "%s\\n" "Answer ($REPLY) was chosen;  Please select the architecture by number from this list: (1) armeabi, (2) armeabi-v7a, (3) arm64-v8a, (4) x86, (5) x86_64 or choose option (6) exit to exit command '${0##*/}':"
 		done
 	fi
 	if ! command -v "${INCOMM//-user}"
