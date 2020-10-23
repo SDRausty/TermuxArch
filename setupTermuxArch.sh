@@ -4,7 +4,7 @@
 # https://termuxarch.github.io/TermuxArch/CONTRIBUTORS thank you for helping
 # command 'setupTermuxArch h[elp]' has information how to use this file
 ################################################################################
-VERSIONID=2.0.243
+VERSIONID=2.0.244
 IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
@@ -531,6 +531,7 @@ _QEMU_ () {
 	STRING2="Cannot update ~/${0##*/} prerequisite: Continuing..."
 	PKG="$2"
 	_INPKGS_() {
+		printf "%s\\n" "Beginning qemu '$3' setup:"
 		if [ "$COMMANDIF" = au ]
 		then 
 			au "$PKG" || printf "%s\\n" "$STRING2"
@@ -540,7 +541,6 @@ _QEMU_ () {
 	}
 	if ! command -v "$COMMS"
 	then
-		printf "%s\\n" "Beginning qemu '$3' setup:"
 		_INPKGS_
 	fi
 	}
@@ -548,8 +548,8 @@ _QEMU_ () {
 	then	# set installed qemu architecture
 		ARCHITEC="$(ARCTEVAR="$(grep -m1 qemu $INSTALLDIR/$STARTBIN)" && ARCTFVAR=${ARCTEVAR#*qemu-} && cut -d" " -f1 <<< $ARCTFVAR)" && CPUABI="$ARCHITEC" && INCOMM="qemu-user-$ARCHITEC" && QEMUCR=0 
 	else	# user chooses qemu architecture to installed 
-	printf "Setting mode to qemu.  Please select the architecture by number from this list:"
-		select ARCHITECTURE in armeabi armeabi-v7a arm64-v8a x86 x86_64;
+		printf "Setting mode to QEMU;  Please select the architecture to install by number (1-5) from this list:\\n"
+		select ARCHITECTURE in armeabi armeabi-v7a arm64-v8a x86 x86_64 exit;
 		do
 			CPUABI="$ARCHITECTURE" 
 			if [[ "$ARCHITECTURE" == armeabi ]] || [[ "$ARCHITECTURE" == armeabi-v7a ]]
@@ -564,9 +564,11 @@ _QEMU_ () {
 			elif [[ "$ARCHITECTURE" == x86_64 ]] 
 			then
 				ARCHITEC="x86_64" 
+			elif [[ "$ARCHITECTURE" == exit ]] 
+			then
+				exit
 			fi
-			INCOMM="qemu-user-$ARCHITEC"
-			[[ $CPUABI == *arm* ]] || [[ $CPUABI == *86* ]] && printf "%s\\n" "Architecture number $REPLY ($CPUABI) was picked from the list;  The chosen architecture for installation is $CPUABI." && QEMUCR=0 && break || printf "%s\\n" "Please select the architecture by number."
+			[[ $CPUABI == *arm* ]] || [[ $CPUABI == *86* ]] && printf "%s\\n" "Option ($REPLY architecture $CPUABI) was picked from this list;  The chosen Arch Linux architecture for installation with emulation is $CPUABI:  " && INCOMM="qemu-user-$ARCHITEC" && QEMUCR=0 && break || printf "%s\\n" "Answer ($REPLY) was chosen;  Please select the architecture by number from this list: (1) armeabi, (2) armeabi-v7a, (3) arm64-v8a, (4) x86, (5) x86_64 or choose option (6) exit to exit ${0##*/}:"
 		done
 	fi
 	if ! command -v "${INCOMM//-user}"
