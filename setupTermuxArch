@@ -4,7 +4,7 @@
 # https://termuxarch.github.io/TermuxArch/CONTRIBUTORS thank you for helping
 # command 'setupTermuxArch h[elp]' has information how to use this file
 ################################################################################
-VERSIONID=2.0.244
+VERSIONID=2.0.245
 IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
@@ -548,7 +548,7 @@ _QEMU_ () {
 	then	# set installed qemu architecture
 		ARCHITEC="$(ARCTEVAR="$(grep -m1 qemu $INSTALLDIR/$STARTBIN)" && ARCTFVAR=${ARCTEVAR#*qemu-} && cut -d" " -f1 <<< $ARCTFVAR)" && CPUABI="$ARCHITEC" && INCOMM="qemu-user-$ARCHITEC" && QEMUCR=0 
 	else	# user chooses qemu architecture to installed 
-		printf "Setting mode to QEMU;  Please select the architecture to install by number (1-5) from this list:\\n"
+		printf "Command '%s' version %s;  Setting install mode with QEMU emulation;  Please select the architecture to install by number (1-5) from this list:\\n" "${0##*/}" "$VERSIONID"
 		select ARCHITECTURE in armeabi armeabi-v7a arm64-v8a x86 x86_64 exit;
 		do
 			CPUABI="$ARCHITECTURE" 
