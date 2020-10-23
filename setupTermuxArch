@@ -4,7 +4,7 @@
 # https://termuxarch.github.io/TermuxArch/CONTRIBUTORS thank you for helping
 # command 'setupTermuxArch h[elp]' has information how to use this file
 ################################################################################
-VERSIONID=2.0.246
+VERSIONID=2.0.247
 IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
@@ -568,7 +568,7 @@ _QEMU_ () {
 			then
 				exit
 			fi
-			[[ $CPUABI == *arm* ]] || [[ $CPUABI == *86* ]] && printf "%s\\n" "Option ($REPLY architecture $CPUABI) was picked from this list;  The chosen Arch Linux architecture for installation with emulation is $CPUABI:  " && INCOMM="qemu-user-$ARCHITEC" && QEMUCR=0 && break || printf "%s\\n" "Answer ($REPLY) was chosen;  Please select the architecture by number from this list: (1) armeabi, (2) armeabi-v7a, (3) arm64-v8a, (4) x86, (5) x86_64 or choose option (6) exit to exit \\n${0##*/}':"
+			[[ $CPUABI == *arm* ]] || [[ $CPUABI == *86* ]] && printf "%s\\n" "Option ($REPLY architecture $CPUABI) was picked from this list;  The chosen Arch Linux architecture for installation with emulation is $CPUABI:  " && INCOMM="qemu-user-$ARCHITEC" && QEMUCR=0 && break || printf "%s\\n" "Answer ($REPLY) was chosen;  Please select the architecture by number from this list: (1) armeabi, (2) armeabi-v7a, (3) arm64-v8a, (4) x86, (5) x86_64 or choose option (6) exit to exit command '${0##*/}':"
 		done
 	fi
 	if ! command -v "${INCOMM//-user}"
