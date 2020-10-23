@@ -63,7 +63,7 @@ _FUNLCR2_() { # copy from root to home/USER
 
 _LOADIMAGE_() {
 	_NAMESTARTARCH_
-	_SPACEINFO_
+#	_SPACEINFO_
 	printf "\\n"
 	_WAKELOCK_
 	_PREPINSTALLDIR_
@@ -105,7 +105,7 @@ _FIXOWNER_() { # fix owner of INSTALLDIR/home/USER, PR9 by @petkar
 _REFRESHSYS_() { # refresh installation
 	printf '\033]2; setupTermuxArch refresh 📲 \007'
 	_NAMESTARTARCH_
-	_SPACEINFO_
+#	_SPACEINFO_
 	cd "$INSTALLDIR"
 	_SETLANGUAGE_
 	_PREPROOTDIR_ || _PSGI1ESTRING_ "_PREPROOTDIR_ _REFRESHSYS_ maintenanceroutines.bash ${0##*/}"
@@ -250,7 +250,7 @@ _SPACEINFOKSIZE_() {
 
 _SYSINFO_() {
 	_NAMESTARTARCH_
-	_SPACEINFO_
+#	_SPACEINFO_
 	printf "\\n\\e[1;32mGenerating TermuxArch system information; Please wait...\\n\\n"
 	_SYSTEMINFO_ ## & spinner "Generating" "System Information..."
 	printf "\\e[38;5;76m"

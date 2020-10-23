@@ -5,7 +5,7 @@
 # command 'setupTermuxArch h[elp]' has information how to use this file
 ################################################################################
 IFS=$'\n\t'
-VERSIONID=2.0.251
+VERSIONID=2.0.252
 set -Eeuo pipefail
 shopt -s nullglob globstar
 umask 0022
@@ -305,8 +305,7 @@ _INTROSYSINFO_() {
 	_SYSINFO_ "$@"
 }
 
-_INTROREFRESH_() {
-	printf '\033]2;  bash setupTermuxArch refresh 📲 \007'
+_DODIRCHK_() {
 	_SETROOT_EXCEPTION_
 	if [[ ! -d "$INSTALLDIR" ]] || [[ ! -d "$INSTALLDIR"/root/bin ]] || [[ ! -d "$INSTALLDIR"/var/binds ]] || [[ ! -f "$INSTALLDIR"/bin/we ]] || [[ ! -f "$INSTALLDIR"/usr/bin/env ]]
 	then
@@ -320,6 +319,8 @@ _INTROREFRESH_() {
 				if [[ ! -d "$INSTALLDIR/$IDIRNAME" ]]
 				then
 					DIRCHECK=1
+				else
+					DIRCHECK=0
 				fi
 			done
 		fi
@@ -331,6 +332,12 @@ _INTROREFRESH_() {
 		exit 204
 	fi
 	printf "\\n\\e[0;34m 🕛 > 🕛 \\e[1;34mＴｅｒｍｕｘＡｒｃｈ $VERSIONID will refresh your TermuxArch files in \\e[0;32m~/${INSTALLDIR##*/}\\e[1;34m.  Ensure background data is not restricted.  Run \\e[0;32mbash ${0##*/} help \\e[1;34mfor additional information.  Check the wireless connection if you do not see one o'clock 🕐 below.  "
+}
+
+_INTROREFRESH_() {
+	printf '\033]2;  bash setupTermuxArch refresh 📲 \007'
+	_QEMUCFCK_
+	_DODIRCHK_
 	_DEPENDSBLOCK_ "$@"
 	_REFRESHSYS_ "$@"
 }
@@ -523,6 +530,13 @@ _PSGI1ESTRING_() {	# print signal generated in arg 1 format
 	printf "\\e[1;33mSIGNAL GENERATED in %s\\e[1;34m : \\e[1;32mCONTINUING...  \\e[0;34mExecuting \\e[0;32m%s\\e[0;34m in the native shell once the installation and configuration process completes will attempt to finish the autoconfiguration and installation if the installation and configuration processes were not completely successful.  Should better solutions for \\e[0;32m%s\\e[0;34m be found, please open an issue and accompanying pull request if possible.\\nThe entire script can be reviewed by creating a \\e[0;32m%s\\e[0;34m directory with the command \\e[0;32m%s\\e[0;34m which can be used to access the entire installation script.  This option does NOT configure and install the root file system.  This command transfers the entire script into the home directory for hacking, modification and review.  The command \\e[0;32m%s\\e[0;34m has more information about how to use use \\e[0;32m%s\\e[0;34m in an effective way.\\e[0;32m%s\\e[0m\\n" "'$1'" "'bash ${0##*/} refresh'" "'${0##*/}'" "'~/TermuxArchBloom/'" "'setupTermuxArch b'" "'setupTermuxArch help'" "'${0##*/}'"
 }
 
+_QEMUCFCK_() {
+if [[ -f "$INSTALLDIR/$STARTBIN" ]] && grep -q qemu- "$INSTALLDIR/$STARTBIN"
+then	# set installed qemu architecture
+	ARCHITEC="$(ARCTEVAR="$(grep -m1 qemu $INSTALLDIR/$STARTBIN)" && ARCTFVAR=${ARCTEVAR#*qemu-} && cut -d" " -f1 <<< $ARCTFVAR)" && CPUABI="$ARCHITEC" && INCOMM="qemu-user-$ARCHITEC" && QEMUCR=0 
+fi
+}
+
 _QEMU_ () {
 	_INST_() { # checks for neccessary commands
 	COMMS="$1"
@@ -545,12 +559,12 @@ _QEMU_ () {
 		_INPKGS_
 	fi
 	}
-	if [[ -f "$INSTALLDIR/$STARTBIN" ]] && grep -q qemu- "$INSTALLDIR/$STARTBIN"
-	then	# set installed qemu architecture
-		ARCHITEC="$(ARCTEVAR="$(grep -m1 qemu $INSTALLDIR/$STARTBIN)" && ARCTFVAR=${ARCTEVAR#*qemu-} && cut -d" " -f1 <<< $ARCTFVAR)" && CPUABI="$ARCHITEC" && INCOMM="qemu-user-$ARCHITEC" && QEMUCR=0 
-	else	# user chooses qemu architecture to installed 
-		printf "Command '%s' version %s;  Setting install mode with QEMU emulation;  Please select the architecture to install by number (1-5) from this list:\\n" "${0##*/}" "$VERSIONID"
-		select ARCHITECTURE in armeabi armeabi-v7a arm64-v8a x86 x86_64 exit;
+	_QEMUCFCK_
+	# user chooses qemu architecture to installed 
+	printf "Command '%s' version %s;  Setting install mode with QEMU emulation;  Please select the architecture to install by number (1-5) from this list:\\n" "${0##*/}" "$VERSIONID"
+	if [[ -z "${ARCHITEC:-}" ]]
+	then
+	select ARCHITECTURE in armeabi armeabi-v7a arm64-v8a x86 x86_64 exit;
 		do
 			CPUABI="$ARCHITECTURE" 
 			if [[ "$ARCHITECTURE" == armeabi ]] || [[ "$ARCHITECTURE" == armeabi-v7a ]]
