@@ -66,7 +66,7 @@ _GETIMAGE_ || FRV="$?" && ([[ $FRV = 3 ]] || [[ $FRV = 22 ]]) && _PSGI1ESTRING_ 
 else
 if [[ "$CMIRROR" = "os.archlinuxarm.org" ]] || [[ "$CMIRROR" = "mirror.archlinuxarm.org" ]]
 then
-until _FTCHSTND_ || FRV="$?" && [[ -z "${FRV:-}" ]] && break || ([[ $FRV = 3 ]] || [[ $FRV = 22 ]]) && _PSGI1ESTRING_ "FRV=$FRV until _FTCHSTND_ necessaryfunctions.bash ${0##}" && break
+until _FTCHSTND_ || FRV="$?" && ([[ $FRV = 3 ]] || [[ $FRV = 22 ]]) && _PSGI1ESTRING_ "FRV=$FRV until _FTCHSTND_ necessaryfunctions.bash ${0##}" && break || break
 do
 _FTCHSTND_
 sleep 2
