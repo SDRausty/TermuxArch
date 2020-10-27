@@ -532,7 +532,7 @@ _ADDkeys_() {
 # insert customized commands for Arch Linux 32
 if [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = i386 ]]
 then
-X86INT="gpg --keyserver keyserver.ubuntu.com --recv-keys 0x194e37a47a4c671807bacb37b1117bc1094ea6e9 ; curl -OL http://archive.archlinux32.org/packages/p/pacman/pacman-5.2.1-1.4-i686.pkg.tar.xz ; pacman -U pacman-5.2.1-1.4-i686.pkg.tar.xz --noconfirm || printf '\\npacman -U did not succeed : continuing...\\n'"
+X86INT="(gpg --keyserver keyserver.ubuntu.com --recv-keys 0x194e37a47a4c671807bacb37b1117bc1094ea6e9 || gpg --keyserver hkp://pgp.mit.edu:11371 --recv-keys 0x194e37a47a4c671807bacb37b1117bc1094ea6e9 || gpg --keyserver hkps://hkps.pool.sks-keyservers.net --recv-keys 0x194e37a47a4c671807bacb37b1117bc1094ea6e9) ; curl -OL http://archive.archlinux32.org/packages/p/pacman/pacman-5.2.1-1.4-i686.pkg.tar.xz ; pacman -U pacman-5.2.1-1.4-i686.pkg.tar.xz --noconfirm || printf '\\npacman -U did not succeed : continuing...\\n'"
 else
 X86INT=":"
 fi
@@ -904,7 +904,7 @@ chmod 700 root/bin/th"$STARTBIN"
 }
 
 _ADDtools_() {	# developing implementaion : working system tools that work can be added to array PRFXTOLS
-[[ -z "${EDO01LCR:-}" ]] && PRFXTOLS=(getprop termux-change-repo termux-info termux-open termux-open-url termux-wake-lock termux-wake-unlock termux-wake-lock termux-wake-unlock top) || [[ $EDO01LCR = 0 ]] && PRFXTOLS=(am dpkg getprop mkfifo termux-change-repo termux-info termux-open termux-open-url termux-wake-lock termux-wake-unlock top)
+[[ -z "${EDO01LCR:-}" ]] && PRFXTOLS=(getprop ping termux-change-repo termux-info termux-open termux-open-url termux-wake-lock termux-wake-unlock termux-wake-lock termux-wake-unlock top) || [[ $EDO01LCR = 0 ]] && PRFXTOLS=(am dpkg getprop ping mkfifo termux-change-repo termux-info termux-open termux-open-url termux-wake-lock termux-wake-unlock top)
 #  	PRFXTOLS=(am getprop toolbox toybox)
 for STOOL in ${PRFXTOLS[@]}
 do
