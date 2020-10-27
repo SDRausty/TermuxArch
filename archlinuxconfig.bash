@@ -529,6 +529,12 @@ EOM
 }
 
 _ADDkeys_() {
+if [[ "$CPUABI" = "$CPUABIX86" ]]
+then
+X86INT="gpg --keyserver keyserver.ubuntu.com --recv-keys 0x194e37a47a4c671807bacb37b1117bc1094ea6e9"
+else
+X86INT=""
+fi
 _CFLHDR_ root/bin/keys
 cat >> root/bin/keys <<- EOM
 declare -a KEYRINGS
@@ -585,6 +591,7 @@ printf "\\\\n\\\\e[1;32m[1/2] \\\\e[0;34mWhen \\\\e[0;37mgpg: Generating pacman 
 pacman-key --init || sudo pacman-key --init ||:
 chmod 700 /etc/pacman.d/gnupg
 pacman-key --populate || sudo pacman-key --populate ||:
+$X86INT
 printf "\\\\n\\\\e[1;32m==>\\\\e[0m Running \\\\e[1mpacman -S %s --noconfirm --color=always\\\\e[0;32m...\\\\n" "\$ARGS"
 pacman -S "\${KEYRINGS[@]}" --noconfirm --color=always || sudo pacman -S "\${KEYRINGS[@]}" --noconfirm --color=always ||:
 printf "\\\\n\\\\e[1;32m[2/2] \\\\e[0;34mWhen \\\\e[1;37mAppending keys from archlinux.gpg\\\\e[0;34m appears on the screen, the installation process can be accelerated.  The system desires a lot of entropy at this part of the install procedure.  To generate as much entropy as possible quickly, watch and listen to a file on your device.  \\\\n\\\\nThe program \\\\e[1;32mpacman-key\\\\e[0;34m will want as much entropy as possible when generating keys.  Entropy is also created through tapping, sliding, one, two and more fingers tapping with short and long taps.  When \\\\e[1;37mAppending keys from archlinux.gpg\\\\e[0;34m appears on the screen, use any of these simple methods to accelerate the installation process if it is stalled.  Put even simpler, just do something on device.  Browsing files will create entropy on device.  Slowly swiveling the device in space and time will accelerate the installation process.  This method alone might not generate enough entropy (a measure of randomness in a closed system) for the process to complete quickly.  Use \\\\e[1;32mbash ~%s/bin/we \\\\e[0;34min a new Termux session to watch entropy on device.\\\\n\\\\n\\\\e[1;32m==>\\\\e[0m Running \\\\e[1mpacman-key --populate\\\\e[0;32m...\\\\n" "$DARCH"

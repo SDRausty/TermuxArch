@@ -5,7 +5,7 @@
 # command 'setupTermuxArch h[elp]' has information how to use this file
 ################################################################################
 IFS=$'\n\t'
-VERSIONID=2.0.260
+VERSIONID=2.0.261
 set -Eeuo pipefail
 shopt -s nullglob globstar
 umask 0022
@@ -559,7 +559,7 @@ _QEMUCFCK_() {
 if [[ -f "$INSTALLDIR/$STARTBIN" ]] && grep -q qemu- "$INSTALLDIR/$STARTBIN"
 then	# set installed qemu architecture
 ARCHITEC="$(ARCTEVAR="$(grep -m1 qemu $INSTALLDIR/$STARTBIN)" && ARCTFVAR=${ARCTEVAR#*qemu-} && cut -d" " -f1 <<< $ARCTFVAR)" && CPUABI="$ARCHITEC" && INCOMM="qemu-user-$ARCHITEC" && QEMUCR=0
-printf "Detected architecture is %s;  Install architecture is set to %s\\n" "$CPUABI" "$ARCHITEC"
+printf "Detected architecture is %s;  Install architecture is set to %s.\\n" "$CPUABI" "$ARCHITEC"
 fi
 }
 _QEMUCFCK_
@@ -854,7 +854,7 @@ then
 printf "\\nSetting mode to purge.\\n"
 _ARG2DIR_ "$@"
 _RMARCHQ_
-## [q[emu] [refresh] [customdir]]  Install alternate architecture on smartphone with QEMU.
+## [q[emu] [refresh] [customdir]]  Install alternate architecture on smartphone with https://github.com/qemu/QEMU.
 elif [[ "${1//-}" = [Qq]* ]]
 then
 _PREPTERMUXARCH_
@@ -881,7 +881,7 @@ LCR="1"
 printf "\\n\\e[0;32mSetting mode\\e[1;34m: \\e[1;32mminimal refresh\\e[1;34m:\\e[0;32m For a full refresh you can use the \\e[1;32m'%s' \\e[0;32m%s\\e[1;34m...\\n\\e[0m" "${0##*/} refresh" "command"
 _ARG2DIR_ "$@"
 _INTROREFRESH_ "$@"
-## [u[nicorn] [refresh] [customdir]]  Partial Implementation:  Install alternate architecture on smartphone with Unicorn.  This option currently defaults to option qemu.
+## [u[nicorn] [refresh] [customdir]]  Partial Implementation:  Install alternate architecture on smartphone with https://github.com/unicorn-engine/Unicorn.  This option currently defaults to option qemu.
 elif [[ "${1//-}" = [Uu]* ]]
 then
 _PREPTERMUXARCH_

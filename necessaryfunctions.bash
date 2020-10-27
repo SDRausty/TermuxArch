@@ -202,6 +202,8 @@ if locale-gen
 then
 :
 else
+gpg --keyserver keyserver.ubuntu.com --recv-keys 0x194e37a47a4c671807bacb37b1117bc1094ea6e9
+pacman -S pacman
 _DOKEYS_
 pacman -Sy grep gzip sed sudo --noconfirm --color=always
 locale-gen
@@ -410,7 +412,7 @@ _PREPINSTALLDIR_() {
 cd "$INSTALLDIR"
 _PREPROOTDIR_
 _SETLANGUAGE_
-_TASPINNER_ clock & _ADDADDS_ ; kill $!
+_ADDADDS_
 _MAKEFINISHSETUP_
 _MAKESETUPBIN_
 _MAKESTARTBIN_
@@ -512,7 +514,7 @@ if [[ "$ULANGUAGE" != *_* ]]
 then
 ULANGUAGE="en_US"
 fi
-printf "\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s  " "Setting locales to: " "Language " ">> $ULANGUAGE << " "Region" ": Please wait a moment  "
+printf "\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\n" "Setting locales to: " "Language " ">> $ULANGUAGE << " "Region" ": Please wait a moment."
 }
 
 _SETLOCALE_() { # This function uses device system settings to set locale.  To generate locales in a preferred language you can use "Settings > Language & Keyboard > Language" in Android; Then run 'setupTermuxArch r' for a quick system refresh.
