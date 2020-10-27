@@ -568,7 +568,7 @@ printf '\033]2;  🔑 TermuxArch %s:DONE 📱 \007' "\${0##*/}"
 trap _TRPET_ EXIT
 ## keys begin ##################################################################
 _PRTERROR_() {
-print "%s\\n" "ERROR : Please run '\${0##*/} \$ARGS' again."
+printf "%s\\n" "ERROR : Please run '\${0##*/} \$ARGS' again."
 }
 if [[ -z "\${1:-}" ]]
 then
