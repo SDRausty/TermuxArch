@@ -532,7 +532,7 @@ _ADDkeys_() {
 # insert customized commands for Arch Linux 32
 if [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = i386 ]]
 then
-X86INT="(gpg --gpgdir /etc/pacman.d/gnupg --keyserver keyserver.ubuntu.com --recv-keys 0x194e37a47a4c671807bacb37b1117bc1094ea6e9 || gpg  --gpgdir /etc/pacman.d/gnupg --keyserver hkp://pgp.mit.edu:11371 --recv-keys 0x194e37a47a4c671807bacb37b1117bc1094ea6e9 || gpg --gpgdir /etc/pacman.d/gnupg --keyserver hkps://hkps.pool.sks-keyservers.net --recv-keys 0x194e37a47a4c671807bacb37b1117bc1094ea6e9) ; curl -OL http://archive.archlinux32.org/packages/p/pacman/pacman-5.2.1-1.4-i686.pkg.tar.xz ; pacman -U pacman-5.2.1-1.4-i686.pkg.tar.xz --noconfirm || printf '\\npacman -U did not succeed : continuing...\\n'"
+X86INT="(gpg --homedir /etc/pacman.d/gnupg --keyserver keyserver.ubuntu.com --recv-keys 0x194e37a47a4c671807bacb37b1117bc1094ea6e9 || gpg  --homedir /etc/pacman.d/gnupg --keyserver hkp://pgp.mit.edu:11371 --recv-keys 0x194e37a47a4c671807bacb37b1117bc1094ea6e9 || gpg --homedir /etc/pacman.d/gnupg --keyserver hkps://hkps.pool.sks-keyservers.net --recv-keys 0x194e37a47a4c671807bacb37b1117bc1094ea6e9 || printf '\\nThe command 'gpg' did not succeed : continuing...\\n') ; curl -OL http://archive.archlinux32.org/packages/p/pacman/pacman-5.2.1-1.4-i686.pkg.tar.xz ; pacman -U pacman-5.2.1-1.4-i686.pkg.tar.xz --noconfirm || printf '\\nThe command 'pacman -U pacman-5.2.1-1.4-i686.pkg.tar.xz --noconfirm' did not succeed : continuing...\\n'"
 else
 X86INT=":"
 fi
