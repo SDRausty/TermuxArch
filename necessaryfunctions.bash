@@ -387,6 +387,7 @@ _TOUCHUPSYS_
 }
 
 _MD5CHECK_() {
+_PRINTMD5CHECK_
 if md5sum -c "$IFILE".md5 1>/dev/null
 then
 _PRINTMD5SUCCESS_
