@@ -60,13 +60,13 @@ _DOMODdotfiles_
 
 _CALLSYSTEM_() {
 declare COUNTER=""
-if [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = "$CPUABIX86_64" ]]
+if [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = "$CPUABIX86_64" ]] || [[ "$CPUABI" = i386 ]]
 then
-_GETIMAGE_ || FRV="$?" && ([[ $FRV = 3 ]] || [[ $FRV = 22 ]]) && _PSGI1ESTRING_ "FRV=$FRV until _FTCHSTND_ necessaryfunctions.bash ${0##}"
+_GETIMAGE_ ||:
 else
 if [[ "$CMIRROR" = "os.archlinuxarm.org" ]] || [[ "$CMIRROR" = "mirror.archlinuxarm.org" ]]
 then
-until _FTCHSTND_ || FRV="$?" && ([[ $FRV = 3 ]] || [[ $FRV = 22 ]]) && _PSGI1ESTRING_ "FRV=$FRV until _FTCHSTND_ necessaryfunctions.bash ${0##}" && break || break
+until _FTCHSTND_ ||:
 do
 _FTCHSTND_
 sleep 2
@@ -106,7 +106,7 @@ _DETECTSYSTEM7_
 elif [[ "$CPUABI" = "$CPUABI8" ]]
 then
 _DETECTSYSTEM64_
-elif [[ "$CPUABI" = "$CPUABIX86" ]]
+elif [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = i386 ]]
 then
 _I686_
 elif [[ "$CPUABI" = "$CPUABIX86_64" ]]
@@ -184,7 +184,7 @@ _DOPROXY_() {
 _MAKEFINISHSETUP_() {
 _CFLHDR_ "root/bin/$BINFNSTP"
 _DOKEYS_() {
-if [[ "$CPUABI" = "$CPUABIX86" ]]
+if [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = i386 ]]
 then
 printf "/root/bin/keys x86\\n" >> root/bin/"$BINFNSTP"
 elif [[ "$CPUABI" = "$CPUABIX86_64" ]]
@@ -230,7 +230,7 @@ elif [[ "$CPUABI" = "$CPUABI8" ]]
 then
 printf "%s\\n" "pacman -Rc linux-aarch64 linux-firmware --noconfirm --color=always || _PMFSESTRING_ \"pacman -Rc linux-aarch64 linux-firmware $BINFNSTP ${0##/*}\"" >> root/bin/"$BINFNSTP"
 fi
-if [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = "$CPUABIX86_64" ]]
+if [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = "$CPUABIX86_64" ]] || [[ "$CPUABI" = i386 ]]
 then
 printf "%s\\n" "pacman -Su grep gzip patch sed sudo unzip --noconfirm --color=always || pacman -Su gzip patch sed sudo unzip --noconfirm --color=always || _PMFSESTRING_ \"pacman -Su gzip patch sed sudo unzip $BINFNSTP ${0##/*}\"" >> root/bin/"$BINFNSTP"
 else
@@ -375,7 +375,6 @@ chmod 700 "$STARTBIN"
 _MAKESYSTEM_() {
 _WAKELOCK_
 _CALLSYSTEM_
-_PRINTMD5CHECK_
 _DOMAKESYSTEM_() {
 _MD5CHECK_
 _PRINTCU_
@@ -392,7 +391,7 @@ if md5sum -c "$IFILE".md5 1>/dev/null
 then
 _PRINTMD5SUCCESS_
 printf "\\e[0;32m"
-_PREPROOT_ ## & spinner "Unpacking" "$IFILE..."
+_PREPROOT_
 else
 rm -f "$INSTALLDIR"/*.tar.gz "$INSTALLDIR"/*.tar.gz.md5
 _PRINTMD5ERROR_
@@ -421,7 +420,7 @@ _FIXOWNER_
 }
 
 _PREPROOT_() {
-if [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = "$CPUABIX86_64" ]]
+if [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = "$CPUABIX86_64" ]] || [[ "$CPUABI" = i386 ]]
 then
 proot --link2symlink -0 bsdtar -x -p -f "$IFILE" --strip-components 1
 else
@@ -433,7 +432,7 @@ _RUNFINISHSETUP_() {
 _ADDresolvconf_
 ALMLLOCN="$INSTALLDIR/etc/pacman.d/mirrorlist"
 cp "$ALMLLOCN" "$INSTALLDIR/var/backups/${INSTALLDIR##*/}/etc/mirrorlist.$SDATE.bkp" || _PSGI1ESTRING_ "cp _RUNFINISHSETUP_ necessaryfunctions.bash ${0##*/}"
-if [[ "$CPUABI" = "$CPUABIX86" ]]
+if [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = i386 ]]
 then
 AL32MRLT="https://git.archlinux32.org/packages/plain/core/pacman-mirrorlist/mirrorlist"
 printf "\\e[0m\\n%s\\n" "Updating ${ALMLLOCN##*/} from $AL32MRLT."

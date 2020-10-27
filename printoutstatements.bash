@@ -15,7 +15,7 @@ FLHDR1[1]="IFS=$'\\n\\t'"
 FLHDR1[2]="set -Eeuo pipefail"
 FLHDR1[3]="shopt -s nullglob globstar"
 FLHDR1[4]="unset LD_PRELOAD"
-FLHDR1[5]="VERSIONID=2.0.268"
+FLHDR1[5]="VERSIONID=2.0.269"
 FLHDR1[6]=" "
 FLHDRP[0]="## BEGIN #####################################################################"
 FLHDRP[1]=""
@@ -190,7 +190,7 @@ exit
 
 _PRINTMD5SUCCESS_() {
 printf "\\e]2;%s\\007" " 🕛 > 🕡 Unpacking $IFILE..."
-printf "\\n\\e[0;34m 🕛 > 🕕 \\e[1;34mSystem image file download integrity: \\e[1;32mOK\\n\\n\\e[0;34m 🕛 > 🕡 \\e[1;34mUnpacking $IFILE into $INSTALLDIR.  The option to create Arch Linux system users is available through \\e[1;32maddauser.  \\e[1;34mArch Linux user login from Termux with \\e[1;32m$STARTBIN \\e[1;34mis now implemented.  See \\e[0;36mAbility for Scripts to Launch Commands for Arch Linux in Termux PRoot on Device\\e[1;34m https://github.com/sdrausty/TermuxArch/issues/54 for more information about these brand new options.  \\n\\nWhile waiting, you can use \\e[0;36mdf\\e[1;34m, \\e[0;36mdu -hs\\e[1;34m, \\e[0;36mhtop\\e[1;34m, \\e[0;36mps\\e[1;34m, \\e[0;36mtop\\e[1;34m and \\e[0;36mwatch\\e[1;34m in a new Termux session to watch the unpacking while this session completes.  Use \\e[0;36minfo query \\e[1;34mand \\e[0;36mman query \\e[1;34mto learn more about your Linux system in the palm of your hand.  See The Linux Documentation Project http://tldp.org to learn more about Linux and CLI (command line interface) commands.\\n\\nIn order to scroll this screen down to be able to read the output, long tap until the popup menu shows.  Let go, then scroll down without loosing touch with the screen and without touching the popup menu.  \\e[1;37mUnpacking \\e[37m$IFILE\\e[1;37m will take a long time;  Please be patient   \\e[0m"
+printf "\\n\\n\\e[0;34m 🕛 > 🕕 \\e[1;34mSystem image file download integrity: \\e[1;32mOK\\n\\n\\e[0;34m 🕛 > 🕡 \\e[1;34mUnpacking %s into %s.  The option to create Arch Linux system users is available through \\e[1;32maddauser.  \\e[1;34mArch Linux user login from Termux with \\e[1;32m%s\\e[1;34mis now implemented.  See \\e[0;36mAbility for Scripts to Launch Commands for Arch Linux in Termux PRoot on Device\\e[1;34m https://github.com/sdrausty/TermuxArch/issues/54 for more information about these brand new options.  \\n\\nWhile waiting, you can use \\e[0;36mdf\\e[1;34m, \\e[0;36mdu -hs\\e[1;34m, \\e[0;36mhtop\\e[1;34m, \\e[0;36mps\\e[1;34m, \\e[0;36mtop\\e[1;34m and \\e[0;36mwatch\\e[1;34m in a new Termux session to watch the unpacking while this session completes.  Use \\e[0;36minfo query \\e[1;34mand \\e[0;36mman query \\e[1;34mto learn more about your Linux system in the palm of your hand.  See The Linux Documentation Project http://tldp.org to learn more about Linux and CLI (command line interface) commands.\\n\\nIn order to scroll this screen down to be able to read the output, long tap until the popup menu shows.  Let go, then scroll down without loosing touch with the screen and without touching the popup menu.  \\e[1;37mUnpacking \\e[37m\\e[1;37m will take a long time;  Please be patient   \\e[0m" "$IFILE" "$INSTALLDIR" "$STARTBIN " "$IFILE"
 }
 
 _PRINTMISMATCH_() {
@@ -218,7 +218,7 @@ _PRTX8664_() {
 printf "\\e[1;34m%s\\e[0m\\n\\n" "The website https://bbs.archlinux.org/ has Arch Linux discussion forums for the Arch Linux project.  The webpage https://wiki.archlinux.org/index.php/IRC_channel lists available Arch Linux IRC channels regarding the Arch Linux $CPUABI computer architecture."
 }
 printf "\\e[1;34m%s\\n\\n%s\\e[1;32m%s\\e[1;34m%s\\e[1;32m%s" "Arch Linux in Termux PRoot is installed in $INSTALLDIR.  This project is in active development.  Contributions to this project are welcome; See https://sdrausty.github.io/TermuxArch/CONTRIBUTORS for information.  The documentation repository for TermuxArch https://sdrausty.github.io/TermuxArch/docs/ is a TermuxArch module that is located at https://github.com/sdrausty/docsTermuxArch.  Pull requests and contributions through the issues pages are open to improve the ux (user experience) and this Termux PRoot installation script. " "Use " "~$PRINTROOTDIR/$STARTBIN " "and " "$STARTBIN " "in a BASH shell to launch Arch Linux in Termux PRoot for future sessions.  If you are new to *nix, http://tldp.org has *nix documentation.  "
-if [[ "$CPUABI" = "$CPUABIX86" ]]
+if [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = i386 ]]
 then
 _PRTX86_
 elif [[ "$CPUABI" = "$CPUABIX86_64" ]]

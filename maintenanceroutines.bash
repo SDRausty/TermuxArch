@@ -159,7 +159,7 @@ fi
 
 _SPACEINFOGSIZE_() {
 _USERSPACE_
-if [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = "$CPUABIX86_64" ]]
+if [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = "$CPUABIX86_64" ]] || [[ "$CPUABI" = i386 ]]
 then
 if [[ "$USRSPACE" = *G ]]
 then
@@ -217,7 +217,7 @@ SPACEMESSAGE="\\n\\e[0;33mTermuxArch: \\e[1;33mFREE SPACE WARNING!  \\e[1;30mSta
 else
 SPACEMESSAGE=""
 fi
-elif [[ "$CPUABI" = "$CPUABIX86_64" ]]
+elif [[ "$CPUABI" = "$CPUABIX86_64" ]] || [[ "$CPUABI" = i386 ]]
 then
 if [[ "$USRSPACE" -lt "800000" ]]
 then
