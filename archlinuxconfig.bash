@@ -529,9 +529,10 @@ EOM
 }
 
 _ADDkeys_() {
-if [[ "$CPUABI" = "$CPUABIX86" ]]
+# insert customized commands for Arch Linux 32
+if [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = i386 ]]
 then
-X86INT="gpg --keyserver keyserver.ubuntu.com --recv-keys 0x194e37a47a4c671807bacb37b1117bc1094ea6e9"
+X86INT="whoami ; curl -OL http://archive.archlinux32.org/packages/p/pacman/pacman-5.2.1-1.4-i686.pkg.tar.xz ; pacman -U pacman-5.2.1-1.4-i686.pkg.tar.xz ; rm -f pacman-5.2.1-1.4-i686.pkg.tar.xz ; gpg --keyserver keyserver.ubuntu.com --recv-keys 0x194e37a47a4c671807bacb37b1117bc1094ea6e9 ; whoami"
 else
 X86INT=":"
 fi
@@ -565,11 +566,12 @@ printf "\\\\n\\\\e[0;32m%s %s %s\\\\e[1;34m: \\\\e[1;32m%s\\\\e[0m 🏁  \\\\n\\
 printf '\033]2;  🔑 TermuxArch %s:DONE 📱 \007' "\${0##*/}"
 }
 
+_PRTERROR_() {
+printf "\\e[1;31mERROR :\\e[1;37m%s\\e[0m\\n" " Please run '\${0##*/} \$ARGS' again."
+}
+
 trap _TRPET_ EXIT
 ## keys begin ##################################################################
-_PRTERROR_() {
-printf "%s\\n" "ERROR : Please run '\${0##*/} \$ARGS' again."
-}
 if [[ -z "\${1:-}" ]]
 then
 KEYRINGS[0]="archlinux-keyring"
