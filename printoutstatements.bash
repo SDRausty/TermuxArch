@@ -15,7 +15,7 @@ FLHDR1[1]="IFS=$'\\n\\t'"
 FLHDR1[2]="set -Eeuo pipefail"
 FLHDR1[3]="shopt -s nullglob globstar"
 FLHDR1[4]="unset LD_PRELOAD"
-FLHDR1[5]="VERSIONID=2.0.257"
+FLHDR1[5]="VERSIONID=2.0.258"
 FLHDR1[6]=" "
 FLHDRP[0]="## BEGIN #####################################################################"
 FLHDRP[1]=""
@@ -179,7 +179,7 @@ _PRINTMAX_() {
 }
 
 _PRINTMD5CHECK_() {
-	printf "\\n\\e[0;34m 🕛 > 🕠 \\e[1;34mChecking download integrity with md5sum.  \\e[37;1mThis may take a little while...\\n\\n\\e[1;33m"
+	printf "\\n\\e[0;34m 🕛 > 🕠 \\e[1;34mChecking download integrity with md5sum.  \\e[37;1mThis may take a little while  \\e[1;33m"
 }
 
 _PRINTMD5ERROR_() {
@@ -195,7 +195,7 @@ _PRINTMD5SUCCESS_() {
 
 _PRINTMISMATCH_() {
 	printf "\033]2;%s\007" "Run 'bash ${0##*/}' again..."
-	printf "\\n\\e[07;1m\\e[31;1m 🔆 WARNING: Unknown configuration!  Did not find an architecture and operating system match in\\e[37;1m knownconfigurations.bash\\e[31;1m!  \\e[36;1mDetected $NASVER $CPUABI.  There still is hope.  Other images are available at http://mirror.archlinuxarm.org/os/ and https://www.archlinux.org/mirrors/ to see if any match might the device.  If you find a match, then please \\e[37;1msubmit a pull request\\e[36;1m at https://github.com/sdrausty/TermuxArch/pulls with script modifications.  Alternatively, \\e[37;1msubmit a modification request\\e[36;1m at https://github.com/sdrausty/TermuxArch/issues if you find a configuration match.  Include output from \\e[37;1muname -mo\\e[36;1m on the device in order to expand autodetection for \\e[37;1m${0##*/}\\e[36;1m.  See https://sdrausty.github.io/docs/TermuxArch/Known_Configurations for more information.\\n\\n	\\e[36;1mRun ${0##*/} again...\\n\\e[0m"
+	printf "\\n\\e[07;1m\\e[31;1m 🔆 WARNING: Unknown configuration!  Did not find an architecture and operating system match in\\e[37;1m knownconfigurations.bash\\e[31;1m!  \\e[36;1mDetected $NASVER $CPUABI.  There still is hope.  Other images are available at http://mirror.archlinuxarm.org/os/ and https://www.archlinux.org/mirrors/ to see if any match might the device.  If you find a match, then please \\e[37;1msubmit a pull request\\e[36;1m at https://github.com/sdrausty/TermuxArch/pulls with script modifications.  Alternatively, \\e[37;1msubmit a modification request\\e[36;1m at https://github.com/sdrausty/TermuxArch/issues if you find a configuration match.  Include output from \\e[37;1muname -mo\\e[36;1m on the device in order to expand autodetection for \\e[37;1m${0##*/}\\e[36;1m.  See https://sdrausty.github.io/docs/TermuxArch/Known_Configurations for more information.\\n\\n	\\e[36;1mRun '${0##*/} purge', then please try '${0##*/}' again...\\n\\e[0m"
 	exit
 }
 

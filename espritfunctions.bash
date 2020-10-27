@@ -202,7 +202,7 @@ _TASPINNER_() {	# print spinner; derivation based on https://github.com/ringohub
 		printf "  \b\b\b%s\b" "${SPINNERL:INCREMNT++%${#SPINNERL}:1}"
 		sleep $SPINDLAY
 	done
-	printf "\\e[?25h"
+	printf "\\n\\e[?25h"
 }
 
 _TAMATRIX_() {	# print TermuxArch source code as matrix
