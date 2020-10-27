@@ -533,7 +533,7 @@ if [[ "$CPUABI" = "$CPUABIX86" ]]
 then
 X86INT="gpg --keyserver keyserver.ubuntu.com --recv-keys 0x194e37a47a4c671807bacb37b1117bc1094ea6e9"
 else
-X86INT=": "
+X86INT=":"
 fi
 _CFLHDR_ root/bin/keys
 cat >> root/bin/keys <<- EOM
