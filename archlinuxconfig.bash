@@ -529,9 +529,9 @@ EOM
 }
 
 _ADDkeys_() {
-# insert customized commands for Arch Linux 32
 if [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = i386 ]]
 then
+# set customized commands for Arch Linux 32
 X86INT="for HKPSERVR in \"hkps://keyserver.ubuntu.com\" \"hkp://pgp.mit.edu:11371\" \"hkps://hkps.pool.sks-keyservers.net\"
 do
 printf \"%s\\n\" \"Running gpg --homedir /etc/pacman.d/gnupg --keyserver \$HKPSERVR --recv-keys 0x194e37a47a4c671807bacb37b1117bc1094ea6e9...\"
@@ -819,7 +819,7 @@ chmod 700 root/bin/pc
 }
 
 _ADDpci_() {
-_CFLHDR_ root/bin/pci "# Pacman install packages wrapper with system update."
+_CFLHDR_ root/bin/pci "# pacman install packages wrapper with system update"
 cat >> root/bin/pci <<- EOM
 declare ARGS="\$@"
 umask 0022
@@ -916,7 +916,7 @@ chmod 700 root/bin/th"$STARTBIN"
 }
 
 _ADDtools_() {	# developing implementaion : working system tools that work can be added to array PRFXTOLS
-[[ -z "${EDO01LCR:-}" ]] && PRFXTOLS=(getprop ping termux-change-repo termux-info termux-open termux-open-url termux-wake-lock termux-wake-unlock termux-wake-lock termux-wake-unlock top) || [[ $EDO01LCR = 0 ]] && PRFXTOLS=(am dpkg getprop ping mkfifo termux-change-repo termux-info termux-open termux-open-url termux-wake-lock termux-wake-unlock top)
+[[ -z "${EDO01LCR:-}" ]] && PRFXTOLS=(getprop grep ping termux-change-repo termux-info termux-open termux-open-url termux-wake-lock termux-wake-unlock termux-wake-lock termux-wake-unlock top) || [[ $EDO01LCR = 0 ]] && PRFXTOLS=(am dpkg getprop grep mkfifo ping termux-change-repo termux-info termux-open termux-open-url termux-wake-lock termux-wake-unlock top)
 #  	PRFXTOLS=(am getprop toolbox toybox)
 for STOOL in ${PRFXTOLS[@]}
 do

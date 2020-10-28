@@ -15,7 +15,7 @@ FLHDR1[1]="IFS=$'\\n\\t'"
 FLHDR1[2]="set -Eeuo pipefail"
 FLHDR1[3]="shopt -s nullglob globstar"
 FLHDR1[4]="unset LD_PRELOAD"
-FLHDR1[5]="VERSIONID=2.0.280"
+FLHDR1[5]="VERSIONID=2.0.281"
 FLHDR1[6]=" "
 FLHDRP[0]="## BEGIN #####################################################################"
 FLHDRP[1]=""
@@ -83,7 +83,7 @@ printf "%s\\n" "${FLHDR0[@]}" > "$1"
 printf "%s\\n" "${FLHDR1[@]}" >> "$1"
 else
 printf "%s\\n" "${FLHDR0[@]}" > "$1"
-for LINENUMR in $((${#@}-1))
+for LINENUMR in ${#@}
 do
 printf "%s\\n" "${@:LINENUMR}" >> "$1"
 done
