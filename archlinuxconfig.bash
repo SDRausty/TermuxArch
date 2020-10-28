@@ -544,7 +544,7 @@ do
 printf \"%s\\n\" \"Running curl -OL http://archive.archlinux32.org/packages/\$UPGDPAKG\"
 curl -OL http://archive.archlinux32.org/packages/\$UPGDPAKG
 done
-pacman -U \${UPGDPKGS[@]##*/} --noconfirm && rm -f \${UPGDPKGS[@]##*/} || printf \"\\nThe command \'pacman -U \${UPGDPKGS[@]##*/} --noconfirm\' did not succeed : continuing...\\n\""
+#pacman -U \${UPGDPKGS[@]##*/} --noconfirm && rm -f \${UPGDPKGS[@]##*/} || printf \"\\nThe command \'pacman -U \${UPGDPKGS[@]##*/} --noconfirm\' did not succeed : continuing...\\n\""
 else
 X86INT=":"
 fi
