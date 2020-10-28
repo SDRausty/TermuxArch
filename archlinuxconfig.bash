@@ -538,7 +538,13 @@ printf \"%s\\n\" \"Running gpg --homedir /etc/pacman.d/gnupg --keyserver \$HKPSE
 gpg --homedir /etc/pacman.d/gnupg --keyserver \$HKPSERVR --recv-keys 0x194e37a47a4c671807bacb37b1117bc1094ea6e9 && GPGBREAK=\"0\"
 [[ -z \"\${GPGBREAK:-}\" ]] || break
 done
-printf \"%s\\n\" \"Running curl -OL http://archive.archlinux32.org/packages/a/archlinux32-keyring/archlinux32-keyring-20191103-1.0-any.pkg.tar.xz && curl -OL http://archive.archlinux32.org/packages/p/pacman/pacman-5.2.1-1.4-i686.pkg.tar.xz\" ; curl -OL http://archive.archlinux32.org/packages/p/pacman/pacman-5.2.1-1.4-i686.pkg.tar.xz && curl -OL http://archive.archlinux32.org/packages/a/archlinux32-keyring/archlinux32-keyring-20191103-1.0-any.pkg.tar.xz ; pacman -U {archlinux32-keyring-20191103-1.0-any.pkg.tar.xz,pacman-5.2.1-1.4-i686.pkg.tar.xz} --noconfirm || printf \"\\nThe command \"pacman -U {archlinux32-keyring-20191103-1.0-any.pkg.tar.xz,pacman-5.2.1-1.4-i686.pkg.tar.xz} --noconfirm\" did not succeed : continuing...\\n\""
+UPGDPKGS=(\"a/archlinux32-keyring/archlinux32-keyring-20191103-1.0-any.pkg.tar.xz\" \"p/pacman/pacman-5.2.1-1.4-i686.pkg.tar.xz\" \"o/openssl/openssl-1.1.0.g-1-i686.pkg.tar.xz\")
+for UPGDPAKG in \${UPGDPKGS[@]}
+do
+printf \"%s\\n\" \"Running curl -OL http://archive.archlinux32.org/packages/\$UPGDPAKG\"
+curl -OL http://archive.archlinux32.org/packages/\$UPGDPAKG
+done
+pacman -U \${UPGDPKGS[@]##*/} --noconfirm && rm -f \${UPGDPKGS[@]##*/} || printf \"\\nThe command \'pacman -U \${UPGDPKGS[@]##*/} --noconfirm\' did not succeed : continuing...\\n\""
 else
 X86INT=":"
 fi
