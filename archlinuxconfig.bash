@@ -728,7 +728,7 @@ _CFLHDR_ root/bin/orcaconf "# orcaconf contributor https://github.com/JanuszChmi
 cat >> root/bin/orcaconf <<- EOM
 [ -d \$HOME/bin/lock ] && printf "%s\\\\n" "Already confugured orca: DONE 🏁" && exit
 [ -f \$HOME/bin/lock/orcaconf.lock ] && printf "%s\\\\n" "Already configured orca: DONE 🏁" && exit
-nice -n 18 pci espeak-ng mate mate-extra orca pulseaudio-alsa tigervnc vncserver || printf ”%s\\n" "failed" && exit
+nice -n 18 pci espeak-ng mate mate-extra orca pulseaudio-alsa tigervnc || printf ”%s\\n" "failed" && exit
 printf ”%s\\n" "export DISPLAY=:0
 export PULSE_SERVER=127.0.0.1
 unset DBUS_SESSION_BUS_ADDRESS
