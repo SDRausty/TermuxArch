@@ -15,7 +15,7 @@ FLHDR1[1]="IFS=$'\\n\\t'"
 FLHDR1[2]="set -Eeuo pipefail"
 FLHDR1[3]="shopt -s nullglob globstar"
 FLHDR1[4]="unset LD_PRELOAD"
-FLHDR1[5]="VERSIONID=2.0.282"
+FLHDR1[5]="VERSIONID=2.0.283"
 FLHDR1[6]=" "
 FLHDRP[0]="## BEGIN #####################################################################"
 FLHDRP[1]=""
@@ -31,10 +31,10 @@ TRPEXIT[2]="  	printf \"\" "
 TRPEXIT[3]="	 "
 TRPEXIT[4]="	if [[ \"\$RV\" = 0 ]]"
 TRPEXIT[5]="	then"
-TRPEXIT[6]="		printf \"\\\\e[0;32m%s\\\\e[1;34m: \\\\e[1;32m%s\\\\e[0m\\\\n\\\\e[0m\" \"\${0##*/} \$@ $VERSIONID\" \"DONE 🏁 \""
+TRPEXIT[6]="		printf \"\\\\e[0;32m%s\\\\e[1;34m: \\\\e[1;32m%s\\\\e[0m\\\\n\\\\e[0m\" \"\${0##*/} \$@ \$VERSIONID\" \"DONE 🏁 \""
 TRPEXIT[7]="		printf \"\\\\e]2; %s: %s \007\" \"\${0##*/} \$@\" \"DONE 🏁 \""
 TRPEXIT[8]="	else "
-TRPEXIT[9]="		printf \"\\\\e[0;32m%s \\\\e[0m%s\\\\e[1;34m: \\\\e[1;32m%s\\\\e[0m\\\\n\\\\e[0m\" \"\${0##*/} \$@ $VERSIONID\" \"[Exit Signal \$RV]\" \"DONE  🏁 \""
+TRPEXIT[9]="		printf \"\\\\e[0;32m%s \\\\e[0m%s\\\\e[1;34m: \\\\e[1;32m%s\\\\e[0m\\\\n\\\\e[0m\" \"\${0##*/} \$@ \$VERSIONID\" \"[Exit Signal \$RV]\" \"DONE  🏁 \""
 TRPEXIT[10]="		printf \"\033]2; %s: %s %s \007\" \"\${0##*/} \$@\" \"[Exit Signal \$RV]\" \"DONE 🏁 \""
 TRPEXIT[11]="	fi"
 TRPEXIT[12]="	printf \"\\e[?25h\\e[0m\""
@@ -155,7 +155,7 @@ printf "\\n\\e[0;34m 🕛 > 🕞 \\e[0;34mDownloading checksum from \\e[0;32mhtt
 
 _PRINTDOWNLOADINGX86TWO_() {
 printf '\033]2; 🕛 > 🕓 Downloading the Arch Linux system image file...  \007'
-printf "\\e[0;34m 🕛 > 🕓 \\e[0;34mDownloading \\e[0;32m$IFILE \\e[0;34mfrom \\e[0;32mhttp://$CMIRROR\\e[0;34m...  \\e[1;37mThis may take a long time pending connection.\\n\\n\\e[0;32m"
+printf "\\n\\e[0;34m 🕛 > 🕓 \\e[0;34mDownloading \\e[0;32m$IFILE \\e[0;34mfrom \\e[0;32mhttp://$CMIRROR\\e[0;34m...  \\e[1;37mThis may take a long time pending connection.\\n\\n\\e[0;32m"
 }
 
 _PRINTDOWNLOADINGFTCH_() {
