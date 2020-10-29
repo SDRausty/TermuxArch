@@ -198,21 +198,8 @@ fi
 _DOPROXY_
 [[ "${LCR:-}" -ne 1 ]] && LOCGEN=""
 [[ "${LCR:-}" -ne 2 ]] && LOCGEN=""
-[[ -z "${LCR:-}" ]] && LOCGEN="printf \"\\e[1;32m%s\\e[0;32m\"  \"==> \"
-if locale-gen
-then
-:
-else
-gpg --keyserver keyserver.ubuntu.com --recv-keys 0x194e37a47a4c671807bacb37b1117bc1094ea6e9
-# pacman -S pacman
-echo # pacman -S pacman
-echo # pacman -S pacman
-echo # pacman -S pacman
-echo # pacman -S pacman
-_DOKEYS_
-pacman -Sy grep gzip sed sudo --noconfirm --color=always
-locale-gen
-fi"
+[[ -z "${LCR:-}" ]] && LOCGEN="_DOKEYS_
+locale-gen "
 cat >> root/bin/"$BINFNSTP" <<- EOM
 _PMFSESTRING_() {
 printf "\\e[1;31m%s\\e[1;37m%s\\e[1;32m%s\\e[1;37m%s\\n\\n" "Signal generated in '\$1' : Cannot complete task : " "Continuing...   To correct the error run " "setupTermuxArch refresh" " to attempt to finish the autoconfiguration."

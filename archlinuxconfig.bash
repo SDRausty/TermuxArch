@@ -919,7 +919,8 @@ chmod 700 root/bin/thstartarch
 }
 
 _ADDtools_() {	# developing implementaion : working system tools that work can be added to array PRFXTOLS
-[[ -z "${EDO01LCR:-}" ]] && PRFXTOLS=(getprop grep ping termux-change-repo termux-info termux-open termux-open-url termux-wake-lock termux-wake-unlock termux-wake-lock termux-wake-unlock top) || [[ $EDO01LCR = 0 ]] && PRFXTOLS=(am dpkg getprop grep ping termux-change-repo termux-info termux-open termux-open-url termux-wake-lock termux-wake-unlock top)
+
+[[ -z "${EDO01LCR:-}" ]] && PRFXTOLS=(getprop grep gzip sed ping termux-change-repo termux-info termux-open termux-open-url termux-wake-lock termux-wake-unlock termux-wake-lock termux-wake-unlock top which) || [[ $EDO01LCR = 0 ]] && PRFXTOLS=(am dpkg getprop grep gzip sed ping termux-change-repo termux-info termux-open termux-open-url termux-wake-lock termux-wake-unlock top which)
 #  	PRFXTOLS=(am getprop toolbox toybox)
 for STOOL in ${PRFXTOLS[@]}
 do
