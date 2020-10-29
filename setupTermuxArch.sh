@@ -5,7 +5,7 @@
 # command 'setupTermuxArch h[elp]' has information how to use this file
 ################################################################################
 IFS=$'\n\t'
-VERSIONID=2.0.283
+VERSIONID=2.0.284
 set -Eeuo pipefail
 shopt -s nullglob globstar
 umask 0022
@@ -596,54 +596,49 @@ printf "Detected architecture is %s;  Install architecture is set to %s.\\n" "$C
 fi
 }
 
-_RMARCH_() {
-_NAMESTARTARCH_
-_NAMEINSTALLDIR_
-while true; do
+_RMARCHQ_() {
+printf "\\n\\e[0;33m %s \\e[1;33m%s \\e[0;33m%s\\n\\n\\e[1;30m%s\\n" "TermuxArch:" "DIRECTORY WARNING!  '$INSTALLDIR/'" "directory detected." "Purge '$INSTALLDIR' as requested?"
 printf "\\n\\e[1;30m"
-read -n 1 -p "Uninstall $INSTALLDIR? [Y|n] " RUANSWER
+while true; do
+read -n 1 -p "Uninstall '$INSTALLDIR'? [Y|n] " RUANSWER
 if [[ "$RUANSWER" = [Ee]* ]] || [[ "$RUANSWER" = [Nn]* ]] || [[ "$RUANSWER" = [Qq]* ]]
 then
+printf "\\n%s\\n" "No was answered: uninstalling '$INSTALLDIR': nothing to do for '$INSTALLDIR'."
 break
 elif [[ "$RUANSWER" = [Yy]* ]] || [[ "$RUANSWER" = "" ]]
 then
-printf "\\e[30mUninstalling $INSTALLDIR...\\n"
+printf "\\e[30m%s\\n" "Uninstalling '$INSTALLDIR'..."
 if [[ -e "$PREFIX/bin/$STARTBIN" ]]
 then
 rm -f "$PREFIX/bin/$STARTBIN"
 else
-printf "Uninstalling $PREFIX/bin/$STARTBIN: nothing to do for $PREFIX/bin/$STARTBIN.\\n"
+printf "%s\\n" "Uninstalling '$PREFIX/bin/$STARTBIN': nothing to do for '$PREFIX/bin/$STARTBIN'."
 fi
 if [[ -e "$HOME/bin/$STARTBIN" ]]
 then
 rm -f "$HOME/bin/$STARTBIN"
 else
-printf "Uninstalling $HOME/bin/$STARTBIN: nothing to do for $HOME/bin/$STARTBIN.\\n"
+printf "%s\\n" "Uninstalling '$HOME/bin/$STARTBIN': nothing to do for '$HOME/bin/$STARTBIN'."
 fi
 if [[ -d "$INSTALLDIR" ]]
 then
 _RMARCHRM_
 else
-printf "Uninstalling $INSTALLDIR: nothing to do for $INSTALLDIR.\\n"
+printf "%s\\n" "Uninstalling '$INSTALLDIR': nothing to do for '$INSTALLDIR'."
 fi
-printf "Uninstalling $INSTALLDIR: \\e[1;32mDone\\n\\e[30m"
+printf "%s \\e[1;32mDone\\e[30m\\n\\n" "Uninstalling '$INSTALLDIR':"
 break
 else
-printf "\\nYou answered \\e[33;1m$RUANSWER\\e[30m.\\n\\nAnswer \\e[32mYes\\e[30m or \\e[1;31mNo\\e[30m. [\\e[32my\\e[30m|\\e[1;31mn\\e[30m]\\n"
+printf "\\nYou answered \\e[33;1m%s\\e[30m.\\n\\nAnswer \\e[32mYes\\e[30m or \\e[1;31mNo\\e[30m. [\\e[32my\\e[30m|\\e[1;31mn\\e[30m]\\n" "$RUANSWER"
 fi
 done
-printf "\\e[0m\\n"
 }
 
 _RMARCHRM_() {
 _SETROOT_EXCEPTION_
-rm -rf "${INSTALLDIR:?}"/* 2>/dev/null ||: # _PSGI1ESTRING_ "rm -rf _RMARCHRM_ setupTermuxArch ${0##*/}"
+rm -rf "${INSTALLDIR:?}"/* 2>/dev/null ||:
 find  "$INSTALLDIR" -type d -exec chmod 700 {} \; 2>/dev/null || _PSGI1ESTRING_ "find _RMARCHRM_ setupTermuxArch ${0##*/}"
 rm -rf "$INSTALLDIR" 2>/dev/null || _PSGI1ESTRING_ "rm -rf _RMARCHRM_ setupTermuxArch ${0##*/}"
-}
-
-_RMARCHQ_() {
-[[ -d "$INSTALLDIR" ]] && printf "\\n\\e[0;33m %s \\e[1;33m%s \\e[0;33m%s\\n\\n\\e[1;30m%s\\n" "TermuxArch:" "DIRECTORY WARNING!  $INSTALLDIR/" "directory detected." "Purge $INSTALLDIR as requested?" && _RMARCH_ || _PSGI1ESTRING_ "_RMARCHQ_ setupTermuxArch ${0##*/}"
 }
 
 _SETROOT_EXCEPTION_() {

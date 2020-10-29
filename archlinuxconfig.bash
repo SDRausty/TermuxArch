@@ -533,20 +533,20 @@ _ADDkeys_() {
 if [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = i386 ]]
 then
 # set customized commands for Arch Linux 32
-X86INT="
-for HKPSERVR in \"hkps://keyserver.ubuntu.com\" \"hkp://pgp.mit.edu:11371\" \"hkps://hkps.pool.sks-keyservers.net\"
+X86INT="HKPSERVRS=(\"hkp://pgp.mit.edu:11371\" \"hkps://hkps.pool.sks-keyservers.net\" \"hkps://keyserver.ubuntu.com\")
+for HKPSERVR in \${HKPSERVRS[@]}
 do
 printf \"%s\\n\" \"Running gpg --homedir /etc/pacman.d/gnupg --keyserver \$HKPSERVR --recv-keys 0x194e37a47a4c671807bacb37b1117bc1094ea6e9...\"
 gpg --homedir /etc/pacman.d/gnupg --keyserver \$HKPSERVR --recv-keys 0x194e37a47a4c671807bacb37b1117bc1094ea6e9 && GPGBREAK=\"0\"
 [[ -z \"\${GPGBREAK:-}\" ]] || break
 done
-UPGDPKGS=(\"a/archlinux32-keyring/archlinux32-keyring-20191103-1.0-any.pkg.tar.xz\" \"p/pacman/pacman-5.2.1-1.4-i686.pkg.tar.xz\" \"o/openssl/openssl-1.0.2.k-1-i686.pkg.tar.xz\")
+UPGDPKGS=(\"a/archlinux32-keyring/archlinux32-keyring-20191103-1.0-any.pkg.tar.xz\" \"p/pacman/pacman-5.2.1-1.4-i686.pkg.tar.xz\" \"o/openssl/openssl-1.1.1-1.0-i686.pkg.tar.xz\")
 for UPGDPAKG in \${UPGDPKGS[@]}
 do
 printf \"%s\\n\" \"Running curl -OL http://archive.archlinux32.org/packages/\$UPGDPAKG\"
 curl -OL http://archive.archlinux32.org/packages/\$UPGDPAKG
 done
-pacman -U \${UPGDPKGS[@]##*/} --noconfirm && rm -f \${UPGDPKGS[@]##*/} || printf \"\\nThe command \'pacman -U \${UPGDPKGS[@]##*/} --noconfirm\' did not succeed : continuing...\\n\""
+pacman -U \${UPGDPKGS[@]##*/} --noconfirm && rm -f \${UPGDPKGS[@]##*/} || printf \"\\n%s\\n\" \"The commands \'pacman -U \${UPGDPKGS[@]##*/} --noconfirm && rm -f \${UPGDPKGS[@]##*/}\' did not succeed: continuing...\\n\""
 else
 X86INT=":"
 fi
@@ -609,8 +609,9 @@ printf "\\\\n\\\\e[1;32m[1/2] \\\\e[0;34mWhen \\\\e[0;37mgpg: Generating pacman 
 pacman-key --init || sudo pacman-key --init || _PRTERROR_
 chmod 700 /etc/pacman.d/gnupg
 $X86INT || _PRTERROR_
+pacman -Sy
 pacman-key --populate || sudo pacman-key --populate || _PRTERROR_
-printf "\\\\n\\\\e[1;32m==>\\\\e[0m Running \\\\e[1mpacman -S %s --noconfirm --color=always\\\\e[0;32m...\\\\n" "\$ARGS"
+# printf "\\\\n\\\\e[1;32m==>\\\\e[0m Running \\\\e[1mpacman -S %s --noconfirm --color=always\\\\e[0;32m...\\\\n" "\$ARGS"
 pacman -S "\${KEYRINGS[@]}" --noconfirm --color=always || sudo pacman -S "\${KEYRINGS[@]}" --noconfirm --color=always || _PRTERROR_
 printf "\\\\n\\\\e[1;32m[2/2] \\\\e[0;34mWhen \\\\e[1;37mAppending keys from archlinux.gpg\\\\e[0;34m appears on the screen, the installation process can be accelerated.  The system desires a lot of entropy at this part of the install procedure.  To generate as much entropy as possible quickly, watch and listen to a file on your device.  \\\\n\\\\nThe program \\\\e[1;32mpacman-key\\\\e[0;34m will want as much entropy as possible when generating keys.  Entropy is also created through tapping, sliding, one, two and more fingers tapping with short and long taps.  When \\\\e[1;37mAppending keys from archlinux.gpg\\\\e[0;34m appears on the screen, use any of these simple methods to accelerate the installation process if it is stalled.  Put even simpler, just do something on device.  Browsing files will create entropy on device.  Slowly swiveling the device in space and time will accelerate the installation process.  This method alone might not generate enough entropy (a measure of randomness in a closed system) for the process to complete quickly.  Use \\\\e[1;32mbash ~%s/bin/we \\\\e[0;34min a new Termux session to watch entropy on device.\\\\n\\\\n\\\\e[1;32m==>\\\\e[0m Running \\\\e[1mpacman-key --populate\\\\e[0;32m...\\\\n" "$DARCH"
 pacman-key --populate || sudo pacman-key --populate || _PRTERROR_
@@ -914,11 +915,11 @@ $STARTBIN su user "pwd && whoami"
 echo th$STARTBIN done
 # th"$STARTBIN" EOF
 EOM
-chmod 700 root/bin/th"$STARTBIN"
+chmod 700 root/bin/thstartarch
 }
 
 _ADDtools_() {	# developing implementaion : working system tools that work can be added to array PRFXTOLS
-[[ -z "${EDO01LCR:-}" ]] && PRFXTOLS=(getprop grep ping termux-change-repo termux-info termux-open termux-open-url termux-wake-lock termux-wake-unlock termux-wake-lock termux-wake-unlock top) || [[ $EDO01LCR = 0 ]] && PRFXTOLS=(am dpkg getprop grep mkfifo ping termux-change-repo termux-info termux-open termux-open-url termux-wake-lock termux-wake-unlock top)
+[[ -z "${EDO01LCR:-}" ]] && PRFXTOLS=(getprop grep ping termux-change-repo termux-info termux-open termux-open-url termux-wake-lock termux-wake-unlock termux-wake-lock termux-wake-unlock top) || [[ $EDO01LCR = 0 ]] && PRFXTOLS=(am dpkg getprop grep ping termux-change-repo termux-info termux-open termux-open-url termux-wake-lock termux-wake-unlock top)
 #  	PRFXTOLS=(am getprop toolbox toybox)
 for STOOL in ${PRFXTOLS[@]}
 do

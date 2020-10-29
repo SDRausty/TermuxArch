@@ -49,6 +49,7 @@ _ADDpc_
 _ADDpci_
 _ADDprofile_
 _ADDt_
+_ADDthstartarch_
 _ADDtools_
 _ADDtour_
 _ADDtrim_
@@ -203,7 +204,11 @@ then
 :
 else
 gpg --keyserver keyserver.ubuntu.com --recv-keys 0x194e37a47a4c671807bacb37b1117bc1094ea6e9
-pacman -S pacman
+# pacman -S pacman
+echo # pacman -S pacman
+echo # pacman -S pacman
+echo # pacman -S pacman
+echo # pacman -S pacman
 _DOKEYS_
 pacman -Sy grep gzip sed sudo --noconfirm --color=always
 locale-gen
@@ -218,7 +223,7 @@ printf "\\n\\e[1;34m:: \\e[1;32m%s\\n" "Processing system for $NASVER $CPUABI, a
 EOM
 if [[ -z "${LCR:-}" ]] # is undefined
 then
-printf "%s\\n" "pacman -Syy || pacman -Syy || _PMFSESTRING_ \"pacman -Syy $BINFNSTP ${0##/*}\"" >> root/bin/"$BINFNSTP"
+# printf "%s\\n" "pacman -Syy || pacman -Syy || _PMFSESTRING_ \"pacman -Syy $BINFNSTP ${0##/*}\"" >> root/bin/"$BINFNSTP"
 _DOKEYS_
 if [[ "$CPUABI" = "$CPUABI5" ]]
 then
