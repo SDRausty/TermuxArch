@@ -5,7 +5,7 @@
 # command 'setupTermuxArch h[elp]' has information how to use this file
 ################################################################################
 IFS=$'\n\t'
-VERSIONID=2.0.285
+VERSIONID=2.0.286
 set -Eeuo pipefail
 shopt -s nullglob globstar
 umask 0022
@@ -860,6 +860,7 @@ _INTRO_ "$@"
 ## [ref[resh] [customdir]]  Refresh the Arch Linux in Termux PRoot scripts created by TermuxArch and the installation itself.  Useful for refreshing the installation, the root user's home directory, user home directories and the TermuxArch generated scripts to their newest version and also runs keys and generates locales.
 elif [[ "${1//-}" = [Rr][Ee][Ff]* ]]
 then
+LCR="3"
 printf "\\nSetting mode to full refresh.\\n"
 _ARG2DIR_ "$@"
 _INTROREFRESH_ "$@"
