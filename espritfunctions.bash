@@ -19,7 +19,7 @@ printf '\033]2;  TermuxArch Bloom option via `setupTermuxArch bloom` 📲 \007'
 _EDITFILES_() {
 if [[ -z "${ceds[$i]:-}" ]]
 then
-$UREDITOR "${WDIR}setupTermuxArchConfigs.bash"
+$USEREDTR "${WDIR}setupTermuxArchConfigs.bash"
 elif [[ "${ceds[$i]}" = "vi" ]]
 then
 sed -i -e 1,4d "$INSTALLDIR"/etc/pacman.d/mirrorlist

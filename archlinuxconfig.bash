@@ -582,25 +582,13 @@ _ADDkeys_() {
 # set customized commands for Arch Linux 32
 if [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = i386 ]]
 then
-X86INT="#_AL32KEYS_() {
-#AL32KEYS=(\"C8E8F5A0AF9BA7E7\" \"255A76DB9A12601A\" \"16194A82231E9EF823562181C8E8F5A0AF9BA7E7\" \"5FDCA472AB93292BC678FD59255A76DB9A12601A\")	# 0x194e37a47a4c671807bacb37b1117bc1094ea6e9
-#for AL32KEY in \${AL32KEYS[@]}
-#do
-#for HKPSERVR in \${HKPSERVRS[@]}
-#do
-#printf \"%s\\n\" \"Running gpg --homedir /etc/pacman.d/gnupg --keyserver \$HKPSERVR --recv-keys \$AL32KEY...\"
-#gpg --homedir /etc/pacman.d/gnupg --keyserver \$HKPSERVR --recv-keys \$AL32KEY && GPGBREAK=\"0\"
-#[[ -z \"\${GPGBREAK:-}\" ]] || break
-#done
-#done
-#}
-UPGDPKGS=(\"a/archlinux32-keyring-transition/archlinux32-keyring-transition-20191103-1-any.pkg.tar.xz\" \"a/archlinux32-keyring/archlinux32-keyring-20191103-1.0-any.pkg.tar.xz\" \"ca/ca-certificates-utils/ca-certificates-utils-20181109-2.0-any.pkg.tar.xz\" \"l/libarchive/libarchive-3.2.2-3-i686.pkg.tar.xz\" \"l/lzo/lzo-2.10-3.0-i686.pkg.tar.xz\" \"o/openssl/openssl-1.0.2.j-1-i686.pkg.tar.xz\" \"p/pacman/pacman-5.2.1-1.4-i686.pkg.tar.xz\")
+X86INT="UPGDPKGS=(\"a/archlinux32-keyring-transition/archlinux32-keyring-transition-20191103-1-any.pkg.tar.xz\" \"l/libarchive/libarchive-3.2.2-3-i686.pkg.tar.xz\" \"l/lzo/lzo-2.10-3.0-i686.pkg.tar.xz\" \"o/openssl/openssl-1.0.2.j-1-i686.pkg.tar.xz\" \"p/pacman/pacman-5.0.1-4-i686.pkg.tar.xz\")
 for UPGDPAKG in \${UPGDPKGS[@]}
 do
 printf \"%s\\n\" \"Running curl -OL https://archive.archlinux32.org/packages/\$UPGDPAKG\"
-curl -C - --fail --retry 4 -OL https://archive.archlinux32.org/packages/\$UPGDPAKG
+curl -C - --fail --retry 4 -OL https://archive.archlinux32.org/packages/\$UPGDPAKG ||:
 done
-pacman -U \${UPGDPKGS[@]##*/} --noconfirm && rm -f \${UPGDPKGS[@]##*/} || printf \"\\e[1;31m\\n%s\\n\" \"The command 'pacman -U \${UPGDPKGS[@]##*/}--noconfirm' did not succeed: continuing...\""
+pacman -U \${UPGDPKGS[@]##*/} --noconfirm || printf \"\\e[1;31m\\n%s\\e[1;37m%s\\e[0m\\n\" \"The command 'pacman -U \$(printf \"%s\" \"\${UPGDPKGS[@]##*/}\") --noconfirm' did not succeed: continuing...\""
 else
 X86INT=":"
 fi
@@ -657,23 +645,12 @@ else
 KEYRINGS="\$@"
 fi
 ARGS="\${KEYRINGS[@]}"
-_HKPSERVRS_() {
-HKPSERVRS=("hkps://keyring.debian.org" "hkps://keys.gentoo.org" "hkps://keys.openpgp.org" "hkp://keyserver.cns.vt.edu" "hkps://keyserver.ubuntu.com" "hkp://pgp.mit.edu:11371" "hkps://hkps.pool.sks-keyservers.net" "hkp://pool.sks-keyservers.net")
-for HKPSERVR in \${HKPSERVRS[@]}
-do
-printf "%s\\n" "Running pacman-key --refresh-keys --keyserver \$HKPSERVR..."
-pacman-key --refresh-keys --keyserver \$HKPSERVR && GPGBREAK="0"
-[[ -z "\${GPGBREAK:-}" ]] || break
-done
-}
 printf '\033]2;  🔑 TermuxArch %s 📲 \007' "'\${0##*/} \$ARGS'"
 printf "\\\\n\\\\e[1;32m==> \\\\e[1;37m%s \\\\e[0;32m%s \\\\e[1;32m%s %s \\\\e[0m%s...\\\\n" "Running" "TermuxArch" "\${0##*/}" "\$ARGS" "\$VERSIONID"
 printf "\\\\n\\\\e[1;32m[1/2] \\\\e[0;34mWhen \\\\e[0;37mgpg: Generating pacman keyring master key\\\\e[0;34m appears on the screen, the installation process can be accelerated.  The system desires a lot of entropy at this part of the install procedure.  To generate as much entropy as possible quickly, watch and listen to a file on your device.  \\\\n\\\\nThe program \\\\e[1;32mpacman-key\\\\e[0;34m will want as much entropy as possible when generating keys.  Entropy is also created through tapping, sliding, one, two and more fingers tapping with short and long taps.  When \\\\e[0;37mgpg: Generating pacman keyring master key\\\\e[0;34m appears on the screen, use any of these simple methods to accelerate the installation process if it is stalled.  Put even simpler, just do something on device.  Browsing files will create entropy on device.  Slowly swiveling the device in space and time will accelerate the installation process.  This method alone might not generate enough entropy (a measure of randomness in a closed system) for the process to complete quickly.  You can use \\\\e[1;32mbash ~%s/bin/we \\\\e[0;34min a new Termux session to watch entropy on device.\\\\n\\\\n\\\\e[1;32m==>\\\\e[0m Running \\\\e[1mpacman-key --init\\\\e[0;32m...\\\\n" "$DARCH"
 pacman-key --init || sudo pacman-key --init || _PRTERROR_
 chmod 700 /etc/pacman.d/gnupg
-_HKPSERVRS_
 $X86INT || _PRTERROR_
-pacman -Syy || pacman -Syy || _PRTERROR_
 pacman-key --populate || sudo pacman-key --populate || _PRTERROR_
 # printf "\\\\n\\\\e[1;32m==>\\\\e[0m Running \\\\e[1mpacman -S %s --noconfirm --color=always\\\\e[0;32m...\\\\n" "\$ARGS"
 pacman -S "\${KEYRINGS[@]}" --noconfirm --color=always || sudo pacman -S "\${KEYRINGS[@]}" --noconfirm --color=always || _PRTERROR_
@@ -681,6 +658,7 @@ printf "\\\\n\\\\e[1;32m[2/2] \\\\e[0;34mWhen \\\\e[1;37mAppending keys from arc
 pacman-key --populate || sudo pacman-key --populate || _PRTERROR_
 printf "\\\\e[1;32m==>\\\\e[0m Running \\\\e[1mpacman -Ss keyring --color=always\\\\e[0m...\\\\n"
 pacman -Ss keyring --color=always || sudo pacman -Ss keyring --color=always || _PRTERROR_
+pacman -Syy || pacman -Syy || _PRTERROR_
 # keys EOF
 EOM
 chmod 700 root/bin/keys
@@ -936,7 +914,7 @@ chmod 700 root/bin/thstartarch
 _ADDtools_() {	# developing implementaion : working system tools that work can be added to array PRFXTOLS
 if [[ -z "${EDO01LCR:-}" ]]
 then
-PRFXTOLS=(awk getprop grep gzip ping sed termux-change-repo termux-info termux-open termux-open-url termux-wake-lock termux-wake-unlock termux-wake-lock termux-wake-unlock top unzip sudo which)
+PRFXTOLS=(awk getprop grep gzip ping sed termux-change-repo termux-info termux-open termux-open-url termux-wake-lock termux-wake-unlock termux-wake-lock termux-wake-unlock top which)
 elif [[ $EDO01LCR = 0 ]]
 then
 PRFXTOLS=(am awk dpkg getprop grep gzip ping sed termux-change-repo termux-info termux-open termux-open-url termux-wake-lock termux-wake-unlock top which)
