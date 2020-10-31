@@ -658,7 +658,7 @@ KEYRINGS="\$@"
 fi
 ARGS="\${KEYRINGS[@]}"
 _HKPSERVRS_() {
-HKPSERVRS=("hkps://keys.openpgp.org" "hkp://keyserver.cns.vt.edu" "hkp://pgp.mit.edu:11371" "hkps://hkps.pool.sks-keyservers.net" "hkps://keyserver.ubuntu.com" "hkp://pool.sks-keyservers.net")
+HKPSERVRS=("hkps://keys.debian.org" "hkps://keys.gentoo.org" "hkps://keys.openpgp.org" "hkp://keyserver.cns.vt.edu" "hkps://keyserver.ubuntu.com" "hkp://pgp.mit.edu:11371" "hkps://hkps.pool.sks-keyservers.net" "hkp://pool.sks-keyservers.net")
 for HKPSERVR in \${HKPSERVRS[@]}
 do
 printf "%s\\n" "Running pacman-key --refresh-keys --keyserver \$HKPSERVR..."
