@@ -5,7 +5,7 @@
 # command 'setupTermuxArch h[elp]' has information how to use this file
 ################################################################################
 IFS=$'\n\t'
-VERSIONID=2.0.302
+VERSIONID=2.0.303
 set -Eeuo pipefail
 shopt -s nullglob globstar
 umask 0022
@@ -359,11 +359,11 @@ if [[ -z "${EDITOR:-}" ]]
 then
 if command -v editor
 then
-export USEREDIT="editor"
+USEREDIT="editor"
 fi
 elif [[ ! -z "${EDITOR:-}" ]]
 then
-export USEREDIT="$EDITOR"
+USEREDIT="$EDITOR"
 fi
 
 _MANUAL_() {
@@ -399,7 +399,7 @@ else
 AARCH="$(printf "%s\\n" "$DARCH"|sed 's/\//\+/g')"
 STARTBI2=arch
 fi
-declare -g STARTBIN=start"$STARTBI2$AARCH"
+STARTBIN=start"$STARTBI2$AARCH"
 }
 
 _OPT1_() {
