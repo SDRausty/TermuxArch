@@ -203,6 +203,7 @@ printf "  \b\b\b%s\b" "${SPINNERL:INCREMNT++%${#SPINNERL}:1}"
 sleep $SPINDLAY
 done
 printf "\\n\\e[?25h"
+disown
 }
 
 _TAMATRIX_() {	# print TermuxArch source code as matrix

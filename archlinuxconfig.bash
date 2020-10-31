@@ -39,8 +39,8 @@ chage -I -1 -m 0 -M -1 -E -1 "\$1"
 passwd -d "\$1"
 chmod 775 /home/\$1
 chown -R \$1:\$1 /home/\$1
-#		method depreciated
-#  		[[ -d /etc/sudoers.d ]] && printf "%s\\\\n" "\$1 ALL=(ALL) ALL" >> /etc/sudoers.d/"\$1"
+# method depreciated
+# [[ -d /etc/sudoers.d ]] && printf "%s\\\\n" "\$1 ALL=(ALL) ALL" >> /etc/sudoers.d/"\$1"
 sed -i "s/\$1:x/\$1:/g" /etc/passwd
 printf "\\\\e[0;32m%s\\\\e[1;32m%s\\\\e[0;32m%s\\\\e[1;32m%s\\\\e[0;32m%s\\\\e[1;32m%s\\\\e[0;32m%s\\\\e[1;32m%s\\\\e[0;32m%s\\\\e[0m\\\\n" "Added Arch Linux in Termux PRoot user " "'\$1'" " and configured user '\$1' for use with the Arch Linux command 'sudo'.  Created Arch Linux user \$1's home directory in /home/\$1.  To use this account run " "'$STARTBIN login \$1'" " from the shell in Termux.  To add user accounts you can use " "'addauser \$1'" " in Arch Linux and " "'$STARTBIN c[ommand] addauser \$1'" " in the default Termux shell.  Please remember not to nest proot in proot unknowingly by using '$STARTBIN' in '$STARTBIN' as this is known to cause issues for PRoot users."
 fi
@@ -582,8 +582,7 @@ _ADDkeys_() {
 # set customized commands for Arch Linux 32
 if [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = i386 ]]
 then
-X86INT="
-_AL32KEYS_() {
+X86INT="_AL32KEYS_() {
 AL32KEYS=(\"C8E8F5A0AF9BA7E7\" \"255A76DB9A12601A\" \"16194A82231E9EF823562181C8E8F5A0AF9BA7E7\" \"5FDCA472AB93292BC678FD59255A76DB9A12601A\")	# 0x194e37a47a4c671807bacb37b1117bc1094ea6e9
 for AL32KEY in \${AL32KEYS[@]}
 do
@@ -659,12 +658,12 @@ KEYRINGS="\$@"
 fi
 ARGS="\${KEYRINGS[@]}"
 _HKPSERVRS_() {
-HKPSERVRS=("hkp://keyserver.cns.vt.edu" "hkp://pgp.mit.edu:11371" "hkps://hkps.pool.sks-keyservers.net" "hkps://keyserver.ubuntu.com" "hkp://pool.sks-keyservers.net")
+HKPSERVRS=("hkps://keys.openpgp.org" "hkp://keyserver.cns.vt.edu" "hkp://pgp.mit.edu:11371" "hkps://hkps.pool.sks-keyservers.net" "hkps://keyserver.ubuntu.com" "hkp://pool.sks-keyservers.net")
 for HKPSERVR in \${HKPSERVRS[@]}
 do
 printf "%s\\n" "Running pacman-key --refresh-keys --keyserver \$HKPSERVR..."
 pacman-key --refresh-keys --keyserver \$HKPSERVR && GPGBREAK="0"
-[[ -z \"\${GPGBREAK:-}\" ]] || break
+[[ -z "\${GPGBREAK:-}" ]] || break
 done
 }
 printf '\033]2;  🔑 TermuxArch %s 📲 \007' "'\${0##*/} \$ARGS'"
