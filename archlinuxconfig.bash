@@ -582,19 +582,19 @@ _ADDkeys_() {
 # set customized commands for Arch Linux 32
 if [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = i386 ]]
 then
-X86INT="_AL32KEYS_() {
-AL32KEYS=(\"C8E8F5A0AF9BA7E7\" \"255A76DB9A12601A\" \"16194A82231E9EF823562181C8E8F5A0AF9BA7E7\" \"5FDCA472AB93292BC678FD59255A76DB9A12601A\")	# 0x194e37a47a4c671807bacb37b1117bc1094ea6e9
-for AL32KEY in \${AL32KEYS[@]}
-do
-for HKPSERVR in \${HKPSERVRS[@]}
-do
-printf \"%s\\n\" \"Running gpg --homedir /etc/pacman.d/gnupg --keyserver \$HKPSERVR --recv-keys \$AL32KEY...\"
-gpg --homedir /etc/pacman.d/gnupg --keyserver \$HKPSERVR --recv-keys \$AL32KEY && GPGBREAK=\"0\"
-[[ -z \"\${GPGBREAK:-}\" ]] || break
-done
-done
-}
-UPGDPKGS=(\"a/archlinux32-keyring-transition/archlinux32-keyring-transition-20191103-1-any.pkg.tar.xz\" \"a/archlinux32-keyring/archlinux32-keyring-20191103-1.0-any.pkg.tar.xz\" \"l/libarchive/libarchive-3.2.2-3-i686.pkg.tar.xz\" \"l/lzo/lzo-2.10-3.0-i686.pkg.tar.xz\" \"o/openssl/openssl-1.0.2.j-1-i686.pkg.tar.xz\" \"p/pacman/pacman-5.2.1-1.4-i686.pkg.tar.xz\")
+X86INT="#_AL32KEYS_() {
+#AL32KEYS=(\"C8E8F5A0AF9BA7E7\" \"255A76DB9A12601A\" \"16194A82231E9EF823562181C8E8F5A0AF9BA7E7\" \"5FDCA472AB93292BC678FD59255A76DB9A12601A\")	# 0x194e37a47a4c671807bacb37b1117bc1094ea6e9
+#for AL32KEY in \${AL32KEYS[@]}
+#do
+#for HKPSERVR in \${HKPSERVRS[@]}
+#do
+#printf \"%s\\n\" \"Running gpg --homedir /etc/pacman.d/gnupg --keyserver \$HKPSERVR --recv-keys \$AL32KEY...\"
+#gpg --homedir /etc/pacman.d/gnupg --keyserver \$HKPSERVR --recv-keys \$AL32KEY && GPGBREAK=\"0\"
+#[[ -z \"\${GPGBREAK:-}\" ]] || break
+#done
+#done
+#}
+UPGDPKGS=(\"a/archlinux32-keyring-transition/archlinux32-keyring-transition-20191103-1-any.pkg.tar.xz\" \"a/archlinux32-keyring/archlinux32-keyring-20191103-1.0-any.pkg.tar.xz\" \"ca/ca-certificates-utils/ca-certificates-utils-20181109-2.0-any.pkg.tar.xz\" \"l/libarchive/libarchive-3.2.2-3-i686.pkg.tar.xz\" \"l/lzo/lzo-2.10-3.0-i686.pkg.tar.xz\" \"o/openssl/openssl-1.0.2.j-1-i686.pkg.tar.xz\" \"p/pacman/pacman-5.2.1-1.4-i686.pkg.tar.xz\")
 for UPGDPAKG in \${UPGDPKGS[@]}
 do
 printf \"%s\\n\" \"Running curl -OL https://archive.archlinux32.org/packages/\$UPGDPAKG\"
