@@ -457,7 +457,7 @@ printf "%s\\n" "Did not find server $NMIR in /etc/pacman.d/mirrorlist; Adding $N
 printf "%s\\n" "Server = $NLCMIRROR/\$arch/\$repo" >> "$INSTALLDIR/etc/pacman.d/mirrorlist"
 fi
 else
-if [[ "$ed" = "" ]]
+if [[ "$USEREDIT" = "" ]]
 then
 _EDITORS_
 fi
@@ -465,7 +465,7 @@ if [[ ! "$(sed 1q  "$INSTALLDIR"/etc/pacman.d/mirrorlist)" = "# # # # # # # # # 
 then
 _EDITFILES_
 fi
-"$ed" "$INSTALLDIR/etc/pacman.d/mirrorlist"
+"$USEREDIT" "$INSTALLDIR/etc/pacman.d/mirrorlist"
 fi
 "$INSTALLDIR/root/bin/setupbin.bash" || _PRINTPROOTERROR_
 }

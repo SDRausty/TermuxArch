@@ -582,13 +582,8 @@ _ADDkeys_() {
 # set customized commands for Arch Linux 32
 if [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = i386 ]]
 then
-X86INT="UPGDPKGS=(\"a/archlinux32-keyring-transition/archlinux32-keyring-transition-20191103-1-any.pkg.tar.xz\" \"l/libarchive/libarchive-3.2.2-3-i686.pkg.tar.xz\" \"l/lzo/lzo-2.10-3.0-i686.pkg.tar.xz\" \"o/openssl/openssl-1.0.2.j-1-i686.pkg.tar.xz\" \"p/pacman/pacman-5.0.1-4-i686.pkg.tar.xz\")
-for UPGDPAKG in \${UPGDPKGS[@]}
-do
-printf \"%s\\n\" \"Running curl -OL https://archive.archlinux32.org/packages/\$UPGDPAKG\"
-curl -C - --fail --retry 4 -OL https://archive.archlinux32.org/packages/\$UPGDPAKG ||:
-done
-pacman -U \${UPGDPKGS[@]##*/} --noconfirm || printf \"\\e[1;31m\\n%s\\e[1;37m%s\\e[0m\\n\" \"The command 'pacman -U \$(printf \"%s\" \"\${UPGDPKGS[@]##*/}\") --noconfirm' did not succeed: continuing...\""
+X86INT="curl -C - --fail --retry 4 -OL https://archive.archlinux32.org/packages/z/zstd/zstd-1.1.2-1-i686.pkg.tar.xz
+pacman -U zstd-1.1.2-1-i686.pkg.tar.xz --noconfirm || printf \"\\e[1;31m\\n%s\\e[1;37m%s\\e[0m\\n\" \"The command 'pacman -U zstd-1.1.2-1-i686.pkg.tar.xz --noconfirm' did not succeed: continuing...\""
 else
 X86INT=":"
 fi
