@@ -595,11 +595,11 @@ gpg --homedir /etc/pacman.d/gnupg --keyserver \$HKPSERVR --recv-keys \$AL32KEY &
 done
 done
 }
-UPGDPKGS=(\"a/archlinux32-keyring/archlinux32-keyring-20191103-1.0-any.pkg.tar.xz\" \"l/libarchive/libarchive-3.2.2-3-i686.pkg.tar.xz\" \"l/lzo/lzo-2.10-3.0-i686.pkg.tar.xz\" \"o/openssl/openssl-1.1.0.e-1-i686.pkg.tar.xz\" \"p/pacman/pacman-5.2.1-1.4-i686.pkg.tar.xz\")
+UPGDPKGS=(\"a/archlinux32-keyring/archlinux32-keyring-20191103-1.0-any.pkg.tar.xz\" \"l/libarchive/libarchive-3.2.2-3-i686.pkg.tar.xz\" \"l/lzo/lzo-2.10-3.0-i686.pkg.tar.xz\" \"o/openssl/openssl-1.0.2.j-1-i686.pkg.tar.xz\" \"p/pacman/pacman-5.2.1-1.4-i686.pkg.tar.xz\")
 for UPGDPAKG in \${UPGDPKGS[@]}
 do
-printf \"%s\\n\" \"Running curl -OL http://archive.archlinux32.org/packages/\$UPGDPAKG\"
-curl -OL https://archive.archlinux32.org/packages/\$UPGDPAKG
+printf \"%s\\n\" \"Running curl -OL https://archive.archlinux32.org/packages/\$UPGDPAKG\"
+curl -C - --fail --retry 4 -OL https://archive.archlinux32.org/packages/\$UPGDPAKG
 done
 pacman -U \${UPGDPKGS[@]##*/} --noconfirm && rm -f \${UPGDPKGS[@]##*/} || printf \"\\e[1;31m\\n%s\\n\" \"The command 'pacman -U \${UPGDPKGS[@]##*/}--noconfirm' did not succeed: continuing...\""
 else
@@ -659,11 +659,11 @@ KEYRINGS="\$@"
 fi
 ARGS="\${KEYRINGS[@]}"
 _HKPSERVRS_() {
-HKPSERVRS=(\"hkp://keyserver.cns.vt.edu\" \"hkp://pgp.mit.edu:11371\" \"hkps://hkps.pool.sks-keyservers.net\" \"hkps://keyserver.ubuntu.com\" \"hkp://pool.sks-keyservers.net\")
+HKPSERVRS=("hkp://keyserver.cns.vt.edu" "hkp://pgp.mit.edu:11371" "hkps://hkps.pool.sks-keyservers.net" "hkps://keyserver.ubuntu.com" "hkp://pool.sks-keyservers.net")
 for HKPSERVR in \${HKPSERVRS[@]}
 do
-printf \"%s\\n\" \"Running pacman-key --refresh-keys --keyserver \$HKPSERVR...\"
-pacman-key --refresh-keys --keyserver \$HKPSERVR && GPGBREAK=\"0\"
+printf "%s\\n" "Running pacman-key --refresh-keys --keyserver \$HKPSERVR..."
+pacman-key --refresh-keys --keyserver \$HKPSERVR && GPGBREAK="0"
 [[ -z \"\${GPGBREAK:-}\" ]] || break
 done
 }
