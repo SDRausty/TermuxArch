@@ -5,7 +5,7 @@
 # command 'setupTermuxArch h[elp]' has information how to use this file
 ################################################################################
 IFS=$'\n\t'
-VERSIONID=2.0.298
+VERSIONID=2.0.299
 set -Eeuo pipefail
 shopt -s nullglob globstar
 umask 0022
@@ -355,20 +355,16 @@ else
 fi
 }
 
-_IFEDITOR_() {
 if [[ -z "${EDITOR:-}" ]]
 then
 if command -v editor
 then
-USEREDIT="editor"
-else
-_EDITORS_
+export USEREDIT="editor"
 fi
-else
-USEREDIT="$EDITOR"
+elif [[ ! -z "${EDITOR:-}" ]]
+then
+export USEREDIT="$EDITOR"
 fi
-}
-_IFEDITOR_
 
 _MANUAL_() {
 printf '\033]2; bash setupTermuxArch manual 📲 \007'
@@ -672,11 +668,11 @@ declare -a ECLAVARR	# declare array for arrays and variables
 declare -a QEMUUSER	# declare array for qemu user tools
 declare -a PRFXTOLS	# declare array for device tools that should be accessible in the PRoot environment
 declare -A EMPARIAS	# declare associative array for empty variables
-EMPARIAS=([APTIN]="# apt install string" [COMMANDIF]="" [COMMANDG]="" [CPUABI]="" [DFL]="# used for development" [DM]="" [ed]="" [FSTND]="" [INSTALLDIR]="" [LCC]="" [LCP]="" [OPT]="" [QEMUCR]="" [ROOTDIR]="" [WDIR]="" [SDATE]="" [STI]="# generates pseudo random number" [STIME]="# generates pseudo random number")
+EMPARIAS=([APTIN]="# apt install string" [COMMANDIF]="" [COMMANDG]="" [CPUABI]="" [DFL]="# used for development" [DM]="" [USEREDIT]="" [FSTND]="" [INSTALLDIR]="" [LCC]="" [LCP]="" [OPT]="" [QEMUCR]="" [ROOTDIR]="" [WDIR]="" [SDATE]="" [STI]="# generates pseudo random number" [STIME]="# generates pseudo random number")
 # set empty variables
 for PKG in ${!EMPARIAS[@]} ; do declare "$PKG"="" ; done
 declare -a LC_TYPE	# declare array for locale types
-ECLAVARR=(ARGS APTIN BINFNSTP COMMANDIF COMMANDR COMMANDG CPUABI CPUABI5 CPUABI7 CPUABI8 CPUABIX86 CPUABIX86_64 DFL DMVERBOSE DM EDO01LCR ELCR ed FSTND INSTALLDIR LCC LCP LCR OPT ROOTDIR WDIR SDATE STI STIME STRING1 STRING2)
+ECLAVARR=(ARGS APTIN BINFNSTP COMMANDIF COMMANDR COMMANDG CPUABI CPUABI5 CPUABI7 CPUABI8 CPUABIX86 CPUABIX86_64 DFL DMVERBOSE DM EDO01LCR ELCR USEREDIT FSTND INSTALLDIR LCC LCP LCR OPT ROOTDIR WDIR SDATE STI STIME STRING1 STRING2)
 for ECLAVARS in ${ECLAVARR[@]} ; do declare $ECLAVARS ; done
 ARGS="${@%/}"
 CPUABI5="armeabi"	# used for development; 'getprop ro.product.cpu.abi' ascertains architecture

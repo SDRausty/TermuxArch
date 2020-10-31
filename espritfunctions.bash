@@ -17,20 +17,17 @@ printf '\033]2;  TermuxArch Bloom option via `setupTermuxArch bloom` 📲 \007'
 }
 
 _EDITFILES_() {
-if [[ -z "${ceds[$i]:-}" ]]
-then
-$USEREDIT "${WDIR}setupTermuxArchConfigs.bash"
-elif [[ "${ceds[$i]}" = "vi" ]]
+if [[ "$USEREDIT" = "vi" ]]
 then
 sed -i -e 1,4d "$INSTALLDIR"/etc/pacman.d/mirrorlist
 sed -i '1i# # # # # # # # # # # # # # # # # # # # # # # # # # #\n# TermuxArch vi instructions:	CTR+r is redo.\n# Use the hjkl keys to navigate. <h down j up k l>\n# Numbers are multipliers.  The u is undelete/undo.\n# 17j then i opens edit mode for the Geo-IP CMIRROR.\n# Enter the # hash/num/pounds symbol to comment it out: \n# Server = http://CMIRROR.archlinuxarm.org/$arch/$repo.\n# Long tap KEYBOARD in the side pane to see ESC, CTR...\n# Tap ESC to return to command mode in vi.\n# CTRL+d and CTRL+b to find your local CMIRROR.\n# / for search, N and n for next match.\n# Tap x to delete # to uncomment your local CMIRROR.\n# Choose only one CMIRROR.  Use :x to save your work.\n# Comment out the Geo-IP CMIRROR	end G	top gg\n# # # # # # # # # # # # # # # # # # # # # # # # # # #' "$INSTALLDIR"/etc/pacman.d/mirrorlist
 sed -i '1i# # # # # # # # # # # # # # # # # # # # # # # # # # #\n# TermuxArch vi instructions:	CTR+r is redo.\n# Use the hjkl keys to navigate. <h down j up k l>\n# Numbers are multipliers.  The u is undelete/undo.\n# Tap i for insert, ESC to return to command mode in vi.\n# Long tap KEYBOARD in the side pane to see ESC, CTR...\n# Tap x to delete # to uncomment your favorite language(s).\n# Enter the # hash/num/pounds symbol to comment out locales.\n# CTRL+d and CTRL+b for PGUP & PGDN.\n# top gg	bottom G\n# / for search, N and n for next match.\n# Choose as many as you like.  Use :x to save your work.\n# # # # # # # # # # # # # # # # # # # # # # # # # # #\n#' "$INSTALLDIR"/etc/locale.gen
-elif [[ "${ceds[$i]}" = "vim" ]]
+elif [[ "$USEREDIT" = "vim" ]]
 then
 sed -i -e 1,4d "$INSTALLDIR"/etc/pacman.d/mirrorlist
 sed -i '1i# # # # # # # # # # # # # # # # # # # # # # # # # # #\n# TermuxArch vim instructions:	CTR+r is redo.\n# Use the hjkl keys to navigate. <h down j up k l>\n# Numbers are multipliers.  The u is undelete/undo.\n# 17j then i opens edit mode for the Geo-IP CMIRROR.\n# Enter the # hash/num/pounds symbol to comment it out: \n# Server = http://CMIRROR.archlinuxarm.org/$arch/$repo.\n# Long tap KEYBOARD in the side pane to see ESC, CTR...\n# Tap ESC to return to command mode in vi.\n# CTRL+d and CTRL+b to find your local CMIRROR.\n# / for search, N and n for next match.\n# Tap x to delete # to uncomment your local CMIRROR.\n# Choose only one CMIRROR.  Use :x to save your work.\n#Comment out the Geo-IP CMIRROR	end G	top gg\n# # # # # # # # # # # # # # # # # # # # # # # # # # #' "$INSTALLDIR"/etc/pacman.d/mirrorlist
 sed -i '1i# # # # # # # # # # # # # # # # # # # # # # # # # # #\n# TermuxArch vim instructions:	CTR+r is redo.\n# Use the hjkl keys to navigate. <h down j up k l>\n# Numbers are multipliers.  The u is undelete/undo.\n# Tap i for insert, ESC to return to command mode in vi.\n# Long tap KEYBOARD in the side pane to see ESC, CTR...\n# Tap x to delete # to uncomment your favorite language(s).\n# Enter the # hash/num/pounds symbol to comment out locales.\n# CTRL+d and CTRL+b for PGUP & PGDN.\n# top gg	bottom G\n# / for search, N and n for next match.\n# Choose as many as you like.  Use :x to save your work.\n# # # # # # # # # # # # # # # # # # # # # # # # # # #\n#' "$INSTALLDIR"/etc/locale.gen
-elif [[ "${ceds[$i]}" = "nvim" ]]
+elif [[ "$USEREDIT" = "nvim" ]]
 then
 sed -i -e 1,4d "$INSTALLDIR"/etc/pacman.d/mirrorlist
 sed -i '1i# # # # # # # # # # # # # # # # # # # # # # # # # # #\n# TermuxArch neovim instructions:	CTR+r is redo.\n# Use the hjkl keys to navigate. <h down j up k l>\n# Numbers are multipliers.  The u is undelete/undo.\n# 17j then i opens edit mode for the Geo-IP CMIRROR.\n# Enter the # hash/num/pounds symbol to comment it out: \n# Server = http://CMIRROR.archlinuxarm.org/$arch/$repo.\n# Long tap KEYBOARD in the side pane to see ESC, CTR...\n# Tap ESC to return to command mode in vi.\n# CTRL+d and CTRL+b to find your local CMIRROR.\n# / for search, N and n for next match.\n# Tap x to delete # to uncomment your local CMIRROR.\n# Choose only one CMIRROR.  Use :x to save your work.\n# Comment out the Geo-IP CMIRROR	end G	top gg\n# # # # # # # # # # # # # # # # # # # # # # # # # # #' "$INSTALLDIR"/etc/pacman.d/mirrorlist
@@ -41,40 +38,37 @@ fi
 }
 
 _EDITORS_() {
-aeds=("emacs" "joe" "jupp" "nano" "ne" "nvim" "micro" "vi" "vim" "zile")
-for i in "${!aeds[@]}"
+# populate array of all available Termux editors
+AEDS=("emacs" "joe" "jupp" "nano" "ne" "nvim" "micro" "vi" "vim" "zile")
+for OEAEDS in ${!AEDS[@]}
 do
-if [[ -e "$PREFIX/bin/${aeds[$i]}" ]]
-then
-ceds+=("${aeds[$i]}")
+if [[ -e "$PREFIX/bin/${AEDS[$OEAEDS]}" ]]	# if editor is found
+then	# add editor to USEREDTR
+USEREDTR+=("${AEDS[$OEAEDS]}")
 fi
 done
-for i in "${!ceds[@]}"
+for i in "${!USEREDTR[@]}"
 do
-cedst+="${ceds[$i]}, "
-done
-for i in "${!ceds[@]}"
-do
-edq
-if [[ "$ind" = 1 ]]
+_EDQ_
+if [[ "$EINDEX" = 1 ]]
 then
 break
 fi
 done
 }
 
-edq() {
+_EDQ_() {
 printf "\\e[0;32m"
-for i in "${!ceds[@]}"
+for EDQINDEX in "${USEREDTR[@]}"
 do
-if [[ "${ceds[$i]}" = "vi" ]]
+if [[ "$EDQINDEX" = "vi" ]]
 then
 _EDQ2_
-ind=1
+EINDEX=1
 break
 fi
-_EDQA_ "$ceds"
-if [[ "$ind" = 1 ]]
+_EDQA_ "$USEREDTR"
+if [[ "$EINDEX" = 1 ]]
 then
 break
 fi
@@ -82,8 +76,8 @@ done
 }
 
 _EDQA_() {
-ed="${ceds[$i]}"
-ind=1
+USEREDIT="${USEREDTR[$i]}"
+EINDEX=1
 }
 
 _EDQAQUESTION_() {
@@ -92,16 +86,16 @@ do
 printf "\\n"
 if [[ "$OPT" = BLOOM ]] || [[ "$OPT" = MANUAL ]]
 then
-printf "The following editor(s) $cedst\\b\\b are present.  Would you like to use \`\\e[1;32m${ceds[$i]}\\e[0;32m\` to edit \`\\e[1;32msetupTermuxArchConfigs.bash\\e[0;32m\`?  "
+printf "The following editor(s) $USEREDTR\\b\\b are present.  Would you like to use \`\\e[1;32m${USEREDTR[$i]}\\e[0;32m\` to edit \`\\e[1;32msetupTermuxArchConfigs.bash\\e[0;32m\`?  "
 read -n 1 -p "Answer yes or no [Y|n]. "  yn
 else
-printf "Change the worldwide CMIRROR to a CMIRROR that is geographically nearby.  Choose only ONE active CMIRROR in the CMIRRORs file that you are about to edit.  The following editor(s) $cedst\\b\\b are present.  Would you like to use \`\\e[1;32m${ceds[$i]}\\e[0;32m\` to edit the Arch Linux configuration files?  "
+printf "Change the worldwide CMIRROR to a CMIRROR that is geographically nearby.  Choose only ONE active CMIRROR in the CMIRRORs file that you are about to edit.  The following editor(s) $USEREDTR\\b\\b are present.  Would you like to use \`\\e[1;32m${USEREDTR[$i]}\\e[0;32m\` to edit the Arch Linux configuration files?  "
 read -n 1 -p "Answer yes or no [Y|n]. "  yn
 fi
 if [[ "$yn" = [Yy]* ]] || [[ "$yn" = "" ]]
 then
-ed="${ceds[$i]}"
-ind=1
+USEREDIT="${USEREDTR[$i]}"
+EINDEX=1
 break
 elif [[ "$yn" = [Nn]* ]]
 then
@@ -126,14 +120,14 @@ read -n 1 -p "Answer nano or vi [n|V]? "  nv
 fi
 if [[ "$nv" = [Nn]* ]]
 then
-ed=nano
+USEREDIT=nano
 _NANOIF_
-ind=1
+EINDEX=1
 break
 elif [[ "$nv" = [Vv]* ]] || [[ "$nv" = "" ]]
 then
-ed=vi
-ind=1
+USEREDIT=vi
+EINDEX=1
 break
 else
 printf "\\nYou answered \\e[36;1m$nv\\e[1;32m.\\n\\nAnswer nano or vi [n|v].  \\n"

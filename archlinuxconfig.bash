@@ -582,7 +582,7 @@ _ADDkeys_() {
 # set customized commands for Arch Linux 32
 if [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = i386 ]]
 then
-X86INT="UPGDPKGS=(\"a/archlinux32-keyring-transition/archlinux32-keyring-transition-20191103-1-any.pkg.tar.xz\" \"l/lzo/lzo-2.10-3.0-i686.pkg.tar.xz\" \"p/pacman/pacman-5.2.1-1.4-i686.pkg.tar.xz\" \"z/zstd/zstd-1.1.2-1-i686.pkg.tar.xz\")
+X86INT="UPGDPKGS=(\"a/archlinux32-keyring-transition/archlinux32-keyring-transition-20191103-1-any.pkg.tar.xz\" \"l/lzo/lzo-2.10-3.0-i686.pkg.tar.xz\" \"p/pacman/pacman-5.0.1-4-i686.pkg.tar.xz\" \"z/zstd/zstd-1.1.2-1-i686.pkg.tar.xz\")
 for UPGDPAKG in \${UPGDPKGS[@]}
 do
 printf \"%s\\n\" \"Running curl -OL https://archive.archlinux32.org/packages/\$UPGDPAKG\"
