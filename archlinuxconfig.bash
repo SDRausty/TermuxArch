@@ -56,6 +56,55 @@ EOM
 chmod 700 root/bin/addauser
 }
 
+_ADDMOTA_() {
+if [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = "$CPUABIX86_64" ]] || [[ "$CPUABI" = i386 ]]
+then
+cat > etc/mota <<- EOM
+printf "\\\\n\\\\e[1;34m%s\\\\n%s\\\\e[0;34m%s\\\\n\\\\e[1;34m%s\\\\e[0;34m%s\\\\n\\\\e[1;34m%s\\\\e[0;34m%s\\\\n\\\\e[1;34m%s\\\\e[0;34m%s\\\\n\\\\n\\\\e[1;34m%s\\\\e[0m%s\\\\n\\\\e[1;34m%s\\\\e[0;34m%s\\\\e[1;34m%s\\\\e[0;34m%s\\\\n\\\\e[1;34m%s\\\\e[0m%s\\\\n\\\\n" "Welcome to Arch Linux in Termux!" "Install a package: " "pacman -S package" "More  information: " "pacman -[D|F|Q|R|S|T|U]h" "Search   packages: " "pacman -Ss query" "Upgrade  packages: " "pacman -Syu" "Chat:  " "https://wiki.termux.com/wiki/Community" "Help: " "info query " "and " "man query" "IRC: " "wiki.archlinux.org/index.php/IRC_channel"
+EOM
+else
+cat > etc/mota <<- EOM
+printf "\\\\n\\\\e[1;34m%s\\\\n%s\\\\e[0;34m%s\\\\n\\\\e[1;34m%s\\\\e[0;34m%s\\\\n\\\\e[1;34m%s\\\\e[0;34m%s\\\\n\\\\e[1;34m%s\\\\e[0;34m%s\\\\n\\\\n\\\\e[1;34m%s\\\\e[0m%s\\\\n\\\\e[1;34m%s\\\\e[0m%s\\\\n\\\\e[1;34m%s\\\\e[0;34m%s\\\\e[1;34m%s\\\\e[0;34m%s\\\\n\\\\e[1;34m%s\\\\e[0m%s\\\\n\\\\n" "Welcome to Arch Linux in Termux!" "Install a package: " "pacman -S package" "More  information: " "pacman -[D|F|Q|R|S|T|U]h" "Search   packages: " "pacman -Ss query" "Upgrade  packages: " "pacman -Syu" "Chat:  " "https://wiki.termux.com/wiki/Community" "Forum: " "https://archlinuxarm.org/forum" "Help: " "info query " "and " "man query" "IRC: " "wiki.archlinux.org/index.php/IRC_channel"
+EOM
+fi
+}
+
+_ADDMOTD_() {
+if [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = "$CPUABIX86_64" ]] || [[ "$CPUABI" = i386 ]]
+then
+cat > etc/motd <<- EOM
+Welcome to Arch Linux in Termux!
+Install a package: pacman -S package
+More  information: pacman -[D|F|Q|R|S|T|U]h
+Search   packages: pacman -Ss query
+Upgrade  packages: pacman -Syu
+
+Chat:  https://wiki.termux.com/wiki/Community
+Help: info query and man query
+IRC: wiki.archlinux.org/index.php/IRC_channel
+EOM
+else
+cat > etc/motd <<- EOM
+Welcome to Arch Linux in Termux!
+Install a package: pacman -S package
+More  information: pacman -[D|F|Q|R|S|T|U]h
+Search   packages: pacman -Ss query
+Upgrade  packages: pacman -Syu
+
+Chat:  https://wiki.termux.com/wiki/Community
+Forum: https://archlinuxarm.org/forum
+Help: info query and man query
+IRC: wiki.archlinux.org/index.php/IRC_channel
+EOM
+fi
+}
+
+_ADDMOTO_() {
+cat > etc/moto <<- EOM
+printf "\\\\n\\\\e[1;34mShare Your Arch Linux in Termux Experience!\\\\n\\\\n\\\\e[1;34mChat: \\\\e[0mwiki.termux.com/wiki/Community\\\\n\\\\e[1;34mHelp: \\\\e[0;34minfo query \\\\e[1;34mand \\\\e[0;34mman query\\\\n\\\\e[1;34mIRC:  \\\\e[0mwiki.archlinux.org/index.php/IRC_channel\\\\n\\\\n\\\\e[0m"
+EOM
+}
+
 _ADDREADME_() {
 _CFLHDR_ root/bin/README.md
 cat > root/bin/README.md <<- EOM
@@ -448,21 +497,6 @@ EOM
 chmod 700 root/bin/ga
 }
 
-_ADDgitconfig_() {
-if [[ -f "$HOME/.gitconfig" ]]
-then
-if [[ -f "$INSTALLDIR/root/.gitconfig" ]]
-then
-_DOTHRF_ "root/.gitconfig"
-cp "$HOME/.gitconfig" "$INSTALLDIR/root/.gitconfig"
-else
-cp "$HOME/.gitconfig" "$INSTALLDIR/root/.gitconfig"
-fi
-else
-touch "$INSTALLDIR/root/.gitconfig"
-fi
-}
-
 _ADDgcl_() {
 _CFLHDR_ root/bin/gcl "# contributor https://reddit.com/u/ElectricalUnion"
 cat >> root/bin/gcl <<- EOM
@@ -491,6 +525,21 @@ fi
 # gcm EOF
 EOM
 chmod 700 root/bin/gcm
+}
+
+_ADDgitconfig_() {
+if [[ -f "$HOME/.gitconfig" ]]
+then
+if [[ -f "$INSTALLDIR/root/.gitconfig" ]]
+then
+_DOTHRF_ "root/.gitconfig"
+cp "$HOME/.gitconfig" "$INSTALLDIR/root/.gitconfig"
+else
+cp "$HOME/.gitconfig" "$INSTALLDIR/root/.gitconfig"
+fi
+else
+touch "$INSTALLDIR/root/.gitconfig"
+fi
 }
 
 _ADDgpl_() {
@@ -530,23 +579,39 @@ EOM
 }
 
 _ADDkeys_() {
+# set customized commands for Arch Linux 32
 if [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = i386 ]]
 then
-# set customized commands for Arch Linux 32
-X86INT="HKPSERVRS=(\"hkp://pgp.mit.edu:11371\" \"hkps://hkps.pool.sks-keyservers.net\" \"hkps://keyserver.ubuntu.com\")
+X86INT=" HKPSERVRS=(\"hkp://pgp.mit.edu:11371\" \"hkps://hkps.pool.sks-keyservers.net\" \"hkps://keyserver.ubuntu.com\" \"hkp://pool.sks-keyservers.net\")
+_AL32KEYS_() {
+AL32KEYS=(\"C8E8F5A0AF9BA7E7\" \"255A76DB9A12601A\" \"16194A82231E9EF823562181C8E8F5A0AF9BA7E7\" \"5FDCA472AB93292BC678FD59255A76DB9A12601A\")	# 0x194e37a47a4c671807bacb37b1117bc1094ea6e9
+for AL32KEY in \${AL32KEYS[@]}
+do
 for HKPSERVR in \${HKPSERVRS[@]}
 do
-printf \"%s\\n\" \"Running gpg --homedir /etc/pacman.d/gnupg --keyserver \$HKPSERVR --recv-keys 0x194e37a47a4c671807bacb37b1117bc1094ea6e9...\"
-gpg --homedir /etc/pacman.d/gnupg --keyserver \$HKPSERVR --recv-keys 0x194e37a47a4c671807bacb37b1117bc1094ea6e9 && GPGBREAK=\"0\"
+printf \"%s\\n\" \"Running gpg --homedir /etc/pacman.d/gnupg --keyserver \$HKPSERVR --recv-keys \$AL32KEY...\"
+gpg --homedir /etc/pacman.d/gnupg --keyserver \$HKPSERVR --recv-keys \$AL32KEY && GPGBREAK=\"0\"
 [[ -z \"\${GPGBREAK:-}\" ]] || break
 done
-UPGDPKGS=(\"a/archlinux32-keyring/archlinux32-keyring-20191103-1.0-any.pkg.tar.xz\" \"l/libgcrypt/libgcrypt-1.8.5-2.0-i686.pkg.tar.xz\" \"o/openssl/openssl-1.1.1-1.0-i686.pkg.tar.xz\" \"p/pacman/pacman-5.2.1-1.4-i686.pkg.tar.xz\")
+done
+}
+_HKPSERVRS_() {
+for HKPSERVR in \${HKPSERVRS[@]}
+do
+printf \"%s\\n\" \"Running pacman-key --refresh-keys --keyserver \$HKPSERVR...\"
+pacman-key --refresh-keys --keyserver \$HKPSERVR && GPGBREAK=\"0\"
+[[ -z \"\${GPGBREAK:-}\" ]] || break
+done
+}
+pacman-key --refresh-keys || _HKPSERVRS_
+#UPGDPKGS=(\"a/archlinux32-keyring/archlinux32-keyring-20191103-1.0-any.pkg.tar.xz\" \"o/openssl/openssl-1.0.2.j-1-i686.pkg.tar.xz\" \"p/pacman/pacman-5.2.1-1.4-i686.pkg.tar.xz\")
+UPGDPKGS=(\"a/archlinux32-keyring/archlinux32-keyring-20191103-1.0-any.pkg.tar.xz\" \"l/libarchive/libarchive-3.2.2-3-i686.pkg.tar.xz\" \"l/lzo/lzo-2.10-3.0-i686.pkg.tar.xz\" \"p/pacman/pacman-5.2.1-1.4-i686.pkg.tar.xz\")
 for UPGDPAKG in \${UPGDPKGS[@]}
 do
 printf \"%s\\n\" \"Running curl -OL http://archive.archlinux32.org/packages/\$UPGDPAKG\"
-curl -OL http://archive.archlinux32.org/packages/\$UPGDPAKG
+curl -OL https://archive.archlinux32.org/packages/\$UPGDPAKG
 done
-pacman -U \${UPGDPKGS[@]##*/} --noconfirm && rm -f \${UPGDPKGS[@]##*/} || printf \"\\n%s\\n\" \"The commands \'pacman -U \${UPGDPKGS[@]##*/} --noconfirm && rm -f \${UPGDPKGS[@]##*/}\' did not succeed: continuing...\\n\""
+pacman -U \${UPGDPKGS[@]##*/} --noconfirm && rm -f \${UPGDPKGS[@]##*/} || printf \"\\e[1;31m\\n%s\\n\" \"The command 'pacman -U \${UPGDPKGS[@]##*/}--noconfirm' did not succeed: continuing...\""
 else
 X86INT=":"
 fi
@@ -609,7 +674,7 @@ printf "\\\\n\\\\e[1;32m[1/2] \\\\e[0;34mWhen \\\\e[0;37mgpg: Generating pacman 
 pacman-key --init || sudo pacman-key --init || _PRTERROR_
 chmod 700 /etc/pacman.d/gnupg
 $X86INT || _PRTERROR_
-pacman -Sy
+pacman -Syy || pacman -Syy || _PRTERROR_
 pacman-key --populate || sudo pacman-key --populate || _PRTERROR_
 # printf "\\\\n\\\\e[1;32m==>\\\\e[0m Running \\\\e[1mpacman -S %s --noconfirm --color=always\\\\e[0;32m...\\\\n" "\$ARGS"
 pacman -S "\${KEYRINGS[@]}" --noconfirm --color=always || sudo pacman -S "\${KEYRINGS[@]}" --noconfirm --color=always || _PRTERROR_
@@ -620,55 +685,6 @@ pacman -Ss keyring --color=always || sudo pacman -Ss keyring --color=always || _
 # keys EOF
 EOM
 chmod 700 root/bin/keys
-}
-
-_ADDMOTA_() {
-if [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = "$CPUABIX86_64" ]] || [[ "$CPUABI" = i386 ]]
-then
-cat > etc/mota <<- EOM
-printf "\\\\n\\\\e[1;34m%s\\\\n%s\\\\e[0;34m%s\\\\n\\\\e[1;34m%s\\\\e[0;34m%s\\\\n\\\\e[1;34m%s\\\\e[0;34m%s\\\\n\\\\e[1;34m%s\\\\e[0;34m%s\\\\n\\\\n\\\\e[1;34m%s\\\\e[0m%s\\\\n\\\\e[1;34m%s\\\\e[0;34m%s\\\\e[1;34m%s\\\\e[0;34m%s\\\\n\\\\e[1;34m%s\\\\e[0m%s\\\\n\\\\n" "Welcome to Arch Linux in Termux!" "Install a package: " "pacman -S package" "More  information: " "pacman -[D|F|Q|R|S|T|U]h" "Search   packages: " "pacman -Ss query" "Upgrade  packages: " "pacman -Syu" "Chat:  " "https://wiki.termux.com/wiki/Community" "Help: " "info query " "and " "man query" "IRC: " "wiki.archlinux.org/index.php/IRC_channel"
-EOM
-else
-cat > etc/mota <<- EOM
-printf "\\\\n\\\\e[1;34m%s\\\\n%s\\\\e[0;34m%s\\\\n\\\\e[1;34m%s\\\\e[0;34m%s\\\\n\\\\e[1;34m%s\\\\e[0;34m%s\\\\n\\\\e[1;34m%s\\\\e[0;34m%s\\\\n\\\\n\\\\e[1;34m%s\\\\e[0m%s\\\\n\\\\e[1;34m%s\\\\e[0m%s\\\\n\\\\e[1;34m%s\\\\e[0;34m%s\\\\e[1;34m%s\\\\e[0;34m%s\\\\n\\\\e[1;34m%s\\\\e[0m%s\\\\n\\\\n" "Welcome to Arch Linux in Termux!" "Install a package: " "pacman -S package" "More  information: " "pacman -[D|F|Q|R|S|T|U]h" "Search   packages: " "pacman -Ss query" "Upgrade  packages: " "pacman -Syu" "Chat:  " "https://wiki.termux.com/wiki/Community" "Forum: " "https://archlinuxarm.org/forum" "Help: " "info query " "and " "man query" "IRC: " "wiki.archlinux.org/index.php/IRC_channel"
-EOM
-fi
-}
-
-_ADDMOTD_() {
-if [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = "$CPUABIX86_64" ]] || [[ "$CPUABI" = i386 ]]
-then
-cat > etc/motd <<- EOM
-Welcome to Arch Linux in Termux!
-Install a package: pacman -S package
-More  information: pacman -[D|F|Q|R|S|T|U]h
-Search   packages: pacman -Ss query
-Upgrade  packages: pacman -Syu
-
-Chat:  https://wiki.termux.com/wiki/Community
-Help: info query and man query
-IRC: wiki.archlinux.org/index.php/IRC_channel
-EOM
-else
-cat > etc/motd <<- EOM
-Welcome to Arch Linux in Termux!
-Install a package: pacman -S package
-More  information: pacman -[D|F|Q|R|S|T|U]h
-Search   packages: pacman -Ss query
-Upgrade  packages: pacman -Syu
-
-Chat:  https://wiki.termux.com/wiki/Community
-Forum: https://archlinuxarm.org/forum
-Help: info query and man query
-IRC: wiki.archlinux.org/index.php/IRC_channel
-EOM
-fi
-}
-
-_ADDMOTO_() {
-cat > etc/moto <<- EOM
-printf "\\\\n\\\\e[1;34mShare Your Arch Linux in Termux Experience!\\\\n\\\\n\\\\e[1;34mChat: \\\\e[0mwiki.termux.com/wiki/Community\\\\n\\\\e[1;34mHelp: \\\\e[0;34minfo query \\\\e[1;34mand \\\\e[0;34mman query\\\\n\\\\e[1;34mIRC:  \\\\e[0mwiki.archlinux.org/index.php/IRC_channel\\\\n\\\\n\\\\e[0m"
-EOM
 }
 
 _ADDmakefakeroottcp_() {
@@ -919,8 +935,13 @@ chmod 700 root/bin/thstartarch
 }
 
 _ADDtools_() {	# developing implementaion : working system tools that work can be added to array PRFXTOLS
-
-[[ -z "${EDO01LCR:-}" ]] && PRFXTOLS=(getprop grep gzip sed ping termux-change-repo termux-info termux-open termux-open-url termux-wake-lock termux-wake-unlock termux-wake-lock termux-wake-unlock top which) || [[ $EDO01LCR = 0 ]] && PRFXTOLS=(am dpkg getprop grep gzip sed ping termux-change-repo termux-info termux-open termux-open-url termux-wake-lock termux-wake-unlock top which)
+if [[ -z "${EDO01LCR:-}" ]]
+then
+PRFXTOLS=(awk getprop grep gzip ping sed termux-change-repo termux-info termux-open termux-open-url termux-wake-lock termux-wake-unlock termux-wake-lock termux-wake-unlock top unzip sudo which)
+elif [[ $EDO01LCR = 0 ]]
+then
+PRFXTOLS=(am awk dpkg getprop grep gzip ping sed termux-change-repo termux-info termux-open termux-open-url termux-wake-lock termux-wake-unlock top which)
+fi
 #  	PRFXTOLS=(am getprop toolbox toybox)
 for STOOL in ${PRFXTOLS[@]}
 do
@@ -1156,6 +1177,11 @@ printf "%s\\n%s\\n%s\\n" "[ \"\$UID\" = \"0\" ] && printf \"\\e[1;31m%s\\e[1;37m
 chmod 700 root/bin/yt
 }
 
+_DOMODdotfiles_() {
+# Are you familiar with metacarpals syndrome?  Metacarpals can flare from vibrations.  To disable the silent bell feature replace the contents of this function with a colon (:) as in this example:
+# 	_DOMODexample_() {
+# 		:
+# 	}
 _MODdotfile_() {
 _MODdotfNF_() {
 printf "\\e[0;33mline %s not found in %s file \\e[0;34m: adding line %s to %s file \\e[0m\\n" "'$MODFILEADD'" "/${INSTALLDIR##*/}/root/$MODFILENAME" "'$MODFILEADD'" "/${INSTALLDIR##*/}/root/$MODFILENAME"
@@ -1164,12 +1190,6 @@ printf "$MODFILEADD\\n" >> "$INSTALLDIR/root/$MODFILENAME"
 # add MODFILEADD to file /root/MODFILENAME
 [[ -f "$INSTALLDIR/root/$MODFILENAME" ]] && (_DOTHRF_ "root/$MODFILENAME" && ! grep -q "$MODFILEADD" "$INSTALLDIR/root/$MODFILENAME" && _MODdotfNF_ || printf "\\e[0;34mline %s found in %s file\\e[0m\\n" "'$MODFILEADD'" "/${INSTALLDIR##*/}/root/$MODFILENAME") || _MODdotfNF_
 }
-
-_DOMODdotfiles_() {
-# Are you familiar with metacarpals syndrome?  Metacarpals can flare from vibrations.  To disable the silent bell feature replace the contents of this function with a colon (:) as in this example:
-# 	_DOMODexample_() {
-# 		:
-# 	}
 # add (setq visible-bell 1) to file /root/.emacs
 MODFILENAME=".emacs"
 MODFILEADD='(setq visible-bell 1)'

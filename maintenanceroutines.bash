@@ -149,11 +149,11 @@ units="$(df "$INSTALLDIR" 2>/dev/null | awk 'FNR == 1 {print $2}')"
 if [[ "$units" = Size ]]
 then
 _SPACEINFOGSIZE_
-printf "$SPACEMESSAGE"
+printf "%s\\n" "$SPACEMESSAGE"
 elif [[ "$units" = 1K-blocks ]]
 then
 _SPACEINFOKSIZE_
-printf "$SPACEMESSAGE"
+printf "%s\\n" "$SPACEMESSAGE"
 fi
 }
 
