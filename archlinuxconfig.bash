@@ -658,7 +658,7 @@ KEYRINGS="\$@"
 fi
 ARGS="\${KEYRINGS[@]}"
 _HKPSERVRS_() {
-HKPSERVRS=("hkps://keys.debian.org" "hkps://keys.gentoo.org" "hkps://keys.openpgp.org" "hkp://keyserver.cns.vt.edu" "hkps://keyserver.ubuntu.com" "hkp://pgp.mit.edu:11371" "hkps://hkps.pool.sks-keyservers.net" "hkp://pool.sks-keyservers.net")
+HKPSERVRS=("hkps://keyring.debian.org" "hkps://keys.gentoo.org" "hkps://keys.openpgp.org" "hkp://keyserver.cns.vt.edu" "hkps://keyserver.ubuntu.com" "hkp://pgp.mit.edu:11371" "hkps://hkps.pool.sks-keyservers.net" "hkp://pool.sks-keyservers.net")
 for HKPSERVR in \${HKPSERVRS[@]}
 do
 printf "%s\\n" "Running pacman-key --refresh-keys --keyserver \$HKPSERVR..."
@@ -671,7 +671,7 @@ printf "\\\\n\\\\e[1;32m==> \\\\e[1;37m%s \\\\e[0;32m%s \\\\e[1;32m%s %s \\\\e[0
 printf "\\\\n\\\\e[1;32m[1/2] \\\\e[0;34mWhen \\\\e[0;37mgpg: Generating pacman keyring master key\\\\e[0;34m appears on the screen, the installation process can be accelerated.  The system desires a lot of entropy at this part of the install procedure.  To generate as much entropy as possible quickly, watch and listen to a file on your device.  \\\\n\\\\nThe program \\\\e[1;32mpacman-key\\\\e[0;34m will want as much entropy as possible when generating keys.  Entropy is also created through tapping, sliding, one, two and more fingers tapping with short and long taps.  When \\\\e[0;37mgpg: Generating pacman keyring master key\\\\e[0;34m appears on the screen, use any of these simple methods to accelerate the installation process if it is stalled.  Put even simpler, just do something on device.  Browsing files will create entropy on device.  Slowly swiveling the device in space and time will accelerate the installation process.  This method alone might not generate enough entropy (a measure of randomness in a closed system) for the process to complete quickly.  You can use \\\\e[1;32mbash ~%s/bin/we \\\\e[0;34min a new Termux session to watch entropy on device.\\\\n\\\\n\\\\e[1;32m==>\\\\e[0m Running \\\\e[1mpacman-key --init\\\\e[0;32m...\\\\n" "$DARCH"
 pacman-key --init || sudo pacman-key --init || _PRTERROR_
 chmod 700 /etc/pacman.d/gnupg
-pacman-key --refresh-keys || _HKPSERVRS_
+_HKPSERVRS_
 $X86INT || _PRTERROR_
 pacman -Syy || pacman -Syy || _PRTERROR_
 pacman-key --populate || sudo pacman-key --populate || _PRTERROR_
