@@ -183,7 +183,6 @@ _DOPROXY_() {
 }
 
 _MAKEFINISHSETUP_() {
-_CFLHDR_ "root/bin/$BINFNSTP"
 _DOKEYS_() {
 if [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = i386 ]]
 then
@@ -195,16 +194,22 @@ else
 DOKYSKEY="/root/bin/keys"
 fi
 }
-if [[ "${LCR:-}" -ne 1 ]] || [[ "${LCR:-}" -ne 2 ]]
-then
+_DOKYLGEN_() {
 DOKYSKEY=""
 LOCGEN=""
-fi
-if [[ -z "${LCR:-}" ]] || [[ "${LCR:-}" -eq 3 ]]  # is undefined or equals 3
+}
+if [[ "${LCR:-}" -eq 3 ]] || [[ -z "${LCR:-}" ]]	# equals 3 or is undefined
 then
 _DOKEYS_
 LOCGEN="locale-gen"
+elif [[ "${LCR:-}" -eq 1 ]]	# equals 1
+then
+_DOKYLGEN_
+elif [[ "${LCR:-}" -eq 2 ]]	# equals 2
+then
+_DOKYLGEN_
 fi
+_CFLHDR_ "root/bin/$BINFNSTP"
 cat >> root/bin/"$BINFNSTP" <<- EOM
 _PMFSESTRING_() {
 printf "\\e[1;31m%s\\e[1;37m%s\\e[1;32m%s\\e[1;37m%s\\n\\n" "Signal generated in '\$1' : Cannot complete task : " "Continuing...   To correct the error run " "setupTermuxArch refresh" " to attempt to finish the autoconfiguration."
@@ -227,6 +232,7 @@ printf "%s\\n" "_PMGPSSTRING_ && pacman -Rc linux-aarch64 linux-firmware --nocon
 fi
 cat >> root/bin/"$BINFNSTP" <<- EOM
 $DOKYSKEY
+pacman -Syy || pacman -Syy || _PRTERROR_
 EOM
 if [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = "$CPUABIX86_64" ]] || [[ "$CPUABI" = i386 ]]
 then
