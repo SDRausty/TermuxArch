@@ -201,6 +201,8 @@ alias N2='nice -n -20'
 alias n2='nice -n -20'
 alias P='pwd'
 alias p='pwd'
+alias PG='pwd'
+alias pg='pwd'
 alias pacman='pacman --color=always'
 alias pcs='pacman -S --color=always'
 alias pcss='pacman -Ss --color=always'
@@ -582,12 +584,12 @@ _ADDkeys_() {
 # set customized commands for Arch Linux 32
 if [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = i386 ]]
 then
-X86INT="UPGDPKGS=(\"a/archlinux32-keyring/archlinux32-keyring-20191230-1.0-any.pkg.tar.xz\" \"l/libarchive/libarchive-3.3.3-1.0-i686.pkg.tar.xz\" \"o/openssl-1.0/openssl-1.0-1.0.2.t-1.0-i686.pkg.tar.xz\" \"p/pacman/pacman-5.2.1-1.4-i686.pkg.tar.xz\" \"z/zstd/zstd-1.4.4-1.0-i686.pkg.tar.xz\")
+X86INT="UPGDPKGS=(\"a/archlinux32-keyring-transition/archlinux32-keyring-transition-20190108-1-any.pkg.tar.xz\" \"l/libarchive/libarchive-3.3.3-1.0-i686.pkg.tar.xz\" \"o/openssl-1.0/openssl-1.0-1.0.2.t-1.0-i686.pkg.tar.xz\" \"p/pacman/pacman-5.2.1-1.4-i686.pkg.tar.xz\" \"z/zstd/zstd-1.4.4-1.0-i686.pkg.tar.xz\")
 for UPGDPAKG in \${UPGDPKGS[@]}
 do
 if [[ ! -f \"\${UPGDPAKG##*/}\" ]]
 then
-curl -C - --fail --retry 4 -OL {\"https://archive.archlinux32.org/packages/\$UPGDPAKG.sig,https://archive.archlinux32.org/packages/\$UPGDPAKG\"} ||:
+curl -C - --fail --retry 4 -OL {\"https://archive.archlinux32.org/packages/\$UPGDPAKG.sig,https://archive.archlinux32.org/packages/\$UPGDPAKG\"} && printf \"%s\\n\\n\" \"Finished downloading file '\${UPGDPAKG##*/}' from https://archive.archlinux32.org.\" ||:
 else
 printf \"%s\\n\" \"File '\${UPGDPAKG##*/}' is already downloaded.\"
 fi
@@ -598,9 +600,9 @@ printf \"\\n\\e[1;32m==> \\e[1;37mRunning \\e[1;32m%s\\e[0m%s...\\n\\n\" \"pacma
 pacman -U \${UPGDPKGS[\$1]##*/} --noconfirm || pacman -U \${UPGDPKGS[\$1]##*/} --noconfirm || printf \"\\e[1;31m\\n%s\\e[1;37m%s\\e[0m\\n\" \"The command 'pacman -U \$(printf \"%s\" \"\${UPGDPKGS[\$1]##*/}\") --noconfirm' did not succeed: continuing...\"
 }
 
-$ECHOEXEC printf \"\\n\\e[1;32m==> \\e[1;37m%s \\e[1;32m%s\\e[0m...\\n\\n\" \"Running\" \"pacman-key --refresh-keys \${0##*/} \${ARGS[@]} \$VERSIONID\" ; $ECHOEXEC pacman-key --refresh-keys
+$ECHOEXEC $ECHOSYNC printf \"\\n\\e[1;32m==> \\e[1;37m%s \\e[1;32m%s\\e[0m...\\n\\n\" \"Running\" \"pacman-key --refresh-keys \${0##*/} \${ARGS[@]} \$VERSIONID\" ; $ECHOEXEC $ECHOSYNC pacman-key --refresh-keys
 _PMUEOEPE_ 0
-pacman -U \${UPGDPKGS[1]##*/}  \${UPGDPKGS[4]##*/} --noconfirm
+pacman -U \${UPGDPKGS[1]##*/}  \${UPGDPKGS[4]##*/} --noconfirm || _PRTERROR_
 _PMUEOEPE_ 2
 _PMUEOEPE_ 3
 printf \"\\n\\e[1;32m==> \\e[1;37m%s \\e[1;32m%s\\e[0m%s...\\n\\n\" \"Running\" \"pacman -U \${UPGDPKGS[@]##*/} --noconfirm || pacman -U \${UPGDPKGS[@]##*/} --noconfirm \${0##*/} \${ARGS[@]} \$VERSIONID\"
@@ -672,18 +674,18 @@ printf '\033]2;  🔑 TermuxArch %s 📲 \007' "'\${0##*/} \${ARGS[@]}'"
 printf "\\\\n\\\\e[1;32m==> \\\\e[1;37m%s \\\\e[0;32m%s \\\\e[1;32m%s %s \\\\e[0m%s...\\\\n" "Running" "TermuxArch" "\${0##*/}" "\${ARGS[@]}" "\$VERSIONID"
 printf "\\\\n\\\\e[1;32m%s \\\\e[0;34mWhen \\\\e[0;37mgpg: Generating pacman keyring master key\\\\e[0;34m appears on the screen, the installation process can be accelerated.  The system desires a lot of entropy at this part of the install procedure.  To generate as much entropy as possible quickly, watch and listen to a file on your device.  \\\\n\\\\nThe program \\\\e[1;32mpacman-key\\\\e[0;34m will want as much entropy as possible when generating keys.  Entropy is also created through tapping, sliding, one, two and more fingers tapping with short and long taps.  When \\\\e[0;37mgpg: Generating pacman keyring master key\\\\e[0;34m appears on the screen, use any of these simple methods to accelerate the installation process if it is stalled.  Put even simpler, just do something on device.  Browsing files will create entropy on device.  Slowly swiveling the device in space and time will accelerate the installation process.  This method alone might not generate enough entropy (a measure of randomness in a closed system) for the process to complete quickly.  You can use \\\\e[1;32mbash ~%s/bin/we \\\\e[0;34min a new Termux session to watch entropy on device.\\\\e[0;32m\\\\n" "$X86IPT" "$DARCH"
 printf "\\\\n\\\\e[1;32m==> \\\\e[1;37m%s \\\\e[1;32m%s\\\\e[0m...\\\\n\\\\n" "Running" "pacman -Syy"
-$ECHOEXEC pacman -Syy || $ECHOEXEC pacman -Syy || _PRTERROR_
+$ECHOEXEC $ECHOSYNC pacman -Syy || $ECHOEXEC $ECHOSYNC pacman -Syy || _PRTERROR_
 printf "\\\\e[1;32m==>\\\\e[0m Running \\\\e[1;32mpacman-key --init\\\\e[0;32m...\\\\n"
 $ECHOEXEC pacman-key --init || $ECHOEXEC pacman-key --init || _PRTERROR_
 chmod 700 /etc/pacman.d/gnupg
 printf "\\\\e[1;32m==>\\\\e[0m Running \\\\e[1;32mpacman-key --populate\\\\e[0;32m...\\\\n"
 $ECHOEXEC pacman-key --populate || $ECHOEXEC pacman-key --populate || _PRTERROR_
 printf "\\\\e[1;32m==>\\\\e[0m Running \\\\e[1;32mpacman -Ss keyring --color=always\\\\e[0;32m...\\\\n"
-$ECHOEXEC pacman -Ss keyring --color=always || _PRTERROR_
+pacman -Ss keyring --color=always || _PRTERROR_
 $X86INT || _PRTERROR_
 $X86INK || _PRTERROR_
 printf "\\\\e[1;32m==>\\\\e[0m Running \\\\e[1;32mpacman -Ss keyring --color=always\\\\e[0;32m...\\\\n"
-$ECHOEXEC pacman -Ss keyring --color=always || _PRTERROR_
+pacman -Ss keyring --color=always || _PRTERROR_
 # keys EOF
 EOM
 chmod 700 root/bin/keys

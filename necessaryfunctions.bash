@@ -202,7 +202,7 @@ LOCGEN=""
 if [[ "${LCR:-}" -eq 3 ]] || [[ "${LCR:-}" -eq 4 ]] || [[ "${LCR:-}" -eq 5 ]] || [[ -z "${LCR:-}" ]]	# equals 3 or 4 or is undefined
 then
 _DOKEYS_
-LOCGEN="locale-gen"
+LOCGEN="locale-gen || locale-gen"
 elif [[ "${LCR:-}" -eq 1 ]]	# equals 1
 then
 _DOKYLGEN_
@@ -242,7 +242,7 @@ printf "%s\\n" "pacman -Su patch sudo unzip --noconfirm --color=always || pacman
 fi
 cat >> root/bin/"$BINFNSTP" <<- EOM
 printf "\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\n" "To generate locales in a preferred language use " "Settings > Language & Keyboard > Language " "in Android; Then run " "${0##*/} refresh" " for a full system refresh including locale generation; For a quick refresh you can use " "${0##*/} r" ".  For a refresh with user directories " "${0##*/} re" " can be used."
-$LOCGEN
+$LOCGEN || _PMFSESTRING_ "LOCGEN $BINFNSTP ${0##/*}.  Please run '$LOCGEN' again in the installed system."
 EOM
 printf "%s\\n" "/root/bin/addauser user || _PMFSESTRING_ \"addauser user $BINFNSTP ${0##/*}\"" >> root/bin/"$BINFNSTP"
 cat >> root/bin/"$BINFNSTP" <<- EOM

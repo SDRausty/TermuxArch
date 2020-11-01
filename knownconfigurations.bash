@@ -7,6 +7,7 @@
 ##  Running 'setupTermuxArch manual' will create 'setupTermuxArchConfigs.bash' from this file in the working directory.  Run 'setupTermuxArch' and file 'setupTermuxArchConfigs.bash' loads automaticaly once created, and this file is ignored at runtime; 'setupTermuxArch help' has additional information.  The mirror (information at https://wiki.archlinux.org/index.php/Mirrors and https://archlinuxarm.org/about/mirrors) can be changed to a desired geographic location in 'setupTermuxArchConfigs.bash' to resolve download, 404 and checksum issues should these take place.  User configurable variables are present in this file for your convenience:
 # DMVERBOSE="-v" 	##  uncomment for verbose download tool output with curl and wget;  For verbose output throughout runtime change this setting in file 'setupTermuxArch' also.
 ECHOEXEC=""		##  insert 'echo' to supress 'pacman' instructions from 'keys' file during runtime
+ECHOSYNC=""		##  insert 'echo' to only supress 'pacman' syncing instructions from 'keys' file during runtime
 # DM=aria2c		##  uncomment to use this download tool
 # DM=axel 		##  uncomment to use this download tool
 # DM=curl		##  uncomment to use this download tool
