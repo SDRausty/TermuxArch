@@ -665,7 +665,7 @@ chmod 700 /etc/pacman.d/gnupg
 pacman-key --populate || sudo pacman-key --populate || _PRTERROR_
 $X86INT || _PRTERROR_
 $X86INK || _PRTERROR_
-printf "\\\\e[1;32m==>\\\\e[0m Running \\\\e[1mpacman -Ss keyring --color=always\\\\e[0m...\\\\n"
+printf "\\e[1;32m==>\\e[0m Running \\e[1mpacman -Ss keyring --color=always\\e[0m...\\n"
 pacman -Ss keyring --color=always || sudo pacman -Ss keyring --color=always || _PRTERROR_
 # keys EOF
 EOM
