@@ -5,7 +5,7 @@
 # command 'setupTermuxArch h[elp]' has information how to use this file
 ################################################################################
 IFS=$'\n\t'
-VERSIONID=2.0.306
+VERSIONID=2.0.307
 set -Eeuo pipefail
 shopt -s nullglob globstar
 umask 0022
@@ -426,12 +426,15 @@ then
 printf "%s\\n" "Setting mode to manual."
 OPT=MANUAL
 _OPT2_ "$@"
-elif [[ "$2" = [Rr][Ee][Ff]* ]]
+elif [[ "${2//-}" = [Rr][Ee][Ff][Rr][Ee]* ]]
 then
-printf "\\n%s\\n" "Setting mode to refresh."
-shift
-_ARG2DIR_ "$@"
-_INTROREFRESH_ "$@"
+_PRPREFRESH_ "5"
+elif [[ "${2//-}" = [Rr][Ee][Ff][Rr]* ]]
+then
+_PRPREFRESH_ "4"
+elif [[ "${2//-}" = [Rr][Ee][Ff]* ]]
+then
+_PRPREFRESH_ "3"
 elif [[ "$2" = [Rr][Ee]* ]]
 then
 export LCR="2"
@@ -463,11 +466,15 @@ printf "%s\\n" "Setting mode to install."
 shift 2
 _ARG2DIR_ "$@"
 _INTRO_ "$@"
-elif [[ "$3" = [Rr][Ee][Ff]* ]]
+elif [[ "${3//-}" = [Rr][Ee][Ff][Rr][Ee]* ]]
 then
-printf "\\n%s\\n" "Setting mode to refresh."
-_ARG2DIR_ "$@"
-_INTROREFRESH_ "$@"
+_PRPREFRESH_ "5"
+elif [[ "${3//-}" = [Rr][Ee][Ff][Rr]* ]]
+then
+_PRPREFRESH_ "4"
+elif [[ "${3//-}" = [Rr][Ee][Ff]* ]]
+then
+_PRPREFRESH_ "3"
 elif [[ "$3" = [Rr][Ee]* ]]
 then
 export LCR="2"
@@ -499,6 +506,13 @@ _PREPTERMUXARCH_() {
 _NAMEINSTALLDIR_
 _NAMESTARTARCH_
 _PREPTMPDIR_ || _PSGI1ESTRING_ "_PREPTMPDIR_ _PREPTERMUXARCH_ ${0##*/}"
+}
+
+_PRPREFRESH_() {
+printf "\\n%s\\n" "Setting mode to full refresh mode $1; Continuing..."
+LCR="$1"
+_ARG2DIR_ "$@"
+_INTROREFRESH_ "$@"
 }
 
 _PRINTCONFLOADED_() {
@@ -868,26 +882,25 @@ _QEMU_
 _OPT1_ "$@"
 _INTRO_ "$@"
 ## [ref[resh] [customdir]]  Refresh the Arch Linux in Termux PRoot scripts created by TermuxArch and the installation itself.  Useful for refreshing the installation, the root user's home directory, user home directories and the TermuxArch generated scripts to their newest version and also runs keys and generates locales.
+elif [[ "${1//-}" = [Rr][Ee][Ff][Rr][Ee]* ]]
+then
+_PRPREFRESH_ "5"
+elif [[ "${1//-}" = [Rr][Ee][Ff][Rr]* ]]
+then
+_PRPREFRESH_ "4"
 elif [[ "${1//-}" = [Rr][Ee][Ff]* ]]
 then
-LCR="3"
-printf "\\nSetting mode to full refresh.\\n"
-_ARG2DIR_ "$@"
-_INTROREFRESH_ "$@"
+_PRPREFRESH_ "3"
 ## [re [customdir]]  Refresh the Arch Linux in Termux PRoot scripts created by TermuxArch.  Useful for refreshing the root user's home directory and user home directories and the TermuxArch generated scripts to their newest version.
 elif [[ "${1//-}" = [Rr][Ee] ]]
 then
-LCR="2"
 printf "\\n\\e[0;32mSetting mode\\e[1;34m: \\e[1;32mminimal refresh with refresh user directories\\e[1;34m:\\e[0;32m For a full refresh you can use the \\e[1;32m'%s' \\e[0;32m%s\\e[1;34m...\\n\\e[0m" "${0##*/} refresh" "command"
-_ARG2DIR_ "$@"
-_INTROREFRESH_ "$@"
+_PRPREFRESH_ "2"
 ## [r [customdir]]  Refresh the Arch Linux in Termux PRoot scripts created by TermuxArch.  Useful for refreshing the root user's home directory and the TermuxArch generated scripts to their newest version.
 elif [[ "${1//-}" = [Rr] ]]
 then
-LCR="1"
 printf "\\n\\e[0;32mSetting mode\\e[1;34m: \\e[1;32mminimal refresh\\e[1;34m:\\e[0;32m For a full refresh you can use the \\e[1;32m'%s' \\e[0;32m%s\\e[1;34m...\\n\\e[0m" "${0##*/} refresh" "command"
-_ARG2DIR_ "$@"
-_INTROREFRESH_ "$@"
+_PRPREFRESH_ "1"
 ## [u[nicorn] [refresh] [customdir]]  Partial Implementation:  Install alternate architecture on smartphone with https://github.com/unicorn-engine/Unicorn.  This option currently defaults to option qemu.
 elif [[ "${1//-}" = [Uu]* ]]
 then

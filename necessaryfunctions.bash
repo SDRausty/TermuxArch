@@ -199,7 +199,7 @@ _DOKYLGEN_() {
 DOKYSKEY=""
 LOCGEN=""
 }
-if [[ "${LCR:-}" -eq 3 ]] || [[ -z "${LCR:-}" ]]	# equals 3 or is undefined
+if [[ "${LCR:-}" -eq 3 ]] || [[ "${LCR:-}" -eq 4 ]] || [[ -z "${LCR:-}" ]]	# equals 3 or 4 or is undefined
 then
 _DOKEYS_
 LOCGEN="locale-gen"
@@ -232,8 +232,6 @@ then
 printf "%s\\n" "_PMGPSSTRING_ && pacman -Rc linux-aarch64 linux-firmware --noconfirm --color=always || _PMFSESTRING_ \"pacman -Rc linux-aarch64 linux-firmware $BINFNSTP \${0##/*}\"" >> root/bin/"$BINFNSTP"
 fi
 cat >> root/bin/"$BINFNSTP" <<- EOM
-printf "%s\\n" "pacman -Syy || pacman -Syy || _PMFSESTRING_ \"pacman -Syy $BINFNSTP ${0##/*}\""
-pacman -Syy || pacman -Syy || _PRTERROR_
 $DOKYSKEY
 EOM
 if [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = "$CPUABIX86_64" ]] || [[ "$CPUABI" = i386 ]]
