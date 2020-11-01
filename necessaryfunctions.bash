@@ -199,7 +199,7 @@ _DOKYLGEN_() {
 DOKYSKEY=""
 LOCGEN=""
 }
-if [[ "${LCR:-}" -eq 3 ]] || [[ "${LCR:-}" -eq 4 ]] || [[ -z "${LCR:-}" ]]	# equals 3 or 4 or is undefined
+if [[ "${LCR:-}" -eq 3 ]] || [[ "${LCR:-}" -eq 4 ]] || [[ "${LCR:-}" -eq 5 ]] || [[ -z "${LCR:-}" ]]	# equals 3 or 4 or is undefined
 then
 _DOKEYS_
 LOCGEN="locale-gen"
