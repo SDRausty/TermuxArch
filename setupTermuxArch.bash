@@ -5,7 +5,7 @@
 # command 'setupTermuxArch h[elp]' has information how to use this file
 ################################################################################
 IFS=$'\n\t'
-VERSIONID=2.0.305
+VERSIONID=2.0.306
 set -Eeuo pipefail
 shopt -s nullglob globstar
 umask 0022
@@ -607,7 +607,7 @@ fi
 }
 
 _RMARCHQ_() {
-printf "\\n\\e[0;33m %s \\e[1;33m%s \\e[0;33m%s\\n\\n\\e[1;30m%s\\n" "TermuxArch:" "DIRECTORY WARNING!  '$INSTALLDIR/'" "directory detected." "Purge '$INSTALLDIR' as requested?"
+printf "\\n\\e[0;33m %s \\e[1;33m%s \\e[0;33m%s\\n\\n\\e[1;30m%s\\n" "TermuxArch:" "DIRECTORY WARNING!  ~/${INSTALLDIR##*/}/" "directory detected." "Purge '$INSTALLDIR' as requested?"
 printf "\\n\\e[1;30m"
 while true; do
 read -n 1 -p "Uninstall '$INSTALLDIR'? [Y|n] " RUANSWER
