@@ -618,12 +618,12 @@ pacman -Ss keyring --color=always || _PRTERROR_
 _PMUEOEPE_ 8
 #_PMUEOEPE_ 6
 #_PMUEOEPE_ 5
+_PMUEOEP2_ 2 3
 _PMUEOEP3_ 4 5 7
 mv -f /tmp/{libcrypto.so.1.0.0,libssl.so.1.0.0} /usr/lib/
 sed -i '/^Architecture/s/.*/Architecture = pentium4/' /etc/pacman.conf
 sed -i '/^SigLevel/s/.*/SigLevel    = Never/' /etc/pacman.conf
 sed -i 's/^HoldPkg/\#HoldPkg/g' /etc/pacman.conf
-_PMUEOEP2_ 2 3
 pacman -S archlinux-keyring archlinux32-keyring --noconfirm
 sed -i '/^SigLevel/s/.*/SigLevel    = Required DatabaseOptional/' /etc/pacman.conf
 pacman -S pacman --noconfirm
