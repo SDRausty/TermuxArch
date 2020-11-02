@@ -585,7 +585,7 @@ _ADDkeys_() {
 if [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = i386 ]]
 then
 X86INT="UPGDPKGS=(\"a/archlinux-keyring/archlinux-keyring-20191219-1.0-any.pkg.tar.xz\" \"a/archlinux32-keyring/archlinux32-keyring-20191230-1.0-any.pkg.tar.xz\"  \"g/glibc/glibc-2.28-1.1-i686.pkg.tar.xz\" \"l/linux-api-headers/linux-api-headers-5.3.1-2.0-any.pkg.tar.xz\" \"l/libarchive/libarchive-3.3.3-1.0-i686.pkg.tar.xz\" \"o/openssl/openssl-1.1.1.d-2.0-i686.pkg.tar.xz\" \"o/openssl-1.0/openssl-1.0-1.0.2.t-1.0-i686.pkg.tar.xz\" \"p/pacman/pacman-5.2.1-1.4-i686.pkg.tar.xz\" \"z/zstd/zstd-1.4.4-1.0-i686.pkg.tar.xz\")
-printf \"%s\\n\" \"Downloading files '\${UPGDPKGS[@]##*/}' from https://archive.archlinux32.org.\"
+printf \"%s\\n\" \"Downloading files '\$(printf \"%s\" \"\${UPGDPKGS[@]##*/}\")' from https://archive.archlinux32.org.\"
 for UPGDPAKG in \${UPGDPKGS[@]}
 do
 if [[ ! -f \"\${UPGDPAKG##*/}\" ]]
@@ -621,7 +621,7 @@ _PMUEOEPE_ 8
 _PMUEOEP2_ 2 3
 _PMUEOEP3_ 4 5 7
 mv -f /tmp/{libcrypto.so.1.0.0,libssl.so.1.0.0} /usr/lib/
-sed -i '/^Architecture/s/.*/Architecture = pentium4/' /etc/pacman.conf
+sed -i '/^Architecture/s/.*/Architecture = i686/' /etc/pacman.conf
 sed -i '/^SigLevel/s/.*/SigLevel    = Never/' /etc/pacman.conf
 sed -i 's/^HoldPkg/\#HoldPkg/g' /etc/pacman.conf
 pacman -S archlinux-keyring archlinux32-keyring --noconfirm
@@ -960,7 +960,7 @@ $STARTBIN su user "pwd && whoami" || _PRTERROR_
 printf "%s\\n" "th$STARTBIN done"
 # th"$STARTBIN" EOF
 EOM
-chmod 700 root/bin/thstartarch
+chmod 700 root/bin/th"$STARTBIN"
 }
 
 _ADDtools_() {	# developing implementaion : working system tools that work can be added to array PRFXTOLS
