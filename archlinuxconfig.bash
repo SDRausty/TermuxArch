@@ -584,8 +584,8 @@ _ADDkeys_() {
 # set customized commands for Arch Linux 32
 if [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = i386 ]]
 then
-X86INT="UPGDPKGS=(\"p/pacman/pacman-5.1.0-2.1-i686.pkg.tar.xz\" \"a/archlinux32-keyring/archlinux32-keyring-20191230-1.0-any.pkg.tar.xz\"  \"g/glibc/glibc-2.28-1.1-i686.pkg.tar.xz\" \"l/linux-api-headers/linux-api-headers-5.3.1-2.0-any.pkg.tar.xz\" \"l/libarchive/libarchive-3.3.3-1.0-i686.pkg.tar.xz\" \"o/openssl/openssl-1.1.1.d-2.0-i686.pkg.tar.xz\" \"o/openssl-1.0/openssl-1.0-1.0.2.t-1.0-i686.pkg.tar.xz\" \"p/pacman/pacman-5.2.1-1.4-i686.pkg.tar.xz\" \"z/zstd/zstd-1.4.4-1.0-i686.pkg.tar.xz\")
-printf \"%s\\n\" \"Downloading files '\${UPGDPAKG[@]##*/}' from https://archive.archlinux32.org.\"
+X86INT="UPGDPKGS=(\"a/archlinux-keyring/archlinux-keyring-20191219-1.0-any.pkg.tar.xz\" \"a/archlinux32-keyring/archlinux32-keyring-20191230-1.0-any.pkg.tar.xz\"  \"g/glibc/glibc-2.28-1.1-i686.pkg.tar.xz\" \"l/linux-api-headers/linux-api-headers-5.3.1-2.0-any.pkg.tar.xz\" \"l/libarchive/libarchive-3.3.3-1.0-i686.pkg.tar.xz\" \"o/openssl/openssl-1.1.1.d-2.0-i686.pkg.tar.xz\" \"o/openssl-1.0/openssl-1.0-1.0.2.t-1.0-i686.pkg.tar.xz\" \"p/pacman/pacman-5.2.1-1.4-i686.pkg.tar.xz\" \"z/zstd/zstd-1.4.4-1.0-i686.pkg.tar.xz\")
+printf \"%s\\n\" \"Downloading files '\${UPGDPKGS[@]##*/}' from https://archive.archlinux32.org.\"
 for UPGDPAKG in \${UPGDPKGS[@]}
 do
 if [[ ! -f \"\${UPGDPAKG##*/}\" ]]
@@ -612,15 +612,20 @@ pacman -Uv \"\${UPGDPKGS[\$1]##*/}\" \"\${UPGDPKGS[\$2]##*/}\" \"\${UPGDPKGS[\$3
 
 cp -f /usr/lib/{libcrypto.so.1.0.0,libssl.so.1.0.0} /tmp
 _PMUEOEPE_ 1
+_PMUEOEPE_ 0
 printf \"\\e[1;32m==>\\e[0m Running \\e[1;32mpacman -Ss keyring --color=always\\e[0;32m...\\n\"
 pacman -Ss keyring --color=always || _PRTERROR_
 _PMUEOEPE_ 8
-#_PMUEOEPE_ 0
 #_PMUEOEPE_ 6
 #_PMUEOEPE_ 5
-_PMUEOEP2_ 2 3
 _PMUEOEP3_ 4 5 7
 mv -f /tmp/{libcrypto.so.1.0.0,libssl.so.1.0.0} /usr/lib/
+sed -i '/^Architecture/s/.*/Architecture = pentium4/' /etc/pacman.conf
+sed -i '/^SigLevel/s/.*/SigLevel    = Never/' /etc/pacman.conf
+sed -i 's/^HoldPkg/\#HoldPkg/g' /etc/pacman.conf
+_PMUEOEP2_ 2 3
+pacman -S archlinux-keyring archlinux32-keyring --noconfirm
+sed -i '/^SigLevel/s/.*/SigLevel    = Required DatabaseOptional/' /etc/pacman.conf
 pacman -S pacman --noconfirm
 "
 X86IPT="(1/1)"
