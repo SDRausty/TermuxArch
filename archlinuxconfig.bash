@@ -621,8 +621,10 @@ _KEYSGENMSG_
 sed -i '/^SigLevel/s/.*/SigLevel    = Required DatabaseOptional/' /etc/pacman.conf
 printf \"\\n\\e[1;32m==>  \\e[1;37mRunning \${0##*/} [5/7] $ARCHITEC ($CPUABI) architecture upgrade ; \\e[1;32m%s\\e[0m...\\n\" \"pacman -S pacman --noconfirm\"
 pacman -S pacman --noconfirm || _PRTERROR_
-printf \"\\n\\e[1;32m==>  \\e[1;37mRunning \${0##*/} [6/7] $ARCHITEC ($CPUABI) architecture upgrade ; \\e[1;32m%s\\e[0m...\\n\" \"pacman -S bash ca-certificates-utils ca-certificates-mozilla coreutils gcc-libs glibc gpgme grep gzip libffi linux-api-headers ncurses openssl patch readline sed sudo tzdata unzip zstd --noconfirm\"
 rm /etc/ssl/certs/ca-certificates.crt
+printf \"\\n\\e[1;32m==>  \\e[1;37mRunning \${0##*/} [6/7] $ARCHITEC ($CPUABI) architecture upgrade ; \\e[1;32m%s\\e[0m...\\n\" \"pacman -S ca-certificates\"
+pacman -S ca-certificates || _PRTERROR_
+printf \"\\n\\e[1;32m==>  \\e[1;37mRunning \${0##*/} [6/7] $ARCHITEC ($CPUABI) architecture upgrade ; \\e[1;32m%s\\e[0m...\\n\" \"pacman -S bash ca-certificates-utils ca-certificates-mozilla coreutils gcc-libs glibc gpgme grep gzip libffi linux-api-headers ncurses openssl patch readline sed sudo tzdata unzip zstd --noconfirm\"
 pacman -S bash ca-certificates-utils ca-certificates-mozilla coreutils gcc-libs glibc gpgme grep gzip libffi linux-api-headers ncurses openssl patch readline sed sudo tzdata unzip zstd --noconfirm || _PRTERROR_
 printf \"\\n\\e[1;32m==>  \\e[1;37mRunning \${0##*/} [7/7] $ARCHITEC ($CPUABI) architecture upgrade ; \\e[1;32m%s\\e[0m...\\n\" \"pacman -Su --noconfirm ; Starting full system upgrade\"
 pacman -Su --noconfirm || _PRTERROR_"
