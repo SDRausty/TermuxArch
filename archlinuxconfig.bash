@@ -614,6 +614,7 @@ sed -i '/^Architecture/s/.*/Architecture = i686/' /etc/pacman.conf
 sed -i '/^SigLevel/s/.*/SigLevel    = Never/' /etc/pacman.conf
 sed -i 's/^HoldPkg/\#HoldPkg/g' /etc/pacman.conf
 printf \"\\n\\e[1;32m==>  \\e[1;37mRunning [4/7] ; \\e[1;32m%s\\e[0m...\\n\" \"pacman -S archlinux-keyring archlinux32-keyring --noconfirm\"
+_KEYSGENMSG_
 pacman -S archlinux-keyring archlinux32-keyring --noconfirm || _PRTERROR_
 _KEYSGENMSG_
 sed -i '/^SigLevel/s/.*/SigLevel    = Required DatabaseOptional/' /etc/pacman.conf
