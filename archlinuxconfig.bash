@@ -618,8 +618,8 @@ pacman -S archlinux-keyring archlinux32-keyring --noconfirm
 sed -i '/^SigLevel/s/.*/SigLevel    = Required DatabaseOptional/' /etc/pacman.conf
 printf \"\\n\\e[1;32m==>  \\e[1;37m(5/6) Running \\e[1;32m%s\\e[0m...\\n\" \"pacman -S pacman --noconfirm\"
 pacman -S pacman --noconfirm
-printf \"\\n\\e[1;32m==>  \\e[1;37m(6/6) Running \\e[1;32m%s\\e[0m...\\n\" \"pacman -S gpgme --noconfirm\"
-pacman -S gpgme --noconfirm
+printf \"\\n\\e[1;32m==>  \\e[1;37m(6/6) Running \\e[1;32m%s\\e[0m...\\n\" \"pacman -S glibc gpgme openssl --noconfirm\"
+pacman -S glibc gpgme openssl --noconfirm
 rm /etc/ssl/certs/ca-certificates.crt"
 X86IPT="(1/1)"
 X86INK=":"
