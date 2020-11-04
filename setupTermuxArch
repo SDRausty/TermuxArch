@@ -5,7 +5,7 @@
 # command 'setupTermuxArch h[elp]' has information how to use this file
 ################################################################################
 IFS=$'\n\t'
-VERSIONID=2.0.338
+VERSIONID=2.0.339
 set -Eeuo pipefail
 shopt -s nullglob globstar
 umask 0022
@@ -509,7 +509,7 @@ _PREPTMPDIR_ || _PSGI1ESTRING_ "_PREPTMPDIR_ _PREPTERMUXARCH_ ${0##*/}"
 }
 
 _PRPREFRESH_() {
-printf "\\n%s\\n" "Setting mode to refresh mode $1;  Initializing system refresh..."
+printf "\\n%s\\n" "Refresh mode is set to refresh mode $1;  Initializing system refresh..."
 LCR="$1"
 _ARG2DIR_ "$@"
 _INTROREFRESH_ "$@"
