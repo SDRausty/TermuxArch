@@ -605,6 +605,7 @@ printf \"\\n\\e[1;32m==>  \\e[1;37mRunning [\$4/7] $ARCHITEC ($CPUABI) architect
 
 cp -f /usr/lib/{libcrypto.so.1.0.0,libssl.so.1.0.0} /tmp
 _PMUEOEP2_ 0 1 1
+_KEYSGENMSG_
 printf \"\\e[1;32m==>\\e[0m Running \\e[1;32mpacman -Ss keyring --color=always\\e[0;32m...\\n\"
 pacman -Ss keyring --color=always || _PRTERROR_
 _PMUEOEP3_ 2 3 7 2
