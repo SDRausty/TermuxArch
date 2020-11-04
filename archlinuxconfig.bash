@@ -618,10 +618,10 @@ pacman -S archlinux-keyring archlinux32-keyring --noconfirm
 sed -i '/^SigLevel/s/.*/SigLevel    = Required DatabaseOptional/' /etc/pacman.conf
 printf \"\\n\\e[1;32m==>  \\e[1;37m(5/6) Running \\e[1;32m%s\\e[0m...\\n\" \"pacman -S pacman --noconfirm\"
 pacman -S pacman --noconfirm
-printf \"\\n\\e[1;32m==>  \\e[1;37m(6/6) Running \\e[1;32m%s\\e[0m...\\n\" \"pacman -S glibc gpgme openssl --noconfirm\"
-pacman -S glibc gpgme openssl --noconfirm
-rm /etc/ssl/certs/ca-certificates.crt"
-X86IPT="(1/1)"
+rm /etc/ssl/certs/ca-certificates.crt
+printf \"\\n\\e[1;32m==>  \\e[1;37m(6/6) Running \\e[1;32m%s\\e[0m...\\n\" \"pacman -S ca-certificates-utils ca-certificates-mozilla coreutils glibc gpgme libffi linux-api-headers openssl zstd --noconfirm\"
+pacman -S ca-certificates-utils ca-certificates-mozilla coreutils glibc gpgme linux-api-headers openssl zstd --noconfirm "
+X86IPT=" "
 X86INK=":"
 else	# architecture versions armv5, armv7, aarch64 and x86_64 of Arch Linux use these options
 X86INT=":"
