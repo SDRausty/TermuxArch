@@ -596,11 +596,11 @@ fi
 done
 
 _PMUEOEP2_() {
-printf \"\\n\\e[1;32m==>  \\e[1;37m(\$3) Running \\e[1;32m%s\\e[0m...\\n\" \"pacman -U \${UPGDPKGS[\$1]##*/} \${UPGDPKGS[\$2]##*/} --noconfirm\" ; pacman -U \"\${UPGDPKGS[\$1]##*/}\" \"\${UPGDPKGS[\$2]##*/}\" --noconfirm || (_PRTERROR_ && printf \"\\e[1;31m\\n%s\\e[1;37m%s\\e[0m\\n\" \"The command 'pacman -U \${UPGDPKGS[\$1]##*/} --noconfirm' did not succeed: continuing...\")
+printf \"\\n\\e[1;32m==>  \\e[1;37m[\$3] Running \\e[1;32m%s\\e[0m...\\n\" \"pacman -U \${UPGDPKGS[\$1]##*/} \${UPGDPKGS[\$2]##*/} --noconfirm\" ; pacman -U \"\${UPGDPKGS[\$1]##*/}\" \"\${UPGDPKGS[\$2]##*/}\" --noconfirm || (_PRTERROR_ && printf \"\\e[1;31m\\n%s\\e[1;37m%s\\e[0m\\n\" \"The command 'pacman -U \${UPGDPKGS[\$1]##*/} --noconfirm' did not succeed: continuing...\")
 }
 
 _PMUEOEP3_() {
-printf \"\\n\\e[1;32m==>  \\e[1;37m(\$4) Running \\e[1;32m%s\\e[0m...\\n\" \"pacman -U \${UPGDPKGS[\$1]##*/} \${UPGDPKGS[\$2]##*/} \${UPGDPKGS[\$3]##*/} --noconfirm\" ; pacman -U \"\${UPGDPKGS[\$1]##*/}\" \"\${UPGDPKGS[\$2]##*/}\" \"\${UPGDPKGS[\$3]##*/}\" --noconfirm || (_PRTERROR_ && printf \"\\e[1;31m\\n%s\\e[1;37m%s\\e[0m\\n\" \"The command 'pacman -U \${UPGDPKGS[\$1]##*/} \${UPGDPKGS[\$2]##*/} \${UPGDPKGS[\$3]##*/} --noconfirm' did not succeed: continuing...\")
+printf \"\\n\\e[1;32m==>  \\e[1;37m[\$4] Running \\e[1;32m%s\\e[0m...\\n\" \"pacman -U \${UPGDPKGS[\$1]##*/} \${UPGDPKGS[\$2]##*/} \${UPGDPKGS[\$3]##*/} --noconfirm\" ; pacman -U \"\${UPGDPKGS[\$1]##*/}\" \"\${UPGDPKGS[\$2]##*/}\" \"\${UPGDPKGS[\$3]##*/}\" --noconfirm || (_PRTERROR_ && printf \"\\e[1;31m\\n%s\\e[1;37m%s\\e[0m\\n\" \"The command 'pacman -U \${UPGDPKGS[\$1]##*/} \${UPGDPKGS[\$2]##*/} \${UPGDPKGS[\$3]##*/} --noconfirm' did not succeed: continuing...\")
 }
 
 cp -f /usr/lib/{libcrypto.so.1.0.0,libssl.so.1.0.0} /tmp
@@ -613,14 +613,14 @@ mv -f /tmp/{libcrypto.so.1.0.0,libssl.so.1.0.0} /usr/lib/
 sed -i '/^Architecture/s/.*/Architecture = i686/' /etc/pacman.conf
 sed -i '/^SigLevel/s/.*/SigLevel    = Never/' /etc/pacman.conf
 sed -i 's/^HoldPkg/\#HoldPkg/g' /etc/pacman.conf
-printf \"\\n\\e[1;32m==>  \\e[1;37m(4/6) Running \\e[1;32m%s\\e[0m...\\n\" \"pacman -S archlinux-keyring archlinux32-keyring --noconfirm\"
+printf \"\\n\\e[1;32m==>  \\e[1;37m[4/6] Running \\e[1;32m%s\\e[0m...\\n\" \"pacman -S archlinux-keyring archlinux32-keyring --noconfirm\"
 pacman -S archlinux-keyring archlinux32-keyring --noconfirm
 sed -i '/^SigLevel/s/.*/SigLevel    = Required DatabaseOptional/' /etc/pacman.conf
-printf \"\\n\\e[1;32m==>  \\e[1;37m(5/6) Running \\e[1;32m%s\\e[0m...\\n\" \"pacman -S pacman --noconfirm\"
+printf \"\\n\\e[1;32m==>  \\e[1;37m[5/6] Running \\e[1;32m%s\\e[0m...\\n\" \"pacman -S pacman --noconfirm\"
 pacman -S pacman --noconfirm
 rm /etc/ssl/certs/ca-certificates.crt
-printf \"\\n\\e[1;32m==>  \\e[1;37m(6/6) Running \\e[1;32m%s\\e[0m...\\n\" \"pacman -S ca-certificates-utils ca-certificates-mozilla coreutils glibc gpgme libffi linux-api-headers openssl zstd --noconfirm\"
-pacman -S ca-certificates-utils ca-certificates-mozilla coreutils glibc gpgme linux-api-headers openssl zstd --noconfirm "
+printf \"\\n\\e[1;32m==>  \\e[1;37m[6/6] Running \\e[1;32m%s\\e[0m...\\n\" \"pacman -S ca-certificates-utils ca-certificates-mozilla coreutils glibc gpgme grep gzip libffi linux-api-headers openssl patch sed sudo tzdata unzip zstd --noconfirm\"
+pacman -S ca-certificates-utils ca-certificates-mozilla coreutils glibc gpgme grep gzip linux-api-headers openssl patch sed sudo tzdata unzip zstd --noconfirm "
 X86IPT=" "
 X86INK=":"
 else	# architecture versions armv5, armv7, aarch64 and x86_64 of Arch Linux use these options
