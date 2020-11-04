@@ -621,7 +621,6 @@ pacman -S pacman --noconfirm || _PRTERROR_
 rm /etc/ssl/certs/ca-certificates.crt
 printf \"\\n\\e[1;32m==>  \\e[1;37mRunning [6/7] ; \\e[1;32m%s\\e[0m...\\n\" \"pacman -S ca-certificates-utils ca-certificates-mozilla coreutils glibc gpgme grep gzip libffi linux-api-headers openssl patch sed sudo tzdata unzip zstd --noconfirm\"
 pacman -S ca-certificates-utils ca-certificates-mozilla coreutils glibc gpgme grep gzip libffi linux-api-headers openssl patch sed sudo tzdata unzip zstd --noconfirm || _PRTERROR_
-$INSTALLDIR/$STARTBIN locale-gen || _PRTERROR_
 printf \"\\n\\e[1;32m==>  \\e[1;37mRunning [7/7] ; \\e[1;32m%s\\e[0m...\\n\" \"pacman -Su --noconfirm ; Starting full system upgrade...\"
 pacman -Su --noconfirm || _PRTERROR_"
 X86IPT=" "
