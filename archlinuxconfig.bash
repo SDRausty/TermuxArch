@@ -966,12 +966,12 @@ chmod 700 root/bin/th"$STARTBIN"
 _ADDtools_() {	# developing implementaion : working system tools that work can be added to array PRFXTOLS
 if [[ -z "${EDO01LCR:-}" ]]
 then
-PRFXTOLS=(awk getprop grep gzip ping sed tar termux-change-repo termux-info termux-open termux-open-url termux-wake-lock termux-wake-unlock termux-wake-lock termux-wake-unlock top which)
+PRFXTOLS=(top)
 elif [[ $EDO01LCR = 0 ]]
 then
 PRFXTOLS=(am awk dpkg getprop grep gzip ping sed termux-change-repo termux-info termux-open termux-open-url termux-wake-lock termux-wake-unlock top which)
 fi
-#  	PRFXTOLS=(am getprop toolbox toybox)
+#  	PRFXTOLS=(toolbox toybox)
 for STOOL in ${PRFXTOLS[@]}
 do
 cp $(which "$STOOL") usr/local/bin/ || printf "%s\\n" "System tool $STOOL cannot be found: continuing..."
