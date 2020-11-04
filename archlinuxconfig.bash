@@ -965,7 +965,7 @@ chmod 700 root/bin/th"$STARTBIN"
 _ADDtools_() {	# developing implementaion : working system tools that work can be added to array PRFXTOLS
 if [[ -z "${EDO01LCR:-}" ]]
 then
-PRFXTOLS=(top)
+PRFXTOLS=(sed top)
 elif [[ $EDO01LCR = 0 ]]
 then
 PRFXTOLS=(am awk dpkg getprop grep gzip ping sed termux-change-repo termux-info termux-open termux-open-url termux-wake-lock termux-wake-unlock top which)
