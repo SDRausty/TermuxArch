@@ -618,6 +618,7 @@ pacman -S archlinux-keyring archlinux32-keyring --noconfirm
 sed -i '/^SigLevel/s/.*/SigLevel    = Required DatabaseOptional/' /etc/pacman.conf
 printf \"\\n\\e[1;32m==> \\e[1;37mRunning \\e[1;32m%s\\e[0m%s...\\n\" \"pacman -S pacman --noconfirm\"
 pacman -S pacman --noconfirm
+pacman -S gpg --noconfirm
 rm /etc/ssl/certs/ca-certificates.crt"
 X86IPT="(1/1)"
 X86INK=":"
