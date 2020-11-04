@@ -429,9 +429,9 @@ _FIXOWNER_
 _PREPROOT_() {
 if [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = "$CPUABIX86_64" ]] || [[ "$CPUABI" = i386 ]]
 then
-proot --link2symlink -0 bsdtar -x -p -f "$IFILE" --strip-components 1
+proot --link2symlink -0 bsdtar -p -xf "$IFILE" --strip-components 1
 else
-proot --link2symlink -0 bsdtar -x -p -f "$IFILE"
+proot --link2symlink -0 bsdtar -p -xf "$IFILE"
 fi
 }
 
