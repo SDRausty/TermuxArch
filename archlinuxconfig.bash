@@ -596,11 +596,11 @@ fi
 done
 
 _PMUEOEP2_() {
-printf \"\\n\\e[1;32m==>  (\$3)\\e[1;37mRunning \\e[1;32m%s\\e[0m...\\n\" \"pacman -U \${UPGDPKGS[\$1]##*/} \${UPGDPKGS[\$2]##*/} --noconfirm\" ; pacman -U \"\${UPGDPKGS[\$1]##*/}\" \"\${UPGDPKGS[\$2]##*/}\" --noconfirm || (_PRTERROR_ && printf \"\\e[1;31m\\n%s\\e[1;37m%s\\e[0m\\n\" \"The command 'pacman -U \${UPGDPKGS[\$1]##*/} --noconfirm' did not succeed: continuing...\")
+printf \"\\n\\e[1;32m==>  \\e[1;37m(\$3) Running \\e[1;32m%s\\e[0m...\\n\" \"pacman -U \${UPGDPKGS[\$1]##*/} \${UPGDPKGS[\$2]##*/} --noconfirm\" ; pacman -U \"\${UPGDPKGS[\$1]##*/}\" \"\${UPGDPKGS[\$2]##*/}\" --noconfirm || (_PRTERROR_ && printf \"\\e[1;31m\\n%s\\e[1;37m%s\\e[0m\\n\" \"The command 'pacman -U \${UPGDPKGS[\$1]##*/} --noconfirm' did not succeed: continuing...\")
 }
 
 _PMUEOEP3_() {
-printf \"\\n\\e[1;32m==>  (\$4)\\e[1;37mRunning \\e[1;32m%s\\e[0m...\\n\" \"pacman -U \${UPGDPKGS[\$1]##*/} \${UPGDPKGS[\$2]##*/} \${UPGDPKGS[\$3]##*/} --noconfirm\" ; pacman -U \"\${UPGDPKGS[\$1]##*/}\" \"\${UPGDPKGS[\$2]##*/}\" \"\${UPGDPKGS[\$3]##*/}\" --noconfirm || (_PRTERROR_ && printf \"\\e[1;31m\\n%s\\e[1;37m%s\\e[0m\\n\" \"The command 'pacman -U \${UPGDPKGS[\$1]##*/} \${UPGDPKGS[\$2]##*/} \${UPGDPKGS[\$3]##*/} --noconfirm' did not succeed: continuing...\")
+printf \"\\n\\e[1;32m==>  \\e[1;37m(\$4) Running \\e[1;32m%s\\e[0m...\\n\" \"pacman -U \${UPGDPKGS[\$1]##*/} \${UPGDPKGS[\$2]##*/} \${UPGDPKGS[\$3]##*/} --noconfirm\" ; pacman -U \"\${UPGDPKGS[\$1]##*/}\" \"\${UPGDPKGS[\$2]##*/}\" \"\${UPGDPKGS[\$3]##*/}\" --noconfirm || (_PRTERROR_ && printf \"\\e[1;31m\\n%s\\e[1;37m%s\\e[0m\\n\" \"The command 'pacman -U \${UPGDPKGS[\$1]##*/} \${UPGDPKGS[\$2]##*/} \${UPGDPKGS[\$3]##*/} --noconfirm' did not succeed: continuing...\")
 }
 
 cp -f /usr/lib/{libcrypto.so.1.0.0,libssl.so.1.0.0} /tmp
@@ -613,12 +613,12 @@ mv -f /tmp/{libcrypto.so.1.0.0,libssl.so.1.0.0} /usr/lib/
 sed -i '/^Architecture/s/.*/Architecture = i686/' /etc/pacman.conf
 sed -i '/^SigLevel/s/.*/SigLevel    = Never/' /etc/pacman.conf
 sed -i 's/^HoldPkg/\#HoldPkg/g' /etc/pacman.conf
-printf \"\\n\\e[1;32m==>  (4/6)\\e[1;37mRunning \\e[1;32m%s\\e[0m...\\n\" \"pacman -S archlinux-keyring archlinux32-keyring --noconfirm\"
+printf \"\\n\\e[1;32m==>  \\e[1;37m(4/6) Running \\e[1;32m%s\\e[0m...\\n\" \"pacman -S archlinux-keyring archlinux32-keyring --noconfirm\"
 pacman -S archlinux-keyring archlinux32-keyring --noconfirm
 sed -i '/^SigLevel/s/.*/SigLevel    = Required DatabaseOptional/' /etc/pacman.conf
-printf \"\\n\\e[1;32m==>  (5/6)\\e[1;37mRunning \\e[1;32m%s\\e[0m...\\n\" \"pacman -S pacman --noconfirm\"
+printf \"\\n\\e[1;32m==>  \\e[1;37m(5/6) Running \\e[1;32m%s\\e[0m...\\n\" \"pacman -S pacman --noconfirm\"
 pacman -S pacman --noconfirm
-printf \"\\n\\e[1;32m==>  (6/6)\\e[1;37mRunning \\e[1;32m%s\\e[0m...\\n\" \"pacman -S gpgme --noconfirm\"
+printf \"\\n\\e[1;32m==>  \\e[1;37m(6/6) Running \\e[1;32m%s\\e[0m...\\n\" \"pacman -S gpgme --noconfirm\"
 pacman -S gpgme --noconfirm
 rm /etc/ssl/certs/ca-certificates.crt"
 X86IPT="(1/1)"
