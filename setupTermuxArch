@@ -5,7 +5,7 @@
 # command 'setupTermuxArch h[elp]' has information how to use this file
 ################################################################################
 IFS=$'\n\t'
-VERSIONID=2.0.325
+VERSIONID=2.0.326
 set -Eeuo pipefail
 shopt -s nullglob globstar
 umask 0022
@@ -874,7 +874,7 @@ then
 printf "\\nSetting mode to purge.\\n"
 _ARG2DIR_ "$@"
 _RMARCHQ_
-## [q[emu] [refresh] [customdir]]  Install alternate architecture on smartphone with https://github.com/qemu/QEMU.
+## [q[emu] [refresh] [customdir]]  Install alternate architecture on smartphone with https://github.com/qemu/QEMU emulation. Issue [Implementing QEMU #25](https://github.com/TermuxArch/TermuxArch/issues/25) has more information.
 elif [[ "${1//-}" = [Qq]* ]]
 then
 _PREPTERMUXARCH_
@@ -901,7 +901,7 @@ elif [[ "${1//-}" = [Rr] ]]
 then
 printf "\\n\\e[0;32mSetting mode\\e[1;34m: \\e[1;32mminimal refresh\\e[1;34m:\\e[0;32m For a full refresh you can use the \\e[1;32m'%s' \\e[0;32m%s\\e[1;34m...\\n\\e[0m" "${0##*/} refresh" "command"
 _PRPREFRESH_ "1"
-## [u[nicorn] [refresh] [customdir]]  Partial Implementation:  Install alternate architecture on smartphone with https://github.com/unicorn-engine/Unicorn.  This option currently defaults to option qemu.
+## [u[nicorn] [refresh] [customdir]]  Partial Implementation:  Install alternate architecture on smartphone with https://github.com/unicorn-engine/Unicorn emulation.  This option currently defaults to option qemu as it is a partial implementation. Issue [Implementing QEMU #25](https://github.com/TermuxArch/TermuxArch/issues/25) has more information.
 elif [[ "${1//-}" = [Uu]* ]]
 then
 _PREPTERMUXARCH_
