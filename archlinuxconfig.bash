@@ -596,11 +596,11 @@ fi
 done
 
 _PMUEOEP2_() {
-printf \"\\n\\e[1;32m==>  \\e[1;37mRunning [\$3/7] ($CPUABI) upgrade ; \\e[1;32m%s\\e[0m...\\n\" \"pacman -U \${UPGDPKGS[\$1]##*/} \${UPGDPKGS[\$2]##*/} --noconfirm\" ; pacman -U \"\${UPGDPKGS[\$1]##*/}\" \"\${UPGDPKGS[\$2]##*/}\" --noconfirm || (_PRTERROR_ && printf \"\\e[1;31m\\n%s\\e[1;37m%s\\e[0m\\n\" \"The command 'pacman -U \${UPGDPKGS[\$1]##*/} --noconfirm' did not succeed: continuing...\")
+printf \"\\n\\e[1;32m==>  \\e[1;37mRunning [\$3/7] ($CPUABI) architecture upgrade ; \\e[1;32m%s\\e[0m...\\n\" \"pacman -U \${UPGDPKGS[\$1]##*/} \${UPGDPKGS[\$2]##*/} --noconfirm\" ; pacman -U \"\${UPGDPKGS[\$1]##*/}\" \"\${UPGDPKGS[\$2]##*/}\" --noconfirm || (_PRTERROR_ && printf \"\\e[1;31m\\n%s\\e[1;37m%s\\e[0m\\n\" \"The command 'pacman -U \${UPGDPKGS[\$1]##*/} --noconfirm' did not succeed: continuing...\")
 }
 
 _PMUEOEP3_() {
-printf \"\\n\\e[1;32m==>  \\e[1;37mRunning [\$4/7] ($CPUABI) upgrade ; \\e[1;32m%s\\e[0m...\\n\" \"pacman -U \${UPGDPKGS[\$1]##*/} \${UPGDPKGS[\$2]##*/} \${UPGDPKGS[\$3]##*/} --noconfirm\" ; pacman -U \"\${UPGDPKGS[\$1]##*/}\" \"\${UPGDPKGS[\$2]##*/}\" \"\${UPGDPKGS[\$3]##*/}\" --noconfirm || (_PRTERROR_ && printf \"\\e[1;31m\\n%s\\e[1;37m%s\\e[0m\\n\" \"The command 'pacman -U \${UPGDPKGS[\$1]##*/} \${UPGDPKGS[\$2]##*/} \${UPGDPKGS[\$3]##*/} --noconfirm' did not succeed: continuing...\")
+printf \"\\n\\e[1;32m==>  \\e[1;37mRunning [\$4/7] ($CPUABI) architecture upgrade ; \\e[1;32m%s\\e[0m...\\n\" \"pacman -U \${UPGDPKGS[\$1]##*/} \${UPGDPKGS[\$2]##*/} \${UPGDPKGS[\$3]##*/} --noconfirm\" ; pacman -U \"\${UPGDPKGS[\$1]##*/}\" \"\${UPGDPKGS[\$2]##*/}\" \"\${UPGDPKGS[\$3]##*/}\" --noconfirm || (_PRTERROR_ && printf \"\\e[1;31m\\n%s\\e[1;37m%s\\e[0m\\n\" \"The command 'pacman -U \${UPGDPKGS[\$1]##*/} \${UPGDPKGS[\$2]##*/} \${UPGDPKGS[\$3]##*/} --noconfirm' did not succeed: continuing...\")
 }
 
 cp -f /usr/lib/{libcrypto.so.1.0.0,libssl.so.1.0.0} /tmp
@@ -617,12 +617,12 @@ printf \"\\n\\e[1;32m==>  \\e[1;37mRunning [4/7] ; \\e[1;32m%s\\e[0m...\\n\" \"p
 pacman -S archlinux-keyring archlinux32-keyring --noconfirm || _PRTERROR_
 _KEYSGENMSG_
 sed -i '/^SigLevel/s/.*/SigLevel    = Required DatabaseOptional/' /etc/pacman.conf
-printf \"\\n\\e[1;32m==>  \\e[1;37mRunning [5/7] ($CPUABI) upgrade ; \\e[1;32m%s\\e[0m...\\n\" \"pacman -S pacman --noconfirm\"
+printf \"\\n\\e[1;32m==>  \\e[1;37mRunning [5/7] ($CPUABI) architecture upgrade ; \\e[1;32m%s\\e[0m...\\n\" \"pacman -S pacman --noconfirm\"
 pacman -S pacman --noconfirm || _PRTERROR_
 rm /etc/ssl/certs/ca-certificates.crt
-printf \"\\n\\e[1;32m==>  \\e[1;37mRunning [6/7] ($CPUABI) upgrade ; \\e[1;32m%s\\e[0m...\\n\" \"pacman -S ca-certificates-utils ca-certificates-mozilla coreutils glibc gpgme grep gzip libffi linux-api-headers openssl patch sed sudo tzdata unzip zstd --noconfirm\"
+printf \"\\n\\e[1;32m==>  \\e[1;37mRunning [6/7] ($CPUABI) architecture upgrade ; \\e[1;32m%s\\e[0m...\\n\" \"pacman -S ca-certificates-utils ca-certificates-mozilla coreutils glibc gpgme grep gzip libffi linux-api-headers openssl patch sed sudo tzdata unzip zstd --noconfirm\"
 pacman -S ca-certificates-utils ca-certificates-mozilla coreutils glibc gpgme grep gzip libffi linux-api-headers openssl patch sed sudo tzdata unzip zstd --noconfirm || _PRTERROR_
-printf \"\\n\\e[1;32m==>  \\e[1;37mRunning [7/7] ($CPUABI) upgrade ; \\e[1;32m%s\\e[0m...\\n\" \"pacman -Su --noconfirm ; Starting full system upgrade...\"
+printf \"\\n\\e[1;32m==>  \\e[1;37mRunning [7/7] ($CPUABI) architecture upgrade ; \\e[1;32m%s\\e[0m...\\n\" \"pacman -Su --noconfirm ; Starting full system upgrade...\"
 pacman -Su --noconfirm || _PRTERROR_"
 X86IPT=" "
 X86INK=":"
