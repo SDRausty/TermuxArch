@@ -621,9 +621,9 @@ _KEYSGENMSG_
 sed -i '/^SigLevel/s/.*/SigLevel    = Required DatabaseOptional/' /etc/pacman.conf
 printf \"\\n\\e[1;32m==>  \\e[1;37mRunning \${0##*/} [5/7] $ARCHITEC ($CPUABI) architecture upgrade ; \\e[1;32m%s\\e[0m...\\n\" \"pacman -S pacman --noconfirm\"
 pacman -S pacman --noconfirm || _PRTERROR_
-rm /etc/ssl/certs/ca-certificates.crt
 printf \"\\n\\e[1;32m==>  \\e[1;37mRunning \${0##*/} [6/7] $ARCHITEC ($CPUABI) architecture upgrade ; \\e[1;32m%s\\e[0m...\\n\" \"pacman -S bash ca-certificates-utils ca-certificates-mozilla coreutils gcc-libs glibc gpgme grep gzip libffi linux-api-headers ncurses openssl patch readline sed sudo tzdata unzip zstd --noconfirm\"
-pacman -S ca-certificates-utils bash ca-certificates-mozilla coreutils gcc-libs glibc gpgme grep gzip libffi linux-api-headers ncurses openssl patch readline sed sudo tzdata unzip zstd --noconfirm || _PRTERROR_
+rm /etc/ssl/certs/ca-certificates.crt
+pacman -S bash ca-certificates-utils ca-certificates-mozilla coreutils gcc-libs glibc gpgme grep gzip libffi linux-api-headers ncurses openssl patch readline sed sudo tzdata unzip zstd --noconfirm || _PRTERROR_
 printf \"\\n\\e[1;32m==>  \\e[1;37mRunning \${0##*/} [7/7] $ARCHITEC ($CPUABI) architecture upgrade ; \\e[1;32m%s\\e[0m...\\n\" \"pacman -Su --noconfirm ; Starting full system upgrade\"
 pacman -Su --noconfirm || _PRTERROR_"
 X86IPT=" "
@@ -643,7 +643,7 @@ cat >> root/bin/keys <<- EOM
 declare -a KEYRINGS
 
 _KEYSGENMSG_() {
-printf "\\\\n\\\\e[1;32m%s \\\\e[0;34mWhen \\\\e[1;37mAppending keys from archlinux.gpg\\\\e[0;34m appears on the screen, the installation process can be accelerated.  The system desires a lot of entropy at this part of the install procedure.  To generate as much entropy as possible quickly, watch and listen to a file on your device.  \\\\n\\\\nThe program \\\\e[1;32mpacman-key\\\\e[0;34m will want as much entropy as possible when generating keys.  Entropy is also created through tapping, sliding, one, two and more fingers tapping with short and long taps.  When \\\\e[1;37mAppending keys from archlinux.gpg\\\\e[0;34m appears on the screen, use any of these simple methods to accelerate the installation process if it is stalled.  Put even simpler, just do something on device.  Browsing files will create entropy on device.  Slowly swiveling the device in space and time will accelerate the installation process.  This method alone might not generate enough entropy (a measure of randomness in a closed system) for the process to complete quickly.  You can use \\\\e[1;32mbash ~%s/bin/we \\\\e[0;34min a new Termux session to watch entropy on device.\\\\e[0;32m\\\\n" "$X86IPT" "$DARCH"
+printf "\\\\n\\\\e[1;32m%s \\\\e[0;34mWhen \\\\e[1;37mAppending keys from archlinux.gpg\\\\e[0;34m appears on the screen, the installation process can be accelerated.  The system desires a lot of entropy at this part of the install procedure.  To generate as much entropy as possible quickly, watch and listen to a file on your device.  \\\\n\\\\nThe program \\\\e[1;32mpacman-key\\\\e[0;34m will want as much entropy as possible when generating keys.  Entropy is also created through tapping, sliding, one, two and more fingers tapping with short and long taps.  When \\\\e[1;37mAppending keys from archlinux.gpg\\\\e[0;34m appears on the screen, use any of these simple methods to accelerate the installation process if it is stalled.  Put even simpler, just do something on device.  Browsing files will create entropy on device.  Slowly swiveling the device in space and time will accelerate the installation process.  This method alone might not generate enough entropy (a measure of randomness in a closed system) for the process to complete quickly.  You can use \\\\e[1;32mbash ~%s/bin/we \\\\e[0;34min a new Termux session to watch entropy on device.\\\\e[0m\\\\n" "$X86IPT" "$DARCH"
 }
 
 _GENEN_() { # This for loop generates entropy on device for \$t seconds.
