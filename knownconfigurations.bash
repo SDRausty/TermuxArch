@@ -120,7 +120,7 @@ PROOTSTMNT+="-b $PRBIND:$PRBIND "
 fi
 done
 # populate readable binds
-PRSTARR=([/dev/]=/dev/ [/dev/urandom]=/dev/random ["$EXTERNAL_STORAGE"]="$EXTERNAL_STORAGE" ["$HOME"]="$HOME" ["$PREFIX"]="$PREFIX" [/proc/]=/proc/ [/proc/self/fd]=/dev/fd [/proc/stat]=/proc/stat [/property_contexts]=/property_contexts [/storage/]=/storage/ [/sys/]=/sys/ [/system/]=/system/ [/vendor/]=/vendor/)
+PRSTARR=([/dev/]=/dev/ [/dev/urandom]=/dev/random ["$EXTERNAL_STORAGE"]="$EXTERNAL_STORAGE" ["$HOME"]="$HOME" ["$PREFIX"]="$PREFIX" [/proc/]=/proc/ [/proc/self/fd/]=/dev/fd/ [/proc/self/fd/0]=/dev/stdin [/proc/self/fd/1]=/dev/stdout [/proc/self/fd/2]=/dev/stderr [/plat_property_contexts]=/plat_property_contexts [/proc/stat]=/proc/stat [/property_contexts]=/property_contexts [/proc/stat]=/proc/stat [/property_contexts]=/property_contexts [/storage/]=/storage/ [/sys/]=/sys/ [/system/]=/system/ [/vendor/]=/vendor/)
 for PRBIND in ${!PRSTARR[@]}
 do
 if [[ -r "$PRBIND" ]]	# is readable
@@ -146,6 +146,6 @@ PROOTSTMNT="${PROOTSTMNT//-i \"\$AR2AR:wheel\" }" # create PRoot root user strin
 }
 _PR00TSTRING_
 ##  uncomment the next line to test function _PR00TSTRING_
-##  printf "%s\\n\\n" "$PROOTSTMNT" && printf "%s\\n\\n" "$PROOTSTMNTU" && printf "%s\\n\\n" "$PROOTSTMNTUU" && exit
+##  printf "\\n%s\\n" "PROOTSTMNT string:" && printf "%s\\n\\n" "$PROOTSTMNT" && printf "%s\\n" "PROOTSTMNTU string:" && printf "%s\\n\\n" "$PROOTSTMNTU" && printf "%s\\n" "PROOTSTMNTUU string:" && printf "%s\\n\\n" "$PROOTSTMNTUU" && exit
 ##  The commands 'setupTermuxArch r[e[fresh]]' can be used to regenerate the start script to the newest version if there is a newer version published and can be customized as wanted.  Command 'setupTermuxArch refresh' will refresh the installation globally, including excecuting 'keys' and 'locales-gen' and backup user configuration files that were initially created and are refreshed.  The command 'setupTermuxArch re' will refresh the installation and update user configuration files and backup user configuration files that were initially created and are refreshed.  Command 'setupTermuxArch r' will only refresh the installation and update the root user configuration files and backup root user configuration files that were initially created and are refreshed.
 # knownconfigurations.bash EOF

@@ -117,7 +117,7 @@ _SETLOCALE_
 printf "\\n"
 _WAKELOCK_
 printf "\\e[1;32m==> \\e[1;37m%s \\e[1;32m%s %s...\\n" "Running" "${0##*/}" "$ARGS"
-"$INSTALLDIR"/root/bin/setupbin.bash || _PRINTPROOTERROR_
+exec "$INSTALLDIR/root/bin/setupbin.bash" || _PRINTPROOTERROR_
 rm -f root/bin/finishsetup.bash
 rm -f root/bin/setupbin.bash
 printf "\\n\\e[1;32mFiles updated to the newest version $VERSIONID:\\n\\e[0;32m"

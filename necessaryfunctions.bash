@@ -474,7 +474,7 @@ fi
 fi
 "$USEREDIT" "$INSTALLDIR/etc/pacman.d/mirrorlist"
 fi
-"$INSTALLDIR/root/bin/setupbin.bash" || _PRINTPROOTERROR_
+exec "$INSTALLDIR/root/bin/setupbin.bash" || _PRINTPROOTERROR_
 }
 
 _SETLANGUAGE_() { # This function uses device system settings to set locale.  To generate locales in a preferred language, you can use "Settings > Language & Keyboard > Language" in Android; Then run 'setupTermuxArch r' for a quick system refresh to regenerate locales in your preferred language.

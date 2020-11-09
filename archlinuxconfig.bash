@@ -701,12 +701,12 @@ ARGS="\${KEYRINGS[@]}"
 printf '\033]2;  🔑 TermuxArch %s 📲 \007' "'\${0##*/} \${ARGS[@]}'"
 printf "\\\\n\\\\e[1;32m==> \\\\e[1;37m%s \\\\e[0;32m%s \\\\e[1;32m%s %s \\\\e[0m%s...\\\\n" "Running" "TermuxArch" "\${0##*/}" "\${ARGS[@]}" "\$VERSIONID"
 _KEYSGENMSG_
-[[ -f /usr/bin/newgidmap ]] && chmod 4777 /usr/bin/newgidmap
-[[ -f /usr/lib/tmpfiles.d/journal-nocow.conf ]] && chmod 666 /usr/lib/tmpfiles.d/journal-nocow.conf
 printf "\\\\n\\\\e[1;32m==> \\\\e[1;37m%s \\\\e[1;32m%s\\\\e[0m...\\\\n" "Running" "pacman -Sy"
 $ECHOEXEC $ECHOSYNC pacman -Sy || $ECHOEXEC $ECHOSYNC pacman -Sy || _PRTERROR_
 printf "\\\\e[1;32m==>\\\\e[0m Running \\\\e[1;32mpacman-key --init\\\\e[0;32m...\\\\n"
 $ECHOEXEC pacman-key --init || $ECHOEXEC pacman-key --init || _PRTERROR_
+chmod 4777 /usr/bin/newgidmap
+chmod 666 /usr/lib/tmpfiles.d/journal-nocow.conf
 chmod 700 /etc/pacman.d/gnupg
 printf "\\\\e[1;32m==>\\\\e[0m Running \\\\e[1;32mpacman-key --populate\\\\e[0;32m...\\\\n"
 $ECHOEXEC pacman-key --populate || $ECHOEXEC pacman-key --populate || _PRTERROR_
