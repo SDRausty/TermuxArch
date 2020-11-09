@@ -258,7 +258,7 @@ cat >> root/bin/setupbin.bash <<- EOM
 set +Eeuo pipefail
 umask 0022
 EOM
-printf "%s\\n" "$PROOTSTMNT /root/bin/$BINFNSTP ||:" >> root/bin/setupbin.bash
+printf "%s\\n" "$PROOTSTMNT /root/bin/$BINFNSTP || printf \"%s\\n\" \"Signal generated; continuing...\"" >> root/bin/setupbin.bash
 cat >> root/bin/setupbin.bash <<- EOM
 set -Eeuo pipefail
 EOM

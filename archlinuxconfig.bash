@@ -259,6 +259,7 @@ printf "\\\\n\\\\e[0m%s \\\\e[0;32m%s %s %s\\\\e[1;34m: \\\\e[1;32m%s\\\\e[0m �
 printf '\033]2;  🔑 TermuxArch %s:DONE 📱 \007' "\${0##*/}"
 }
 
+trap _TRPET_ EXIT
 ## ch begin ####################################################################
 
 if [[ -z "\${1:-}" ]]
@@ -596,15 +597,15 @@ fi
 done
 
 _PMUEOEP1_() {
-printf \"\\n\\e[1;32m==>  \\e[1;37mRunning \${0##*/} [\$2/9] $ARCHITEC ($CPUABI) architecture upgrade ; \\e[1;32m%s\\e[0m...\\n\" \"pacman -U \${UPGDPKGS[\$1]##*/} --noconfirm\" ; pacman -U \"\${UPGDPKGS[\$1]##*/}\" --noconfirm || (_PRTERROR_ && printf \"\\e[1;31m\\n%s\\e[1;37m%s\\e[0m\\n\" \"The command 'pacman -U \${UPGDPKGS[\$1]##*/} --noconfirm' did not succeed: continuing...\")
+printf \"\\n\\e[1;32m==>  \\e[1;37mRunning \${0##*/} [\$2/7] $ARCHITEC ($CPUABI) architecture upgrade ; \\e[1;32m%s\\e[0m...\\n\" \"pacman -U \${UPGDPKGS[\$1]##*/} --noconfirm\" ; pacman -U \"\${UPGDPKGS[\$1]##*/}\" --noconfirm || (_PRTERROR_ && printf \"\\e[1;31m\\n%s\\e[1;37m%s\\e[0m\\n\" \"The command 'pacman -U \${UPGDPKGS[\$1]##*/} --noconfirm' did not succeed: continuing...\")
 }
 
 _PMUEOEP2_() {
-printf \"\\n\\e[1;32m==>  \\e[1;37mRunning \${0##*/} [\$3/9] $ARCHITEC ($CPUABI) architecture upgrade ; \\e[1;32m%s\\e[0m...\\n\" \"pacman -U \${UPGDPKGS[\$1]##*/} \${UPGDPKGS[\$2]##*/} --noconfirm\" ; pacman -U \"\${UPGDPKGS[\$1]##*/}\" \"\${UPGDPKGS[\$2]##*/}\" --noconfirm || (_PRTERROR_ && printf \"\\e[1;31m\\n%s\\e[1;37m%s\\e[0m\\n\" \"The command 'pacman -U \${UPGDPKGS[\$1]##*/} \${UPGDPKGS[\$2]##*/} --noconfirm' did not succeed: continuing...\")
+printf \"\\n\\e[1;32m==>  \\e[1;37mRunning \${0##*/} [\$3/7] $ARCHITEC ($CPUABI) architecture upgrade ; \\e[1;32m%s\\e[0m...\\n\" \"pacman -U \${UPGDPKGS[\$1]##*/} \${UPGDPKGS[\$2]##*/} --noconfirm\" ; pacman -U \"\${UPGDPKGS[\$1]##*/}\" \"\${UPGDPKGS[\$2]##*/}\" --noconfirm || (_PRTERROR_ && printf \"\\e[1;31m\\n%s\\e[1;37m%s\\e[0m\\n\" \"The command 'pacman -U \${UPGDPKGS[\$1]##*/} \${UPGDPKGS[\$2]##*/} --noconfirm' did not succeed: continuing...\")
 }
 
 _PMUEOEP3_() {
-printf \"\\n\\e[1;32m==>  \\e[1;37mRunning \${0##*/} [\$4/9] $ARCHITEC ($CPUABI) architecture upgrade ; \\e[1;32m%s\\e[0m...\\n\" \"pacman -U \${UPGDPKGS[\$1]##*/} \${UPGDPKGS[\$2]##*/} \${UPGDPKGS[\$3]##*/} --noconfirm\" ; pacman -U \"\${UPGDPKGS[\$1]##*/}\" \"\${UPGDPKGS[\$2]##*/}\" \"\${UPGDPKGS[\$3]##*/}\" --noconfirm || (_PRTERROR_ && printf \"\\e[1;31m\\n%s\\e[1;37m%s\\e[0m\\n\" \"The command 'pacman -U \${UPGDPKGS[\$1]##*/} \${UPGDPKGS[\$2]##*/} \${UPGDPKGS[\$3]##*/} --noconfirm' did not succeed: continuing...\")
+printf \"\\n\\e[1;32m==>  \\e[1;37mRunning \${0##*/} [\$4/7] $ARCHITEC ($CPUABI) architecture upgrade ; \\e[1;32m%s\\e[0m...\\n\" \"pacman -U \${UPGDPKGS[\$1]##*/} \${UPGDPKGS[\$2]##*/} \${UPGDPKGS[\$3]##*/} --noconfirm\" ; pacman -U \"\${UPGDPKGS[\$1]##*/}\" \"\${UPGDPKGS[\$2]##*/}\" \"\${UPGDPKGS[\$3]##*/}\" --noconfirm || (_PRTERROR_ && printf \"\\e[1;31m\\n%s\\e[1;37m%s\\e[0m\\n\" \"The command 'pacman -U \${UPGDPKGS[\$1]##*/} \${UPGDPKGS[\$2]##*/} \${UPGDPKGS[\$3]##*/} --noconfirm' did not succeed: continuing...\")
 }
 
 cp -f /usr/lib/{libcrypto.so.1.0.0,libssl.so.1.0.0} /tmp
@@ -619,20 +620,15 @@ mv -f /tmp/{libcrypto.so.1.0.0,libssl.so.1.0.0} /usr/lib/
 sed -i '/^Architecture/s/.*/Architecture = i686/' /etc/pacman.conf
 sed -i '/^SigLevel/s/.*/SigLevel    = Never/' /etc/pacman.conf
 sed -i 's/^HoldPkg/\#HoldPkg/g' /etc/pacman.conf
-printf \"\\n\\e[1;32m==>  \\e[1;37mRunning \${0##*/} [5/9] ; \\e[1;32m%s\\e[0m...\\n\" \"pacman -S archlinux-keyring archlinux32-keyring --noconfirm\"
+printf \"\\n\\e[1;32m==>  \\e[1;37mRunning \${0##*/} [5/7] ; \\e[1;32m%s\\e[0m...\\n\" \"pacman -S archlinux-keyring archlinux32-keyring --noconfirm\"
 _KEYSGENMSG_
 pacman -S archlinux-keyring archlinux32-keyring --noconfirm || _PRTERROR_
 _KEYSGENMSG_
 sed -i '/^SigLevel/s/.*/SigLevel    = Required DatabaseOptional/' /etc/pacman.conf
-printf \"\\n\\e[1;32m==>  \\e[1;37mRunning \${0##*/} [6/9] $ARCHITEC ($CPUABI) architecture upgrade ; \\e[1;32m%s\\e[0m...\\n\" \"pacman -S pacman --noconfirm\"
+printf \"\\n\\e[1;32m==>  \\e[1;37mRunning \${0##*/} [6/7] $ARCHITEC ($CPUABI) architecture upgrade ; \\e[1;32m%s\\e[0m...\\n\" \"pacman -S pacman --noconfirm\"
 pacman -S pacman --noconfirm || _PRTERROR_
-printf \"\\n\\e[1;32m==>  \\e[1;37mRunning \${0##*/} [7/9] $ARCHITEC ($CPUABI) architecture upgrade ; \\e[1;32m%s\\e[0m...\\n\" \"pacman -S ca-certificates ca-certificates-utils ca-certificates-mozilla coreutils libffi linux-api-headers ncurses readline sed \"
+printf \"\\n\\e[1;32m==>  \\e[1;37mRunning \${0##*/} [7/7] $ARCHITEC ($CPUABI) architecture upgrade ; \\e[1;32m%s\\e[0m...\\n\" \"pacman -Su --noconfirm ; Starting full system upgrade\"
 rm /etc/ssl/certs/ca-certificates.crt
-pacman -S ca-certificates ca-certificates-utils ca-certificates-mozilla coreutils libffi linux-api-headers ncurses readline sed || _PRTERROR_
-printf \"\\n\\e[1;32m==>  \\e[1;37mRunning \${0##*/} [8/9] $ARCHITEC ($CPUABI) architecture upgrade ; \\e[1;32m%s\\e[0m...\\n\" \"pacman -S awk bashgcc-libs glibc gpgme grep gzip openssl patch sudo tzdata unzip which zstd --noconfirm\"
-pacman -S awk bash gcc-libs glibc gpgme grep gzip openssl patch sudo tzdata unzip which zstd --noconfirm || _PRTERROR_
-locale-gen || _PRTERROR_
-printf \"\\n\\e[1;32m==>  \\e[1;37mRunning \${0##*/} [9/9] $ARCHITEC ($CPUABI) architecture upgrade ; \\e[1;32m%s\\e[0m...\\n\" \"pacman -Su --noconfirm ; Starting full system upgrade\"
 pacman -Su --noconfirm || _PRTERROR_"
 X86IPT=" "
 X86INK=":"
@@ -1072,13 +1068,36 @@ chmod 700 root/bin/v
 _ADDwe_() {
 _CFLHDR_ usr/bin/we "# Watch available entropy on device." "# cat /proc/sys/kernel/random/entropy_avail contributor https://github.com/cb125"
 cat >> usr/bin/we <<- EOM
+declare -a ARGS
+
+_TRPWE_() { # on exit
+printf "\\\\e[?25h\\\\e[0m"
+set +Eeuo pipefail
+_PRINTTAIL_ "\$ARGS[@]"
+}
+
+_PRINTTAIL_() {
+printf "\\\\n\\\\e[0m%s \\\\e[0;32m%s %s %s\\\\e[1;34m: \\\\e[1;32m%s\\\\e[0m 🏁  \\\\n\\\\n\\\\e[0m" "TermuxArch" "\${0##*/}" "\$ARGS"  "\$VERSIONID" "DONE 📱"
+printf '\033]2;  🔑 TermuxArch %s:DONE 📱 \007' "\${0##*/}"
+}
+
+trap _TRPET_ EXIT
+## we begin ####################################################################
+
+if [[ -z "\${1:-}" ]]
+then
+ARGS=""
+else
+ARGS="\$@"
+fi
 
 i=1
 multi=16
 entropy0=\$(cat /proc/sys/kernel/random/entropy_avail 2>/dev/null)
 
 printintro() {
-printf "\\\\n\\\\e[1;32mTermuxArch Watch Entropy:\\\\n"'\033]2; TermuxArch Watch Entropy 📲  \007'
+printf '\033]2; TermuxArch Watch Entropy '%s' 📲  \007' "\${0##*/} \$@"
+printf "\\\\n\\\\e[1;32mTermuxArch Watch Entropy '%s':\\\\n" "\${0##*/} \$@"
 }
 
 _PRINTTAIL_() {
@@ -1141,7 +1160,8 @@ fi
 }
 
 entropysequential() {
-printf "\\\\n\\\\e[1;32mWatch Entropy Sequential:\\\\n\\\\n"'\033]2; Watch Entropy Sequential 📲  \007'
+printf '\033]2; TermuxArch Watch Entropy Sequential '%s' 📲  \007' "\${0##*/} \$@"
+printf "\\\\n\\\\e[1;32mTermuxArch Watch Entropy Sequential '%s':\\\\n" "\${0##*/} \$@"
 for i in \$(seq 1 \$en0); do
 entropy0=\$(cat /proc/sys/kernel/random/entropy_avail 2>/dev/null)
 infif
@@ -1151,7 +1171,8 @@ done
 }
 
 entropysimple() {
-printf "\\\\n\\\\e[1;32mWatch Entropy Simple:\\\\n\\\\n"'\\\\e]2; Watch Entropy Simple 📲  \007'
+printf '\033]2; TermuxArch Watch Entropy Simple '%s' 📲  \007' "\${0##*/} \$@"
+printf "\\\\n\\\\e[1;32mTermuxArch Watch Entropy Simple '%s':\\\\n" "\${0##*/} \$@"
 for i in \$(seq 1 \$en0); do
 entropy0=\$(cat /proc/sys/kernel/random/entropy_avail 2>/dev/null)
 infif
@@ -1161,7 +1182,8 @@ done
 }
 
 entropyverbose() {
-printf "\\\\n\\\\e[1;32mWatch Entropy Verbose:\\\\n\\\\n"'\033]2; Watch Entropy Verbose 📲  \007'
+printf '\033]2; TermuxArch Watch Entropy Verbose '%s' 📲  \007' "\${0##*/} \$@"
+printf "\\\\n\\\\e[1;32mTermuxArch Watch Entropy Verbose '%s':\\\\n" "\${0##*/} \$@"
 for i in \$(seq 1 \$en0); do
 entropy0=\$(cat /proc/sys/kernel/random/entropy_avail 2>/dev/null)
 infif
