@@ -120,7 +120,7 @@ PROOTSTMNT+="-b $PRBIND:$PRBIND "
 fi
 done
 # populate readable binds
-PRSTARR=(["$EXTERNAL_STORAGE"]="$EXTERNAL_STORAGE" ["$HOME"]="$HOME" ["$PREFIX"]="$PREFIX" [/data/dalvik-cache/]=/data/dalvik-cache/ [/dev/]=/dev/ [/dev/urandom]=/dev/random [/plat_property_contexts]=/plat_property_contexts [/proc/]=/proc/ [/proc/self/fd/]=/dev/fd/ [/proc/self/fd/0]=/dev/stdin [/proc/self/fd/1]=/dev/stdout [/proc/self/fd/2]=/dev/stderr [/proc/stat]=/proc/stat [/property_contexts]=/property_contexts [/storage/]=/storage/ [/sys/]=/sys/ [/system/]=/system/ [/vendor/]=/vendor/)
+PRSTARR=(["$EXTERNAL_STORAGE"]="$EXTERNAL_STORAGE" ["$HOME"]="$HOME" ["$PREFIX"]="$PREFIX" [/data/dalvik-cache/]=/data/dalvik-cache/ [/dev/]=/dev/ [/dev/urandom]=/dev/random [/plat_property_contexts]=/plat_property_contexts [/proc/]=/proc/ [/proc/self/fd]=/dev/fd [/proc/self/fd/0]=/dev/stdin [/proc/self/fd/1]=/dev/stdout [/proc/self/fd/2]=/dev/stderr [/proc/stat]=/proc/stat [/property_contexts]=/property_contexts [/storage/]=/storage/ [/sys/]=/sys/ [/system/]=/system/ [/vendor/]=/vendor/)
 for PRBIND in ${!PRSTARR[@]}
 do
 if [[ -r "$PRBIND" ]]	# is readable
