@@ -21,6 +21,7 @@ _AARCH64ANDROID_() {
 IFILE="ArchLinuxARM-aarch64-latest.tar.gz"
 CMIRROR="os.archlinuxarm.org"
 RPATH="os"
+LSTYPE="Arch Linux ARM"
 _MAKESYSTEM_
 }
 
@@ -28,6 +29,7 @@ _AARCH64CHROME_() {
 IFILE="ArchLinuxARM-aarch64-chromebook-latest.tar.gz"
 CMIRROR="os.archlinuxarm.org"
 RPATH="os"
+LSTYPE="Arch Linux ARM"
 _MAKESYSTEM_
 }
 
@@ -35,6 +37,7 @@ _ARMV5L_() {
 IFILE="ArchLinuxARM-armv5-latest.tar.gz"
 CMIRROR="os.archlinuxarm.org"
 RPATH="os"
+LSTYPE="Arch Linux ARM"
 _MAKESYSTEM_
 }
 
@@ -49,6 +52,7 @@ _ARMV7CHROME_() {
 IFILE="ArchLinuxARM-armv7-chromebook-latest.tar.gz"
 CMIRROR="os.archlinuxarm.org"
 RPATH="os"
+LSTYPE="Arch Linux ARM"
 _MAKESYSTEM_
 }
 
@@ -59,12 +63,14 @@ _I686_() { # IFILE is read from md5sums.txt
 # RPATH="iso"
 CMIRROR="archive.archlinux.org"
 RPATH="iso/2017.03.01"
+LSTYPE="Arch Linux 32"
 _MAKESYSTEM_
 }
 
 _X86_64_() { # IFILE is read from md5sums.txt
 CMIRROR="mirror.rackspace.com"
 RPATH="archlinux/iso/latest"
+LSTYPE="Arch Linux"
 _MAKESYSTEM_
 }
 
@@ -140,6 +146,6 @@ PROOTSTMNT="${PROOTSTMNT//-i \"\$AR2AR:wheel\" }" # create PRoot root user strin
 }
 _PR00TSTRING_
 ##  uncomment the next line to test function _PR00TSTRING_
-##  printf "%s\\n" "$PROOTSTMNT" && printf "%s\\n" "$PROOTSTMNTU" && printf "%s\\n" "$PROOTSTMNTUU" && exit
+##  printf "%s\\n\\n" "$PROOTSTMNT" && printf "%s\\n\\n" "$PROOTSTMNTU" && printf "%s\\n\\n" "$PROOTSTMNTUU" && exit
 ##  The commands 'setupTermuxArch r[e[fresh]]' can be used to regenerate the start script to the newest version if there is a newer version published and can be customized as wanted.  Command 'setupTermuxArch refresh' will refresh the installation globally, including excecuting 'keys' and 'locales-gen' and backup user configuration files that were initially created and are refreshed.  The command 'setupTermuxArch re' will refresh the installation and update user configuration files and backup user configuration files that were initially created and are refreshed.  Command 'setupTermuxArch r' will only refresh the installation and update the root user configuration files and backup root user configuration files that were initially created and are refreshed.
 # knownconfigurations.bash EOF
