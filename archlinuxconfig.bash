@@ -583,8 +583,8 @@ EOM
 _ADDkeys_() {
 if [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = i386 ]]
 then	# set customized commands for Arch Linux 32 architecture
-X86INT="UPGDPKGS=(\"a/archlinux-keyring/archlinux-keyring-20191219-1.0-any.pkg.tar.xz\" \"a/archlinux32-keyring/archlinux32-keyring-20191230-1.0-any.pkg.tar.xz\"  \"g/glibc/glibc-2.28-1.1-i686.pkg.tar.xz\" \"l/linux-api-headers/linux-api-headers-5.3.1-2.0-any.pkg.tar.xz\" \"l/libarchive/libarchive-3.3.3-1.0-i686.pkg.tar.xz\" \"o/openssl/openssl-1.1.1.d-2.0-i686.pkg.tar.xz\" \"p/pacman/pacman-5.2.1-1.4-i686.pkg.tar.xz\" \"z/zstd/zstd-1.4.4-1.0-i686.pkg.tar.xz\")
-printf \"%s\\n\" \"Downloading files: \$(printf \"%s\" \"\${UPGDPKGS[0]##*/}, \${UPGDPKGS[1]##*/}, \${UPGDPKGS[2]##*/}, \${UPGDPKGS[3]##*/}, \${UPGDPKGS[4]##*/}, \${UPGDPKGS[5]##*/}, \${UPGDPKGS[6]##*/} and \${UPGDPKGS[7]##*/}\") from https://archive.archlinux32.org.\"
+X86INT="UPGDPKGS=(\"a/archlinux-keyring/archlinux-keyring-20191219-1.0-any.pkg.tar.xz\" \"a/archlinux32-keyring/archlinux32-keyring-20191230-1.0-any.pkg.tar.xz\"  \"g/glibc/glibc-2.28-1.1-i686.pkg.tar.xz\" \"l/linux-api-headers/linux-api-headers-5.3.1-2.0-any.pkg.tar.xz\" \"l/libarchive/libarchive-3.3.3-1.0-i686.pkg.tar.xz\" \"o/openssl/openssl-1.1.1.d-2.0-i686.pkg.tar.xz\" \"p/pacman/pacman-5.2.1-1.4-i686.pkg.tar.xz\" \"z/zstd/zstd-1.4.4-1.0-i686.pkg.tar.xz\" \"/c/coreutils/coreutils-8.31-3.0-i686.pkg.tar.xz\")
+printf \"%s\\n\" \"Downloading files: '\$(printf \"%s \" \"\${UPGDPKGS[@]##*/}\")' from https://archive.archlinux32.org.\"
 for UPGDPAKG in \${UPGDPKGS[@]}
 do
 if [[ ! -f \"\${UPGDPAKG##*/}\" ]]
@@ -595,8 +595,12 @@ printf \"%s\\n\" \"File '\${UPGDPAKG##*/}' is already downloaded.\"
 fi
 done
 
+_PMUEOEP1_() {
+printf \"\\n\\e[1;32m==>  \\e[1;37mRunning \${0##*/} [\$1/7] $ARCHITEC ($CPUABI) architecture upgrade ; \\e[1;32m%s\\e[0m...\\n\" \"pacman -U \${UPGDPKGS[\$1]##*/} --noconfirm\" ; pacman -U \"\${UPGDPKGS[\$1]##*/}\" --noconfirm || (_PRTERROR_ && printf \"\\e[1;31m\\n%s\\e[1;37m%s\\e[0m\\n\" \"The command 'pacman -U \${UPGDPKGS[\$1]##*/} --noconfirm' did not succeed: continuing...\")
+}
+
 _PMUEOEP2_() {
-printf \"\\n\\e[1;32m==>  \\e[1;37mRunning \${0##*/} [\$3/7] $ARCHITEC ($CPUABI) architecture upgrade ; \\e[1;32m%s\\e[0m...\\n\" \"pacman -U \${UPGDPKGS[\$1]##*/} \${UPGDPKGS[\$2]##*/} --noconfirm\" ; pacman -U \"\${UPGDPKGS[\$1]##*/}\" \"\${UPGDPKGS[\$2]##*/}\" --noconfirm || (_PRTERROR_ && printf \"\\e[1;31m\\n%s\\e[1;37m%s\\e[0m\\n\" \"The command 'pacman -U \${UPGDPKGS[\$1]##*/} --noconfirm' did not succeed: continuing...\")
+printf \"\\n\\e[1;32m==>  \\e[1;37mRunning \${0##*/} [\$3/7] $ARCHITEC ($CPUABI) architecture upgrade ; \\e[1;32m%s\\e[0m...\\n\" \"pacman -U \${UPGDPKGS[\$1]##*/} \${UPGDPKGS[\$2]##*/} --noconfirm\" ; pacman -U \"\${UPGDPKGS[\$1]##*/}\" \"\${UPGDPKGS[\$2]##*/}\" --noconfirm || (_PRTERROR_ && printf \"\\e[1;31m\\n%s\\e[1;37m%s\\e[0m\\n\" \"The command 'pacman -U \${UPGDPKGS[\$1]##*/} \${UPGDPKGS[\$2]##*/} --noconfirm' did not succeed: continuing...\")
 }
 
 _PMUEOEP3_() {
@@ -608,7 +612,8 @@ _PMUEOEP2_ 0 1 1
 _KEYSGENMSG_
 printf \"\\e[1;32m==>\\e[0m Running \${0##*/} \\e[1;32mpacman -Ss keyring --color=always\\e[0;32m...\\n\"
 pacman -Ss keyring --color=always || _PRTERROR_
-_PMUEOEP3_ 2 3 7 2
+_PMUEOEP1_ 8 2a
+_PMUEOEP3_ 2 3 7 2b
 _PMUEOEP3_ 4 5 6 3
 mv -f /tmp/{libcrypto.so.1.0.0,libssl.so.1.0.0} /usr/lib/
 sed -i '/^Architecture/s/.*/Architecture = i686/' /etc/pacman.conf
@@ -624,8 +629,8 @@ pacman -S pacman --noconfirm || _PRTERROR_
 rm /etc/ssl/certs/ca-certificates.crt
 printf \"\\n\\e[1;32m==>  \\e[1;37mRunning \${0##*/} [6/7] $ARCHITEC ($CPUABI) architecture upgrade ; \\e[1;32m%s\\e[0m...\\n\" \"pacman -S ca-certificates\"
 pacman -S ca-certificates || _PRTERROR_
-printf \"\\n\\e[1;32m==>  \\e[1;37mRunning \${0##*/} [6/7] $ARCHITEC ($CPUABI) architecture upgrade ; \\e[1;32m%s\\e[0m...\\n\" \"pacman -S awk bash ca-certificates-utils ca-certificates-mozilla coreutils gcc-libs glibc gpgme grep gzip libffi linux-api-headers ncurses openssl patch readline sed sudo tzdata unzip zstd --noconfirm\"
-pacman -S awk bash ca-certificates-utils ca-certificates-mozilla coreutils gcc-libs glibc gpgme grep gzip libffi linux-api-headers ncurses openssl patch readline sed sudo tzdata unzip zstd --noconfirm || _PRTERROR_
+printf \"\\n\\e[1;32m==>  \\e[1;37mRunning \${0##*/} [6/7] $ARCHITEC ($CPUABI) architecture upgrade ; \\e[1;32m%s\\e[0m...\\n\" \"pacman -S awk bash ca-certificates-utils ca-certificates-mozilla coreutils gcc-libs glibc gpgme grep gzip libffi linux-api-headers ncurses openssl patch readline sed sudo tzdata unzip which zstd --noconfirm\"
+pacman -S awk bash ca-certificates-utils ca-certificates-mozilla coreutils gcc-libs glibc gpgme grep gzip libffi linux-api-headers ncurses openssl patch readline sed sudo tzdata unzip which zstd --noconfirm || _PRTERROR_
 locale-gen || _PRTERROR_
 printf \"\\n\\e[1;32m==>  \\e[1;37mRunning \${0##*/} [7/7] $ARCHITEC ($CPUABI) architecture upgrade ; \\e[1;32m%s\\e[0m...\\n\" \"pacman -Su --noconfirm ; Starting full system upgrade\"
 pacman -Su --noconfirm || _PRTERROR_"
