@@ -197,7 +197,7 @@ fi
 }
 _DOKYLGEN_() {
 DOKYSKEY=""
-LOCGEN=""
+LOCGEN=":"
 }
 if [[ "${LCR:-}" -eq 3 ]] || [[ "${LCR:-}" -eq 4 ]] || [[ "${LCR:-}" -eq 5 ]] || [[ -z "${LCR:-}" ]]	# equals 3 or 4 or is undefined
 then
@@ -474,7 +474,7 @@ fi
 fi
 "$USEREDIT" "$INSTALLDIR/etc/pacman.d/mirrorlist"
 fi
-exec "$INSTALLDIR/root/bin/setupbin.bash" || _PRINTPROOTERROR_
+$INSTALLDIR/root/bin/setupbin.bash || _PRINTPROOTERROR_
 }
 
 _SETLANGUAGE_() { # This function uses device system settings to set locale.  To generate locales in a preferred language, you can use "Settings > Language & Keyboard > Language" in Android; Then run 'setupTermuxArch r' for a quick system refresh to regenerate locales in your preferred language.

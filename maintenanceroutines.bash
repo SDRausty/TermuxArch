@@ -117,7 +117,7 @@ _SETLOCALE_
 printf "\\n"
 _WAKELOCK_
 printf "\\e[1;32m==> \\e[1;37m%s \\e[1;32m%s %s...\\n" "Running" "${0##*/}" "$ARGS"
-exec "$INSTALLDIR/root/bin/setupbin.bash" || _PRINTPROOTERROR_
+$INSTALLDIR/root/bin/setupbin.bash || _PRINTPROOTERROR_
 rm -f root/bin/finishsetup.bash
 rm -f root/bin/setupbin.bash
 printf "\\n\\e[1;32mFiles updated to the newest version $VERSIONID:\\n\\e[0;32m"
@@ -136,7 +136,7 @@ printf "\\n"
 _WAKEUNLOCK_
 _PRINTFOOTER_
 set +Eeuo pipefail
-"$STARTBIN" || _PRINTPROOTERROR_
+$STARTBIN || _PRINTPROOTERROR_
 set -Eeuo pipefail
 _PRINTFOOTER2_
 _PRINTSTARTBIN_USAGE_

@@ -153,7 +153,7 @@ then
 fi
 if [ -e "\$HOME"/.chushlogin ]
 then
-rm "\$HOME"/.chushlogin
+rm -f "\$HOME"/.chushlogin
 fi
 PS1="[\[\e[38;5;148m\]\u\[\e[1;0m\]\A\[\e[1;38;5;112m\]\W\[\e[0m\]]$ "
 export GPG_TTY="\$(tty)"
@@ -273,7 +273,7 @@ printf "\\\\n\\\\e[1;32m==> \\\\e[1;37m%s \\\\e[1;32m%s\\\\e[0m%s...\\\\n\\\\n" 
 
 if [[ -f "\$HOME"/.hushlogin ]] && [[ -f "\$HOME"/.hushlogout ]]
 then
-rm "\$HOME"/.hushlogin "\$HOME"/.hushlogout
+rm -f "\$HOME"/.hushlogin "\$HOME"/.hushlogout
 printf "%s\\\\n" "Hushed login and logout: OFF"
 elif [[ -f "\$HOME"/.hushlogin ]] || [[ -f "\$HOME"/.hushlogout ]]
 then
@@ -628,8 +628,8 @@ sed -i '/^SigLevel/s/.*/SigLevel    = Required DatabaseOptional/' /etc/pacman.co
 printf \"\\n\\e[1;32m==>  \\e[1;37mRunning \${0##*/} [6/7] $ARCHITEC ($CPUABI) architecture upgrade ; \\e[1;32m%s\\e[0m...\\n\" \"pacman -S pacman --noconfirm\"
 pacman -S pacman --noconfirm || _PRTERROR_
 printf \"\\n\\e[1;32m==>  \\e[1;37mRunning \${0##*/} [7/7] $ARCHITEC ($CPUABI) architecture upgrade ; \\e[1;32m%s\\e[0m...\\n\" \"pacman -Su --noconfirm ; Starting full system upgrade\"
-rm /etc/ssl/certs/ca-certificates.crt
-pacman -Su --noconfirm || _PRTERROR_"
+rm -f /etc/ssl/certs/ca-certificates.crt
+pacman -Su --noconfirm"
 X86IPT=" "
 X86INK=":"
 else	# architecture versions armv5, armv7, aarch64 and x86_64 of Arch Linux use these options
