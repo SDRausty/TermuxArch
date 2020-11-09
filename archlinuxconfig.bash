@@ -302,7 +302,7 @@ _CFLHDR_ root/bin/csystemctl "# contributor https://github.com/petkar"
 cat >> root/bin/csystemctl <<- EOM
 INSTALLDIR="$INSTALLDIR"
 printf "\\\\e[38;5;148m%s\\\\e[0m\\\\n" "Installing /usr/bin/systemctl replacement: "
-[ -f /var/lock/csystemctl.lock ] && printf "%s\\\\n" "Already installed /usr/bin/systemctl replacement: DONE 🏁" && exit
+[ -f /var/lock/texarh/csystemctl.lock ] && printf "%s\\\\n" "Already installed /usr/bin/systemctl replacement: DONE 🏁" && exit
 declare COMMANDP
 COMMANDP="\$(command -v python3)" || printf "%s\\\\n" "Command python3 can not be found: continuing..."
 [[ "\${COMMANDP:-}" == *python3* ]] || pacman --noconfirm --color=always -S python3 || sudo pacman --noconfirm --color=always -S python3
@@ -316,8 +316,7 @@ printf "%s\\\\n" "Getting replacement systemctl from https://raw.githubuserconte
 # download and copy to both directories /usr/local/bin and /usr/bin
 curl --fail --retry 2 https://raw.githubusercontent.com/TermuxArch/docker-systemctl-replacement/master/files/docker/systemctl3.py | tee /usr/bin/systemctl /usr/local/bin/systemctl >/dev/null
 chmod 700 /usr/bin/systemctl /usr/local/bin/systemctl
-[ ! -e /run/lock ] && mkdir -p /run/lock
-touch /var/lock/csystemctl.lock
+[ ! -e /run/lock/texarh/  ] && mkdir -p /var/lock/texarh/ && touch /var/lock/texarh/csystemctl.lock
 printf "\\\\e[38;5;148m%s\\\\e[1;32m%s\\\\e[0m\\\\n" "Installing systemctl replacement in /usr/local/bin and /usr/bin: " "DONE 🏁"
 # csystemctl EOF
 EOM
@@ -728,7 +727,7 @@ if [ "\$UID" = "0" ]
 then
 printf "\\\\n\\\\e[1;37m%s\\\\e[0m\\\\n\\\\n" "ERROR:  Script '\${0##*/}' should not be used as root:  The TermuxArch command 'addauser' creates user accounts in Arch Linux in PRoot and configures these user accounts for 'sudo':  The 'addauser' command is intended to be run by the Arch Linux in PRoot root user:  To use 'addauser' directly from Termux, run '$STARTBIN command addauser user' in Termux to create this account in Arch Linux PRoot:  The command '$STARTBIN help' has more information about using '$STARTBIN':  EXITING..."
 else
-[ ! -f /var/lock/patchmakepkg.lock ] && patchmakepkg
+[ ! -f /var/lock/texarh/patchmakepkg.lock ] && patchmakepkg
 printf "%s\\\\n" "Building and installing fakeroot-tcp: "
 ([[ ! "\$(command -v automake)" ]] || [[ ! "\$(command -v fakeroot)" ]] || [[ ! "\$(command -v git)" ]] || [[ ! "\$(command -v gcc)" ]] || [[ ! "\$(command -v po4a)" ]]) 2>/dev/null && (pci automake base-devel fakeroot git gcc po4a libtool || sudo pci automake base-devel fakeroot git gcc po4a libtool)
 cd && (git clone https://aur.archlinux.org/fakeroot-tcp.git && cd fakeroot-tcp && sed -i 's/  patch/  sudo patch/g' PKGBUILD && makepkg -irs && libtool --finish /usr/lib/libfakeroot) || printf "%s\\\\n" "Continuing to build and install fakeroot-tcp: " && cd fakeroot-tcp && sed -i 's/  patch/  sudo patch/g' PKGBUILD && makepkg -irs
@@ -761,12 +760,12 @@ Tap the 'y' key first, then enter.  For the first question, the 'y' key must be 
 :: Proceed with installation? [Y/n]
 Tap enter twice more as this build proccess continues.  If everything goes well, you will see these messages:
 Libraries have been installed in:
-The message above will be displayed for a short time with more information.  Then ${0##*/} will go on, and there will be one more tap enter yo touch before script ${0##*/} is done;  SLEEPING SIX SECONDS...
+The message above will be displayed for a short time with more information.  Then ${0##*/} will go on, and there will be one more tap enter to touch before script ${0##*/} is done;  SLEEPING SIX SECONDS...
 makefakeroottcp $VERSIONID: DONE 🏁
 Then this process will go on to try to make 'yay' which is much simpler for the user;  There is no tapping yes enter needed to be done whatsoever."
 sleep 6
 cd
-[ ! -f /var/lock/patchmakepkg.lock ] && patchmakepkg
+[ ! -f /var/lock/texarh/patchmakepkg.lock ] && patchmakepkg
 ! fakeroot ls >/dev/null && makefakeroottcp
 (git clone https://aur.archlinux.org/yay.git&&cd yay&&_PRMAKE_&&makepkg -irs --noconfirm)||printf "\\\\e[1;37m%s\\\\e[0m\\\\n" "Continuing to build and install yay..."&&cd yay&&_PRMAKE_&&makepkg -irs --noconfirm||printf "\\\\e[1;31m%s\\\\e[1;37m%s\\\\n" "ERROR: " "The command 'makepkg -irs --noconfirm' did not run expected; CONTINUING..."
 printf "\\\\e[0;32m%s\\\\n%s\\\\n%s\\\\e[1;32m%s\\\\e[0m\\\\n" "Paths that can be followed after building 'yay' are 'yay cmatrix' which builds matrix screensavers.  The commands 'yay pikaur|pikaur-git|tpac' build more aur installers which can also be used to download aur repositories and build packages like with 'yay' in your Android smartphone, tablet, wearable and more.  Did you know that 'android-studio' is available with the command 'yay android'?" "If you have trouble importing keys, this command 'gpg --keyserver keyserver.ubuntu.com --recv-keys 71A1D0EFCFEB6281FD0437C71A1D0EFCFEB6281F' might help.  Change the number to the number of the key being imported." "Building and installing yay: " "DONE 🏁"
@@ -781,13 +780,14 @@ _CFLHDR_ root/bin/orcaconf "# orcaconf contributor https://github.com/JanuszChmi
 cat >> root/bin/orcaconf <<- EOM
 [[ -f /var/lock/texarh/orcaconf.lock ]] && printf "%s\\\\n" "Already configured orca: DONE 🏁" && exit
 _INSTALLORCACONF_() {
-[[ ! -f /var/lock/texarh/orcaconfinstall.lock ]] && nice -n 18 pci espeak-ng mate mate-extra orca pulseaudio-alsa tigervnc && touch /var/lock/texarh/orcaconfinstall.lock || printf "%s\\n" "_INSTALLORCACONF_ \${0##*/} did not completed as expected.  Continuing..."
+[[ ! -f /var/lock/texarh/orcaconfinstall.lock ]] && nice -n 18 pci espeak-ng mate mate-extra orca pulseaudio-alsa tigervnc && mkdir -p /var/lock/texarh/ && touch /var/lock/texarh/orcaconfinstall.lock || printf "%s\\n" "_INSTALLORCACONF_ \${0##*/} did not completed as expected.  Continuing..."
 }
 _INSTALLORCACONF_ || _INSTALLORCACONF_ || (printf "%s\\n" "_INSTALLORCACONF_ \${0##*/} did not completed as expected.  Please check for errors and run \${0##*/} again." && exit)
 printf "%s\\n" "export DISPLAY=:0
 export PULSE_SERVER=127.0.0.1
 unset DBUS_SESSION_BUS_ADDRESS
 unset SESSION_MANAGER" >> \$HOME/.profile
+csystemctl || printf "\\e[1;31m%s\\e[0m\\n" "command 'csystemctl' did not completed as expected"
 [[ ! -f /var/lock/texarh/orcaconf.lock ]] && touch /var/lock/texarh/orcaconf.lock
 mateconf || printf "\\e[1;31m%s\\e[0m\\n" "command 'mateconf' did not completed as expected"
 # orcaconf EOF
@@ -796,7 +796,6 @@ chmod 700 root/bin/orcaconf
 _ADDmateconf_() {
 _CFLHDR_ root/bin/mateconf "# mateconf contributor https://github.com/JanuszChmiel " "# Reference https://github.com/SDRausty/termux-archlinux/issues/66 Let's expand setupTermuxArch so users can install Orca screen reader (assistive technology) and also have VNC support added easily."
 cat >> root/bin/mateconf <<- EOM
-# csystemctl || printf "\\e[1;31m%s\\e[0m\\n" "command 'csystemctl' did not completed as expected"
 vncserver -kill :0
 vncserver -extension MIT-SHM -localhost -geometry 1024x768 -depth 24 -name remote-desktop :0 -SecurityTypes=None
 # mateconf EOF
@@ -816,7 +815,7 @@ if [[ ! "\$(command -v patch)" ]] 2>/dev/null || [[ ! "\$(command -v unzip)" ]] 
 then
 pci patch unzip
 fi
-[ -f /var/lock/patchmakepkg.lock ] && printf "%s\\\\n" "Already patched makepkg: DONE 🏁" && exit
+[ -f /var/lock/texarh/patchmakepkg.lock ] && printf "%s\\\\n" "Already patched makepkg: DONE 🏁" && exit
 mkdir -p "\$BKPDIR"
 cp /bin/makepkg "\$BKPDIR"
 cd && curl --fail --retry 2 -O https://raw.githubusercontent.com/TermuxArch/TermuxArch/master/diff.makepkg.zip && unzip diff.makepkg.zip
@@ -827,7 +826,7 @@ cp makepkg /usr/local/bin/makepkg
 mv -f makepkg /bin/makepkg
 mv -f diff.makepkg.zip "\$BKPDIR"
 # create lock file to update proof patchmakepkg
-touch /var/lock/patchmakepkg.lock
+touch /var/lock/texarh/patchmakepkg.lock
 printf "%s\\\\n" "Attempting to patch makepkg: DONE 🏁"
 # patchmakepkg EOF
 EOM
