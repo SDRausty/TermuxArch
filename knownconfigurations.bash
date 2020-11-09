@@ -53,11 +53,10 @@ _MAKESYSTEM_
 }
 
 ##  Information at https://www.archlinux.org/news/phasing-out-i686-support/ and https://archlinux32.org/ regarding why i686 is currently frozen at release 2017.03.01-i686.
-##  Update: https://github.com/TermuxArch/TermuxArch/issues/25 Implementing QEMU #25 20201001 and https://github.com/TermuxArch/TermuxArch/issues/25 Implementing QEMU #25 20201001.
+##  UPDATE: These topics have the most current information about Arch Linux 32 https://github.com/TermuxArch/TermuxArch/issues/25 Implementing QEMU #25 and https://bbs.archlinux32.org/viewtopic.php?id=2982 » Installation » [SOLVED - Hurrah!] Upgrading from a truly ancient install.  Arch Linux 32 does not work as expected with the latest testing as it does not update to the newest version smoothly.  Testing is requested.
 _I686_() { # IFILE is read from md5sums.txt
 # CMIRROR="archive.archlinux32.org"
-# RPATH="iso/latest"
-# updating from 20170301 version does not work as of 2020 as Arch Linux 32 was updated beyondvthe currently publish root system file.
+# RPATH="iso"
 CMIRROR="archive.archlinux.org"
 RPATH="iso/2017.03.01"
 _MAKESYSTEM_
@@ -141,6 +140,6 @@ PROOTSTMNT="${PROOTSTMNT//-i \"\$AR2AR:wheel\" }" # create PRoot root user strin
 }
 _PR00TSTRING_
 ##  uncomment the next line to test function _PR00TSTRING_
-#   printf "%s\\n" "$PROOTSTMNT" && printf "%s\\n" "$PROOTSTMNTU" && printf "%s\\n" "$PROOTSTMNTUU" && exit
+##  printf "%s\\n" "$PROOTSTMNT" && printf "%s\\n" "$PROOTSTMNTU" && printf "%s\\n" "$PROOTSTMNTUU" && exit
 ##  The commands 'setupTermuxArch r[e[fresh]]' can be used to regenerate the start script to the newest version if there is a newer version published and can be customized as wanted.  Command 'setupTermuxArch refresh' will refresh the installation globally, including excecuting 'keys' and 'locales-gen' and backup user configuration files that were initially created and are refreshed.  The command 'setupTermuxArch re' will refresh the installation and update user configuration files and backup user configuration files that were initially created and are refreshed.  Command 'setupTermuxArch r' will only refresh the installation and update the root user configuration files and backup root user configuration files that were initially created and are refreshed.
 # knownconfigurations.bash EOF
