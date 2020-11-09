@@ -596,15 +596,15 @@ fi
 done
 
 _PMUEOEP1_() {
-printf \"\\n\\e[1;32m==>  \\e[1;37mRunning \${0##*/} [\$2/7] $ARCHITEC ($CPUABI) architecture upgrade ; \\e[1;32m%s\\e[0m...\\n\" \"pacman -U \${UPGDPKGS[\$1]##*/} --noconfirm\" ; pacman -U \"\${UPGDPKGS[\$1]##*/}\" --noconfirm || (_PRTERROR_ && printf \"\\e[1;31m\\n%s\\e[1;37m%s\\e[0m\\n\" \"The command 'pacman -U \${UPGDPKGS[\$1]##*/} --noconfirm' did not succeed: continuing...\")
+printf \"\\n\\e[1;32m==>  \\e[1;37mRunning \${0##*/} [\$2/9] $ARCHITEC ($CPUABI) architecture upgrade ; \\e[1;32m%s\\e[0m...\\n\" \"pacman -U \${UPGDPKGS[\$1]##*/} --noconfirm\" ; pacman -U \"\${UPGDPKGS[\$1]##*/}\" --noconfirm || (_PRTERROR_ && printf \"\\e[1;31m\\n%s\\e[1;37m%s\\e[0m\\n\" \"The command 'pacman -U \${UPGDPKGS[\$1]##*/} --noconfirm' did not succeed: continuing...\")
 }
 
 _PMUEOEP2_() {
-printf \"\\n\\e[1;32m==>  \\e[1;37mRunning \${0##*/} [\$3/7] $ARCHITEC ($CPUABI) architecture upgrade ; \\e[1;32m%s\\e[0m...\\n\" \"pacman -U \${UPGDPKGS[\$1]##*/} \${UPGDPKGS[\$2]##*/} --noconfirm\" ; pacman -U \"\${UPGDPKGS[\$1]##*/}\" \"\${UPGDPKGS[\$2]##*/}\" --noconfirm || (_PRTERROR_ && printf \"\\e[1;31m\\n%s\\e[1;37m%s\\e[0m\\n\" \"The command 'pacman -U \${UPGDPKGS[\$1]##*/} \${UPGDPKGS[\$2]##*/} --noconfirm' did not succeed: continuing...\")
+printf \"\\n\\e[1;32m==>  \\e[1;37mRunning \${0##*/} [\$3/9] $ARCHITEC ($CPUABI) architecture upgrade ; \\e[1;32m%s\\e[0m...\\n\" \"pacman -U \${UPGDPKGS[\$1]##*/} \${UPGDPKGS[\$2]##*/} --noconfirm\" ; pacman -U \"\${UPGDPKGS[\$1]##*/}\" \"\${UPGDPKGS[\$2]##*/}\" --noconfirm || (_PRTERROR_ && printf \"\\e[1;31m\\n%s\\e[1;37m%s\\e[0m\\n\" \"The command 'pacman -U \${UPGDPKGS[\$1]##*/} \${UPGDPKGS[\$2]##*/} --noconfirm' did not succeed: continuing...\")
 }
 
 _PMUEOEP3_() {
-printf \"\\n\\e[1;32m==>  \\e[1;37mRunning \${0##*/} [\$4/7] $ARCHITEC ($CPUABI) architecture upgrade ; \\e[1;32m%s\\e[0m...\\n\" \"pacman -U \${UPGDPKGS[\$1]##*/} \${UPGDPKGS[\$2]##*/} \${UPGDPKGS[\$3]##*/} --noconfirm\" ; pacman -U \"\${UPGDPKGS[\$1]##*/}\" \"\${UPGDPKGS[\$2]##*/}\" \"\${UPGDPKGS[\$3]##*/}\" --noconfirm || (_PRTERROR_ && printf \"\\e[1;31m\\n%s\\e[1;37m%s\\e[0m\\n\" \"The command 'pacman -U \${UPGDPKGS[\$1]##*/} \${UPGDPKGS[\$2]##*/} \${UPGDPKGS[\$3]##*/} --noconfirm' did not succeed: continuing...\")
+printf \"\\n\\e[1;32m==>  \\e[1;37mRunning \${0##*/} [\$4/9] $ARCHITEC ($CPUABI) architecture upgrade ; \\e[1;32m%s\\e[0m...\\n\" \"pacman -U \${UPGDPKGS[\$1]##*/} \${UPGDPKGS[\$2]##*/} \${UPGDPKGS[\$3]##*/} --noconfirm\" ; pacman -U \"\${UPGDPKGS[\$1]##*/}\" \"\${UPGDPKGS[\$2]##*/}\" \"\${UPGDPKGS[\$3]##*/}\" --noconfirm || (_PRTERROR_ && printf \"\\e[1;31m\\n%s\\e[1;37m%s\\e[0m\\n\" \"The command 'pacman -U \${UPGDPKGS[\$1]##*/} \${UPGDPKGS[\$2]##*/} \${UPGDPKGS[\$3]##*/} --noconfirm' did not succeed: continuing...\")
 }
 
 cp -f /usr/lib/{libcrypto.so.1.0.0,libssl.so.1.0.0} /tmp
@@ -612,27 +612,27 @@ _PMUEOEP2_ 0 1 1
 _KEYSGENMSG_
 printf \"\\e[1;32m==>\\e[0m Running \${0##*/} \\e[1;32mpacman -Ss keyring --color=always\\e[0;32m...\\n\"
 pacman -Ss keyring --color=always || _PRTERROR_
-_PMUEOEP1_ 8 2a
-_PMUEOEP3_ 2 3 7 2b
-_PMUEOEP3_ 4 5 6 3
+_PMUEOEP1_ 8 2
+_PMUEOEP3_ 2 3 7 3
+_PMUEOEP3_ 4 5 6 4
 mv -f /tmp/{libcrypto.so.1.0.0,libssl.so.1.0.0} /usr/lib/
 sed -i '/^Architecture/s/.*/Architecture = i686/' /etc/pacman.conf
 sed -i '/^SigLevel/s/.*/SigLevel    = Never/' /etc/pacman.conf
 sed -i 's/^HoldPkg/\#HoldPkg/g' /etc/pacman.conf
-printf \"\\n\\e[1;32m==>  \\e[1;37mRunning \${0##*/} [4/7] ; \\e[1;32m%s\\e[0m...\\n\" \"pacman -S archlinux-keyring archlinux32-keyring --noconfirm\"
+printf \"\\n\\e[1;32m==>  \\e[1;37mRunning \${0##*/} [5/9] ; \\e[1;32m%s\\e[0m...\\n\" \"pacman -S archlinux-keyring archlinux32-keyring --noconfirm\"
 _KEYSGENMSG_
 pacman -S archlinux-keyring archlinux32-keyring --noconfirm || _PRTERROR_
 _KEYSGENMSG_
 sed -i '/^SigLevel/s/.*/SigLevel    = Required DatabaseOptional/' /etc/pacman.conf
-printf \"\\n\\e[1;32m==>  \\e[1;37mRunning \${0##*/} [5/7] $ARCHITEC ($CPUABI) architecture upgrade ; \\e[1;32m%s\\e[0m...\\n\" \"pacman -S pacman --noconfirm\"
+printf \"\\n\\e[1;32m==>  \\e[1;37mRunning \${0##*/} [6/9] $ARCHITEC ($CPUABI) architecture upgrade ; \\e[1;32m%s\\e[0m...\\n\" \"pacman -S pacman --noconfirm\"
 pacman -S pacman --noconfirm || _PRTERROR_
-printf \"\\n\\e[1;32m==>  \\e[1;37mRunning \${0##*/} [6/7] $ARCHITEC ($CPUABI) architecture upgrade ; \\e[1;32m%s\\e[0m...\\n\" \"pacman -S ca-certificates ca-certificates-utils ca-certificates-mozilla coreutils \"
+printf \"\\n\\e[1;32m==>  \\e[1;37mRunning \${0##*/} [7/9] $ARCHITEC ($CPUABI) architecture upgrade ; \\e[1;32m%s\\e[0m...\\n\" \"pacman -S ca-certificates ca-certificates-utils ca-certificates-mozilla coreutils libffi linux-api-headers ncurses readline sed \"
 rm /etc/ssl/certs/ca-certificates.crt
-pacman -S ca-certificates ca-certificates-utils ca-certificates-mozilla coreutils  || _PRTERROR_
-printf \"\\n\\e[1;32m==>  \\e[1;37mRunning \${0##*/} [6/7] $ARCHITEC ($CPUABI) architecture upgrade ; \\e[1;32m%s\\e[0m...\\n\" \"pacman -S awk bashgcc-libs glibc gpgme grep gzip libffi linux-api-headers ncurses openssl patch readline sed sudo tzdata unzip which zstd --noconfirm\"
-pacman -S awk bash gcc-libs glibc gpgme grep gzip libffi linux-api-headers ncurses openssl patch readline sed sudo tzdata unzip which zstd --noconfirm || _PRTERROR_
+pacman -S ca-certificates ca-certificates-utils ca-certificates-mozilla coreutils libffi linux-api-headers ncurses readline sed || _PRTERROR_
+printf \"\\n\\e[1;32m==>  \\e[1;37mRunning \${0##*/} [8/9] $ARCHITEC ($CPUABI) architecture upgrade ; \\e[1;32m%s\\e[0m...\\n\" \"pacman -S awk bashgcc-libs glibc gpgme grep gzip openssl patch sudo tzdata unzip which zstd --noconfirm\"
+pacman -S awk bash gcc-libs glibc gpgme grep gzip openssl patch sudo tzdata unzip which zstd --noconfirm || _PRTERROR_
 locale-gen || _PRTERROR_
-printf \"\\n\\e[1;32m==>  \\e[1;37mRunning \${0##*/} [7/7] $ARCHITEC ($CPUABI) architecture upgrade ; \\e[1;32m%s\\e[0m...\\n\" \"pacman -Su --noconfirm ; Starting full system upgrade\"
+printf \"\\n\\e[1;32m==>  \\e[1;37mRunning \${0##*/} [9/9] $ARCHITEC ($CPUABI) architecture upgrade ; \\e[1;32m%s\\e[0m...\\n\" \"pacman -Su --noconfirm ; Starting full system upgrade\"
 pacman -Su --noconfirm || _PRTERROR_"
 X86IPT=" "
 X86INK=":"
