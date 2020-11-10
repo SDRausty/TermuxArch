@@ -798,20 +798,24 @@ unset DBUS_SESSION_BUS_ADDRESS
 unset SESSION_MANAGER" >> \$HOME/.profile
 csystemctl || printf "\\e[1;31m%s\\e[0m\\n" "command 'csystemctl' did not completed as expected"
 [[ ! -f /var/lock/texarh/orcaconf.lock ]] && touch /var/lock/texarh/orcaconf.lock
-mateconf || printf "\\e[1;31m%s\\e[0m\\n" "command 'mateconf' did not completed as expected"
+orcarun || printf "\\e[1;31m%s\\e[0m\\n" "command 'orcarun' did not completed as expected"
 # orcaconf EOF
 EOM
 chmod 700 root/bin/orcaconf
-_ADDmateconf_() {
-_CFLHDR_ root/bin/mateconf "# mateconf contributor https://github.com/JanuszChmiel " "# Reference https://github.com/SDRausty/termux-archlinux/issues/66 Let's expand setupTermuxArch so users can install Orca screen reader (assistive technology) and also have VNC support added easily."
-cat >> root/bin/mateconf <<- EOM
-vncserver -kill :0
-vncserver -extension MIT-SHM -localhost -geometry 1024x768 -depth 24 -name remote-desktop :0 -SecurityTypes=None
-# mateconf EOF
+_ADDorcarun_() {
+_CFLHDR_ root/bin/orcarun "# orcarun contributor https://github.com/JanuszChmiel " "# Reference https://github.com/SDRausty/termux-archlinux/issues/66 Let's expand setupTermuxArch so users can install Orca screen reader (assistive technology) and also have VNC support added easily."
+cat >> root/bin/orcarun <<- EOM
+if ! command Xvnc
+then
+orcaconf
+else
+Xvnc -localhost -geometry 1024x768 -depth 24 -SecurityTypes=None
+fi
+# orcarun EOF
 EOM
-chmod 700 root/bin/mateconf
+chmod 700 root/bin/orcarun
 }
-_ADDmateconf_
+_ADDorcarun_
 }
 
 _ADDpatchmakepkg_() {
@@ -835,7 +839,7 @@ cp makepkg /usr/local/bin/makepkg
 mv -f makepkg /bin/makepkg
 mv -f diff.makepkg.zip "\$BKPDIR"
 # create lock file to update proof patchmakepkg
-touch /var/lock/texarh/patchmakepkg.lock
+mkdir -p /var/lock/texarh/ ; touch /var/lock/texarh/patchmakepkg.lock
 printf "%s\\\\n" "Attempting to patch makepkg: DONE 🏁"
 # patchmakepkg EOF
 EOM
