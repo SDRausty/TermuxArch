@@ -5,7 +5,7 @@
 # command 'setupTermuxArch h[elp]' has information how to use this file
 ################################################################################
 IFS=$'\n\t'
-VERSIONID=2.0.360
+VERSIONID=2.0.361
 set -Eeuo pipefail
 shopt -s nullglob globstar
 umask 0022
@@ -608,6 +608,8 @@ exit
 fi
 [[ $CPUABI == *arm* ]] || [[ $CPUABI == *86* ]] && printf "%s\\n" "Option ($REPLY) with architecture $CPUABI ($ARCHITEC) was picked from this list;  The chosen Arch Linux architecture for installation with emulation is $CPUABI ($ARCHITEC):  " && INCOMM="qemu-user-$ARCHITEC" && QEMUCR=0 && break || printf "%s\\n" "Answer ($REPLY) was chosen;  Please select the architecture by number from this list: (1) armeabi, (2) armeabi-v7a, (3) arm64-v8a, (4) x86, (5) x86_64 or choose option (6) exit to exit command '${0##*/}':"
 done
+else
+INCOMM="qemu-user-$ARCHITEC" && QEMUCR=0
 fi
 if ! command -v "${INCOMM//-user}"
 then
@@ -909,6 +911,15 @@ elif [[ "${1//-}" = [Uu]* ]]
 then
 _PREPTERMUXARCH_
 _QEMU_ # this option currently defaults to option qemu
+_OPT1_ "$@"
+_INTRO_ "$@"
+## [v[isualshortcut] [refresh] [customdir]]  Install alternate architecture on smartphone with https://github.com/qemu/QEMU emulation. Issue [Expanding setupTermuxArch so visually impaired users can install Orca screen reader (assistive technology) and have VNC support added easily. #34](https://github.com/TermuxArch/TermuxArch/issues/34) has more information.
+elif [[ "${1//-}" = [Vv]* ]]
+then
+ARCHITEC="i386"
+CPUABI="x86"
+_PREPTERMUXARCH_
+_QEMU_
 _OPT1_ "$@"
 _INTRO_ "$@"
 ## [wd|ws]  Get device system information with 'wget'.

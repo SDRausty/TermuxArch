@@ -583,7 +583,8 @@ EOM
 _ADDkeys_() {
 if [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = i386 ]]
 then	# set customized commands for Arch Linux 32 architecture
-X86INT="UPGDPKGS=(\"a/archlinux-keyring/archlinux-keyring-20191219-1.0-any.pkg.tar.xz\" \"a/archlinux32-keyring/archlinux32-keyring-20191230-1.0-any.pkg.tar.xz\"  \"g/glibc/glibc-2.28-1.1-i686.pkg.tar.xz\" \"l/linux-api-headers/linux-api-headers-5.3.1-2.0-any.pkg.tar.xz\" \"l/libarchive/libarchive-3.3.3-1.0-i686.pkg.tar.xz\" \"o/openssl/openssl-1.1.1.d-2.0-i686.pkg.tar.xz\" \"p/pacman/pacman-5.2.1-1.4-i686.pkg.tar.xz\" \"z/zstd/zstd-1.4.4-1.0-i686.pkg.tar.xz\" \"/c/coreutils/coreutils-8.31-3.0-i686.pkg.tar.xz\")
+X86INT="UPGDPKGS=(\"a/archlinux-keyring/archlinux-keyring-20191219-1.0-any.pkg.tar.xz\" \"a/archlinux32-keyring/archlinux32-keyring-20191230-1.0-any.pkg.tar.xz\"  \"g/glibc/glibc-2.28-1.1-i686.pkg.tar.xz\" \"l/linux-api-headers/linux-api-headers-5.3.1-2.0-any.pkg.tar.xz\" \"l/libarchive/libarchive-3.3.3-1.0-i686.pkg.tar.xz\" \"o/openssl/openssl-1.1.1.d-2.0-i686.pkg.tar.xz\" \"p/pacman/pacman-5.2.1-1.4-i686.pkg.tar.xz\" \"z/zstd/zstd-1.4.4-1.0-i686.pkg.tar.xz\" \"/c/coreutils/coreutils-8.31-3.0-i686.pkg.tar.xz\" \"w/which/which-2.21-5.0-i686.pkg.tar.xz\" \"g/grep/grep-3.3-3.0-i686.pkg.tar.xz\" \"g/gzip/gzip-1.10-3.0-i686.pkg.tar.xz\"  \"l/less/less-551-3.0-i686.pkg.tar.xz\"  \"s/sed/sed-4.7-3.0-i686.pkg.tar.xz\" \"u/unzip/unzip-6.0-13.1-i686.pkg.tar.xz\")
+# patch sudo
 printf \"%s\\n\" \"Downloading files: '\$(printf \"%s \" \"\${UPGDPKGS[@]##*/}\")' from https://archive.archlinux32.org.\"
 for UPGDPAKG in \${UPGDPKGS[@]}
 do
@@ -607,13 +608,21 @@ _PMUEOEP3_() {
 printf \"\\n\\e[1;32m==>  \\e[1;37mRunning \${0##*/} [\$4/7] $ARCHITEC ($CPUABI) architecture upgrade ; \\e[1;32m%s\\e[0m...\\n\" \"pacman -U \${UPGDPKGS[\$1]##*/} \${UPGDPKGS[\$2]##*/} \${UPGDPKGS[\$3]##*/} --noconfirm\" ; pacman -U \"\${UPGDPKGS[\$1]##*/}\" \"\${UPGDPKGS[\$2]##*/}\" \"\${UPGDPKGS[\$3]##*/}\" --noconfirm || (_PRTERROR_ && printf \"\\e[1;31m\\n%s\\e[1;37m%s\\e[0m\\n\" \"The command 'pacman -U \${UPGDPKGS[\$1]##*/} \${UPGDPKGS[\$2]##*/} \${UPGDPKGS[\$3]##*/} --noconfirm' did not succeed: continuing...\")
 }
 
+_PMUEOEP4_() {
+printf \"\\n\\e[1;32m==>  \\e[1;37mRunning \${0##*/} [\$5/7] $ARCHITEC ($CPUABI) architecture upgrade ; \\e[1;32m%s\\e[0m...\\n\" \"pacman -U \${UPGDPKGS[\$1]##*/} \${UPGDPKGS[\$2]##*/} \${UPGDPKGS[\$3]##*/} \${UPGDPKGS[\$4]##*/} --noconfirm\" ; pacman -U \"\${UPGDPKGS[\$1]##*/}\" \"\${UPGDPKGS[\$2]##*/}\" \"\${UPGDPKGS[\$3]##*/}\" \"\${UPGDPKGS[\$4]##*/}\" --noconfirm || (_PRTERROR_ && printf \"\\e[1;31m\\n%s\\e[1;37m%s\\e[0m\\n\" \"The command 'pacman -U \${UPGDPKGS[\$1]##*/} \${UPGDPKGS[\$2]##*/} \${UPGDPKGS[\$3]##*/} \${UPGDPKGS[\$4]##*/} --noconfirm' did not succeed: continuing...\")
+}
+
+_PMUEOEP5_() {
+printf \"\\n\\e[1;32m==>  \\e[1;37mRunning \${0##*/} [\$6/7] $ARCHITEC ($CPUABI) architecture upgrade ; \\e[1;32m%s\\e[0m...\\n\" \"pacman -U \${UPGDPKGS[\$1]##*/} \${UPGDPKGS[\$2]##*/} \${UPGDPKGS[\$3]##*/} \${UPGDPKGS[\$4]##*/} \${UPGDPKGS[\$5]##*/} --noconfirm\" ; pacman -U \"\${UPGDPKGS[\$1]##*/}\" \"\${UPGDPKGS[\$2]##*/}\" \"\${UPGDPKGS[\$3]##*/}\" \"\${UPGDPKGS[\$4]##*/}\" \"\${UPGDPKGS[\$5]##*/}\" --noconfirm || (_PRTERROR_ && printf \"\\e[1;31m\\n%s\\e[1;37m%s\\e[0m\\n\" \"The command 'pacman -U \${UPGDPKGS[\$1]##*/} \${UPGDPKGS[\$2]##*/} \${UPGDPKGS[\$3]##*/} \${UPGDPKGS[\$4]##*/} \${UPGDPKGS[\$5]##*/} --noconfirm' did not succeed: continuing...\")
+}
+
 cp -f /usr/lib/{libcrypto.so.1.0.0,libssl.so.1.0.0} /tmp
 _PMUEOEP2_ 0 1 1
 _KEYSGENMSG_
 printf \"\\e[1;32m==>\\e[0m Running \${0##*/} \\e[1;32mpacman -Ss keyring --color=always\\e[0;32m...\\n\"
 pacman -Ss keyring --color=always || _PRTERROR_
-_PMUEOEP1_ 8 2
-_PMUEOEP3_ 2 3 7 3
+_PMUEOEP5_ 8 9 10 11 12 2
+_PMUEOEP4_ 13 2 3 7 3
 _PMUEOEP3_ 4 5 6 4
 mv -f /tmp/{libcrypto.so.1.0.0,libssl.so.1.0.0} /usr/lib/
 sed -i '/^Architecture/s/.*/Architecture = i686/' /etc/pacman.conf
@@ -639,7 +648,7 @@ pacman -S \"\${KEYRINGS[@]}\" --noconfirm --color=always || pacman -S \"\${KEYRI
 printf \"\\\\n\\\\e[1;32m(2/2) \\\\e[0;34mWhen \\\\e[1;37mAppending keys from archlinux.gpg\\\\e[0;34m appears on the screen, the installation process can be accelerated.  The system desires a lot of entropy at this part of the install procedure.  To generate as much entropy as possible quickly, watch and listen to a file on your device.  \\\\n\\\\nThe program \\\\e[1;32mpacman-key\\\\e[0;34m will want as much entropy as possible when generating keys.  Entropy is also created through tapping, sliding, one, two and more fingers tapping with short and long taps.  When \\\\e[1;37mAppending keys from archlinux.gpg\\\\e[0;34m appears on the screen, use any of these simple methods to accelerate the installation process if it is stalled.  Put even simpler, just do something on device.  Browsing files will create entropy on device.  Slowly swiveling the device in space and time will accelerate the installation process.  This method alone might not generate enough entropy (a measure of randomness in a closed system) for the process to complete quickly.  Use \\\\e[1;32mbash ~%s/bin/we \\\\e[0;34min a new Termux session to watch entropy on device.\\\\n\\\\e[1;32m==>\\\\e[0m Running \\\\e[1mpacman-key --populate\\\\e[0;32m...\\\\n\" \"$DARCH\"
 $ECHOEXEC pacman-key --populate
 printf \"\\\\e[1;32m==>\\\\e[0m Running \\\\e[1;32mpacman -Ss keyring --color=always\\\\e[0;32m...\\\\n\"
-pacman -Ss keyring --color=always || _PRTERROR_"
+pacman -Ss keyring --color=always"
 fi
 _CFLHDR_ root/bin/keys
 cat >> root/bin/keys <<- EOM
@@ -712,9 +721,9 @@ chmod 700 /etc/pacman.d/gnupg
 printf "\\\\e[1;32m==>\\\\e[0m Running \\\\e[1;32mpacman-key --populate\\\\e[0;32m...\\\\n"
 $ECHOEXEC pacman-key --populate || $ECHOEXEC pacman-key --populate || _PRTERROR_
 printf "\\\\e[1;32m==>\\\\e[0m Running \\\\e[1;32mpacman -Ss keyring --color=always\\\\e[0;32m...\\\\n"
-pacman -Ss keyring --color=always || _PRTERROR_
-$X86INT || _PRTERROR_
-$X86INK || _PRTERROR_
+pacman -Ss keyring --color=always
+$X86INT
+$X86INK
 # keys EOF
 EOM
 chmod 700 root/bin/keys

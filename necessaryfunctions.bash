@@ -381,11 +381,8 @@ chmod 700 "$STARTBIN"
 _MAKESYSTEM_() {
 _WAKELOCK_
 _CALLSYSTEM_
-_DOMAKESYSTEM_() {
-_MD5CHECK_
+_TASPINNER_ clock & _MD5CHECK_ ; kill $!
 _PRINTCU_
-}
-_TASPINNER_ clock & _DOMAKESYSTEM_ ; kill $!
 [[ "$KEEP" -ne 0 ]] && rm -f "$INSTALLDIR"/*.tar.gz "$INSTALLDIR"/*.tar.gz.md5 # set KEEP to 0 in file 'knownconfigurations.bash' after using either 'setupTermuxArch bloom' or 'setupTermuxArch manual' to keep the INSTALLDIR/*.tar.gz and INSTALLDIR/*.tar.gz.md5 files.
 _PRINTDONE_
 _PRINTCONFIGUP_
