@@ -789,7 +789,7 @@ _CFLHDR_ root/bin/orcaconf "# orcaconf contributor https://github.com/JanuszChmi
 cat >> root/bin/orcaconf <<- EOM
 [[ -f /var/lock/texarh/orcaconf.lock ]] && printf "%s\\\\n" "Already configured orca: DONE 🏁" && exit
 _INSTALLORCACONF_() {
-[[ ! -f /var/lock/texarh/orcaconfinstall.lock ]] && nice -n 18 pci espeak-ng mate mate-extra orca pulseaudio-alsa tigervnc && mkdir -p /var/lock/texarh/ && touch /var/lock/texarh/orcaconfinstall.lock || printf "%s\\n" "_INSTALLORCACONF_ \${0##*/} did not completed as expected.  Continuing..."
+[[ ! -f /var/lock/texarh/orcaconfinstall.lock ]] && (nice -n 18 pci espeak-ng mate mate-extra orca pulseaudio-alsa tigervnc || nice -n 18 pci espeak-ng mate mate-extra orca pulseaudio-alsa tigervnc) && mkdir -p /var/lock/texarh/ && touch /var/lock/texarh/orcaconfinstall.lock || printf "%s\\n" "_INSTALLORCACONF_ \${0##*/} did not completed as expected.  Continuing..."
 }
 _INSTALLORCACONF_ || _INSTALLORCACONF_ || (printf "%s\\n" "_INSTALLORCACONF_ \${0##*/} did not completed as expected.  Please check for errors and run \${0##*/} again." && exit)
 printf "%s\\n" "export DISPLAY=:0

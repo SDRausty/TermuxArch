@@ -5,7 +5,7 @@
 # command 'setupTermuxArch h[elp]' has information how to use this file
 ################################################################################
 IFS=$'\n\t'
-VERSIONID=2.0.362
+VERSIONID=2.0.363
 set -Eeuo pipefail
 shopt -s nullglob globstar
 umask 0022
@@ -913,7 +913,7 @@ _PREPTERMUXARCH_
 _QEMU_ # this option currently defaults to option qemu
 _OPT1_ "$@"
 _INTRO_ "$@"
-## [v[isualshortcut] [refresh] [customdir]]  Install alternate architecture on smartphone with https://github.com/qemu/QEMU emulation. Issue [Expanding setupTermuxArch so visually impaired users can install Orca screen reader (assistive technology) and have VNC support added easily. #34](https://github.com/TermuxArch/TermuxArch/issues/34) has more information.
+## [v[isualshortcut] [refresh] [customdir]]  Install alternate architecture on smartphone with https://github.com/qemu/QEMU emulation. Issues [Expanding setupTermuxArch so visually impaired users can install Orca screen reader (assistive technology) and have VNC support added easily. #34](https://github.com/TermuxArch/TermuxArch/issues/34) have more information about this option.
 elif [[ "${1//-}" = [Vv]* ]]
 then
 ARCHITEC="i386"
