@@ -5,7 +5,7 @@
 # command 'setupTermuxArch h[elp]' has information how to use this file
 ################################################################################
 IFS=$'\n\t'
-VERSIONID=2.0.363
+VERSIONID=2.0.364
 set -Eeuo pipefail
 shopt -s nullglob globstar
 umask 0022
@@ -514,8 +514,6 @@ _EDITORCHOOSER_
 _PRPREFRESH_() {
 printf "\\n%s\\n" "Refresh mode is set to refresh mode $1;  Initializing system refresh..."
 LCR="$1"
-_ARG2DIR_ "$@"
-_INTROREFRESH_ "$@"
 }
 
 _PRINTCONFLOADED_() {
@@ -882,6 +880,7 @@ _RMARCHQ_
 ## [q[emu] [refresh] [customdir]]  Install alternate architecture on smartphone with https://github.com/qemu/QEMU emulation. Issue [Implementing QEMU #25](https://github.com/TermuxArch/TermuxArch/issues/25) has more information.
 elif [[ "${1//-}" = [Qq]* ]]
 then
+_ARG2DIR_ "$@"
 _PREPTERMUXARCH_
 _QEMU_
 _OPT1_ "$@"
@@ -890,25 +889,36 @@ _INTRO_ "$@"
 elif [[ "${1//-}" = [Rr][Ee][Ff][Rr][Ee]* ]]
 then
 _PRPREFRESH_ "5"
+_ARG2DIR_ "$@"
+_INTROREFRESH_ "$@"
 elif [[ "${1//-}" = [Rr][Ee][Ff][Rr]* ]]
 then
 _PRPREFRESH_ "4"
+_ARG2DIR_ "$@"
+_INTROREFRESH_ "$@"
 elif [[ "${1//-}" = [Rr][Ee][Ff]* ]]
 then
 _PRPREFRESH_ "3"
+_ARG2DIR_ "$@"
+_INTROREFRESH_ "$@"
 ## [re [customdir]]  Refresh the Arch Linux in Termux PRoot scripts created by TermuxArch.  Useful for refreshing the root user's home directory and user home directories and the TermuxArch generated scripts to their newest version.
 elif [[ "${1//-}" = [Rr][Ee] ]]
 then
 printf "\\n\\e[0;32mSetting mode\\e[1;34m: \\e[1;32mminimal refresh with refresh user directories\\e[1;34m:\\e[0;32m For a full refresh you can use the \\e[1;32m'%s' \\e[0;32m%s\\e[1;34m...\\n\\e[0m" "${0##*/} refresh" "command"
 _PRPREFRESH_ "2"
+_ARG2DIR_ "$@"
+_INTROREFRESH_ "$@"
 ## [r [customdir]]  Refresh the Arch Linux in Termux PRoot scripts created by TermuxArch.  Useful for refreshing the root user's home directory and the TermuxArch generated scripts to their newest version.
 elif [[ "${1//-}" = [Rr] ]]
 then
 printf "\\n\\e[0;32mSetting mode\\e[1;34m: \\e[1;32mminimal refresh\\e[1;34m:\\e[0;32m For a full refresh you can use the \\e[1;32m'%s' \\e[0;32m%s\\e[1;34m...\\n\\e[0m" "${0##*/} refresh" "command"
 _PRPREFRESH_ "1"
+_ARG2DIR_ "$@"
+_INTROREFRESH_ "$@"
 ## [u[nicorn] [refresh] [customdir]]  Partial Implementation:  Install alternate architecture on smartphone with https://github.com/unicorn-engine/Unicorn emulation.  This option currently defaults to option qemu as it is a partial implementation. Issue [Implementing QEMU #25](https://github.com/TermuxArch/TermuxArch/issues/25) has more information.
 elif [[ "${1//-}" = [Uu]* ]]
 then
+_ARG2DIR_ "$@"
 _PREPTERMUXARCH_
 _QEMU_ # this option currently defaults to option qemu
 _OPT1_ "$@"
@@ -916,8 +926,16 @@ _INTRO_ "$@"
 ## [v[isualshortcut] [refresh] [customdir]]  Install alternate architecture on smartphone with https://github.com/qemu/QEMU emulation. Issues [Expanding setupTermuxArch so visually impaired users can install Orca screen reader (assistive technology) and have VNC support added easily. #34](https://github.com/TermuxArch/TermuxArch/issues/34) have more information about this option.
 elif [[ "${1//-}" = [Vv]* ]]
 then
+ABILIST64="$(getprop ro.product.cpu.abilist64)"
+if [[ -z "$ABILIST64" ]]
+then
 ARCHITEC="i386"
 CPUABI="x86"
+else
+ARCHITEC="x86_64"
+CPUABI="x86_64"
+fi
+_ARG2DIR_ "$@"
 _PREPTERMUXARCH_
 _QEMU_
 _OPT1_ "$@"
