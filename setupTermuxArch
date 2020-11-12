@@ -5,7 +5,7 @@
 # command 'setupTermuxArch h[elp]' has information how to use this file
 ################################################################################
 IFS=$'\n\t'
-VERSIONID=2.0.364
+VERSIONID=2.0.365
 set -Eeuo pipefail
 shopt -s nullglob globstar
 umask 0022
@@ -927,6 +927,12 @@ _INTRO_ "$@"
 elif [[ "${1//-}" = [Vv]* ]]
 then
 ABILIST64="$(getprop ro.product.cpu.abilist64)"
+CPUABI="$(getprop ro.product.cpu.abi)"
+if [[ $CPUABI == *86* ]]
+then
+_PREPTERMUXARCH_
+_INTRO_ "$@"
+else
 if [[ -z "$ABILIST64" ]]
 then
 ARCHITEC="i386"
@@ -940,6 +946,7 @@ _PREPTERMUXARCH_
 _QEMU_
 _OPT1_ "$@"
 _INTRO_ "$@"
+fi
 ## [wd|ws]  Get device system information with 'wget'.
 elif [[ "${1//-}" = [Ww][Dd]* ]] || [[ "${1//-}" = [Ww][Ss]* ]]
 then
