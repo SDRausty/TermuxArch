@@ -208,7 +208,7 @@ alias pcs='pacman -S --color=always'
 alias pcss='pacman -Ss --color=always'
 alias Q='exit'
 alias q='exit'
-alias ua='uname -m'
+alias um='uname -m'
 # .bashrc EOF
 EOM
 [ -f "$HOME"/.bashrc ] && grep -s proxy "$HOME"/.bashrc | grep -s "export" >>  root/.bashrc ||:
