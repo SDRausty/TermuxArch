@@ -5,7 +5,7 @@
 # command 'setupTermuxArch h[elp]' has information how to use this file
 ################################################################################
 IFS=$'\n\t'
-VERSIONID=2.0.367
+VERSIONID=2.0.368
 set -Eeuo pipefail
 shopt -s nullglob globstar
 umask 0022
@@ -61,6 +61,7 @@ trap '_STRPQUIT_ $LINENO $BASH_COMMAND $?' QUIT
 
 _ARG2DIR_() {  # argument as ROOTDIR
 ARG2="${@:2:1}"
+ARG2="${ARG2##$HOME/}"
 if [[ -z "${ARG2:-}" ]]
 then
 ROOTDIR=/arch
@@ -136,6 +137,7 @@ fi
 }
 
 _COREFILESLOAD_() {
+printf "\\e[?25l\\e[0m"
 . archlinuxconfig.bash
 . espritfunctions.bash
 . getimagefunctions.bash
@@ -320,9 +322,9 @@ _SYSINFO_ "$@"
 
 _DODIRCHK_() {
 _SETROOT_EXCEPTION_
-if [[ ! -d "$INSTALLDIR" ]] || [[ ! -d "$INSTALLDIR"/root/bin ]] || [[ ! -d "$INSTALLDIR"/var/binds ]] || [[ ! -f "$INSTALLDIR"/bin/we ]] || [[ ! -f "$INSTALLDIR"/usr/bin/env ]]
+if [[ ! -d "$INSTALLDIR" ]] || [[ ! -d "$INSTALLDIR/root/bin" ]] || [[ ! -d "$INSTALLDIR/var/binds" ]] || [[ ! -f "$INSTALLDIR/bin/we" ]] || [[ ! -f "$INSTALLDIR/usr/bin/env" ]]
 then
-printf "\\n\\e[0;33m%s\\e[1;33m%s\\e[0;33m.\\e[0m\\n\\n" "ＴｅｒｍｕｘＡｒｃｈ WARNING!  " "The root directory structure is incorrect; Cannot continue '${0##*/} $ARGS'!  These commands '${0##*/} help' and '$STARTBIN help' have more information"
+printf "\\n\\e[0;33m%s\\e[1;33m%s\\e[0;33m.\\e[0m\\n\\n" "ＴｅｒｍｕｘＡｒｃｈ WARNING!  " "The root directory structure is of ~/${INSTALLDIR##*/} incorrect; Cannot continue '${0##*/} $ARGS'!  These commands '${0##*/} help' and '$STARTBIN help' have more information"
 if [[ -d "$INSTALLDIR"/tmp ]]
 then	# check for superfluous tmp directory
 DIRCHECK=0
@@ -410,49 +412,61 @@ then
 _ARG2DIR_ "$@"
 elif [[ "$2" = [Bb]* ]]
 then
+shift
 printf "%s\\n" "Setting mode to bloom."
 _INTROBLOOM_ "$@"
 elif [[ "$2" = [Dd]* ]] || [[ "$2" = [Ss]* ]]
 then
-printf "%s\\n" "Setting mode to sysinfo."
 shift
+printf "%s\\n" "Setting mode to sysinfo."
 _ARG2DIR_ "$@"
 _INTROSYSINFO_ "$@"
 elif [[ "$2" = [Ii]* ]]
 then
-printf "%s\\n" "Setting mode to install."
 shift
+printf "%s\\n" "Setting mode to install."
 _ARG2DIR_ "$@"
 elif [[ "$2" = [Mm]* ]]
 then
+shift
 printf "%s\\n" "Setting mode to manual."
 OPT=MANUAL
 _OPT2_ "$@"
 elif [[ "${2//-}" = [Rr][Ee][Ff][Rr][Ee]* ]]
 then
+shift
 _PRPREFRESH_ "5"
+_ARG2DIR_ "$@"
+_INTROREFRESH_ "$@"
 elif [[ "${2//-}" = [Rr][Ee][Ff][Rr]* ]]
 then
+shift
 _PRPREFRESH_ "4"
+_ARG2DIR_ "$@"
+_INTROREFRESH_ "$@"
 elif [[ "${2//-}" = [Rr][Ee][Ff]* ]]
 then
+shift
 _PRPREFRESH_ "3"
+_ARG2DIR_ "$@"
+_INTROREFRESH_ "$@"
 elif [[ "$2" = [Rr][Ee]* ]]
 then
-export LCR="2"
-printf "\\n%s\\n" "Setting mode to minimal refresh and refresh user directories."
 shift
+printf "\\n%s\\n" "Setting mode to minimal refresh and refresh user directories."
+_PRPREFRESH_ "2"
 _ARG2DIR_ "$@"
 _INTROREFRESH_ "$@"
 elif [[ "$2" = [Rr]* ]]
 then
-export LCR="1"
-printf "\\n\\e[1;32m%s\\e[1;34m: \\e[0;32m%s '%s' %s\\n\\e[0m" "Setting mode" "minimal refresh;  You can use" "${0##*/} re[fresh]" "for full refresh."
 shift
+printf "\\n\\e[1;32m%s\\e[1;34m: \\e[0;32m%s '%s' %s\\n\\e[0m" "Setting mode" "minimal refresh;  You can use" "${0##*/} re[fresh]" "for full refresh."
+_PRPREFRESH_ "1"
 _ARG2DIR_ "$@"
 _INTROREFRESH_ "$@"
 else
 _ARG2DIR_ "$@"
+_INTRO_ "$@"
 fi
 }
 
@@ -464,31 +478,40 @@ _ARG2DIR_ "$@"
 _INTRO_ "$@"
 elif [[ "$3" = [Ii]* ]]
 then
-printf "%s\\n" "Setting mode to install."
 shift 2
+printf "%s\\n" "Setting mode to install."
 _ARG2DIR_ "$@"
 _INTRO_ "$@"
 elif [[ "${3//-}" = [Rr][Ee][Ff][Rr][Ee]* ]]
 then
+shift 2
 _PRPREFRESH_ "5"
+_ARG2DIR_ "$@"
+_INTROREFRESH_ "$@"
 elif [[ "${3//-}" = [Rr][Ee][Ff][Rr]* ]]
 then
+shift 2
 _PRPREFRESH_ "4"
+_ARG2DIR_ "$@"
+_INTROREFRESH_ "$@"
 elif [[ "${3//-}" = [Rr][Ee][Ff]* ]]
 then
+shift 2
 _PRPREFRESH_ "3"
+_ARG2DIR_ "$@"
+_INTROREFRESH_ "$@"
 elif [[ "$3" = [Rr][Ee]* ]]
 then
-export LCR="2"
-printf "\\n%s\\n" "Setting mode to minimal refresh and refresh user directories."
 shift 2
+printf "\\n%s\\n" "Setting mode to minimal refresh and refresh user directories."
+_PRPREFRESH_ "2"
 _ARG2DIR_ "$@"
 _INTROREFRESH_ "$@"
 elif [[ "$3" = [Rr]* ]]
 then
-export LCR="1"
-printf "\\n\\e[1;32m%s\\e[1;34m: \\e[0;32m%s '%s' %s\\n\\e[0m" "Setting mode" "minimal refresh;  Use" "${0##*/} re[fresh]" "for full refresh."
 shift 2
+printf "\\n\\e[1;32m%s\\e[1;34m: \\e[0;32m%s '%s' %s\\n\\e[0m" "Setting mode" "minimal refresh;  Use" "${0##*/} re[fresh]" "for full refresh."
+_PRPREFRESH_ "1"
 _ARG2DIR_ "$@"
 _INTROREFRESH_ "$@"
 else
@@ -546,7 +569,7 @@ printf "\\n\\e[1;32m  %s    \\e[0;32mcommand \\e[1;32m%s \\e[0;32m%s\\n" "PURGE"
 printf "\\n\\e[1;32m  %s  \\e[0;32mcommand \\e[1;32m%s \\e[0;32m%s \\e[1;32m%s \\e[0;32m%s \\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\n\\n" "SYSINFO" "'${0##*/} sysinfo'" "creates a system information file;  A file like" "setupTermuxArchSysInfo$STIME.log" "will be populated with device and system information in the working directory.  Please post information from this file along with details at" "https://github.com/TermuxArch/TermuxArch/issues" " if questions or comments are related to a particular device;  Should screenshots help in resolving an issue, include these with information from this system information log file as well.  If you are sharing an issue please consider creating a pull request at " "https://github.com/TermuxArch/TermuxArch/pulls" " also.  A pull request can give a much better perspective of how an issue can be easily resolved."
 if [[ "$LCC" = 1 ]]
 then
-printf "\\e[1;38;5;150m%s\\n\\n" "$(sed -n '600,999p;999p' "$0"|grep "^##"|sed 's/## /\n  /g')"
+printf "\\e[1;38;5;150m%s\\n\\n" "$(sed -n '600,1240p;1240p' "$0"|grep "^##"|sed 's/## /\n  /g')"
 printf "\\e[0;32m  Command \\e[1;32m%s\\e[0;32m has \\e[1;32m%s\\e[0;32m usage information:\\n" "'$STARTBIN help'" "'$STARTBIN'"
 _PRINTSTARTBIN_USAGE_
 else
@@ -619,7 +642,7 @@ _QEMUCFCK_() {
 if [[ -f "$INSTALLDIR/$STARTBIN" ]] && grep -q qemu- "$INSTALLDIR/$STARTBIN"
 then	# set installed qemu architecture
 ARCHITEC="$(ARCTEVAR="$(grep -m1 qemu $INSTALLDIR/$STARTBIN)" && ARCTFVAR=${ARCTEVAR#*qemu-} && cut -d" " -f1 <<< $ARCTFVAR)" && CPUABI="$ARCHITEC" && INCOMM="qemu-user-$ARCHITEC" && QEMUCR=0
-printf "Detected architecture is %s;  Install architecture is set to %s.\\n" "$CPUABI" "$ARCHITEC"
+printf "Detected architecture is %s;  Install architecture is set to %s.\\n" "$(getprop ro.product.cpu.abi)" "$ARCHITEC"
 fi
 }
 
@@ -714,8 +737,12 @@ COMMANDR="$(command -v au)" || COMMANDR="$(command -v pkg)" || COMMANDR="$(comma
 COMMANDIF="${COMMANDR##*/}"
 ## 4) Generate pseudo random number to create uniq strings,
 SDATE="$(date +%s)" || SDATE="$(shuf -i 0-99999999 -n 1)" || _PSGI1ESTRING_ "SDATE setupTermuxArch ${0##*/}"
-# STIME=""
-[[ -r  /proc/sys/kernel/random/uuid ]] && (STIME="$(cat /proc/sys/kernel/random/uuid)" && STIME="${STIME//-}" && STIME="${STIME//[[:alpha:]]}" && STIME="${STIME:0:3}") || STIME="$SDATE" && STIME="$(printf "%s" "${STIME:7:4}"|rev)"
+if [[ -r /proc/sys/kernel/random/uuid ]]
+then
+STIME="$(cat /proc/sys/kernel/random/uuid)" && STIME="${STIME//-}" && STIME="${STIME//[[:alpha:]]}" && STIME="${STIME:0:3}"
+else
+STIME="$SDATE" && STIME="$(rev <<< "${STIME:7:4}")"
+fi
 ONESA="${SDATE: -1}"
 PKGS=(bsdtar proot)
 STIME="$ONESA$STIME"
@@ -816,12 +843,12 @@ printf "\\nSetting mode to sysinfo.\\n"
 shift
 _ARG2DIR_ "$@"
 _INTROSYSINFO_ "$@"
-## [he[lp]|?]  Display terse builtin help.
+## [he[lp]|? [customdir]]  Display terse builtin help.
 elif [[ "${1//-}" = [Hh][Ee]* ]] || [[ "${1//-}" = [?]* ]]
 then
 _ARG2DIR_ "$@"
 _PRINTUSAGE_ "$@"
-## [h]  Display verbose builtin help.
+## [h [customdir]]  Display verbose builtin help.
 elif [[ "${1//-}" = [Hh]* ]]
 then
 LCC="1"
@@ -867,8 +894,8 @@ elif [[ "${1//-}" = [Oo]* ]]
 then
 printf "\\nSetting mode to option.\\n"
 EDO01LCR=0
-LCR="2"
-printf "\\n\\e[0;32mSetting mode\\e[1;34m : \\e[1;32mminimal refresh with refresh user directories\\e[1;34m :\\e[0;32m For a full refresh you can use the%s \\e[1;32m'%s' \\e[0;32m%s\\e[1;34m...\\n\\e[0m" "" "${0##*/} ref[resh]" "command"
+printf "\\n\\e[0;32mSetting mode\\e[1;34m : \\e[1;32mupdate Termux tools with minimal refresh with refresh user directories\\e[1;34m :\\e[0;32m For a full refresh you can use the%s \\e[1;32m'%s' \\e[0;32m%s\\e[1;34m...\\n\\e[0m" "" "${0##*/} ref[resh]" "command"
+_PRPREFRESH_ "2"
 _ARG2DIR_ "$@"
 _INTROREFRESH_ "$@"
 ## [p[urge] [customdir]]  Remove Arch Linux.
@@ -915,14 +942,14 @@ printf "\\n\\e[0;32mSetting mode\\e[1;34m: \\e[1;32mminimal refresh\\e[1;34m:\\e
 _PRPREFRESH_ "1"
 _ARG2DIR_ "$@"
 _INTROREFRESH_ "$@"
-## [u[nicorn] [refresh] [customdir]]  Partial Implementation:  Install alternate architecture on smartphone with https://github.com/unicorn-engine/Unicorn emulation.  This option currently defaults to option qemu as it is a partial implementation. Issue [Implementing QEMU #25](https://github.com/TermuxArch/TermuxArch/issues/25) has more information.
+## [u[pdateTermuxTools] [refresh] [customdir]]  Developing implementation : Update installation with Termux tools.
 elif [[ "${1//-}" = [Uu]* ]]
 then
+EDO01LCR=0
+printf "\\n\\e[0;32mSetting mode\\e[1;34m : \\e[1;32mupdate Termux tools with minimal refresh with refresh user directories\\e[1;34m :\\e[0;32m For a full refresh you can use the%s \\e[1;32m'%s' \\e[0;32m%s\\e[1;34m...\\n\\e[0m" "" "${0##*/} ref[resh]" "command"
+_PRPREFRESH_ "2"
 _ARG2DIR_ "$@"
-_PREPTERMUXARCH_
-_QEMU_ # this option currently defaults to option qemu
-_OPT1_ "$@"
-_INTRO_ "$@"
+_INTROREFRESH_ "$@"
 ## [v[isualshortcut] [refresh] [customdir]]  Install alternate architecture on smartphone with https://github.com/qemu/QEMU emulation. Issues [Expanding setupTermuxArch so visually impaired users can install Orca screen reader (assistive technology) and have VNC support added easily. #34](https://github.com/TermuxArch/TermuxArch/issues/34) have more information about this option.
 elif [[ "${1//-}" = [Vv]* ]]
 then

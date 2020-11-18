@@ -92,7 +92,7 @@ if [[ "$KOE" = 0 ]]
 then
 PROOTSTMNT+="--kill-on-exit "
 fi
-PROOTSTMNT+="--link2symlink -i \"\$AR2AR:wheel\" -0 -r $INSTALLDIR "
+PROOTSTMNT+="--link2symlink -i \"\$2:wheel\" -0 -r $INSTALLDIR "
 # file var/binds/fbindexample.prs has a few more examples
 if [[ -n "$(ls -A "$INSTALLDIR"/var/binds/*.prs)" ]]
 then
@@ -137,12 +137,12 @@ then	# add proot bind
 PROOTSTMNT+="-b ${PRSTARR[$PRBIND]}:$PRBIND "
 fi
 done
-PROOTSTMNT+="-w /root /usr/bin/env -i HOME=/root TERM=\"$TERM\" TMPDIR=/tmp ANDROID_DATA=/data " # create PRoot user string
-PROOTSTMNTUUUU="${PROOTSTMNT//HOME=\/root/HOME=\/home\/\$AR2AR}" # create PRoot user string
-PROOTSTMNTUUU="${PROOTSTMNTUUUU//-0 }"
-PROOTSTMNTUU="${PROOTSTMNTUUU//-w \/root/-w \/home\/\$AR2AR}" # create PRoot user string with link2symlink option enabled
-PROOTSTMNTU="${PROOTSTMNTUU//--link2symlink }" # create PRoot user string with link2symlink option disabled
-PROOTSTMNT="${PROOTSTMNT//-i \"\$AR2AR:wheel\" }" # create PRoot root user string
+PROOTSTMNT+="-w /root /usr/bin/env -i HOME=/root TERM=\"$TERM\" TMPDIR=/tmp ANDROID_DATA=/data "
+PROOTSTMNTUU="${PROOTSTMNT//HOME=\/root/HOME=\/home\/\$2}"
+PROOTSTMNTUU="${PROOTSTMNTUU//-0 }"
+PROOTSTMNTUU="${PROOTSTMNTUU//-w \/root/-w \/home\/\$2}" # PRoot user string with link2symlink option enabled
+PROOTSTMNTU="${PROOTSTMNTUU//--link2symlink }" # PRoot user string with link2symlink option disabled
+PROOTSTMNT="${PROOTSTMNT//-i \"\$2:wheel\" }" # PRoot root user string
 }
 _PR00TSTRING_
 ##  uncomment the next line to test function _PR00TSTRING_

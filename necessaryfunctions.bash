@@ -56,7 +56,6 @@ _ADDtrim_
 _ADDv_
 _ADDwe_
 _ADDyt_
-_DOMODdotfiles_
 }
 
 _CALLSYSTEM_() {
@@ -187,26 +186,23 @@ _MAKEFINISHSETUP_() {
 _DOKEYS_() {
 if [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = i386 ]]
 then
-DOKYSKEY="/root/bin/keys x86"
+DOKYSKEY="keys x86"
 elif [[ "$CPUABI" = "$CPUABIX86_64" ]]
 then
-DOKYSKEY="/root/bin/keys x86_64"
+DOKYSKEY="keys x86_64"
 else
-DOKYSKEY="/root/bin/keys"
+DOKYSKEY="keys"
 fi
 }
 _DOKYLGEN_() {
 DOKYSKEY=""
 LOCGEN=":"
 }
-if [[ "${LCR:-}" -eq 3 ]] || [[ "${LCR:-}" -eq 4 ]] || [[ "${LCR:-}" -eq 5 ]] || [[ -z "${LCR:-}" ]]	# equals 3 or 4 or is undefined
+if [[ "${LCR:-}" -eq 3 ]] || [[ "${LCR:-}" -eq 4 ]] || [[ "${LCR:-}" -eq 5 ]] || [[ -z "${LCR:-}" ]]	# LCR equals 3 or 4 or 5 or is undefined
 then
 _DOKEYS_
 LOCGEN="locale-gen || locale-gen"
-elif [[ "${LCR:-}" -eq 1 ]]	# equals 1
-then
-_DOKYLGEN_
-elif [[ "${LCR:-}" -eq 2 ]]	# equals 2
+elif [[ "${LCR:-}" -eq 1 ]] || [[ "${LCR:-}" -eq 2 ]]	# LCR equals 1 or 2
 then
 _DOKYLGEN_
 fi
@@ -234,6 +230,8 @@ fi
 cat >> root/bin/"$BINFNSTP" <<- EOM
 $DOKYSKEY
 EOM
+if [[ "${LCR:-}" -eq 3 ]] || [[ "${LCR:-}" -eq 4 ]] || [[ "${LCR:-}" -eq 5 ]] || [[ -z "${LCR:-}" ]]	# LCR equals 3 or 4 or 5 or is undefined
+then
 if [[ "$CPUABI" = "$CPUABIX86_64" ]]
 then
 printf "%s\\n" "pacman -Su grep gzip patch sed sudo unzip --noconfirm --color=always || pacman -Su gzip patch sed sudo unzip --noconfirm --color=always || _PMFSESTRING_ \"pacman -Su gzip patch sed sudo unzip $BINFNSTP ${0##/*}\"" >> root/bin/"$BINFNSTP"
@@ -241,11 +239,13 @@ elif [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = i386 ]]
 then
 printf "%s\\n" "pacman -Su patch sudo unzip --noconfirm --color=always || pacman -Su patch sudo unzip --noconfirm --color=always || _PMFSESTRING_ \"pacman -Su patch sudo unzip $BINFNSTP ${0##/*}\"" >> root/bin/"$BINFNSTP"
 fi
+fi
 cat >> root/bin/"$BINFNSTP" <<- EOM
 printf "\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\n" "To generate locales in a preferred language use " "Settings > Language & Keyboard > Language " "in Android; Then run " "${0##*/} refresh" " for a full system refresh including locale generation; For a quick refresh you can use " "${0##*/} r" ".  For a refresh with user directories " "${0##*/} re" " can be used."
 $LOCGEN || _PMFSESTRING_ "LOCGEN $BINFNSTP ${0##/*}.  Please run '$LOCGEN' again in the installed system."
 EOM
-printf "%s\\n" "/root/bin/addauser user || _PMFSESTRING_ \"addauser user $BINFNSTP ${0##/*}\"" >> root/bin/"$BINFNSTP"
+printf "%s\\n" "printf \"\\n\\e[1;32m==> \\e[1;37mRunning TermuxArch command \\e[1;32maddauser user\\e[1;37m...\\n\"" >> root/bin/"$BINFNSTP"
+printf "%s\\n" "addauser user || _PMFSESTRING_ \"addauser user $BINFNSTP ${0##/*}\"" >> root/bin/"$BINFNSTP"
 cat >> root/bin/"$BINFNSTP" <<- EOM
 printf "\\n\\e[1;34m%s  \\e[0m" "🕛 > 🕤 Arch Linux in Termux is installed and configured 📲  "
 printf "\\e]2;%s\\007" " 🕛 > 🕤 Arch Linux in Termux is installed and configured 📲"
@@ -276,7 +276,6 @@ then
 printf "\\n\\e[1;48;5;138mScript %s\\e[0m\\n\\n" "$STARTBIN \${0##*/} WARNING:  Run \${0##*/} and $INSTALLDIR/\${0##*/} from the BASH shell in Termux:  Exiting..."
 exit 202
 fi
-declare -g AR2AR="\${@:2}"
 declare -g AR3AR="\${@:3}"
 _PRINTUSAGE_() {
 printf "\\e]2;%s\\007" "TermuxArch $STARTBIN help 📲"
@@ -309,7 +308,7 @@ touch $INSTALLDIR/root/.chushlogin
 set +Eeuo pipefail
 umask 0022
 EOM
-printf "%s\\n" "$PROOTSTMNT /bin/bash -lc \"\$AR2AR\" ||:" >> "$STARTBIN"
+printf "%s\\n" "$PROOTSTMNT /bin/bash -lc \"\$2\" ||:" >> "$STARTBIN"
 cat >> "$STARTBIN" <<- EOM
 set -Eeuo pipefail
 printf '\033]2; $STARTBIN command 📲  \007'
@@ -321,7 +320,7 @@ printf '\033]2; $STARTBIN login user [options] 📲  \007'
 set +Eeuo pipefail
 umask 0022
 EOM
-printf "%s\\n" "$PROOTSTMNTUU /bin/su - \"\$AR2AR\" ||:" >> "$STARTBIN"
+printf "%s\\n" "$PROOTSTMNTUU /bin/su - \"\$2\" ||:" >> "$STARTBIN"
 cat >> "$STARTBIN" <<- EOM
 set -Eeuo pipefail
 printf '\033]2; $STARTBIN command 📲  \007'
@@ -333,7 +332,7 @@ printf '\033]2; $STARTBIN login user [options] 📲  \007'
 set +Eeuo pipefail
 umask 0022
 EOM
-printf "%s\\n" "$PROOTSTMNTU /bin/su - \"\$AR2AR\" ||:" >> "$STARTBIN"
+printf "%s\\n" "$PROOTSTMNTU /bin/su - \"\$2\" ||:" >> "$STARTBIN"
 cat >> "$STARTBIN" <<- EOM
 set -Eeuo pipefail
 printf '\033]2; $STARTBIN login user [options] 📲  \007'
@@ -344,7 +343,7 @@ printf '\033]2; $STARTBIN raw ARGS 📲  \007'
 set +Eeuo pipefail
 umask 0022
 EOM
-printf "%s\\n" "$PROOTSTMNT /bin/\"\$AR2AR\" ||:" >> "$STARTBIN"
+printf "%s\\n" "$PROOTSTMNT /bin/\"\$2\" ||:" >> "$STARTBIN"
 cat >> "$STARTBIN" <<- EOM
 set -Eeuo pipefail
 printf '\033]2; $STARTBIN raw ARGS 📲  \007'
@@ -382,7 +381,7 @@ chmod 700 "$STARTBIN"
 _MAKESYSTEM_() {
 _WAKELOCK_
 _CALLSYSTEM_
-_TASPINNER_ clock & _MD5CHECK_ ; kill $!
+_MD5CHECK_
 _PRINTCU_
 [[ "$KEEP" -ne 0 ]] && rm -f "$INSTALLDIR"/*.tar.gz "$INSTALLDIR"/*.tar.gz.md5 # set KEEP to 0 in file 'knownconfigurations.bash' after using either 'setupTermuxArch bloom' or 'setupTermuxArch manual' to keep the INSTALLDIR/*.tar.gz and INSTALLDIR/*.tar.gz.md5 files.
 _PRINTDONE_
@@ -417,6 +416,7 @@ cd "$INSTALLDIR"
 _PREPROOTDIR_
 _SETLANGUAGE_
 _ADDADDS_
+_DOMODdotfiles_
 _MAKEFINISHSETUP_
 _MAKESETUPBIN_
 _MAKESTARTBIN_
@@ -425,11 +425,11 @@ _FIXOWNER_
 }
 
 _PREPROOT_() {
-if [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = "$CPUABIX86_64" ]] || [[ "$CPUABI" = i386 ]]
+if [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = "$CPUABIX86_64" ]] || [[ "$CPUABI" = i386 ]] || [[ "$IFILE" == *i686* ]]
 then
-proot --link2symlink -0 bsdtar -p -xf "$IFILE" --strip-components 1
+_TASPINNER_ clock & proot --link2symlink -0 bsdtar -p -xf "$IFILE" --strip-components 1 ; kill $!
 else
-proot --link2symlink -0 bsdtar -p -xf "$IFILE"
+_TASPINNER_ clock & proot --link2symlink -0 bsdtar -p -xf "$IFILE" ; kill $!
 fi
 }
 
