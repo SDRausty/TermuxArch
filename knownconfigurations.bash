@@ -57,10 +57,8 @@ _MAKESYSTEM_
 }
 
 ##  Information at https://www.archlinux.org/news/phasing-out-i686-support/ and https://archlinux32.org/ regarding why i686 is currently frozen at release 2017.03.01-i686.
-##  UPDATE: These topics have the most current information about Arch Linux 32 https://github.com/TermuxArch/TermuxArch/issues/25 Implementing QEMU #25 and https://bbs.archlinux32.org/viewtopic.php?id=2982 » Installation » [SOLVED - Hurrah!] Upgrading from a truly ancient install.  Arch Linux 32 does not work as expected with the latest testing as it does not update to the newest version smoothly.  Testing is requested.
+##  UPDATE: These topics have the most current information about Arch Linux 32 [Implementing QEMU #25](https://github.com/TermuxArch/TermuxArch/issues/25) and  [[SOLVED - Hurrah!] Upgrading from a truly ancient install.](https://bbs.archlinux32.org/viewtopic.php?id=2982)
 _I686_() { # IFILE is read from md5sums.txt
-# CMIRROR="archive.archlinux32.org"
-# RPATH="iso"
 CMIRROR="archive.archlinux.org"
 RPATH="iso/2017.03.01"
 LSTYPE="Arch Linux 32"

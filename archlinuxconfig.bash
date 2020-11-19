@@ -310,7 +310,7 @@ printf "\\\\e[38;5;148m%s\\\\e[0m\\\\n" "Installing /usr/bin/systemctl replaceme
 [ -f /var/lock/termuxarch/csystemctl.lock ] && printf "%s\\\\n" "Already installed /usr/local/bin/systemctl replacement: DONE 🏁" && exit
 declare COMMANDP
 COMMANDP="\$(command -v python3)" || printf "%s\\\\n" "Command python3 can not be found: continuing..."
-[[ "\${COMMANDP:-}" == *python3* ]] || pacman --noconfirm --color=always -S python3 || sudo pacman --noconfirm --color=always -S python3
+[[ "\${COMMANDP:-}" == *python3* ]] || pci python3
 SDATE="\$(date +%s)"
 # path is /usr/local/bin because updates overwrite /usr/bin/systemctl and may make systemctl-replacement obsolete
 # backup original binary
@@ -494,7 +494,7 @@ _CFLHDR_ usr/local/bin/ga
 cat >> usr/local/bin/ga <<- EOM
 if [[ ! -x "\$(command -v git)" ]]
 then
-pacman --noconfirm --color=always -S git
+pci git
 git add .
 else
 git add .
@@ -509,7 +509,7 @@ _CFLHDR_ usr/local/bin/gcl "# contributor https://reddit.com/u/ElectricalUnion"
 cat >> usr/local/bin/gcl <<- EOM
 if [[ ! -x "\$(command -v git)" ]]
 then
-pacman --noconfirm --color=always -S git
+pci git
 git clone --depth 1 "\$@" --branch master --single-branch
 else
 git clone --depth 1 "\$@" --branch master --single-branch
@@ -524,7 +524,7 @@ _CFLHDR_ usr/local/bin/gcm
 cat >> usr/local/bin/gcm <<- EOM
 if [[ ! -x "\$(command -v git)" ]]
 then
-pacman --noconfirm --color=always -S git
+pci git
 git commit
 else
 git commit
@@ -554,7 +554,7 @@ _CFLHDR_ usr/local/bin/gpl
 cat >> usr/local/bin/gpl <<- EOM
 if [[ ! -x "\$(command -v git)" ]]
 then
-pacman --noconfirm --color=always -S git
+pci git
 git pull
 else
 git pull
@@ -569,7 +569,7 @@ _CFLHDR_ usr/local/bin/gp "# git push https://username:password@github.com/usern
 cat >> usr/local/bin/gp <<- EOM
 if [[ ! -x "\$(command -v git)" ]]
 then
-pacman --noconfirm --color=always -S git
+pci git
 git push
 else
 git push
@@ -1048,7 +1048,7 @@ if [ ! -d root/storage ]
 then
 [ -d "$HOME/storage" ] && cp -fR "$HOME/storage/" root/
 fi
-if [ ! -d root/storage/txhome ]
+if [ ! -d root/storage/txhome ] && [ -d root/storage ]
 then
 ln -s "$HOME" root/storage/txhome
 fi
