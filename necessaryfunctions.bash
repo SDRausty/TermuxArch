@@ -281,10 +281,10 @@ _PRINTUSAGE_() {
 printf "\\e]2;%s\\007" "TermuxArch $STARTBIN help 📲"
 printf "\\n\\e[1;32m%s\\e[0;32m%s\\n\\n" "$STARTBIN" "  start Arch Linux as root.  This account is reserved for system administration."
 printf "\\e[1;32m%s\\e[0;32m%s\\n\\n" "$STARTBIN c[ommand] command" "  run Arch Linux command from Termux as root user."
-printf "\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\n\\n" "$STARTBIN l[ogin]|u[ser] user" "  login as user.  This option is preferred when installing software and using the command 'makeyay'."
-printf "\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\n\\n" "$STARTBIN el[ogin]|eu[ser] user" "  use alternate elogin or euser option to login as user.  This option is preferred when using the command 'git' in shared storage."
+printf "\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\n\\n" "$STARTBIN l[ogin] | u[ser] user" "  login as user.  This option is preferred when installing software and using the command 'makeyay'."
+printf "\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\n\\n" "$STARTBIN el[ogin] | eu[ser] user" "  use alternate elogin or euser option to login as user.  This option is preferred when using the command 'git' in shared storage."
 printf "\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\n\\n" "$STARTBIN r[aw]" "  construct the " "$STARTBIN " "proot statement from exec.../bin/.  For example " "$STARTBIN r su " "will exec su in Arch Linux."
-printf "\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\n\\n\\e[0m" "$STARTBIN s[u] user command" "  login as user and execute command.  Use " "$STARTBIN c addauser user " "first to create this user and user's home directory."
+printf "\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\n\\n\\e[0m" "$STARTBIN s[u] user command" "  login as user and execute command.  Please use " "$STARTBIN c addauser user " "first to create this user and user's home directory."
 }
 # [] Default Arch Linux in Termux PRoot root login.
 if [[ -z "\${1:-}" ]]
@@ -296,7 +296,7 @@ printf "%s\\n" "$PROOTSTMNT /bin/bash -l ||: " >> "$STARTBIN"
 cat >> "$STARTBIN" <<- EOM
 set -Eeuo pipefail
 printf '\033]2; TermuxArch $STARTBIN 📲  \007'
-# [?|help] Displays usage information.
+# [? | help] Displays usage information.
 elif [[ "\${1//-}" = [?]* ]] || [[ "\${1//-}" = [Hh]* ]]
 then
 _PRINTUSAGE_
@@ -313,7 +313,7 @@ cat >> "$STARTBIN" <<- EOM
 set -Eeuo pipefail
 printf '\033]2; $STARTBIN command 📲  \007'
 rm -f $INSTALLDIR/root/.chushlogin
-# [l[ogin] user|u[ser] user [options]] Login as user [plus options].  Use 'addauser user' first to create this user and the user's home directory.  This option is for installing and working with programs that build other programs, and for working with the 'git' command, but the 'git’ might not work as expected in all situations.
+# [l[ogin] user | u[ser] user [options]] Login as user [plus options].  Use 'addauser user' first to create this user and the user's home directory.  This option is for installing and working with programs that build other programs, and for working with the 'git' command, but the 'git’ might not work as expected in all situations.
 elif [[ "\${1//-}" = [Ll]* ]] || [[ "\${1//-}" = [Uu]* ]]
 then
 printf '\033]2; $STARTBIN login user [options] 📲  \007'
@@ -325,7 +325,7 @@ cat >> "$STARTBIN" <<- EOM
 set -Eeuo pipefail
 printf '\033]2; $STARTBIN command 📲  \007'
 rm -f $INSTALLDIR/root/.chushlogin
-# [el[ogin] user|eu[ser] user [options]] Login as user [plus options].  Use 'addauser user' first to create this user and the user's home directory.  This option is for working with programs that have already been installed, and for working with the 'git' command.
+# [el[ogin] user | eu[ser] user [options]] Login as user [plus options].  Use 'addauser user' first to create this user and the user's home directory.  This option is for working with programs that have already been installed, and for working with the 'git' command.
 elif [[ "\${1//-}" = e[Ll]* ]] || [[ "\${1//-}" = e[Uu]* ]]
 then
 printf '\033]2; $STARTBIN login user [options] 📲  \007'

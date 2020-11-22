@@ -5,7 +5,7 @@
 # command 'setupTermuxArch h[elp]' has information how to use this file
 ################################################################################
 IFS=$'\n\t'
-VERSIONID=2.0.369
+VERSIONID=2.0.370
 set -Eeuo pipefail
 shopt -s nullglob globstar
 umask 0022
@@ -324,7 +324,7 @@ _DODIRCHK_() {
 _SETROOT_EXCEPTION_
 if [[ ! -d "$INSTALLDIR" ]] || [[ ! -d "$INSTALLDIR/root/bin" ]] || [[ ! -d "$INSTALLDIR/var/binds" ]] || [[ ! -f "$INSTALLDIR/bin/we" ]] || [[ ! -f "$INSTALLDIR/usr/bin/env" ]]
 then
-printf "\\n\\e[0;33m%s\\e[1;33m%s\\e[0;33m.\\e[0m\\n\\n" "ＴｅｒｍｕｘＡｒｃｈ WARNING!  " "The root directory structure is of ~/${INSTALLDIR##*/} incorrect; Cannot continue '${0##*/} $ARGS'!  These commands '${0##*/} help' and '$STARTBIN help' have more information"
+printf "\\n\\e[0;33m%s\\e[1;33m%s\\e[0;33m.\\e[0m\\n\\n" "ＴｅｒｍｕｘＡｒｃｈ WARNING!  " "The root directory structure is of ~/${INSTALLDIR##*/} is incorrect; Cannot continue '${0##*/} $ARGS'!  These commands '${0##*/} help' and '$STARTBIN help' have more information"
 if [[ -d "$INSTALLDIR"/tmp ]]
 then	# check for superfluous tmp directory
 DIRCHECK=0
@@ -390,7 +390,7 @@ if [[ "$ROOTDIR" = "" ]]
 then
 ROOTDIR=arch
 fi
-INSTALLDIR="$(printf "%s\\n" "$HOME/${ROOTDIR%/}"|sed 's#//*#/#g')"
+INSTALLDIR="$(printf "%s\\n" "$HOME/${ROOTDIR%/}" | sed 's#//*#/#g')"
 }
 
 _NAMESTARTARCH_() {
@@ -400,7 +400,7 @@ then
 AARCH=""
 STARTBI2=arch
 else
-AARCH="$(printf "%s\\n" "$DARCH"|sed 's/\//\+/g')"
+AARCH="$(printf "%s\\n" "$DARCH" | sed 's/\//\+/g')"
 STARTBI2=arch
 fi
 STARTBIN=start"$STARTBI2$AARCH"
@@ -410,6 +410,7 @@ _OPT1_() {
 if [[ -z "${2:-}" ]]
 then
 _ARG2DIR_ "$@"
+_PREPTERMUXARCH_
 elif [[ "$2" = [Bb]* ]]
 then
 shift
@@ -426,6 +427,7 @@ then
 shift
 printf "%s\\n" "Setting mode to install."
 _ARG2DIR_ "$@"
+_PREPTERMUXARCH_
 elif [[ "$2" = [Mm]* ]]
 then
 shift
@@ -437,18 +439,21 @@ then
 shift
 _PRPREFRESH_ "5"
 _ARG2DIR_ "$@"
+_PREPTERMUXARCH_
 _INTROREFRESH_ "$@"
 elif [[ "${2//-}" = [Rr][Ee][Ff][Rr]* ]]
 then
 shift
 _PRPREFRESH_ "4"
 _ARG2DIR_ "$@"
+_PREPTERMUXARCH_
 _INTROREFRESH_ "$@"
 elif [[ "${2//-}" = [Rr][Ee][Ff]* ]]
 then
 shift
 _PRPREFRESH_ "3"
 _ARG2DIR_ "$@"
+_PREPTERMUXARCH_
 _INTROREFRESH_ "$@"
 elif [[ "$2" = [Rr][Ee]* ]]
 then
@@ -456,6 +461,7 @@ shift
 printf "\\n%s\\n" "Setting mode to minimal refresh and refresh user directories."
 _PRPREFRESH_ "2"
 _ARG2DIR_ "$@"
+_PREPTERMUXARCH_
 _INTROREFRESH_ "$@"
 elif [[ "$2" = [Rr]* ]]
 then
@@ -463,10 +469,10 @@ shift
 printf "\\n\\e[1;32m%s\\e[1;34m: \\e[0;32m%s '%s' %s\\n\\e[0m" "Setting mode" "minimal refresh;  You can use" "${0##*/} re[fresh]" "for full refresh."
 _PRPREFRESH_ "1"
 _ARG2DIR_ "$@"
+_PREPTERMUXARCH_
 _INTROREFRESH_ "$@"
 else
-_ARG2DIR_ "$@"
-_INTRO_ "$@"
+_OPT2_ "$@"
 fi
 }
 
@@ -475,30 +481,34 @@ if [[ -z "${3:-}" ]]
 then
 shift
 _ARG2DIR_ "$@"
-_INTRO_ "$@"
+_PREPTERMUXARCH_
 elif [[ "$3" = [Ii]* ]]
 then
 shift 2
 printf "%s\\n" "Setting mode to install."
 _ARG2DIR_ "$@"
+_PREPTERMUXARCH_
 _INTRO_ "$@"
 elif [[ "${3//-}" = [Rr][Ee][Ff][Rr][Ee]* ]]
 then
 shift 2
 _PRPREFRESH_ "5"
 _ARG2DIR_ "$@"
+_PREPTERMUXARCH_
 _INTROREFRESH_ "$@"
 elif [[ "${3//-}" = [Rr][Ee][Ff][Rr]* ]]
 then
 shift 2
 _PRPREFRESH_ "4"
 _ARG2DIR_ "$@"
+_PREPTERMUXARCH_
 _INTROREFRESH_ "$@"
 elif [[ "${3//-}" = [Rr][Ee][Ff]* ]]
 then
 shift 2
 _PRPREFRESH_ "3"
 _ARG2DIR_ "$@"
+_PREPTERMUXARCH_
 _INTROREFRESH_ "$@"
 elif [[ "$3" = [Rr][Ee]* ]]
 then
@@ -506,6 +516,7 @@ shift 2
 printf "\\n%s\\n" "Setting mode to minimal refresh and refresh user directories."
 _PRPREFRESH_ "2"
 _ARG2DIR_ "$@"
+_PREPTERMUXARCH_
 _INTROREFRESH_ "$@"
 elif [[ "$3" = [Rr]* ]]
 then
@@ -513,11 +524,12 @@ shift 2
 printf "\\n\\e[1;32m%s\\e[1;34m: \\e[0;32m%s '%s' %s\\n\\e[0m" "Setting mode" "minimal refresh;  Use" "${0##*/} re[fresh]" "for full refresh."
 _PRPREFRESH_ "1"
 _ARG2DIR_ "$@"
+_PREPTERMUXARCH_
 _INTROREFRESH_ "$@"
 else
 shift
 _ARG2DIR_ "$@"
-_INTRO_ "$@"
+_PREPTERMUXARCH_
 fi
 }
 
@@ -590,7 +602,7 @@ STRING1="COMMAND \`au\` enables rollback, available at https://wae.github.io/au/
 STRING2="Cannot update ~/${0##*/} prerequisite: Continuing..."
 PKG="$2"
 _INPKGS_() {
-printf "%s\\n" "Beginning qemu '$3' setup:"
+printf "%s\\n" "Beginning qemu '$ARCHITEC' setup:"
 if [ "$COMMANDIF" = au ]
 then
 au "$PKG" || printf "%s\\n" "$STRING2"
@@ -730,9 +742,22 @@ STRING2="Cannot update '${0##*/}' prerequisite: Continuing..."
 ## 1) Create aliases and commands that aid in using the command line, and assist in accessing the more advanced features like the commands 'pikaur' and 'yay' easily;  The files '.bashrc' '.bash_profile' and 'bin/README.md' have detailed information about this feature,
 ## 2) Set timezone and locales from device,
 ## 3) Test for correct OS,
-_COMMANDG_() { printf "\\n\\e[1;48;5;138m %s\\e[0m\\n\\n" "TermuxArch WARNING:  Run 'bash ${0##*/}' and '${0##*/}' from the native BASH shell in Termux:  EXITING...";}
+_COMMANDG_() { printf "\\n\\e[1;48;5;138m %s\\e[0m\\n\\n" "TermuxArch WARNING:  Run 'bash ${0##*/}' and '${0##*/}' from the native BASH shell in Termux:  EXITING..." ; }
 COMMANDG="$(command -v getprop)" ||: # _COMMANDG_ && _PSGI1ESTRING_ "COMMANDG setupTermuxArch ${0##*/}"
 [[ "$COMMANDG" = "" ]] && _COMMANDG_ && exit
+_IFBINEXT_() {
+if [ -d "$HOME/bin" ] && grep "$HOME/bin" <<< "$PATH"
+then
+curl -L "https://raw.githubusercontent.com/WAE/au/master/$SCMD" -o "$HOME/bin/$SCMD" && chmod 700 "$HOME/bin/$SCMD" || _PSGI1ESTRING_ "curl au to HOME/bin setupTermuxArch ${0##*/}"
+else
+curl -L "https://raw.githubusercontent.com/WAE/au/master/$SCMD" -o "$PREFIX/bin/$SCMD" && chmod 700 "$PREFIX/bin/$SCMD" || _PSGI1ESTRING_ "curl au to HOME/prefix setupTermuxArch ${0##*/}"
+fi
+}
+SCMD="au"
+if ! command -v "$SCMD"  > /dev/null
+then
+printf "\\e[1;38;5;124mCommand \\e[1;38;5;148m%s\\e[1;38;5;124m not found: \\e[1;38;5;150mContinuing...\\n" "'$SCMD'" ; _IFBINEXT_ ; printf "\\e[0m"
+fi
 COMMANDR="$(command -v au)" || COMMANDR="$(command -v pkg)" || COMMANDR="$(command -v apt)"
 COMMANDIF="${COMMANDR##*/}"
 ## 4) Generate pseudo random number to create uniq strings,
@@ -757,7 +782,7 @@ WFDIR="${WFDIR%/*}"
 ## >>>>>>>>>>>>>>>>>>
 ## >> HELP OPTIONS >>
 ## >>>>>>>>>>>>>>>>>>
-## PLEASE OPEN AN ISSUE AND ACCOMPANYING PULL REQUEST AT GITHUB IF YOU WOULD LIKE TO AMEND THESE OPTIONS.
+## Please open an issue and accompanying pull request at GitHub if you would like to have these options amended.
 ## []  Run default Arch Linux install.
 if [[ -z "${1:-}" ]]
 then
@@ -770,7 +795,8 @@ printf "\\n%s\\n" "Setting mode to copy system image."
 GFILE="$1"
 LCC="1"
 LCP="1"
-_ARG2DIR_ "$@"
+_OPT1_ "$@"
+_PREPTERMUXARCH_
 _INTRO_ "$@"
 ## [systemimage.tar.gz [customdir]]  Install directory argument is optional.  Network install can be substituted by copying systemimage.tar.gz and systemimage.tar.gz.md5 files with 'setupTermuxArch systemimage.tar.gz'.  Both '*.tar.gz' and '*.tar.gz.md5' files are required for this process to complete successfully.  Installation for many versions of Linux that publish a root file sysytem is supported with this TermuxArch festure.  Download and configuration is not presently implemented, and hopefully will be in the future.  Create an issue and pull request at GitHub to implement these features.
 elif [[ "$ARGS" = *.tar.gz* ]]
@@ -779,7 +805,8 @@ printf "\\n%s\\n" "Setting mode to copy system image."
 GFILE="$1"
 LCC="1"
 LCP="0"
-_ARG2DIR_ "$@"
+_OPT1_ "$@"
+_PREPTERMUXARCH_
 _INTRO_ "$@"
 ## [axd|axs]  Get device system information with 'axel'.
 elif [[ "${1//-}" = [Aa][Xx][Dd]* ]] || [[ "${1//-}" = [Aa][Xx][Ss]* ]]
@@ -907,10 +934,9 @@ _RMARCHQ_
 ## [q[emu] [refresh] [customdir]]  Install alternate architecture on smartphone with https://github.com/qemu/QEMU emulation. Issue [Implementing QEMU #25](https://github.com/TermuxArch/TermuxArch/issues/25) has more information.
 elif [[ "${1//-}" = [Qq]* ]]
 then
-_ARG2DIR_ "$@"
-_PREPTERMUXARCH_
-_QEMU_
+printf "\\nSetting mode to qemu.\\n"
 _OPT1_ "$@"
+_QEMU_
 _INTRO_ "$@"
 ## [ref[resh] [customdir]]  Refresh the Arch Linux in Termux PRoot scripts created by TermuxArch and the installation itself.  Useful for refreshing the installation, the root user's home directory, user home directories and the TermuxArch generated scripts to their newest version and also runs keys and generates locales.
 elif [[ "${1//-}" = [Rr][Ee][Ff][Rr][Ee]* ]]
@@ -957,7 +983,7 @@ ABILIST64="$(getprop ro.product.cpu.abilist64)"
 CPUABI="$(getprop ro.product.cpu.abi)"
 if [[ $CPUABI == *86* ]]
 then
-_PREPTERMUXARCH_
+_OPT1_ "$@"
 _INTRO_ "$@"
 else
 if [[ -z "$ABILIST64" ]]
@@ -968,10 +994,8 @@ else
 ARCHITEC="x86_64"
 CPUABI="x86_64"
 fi
-_ARG2DIR_ "$@"
-_PREPTERMUXARCH_
-_QEMU_
 _OPT1_ "$@"
+_QEMU_
 _INTRO_ "$@"
 fi
 ## [wd|ws]  Get device system information with 'wget'.
