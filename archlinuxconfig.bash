@@ -784,7 +784,7 @@ printf "\\\\n\\\\e[1;37m%s\\\\e[0m\\\\n\\\\n" "ERROR:  Script '\${0##*/}' should
 else
 [ ! -f /var/lock/termuxarch/patchmakepkg.lock ] && patchmakepkg
 printf "%s\\\\n" "Building and installing fakeroot-tcp with \${0##*/} version $VERSIONID: "
-([[ ! "\$(command -v automake)" ]] || [[ ! "\$(command -v fakeroot)" ]] || [[ ! "\$(command -v git)" ]] || [[ ! "\$(command -v gcc)" ]] || [[ ! "\$(command -v po4a)" ]]) 2>/dev/null && (pci automake base-devel fakeroot git gcc glibc po4a libtool || sudo pci automake base-devel fakeroot git gcc glibc po4a libtool)
+([[ ! "\$(command -v automake)" ]] || [[ ! "\$(command -v fakeroot)" ]] || [[ ! "\$(command -v git)" ]] || [[ ! "\$(command -v gcc)" ]] || [[ ! "\$(command -v po4a)" ]]) 2>/dev/null && pci automake base-devel fakeroot git gcc glibc po4a libtool
 cd
 if [ ! -d fakeroot-tcp ]
 then
@@ -878,23 +878,28 @@ _ADDorcarun_
 _ADDpatchmakepkg_() {
 _CFLHDR_ usr/local/bin/patchmakepkg "# patch makepkg"
 cat >> usr/local/bin/patchmakepkg <<- EOM
+[ -f /var/lock/termuxarch/patchmakepkg.lock ] && printf "%s\\\\n" "Already patched makepkg: DONE 🏁" && exit
 printf "%s\\\\n" "Attempting to patch makepkg: "
 SDATE="\$(date +%s)"
-BKPDIR="$INSTALLDIR/var/backups/${INSTALLDIR##*/}/makepkg.\$SDATE.bkp"
-if [[ ! "\$(command -v patch)" ]] 2>/dev/null || [[ ! "\$(command -v unzip)" ]] 2>/dev/null
+BKPDIR="$INSTALLDIR/var/backups/${INSTALLDIR##*/}/"
+[ ! -d "\$BKPDIR" ] && mkdir -p "\$BKPDIR"
+if [[ ! "\$(command -v patch)" ]] || [[ ! "\$(command -v unzip)" ]] || [[ ! "\$(command -v wget)" ]]
 then
-pci patch unzip
+pci patch unzip wget
 fi
-[ -f /var/lock/termuxarch/patchmakepkg.lock ] && printf "%s\\\\n" "Already patched makepkg: DONE 🏁" && exit
-mkdir -p "\$BKPDIR"
-cp /bin/makepkg "\$BKPDIR"
-cd && curl --fail --retry 2 -O https://raw.githubusercontent.com/TermuxArch/TermuxArch/master/diff.makepkg.zip && unzip diff.makepkg.zip
+cp /bin/makepkg "\$BKPDIR/makepkg.\$SDATE.bkp"
+cd /tmp
+if [ ! -f makepkg.diff ]
+then
+curl --fail --retry 2 -O https://raw.githubusercontent.com/TermuxArch/TermuxArch/master/diff.makepkg.zip || wget https://raw.githubusercontent.com/TermuxArch/TermuxArch/master/diff.makepkg.zip
+unzip diff.makepkg.zip
+fi
 patch -n -i makepkg.diff -o makepkg /bin/makepkg
 chmod 700 makepkg /bin/makepkg
 # copy to /usr/local/bin to make it update proof (fail safe measure)
 cp makepkg /usr/local/bin/makepkg
-mv -f makepkg /bin/makepkg
 mv -f diff.makepkg.zip "\$BKPDIR"
+rm -f makepkg.diff
 # create lock file to update proof patchmakepkg
 mkdir -p /var/lock/termuxarch/ ; touch /var/lock/termuxarch/patchmakepkg.lock
 printf "%s\\\\n" "Attempting to patch makepkg: DONE 🏁"
@@ -1016,7 +1021,7 @@ _CHECKRESOLVE_
 
 _ADDt_() {
 _CFLHDR_ usr/local/bin/t
-printf "%s\\n%s\\n%s\\n" "[ \"\$UID\" = \"0\" ] && printf \"\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\\n\" \"Cannot run '\${0##*/}' as root user :\" \" the command 'addauser username' creates user accounts in $INSTALLDIR : the command '$STARTBIN command addauser username' can create user accounts in $INSTALLDIR from Termux : a default user account is created during setup : the default username 'user' can be used to access the PRoot system employing a user account : command '$STARTBIN help' has more information : \" \"exiting...\" && exit" "[ ! -x \"\$(command -v tree)\" ] && sudo pci tree && tree || tree" "# t EOF" >> usr/local/bin/t
+printf "%s\\n%s\\n%s\\n" "[ \"\$UID\" = \"0\" ] && printf \"\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\\n\" \"Cannot run '\${0##*/}' as root user :\" \" the command 'addauser username' creates user accounts in $INSTALLDIR : the command '$STARTBIN command addauser username' can create user accounts in $INSTALLDIR from Termux : a default user account is created during setup : the default username 'user' can be used to access the PRoot system employing a user account : command '$STARTBIN help' has more information : \" \"exiting...\" && exit" "[ ! -x \"\$(command -v tree)\" ] && pci tree && tree || tree" "# t EOF" >> usr/local/bin/t
 chmod 700 usr/local/bin/t
 }
 
@@ -1143,7 +1148,7 @@ else
 ARGS=("\$@")
 fi
 EOM
-printf "%s\\n%s\\n%s\\n" "[ \"\$UID\" = \"0\" ] && printf \"\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\\n\" \"Cannot run '\${0##*/}' as root user :\" \" the command 'addauser username' creates user accounts in $INSTALLDIR : the command '$STARTBIN command addauser username' can create user accounts in $INSTALLDIR from Termux : a default user account is created during setup : the default username 'user' can be used to access the PRoot system employing a user account : command '$STARTBIN help' has more information : \" \"exiting...\" && exit" "[ ! -x \"\$(command -v vim)\" ] && sudo pci vim && vim \"\${ARGS[@]}\" || vim \"\${ARGS[@]}\"" "# v EOF" >> usr/local/bin/v
+printf "%s\\n%s\\n%s\\n" "[ \"\$UID\" = \"0\" ] && printf \"\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\\n\" \"Cannot run '\${0##*/}' as root user :\" \" the command 'addauser username' creates user accounts in $INSTALLDIR : the command '$STARTBIN command addauser username' can create user accounts in $INSTALLDIR from Termux : a default user account is created during setup : the default username 'user' can be used to access the PRoot system employing a user account : command '$STARTBIN help' has more information : \" \"exiting...\" && exit" "[ ! -x \"\$(command -v vim)\" ] && pci vim && vim \"\${ARGS[@]}\" || vim \"\${ARGS[@]}\"" "# v EOF" >> usr/local/bin/v
 chmod 700 usr/local/bin/v
 }
 
@@ -1322,7 +1327,7 @@ chmod 700 usr/bin/we
 
 _ADDyt_() {
 _CFLHDR_ usr/local/bin/yt
-printf "%s\\n%s\\n%s\\n" "[ \"\$UID\" = \"0\" ] && printf \"\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\\n\" \"Cannot run '\${0##*/}' as root user :\" \" the command 'addauser username' creates user accounts in $INSTALLDIR : the command '$STARTBIN command addauser username' can create user accounts in $INSTALLDIR from Termux : a default user account is created during setup : the default username 'user' can be used to access the PRoot system employing a user account : command '$STARTBIN help' has more information : \" \"exiting...\" && exit" "[ ! -x \"\$(command -v youtube-dl)\" ] && sudo pci youtube-dl && youtube-dl \"\$@\" || youtube-dl \"\$@\" " "# yt EOF" >> usr/local/bin/yt
+printf "%s\\n%s\\n%s\\n" "[ \"\$UID\" = \"0\" ] && printf \"\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\\n\" \"Cannot run '\${0##*/}' as root user :\" \" the command 'addauser username' creates user accounts in $INSTALLDIR : the command '$STARTBIN command addauser username' can create user accounts in $INSTALLDIR from Termux : a default user account is created during setup : the default username 'user' can be used to access the PRoot system employing a user account : command '$STARTBIN help' has more information : \" \"exiting...\" && exit" "[ ! -x \"\$(command -v youtube-dl)\" ] && pci youtube-dl && youtube-dl \"\$@\" || youtube-dl \"\$@\" " "# yt EOF" >> usr/local/bin/yt
 chmod 700 usr/local/bin/yt
 }
 
