@@ -5,7 +5,7 @@
 # command 'setupTermuxArch h[elp]' has information how to use this file
 ################################################################################
 IFS=$'\n\t'
-VERSIONID=2.0.371
+VERSIONID=2.0.372
 set -Eeuo pipefail
 shopt -s nullglob globstar
 umask 0022
@@ -65,7 +65,12 @@ then
 ARG2=arch
 elif [[ "${#@}" = 1 ]]
 then
+if [[ -z "${PCR:-}" ]]
+then
 ARG2="${@:1}"
+else
+ARG2=arch
+fi
 elif [[ "${#@}" = 2 ]]
 then
 ARG2="${@:2}"
@@ -940,6 +945,7 @@ _INTROREFRESH_ "$@"
 elif [[ "${1//-}" = [Pp]* ]]
 then
 printf "\\nSetting mode to purge.\\n"
+PCR=0
 _ARG2DIR_ "$@"
 _RMARCHQ_
 ## [q[emu] [refresh] [customdir]]  Install alternate architecture on smartphone with https://github.com/qemu/QEMU emulation. Issue [Implementing QEMU #25](https://github.com/TermuxArch/TermuxArch/issues/25) has more information.
