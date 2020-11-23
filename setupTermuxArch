@@ -5,7 +5,7 @@
 # command 'setupTermuxArch h[elp]' has information how to use this file
 ################################################################################
 IFS=$'\n\t'
-VERSIONID=2.0.372
+VERSIONID=2.0.373
 set -Eeuo pipefail
 shopt -s nullglob globstar
 umask 0022
@@ -65,11 +65,14 @@ then
 ARG2=arch
 elif [[ "${#@}" = 1 ]]
 then
-if [[ -z "${PCR:-}" ]]
+if [[ "${PCR:-}" = 0 ]]
 then
-ARG2="${@:1}"
-else
 ARG2=arch
+elif [[ "${REFCR:-}" = 0 ]]
+then
+ARG2=arch
+else
+ARG2="${@:1}"
 fi
 elif [[ "${#@}" = 2 ]]
 then
@@ -565,6 +568,7 @@ _EDITORCHOOSER_
 _PRPREFRESH_() {
 printf "\\n%s\\n" "Refresh mode is set to refresh mode $1;  Initializing system refresh..."
 LCR="$1"
+REFCR=0
 }
 
 _PRINTCONFLOADED_() {

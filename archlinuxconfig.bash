@@ -274,7 +274,7 @@ else
 ARGS="\$@"
 fi
 
-printf "\\\\e[1;32m==> \\\\e[1;37mRunning \\\\e[1;32m%s\\\\e[1;37m%s...\\\\n" "\${0##*/} \$ARGS version \$VERSIONID"
+printf "\\\\e[1;32m==> \\\\e[1;37mRunning \\\\e[1;32m%s\\\\e[1;37m%s...\\\\n" "\${0##*/} \$ARGS v\$VERSIONID"
 
 if [[ -f "\$HOME"/.hushlogin ]] && [[ -f "\$HOME"/.hushlogout ]]
 then
@@ -730,7 +730,7 @@ KEYRINGS=""
 fi
 ARGS="\${KEYRINGS[@]}"
 printf '\033]2;  🔑 TermuxArch %s 📲 \007' "'\${0##*/} \${ARGS[@]}'"
-printf "\\\\n\\\\e[1;32m==> \\\\e[1;37mRunning \\\\e[1;32m%s \\\\e[0;32m%s\\\\e[1;37m...\\\\n" "\${0##*/} \${ARGS[@]}" "version \$VERSIONID"
+printf "\\\\n\\\\e[1;32m==> \\\\e[1;37mRunning \\\\e[1;32m%s \\\\e[0;32m%s\\\\e[1;37m...\\\\n" "\${0##*/} \${ARGS[@]}" "v\$VERSIONID"
 _GENEN_ ; kill \$! &
 _KEYSGENMSG_
 _DOPSY_() {
@@ -776,14 +776,16 @@ _CFLHDR_ usr/local/bin/makefakeroottcp "# build and install fakeroot-tcp"
 cat >> usr/local/bin/makefakeroottcp <<- EOM
 _PRTERROR_() {
 printf "\\n\\e[1;31merror: \\e[1;37m%s\\e[0m\\n\\n" "Please correct the error(s) and/or warning(s) if possible, and run '\${0##*/} \${ARGS[@]}' again."
+exit
 }
 
+_DOMAKEFAKEROOTTCP_() {
 if [ "\$UID" = "0" ]
 then
 printf "\\\\n\\\\e[1;37m%s\\\\e[0m\\\\n\\\\n" "ERROR:  Script '\${0##*/}' should not be used as root:  The TermuxArch command 'addauser' creates user accounts in Arch Linux in PRoot and configures these user accounts for 'sudo':  The 'addauser' command is intended to be run by the Arch Linux in PRoot root user:  To use 'addauser' directly from Termux, run '$STARTBIN command addauser user' in Termux to create this account in Arch Linux PRoot:  The command '$STARTBIN help' has more information about using '$STARTBIN':  EXITING..."
 else
 [ ! -f /var/lock/termuxarch/patchmakepkg.lock ] && patchmakepkg
-printf "%s\\\\n" "Building and installing fakeroot-tcp with \${0##*/} version $VERSIONID: "
+printf "%s\\\\n" "Building and installing fakeroot-tcp with \${0##*/} v$VERSIONID: "
 ([[ ! "\$(command -v automake)" ]] || [[ ! "\$(command -v fakeroot)" ]] || [[ ! "\$(command -v git)" ]] || [[ ! "\$(command -v gcc)" ]] || [[ ! "\$(command -v po4a)" ]]) 2>/dev/null && pci automake base-devel fakeroot git gcc glibc po4a libtool
 cd
 if [ ! -d fakeroot-tcp ]
@@ -797,9 +799,14 @@ sed -i 's/silence-dlerror.patch//g' PKGBUILD
 sed -i 's/pkgver=1.24/pkgver=1.25.3/g' PKGBUILD
 sed -i '/^md5sums=/{n;d}' PKGBUILD
 sed -ir "s/^md5sums=.*/md5sums=('f6104ef6960c962377ef062bf222a1d2')/g" PKGBUILD
-printf "%s\\\\n" "Running command 'makepkg -irs';  Continuing to build and attempting to install 'fakeroot-tcp' with '\${0##*/}' version $VERSIONID.  Please be patient..." && makepkg -irs && libtool --finish /usr/lib/libfakeroot
+printf "%s\\\\n" "Running command 'makepkg -irs';  Continuing to build and attempting to install 'fakeroot-tcp' with '\${0##*/}' v$VERSIONID.  Please be patient..."
+makepkg -irs || _PRTERROR_
+libtool --finish /usr/lib/libfakeroot || _PRTERROR_
 fi
+touch /var/lock/termuxarch/"\${0##*/}".lock
 printf "%s\\\\n" "Building and installing fakeroot-tcp: DONE 🏁"
+}
+[ ! -f /var/lock/termuxarch/"\${0##*/}".lock ] && _DOMAKEFAKEROOTTCP_ || printf "%s\\\\n" "Please remove file /var/lock/termuxarch/"\${0##*/}".lock in order to rebuild fakeroot-tcp with \${0##*/} v$VERSIONID."
 # makefakeroottcp EOF
 EOM
 chmod 700 usr/local/bin/makefakeroottcp
@@ -927,7 +934,7 @@ printf '\033]2;  🔑 TermuxArch %s:DONE 📱 \007' "\${0##*/} \$ARGS"
 trap _TRPET_ EXIT
 ## pc begin ####################################################################
 printf '\033]2;  🔑 TermuxArch %s 📲 \007' "\${0##*/} \$ARGS"
-printf "\\\\n\\\\e[1;32m==> \\\\e[1;37mRunning TermuxArch command \\\\e[1;32m%s \\\\e[0;32m%s\\\\e[1;37m...\\\\n" "\${0##*/} \$ARGS" "version \$VERSIONID"
+printf "\\\\n\\\\e[1;32m==> \\\\e[1;37mRunning TermuxArch command \\\\e[1;32m%s \\\\e[0;32m%s\\\\e[1;37m...\\\\n" "\${0##*/} \$ARGS" "v\$VERSIONID"
 [ "\$UID" = "0" ] && SUDOCONF="" || SUDOCONF="sudo"
 if [[ -z "\${1:-}" ]]
 then
@@ -968,7 +975,7 @@ printf '\033]2;  🔑 TermuxArch %s:DONE 📱 \007' "\${0##*/} \$ARGS"
 trap _TRPET_ EXIT
 ## pci begin ###################################################################
 [ "\$UID" = "0" ] && SUDOCONF="" || SUDOCONF="sudo"
-printf "\\\\n\\\\e[1;32m==> \\\\e[1;37mRunning TermuxArch command \\\\e[1;32m%s \\\\e[0;32m%s\\\\e[1;37m...\\\\n" "\${0##*/} \$ARGS" "version \$VERSIONID"
+printf "\\\\n\\\\e[1;32m==> \\\\e[1;37mRunning TermuxArch command \\\\e[1;32m%s \\\\e[0;32m%s\\\\e[1;37m...\\\\n" "\${0##*/} \$ARGS" "v\$VERSIONID"
 if [[ -z "\${1:-}" ]]
 then
 \$SUDOCONF pacman --noconfirm --color=always -Syu
