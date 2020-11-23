@@ -321,7 +321,8 @@ printf "%s\\\\n" "Getting replacement systemctl from https://raw.githubuserconte
 # download and copy to both directories /usr/local/bin and /usr/bin
 curl --fail --retry 2 https://raw.githubusercontent.com/TermuxArch/docker-systemctl-replacement/master/files/docker/systemctl3.py | tee /usr/bin/systemctl /usr/local/bin/systemctl >/dev/null
 chmod 700 /usr/bin/systemctl /usr/local/bin/systemctl
-[ ! -e /var/lock/termuxarch/  ] && mkdir -p /var/lock/termuxarch/ && touch /var/lock/termuxarch/csystemctl.lock
+[ ! -e /var/lock/termuxarch/  ] && mkdir -p /var/lock/termuxarch/
+touch /var/lock/termuxarch/csystemctl.lock
 printf "\\\\e[38;5;148m%s\\\\e[1;32m%s\\\\e[0m\\\\n" "Installing systemctl replacement in /usr/local/bin and /usr/bin: " "DONE 🏁"
 # csystemctl EOF
 EOM
