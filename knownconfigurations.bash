@@ -88,7 +88,7 @@ PROOTSTMNT+=""
 fi
 if [[ "$KOE" = 0 ]]
 then
-PROOTSTMNT+="--kill-on-exit "
+PROOTSTMNT+="--kill-on-exit --sysvipc "
 fi
 PROOTSTMNT+="--link2symlink -i \"\$2:wheel\" -0 -r $INSTALLDIR "
 # file var/binds/fbindexample.prs has a few more examples

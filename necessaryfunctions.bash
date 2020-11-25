@@ -10,6 +10,7 @@ LC_TYPE=("LANG" "LANGUAGE" "LC_ADDRESS" "LC_COLLATE" "LC_CTYPE" "LC_IDENTIFICATI
 
 _ADDADDS_() {
 _ADDAUSER_
+_PREPMOTS_
 _ADDMOTA_
 _ADDMOTD_
 _ADDMOTO_
@@ -279,12 +280,12 @@ fi
 declare -g AR3AR="\${@:3}"
 _PRINTUSAGE_() {
 printf "\\e]2;%s\\007" "TermuxArch $STARTBIN help 📲"
-printf "\\n\\e[1;32m%s\\e[0;32m%s\\n\\n" "$STARTBIN" "  start Arch Linux as root.  This account is reserved for system administration."
-printf "\\e[1;32m%s\\e[0;32m%s\\n\\n" "$STARTBIN c[ommand] command" "  run Arch Linux command from Termux as root user."
-printf "\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\n\\n" "$STARTBIN l[ogin] | u[ser] user" "  login as user.  This option is preferred when installing software and using the command 'makeyay'."
-printf "\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\n\\n" "$STARTBIN el[ogin] | eu[ser] user" "  use alternate elogin or euser option to login as user.  This option is preferred when using the command 'git' in shared storage."
+printf "\\n\\e[1;32m%s\\e[0;32m%s\\n\\n" "$STARTBIN" "  start Arch Linux as root.  This account is reserved for system administration.  Please exercise caution when using the system administrator account."
+printf "\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\n\\n" "$STARTBIN c[ommand] command" "  run Arch Linux command from Termux as root user.  Quoting multiple commands can assit when passing multiple arguments;  " "$STARTBIN c 'whoami ; cat /etc/pacman.d/mirrorlist'" ".  Please pass commands through the system administrator account with caution."
+printf "\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\n\\n" "$STARTBIN l[ogin] | u[ser] user" "  login as user.  This option is preferred when installing software from a user account with the 'sudo' command."
+printf "\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\n\\n" "$STARTBIN el[ogin] | eu[ser] user" " login as user;  Use alternate elogin or euser option to login as user.  This option is preferred when using the 'git' command."
 printf "\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\n\\n" "$STARTBIN r[aw]" "  construct the " "$STARTBIN " "proot statement from exec.../bin/.  For example " "$STARTBIN r su " "will exec su in Arch Linux."
-printf "\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\n\\n\\e[0m" "$STARTBIN s[u] user command" "  login as user and execute command.  Please use " "$STARTBIN c addauser user " "first to create this user and user's home directory."
+printf "\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\n\\n\\e[0m" "$STARTBIN s[u] user command" "  login as user and execute command.  Quoting multiple commands can assit when passing multiple arguments;  " "$STARTBIN s user 'whoami ; vim /etc/pacman.d/mirrorlist'" ".  Please use " "$STARTBIN c 'addauser user'" " first to create a user account and user home directory."
 }
 # [] Default Arch Linux in Termux PRoot root login.
 if [[ -z "\${1:-}" ]]
@@ -336,17 +337,16 @@ printf "%s\\n" "$PROOTSTMNTU /bin/su - \"\$2\" ||:" >> "$STARTBIN"
 cat >> "$STARTBIN" <<- EOM
 set -Eeuo pipefail
 printf '\033]2; $STARTBIN login user [options] 📲  \007'
-# [raw ARGS] Construct the 'startarch' proot statement.  For example 'startarch r su' will exec su in Arch Linux.  See PROOTSTMNT for more options; share your thoughts at https://github.com/sdrausty/TermuxArch/issues and https://github.com/sdrausty/TermuxArch/pulls.
+# [raw ARGS] Construct the 'startarch' proot statement.  For example 'startarch r su' will exec su in Arch Linux.  See PROOTSTMNT for more options; share your thoughts at https://github.com/SDRausty/TermuxArch/issues and https://github.com/SDRausty/TermuxArch/pulls.
 elif [[ "\${1//-}" = [Rr]* ]]
 then
-printf '\033]2; $STARTBIN raw ARGS 📲  \007'
+printf '\033]2; $STARTBIN raw %s 📲  \007' "\$@"
 set +Eeuo pipefail
 umask 0022
 EOM
 printf "%s\\n" "$PROOTSTMNT /bin/\"\$2\" ||:" >> "$STARTBIN"
 cat >> "$STARTBIN" <<- EOM
 set -Eeuo pipefail
-printf '\033]2; $STARTBIN raw ARGS 📲  \007'
 # [su user command] Login as user and execute command.  Use 'addauser user' first to create this user and user's home directory.
 elif [[ "\${1//-}" = [Ss]* ]]
 then
@@ -357,6 +357,7 @@ touch $INSTALLDIR/root/.chushlogin
 else
 touch $INSTALLDIR/home/"\$2"/.chushlogin
 fi
+printf '\033]2; %s 📲  \007' "$STARTBIN s \$2 \$AR3AR"
 set +Eeuo pipefail
 umask 0022
 EOM

@@ -38,18 +38,20 @@ useradd -k /root -m -s /bin/bash "\$1" -U
 usermod "\$1" -aG wheel
 chage -I -1 -m 0 -M -1 -E -1 "\$1"
 passwd -d "\$1"
-chmod 775 /home/\$1
-chown -R \$1:\$1 /home/\$1
+chmod 775 "/home/\$1"
+chown -R "\$1:\$1" "/home/\$1"
 # method depreciated
 # [[ -d /etc/sudoers.d ]] && printf "%s\\\\n" "\$1 ALL=(ALL) ALL" >> /etc/sudoers.d/"\$1"
 sed -i "s/\$1:x/\$1:/g" /etc/passwd
-printf "\\\\e[0;32m%s\\\\e[1;32m%s\\\\e[0;32m%s\\\\e[1;32m%s\\\\e[0;32m%s\\\\e[1;32m%s\\\\e[0;32m%s\\\\e[1;32m%s\\\\e[0;32m%s\\\\e[0m\\\\n" "Added Arch Linux in Termux PRoot user " "'\$1'" " and configured user '\$1' for use with the Arch Linux command 'sudo'.  Created Arch Linux user \$1's home directory in /home/\$1.  To use this account run " "'$STARTBIN login \$1'" " from the shell in Termux.  To add user accounts you can use " "'addauser \$1'" " in Arch Linux and " "'$STARTBIN c[ommand] addauser \$1'" " in the default Termux shell.  Please remember not to nest proot in proot unknowingly by using '$STARTBIN' in '$STARTBIN' as this is known to cause issues for PRoot users."
+printf "\\\\e[0;32m%s\\\\e[1;32m%s\\\\e[0;32m%s\\\\e[1;32m%s\\\\e[0;32m%s\\\\e[1;32m%s\\\\e[0;32m%s\\\\e[1;32m%s\\\\e[0;32m%s\\\\e[0m\\\\n" "Added Arch Linux in Termux PRoot user " "'\$1'" " and configured user '\$1' for use with the Arch Linux command 'sudo'.  Created Arch Linux user \$1's home directory in /home/\$1.  To use this account run " "'$STARTBIN login \$1'" " from the shell in Termux.  To add user accounts you can use " "'addauser \$1'" " in Arch Linux and " "'$STARTBIN c[ommand] addauser \$1'" " in the default Termux shell.  Please do not nest proot in proot by using '$STARTBIN' in '$STARTBIN' as this is known to cause issues for users of PRoot."
 fi
 fi
+cd "/home/\$1"
+ln -s "$HOME" || printf "%s\\n" "Symlink error; Continuing"
 }
 _PMFSESTRING_() {
 printf "\\\\e[1;31m%s\\\\e[1;37m%s\\\\e[1;32m%s\\\\e[1;37m%s\\\\n\\\\n" "Signal generated in '\$1' : Cannot complete task : " "Continuing..."
-printf "\\\\e[1;34m%s\\\\e[0;34m%s\\\\e[1;34m%s\\\\e[0;34m%s\\\\e[1;34m%s\\\\e[0m\\\\n\\\\n" "  If you find improvements for " "setupTermuxArch" " and " "\$0" " please open an issue and accompanying pull request."
+printf "\\\\e[1;34m%s\\\\e[0;34m%s\\\\e[1;34m%s\\\\e[0;34m%s\\\\e[1;34m%s\\\\e[0m\\\\n\\\\n" "  If you find improvements for " "${0##*}" " and " "\${0##*}" " please open an issue and an accompanying pull request."
 }
 _HUSDIRC_ "\$@"
 # addauser EOF
@@ -58,51 +60,30 @@ chmod 700 usr/local/bin/addauser
 }
 
 _ADDMOTA_() {
-if [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = "$CPUABIX86_64" ]] || [[ "$CPUABI" = i386 ]]
-then
 cat > etc/mota <<- EOM
-printf "\\\\n\\\\e[1;34m%s\\\\n%s\\\\e[0;34m%s\\\\n\\\\e[1;34m%s\\\\e[0;34m%s\\\\n\\\\e[1;34m%s\\\\e[0;34m%s\\\\n\\\\e[1;34m%s\\\\e[0;34m%s\\\\n\\\\n\\\\e[1;34m%s\\\\e[0m%s\\\\n\\\\e[1;34m%s\\\\e[0;34m%s\\\\e[1;34m%s\\\\e[0;34m%s\\\\n\\\\e[1;34m%s\\\\e[0m%s\\\\n\\\\n" "Welcome to Arch Linux in Termux!" "Install a package: " "pacman -S package" "More  information: " "pacman -[D|F|Q|R|S|T|U]h" "Search   packages: " "pacman -Ss query" "Upgrade  packages: " "pacman -Syu" "Chat:  " "https://wiki.termux.com/wiki/Community" "Help: " "info query " "and " "man query" "IRC: " "wiki.archlinux.org/index.php/IRC_channel"
+printf "\\\\n\\\\e[1;34m%s\\\\n%s\\\\e[0;34m%s\\\\n\\\\e[1;34m%s\\\\e[0;34m%s\\\\n\\\\e[1;34m%s\\\\e[0;34m%s\\\\n\\\\e[1;34m%s\\\\e[0;34m%s\\\\n\\\\n\\\\e[1;34m%s\\\\e[0m%s\\\\n\\\\e[1;34m%s\\\\e[0;34m%s\\\\e[1;34m%s\\\\e[0;34m%s\\\\n\\\\e[1;34m%s\\\\e[0m%s\\\\n\\\\e[1;34m%s\\\\e[0m%s\\\\n\\\\n" "Welcome to Arch Linux in Termux PRoot!" "Install a package: " "pacman -S package" "More  information: " "pacman -[D|F|Q|R|S|T|U]h" "Search   packages: " "pacman -Ss query" "Upgrade  packages: " "pacman -Syu" "Chat:	" "wiki.termux.com/wiki/Community" "Help:	" "info query " "and " "man query" "GitHub:	" "$MOTTECGIT" "IRC:	" "$MOTTECIRC"
 EOM
-else
-cat > etc/mota <<- EOM
-printf "\\\\n\\\\e[1;34m%s\\\\n%s\\\\e[0;34m%s\\\\n\\\\e[1;34m%s\\\\e[0;34m%s\\\\n\\\\e[1;34m%s\\\\e[0;34m%s\\\\n\\\\e[1;34m%s\\\\e[0;34m%s\\\\n\\\\n\\\\e[1;34m%s\\\\e[0m%s\\\\n\\\\e[1;34m%s\\\\e[0m%s\\\\n\\\\e[1;34m%s\\\\e[0;34m%s\\\\e[1;34m%s\\\\e[0;34m%s\\\\n\\\\e[1;34m%s\\\\e[0m%s\\\\n\\\\n" "Welcome to Arch Linux in Termux!" "Install a package: " "pacman -S package" "More  information: " "pacman -[D|F|Q|R|S|T|U]h" "Search   packages: " "pacman -Ss query" "Upgrade  packages: " "pacman -Syu" "Chat:  " "https://wiki.termux.com/wiki/Community" "Forum: " "https://archlinuxarm.org/forum" "Help: " "info query " "and " "man query" "IRC: " "wiki.archlinux.org/index.php/IRC_channel"
-EOM
-fi
 }
 
 _ADDMOTD_() {
-if [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = "$CPUABIX86_64" ]] || [[ "$CPUABI" = i386 ]]
-then
 cat > etc/motd <<- EOM
-Welcome to Arch Linux in Termux!
+Welcome to Arch Linux in Termux PRoot!
 Install a package: pacman -S package
 More  information: pacman -[D|F|Q|R|S|T|U]h
 Search   packages: pacman -Ss query
 Upgrade  packages: pacman -Syu
 
-Chat:  https://wiki.termux.com/wiki/Community
-Help: info query and man query
-IRC: wiki.archlinux.org/index.php/IRC_channel
+$MOTTECBBS
+Chat:	wiki.termux.com/wiki/Community
+GitHub:	$MOTTECGIT
+Help:	info query and man query
+IRC:	$MOTTECIRC
 EOM
-else
-cat > etc/motd <<- EOM
-Welcome to Arch Linux in Termux!
-Install a package: pacman -S package
-More  information: pacman -[D|F|Q|R|S|T|U]h
-Search   packages: pacman -Ss query
-Upgrade  packages: pacman -Syu
-
-Chat:  https://wiki.termux.com/wiki/Community
-Forum: https://archlinuxarm.org/forum
-Help: info query and man query
-IRC: wiki.archlinux.org/index.php/IRC_channel
-EOM
-fi
 }
 
 _ADDMOTO_() {
 cat > etc/moto <<- EOM
-printf "\\\\n\\\\e[1;34mShare Your Arch Linux in Termux Experience!\\\\n\\\\n\\\\e[1;34mChat: \\\\e[0mwiki.termux.com/wiki/Community\\\\n\\\\e[1;34mHelp: \\\\e[0;34minfo query \\\\e[1;34mand \\\\e[0;34mman query\\\\n\\\\e[1;34mIRC:  \\\\e[0mwiki.archlinux.org/index.php/IRC_channel\\\\n\\\\n\\\\e[0m"
+printf "\\\\n\\\\e[1;34mPlease Share Your Arch Linux in Termux PRoot Experience!\\\\n\\\\n\\\\e[1;34mChat:	\\\\e[0mwiki.termux.com/wiki/Community\\\\n\\\\e[1;34mHelp:	\\\\e[0;34minfo query \\\\e[1;34mand \\\\e[0;34mman query\\\\n\\\\e[1;34mGitHub:	\\\\e[0m%s\\\\n\\\\e[1;34mIRC:	\\\\e[0m%s\\\\n\\\\n\\\\e[0m" "$MOTTECGIT" "$MOTTECIRC"
 EOM
 }
 
@@ -511,9 +492,9 @@ cat >> usr/local/bin/gcl <<- EOM
 if [[ ! -x "\$(command -v git)" ]]
 then
 pci git
-git clone --depth 1 "\$@" --branch master --single-branch
+git clone --depth 1 "\$@" --single-branch
 else
-git clone --depth 1 "\$@" --branch master --single-branch
+git clone --depth 1 "\$@" --single-branch
 fi
 # gcl EOF
 EOM
@@ -566,7 +547,7 @@ chmod 700 usr/local/bin/gpl
 }
 
 _ADDgp_() {
-_CFLHDR_ usr/local/bin/gp "# git push https://username:password@github.com/username/repository.git master"
+_CFLHDR_ usr/local/bin/gp "# git push https://username:password@github.com/username/repository.git"
 cat >> usr/local/bin/gp <<- EOM
 if [[ ! -x "\$(command -v git)" ]]
 then
@@ -673,7 +654,7 @@ X86INT=":"
 X86IPT="(1/2)"
 X86INK="printf \"\\\\n\\\\e[1;32m==> \\\\e[1;37mRunning \\\\e[1;32mpacman -S %s --noconfirm --color=always\\\\e[1;37m...\\\\n\" \"\${ARGS[@]} \"
 pacman -S \"\${KEYRINGS[@]}\" --noconfirm --color=always || pacman -S \"\${KEYRINGS[@]}\" --noconfirm --color=always
-printf \"\\\\n\\\\e[1;32m(2/2) \\\\e[0;34mWhen \\\\e[1;37mAppending keys from archlinux.gpg\\\\e[0;34m appears on the screen, the installation process can be accelerated.  The system desires a lot of entropy at this part of the install procedure.  To generate as much entropy as possible quickly, watch and listen to a file on your device.  \\\\n\\\\nThe program \\\\e[1;32mpacman-key\\\\e[0;34m will want as much entropy as possible when generating keys.  Entropy is also created through tapping, sliding, one, two and more fingers tapping with short and long taps.  When \\\\e[1;37mAppending keys from archlinux.gpg\\\\e[0;34m appears on the screen, use any of these simple methods to accelerate the installation process if it is stalled.  Put even simpler, just do something on device.  Browsing files will create entropy on device.  Slowly swiveling the device in space and time will accelerate the installation process.  This method alone might not generate enough entropy (a measure of randomness in a closed system) for the process to complete quickly.  Use \\\\e[1;32mbash ~%s/bin/we \\\\e[0;34min a new Termux session to watch entropy on device.\\\\n\\\\e[1;32m==> \\\\e[1;37mRunning \\\\e[1;32mpacman-key --populate\\\\e[1;37m...\\\\n\" \"$DARCH\"
+printf \"\\\\n\\\\e[1;32m(2/2) \\\\e[0;34mWhen \\\\e[1;37mGenerating pacman keyring master key\\\\e[0;34m appears on the screen, the installation process can be accelerated.  The system desires a lot of entropy at this part of the install procedure.  To generate as much entropy as possible quickly, watch and listen to a file on your device.  \\\\n\\\\nThe program \\\\e[1;32mpacman-key\\\\e[0;34m will want as much entropy as possible when generating keys.  Entropy is also created through tapping, sliding, one, two and more fingers tapping with short and long taps.  When \\\\e[1;37mAppending keys from archlinux.gpg\\\\e[0;34m appears on the screen, use any of these simple methods to accelerate the installation process if it is stalled.  Put even simpler, just do something on device.  Browsing files will create entropy on device.  Slowly swiveling the device in space and time will accelerate the installation process.  This method alone might not generate enough entropy (a measure of randomness in a closed system) for the process to complete quickly.  Use \\\\e[1;32mbash ~%s/bin/we \\\\e[0;34min a new Termux session to watch entropy on device.\\\\n\\\\e[1;32m==> \\\\e[1;37mRunning \\\\e[1;32mpacman-key --populate\\\\e[1;37m...\\\\n\" \"$DARCH\"
 $ECHOEXEC pacman-key --populate
 printf \"\\\\e[1;32m==>\\\\e[1;37m Running \\\\e[1;32mpacman -Ss keyring --color=always\\\\e[1;37m...\\\\n\"
 pacman -Ss keyring --color=always"
@@ -683,7 +664,7 @@ cat >> usr/local/bin/keys <<- EOM
 declare -a KEYRINGS
 
 _KEYSGENMSG_() {
-printf "\\\\n\\\\e[1;32m%s \\\\e[0;34mWhen \\\\e[1;37mAppending keys from archlinux.gpg\\\\e[0;34m appears on the screen, the installation process can be accelerated.  The system desires a lot of entropy at this part of the install procedure.  To generate as much entropy as possible quickly, watch and listen to a file on your device.  \\\\n\\\\nThe program \\\\e[1;32mpacman-key\\\\e[0;34m will want as much entropy as possible when generating keys.  Entropy is also created through tapping, sliding, one, two and more fingers tapping with short and long taps.  When \\\\e[1;37mAppending keys from archlinux.gpg\\\\e[0;34m appears on the screen, use any of these simple methods to accelerate the installation process if it is stalled.  Put even simpler, just do something on device.  Browsing files will create entropy on device.  Slowly swiveling the device in space and time will accelerate the installation process.  This method alone might not generate enough entropy (a measure of randomness in a closed system) for the process to complete quickly.  You can use \\\\e[1;32mbash ~%s/bin/we \\\\e[0;34min a new Termux session to watch entropy on device.\\\\e[0m\\\\n" "$X86IPT" "$DARCH"
+printf "\\\\n\\\\e[1;32m%s \\\\e[0;34mWhen \\\\e[1;37mGenerating pacman keyring master key\\\\e[0;34m appears on the screen, the installation process can be accelerated.  The system desires a lot of entropy at this part of the install procedure.  To generate as much entropy as possible quickly, watch and listen to a file on your device.  \\\\n\\\\nThe program \\\\e[1;32mpacman-key\\\\e[0;34m will want as much entropy as possible when generating keys.  Entropy is also created through tapping, sliding, one, two and more fingers tapping with short and long taps.  When \\\\e[1;37mAppending keys from archlinux.gpg\\\\e[0;34m appears on the screen, use any of these simple methods to accelerate the installation process if it is stalled.  Put even simpler, just do something on device.  Browsing files will create entropy on device.  Slowly swiveling the device in space and time will accelerate the installation process.  This method alone might not generate enough entropy (a measure of randomness in a closed system) for the process to complete quickly.  You can use \\\\e[1;32mbash ~%s/bin/we \\\\e[0;34min a new Termux session to watch entropy on device.\\\\e[0m\\\\n" "$X86IPT" "$DARCH"
 }
 
 _GENEN_() {	# This for loop generates entropy on device.
@@ -775,39 +756,45 @@ chmod 700 usr/local/bin/keys
 _ADDmakefakeroottcp_() {
 _CFLHDR_ usr/local/bin/makefakeroottcp "# build and install fakeroot-tcp"
 cat >> usr/local/bin/makefakeroottcp <<- EOM
+_DOMAKEFAKEROOTTCP_() {
 _PRTERROR_() {
 printf "\\n\\e[1;31merror: \\e[1;37m%s\\e[0m\\n\\n" "Please correct the error(s) and/or warning(s) if possible, and run '\${0##*/} \${ARGS[@]}' again."
 exit
 }
-
-_DOMAKEFAKEROOTTCP_() {
 if [ "\$UID" = "0" ]
 then
-printf "\\\\n\\\\e[1;37m%s\\\\e[0m\\\\n\\\\n" "ERROR:  Script '\${0##*/}' should not be used as root:  The TermuxArch command 'addauser' creates user accounts in Arch Linux in PRoot and configures these user accounts for 'sudo':  The 'addauser' command is intended to be run by the Arch Linux in PRoot root user:  To use 'addauser' directly from Termux, run '$STARTBIN command addauser user' in Termux to create this account in Arch Linux PRoot:  The command '$STARTBIN help' has more information about using '$STARTBIN':  EXITING..."
+printf "\\\\e[1;31m%s\\\\e[1;37m%s\\\\e[1;31m%s\\\\e[0m\\\\n" "ERROR:" "  Script '\${0##*/}' should not be used as root:  The command 'addauser' creates user accounts in Arch Linux in Termux PRoot and configures these user accounts for the command 'sudo':  The 'addauser' command is intended to be run by the Arch Linux in Termux PRoot root user:  To use 'addauser' directly from Termux you can run \"$STARTBIN command 'addauser user'\" in Termux to create this account in Arch Linux Termux PRoot:  The command '$STARTBIN help' has more information about using '$STARTBIN':  " "Exiting..."
 else
 [ ! -f /var/lock/termuxarch/patchmakepkg.lock ] && patchmakepkg
-printf "%s\\\\n" "Building and installing fakeroot-tcp with \${0##*/} v$VERSIONID: "
-([[ ! "\$(command -v automake)" ]] || [[ ! "\$(command -v fakeroot)" ]] || [[ ! "\$(command -v git)" ]] || [[ ! "\$(command -v gcc)" ]] || [[ ! "\$(command -v po4a)" ]]) 2>/dev/null && pci automake base-devel fakeroot git gcc glibc po4a libtool
+printf "%s\\\\n" "Preparing to building and install fakeroot-tcp with \${0##*/} $VERSIONID: "
+if ([[ ! "\$(command -v automake)" ]] || [[ ! "\$(command -v fakeroot)" ]] || [[ ! "\$(command -v git)" ]] || [[ ! "\$(command -v gcc)" ]] || [[ ! "\$(command -v po4a)" ]]) 2>/dev/null
+then
+pci automake base base-devel fakeroot git gcc glibc po4a libtool || printf "\\n\\e[1;31mERROR: \\e[7;37m%s\\e[0m\\n\\n" "Please correct the error(s) and/or warning(s) by running command 'pci automake base base-devel fakeroot git gcc glibc go po4a libtool' as root user.  You can do this without leaving this session by running command \"$STARTBIN command 'pci automake base base-devel fakeroot git gcc glibc go po4a libtool'\"in a new Termux session. Then return to this session and run '\${0##*/} \${ARGS[@]}' again."
+fi
 cd
 if [ ! -d fakeroot-tcp ]
 then
 gcl https://aur.archlinux.org/fakeroot-tcp.git || _PRTERROR_
 fi
-cd fakeroot-tcp
+_FUNDOPKGBUILD_() {
 cp PKGBUILD PKGBUILD.$$.bkp
 sed -ir '/prepare()/,+4d' PKGBUILD
 sed -i 's/silence-dlerror.patch//g' PKGBUILD
 sed -i 's/pkgver=1.24/pkgver=1.25.3/g' PKGBUILD
 sed -i '/^md5sums=/{n;d}' PKGBUILD
 sed -ir "s/^md5sums=.*/md5sums=('f6104ef6960c962377ef062bf222a1d2')/g" PKGBUILD
-printf "%s\\\\n" "Running command 'makepkg -irs';  Continuing to build and attempting to install 'fakeroot-tcp' with '\${0##*/}' v$VERSIONID.  Please be patient..."
+touch /var/lock/termuxarch/makefakeroottcp_FUNDOPKGBUILD_.lock
+}
+cd fakeroot-tcp
+[ ! -f /var/lock/termuxarch/makefakeroottcp_FUNDOPKGBUILD_.lock ] && _FUNDOPKGBUILD_
+printf "%s\\\\n" "Running command 'makepkg -irs';  Building and attempting to install 'fakeroot-tcp' with '\${0##*/}' $VERSIONID.  Please be patient..."
 makepkg -irs || _PRTERROR_
 libtool --finish /usr/lib/libfakeroot || _PRTERROR_
-fi
 touch /var/lock/termuxarch/"\${0##*/}".lock
+fi
 printf "%s\\\\n" "Building and installing fakeroot-tcp: DONE 🏁"
 }
-[ ! -f /var/lock/termuxarch/"\${0##*/}".lock ] && _DOMAKEFAKEROOTTCP_ || printf "%s\\\\n" "Please remove file /var/lock/termuxarch/"\${0##*/}".lock in order to rebuild fakeroot-tcp with \${0##*/} v$VERSIONID."
+[ ! -f /var/lock/termuxarch/"\${0##*/}".lock ] && _DOMAKEFAKEROOTTCP_ || printf "%s\\\\n" "Please remove file /var/lock/termuxarch/"\${0##*/}".lock in order to rebuild fakeroot-tcp with \${0##*/} $VERSIONID."
 # makefakeroottcp EOF
 EOM
 chmod 700 usr/local/bin/makefakeroottcp
@@ -818,7 +805,7 @@ _CFLHDR_ usr/local/bin/makeyay "# build and install command yay; contributors ht
 cat >> usr/local/bin/makeyay <<- EOM
 if [ "\$UID" = "0" ]
 then
-printf "\\\\e[1;31m%s\\\\e[1;37m%s\\\\e[1;31m%s\\\\e[0m\\\\n" "Error:" "  Script '\${0##*/}' should not be used as root:  The TermuxArch command 'addauser' creates user accounts in Arch Linux in PRoot and configures these user accounts for 'sudo':  The 'addauser' command is intended to be run by the Arch Linux in PRoot root user:  To use 'addauser' directly from Termux, run '$STARTBIN command addauser user' in Termux to create this account in Arch Linux PRoot:  The command '$STARTBIN help' has more information about using '$STARTBIN':  " "Exiting..."
+printf "\\\\e[1;31m%s\\\\e[1;37m%s\\\\e[1;31m%s\\\\e[0m\\\\n" "ERROR:" "  Script '\${0##*/}' should not be used as root:  The command 'addauser' creates user accounts in Arch Linux in Termux PRoot and configures these user accounts for the command 'sudo':  The 'addauser' command is intended to be run by the Arch Linux in Termux PRoot root user:  To use 'addauser' directly from Termux you can run \"$STARTBIN command 'addauser user'\" in Termux to create this account in Arch Linux Termux PRoot:  The command '$STARTBIN help' has more information about using '$STARTBIN':  " "Exiting..."
 else
 _PRMAKE_() {
 printf "\\\\e[1;32m==> \\\\e[1;37mRunning \\\\e[1;32mmakepkg -irs --noconfirm\\\\e[1;37m...\\\\n"
@@ -837,11 +824,19 @@ Libraries have been installed in:
 The message above will be displayed for a short time with more information.  Then \${0##*/} will go on, and there will be one more tap enter to touch before script \${0##*/} is done;  SLEEPING SIX SECONDS...
 makefakeroottcp $VERSIONID: DONE 🏁
 Then this process will go on to try to make 'yay' which is much simpler for the user;  There is no tapping yes enter needed to be done whatsoever."
-# sleep 6
+sleep 6
+if ! command -v go 2>/dev/null
+then
+pci go || printf "\\n\\e[1;31mERROR: \\e[7;37m%s\\e[0m\\n\\n" "Please correct the error(s) and/or warning(s) by running command 'pci go' as root user.  You can do this without leaving this session by running command \"$STARTBIN command 'pci go'\"in a new Termux session. Then return to this session and run '\${0##*/} \${ARGS[@]}' again."
+fi
 cd
 [ ! -f /var/lock/termuxarch/patchmakepkg.lock ] && patchmakepkg
 ! fakeroot ls 2>&1 >/dev/null && makefakeroottcp
-(gcl https://aur.archlinux.org/yay.git && cd yay && _PRMAKE_ && makepkg -irs --noconfirm)||printf "\\\\e[1;37m%s\\\\e[0m\\\\n" "Continuing to build and install yay..." && cd yay && _PRMAKE_ && makepkg -irs --noconfirm||printf "\\\\e[1;31m%s\\\\e[1;37m%s\\\\n" "ERROR: " "The command 'makepkg -irs --noconfirm' did not run expected; CONTINUING..."
+if [ ! -d yay ]
+then
+gcl https://aur.archlinux.org/yay.git
+fi
+cd yay && _PRMAKE_ && makepkg -irs --noconfirm || printf "\\\\e[1;31m%s\\\\e[1;37m%s\\\\n" "ERROR: " "The command 'makepkg -irs --noconfirm' did not run expected; CONTINUING..."
 printf "\\\\e[0;32m%s\\\\n%s\\\\n%s\\\\e[1;32m%s\\\\e[0m\\\\n" "Paths that can be followed after building 'yay' are 'yay cmatrix' which builds matrix screensavers.  The commands 'yay pikaur|pikaur-git|tpac' build more aur installers which can also be used to download aur repositories and build packages like with 'yay' in your Android smartphone, tablet, wearable and more.  Did you know that 'android-studio' is available with the command 'yay android'?" "If you have trouble importing keys, this command 'gpg --keyserver keyserver.ubuntu.com --recv-keys 71A1D0EFCFEB6281FD0437C71A1D0EFCFEB6281F' might help.  Change the number to the number of the key being imported." "Building and installing yay: " "DONE 🏁"
 fi
 # makeyay EOF
@@ -891,23 +886,30 @@ printf "%s\\\\n" "Attempting to patch makepkg: "
 SDATE="\$(date +%s)"
 BKPDIR="$INSTALLDIR/var/backups/${INSTALLDIR##*/}/"
 [ ! -d "\$BKPDIR" ] && mkdir -p "\$BKPDIR"
-if [[ ! "\$(command -v patch)" ]] || [[ ! "\$(command -v unzip)" ]] || [[ ! "\$(command -v wget)" ]]
-then
-pci patch unzip wget
-fi
 cp /bin/makepkg "\$BKPDIR/makepkg.\$SDATE.bkp"
-cd /tmp
-if [ ! -f makepkg.diff ]
+if ! grep 'fakeroot -- bash' /bin/makepkg
 then
-curl --fail --retry 2 -O https://raw.githubusercontent.com/TermuxArch/TermuxArch/master/diff.makepkg.zip || wget https://raw.githubusercontent.com/TermuxArch/TermuxArch/master/diff.makepkg.zip
-unzip diff.makepkg.zip
+sed -ie 's/bash -/fakeroot -- &/' /bin/makepkg # append to match
+sed -ie 232's/.*/# &/' /bin/makepkg # append to line
+sed -ie 233's/.*/# &/' /bin/makepkg
+sed -ie 234's/.*/# &/' /bin/makepkg
+sed -ie 236's/.*/# &/' /bin/makepkg
+sed -ir 's/\$(fakeroot -v)/fakeroot -v/g' /bin/makepkg
+sed -ie 1178's/.*/# &/' /bin/makepkg
+sed -ie 1179's/.*/# &/' /bin/makepkg
+sed -ie 1180's/.*/# &/' /bin/makepkg
+sed -ie 1181's/.*/# &/' /bin/makepkg
+sed -ie 1182's/.*/# &/' /bin/makepkg
+sed -ie 1183's/.*/# &/' /bin/makepkg
+sed -ie 1184's/.*/# &/' /bin/makepkg
+sed -ie 1185's/.*/# &/' /bin/makepkg
+sed -ie 1186's/.*/# &/' /bin/makepkg
+sed -ie 1187's/.*/# &/' /bin/makepkg
+sed -ie 1188's/.*/# &/' /bin/makepkg
+sed -ie 1189's/.*/# &/' /bin/makepkg
 fi
-patch -n -i makepkg.diff -o makepkg /bin/makepkg
-chmod 700 makepkg /bin/makepkg
-# copy to /usr/local/bin to make it update proof (fail safe measure)
-cp makepkg /usr/local/bin/makepkg
-mv -f diff.makepkg.zip "\$BKPDIR"
-rm -f makepkg.diff
+# copy makepkg to /usr/local/bin to update proof it (fail safe measure)
+cp /bin/makepkg /usr/local/bin/makepkg
 # create lock file to update proof patchmakepkg
 mkdir -p /var/lock/termuxarch/ ; touch /var/lock/termuxarch/patchmakepkg.lock
 printf "%s\\\\n" "Attempting to patch makepkg: DONE 🏁"
@@ -1364,10 +1366,29 @@ _MODdotfile_
 
 _PREPPACMANCONF_() {
 if [ -f "$INSTALLDIR"/etc/pacman.conf ] # file is found
-then # rewrite it for the PRoot environment
-sed -i 's/^CheckSpace/\#CheckSpace/g' "$INSTALLDIR/etc/pacman.conf" && sed -i 's/^#Color/Color/g' "$INSTALLDIR/etc/pacman.conf"
+then # rewrite file for PRoot environment
+sed -i 's/^CheckSpace/\#CheckSpace/g' "$INSTALLDIR/etc/pacman.conf"
+sed -i 's/^#Color/Color/g' "$INSTALLDIR/etc/pacman.conf"
 else
 _PSGI1ESTRING_ "Cannot find file $INSTALLDIR/etc/pacman.conf : _PREPPACMANCONF_ archlinuxconfig.bash ${0##*/}"
+fi
+}
+
+_PREPMOTS_() {
+if [[ "$CPUABI" = "$CPUABIX86_64" ]]
+then
+MOTTECBBS="BBS: bbs.archlinux.org"
+MOTTECGIT="github.com/archlinux"
+MOTTECIRC="wiki.archlinux.org/index.php/IRC_channel"
+elif [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = i386 ]]
+then
+MOTTECBBS="BBS:	bbs.archlinux32.org"
+MOTTECGIT="github.com/archlinux32"
+MOTTECIRC="wiki.archlinux32.org"
+else
+MOTTECBBS=""
+MOTTECGIT="github.com/archlinuxarm"
+MOTTECIRC="archlinuxarm.org/about/contact"
 fi
 }
 # archlinuxconfig.bash EOF
