@@ -313,9 +313,15 @@ chmod 700 usr/local/bin/csystemctl
 _ADDdfa_() {
 _CFLHDR_ usr/local/bin/dfa
 cat >> usr/local/bin/dfa <<- EOM
-units="\$(df 2>/dev/null | awk 'FNR == 1 {print \$2}')"
-USRSPACE="\$(df 2>/dev/null | grep "/data" | awk {'print \$4'})"
-printf "\\\\e[0;33m%s\\\\n\\\\e[0m" "\$USRSPACE \$units of free user space is available on this device."
+DFUNIT="\$(df | awk 'FNR == 1 {print \$2}')"
+DFDATA="\$(df)"
+if [[ "\$DFDATA" =~ .*/data.* ]]
+then
+USRSPACE="\$(df | grep "/data" | awk {'print \$4'})"
+else
+USRSPACE="\$(df | grep -w "/" | awk {'print \$4'})"
+fi
+printf "\\\\e[0;33m%s\\\\n\\\\e[0m" "\$USRSPACE \$DFUNIT of free user space is available on this device."
 # dfa EOF
 EOM
 chmod 700 usr/local/bin/dfa
