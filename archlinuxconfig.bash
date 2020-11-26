@@ -766,7 +766,7 @@ then
 printf "\\\\e[1;31m%s\\\\e[1;37m%s\\\\e[1;31m%s\\\\e[0m\\\\n" "ERROR:" "  Script '\${0##*/}' should not be used as root:  The command 'addauser' creates user accounts in Arch Linux in Termux PRoot and configures these user accounts for the command 'sudo':  The 'addauser' command is intended to be run by the Arch Linux in Termux PRoot root user:  To use 'addauser' directly from Termux you can run \"$STARTBIN command 'addauser user'\" in Termux to create this account in Arch Linux Termux PRoot:  The command '$STARTBIN help' has more information about using '$STARTBIN':  " "Exiting..."
 else
 [ ! -f /var/lock/termuxarch/patchmakepkg.lock ] && patchmakepkg
-printf "%s\\\\n" "Preparing to building and install fakeroot-tcp with \${0##*/} $VERSIONID: "
+printf "%s\\\\n" "Preparing to build and install fakeroot-tcp with \${0##*/} $VERSIONID: "
 if ([[ ! "\$(command -v automake)" ]] || [[ ! "\$(command -v fakeroot)" ]] || [[ ! "\$(command -v git)" ]] || [[ ! "\$(command -v gcc)" ]] || [[ ! "\$(command -v po4a)" ]]) 2>/dev/null
 then
 pci automake base base-devel fakeroot git gcc glibc po4a libtool || printf "\\n\\e[1;31mERROR: \\e[7;37m%s\\e[0m\\n\\n" "Please correct the error(s) and/or warning(s) by running command 'pci automake base base-devel fakeroot git gcc glibc go po4a libtool' as root user.  You can do this without leaving this session by running command \"$STARTBIN command 'pci automake base base-devel fakeroot git gcc glibc go po4a libtool'\"in a new Termux session. Then return to this session and run '\${0##*/} \${ARGS[@]}' again."
@@ -1078,14 +1078,6 @@ for STOOL in ${PRFXTOLS[@]}
 do
 cp $(which "$STOOL") usr/local/bin/ || printf "%s\\n" "System tool $STOOL cannot be found: continuing..."
 done
-if [ ! -d root/storage ]
-then
-[ -d "$HOME/storage" ] && cp -fR "$HOME/storage/" root/
-fi
-if [ ! -d root/storage/txhome ] && [ -d root/storage ]
-then
-ln -s "$HOME" root/storage/txhome
-fi
 }
 
 _ADDtour_() {
