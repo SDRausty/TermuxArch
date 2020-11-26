@@ -5,7 +5,7 @@
 # command 'setupTermuxArch h[elp]' has information how to use this file
 ################################################################################
 IFS=$'\n\t'
-VERSIONID=2.0.378
+VERSIONID=2.0.379
 set -Eeuo pipefail
 shopt -s nullglob globstar
 umask 0022
@@ -110,11 +110,8 @@ cd "$WFDIR"	# change directory to working file directory
 if [[ "$(<$TAMPDIR/setupTermuxArch)" != "$(<${0##*/})" ]] # differ
 then	# update the working file to newest version
 cp "$TAMPDIR/setupTermuxArch" "${0##*/}"
-cd "$WDIR"	# change directory back to working directory
-[[ -z "${ARGS:-}" ]] && printf "\\e[1;32mFile \\e[0;32m'%s'\\e[1;32m UPDATED\\e[1;34m:\\e[0;32m run 'bash %s' again if this automatic update was unsuccessful.\\n\\e[1;32mRESTARTED \\e[0;32m'%s'\\e[1;34m:\\e[1;32m CONTINUING...\\n\\n\\e[0m" "${0##*/}" "${0##*/}" "${0##*/}" || printf "\\e[0;32m'%s'\\e[1;32m UPDATED\\e[1;34m:\\e[0;32m run 'bash %s' again if this automatic update was unsuccessful.\\n\\e[1;32mRESTARTED \\e[0;32m'%s'\\e[1;34m:\\e[1;32m CONTINUING...\\n\\n\\e[0m" "${0##*/} $ARGS" "${0##*/} $ARGS" "${0##*/} $ARGS"
-# restart with updated version
-export LD_PRELOAD="/data/data/com.termux/files/usr/lib/libtermux-exec.so"
-. "$WFDIR/${0##*/}" "h"
+[[ -z "${ARGS:-}" ]] && printf "\\n\\e[1;32mFile \\e[0;32m'%s'\\e[1;32m was updated to the newest version published\\e[1;34m:\\e[0;32m Please run 'bash %s' again;  You can use the '!!' command to run '%s' again.\\n\\n\\e[0m" "${0##*/}" "${0##*/}" "${0##*/}" || printf "\\n\\e[1;32mFile \\e[0;32m'%s'\\e[1;32m was updated to the newest version published\\e[1;34m:\\e[0;32m Please run 'bash %s' again;  You can use the '!!' command to run '%s' again.\\n\\n\\e[0m" "${0##*/}" "${0##*/} $ARGS" "${0##*/} $ARGS"
+exit
 fi
 cd "$TAMPDIR"
 }
@@ -390,7 +387,7 @@ if [[ "$ROOTDIR" = "" ]]
 then
 ROOTDIR=arch
 fi
-INSTALLDIR="$(printf "%s\\n" "$HOME${ROOTDIR%/}" | sed 's#//*#/#g')"
+INSTALLDIR="$(printf "%s\\n" "$HOME/${ROOTDIR%/}" | sed 's#//*#/#g')"
 }
 
 _NAMESTARTARCH_() {
@@ -698,6 +695,8 @@ done
 
 _RMARCHRM_() {
 _SETROOT_EXCEPTION_
+find  "$INSTALLDIR/root/" -type l -delete 2>/dev/null || _PSGI1ESTRING_ "find _RMARCHRM_ setupTermuxArch ${0##*/}"
+find  "$INSTALLDIR/home/" -type l -delete 2>/dev/null || _PSGI1ESTRING_ "find _RMARCHRM_ setupTermuxArch ${0##*/}"
 rm -rf "${INSTALLDIR:?}"/* 2>/dev/null ||:
 find  "$INSTALLDIR" -type d -exec chmod 700 {} \; 2>/dev/null || _PSGI1ESTRING_ "find _RMARCHRM_ setupTermuxArch ${0##*/}"
 rm -rf "$INSTALLDIR" 2>/dev/null || _PSGI1ESTRING_ "rm -rf _RMARCHRM_ setupTermuxArch ${0##*/}"
