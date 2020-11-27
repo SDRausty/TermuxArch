@@ -47,7 +47,10 @@ printf "\\\\e[0;32m%s\\\\e[1;32m%s\\\\e[0;32m%s\\\\e[1;32m%s\\\\e[0;32m%s\\\\e[1
 fi
 fi
 cd "/home/\$1"
+if [ ! -e home ]
+then
 ln -s "$HOME" || printf "%s\\n" "Symlink error; Continuing"
+fi
 }
 _PMFSESTRING_() {
 printf "\\\\e[1;31m%s\\\\e[1;37m%s\\\\e[1;32m%s\\\\e[1;37m%s\\\\n\\\\n" "Signal generated in '\$1' : Cannot complete task : " "Continuing..."
