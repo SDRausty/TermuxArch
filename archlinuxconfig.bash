@@ -321,6 +321,7 @@ USRSPACE="\$(df | grep "/data" | awk {'print \$4'})"
 else
 USRSPACE="\$(df | grep -w "/" | awk {'print \$4'})"
 fi
+ARGS="\$USRSPACE \$DFUNIT"
 printf "\\\\e[0;33m%s\\\\n\\\\e[0m" "\$USRSPACE \$DFUNIT of free user space is available on this device."
 # dfa EOF
 EOM

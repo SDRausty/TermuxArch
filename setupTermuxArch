@@ -5,8 +5,8 @@
 # command 'setupTermuxArch h[elp]' has information how to use this file
 ################################################################################
 IFS=$'\n\t'
-VERSIONID=2.0.381
-set -Eeuo pipefail
+VERSIONID=2.0.382
+set -xEeuo pipefail
 shopt -s nullglob globstar
 umask 0022
 unset LD_PRELOAD
@@ -695,8 +695,8 @@ done
 
 _RMARCHRM_() {
 _SETROOT_EXCEPTION_
-find  "$INSTALLDIR/root/" -type l -delete 2>/dev/null || _PSGI1ESTRING_ "find _RMARCHRM_ setupTermuxArch ${0##*/}"
-find  "$INSTALLDIR/home/" -type l -delete 2>/dev/null || _PSGI1ESTRING_ "find _RMARCHRM_ setupTermuxArch ${0##*/}"
+find  "$INSTALLDIR/root/" -type l -delete 2>/dev/null ||:
+find  "$INSTALLDIR/home/" -type l -delete 2>/dev/null ||:
 rm -rf "${INSTALLDIR:?}"/* 2>/dev/null ||:
 find  "$INSTALLDIR" -type d -exec chmod 700 {} \; 2>/dev/null || _PSGI1ESTRING_ "find _RMARCHRM_ setupTermuxArch ${0##*/}"
 rm -rf "$INSTALLDIR" 2>/dev/null || _PSGI1ESTRING_ "rm -rf _RMARCHRM_ setupTermuxArch ${0##*/}"
