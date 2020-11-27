@@ -897,7 +897,7 @@ SDATE="\$(date +%s)"
 BKPDIR="$INSTALLDIR/var/backups/${INSTALLDIR##*/}/"
 [ ! -d "\$BKPDIR" ] && mkdir -p "\$BKPDIR"
 cp /bin/makepkg "\$BKPDIR/makepkg.\$SDATE.bkp"
-sed -ie 's/bash -/fakeroot -- &/' /bin/makepkg # append to match
+# sed -ie 's/bash -/fakeroot -- &/' /bin/makepkg # append to match
 sed -ie 232's/.*/# &/' /bin/makepkg # append to line
 sed -ie 233's/.*/# &/' /bin/makepkg
 sed -ie 234's/.*/# &/' /bin/makepkg
