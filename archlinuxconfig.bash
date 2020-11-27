@@ -290,7 +290,7 @@ _CFLHDR_ usr/local/bin/csystemctl "# contributor https://github.com/petkar"
 cat >> usr/local/bin/csystemctl <<- EOM
 INSTALLDIR="$INSTALLDIR"
 printf "\\\\e[38;5;148m%s\\\\e[0m\\\\n" "Installing /usr/bin/systemctl replacement: "
-[ -f /var/lock/\${INSTALLDIR##*/}/csystemctl.lock ] && printf "%s\\\\n" "Already installed /usr/local/bin/systemctl replacement: DONE 🏁" && exit
+[ -f /var/lock/${INSTALLDIR##*/}/csystemctl.lock ] && printf "%s\\\\n" "Already installed /usr/local/bin/systemctl replacement: DONE 🏁" && exit
 declare COMMANDP
 COMMANDP="\$(command -v python3)" || printf "%s\\\\n" "Command python3 can not be found: continuing..."
 [[ "\${COMMANDP:-}" == *python3* ]] || pci python3
@@ -304,8 +304,8 @@ printf "%s\\\\n" "Getting replacement systemctl from https://raw.githubuserconte
 # download and copy to both directories /usr/local/bin and /usr/bin
 curl --fail --retry 2 https://raw.githubusercontent.com/TermuxArch/docker-systemctl-replacement/master/files/docker/systemctl3.py | tee /usr/bin/systemctl /usr/local/bin/systemctl >/dev/null
 chmod 700 /usr/bin/systemctl /usr/local/bin/systemctl
-[ ! -e /var/lock/\${INSTALLDIR##*/}/  ] && mkdir -p /var/lock/\${INSTALLDIR##*/}/
-touch /var/lock/\${INSTALLDIR##*/}/csystemctl.lock
+[ ! -e /var/lock/${INSTALLDIR##*/}/  ] && mkdir -p /var/lock/${INSTALLDIR##*/}/
+touch /var/lock/${INSTALLDIR##*/}/csystemctl.lock
 printf "\\\\e[38;5;148m%s\\\\e[1;32m%s\\\\e[0m\\\\n" "Installing systemctl replacement in /usr/local/bin and /usr/bin: " "DONE 🏁"
 # csystemctl EOF
 EOM
@@ -594,38 +594,38 @@ fi
 done
 
 _PMUEOEP2_() {
-if [ ! -f /var/run/lock/\${INSTALLDIR##*/}/kpmueoep2.lock ]
+if [ ! -f /var/run/lock/${INSTALLDIR##*/}/kpmueoep2.lock ]
 then
 printf \"\\n\\e[1;32m==> \\e[1;37m%s\\e[1;32m%s\\e[1;37m...\\n\" \"Running \${0##*/} [\$3/7] $ARCHITEC ($CPUABI) architecture upgrade ; \" \"pacman -U \${UPGDPKGS[\$1]##*/} \${UPGDPKGS[\$2]##*/} --noconfirm\"
-pacman -U \"\${UPGDPKGS[\$1]##*/}\" \"\${UPGDPKGS[\$2]##*/}\" --noconfirm && touch /var/run/lock/\${INSTALLDIR##*/}/kpmueoep2.lock
+pacman -U \"\${UPGDPKGS[\$1]##*/}\" \"\${UPGDPKGS[\$2]##*/}\" --noconfirm && touch /var/run/lock/${INSTALLDIR##*/}/kpmueoep2.lock
 else
 printf \"\\n\\e[1;37m%s\\e[1;32m%s\\e[1;37m%s\\n\" \"[\$3/7]  The command \" \"pacman -U \${UPGDPKGS[\$1]##*/} \${UPGDPKGS[\$2]##*/} --noconfirm\" \" has already been successfully run; Continuing...\"
 fi
 }
 
 _PMUEOEP3_() {
-if [ ! -f /var/run/lock/\${INSTALLDIR##*/}/kpmueoep3.lock ]
+if [ ! -f /var/run/lock/${INSTALLDIR##*/}/kpmueoep3.lock ]
 then
 printf \"\\n\\e[1;32m==> \\e[1;37m%s\\e[1;32m%s\\e[1;37m...\\n\" \"Running \${0##*/} [\$4/7] $ARCHITEC ($CPUABI) architecture upgrade ; \" \"pacman -U \${UPGDPKGS[\$1]##*/} \${UPGDPKGS[\$2]##*/} \${UPGDPKGS[\$3]##*/} --noconfirm\"
-pacman -U \"\${UPGDPKGS[\$1]##*/}\" \"\${UPGDPKGS[\$2]##*/}\" \"\${UPGDPKGS[\$3]##*/}\" --noconfirm && touch /var/run/lock/\${INSTALLDIR##*/}/kpmueoep3.lock
+pacman -U \"\${UPGDPKGS[\$1]##*/}\" \"\${UPGDPKGS[\$2]##*/}\" \"\${UPGDPKGS[\$3]##*/}\" --noconfirm && touch /var/run/lock/${INSTALLDIR##*/}/kpmueoep3.lock
 else
 printf \"\\n\\e[1;37m%s\\e[1;32m%s\\e[1;37m%s\\e[0m\\n\" \"[\$4/7]  The command \" \"pacman -U \${UPGDPKGS[\$1]##*/} \${UPGDPKGS[\$2]##*/} \${UPGDPKGS[\$3]##*/} --noconfirm\" \" has already been successfully run; Continuing...\"
 fi
 }
 
 _PMUEOEP4_() {
-if [ ! -f /var/run/lock/\${INSTALLDIR##*/}/kpmueoep4.lock ]
+if [ ! -f /var/run/lock/${INSTALLDIR##*/}/kpmueoep4.lock ]
 then
-printf \"\\n\\e[1;32m==> \\e[1;37m%s\\e[1;32m%s\\e[1;37m...\\n\" \"Running \${0##*/} [\$5/7] $ARCHITEC ($CPUABI) architecture upgrade ; \" \"pacman -U \${UPGDPKGS[\$1]##*/} \${UPGDPKGS[\$2]##*/} \${UPGDPKGS[\$3]##*/} \${UPGDPKGS[\$4]##*/} --noconfirm\" ; pacman -U \"\${UPGDPKGS[\$1]##*/}\" \"\${UPGDPKGS[\$2]##*/}\" \"\${UPGDPKGS[\$3]##*/}\" \"\${UPGDPKGS[\$4]##*/}\" --noconfirm && touch /var/run/lock/\${INSTALLDIR##*/}/kpmueoep4.lock
+printf \"\\n\\e[1;32m==> \\e[1;37m%s\\e[1;32m%s\\e[1;37m...\\n\" \"Running \${0##*/} [\$5/7] $ARCHITEC ($CPUABI) architecture upgrade ; \" \"pacman -U \${UPGDPKGS[\$1]##*/} \${UPGDPKGS[\$2]##*/} \${UPGDPKGS[\$3]##*/} \${UPGDPKGS[\$4]##*/} --noconfirm\" ; pacman -U \"\${UPGDPKGS[\$1]##*/}\" \"\${UPGDPKGS[\$2]##*/}\" \"\${UPGDPKGS[\$3]##*/}\" \"\${UPGDPKGS[\$4]##*/}\" --noconfirm && touch /var/run/lock/${INSTALLDIR##*/}/kpmueoep4.lock
 else
 printf \"\\n\\e[1;37m%s\\e[1;32m%s\\e[1;37m%s\\e[0m\\n\" \"[\$5/7]  The command \" \"pacman -U \${UPGDPKGS[\$1]##*/} \${UPGDPKGS[\$2]##*/} \${UPGDPKGS[\$3]##*/} \${UPGDPKGS[\$4]##*/} --noconfirm\" \" has already been successfully run; Continuing...\"
 fi
 }
 
 _PMUEOEP5_() {
-if [ ! -f /var/run/lock/\${INSTALLDIR##*/}/kpmueoep5.lock ]
+if [ ! -f /var/run/lock/${INSTALLDIR##*/}/kpmueoep5.lock ]
 then
-printf \"\\n\\e[1;32m==> \\e[1;37m%s\\e[1;32m%s\\e[0m...\\n\" \"Running \${0##*/} [\$6/7] $ARCHITEC ($CPUABI) architecture upgrade ; \" \"pacman -U \${UPGDPKGS[\$1]##*/} \${UPGDPKGS[\$2]##*/} \${UPGDPKGS[\$3]##*/} \${UPGDPKGS[\$4]##*/} \${UPGDPKGS[\$5]##*/} --noconfirm\" ; pacman -U \"\${UPGDPKGS[\$1]##*/}\" \"\${UPGDPKGS[\$2]##*/}\" \"\${UPGDPKGS[\$3]##*/}\" \"\${UPGDPKGS[\$4]##*/}\" \"\${UPGDPKGS[\$5]##*/}\" --noconfirm && touch /var/run/lock/\${INSTALLDIR##*/}/kpmueoep5.lock
+printf \"\\n\\e[1;32m==> \\e[1;37m%s\\e[1;32m%s\\e[0m...\\n\" \"Running \${0##*/} [\$6/7] $ARCHITEC ($CPUABI) architecture upgrade ; \" \"pacman -U \${UPGDPKGS[\$1]##*/} \${UPGDPKGS[\$2]##*/} \${UPGDPKGS[\$3]##*/} \${UPGDPKGS[\$4]##*/} \${UPGDPKGS[\$5]##*/} --noconfirm\" ; pacman -U \"\${UPGDPKGS[\$1]##*/}\" \"\${UPGDPKGS[\$2]##*/}\" \"\${UPGDPKGS[\$3]##*/}\" \"\${UPGDPKGS[\$4]##*/}\" \"\${UPGDPKGS[\$5]##*/}\" --noconfirm && touch /var/run/lock/${INSTALLDIR##*/}/kpmueoep5.lock
 else
 printf \"\\n\\e[1;37m%s\\e[1;32m%s\\e[1;37m%s\\e[0m\\n\" \"[\$6/7]  The command \" \"pacman -U \${UPGDPKGS[\$1]##*/} \${UPGDPKGS[\$2]##*/} \${UPGDPKGS[\$3]##*/} \${UPGDPKGS[\$4]##*/} \${UPGDPKGS[\$5]##*/} --noconfirm\" \" has already been successfully run; Continuing...\"
 fi
@@ -642,11 +642,11 @@ mv -f /tmp/{libcrypto.so.1.0.0,libssl.so.1.0.0} /usr/lib/
 sed -i '/^Architecture/s/.*/Architecture = i686/' /etc/pacman.conf
 sed -i '/^SigLevel/s/.*/SigLevel    = Never/' /etc/pacman.conf
 sed -i 's/^HoldPkg/\#HoldPkg/g' /etc/pacman.conf
-if [ ! -f /var/run/lock/\${INSTALLDIR##*/}/kkeyring.lock ]
+if [ ! -f /var/run/lock/${INSTALLDIR##*/}/kkeyring.lock ]
 then
 printf \"\\n\\e[1;32m==> \\e[1;37m%s\\e[1;32m%s\\e[1;37m...\\n\" \"Running \${0##*/} [5/7] $ARCHITEC ($CPUABI) architecture upgrade ; \" \"pacman -S archlinux-keyring archlinux32-keyring --noconfirm\"
 _KEYSGENMSG_
-pacman -S archlinux-keyring archlinux32-keyring --noconfirm && touch /var/run/lock/\${INSTALLDIR##*/}/kkeyring.lock || _PRTERROR_
+pacman -S archlinux-keyring archlinux32-keyring --noconfirm && touch /var/run/lock/${INSTALLDIR##*/}/kkeyring.lock || _PRTERROR_
 else
 printf \"\\n\\e[1;37m%s\\e[1;32m%s\\e[1;37m%s\\e[0m\\n\" \"[5/7]  The command \" \"pacman -S archlinux-keyring archlinux32-keyring --noconfirm\" \" has already been successfully run; Continuing...\"
 fi
@@ -655,7 +655,7 @@ printf \"\\n\\e[1;32m==> \\e[1;37m%s\\e[1;32m%s\\e[1;37m...\\n\" \"Running \${0#
 pacman -S pacman --noconfirm || _PRTERROR_
 printf \"\\n\\e[1;32m==> \\e[1;37m%s\\e[1;32m%s\\e[1;37m...\\n\" \"Running \${0##*/} [7/7] $ARCHITEC ($CPUABI) architecture upgrade ; \" \"pacman -Su --noconfirm ; Starting full system upgrade\"
 rm -f /etc/ssl/certs/ca-certificates.crt
-pacman -Su --noconfirm"
+pacman -Su --noconfirm || pacman -Su --noconfirm"
 X86IPT=" "
 X86INK=":"
 else	# architecture versions armv5, armv7, aarch64 and x86_64 of Arch Linux use these options
@@ -729,12 +729,12 @@ printf "\\\\n\\\\e[1;32m==> \\\\e[1;37mRunning \\\\e[1;32mpacman -Sy\\\\e[1;37m.
 $ECHOEXEC $ECHOSYNC pacman -Sy
 }
 _DOPSY_ || _DOPSY_ || _PRTERROR_
-[ ! -d /var/run/lock/\${INSTALLDIR##*/} ] && mkdir -p /var/run/lock/\${INSTALLDIR##*/}
+[ ! -d /var/run/lock/${INSTALLDIR##*/} ] && mkdir -p /var/run/lock/${INSTALLDIR##*/}
 _DOKPI_() {
-if [ ! -f /var/run/lock/\${INSTALLDIR##*/}/kpi.lock ]
+if [ ! -f /var/run/lock/${INSTALLDIR##*/}/kpi.lock ]
 then
 printf "\\\\e[1;32m==> \\\\e[1;37mRunning \\\\e[1;32mpacman-key --init\\\\e[1;37m...\\\\n"
-$ECHOEXEC pacman-key --init && touch /var/run/lock/\${INSTALLDIR##*/}/kpi.lock || _PRTERROR_
+$ECHOEXEC pacman-key --init && touch /var/run/lock/${INSTALLDIR##*/}/kpi.lock || _PRTERROR_
 else
 printf "\\\\e[1;32m==> \\\\e[1;37mAlready initialized with command \\\\e[1;32mpacman-key --init\\\\e[1;37m...\\\\n"
 fi
@@ -744,10 +744,10 @@ chmod 4777 /usr/bin/newgidmap
 chmod 666 /usr/lib/tmpfiles.d/journal-nocow.conf
 chmod 700 /etc/pacman.d/gnupg
 _DOPP_() {
-if [ ! -f /var/run/lock/\${INSTALLDIR##*/}/kpp.lock ]
+if [ ! -f /var/run/lock/${INSTALLDIR##*/}/kpp.lock ]
 then
 printf "\\\\e[1;32m==> \\\\e[1;37mRunning \\\\e[1;32mpacman-key --populate\\\\e[1;37m...\\\\n"
-$ECHOEXEC pacman-key --populate && touch /var/run/lock/\${INSTALLDIR##*/}/kpp.lock || _PRTERROR_
+$ECHOEXEC pacman-key --populate && touch /var/run/lock/${INSTALLDIR##*/}/kpp.lock || _PRTERROR_
 else
 printf "\\\\e[1;32m==> \\\\e[1;37mAlready populated with command \\\\e[1;32mpacman-key --populate\\\\e[1;37m...\\\\n"
 fi
@@ -774,7 +774,7 @@ if [ "\$UID" = "0" ]
 then
 printf "\\\\e[1;31m%s\\\\e[1;37m%s\\\\e[1;31m%s\\\\e[0m\\\\n" "ERROR:" "  Script '\${0##*/}' should not be used as root:  The command 'addauser' creates user accounts in Arch Linux in Termux PRoot and configures these user accounts for the command 'sudo':  The 'addauser' command is intended to be run by the Arch Linux in Termux PRoot root user:  To use 'addauser' directly from Termux you can run \"$STARTBIN command 'addauser user'\" in Termux to create this account in Arch Linux Termux PRoot:  The command '$STARTBIN help' has more information about using '$STARTBIN':  " "Exiting..."
 else
-[ ! -f /var/lock/\${INSTALLDIR##*/}/patchmakepkg.lock ] && patchmakepkg || printf "\\\\e[0;33m%s\\\\e[0m\\\\n" "Lock file /var/lock/\${INSTALLDIR##*/}/patchmakepkg.lock found;  Continuing..."
+[ ! -f /var/lock/${INSTALLDIR##*/}/patchmakepkg.lock ] && patchmakepkg || printf "\\\\e[0;33m%s\\\\e[0m\\\\n" "Lock file /var/lock/${INSTALLDIR##*/}/patchmakepkg.lock found;  Continuing..."
 printf "%s\\\\n" "Preparing to build and install fakeroot-tcp with \${0##*/} $VERSIONID: "
 if ([[ ! "\$(command -v automake)" ]] || [[ ! "\$(command -v git)" ]] || [[ ! "\$(command -v gcc -v)" ]] || [[ ! "\$(command -v libtool)" ]] || [[ ! "\$(command -v po4a)" ]]) 2>/dev/null
 then
@@ -790,18 +790,18 @@ sed -i 's/pkgver=1.24/pkgver=1.25.3/g' PKGBUILD
 sed -i 's/ftp.debian.org\/debian/http.kali.org\/kali/g' PKGBUILD
 sed -i '/^md5sums=/{n;d}' PKGBUILD
 sed -ir "s/^md5sums=.*/md5sums=('f6104ef6960c962377ef062bf222a1d2')/g" PKGBUILD
-touch /var/lock/\${INSTALLDIR##*/}/makefakeroottcp_FUNDOPKGBUILD_.lock
+touch /var/lock/${INSTALLDIR##*/}/makefakeroottcp_FUNDOPKGBUILD_.lock
 }
 cd fakeroot-tcp
-[ ! -f /var/lock/\${INSTALLDIR##*/}/makefakeroottcp_FUNDOPKGBUILD_.lock ] && _FUNDOPKGBUILD_
+[ ! -f /var/lock/${INSTALLDIR##*/}/makefakeroottcp_FUNDOPKGBUILD_.lock ] && _FUNDOPKGBUILD_
 printf "%s\\\\n" "Running command 'makepkg -irs';  Building and attempting to install 'fakeroot-tcp' with '\${0##*/}' $VERSIONID.  Please be patient..."
 makepkg -irs || _PRTERROR_
 libtool --finish /usr/lib/libfakeroot || _PRTERROR_
-touch /var/lock/\${INSTALLDIR##*/}/makefakeroottcp.lock
+touch /var/lock/${INSTALLDIR##*/}/makefakeroottcp.lock
 fi
 printf "%s\\\\n" "Building and installing fakeroot-tcp: DONE 🏁"
 }
-[ ! -f /var/lock/\${INSTALLDIR##*/}/makefakeroottcp.lock ] && _DOMAKEFAKEROOTTCP_ || printf "%s\\\\n" "Please remove file /var/lock/\${INSTALLDIR##*/}/makefakeroottcp.lock in order to rebuild fakeroot-tcp with \${0##*/} $VERSIONID."
+[ ! -f /var/lock/${INSTALLDIR##*/}/makefakeroottcp.lock ] && _DOMAKEFAKEROOTTCP_ || printf "%s\\\\n" "Please remove file /var/lock/${INSTALLDIR##*/}/makefakeroottcp.lock in order to rebuild fakeroot-tcp with \${0##*/} $VERSIONID."
 # makefakeroottcp EOF
 EOM
 chmod 700 usr/local/bin/makefakeroottcp
@@ -836,14 +836,14 @@ The message above will be displayed for a short time with more information.  The
 Then this process will continue to try to make 'yay' which is much simpler for the user;  There is no tapping yes enter needed to be done whatsoever.
 Script \${0##*/} information presentation done;  SLEEPING SIX SECONDS..."
 sleep 6
-[ ! -f /var/lock/\${INSTALLDIR##*/}/patchmakepkg.lock ] && patchmakepkg || printf "\\\\e[0;33m%s\\\\e[0m\\\\n" "Lock file /var/lock/\${INSTALLDIR##*/}/patchmakepkg.lock found;  Continuing..."
+[ ! -f /var/lock/${INSTALLDIR##*/}/patchmakepkg.lock ] && patchmakepkg || printf "\\\\e[0;33m%s\\\\e[0m\\\\n" "Lock file /var/lock/${INSTALLDIR##*/}/patchmakepkg.lock found;  Continuing..."
 if ([[ ! "\$(command -v automake)" ]] || [[ ! "\$(command -v git)" ]] || [[ ! "\$(command -v gcc)" ]] || [[ ! "\$(command -v go)" ]] || [[ ! "\$(command -v po4a)" ]]) 2>/dev/null
 then
 pci automake base base-devel git gcc glibc go libtool po4a || printf "\\n\\e[1;31mERROR: \\e[7;37m%s\\e[0m\\n\\n" "Please correct the error(s) and/or warning(s) by running command 'pci automake base base-devel git gcc glibc go libtool po4a' as root user.  You can do this without closing this session by running command \"$STARTBIN command 'pci automake base base-devel git gcc glibc go libtool po4a'\"in a new Termux session. Then you can return to this session and run '\${0##*/} \${ARGS[@]}' again."
 fi
 cd
 [ ! -d fakeroot-tcp ] && gcl https://aur.archlinux.org/fakeroot-tcp.git
-[ ! -f /var/lock/\${INSTALLDIR##*/}/makefakeroottcp.lock ] && makefakeroottcp || printf "%s\\\\n" "Please remove file /var/lock/\${INSTALLDIR##*/}/makefakeroottcp.lock in order to rebuild fakeroot-tcp with \${0##*/} $VERSIONID."
+[ ! -f /var/lock/${INSTALLDIR##*/}/makefakeroottcp.lock ] && makefakeroottcp || printf "%s\\\\n" "Please remove file /var/lock/${INSTALLDIR##*/}/makefakeroottcp.lock in order to rebuild fakeroot-tcp with \${0##*/} $VERSIONID."
 ! fakeroot ls 2>&1 >/dev/null && makefakeroottcp
 [ ! -d yay ] && gcl https://aur.archlinux.org/yay.git
 cd yay && _PRMAKE_ && makepkg -irs --noconfirm || printf "\\\\e[1;31m%s\\\\e[1;37m%s\\\\n" "ERROR: " "The command 'makepkg -irs --noconfirm' did not run as expected; CONTINUING..."
@@ -857,9 +857,9 @@ chmod 700 usr/local/bin/makeyay
 _ADDorcaconf_() {
 _CFLHDR_ usr/local/bin/orcaconf "# orcaconf contributor https://github.com/JanuszChmiel" "# Reference https://github.com/SDRausty/termux-archlinux/issues/66 Let us expand setupTermuxArch so users can install Orca screen reader (assistive technology) and also have VNC support added easily."
 cat >> usr/local/bin/orcaconf <<- EOM
-[[ -f /var/lock/\${INSTALLDIR##*/}/orcaconf.lock ]] && printf "%s\\\\n" "Already configured orca: DONE 🏁" && exit
+[[ -f /var/lock/${INSTALLDIR##*/}/orcaconf.lock ]] && printf "%s\\\\n" "Already configured orca: DONE 🏁" && exit
 _INSTALLORCACONF_() {
-[[ ! -f /var/lock/\${INSTALLDIR##*/}/orcaconfinstall.lock ]] && (nice -n 18 pci espeak-ng mate mate-extra orca pulseaudio-alsa tigervnc || nice -n 18 pci espeak-ng mate mate-extra orca pulseaudio-alsa tigervnc) && mkdir -p /var/lock/\${INSTALLDIR##*/}/ && touch /var/lock/\${INSTALLDIR##*/}/orcaconfinstall.lock || printf "%s\\n" "_INSTALLORCACONF_ \${0##*/} did not completed as expected; Continuing..."
+[[ ! -f /var/lock/${INSTALLDIR##*/}/orcaconfinstall.lock ]] && (nice -n 18 pci espeak-ng mate mate-extra orca pulseaudio-alsa tigervnc || nice -n 18 pci espeak-ng mate mate-extra orca pulseaudio-alsa tigervnc) && mkdir -p /var/lock/${INSTALLDIR##*/}/ && touch /var/lock/${INSTALLDIR##*/}/orcaconfinstall.lock || printf "%s\\n" "_INSTALLORCACONF_ \${0##*/} did not completed as expected; Continuing..."
 }
 _INSTALLORCACONF_ || _INSTALLORCACONF_ || (printf "%s\\n" "_INSTALLORCACONF_ \${0##*/} did not completed as expected.  Please check for errors and run \${0##*/} again." && exit)
 printf "%s\\n" "export DISPLAY=:0
@@ -867,7 +867,7 @@ export PULSE_SERVER=127.0.0.1
 unset DBUS_SESSION_BUS_ADDRESS
 unset SESSION_MANAGER" >> \$HOME/.profile
 csystemctl || printf "\\e[1;31m%s\\e[0m\\n" "command 'csystemctl' did not completed as expected"
-[[ ! -f /var/lock/\${INSTALLDIR##*/}/orcaconf.lock ]] && touch /var/lock/\${INSTALLDIR##*/}/orcaconf.lock
+[[ ! -f /var/lock/${INSTALLDIR##*/}/orcaconf.lock ]] && touch /var/lock/${INSTALLDIR##*/}/orcaconf.lock
 orcarun || printf "\\e[1;31m%s\\e[0m\\n" "command 'orcarun' did not completed as expected"
 # orcaconf EOF
 EOM
@@ -891,7 +891,7 @@ _ADDorcarun_
 _ADDpatchmakepkg_() {
 _CFLHDR_ usr/local/bin/patchmakepkg "# patch makepkg"
 cat >> usr/local/bin/patchmakepkg <<- EOM
-[ -f /var/lock/\${INSTALLDIR##*/}/patchmakepkg.lock ] && printf "%s\\\\n" "Already patched makepkg: DONE 🏁" && exit
+[ -f /var/lock/${INSTALLDIR##*/}/patchmakepkg.lock ] && printf "%s\\\\n" "Already patched makepkg: DONE 🏁" && exit
 printf "%s\\\\n" "Attempting to patch makepkg: "
 SDATE="\$(date +%s)"
 BKPDIR="$INSTALLDIR/var/backups/${INSTALLDIR##*/}/"
@@ -921,7 +921,7 @@ fi
 # copy makepkg to /usr/local/bin to update proof it (fail safe measure)
 cp /bin/makepkg /usr/local/bin/makepkg
 # create lock file to update proof patchmakepkg
-mkdir -p /var/lock/\${INSTALLDIR##*/}/ ; touch /var/lock/\${INSTALLDIR##*/}/patchmakepkg.lock
+mkdir -p /var/lock/${INSTALLDIR##*/}/ ; touch /var/lock/${INSTALLDIR##*/}/patchmakepkg.lock
 printf "%s\\\\n" "Attempting to patch makepkg: DONE 🏁"
 # patchmakepkg EOF
 EOM
