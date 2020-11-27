@@ -93,7 +93,7 @@ else
 BPATH="$PREFIX"/bin
 fi
 cp "$INSTALLDIR/$STARTBIN" "$BPATH"
-printf "\\e[0;34m%s\\e[1;34m%s\\e[1;32m%s\\e[1;34m%s\\e[1;37m%s\\e[0m.\\n\\n" " 🕛 > 🕦 " "File " "$STARTBIN " "copied to " "$BPATH"
+printf "\\n\\e[0;34m%s\\e[1;34m%s\\e[1;32m%s\\e[1;34m%s\\e[1;37m%s\\e[0m.\\n\\n" " 🕛 > 🕦 " "File " "$STARTBIN " "copied to " "$BPATH"
 }
 
 _DETECTSYSTEM_() {
@@ -282,7 +282,7 @@ _PRINTUSAGE_() {
 printf "\\e]2;%s\\007" "TermuxArch $STARTBIN help 📲"
 printf "\\n\\e[1;32m%s\\e[0;32m%s\\n\\n" "$STARTBIN" "  start Arch Linux as root.  This account is reserved for system administration.  Please exercise caution when using the system administrator account."
 printf "\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\n\\n" "$STARTBIN c[ommand] command" "  run Arch Linux command from Termux as root user.  Quoting multiple commands can assit when passing multiple arguments;  " "$STARTBIN c 'whoami ; cat /etc/pacman.d/mirrorlist'" ".  Please pass commands through the system administrator account with caution."
-printf "\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\n\\n" "$STARTBIN l[ogin] | u[ser] user" "  login as user.  This option is preferred when installing software from a user account with the 'sudo' command."
+printf "\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\n\\n" "$STARTBIN l[ogin] | u[ser] user" "  login as user.  This option is preferred when installing software from a user account with the 'sudo' command, and when using commands such as 'makepkg' and 'makeyay'"
 printf "\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\n\\n" "$STARTBIN el[ogin] | eu[ser] user" " login as user;  Use alternate elogin or euser option to login as user.  This option is preferred when using the 'git' command."
 printf "\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\n\\n" "$STARTBIN r[aw]" "  construct the " "$STARTBIN " "proot statement from exec.../bin/.  For example " "$STARTBIN r su " "will exec su in Arch Linux."
 printf "\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\n\\n\\e[0m" "$STARTBIN s[u] user command" "  login as user and execute command.  Quoting multiple commands can assit when passing multiple arguments;  " "$STARTBIN s user 'whoami ; vim /etc/pacman.d/mirrorlist'" ".  Please use " "$STARTBIN c 'addauser user'" " first to create a user account and user home directory."
@@ -384,7 +384,7 @@ _WAKELOCK_
 _CALLSYSTEM_
 _MD5CHECK_
 _PRINTCU_
-[[ "$KEEP" -ne 0 ]] && rm -f "$INSTALLDIR"/*.tar.gz "$INSTALLDIR"/*.tar.gz.md5 # set KEEP to 0 in file 'knownconfigurations.bash' after using either 'setupTermuxArch bloom' or 'setupTermuxArch manual' to keep the INSTALLDIR/*.tar.gz and INSTALLDIR/*.tar.gz.md5 files.
+[[ "$KEEP" -ne 0 ]] && rm -f "$INSTALLDIR"/*.tar.gz "$INSTALLDIR"/*.tar.gz.md5 ##  When KEEP is set to 0 in file 'knownconfigurations.bash' after using either 'setupTermuxArch bloom' or 'setupTermuxArch manual' the files INSTALLDIR/*.tar.gz and INSTALLDIR/*.tar.gz.md5 will not be deleted.
 _PRINTDONE_
 _PRINTCONFIGUP_
 _TOUCHUPSYS_

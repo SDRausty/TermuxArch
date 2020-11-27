@@ -8,23 +8,24 @@ _ADDAUSER_() {
 _CFLHDR_ usr/local/bin/addauser "# add Arch Linux in Termux PRoot user"
 cat >> usr/local/bin/addauser <<- EOM
 _HUSDIRC_() {
+if [ "\$UID" != "0" ]
+then
+printf "\\\\e[1;31mUSAGE:\\\\e[1;37m %s\\\\e[1;32m: Exiting...\\\\e[0m\\\\n" "Script '\${0##*/}' should be run using the root account, not the '\$(whoami)' account.  Alternatively '\${0##*/}' can be prefixed with the command 'sudo'"
+exit 202
+fi
+if [ \$# = 0 ]
+then
+printf "\\\\e[1;31mUSAGE: \\\\e[1;37m'addauser username'\\\\e[1;32m: Exiting...\\\\n"
+exit 201
+fi
 if [[ ! -d "/home/\$@" ]]
 then
 _FUNADDU_ "\$@"
 else
-printf "\\\\e[1;33mDirectory: \\\\e[1;37m'/home/\$@ exists'\\\\e[1;33m: Exiting...\\\\n"
+printf "\\\\e[1;33mDirectory: \\\\e[1;37m'/home/\$@ exists'\\\\e[0;32m: Exiting...\\\\n"
 fi
 }
 _FUNADDU_() {
-if [[ -z "\${1:-}" ]]
-then
-printf "\\\\e[1;31mUSAGE: \\\\e[1;37m'addauser username'\\\\e[1;32m: EXITING...\\\\n"
-exit 201
-else
-if [ "\$UID" != "0" ]
-then
-printf "\\\\n\\\\e[1;31mUSAGE:\\\\e[1;37m %s\\\\e[1;32m: EXITING...\\\\e[0m\\\\n\\\\n" "Script '\${0##*/}' must be run using the root account, not the '\$(whoami)' account"
-else
 [[ ! "\$(command -v sudo)" ]] 2>/dev/null && pci sudo
 printf "\\\\e[0;32m%s\\\\n\\\\e[1;32m" "Adding Arch Linux in Termux PRoot user '\$1' and creating Arch Linux in Termux PRoot user \$1's home directory in /home/\$1..."
 [[ ! -f /etc/sudoers ]] && touch /etc/sudoers
@@ -44,8 +45,6 @@ chown -R "\$1:\$1" "/home/\$1"
 # [[ -d /etc/sudoers.d ]] && printf "%s\\\\n" "\$1 ALL=(ALL) ALL" >> /etc/sudoers.d/"\$1"
 sed -i "s/\$1:x/\$1:/g" /etc/passwd
 printf "\\\\e[0;32m%s\\\\e[1;32m%s\\\\e[0;32m%s\\\\e[1;32m%s\\\\e[0;32m%s\\\\e[1;32m%s\\\\e[0;32m%s\\\\e[1;32m%s\\\\e[0;32m%s\\\\e[0m\\\\n" "Added Arch Linux in Termux PRoot user " "'\$1'" " and configured user '\$1' for use with the Arch Linux command 'sudo'.  Created Arch Linux user \$1's home directory in /home/\$1.  To use this account run " "'$STARTBIN login \$1'" " from the shell in Termux.  To add user accounts you can use " "'addauser \$1'" " in Arch Linux and " "'$STARTBIN c[ommand] addauser \$1'" " in the default Termux shell.  Please do not nest proot in proot by using '$STARTBIN' in '$STARTBIN' as this is known to cause issues for users of PRoot."
-fi
-fi
 cd "/home/\$1"
 if [ ! -e home ]
 then
@@ -775,22 +774,20 @@ if [ "\$UID" = "0" ]
 then
 printf "\\\\e[1;31m%s\\\\e[1;37m%s\\\\e[1;31m%s\\\\e[0m\\\\n" "ERROR:" "  Script '\${0##*/}' should not be used as root:  The command 'addauser' creates user accounts in Arch Linux in Termux PRoot and configures these user accounts for the command 'sudo':  The 'addauser' command is intended to be run by the Arch Linux in Termux PRoot root user:  To use 'addauser' directly from Termux you can run \"$STARTBIN command 'addauser user'\" in Termux to create this account in Arch Linux Termux PRoot:  The command '$STARTBIN help' has more information about using '$STARTBIN':  " "Exiting..."
 else
-[ ! -f /var/lock/termuxarch/patchmakepkg.lock ] && patchmakepkg
+[ ! -f /var/lock/termuxarch/patchmakepkg.lock ] && patchmakepkg || printf "\\\\e[0;33m%s\\\\e[0m\\\\n" "Lock file /var/lock/termuxarch/patchmakepkg.lock found;  Continuing..."
 printf "%s\\\\n" "Preparing to build and install fakeroot-tcp with \${0##*/} $VERSIONID: "
-if ([[ ! "\$(command -v automake)" ]] || [[ ! "\$(command -v fakeroot)" ]] || [[ ! "\$(command -v git)" ]] || [[ ! "\$(command -v gcc)" ]] || [[ ! "\$(command -v po4a)" ]]) 2>/dev/null
+if ([[ ! "\$(command -v automake)" ]] || [[ ! "\$(command -v git)" ]] || [[ ! "\$(command -v gcc -v)" ]] || [[ ! "\$(command -v libtool)" ]] || [[ ! "\$(command -v po4a)" ]]) 2>/dev/null
 then
-pci automake base base-devel fakeroot git gcc glibc po4a libtool || printf "\\n\\e[1;31mERROR: \\e[7;37m%s\\e[0m\\n\\n" "Please correct the error(s) and/or warning(s) by running command 'pci automake base base-devel fakeroot git gcc glibc go po4a libtool' as root user.  You can do this without leaving this session by running command \"$STARTBIN command 'pci automake base base-devel fakeroot git gcc glibc go po4a libtool'\"in a new Termux session. Then you can return to this session and run '\${0##*/} \${ARGS[@]}' again."
+pci automake base base-devel fakeroot git gcc glibc libtool po4a || printf "\\n\\e[1;31mERROR: \\e[7;37m%s\\e[0m\\n\\n" "Please correct the error(s) and/or warning(s) by running command 'pci automake base base-devel fakeroot git gcc glibc go libtool po4a' as root user.  You can do this without closing this session by running command \"$STARTBIN command 'pci automake base base-devel fakeroot git gcc glibc go libtool po4a'\"in a new Termux session. Then you can return to this session and run '\${0##*/} \${ARGS[@]}' again."
 fi
 cd
-if [ ! -d fakeroot-tcp ]
-then
-gcl https://aur.archlinux.org/fakeroot-tcp.git || _PRTERROR_
-fi
+[ ! -d fakeroot-tcp ] && gcl https://aur.archlinux.org/fakeroot-tcp.git
 _FUNDOPKGBUILD_() {
 cp PKGBUILD PKGBUILD.$$.bkp
 sed -ir '/prepare()/,+4d' PKGBUILD
 sed -i 's/silence-dlerror.patch//g' PKGBUILD
 sed -i 's/pkgver=1.24/pkgver=1.25.3/g' PKGBUILD
+sed -i 's/ftp.debian.org\/debian/http.kali.org\/kali/g' PKGBUILD
 sed -i '/^md5sums=/{n;d}' PKGBUILD
 sed -ir "s/^md5sums=.*/md5sums=('f6104ef6960c962377ef062bf222a1d2')/g" PKGBUILD
 touch /var/lock/termuxarch/makefakeroottcp_FUNDOPKGBUILD_.lock
@@ -800,11 +797,11 @@ cd fakeroot-tcp
 printf "%s\\\\n" "Running command 'makepkg -irs';  Building and attempting to install 'fakeroot-tcp' with '\${0##*/}' $VERSIONID.  Please be patient..."
 makepkg -irs || _PRTERROR_
 libtool --finish /usr/lib/libfakeroot || _PRTERROR_
-touch /var/lock/termuxarch/"\${0##*/}".lock
+touch /var/lock/termuxarch/makefakeroottcp.lock
 fi
 printf "%s\\\\n" "Building and installing fakeroot-tcp: DONE 🏁"
 }
-[ ! -f /var/lock/termuxarch/"\${0##*/}".lock ] && _DOMAKEFAKEROOTTCP_ || printf "%s\\\\n" "Please remove file /var/lock/termuxarch/"\${0##*/}".lock in order to rebuild fakeroot-tcp with \${0##*/} $VERSIONID."
+[ ! -f /var/lock/termuxarch/makefakeroottcp.lock ] && _DOMAKEFAKEROOTTCP_ || printf "%s\\\\n" "Please remove file /var/lock/termuxarch/makefakeroottcp.lock in order to rebuild fakeroot-tcp with \${0##*/} $VERSIONID."
 # makefakeroottcp EOF
 EOM
 chmod 700 usr/local/bin/makefakeroottcp
@@ -838,24 +835,17 @@ Libraries have been installed in:
 The message above will be displayed for a short time with more information.  Then \${0##*/} will go on, and there will be one more tap enter to touch before you see the message: makefakeroottcp $VERSIONID: DONE 🏁
 Then this process will continue to try to make 'yay' which is much simpler for the user;  There is no tapping yes enter needed to be done whatsoever.
 Script \${0##*/} information presentation done;  SLEEPING SIX SECONDS..."
-sleep 6
-[ ! -f /var/lock/termuxarch/patchmakepkg.lock ] && patchmakepkg
-if ([[ ! "\$(command -v automake)" ]] || [[ ! "\$(command -v fakeroot)" ]] || [[ ! "\$(command -v git)" ]] || [[ ! "\$(command -v gcc)" ]] || [[ ! "\$(command -v go)" ]] || [[ ! "\$(command -v po4a)" ]]) 2>/dev/null
+# sleep 6
+[ ! -f /var/lock/termuxarch/patchmakepkg.lock ] && patchmakepkg || printf "\\\\e[0;33m%s\\\\e[0m\\\\n" "Lock file /var/lock/termuxarch/patchmakepkg.lock found;  Continuing..."
+if ([[ ! "\$(command -v automake)" ]] || [[ ! "\$(command -v git)" ]] || [[ ! "\$(command -v gcc)" ]] || [[ ! "\$(command -v go)" ]] || [[ ! "\$(command -v po4a)" ]]) 2>/dev/null
 then
-pci automake base base-devel fakeroot git gcc glibc po4a libtool || printf "\\n\\e[1;31mERROR: \\e[7;37m%s\\e[0m\\n\\n" "Please correct the error(s) and/or warning(s) by running command 'pci automake base base-devel fakeroot git gcc glibc go po4a libtool' as root user.  You can do this without leaving this session by running command \"$STARTBIN command 'pci automake base base-devel fakeroot git gcc glibc go po4a libtool'\"in a new Termux session. Then you can return to this session and run '\${0##*/} \${ARGS[@]}' again."
-fi
-if [ ! -d fakeroot-tcp ]
-then
-gcl https://aur.archlinux.org/fakeroot-tcp || _PRTERROR_
-fi
-if [ ! -d yay ]
-then
-gcl https://aur.archlinux.org/yay || _PRTERROR_
+pci automake base base-devel fakeroot git gcc glibc go libtool po4a || printf "\\n\\e[1;31mERROR: \\e[7;37m%s\\e[0m\\n\\n" "Please correct the error(s) and/or warning(s) by running command 'pci automake base base-devel fakeroot git gcc glibc go libtool po4a' as root user.  You can do this without closing this session by running command \"$STARTBIN command 'pci automake base base-devel fakeroot git gcc glibc go libtool po4a'\"in a new Termux session. Then you can return to this session and run '\${0##*/} \${ARGS[@]}' again."
 fi
 cd
 [ ! -d fakeroot-tcp ] && gcl https://aur.archlinux.org/fakeroot-tcp.git
-[ ! -d yay ] && gcl https://aur.archlinux.org/yay.git
+[ ! -f /var/lock/termuxarch/makefakeroottcp.lock ] && makefakeroottcp || printf "%s\\\\n" "Please remove file /var/lock/termuxarch/makefakeroottcp.lock in order to rebuild fakeroot-tcp with \${0##*/} $VERSIONID."
 ! fakeroot ls 2>&1 >/dev/null && makefakeroottcp
+[ ! -d yay ] && gcl https://aur.archlinux.org/yay.git
 cd yay && _PRMAKE_ && makepkg -irs --noconfirm || printf "\\\\e[1;31m%s\\\\e[1;37m%s\\\\n" "ERROR: " "The command 'makepkg -irs --noconfirm' did not run as expected; CONTINUING..."
 printf "\\\\e[0;32m%s\\\\n%s\\\\n%s\\\\e[1;32m%s\\\\e[0m\\\\n" "Paths that can be followed after building 'yay' are 'yay cmatrix' which builds matrix screensavers.  The commands 'yay pikaur|pikaur-git|tpac' build more aur installers which can also be used to download aur repositories and build packages like with 'yay' in your Android smartphone, tablet, wearable and more.  Did you know that 'android-studio' is available with the command 'yay android'?" "If you have trouble importing keys, this command 'gpg --keyserver keyserver.ubuntu.com --recv-keys 71A1D0EFCFEB6281FD0437C71A1D0EFCFEB6281F' might help.  Change the number to the number of the key being imported." "Building and installing yay: " "DONE 🏁"
 fi
@@ -907,8 +897,6 @@ SDATE="\$(date +%s)"
 BKPDIR="$INSTALLDIR/var/backups/${INSTALLDIR##*/}/"
 [ ! -d "\$BKPDIR" ] && mkdir -p "\$BKPDIR"
 cp /bin/makepkg "\$BKPDIR/makepkg.\$SDATE.bkp"
-if ! grep 'fakeroot -- bash' /bin/makepkg
-then
 sed -ie 's/bash -/fakeroot -- &/' /bin/makepkg # append to match
 sed -ie 232's/.*/# &/' /bin/makepkg # append to line
 sed -ie 233's/.*/# &/' /bin/makepkg
@@ -927,7 +915,6 @@ sed -ie 1186's/.*/# &/' /bin/makepkg
 sed -ie 1187's/.*/# &/' /bin/makepkg
 sed -ie 1188's/.*/# &/' /bin/makepkg
 sed -ie 1189's/.*/# &/' /bin/makepkg
-fi
 # copy makepkg to /usr/local/bin to update proof it (fail safe measure)
 cp /bin/makepkg /usr/local/bin/makepkg
 # create lock file to update proof patchmakepkg
@@ -957,7 +944,7 @@ printf '\033]2;  🔑 TermuxArch %s:DONE 📱 \007' "\${0##*/} \$ARGS"
 trap _TRPET_ EXIT
 ## pc begin ####################################################################
 printf '\033]2;  🔑 TermuxArch %s 📲 \007' "\${0##*/} \$ARGS"
-printf "\\\\n\\\\e[1;32m==> \\\\e[1;37mRunning TermuxArch command \\\\e[1;32m%s \\\\e[0;32m%s\\\\e[1;37m...\\\\n" "\${0##*/} \$ARGS" "v\$VERSIONID"
+printf "\\\\e[1;32m==> \\\\e[1;37mRunning TermuxArch command \\\\e[1;32m%s \\\\e[0;32m%s\\\\e[1;37m...\\\\n" "\${0##*/} \$ARGS" "v\$VERSIONID"
 [ "\$UID" = "0" ] && SUDOCONF="" || SUDOCONF="sudo"
 if [[ -z "\${1:-}" ]]
 then
@@ -998,7 +985,7 @@ printf '\033]2;  🔑 TermuxArch %s:DONE 📱 \007' "\${0##*/} \$ARGS"
 trap _TRPET_ EXIT
 ## pci begin ###################################################################
 [ "\$UID" = "0" ] && SUDOCONF="" || SUDOCONF="sudo"
-printf "\\\\n\\\\e[1;32m==> \\\\e[1;37mRunning TermuxArch command \\\\e[1;32m%s \\\\e[0;32m%s\\\\e[1;37m...\\\\n" "\${0##*/} \$ARGS" "v\$VERSIONID"
+printf "\\\\e[1;32m==> \\\\e[1;37mRunning TermuxArch command \\\\e[1;32m%s \\\\e[0;32m%s\\\\e[1;37m...\\\\n" "\${0##*/} \$ARGS" "v\$VERSIONID"
 if [[ -z "\${1:-}" ]]
 then
 \$SUDOCONF pacman --noconfirm --color=always -Syu
