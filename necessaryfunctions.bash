@@ -48,6 +48,7 @@ _ADDpatchmakepkg_
 _ADDpc_
 _ADDpci_
 _ADDprofile_
+_ADDprofileetc_
 _ADDt_
 _ADDthstartarch_
 _ADDtools_

@@ -499,12 +499,17 @@ chmod 700 usr/local/bin/ga
 _ADDgcl_() {
 _CFLHDR_ usr/local/bin/gcl "# contributor https://reddit.com/u/ElectricalUnion"
 cat >> usr/local/bin/gcl <<- EOM
+if [ "\$UID" = "0" ]
+then
+printf "\\\\e[1;31m%s\\\\e[1;37m%s\\\\e[1;31m%s\\\\e[0m\\\\n" "ERROR:" "  Script '\${0##*/}' should not be used as root:  The command 'addauser' creates user accounts in Arch Linux in Termux PRoot and configures these user accounts for the command 'sudo':  The 'addauser' command is intended to be run by the Arch Linux in Termux PRoot root user:  To use 'addauser' directly from Termux you can run \"$STARTBIN command 'addauser user'\" in Termux to create this account in Arch Linux Termux PRoot:  The command '$STARTBIN help' has more information about using '$STARTBIN':  " "Exiting..."
+else
 if [[ ! -x "\$(command -v git)" ]]
 then
 pci git
 git clone --depth 1 "\$@" --single-branch
 else
 git clone --depth 1 "\$@" --single-branch
+fi
 fi
 # gcl EOF
 EOM
@@ -779,9 +784,9 @@ printf "\\\\e[1;32m==> \\\\e[1;37mRunning \\\\e[1;32mmakepkg -irs --noconfirm\\\
 }
 printf "\\\\e[0;32m%s\\\\e[0m\\\\n" "Building and installing 'yay':"
 [ ! -f /var/lock/${INSTALLDIR##*/}/patchmakepkg.lock ] && patchmakepkg || printf "\\\\e[1;33m%s\\\\e[0;33m%s\\\\e[0m\\\\n" "[1/2] " "Lock file /var/lock/${INSTALLDIR##*/}/patchmakepkg.lock found;  Continuing..."
-if ([[ ! "\$(command -v git)" ]] || [[ ! "\$(command -v go)" ]]) 2>/dev/null
+if ([[ ! "\$(command -v fakeroot)" ]] || [[ ! "\$(command -v git)" ]] || [[ ! "\$(command -v go)" ]]) 2>/dev/null
 then
-pci base base-devel git go || printf "\\n\\e[1;31mERROR: \\e[7;37m%s\\e[0m\\n\\n" "Please correct the error(s) and/or warning(s) by running command 'pci base base-devel git go ' as root user.  You can do this without closing this session by running command \"$STARTBIN command 'pci base base-devel git go '\"in a new Termux session. Then you can return to this session and run '\${0##*/} \${ARGS[@]}' again."
+pci base base-devel fakeroot git go || pci base base-devel fakeroot git go || printf "\\n\\e[1;31mERROR: \\e[7;37m%s\\e[0m\\n\\n" "Please correct the error(s) and/or warning(s) by running command 'pci base base-devel git go' as root user.  You can do this without closing this session by running command \"$STARTBIN command 'pci base base-devel git go'\"in a new Termux session. Then you can return to this session and run '\${0##*/} \${ARGS[@]}' again."
 fi
 cd
 [ ! -d yay ] && gcl https://aur.archlinux.org/yay.git
@@ -801,10 +806,6 @@ _INSTALLORCACONF_() {
 [[ ! -f /var/lock/${INSTALLDIR##*/}/orcaconfinstall.lock ]] && (nice -n 18 pci espeak-ng mate mate-extra orca pulseaudio-alsa tigervnc || nice -n 18 pci espeak-ng mate mate-extra orca pulseaudio-alsa tigervnc) && mkdir -p /var/lock/${INSTALLDIR##*/}/ && touch /var/lock/${INSTALLDIR##*/}/orcaconfinstall.lock || printf "%s\\n" "_INSTALLORCACONF_ \${0##*/} did not completed as expected; Continuing..."
 }
 _INSTALLORCACONF_ || _INSTALLORCACONF_ || (printf "%s\\n" "_INSTALLORCACONF_ \${0##*/} did not completed as expected.  Please check for errors and run \${0##*/} again." && exit)
-printf "%s\\n" "export DISPLAY=:0
-export PULSE_SERVER=127.0.0.1
-unset DBUS_SESSION_BUS_ADDRESS
-unset SESSION_MANAGER" >> \$HOME/.profile
 csystemctl || printf "\\e[1;31m%s\\e[0m\\n" "command 'csystemctl' did not completed as expected"
 [[ ! -f /var/lock/${INSTALLDIR##*/}/orcaconf.lock ]] && touch /var/lock/${INSTALLDIR##*/}/orcaconf.lock
 orcarun || printf "\\e[1;31m%s\\e[0m\\n" "command 'orcarun' did not completed as expected"
@@ -946,6 +947,16 @@ fi
 # pci EOF
 EOM
 chmod 700 usr/local/bin/pci
+}
+
+_ADDprofileetc_() {
+if ! grep 'export PULSE_SERVER=127.0.0.1' etc/profile 2>/dev/null
+then
+printf "%s\\n" "export DISPLAY=:0
+export PULSE_SERVER=127.0.0.1
+unset DBUS_SESSION_BUS_ADDRESS
+unset SESSION_MANAGER" >> etc/profile
+fi
 }
 
 _ADDprofile_() {
