@@ -10,11 +10,21 @@ ISOCOUNTRYCODES=([af]="Afghanistan" [ax]="Åland Islands" [al]="Albania" [dz]="A
 USERCOUNTRYCODE="$(getprop gsm.operator.iso-country || getprop gsm.sim.operator.iso-country)"
 printf "%s\\n" "Looking for ISO country code match;  Please wait a moment..."
 # if grep -i "$USERCOUNTRYCODE" <<< "${ISOCOUNTRYCODES[@]}" 1>/dev/null
-if "${ISOCOUNTRYCODES[$USERCOUNTRYCODE]}"
+if [[ ! -z ${ISOCOUNTRYCODES[$USERCOUNTRYCODE]:-} ]]
 then
-printf "%s" "Found ISO country code match [$USERCOUNTRYCODE]=\"${ISOCOUNTRYCODES[$USERCOUNTRYCODE]}\".  "
+printf '%s' "Found ISO country code match [$USERCOUNTRYCODE]=\"${ISOCOUNTRYCODES[$USERCOUNTRYCODE]}\";  "
+else
+printf '%s' "Could not find ISO country code match for ${USERCOUNTRYCODE:-UNKNOWNCOUNTRYCODE};  "
 fi
 printf "%s\\n" "Looking for ISO country code match;  DONE!  Continuing..."
+}
+
+_MRCOUNTRIESx86_() {
+MRCOUNTRIESx86="("Belarus" "France" "Germany" "Greece" "Russia" "Switzerland" "United States")"
+}
+
+_MRCOUNTRIESx86_64_() {
+MRCOUNTRIESx86_64="("Worldwide" "Australia" "Austria" "Bangladesh" "Belarus" "Belgium" "Bosnia and Herzegovina" "Brazil" "Bulgaria" "Canada" "Chile" "China" "Colombia" "Croatia" "Czechia" "Denmark" "Ecuador" "Finland" "France" "Georgia" "Germany" "Greece" "Hong Kong" "Hungary" "Iceland" "India" "Indonesia" "Iran" "Ireland" "Israel" "Italy" "Japan" "Kazakhstan" "Kenya" "Latvia" "Lithuania" "Luxembourg" "Moldova" "Netherlands" "New Caledonia" "New Zealand" "North Macedonia" "Norway" "Pakistan" "Paraguay" "Philippines" "Poland" "Portugal" "Romania" "Russia" "Serbia" "Singapore" "Slovakia" "Slovenia" "South Africa" "South Korea" "Spain" "Sweden" "Switzerland" "Taiwan" "Thailand" "Turkey" "Ukraine" "United Kingdom" "United States" "Vietnam")"
 }
 
 _BLOOM_() { # Bloom = `setupTermuxArch manual verbose`
