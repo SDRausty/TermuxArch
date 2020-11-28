@@ -26,7 +26,7 @@ printf "\\\\e[1;33mDirectory: \\\\e[1;37m'/home/\$@ exists'\\\\e[0;32m: Exiting.
 fi
 }
 _FUNADDU_() {
-[[ ! "\$(command -v sudo)" ]] 2>/dev/null && pci sudo
+[[ ! "\$(command -v sudo)" ]] 2>/dev/null && (pc sudo || pc sudo)
 printf "\\\\e[0;32m%s\\\\n\\\\e[1;32m" "Adding Arch Linux in Termux PRoot user '\$1' and creating Arch Linux in Termux PRoot user \$1's home directory in /home/\$1..."
 [[ ! -f /etc/sudoers ]] && touch /etc/sudoers
 sed -i "/# %wheel ALL=(ALL) NOPASSWD: ALL/ s/^# *//" /etc/sudoers

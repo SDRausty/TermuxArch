@@ -221,10 +221,49 @@ sleep $SPINDLAY
 done
 }
 
-_TAMATRIX_() {	# print TermuxArch source code as matrix
-# Terminal codes VT100 \\e[?25l information at https://wiki.bash-hackers.org/scripting/terminalcodes website.
+_TAMATRIXEND_() {	# print TermuxArch source code as matrix ending
+# Information about VT100 terminal codes such as \\e[?25l is available at this https://wiki.bash-hackers.org/scripting/terminalcodes website.
+printf "\\e[0;32m"
+. "$0" help
+tail -n 32 "$0"
+. "$0" h
+printf "\\e[0m"
+printf "\\e[?25h"
+}
+
+_TAMATRIX_() {	# partial implemintation; print TermuxArch source code as matrix
+_DOTAMSTRIX_() {
 printf "\\e[?25l\\e[1;32m%s" "$(tr -d '\n' < $0)"
 # split a string from file and print this split string
-IFS=';' read -ra TAMATARR <<< "$(tr -d '\n' < $0)" && for EMSTRING in "${TAMATARR[@]}" ; do printf "\\e[0;32m%s" "$EMSTRING" ; sleep 0.0"$(shuf -i 0-999 -n 1)" ; done ; tail -n 8 "$0" ; printf "\\e[0m" ; printf "\\e[?25h"; exit
+for EMSTRING in "${TAMATARR[@]}"
+do
+printf "\\e[0;32m%s" "$EMSTRING"
+sleep 0.0"$(shuf -i 0-999 -n 1)"
+done
+}
+IFS=';' read -ra TAMATARR <<< "$(tr -d '\n' < $0)"
+if [[ ! -z "${MATRIXLCR:-}" ]]
+then
+TAMATRIXENDLCR=0
+while :
+do
+_DOTAMSTRIX_
+done
+else
+_DOTAMSTRIX_
+fi
+_TAMATRIXEND_
+}
+
+_WAKELOCK_() {
+_PRINTWLA_
+am startservice --user 0 -a com.termux.service_wake_lock com.termux/com.termux.app.TermuxService > /dev/null || _PSGI1ESTRING_ "am startservice _WAKELOCK_ necessaryfunctions.bash ${0##/*} : Continuing..."
+_PRINTDONE_
+}
+
+_WAKEUNLOCK_() {
+_PRINTWLD_
+am startservice --user 0 -a com.termux.service_wake_unlock com.termux/com.termux.app.TermuxService > /dev/null || _PSGI1ESTRING_ "am startservice _WAKEUNLOCK_ necessaryfunctions.bash ${0##/*} : Continuing..."
+_PRINTDONE_
 }
 # espritfunctions.bash EOF

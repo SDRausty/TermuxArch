@@ -5,13 +5,21 @@
 # command 'setupTermuxArch h[elp]' has information how to use this file
 ################################################################################
 IFS=$'\n\t'
-VERSIONID=2.0.390
+VERSIONID=2.0.391
 set -Eeuo pipefail
 shopt -s nullglob globstar
 umask 0022
 unset LD_PRELOAD
 ## INIT FUNCTIONS ##############################################################
 ## The entire dataset can be viewed and work on with command 'setupTermuxArch bloom' which downloads all the components of TermuxArch into a ~/TermuxArchBloom directory in the home directory.  The command 'setupTermuxArch bloom' is very similar to command 'setupTermuxArch manual' but much more expansive, verbose.  Command 'setupTermuxArch h[elp]' has additional information how to use this file.
+
+_TAMATRIXEXIT_() { # run when Matrix presentation ends
+if [[ ! -z "${TAMATRIXENDLCR:-}" ]]
+then
+_TAMATRIXEND_
+fi
+}
+
 _STRPERROR_() { # run on script error
 local RV="$?"
 printf "\\e[?25h\\n\\e[1;48;5;138m %s\\e[0m\\n" "TermuxArch WARNING:  Generated script signal ${RV:-unknown} near or at line number ${1:-unknown} by '${2:-command}'!"
@@ -31,6 +39,10 @@ _STRPEXIT_() { # run on exit
 local RV="$?"
 rm -rf "$TAMPDIR"
 sleep 0.04
+if [[ ! -z "${TAMATRIXENDLCR:-}" ]]
+then
+_TAMATRIXEND_
+fi
 if [[ "$RV" = 0 ]]
 then
 printf "\\e[0;32mCommand \\e[1;32m%s \\e[0;32mversion %s\\e[1;34m: \\e[1;32m%s\\e[0m\\n\\n" "'${0##*/} $ARGS'" "$VERSIONID" "DONE 🏁 "
@@ -707,7 +719,7 @@ rm -rf "$INSTALLDIR" 2>/dev/null || _PSGI1ESTRING_ "rm -rf _RMARCHRM_ setupTermu
 }
 _SETROOT_EXCEPTION_
 declare -a EXONSTGE
-EXONSTGE=("$(find "$INSTALLDIR" -name storage -type d)")
+EXONSTGE=("$(find "$INSTALLDIR" -name storage -type d 2>/dev/null ||:)")
 _DOEXONSTGE_() {
 for EXONSTGEM in ${EXONSTGE[@]}
 do
@@ -794,7 +806,7 @@ else
 STIME="$SDATE" && STIME="$(rev <<< "${STIME:7:4}")"
 fi
 ONESA="${SDATE: -1}"
-PKGS=(bsdtar proot)
+PKGS=(proot)
 STIME="$ONESA$STIME"
 ## 5) Get device information via the 'getprop' command,
 ## 6) Determine its own name and location of invocation,
@@ -927,6 +939,14 @@ printf "\\nSetting 'lftp' as download manager.\\n"
 DM=lftp
 _OPT1_ "$@"
 _INTRO_ "$@"
+## [matr[ix]]  Print TermuxArch source code as Matrix loop
+elif [[ "${1//-}" = [Mm][Aa][Tt][Rr]* ]]
+then
+printf "\\nSetting mode to matrix loop.\\n"
+MATRIXLCR=0
+_PREPTERMUXARCH_
+_DEPENDSBLOCK_ "$@"
+_TAMATRIX_
 ## [mat[ix]]  Print TermuxArch source code as Matrix
 elif [[ "${1//-}" = [Mm][Aa][Tt]* ]]
 then

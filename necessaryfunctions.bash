@@ -136,6 +136,39 @@ _AARCH64ANDROID_
 fi
 }
 
+_DOMIRROR_() { # partial implementaion: choose the corrrect mirror and test this mirror website
+_DOCEMIRROR_() {
+USERCOUNTRYCODE="$(getprop gsm.operator.iso-country || getprop gsm.sim.operator.iso-country)"
+printf "Copying file '%s' to file '%s';  " "$INSTALLDIR/etc/pacman.d/mirrorlist" "$INSTALLDIR/etc/pacman.d/mirrorlist.$STIME.termuxarchnew"
+cp "$INSTALLDIR/etc/pacman.d/mirrorlist" "$INSTALLDIR/etc/pacman.d/mirrorlist.$STIME.termuxarchnew"
+printf "DONE\\n"
+if [[ $USERCOUNTRYCODE == us ]]
+then
+RUSRCOUNTRYCODE="$USERCOUNTRYCODE"
+USERCOUNTRYCODE="edu"
+fi
+CHSENMIR="$(grep -w http "$INSTALLDIR/etc/pacman.d/mirrorlist" | grep ^#S | grep -w "$USERCOUNTRYCODE" | awk 'sub(/^.{1}/,"")' | head -n 1)"
+printf "%s\\n" "$CHSENMIR" >> "$INSTALLDIR/etc/pacman.d/mirrorlist"
+printf "Uncommented mirror '%s' in file '%s';  Continuing...\\n" "$CHSENMIR" "${INSTALLDIR##*/}/etc/pacman.d/mirrorlist"
+DOMIRLCR=0
+}
+if [[ -f "$INSTALLDIR/var/lock/${INSTALLDIR##*/}/domirror.lock" ]]
+then
+printf "Lockfile '%s' exists;  Continuing..." "~/${INSTALLDIR##*/}/var/lock/${INSTALLDIR##*/}/domirror.lock"
+else
+if ! grep ^Server "$INSTALLDIR/etc/pacman.d/mirrorlist"
+then
+_DOCEMIRROR_
+fi
+fi
+}
+
+_DOPROXY_() {
+[[ -f "$HOME"/.bash_profile ]] && grep -s "proxy" "$HOME"/.bash_profile | grep -s "export" >> root/bin/"$BINFNSTP" ||:
+[[ -f "$HOME"/.bashrc ]] && grep -s "proxy" "$HOME"/.bashrc  | grep -s "export" >> root/bin/"$BINFNSTP" ||:
+[[ -f "$HOME"/.profile ]] && grep -s "proxy" "$HOME"/.profile | grep -s "export" >> root/bin/"$BINFNSTP" ||:
+}
+
 _KERNID_() {
 declare KID=""
 ur="$(uname -r)"
@@ -175,12 +208,6 @@ _PRINTFOOTER_
 _PRINTFOOTER2_
 _PRINTSTARTBIN_USAGE_
 exit
-}
-
-_DOPROXY_() {
-[[ -f "$HOME"/.bash_profile ]] && grep -s "proxy" "$HOME"/.bash_profile | grep -s "export" >> root/bin/"$BINFNSTP" ||:
-[[ -f "$HOME"/.bashrc ]] && grep -s "proxy" "$HOME"/.bashrc  | grep -s "export" >> root/bin/"$BINFNSTP" ||:
-[[ -f "$HOME"/.profile ]] && grep -s "proxy" "$HOME"/.profile | grep -s "export" >> root/bin/"$BINFNSTP" ||:
 }
 
 _MAKEFINISHSETUP_() {
@@ -238,7 +265,7 @@ then
 printf "%s\\n" "pacman -Su grep gzip patch sed sudo unzip --noconfirm --color=always || pacman -Su gzip patch sed sudo unzip --noconfirm --color=always || _PMFSESTRING_ \"pacman -Su gzip patch sed sudo unzip $BINFNSTP ${0##/*}\"" >> root/bin/"$BINFNSTP"
 elif [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = i386 ]]
 then
-printf "%s\\n" "pacman -Su patch sudo unzip --noconfirm --color=always || pacman -Su patch sudo unzip --noconfirm --color=always || _PMFSESTRING_ \"pacman -Su patch sudo unzip $BINFNSTP ${0##/*}\"" >> root/bin/"$BINFNSTP"
+printf "%s\\n" "pacman -Su sudo --noconfirm --color=always || pacman -Su sudo --noconfirm --color=always || _PMFSESTRING_ \"pacman -Su sudo $BINFNSTP ${0##/*}\"" >> root/bin/"$BINFNSTP"
 fi
 fi
 cat >> root/bin/"$BINFNSTP" <<- EOM
@@ -428,13 +455,16 @@ _FIXOWNER_
 _PREPROOT_() {
 if [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = "$CPUABIX86_64" ]] || [[ "$CPUABI" = i386 ]] || [[ "$IFILE" == *i686* ]]
 then
-_TASPINNER_ clock & proot --link2symlink -0 bsdtar -p -xf "$IFILE" --strip-components 1 ; kill $!
+_TASPINNER_ clock & proot --link2symlink -0 tar -p -xf "$IFILE" --strip-components 1 ; kill $!
 else
-_TASPINNER_ clock & proot --link2symlink -0 bsdtar -p -xf "$IFILE" ; kill $!
+_TASPINNER_ clock & proot --link2symlink -0 tar -p -xf "$IFILE" ; kill $!
 fi
 }
 
 _RUNFINISHSETUP_() {
+_SEDUNCOM_() {
+sed -i "/\/mirror.archlinuxarm.org/ s/^# *//" "$INSTALLDIR/etc/pacman.d/mirrorlist" || _PSGI1ESTRING_ "sed -i _SEDUNCOM_ necessaryfunctions.bash ${0##*/}" # sed replace a character in a matched line in place
+}
 _ADDresolvconf_
 ALMLLOCN="$INSTALLDIR/etc/pacman.d/mirrorlist"
 cp "$ALMLLOCN" "$INSTALLDIR/var/backups/${INSTALLDIR##*/}/etc/mirrorlist.$SDATE.bkp" || _PSGI1ESTRING_ "cp _RUNFINISHSETUP_ necessaryfunctions.bash ${0##*/}"
@@ -443,10 +473,11 @@ then
 AL32MRLT="https://git.archlinux32.org/packages/plain/core/pacman-mirrorlist/mirrorlist"
 printf "\\e[0m\\n%s\\n" "Updating ${ALMLLOCN##*/} from $AL32MRLT."
 curl --retry 4 "$AL32MRLT" -o "$ALMLLOCN"
+_DOMIRROR_
+elif [[ "$CPUABI" = "$CPUABIX86_64" ]]
+then
+_DOMIRROR_
 fi
-_SEDUNCOM_() {
-sed -i "/\/mirror.archlinuxarm.org/ s/^# *//" "$INSTALLDIR/etc/pacman.d/mirrorlist" || _PSGI1ESTRING_ "sed -i _SEDUNCOM_ necessaryfunctions.bash ${0##*/}" # sed replace a character in a matched line in place
-}
 printf "\\e[0m"
 if [[ "$FSTND" ]]
 then
@@ -462,6 +493,9 @@ printf "%s\\n" "Did not find server $NMIR in /etc/pacman.d/mirrorlist; Adding $N
 printf "%s\\n" "Server = $NLCMIRROR/\$arch/\$repo" >> "$INSTALLDIR/etc/pacman.d/mirrorlist"
 fi
 else
+if [[ -z "${DOMIRLCR:-}" ]]
+then
+DOMIRLCR=0
 if [[ -z "${USEREDIT:-}" ]] || [[ "$USEREDIT" = "" ]]
 then
 _EDITORS_
@@ -473,11 +507,12 @@ fi
 fi
 "$USEREDIT" "$INSTALLDIR/etc/pacman.d/mirrorlist"
 fi
+fi
 $INSTALLDIR/root/bin/setupbin.bash || _PRINTPROOTERROR_
 }
 
 _SETLANGUAGE_() { # This function uses device system settings to set locale.  To generate locales in a preferred language, you can use "Settings > Language & Keyboard > Language" in Android; Then run 'setupTermuxArch r' for a quick system refresh to regenerate locales in your preferred language.
-ULANGUAGE="unkown"
+ULANGUAGE="C"
 LANGIN=([0]="$(getprop user.language)")
 LANGIN+=([1]="$(getprop user.region)")
 LANGIN+=([2]="$(getprop persist.sys.country)")
@@ -487,17 +522,17 @@ LANGIN+=([5]="$(getprop ro.product.locale)")
 LANGIN+=([6]="$(getprop ro.product.locale.language)")
 LANGIN+=([7]="$(getprop ro.product.locale.region)")
 touch "$INSTALLDIR"/etc/locale.gen
-ULANGUAGE="${LANGIN[0]:-unknown}_${LANGIN[1]:-unknown}"
+ULANGUAGE="${LANGIN[0]:-C}_${LANGIN[1]:-C}"
 if ! grep -q "$ULANGUAGE" "$INSTALLDIR"/etc/locale.gen
 then
-ULANGUAGE="unknown"
+ULANGUAGE="C"
 fi
 if [[ "$ULANGUAGE" != *_* ]]
 then
-ULANGUAGE="${LANGIN[3]:-unknown}_${LANGIN[2]:-unknown}"
+ULANGUAGE="${LANGIN[3]:-C}_${LANGIN[2]:-C}"
 if ! grep -q "$ULANGUAGE" "$INSTALLDIR"/etc/locale.gen
 then
-ULANGUAGE="unknown"
+ULANGUAGE="C"
 fi
 fi
 for i in "${!LANGIN[@]}"
@@ -510,10 +545,10 @@ fi
 done
 if [[ "$ULANGUAGE" != *_* ]]
 then
-ULANGUAGE="${LANGIN[6]:-unknown}_${LANGIN[7]:-unknown}"
+ULANGUAGE="${LANGIN[6]:-C}_${LANGIN[7]:-C}"
 if ! grep -q "$ULANGUAGE" "$INSTALLDIR"/etc/locale.gen
 then
-ULANGUAGE="unknown"
+ULANGUAGE="C"
 fi
 fi
 if [[ "$ULANGUAGE" != *_* ]]
@@ -540,17 +575,5 @@ _SETLOCALE_
 _RUNFINISHSETUP_
 rm -f root/bin/$BINFNSTP
 rm -f root/bin/setupbin.bash
-}
-
-_WAKELOCK_() {
-_PRINTWLA_
-am startservice --user 0 -a com.termux.service_wake_lock com.termux/com.termux.app.TermuxService > /dev/null || _PSGI1ESTRING_ "am startservice _WAKELOCK_ necessaryfunctions.bash ${0##/*} : Continuing..."
-_PRINTDONE_
-}
-
-_WAKEUNLOCK_() {
-_PRINTWLD_
-am startservice --user 0 -a com.termux.service_wake_unlock com.termux/com.termux.app.TermuxService > /dev/null || _PSGI1ESTRING_ "am startservice _WAKEUNLOCK_ necessaryfunctions.bash ${0##/*} : Continuing..."
-_PRINTDONE_
 }
 # necessaryfunctions.bash EOF
