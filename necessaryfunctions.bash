@@ -138,7 +138,15 @@ fi
 
 _DOMIRROR_() { # partial implementaion: choose the corrrect mirror and test this mirror website
 _DOCEMIRROR_() {
-USERCOUNTRYCODE="$(getprop gsm.operator.iso-country || getprop gsm.sim.operator.iso-country)"
+USERCOUNTRYCODE="$(getprop gsm.operator.iso-country)"
+if [[ -z "${USERCOUNTRYCODE:-}" ]]
+then
+USERCOUNTRYCODE="$(getprop gsm.sim.operator.iso-country)"
+fi
+if [[ -z "${USERCOUNTRYCODE:-}" ]]
+then
+USERCOUNTRYCODE="us"
+fi
 printf "Copying file '%s' to file '%s';  " "$INSTALLDIR/etc/pacman.d/mirrorlist" "$INSTALLDIR/etc/pacman.d/mirrorlist.$STIME.termuxarchnew"
 cp "$INSTALLDIR/etc/pacman.d/mirrorlist" "$INSTALLDIR/etc/pacman.d/mirrorlist.$STIME.termuxarchnew"
 printf "DONE\\n"
@@ -261,10 +269,12 @@ if [[ "${LCR:-}" -eq 3 ]] || [[ "${LCR:-}" -eq 4 ]] || [[ "${LCR:-}" -eq 5 ]] ||
 then
 if [[ "$CPUABI" = "$CPUABIX86_64" ]]
 then
-printf "%s\\n" "pacman -Su grep gzip patch sed sudo unzip --noconfirm --color=always || pacman -Su gzip patch sed sudo unzip --noconfirm --color=always || _PMFSESTRING_ \"pacman -Su gzip patch sed sudo unzip $BINFNSTP ${0##/*}\"" >> root/bin/"$BINFNSTP"
+printf "%s\\n" "pacman -Su glibc grep gzip sed sudo --noconfirm --color=always || pacman -Su glibc grep gzip sed sudo  --noconfirm --color=always || _PMFSESTRING_ \"pacman -Su glibc grep gzip sed sudo $BINFNSTP ${0##/*}\"" >> root/bin/"$BINFNSTP"
 elif [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = i386 ]]
 then
-printf "%s\\n" "pacman -Su sudo --noconfirm --color=always || pacman -Su sudo --noconfirm --color=always || _PMFSESTRING_ \"pacman -Su sudo $BINFNSTP ${0##/*}\"" >> root/bin/"$BINFNSTP"
+printf "%s\\n" "pacman -Su glibc sudo --noconfirm --color=always || pacman -Su glibc sudo --noconfirm --color=always || _PMFSESTRING_ \"pacman -Su sudo $BINFNSTP ${0##/*}\"" >> root/bin/"$BINFNSTP"
+else
+printf "%s\\n" "pacman -Su glibc --noconfirm --color=always || pacman -Su glibc --noconfirm --color=always || _PMFSESTRING_ \"pacman -Su glibc $BINFNSTP ${0##/*}\"" >> root/bin/"$BINFNSTP"
 fi
 fi
 cat >> root/bin/"$BINFNSTP" <<- EOM
@@ -475,6 +485,9 @@ curl --retry 4 "$AL32MRLT" -o "$ALMLLOCN"
 _DOMIRROR_
 elif [[ "$CPUABI" = "$CPUABIX86_64" ]]
 then
+AL64MRLT="https://www.archlinux.org/mirrorlist/all/"
+printf "\\e[0m\\n%s\\n" "Updating ${ALMLLOCN##*/} from $AL64MRLT."
+curl --retry 4 "$AL64MRLT" -o "$ALMLLOCN"
 _DOMIRROR_
 fi
 printf "\\e[0m"
