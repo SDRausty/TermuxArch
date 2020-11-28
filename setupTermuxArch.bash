@@ -5,7 +5,7 @@
 # command 'setupTermuxArch h[elp]' has information how to use this file
 ################################################################################
 IFS=$'\n\t'
-VERSIONID=2.0.389
+VERSIONID=2.0.390
 set -Eeuo pipefail
 shopt -s nullglob globstar
 umask 0022
@@ -657,16 +657,28 @@ fi
 
 _RMARCHQ_() {
 printf "\\n\\e[0;33m %s \\e[1;33m%s \\e[0;33m%s\\n\\n\\e[1;30m%s\\n" "TermuxArch:" "DIRECTORY WARNING!  ~/${INSTALLDIR##*/}/" "directory detected." "Purge '$INSTALLDIR' as requested?"
-printf "\\n\\e[1;30m"
+if [[ -z "${PURGELCR:-}" ]]
+then
+PURGEMETHOD="quick "
+else
+PURGEMETHOD=""
+fi
+printf "\\e[1;30m"
 while true; do
-read -n 1 -p "Uninstall '$INSTALLDIR'? [Y|n] " RUANSWER
+read -n 1 -p "Uninstall '~/${INSTALLDIR##*/}/' with ${PURGEMETHOD}purge? [Y|n] " RUANSWER
 if [[ "$RUANSWER" = [Ee]* ]] || [[ "$RUANSWER" = [Nn]* ]] || [[ "$RUANSWER" = [Qq]* ]]
 then
-printf "\\n%s\\n" "No was answered: uninstalling '$INSTALLDIR': nothing to do for '$INSTALLDIR'."
+printf "\\n%s\\n" "No was answered: uninstalling '~/${INSTALLDIR##*/}/': nothing to do for '~/${INSTALLDIR##*/}/'."
 break
 elif [[ "$RUANSWER" = [Yy]* ]] || [[ "$RUANSWER" = "" ]]
 then
-printf "\\e[30m%s\\n" "Uninstalling '$INSTALLDIR'..."
+printf "\\e[30m%s\\n" "Uninstalling '~/${INSTALLDIR##*/}/'..."
+if [[ -d "$INSTALLDIR" ]]
+then
+_RMARCHRM_
+else
+printf "%s\\n" "Uninstalling '~/${INSTALLDIR##*/}/': nothing to do for '~/${INSTALLDIR##*/}/'."
+fi
 if [[ -e "$PREFIX/bin/$STARTBIN" ]]
 then
 rm -f "$PREFIX/bin/$STARTBIN"
@@ -679,13 +691,7 @@ rm -f "$HOME/bin/$STARTBIN"
 else
 printf "%s\\n" "Uninstalling '$HOME/bin/$STARTBIN': nothing to do for '$HOME/bin/$STARTBIN'."
 fi
-if [[ -d "$INSTALLDIR" ]]
-then
-_RMARCHRM_
-else
-printf "%s\\n" "Uninstalling '$INSTALLDIR': nothing to do for '$INSTALLDIR'."
-fi
-printf "%s \\e[1;32mDone\\e[30m\\n\\n" "Uninstalling '$INSTALLDIR':"
+printf "%s \\e[1;32mDONE\\e[30m\\n\\n" "Uninstalling '~/${INSTALLDIR##*/}/':"
 break
 else
 printf "\\nYou answered \\e[33;1m%s\\e[30m.\\n\\nAnswer \\e[32mYes\\e[30m or \\e[1;31mNo\\e[30m. [\\e[32my\\e[30m|\\e[1;31mn\\e[30m]\\n" "$RUANSWER"
@@ -694,12 +700,32 @@ done
 }
 
 _RMARCHRM_() {
-_SETROOT_EXCEPTION_
-find "$INSTALLDIR/root/" -maxdepth 2 -type l -delete 2>/dev/null ||:
-find "$INSTALLDIR/home/" -maxdepth 2 -type l -delete 2>/dev/null ||:
+_RMARCHCRRM_() {
 rm -rf "${INSTALLDIR:?}"/* 2>/dev/null ||:
 find  "$INSTALLDIR" -type d -exec chmod 700 {} \; 2>/dev/null || _PSGI1ESTRING_ "find _RMARCHRM_ setupTermuxArch ${0##*/}"
 rm -rf "$INSTALLDIR" 2>/dev/null || _PSGI1ESTRING_ "rm -rf _RMARCHRM_ setupTermuxArch ${0##*/}"
+}
+_SETROOT_EXCEPTION_
+declare -a EXONSTGE
+EXONSTGE=("$(find "$INSTALLDIR" -name storage -type d)")
+_DOEXONSTGE_() {
+for EXONSTGEM in ${EXONSTGE[@]}
+do
+cd "$EXONSTGEM" && rm -f * && cd .. && rmdir "$EXONSTGEM" || (printf "\\e[1:33m%s\\e[1:35m%s\\n" "error:" " attempting to 'rmdir ' exception in directory $EXONSTGEM;  Please remove directory $EXONSTGEM manually and run ${0##/*} $ARGS;  Exiting..." && exit 206)
+done
+}
+if [[ ! -z "${EXONSTGE:-}" ]]
+then
+_DOEXONSTGE_
+fi
+if [[ ! -z "${PURGELCR:-}" ]]
+then
+find "$INSTALLDIR/home/" -maxdepth 3 -type l -delete 2>/dev/null ||:
+find "$INSTALLDIR/root/" -maxdepth 2 -type l -delete 2>/dev/null ||:
+else
+find "$INSTALLDIR" -type l -delete 2>/dev/null ||:
+fi
+_RMARCHCRRM_
 }
 
 _SETROOT_EXCEPTION_() {
@@ -924,10 +950,17 @@ printf "\\n\\e[0;32mSetting mode\\e[1;34m : \\e[1;32mupdate Termux tools with mi
 _PRPREFRESH_ "2"
 _ARG2DIR_ "$@"
 _INTROREFRESH_ "$@"
-## [p[urge] [customdir]]  Remove Arch Linux.
-elif [[ "${1//-}" = [Pp]* ]]
+## [purge [customdir]]  Purge Arch Linux option with functionhe _RMARCHRM_.
+elif [[ "${1//-}" = [Pp][Uu][Rr][Gg][Ee] ]]
 then
 printf "\\nSetting mode to purge.\\n"
+PURGELCR=0
+_ARG2DIR_ "$@"
+_RMARCHQ_
+## [p[urge] [customdir]] Quick purge Arch Linux option with function _RMARCHRM_.
+elif [[ "${1//-}" = [Pp]* ]]
+then
+printf "\\nSetting mode to quick purge.\\n"
 _ARG2DIR_ "$@"
 _RMARCHQ_
 ## [q[emu] [manual] [install|refresh] [customdir]]  Install alternate architecture on smartphone with https://github.com/qemu/QEMU emulation. Issue [Implementing QEMU #25](https://github.com/TermuxArch/TermuxArch/issues/25) has more information.
