@@ -741,7 +741,7 @@ printf "\\\\e[1;32m==> \\\\e[1;37mAlready initialized with command \\\\e[1;32mpa
 fi
 }
 _DOKPI_ || _DOKPI_
-chmod 4777 /usr/bin/newgidmap
+chmod 4777 /usr/bin/newuidmap
 chmod 666 /usr/lib/tmpfiles.d/journal-nocow.conf
 chmod 700 /etc/pacman.d/gnupg
 _DOPP_() {
@@ -763,51 +763,6 @@ EOM
 chmod 700 usr/local/bin/keys
 }
 
-_ADDmakefakeroottcp_() {
-_CFLHDR_ usr/local/bin/makefakeroottcp "# build and install fakeroot-tcp"
-cat >> usr/local/bin/makefakeroottcp <<- EOM
-_DOMAKEFAKEROOTTCP_() {
-_PRTERROR_() {
-printf "\\n\\e[1;31merror: \\e[1;37m%s\\e[0m\\n\\n" "Please correct the error(s) and/or warning(s) if possible, and run '\${0##*/} \${ARGS[@]}' again."
-exit
-}
-if [ "\$UID" = "0" ]
-then
-printf "\\\\e[1;31m%s\\\\e[1;37m%s\\\\e[1;31m%s\\\\e[0m\\\\n" "ERROR:" "  Script '\${0##*/}' should not be used as root:  The command 'addauser' creates user accounts in Arch Linux in Termux PRoot and configures these user accounts for the command 'sudo':  The 'addauser' command is intended to be run by the Arch Linux in Termux PRoot root user:  To use 'addauser' directly from Termux you can run \"$STARTBIN command 'addauser user'\" in Termux to create this account in Arch Linux Termux PRoot:  The command '$STARTBIN help' has more information about using '$STARTBIN':  " "Exiting..."
-else
-[ ! -f /var/lock/${INSTALLDIR##*/}/patchmakepkg.lock ] && patchmakepkg || printf "\\\\e[1;33m%s\\\\e[0;33m%s\\\\e[0m\\\\n" "[2/2] " "Lock file /var/lock/${INSTALLDIR##*/}/patchmakepkg.lock found;  Continuing..."
-printf "%s\\\\n" "Preparing to build and install fakeroot-tcp with \${0##*/} $VERSIONID: "
-if ([[ ! "\$(command -v automake)" ]] || [[ ! "\$(command -v git)" ]] || [[ ! "\$(command -v gcc -v)" ]] || [[ ! "\$(command -v libtool)" ]] || [[ ! "\$(command -v po4a)" ]]) 2>/dev/null
-then
-pci automake base base-devel git gcc glibc libtool po4a || printf "\\n\\e[1;31mERROR: \\e[7;37m%s\\e[0m\\n\\n" "Please correct the error(s) and/or warning(s) by running command 'pci automake base base-devel git gcc glibc go libtool po4a' as root user.  You can do this without closing this session by running command \"$STARTBIN command 'pci automake base base-devel git gcc glibc go libtool po4a'\"in a new Termux session. Then you can return to this session and run '\${0##*/} \${ARGS[@]}' again."
-fi
-cd
-[ ! -d fakeroot-tcp ] && gcl https://aur.archlinux.org/fakeroot-tcp.git
-_FUNDOPKGBUILD_() {
-cp PKGBUILD PKGBUILD.$$.bkp
-sed -ir '/prepare()/,+4d' PKGBUILD
-sed -i 's/silence-dlerror.patch//g' PKGBUILD
-sed -i 's/pkgver=1.24/pkgver=1.25.3/g' PKGBUILD
-sed -i 's/ftp.debian.org\/debian/http.kali.org\/kali/g' PKGBUILD
-sed -i '/^md5sums=/{n;d}' PKGBUILD
-sed -ir "s/^md5sums=.*/md5sums=('f6104ef6960c962377ef062bf222a1d2')/g" PKGBUILD
-touch /var/lock/${INSTALLDIR##*/}/makefakeroottcp_FUNDOPKGBUILD_.lock
-}
-cd fakeroot-tcp
-[ ! -f /var/lock/${INSTALLDIR##*/}/makefakeroottcp_FUNDOPKGBUILD_.lock ] && _FUNDOPKGBUILD_
-printf "%s\\\\n" "Running command 'makepkg -irs';  Building and attempting to install 'fakeroot-tcp' with '\${0##*/}' $VERSIONID.  Please be patient..."
-makepkg -irs || _PRTERROR_
-libtool --finish /usr/lib/libfakeroot || _PRTERROR_
-touch /var/lock/${INSTALLDIR##*/}/makefakeroottcp.lock
-fi
-printf "%s\\\\n" "Building and installing fakeroot-tcp: DONE 🏁"
-}
-[ ! -f /var/lock/${INSTALLDIR##*/}/makefakeroottcp.lock ] && _DOMAKEFAKEROOTTCP_ || printf "%s\\\\n" "Please remove file /var/lock/${INSTALLDIR##*/}/makefakeroottcp.lock in order to rebuild fakeroot-tcp with \${0##*/} $VERSIONID."
-# makefakeroottcp EOF
-EOM
-chmod 700 usr/local/bin/makefakeroottcp
-}
-
 _ADDmakeyay_() {
 _CFLHDR_ usr/local/bin/makeyay "# build and install command yay; contributors https://github.com/cb125 and https://github.com/SampsonCrowley"
 cat >> usr/local/bin/makeyay <<- EOM
@@ -823,29 +778,12 @@ _PRMAKE_() {
 printf "\\\\e[1;32m==> \\\\e[1;37mRunning \\\\e[1;32mmakepkg -irs --noconfirm\\\\e[1;37m...\\\\n"
 }
 printf "\\\\e[0;32m%s\\\\e[0m\\\\n" "Building and installing 'yay':"
-printf "%s\\\\n" "When this message:
-libtool: warning: remember to run 'libtool --finish /usr/lib/libfakeroot'
-When this message is displayed on the screen '\${0##*/}' will deal with it a little bit later in the build proccess, and there will be a short pause when this message is displayed:
-\"Libraries have been installed in:\"
-A difficult part of any build process can be choosing the correct answers.  Here are the correct answers:
-:: fakeroot-tcp and fakeroot are in conflict. Remove fakeroot? [y/N] y
-Tap the 'y' key first, then enter.  For the first question, the 'y' key must be tapped first, then enter.  Yes will be chosen when enter is tapped in all of the questions after the first question:
-:: Proceed with installation? [Y/n]
-Tap enter twice more as this build proccess continues.  If everything goes well, you will see these messages:
-Libraries have been installed in:
-The message above will be displayed for a short time with more information.  Then \${0##*/} will go on, and there will be one more tap enter to touch before you see the message: makefakeroottcp $VERSIONID: DONE 🏁
-Then this process will continue to try to make 'yay' which is much simpler for the user;  There is no tapping yes enter needed to be done whatsoever.
-Script \${0##*/} information presentation done;  SLEEPING SIX SECONDS..."
-sleep 6
 [ ! -f /var/lock/${INSTALLDIR##*/}/patchmakepkg.lock ] && patchmakepkg || printf "\\\\e[1;33m%s\\\\e[0;33m%s\\\\e[0m\\\\n" "[1/2] " "Lock file /var/lock/${INSTALLDIR##*/}/patchmakepkg.lock found;  Continuing..."
-if ([[ ! "\$(command -v automake)" ]] || [[ ! "\$(command -v git)" ]] || [[ ! "\$(command -v gcc)" ]] || [[ ! "\$(command -v go)" ]] || [[ ! "\$(command -v po4a)" ]]) 2>/dev/null
+if ([[ ! "\$(command -v git)" ]] || [[ ! "\$(command -v go)" ]]) 2>/dev/null
 then
-pci automake base base-devel git gcc glibc go libtool po4a || printf "\\n\\e[1;31mERROR: \\e[7;37m%s\\e[0m\\n\\n" "Please correct the error(s) and/or warning(s) by running command 'pci automake base base-devel git gcc glibc go libtool po4a' as root user.  You can do this without closing this session by running command \"$STARTBIN command 'pci automake base base-devel git gcc glibc go libtool po4a'\"in a new Termux session. Then you can return to this session and run '\${0##*/} \${ARGS[@]}' again."
+pci base base-devel git go || printf "\\n\\e[1;31mERROR: \\e[7;37m%s\\e[0m\\n\\n" "Please correct the error(s) and/or warning(s) by running command 'pci base base-devel git go ' as root user.  You can do this without closing this session by running command \"$STARTBIN command 'pci base base-devel git go '\"in a new Termux session. Then you can return to this session and run '\${0##*/} \${ARGS[@]}' again."
 fi
 cd
-[ ! -d fakeroot-tcp ] && gcl https://aur.archlinux.org/fakeroot-tcp.git
-[ ! -f /var/lock/${INSTALLDIR##*/}/makefakeroottcp.lock ] && makefakeroottcp || printf "%s\\\\n" "Please remove file /var/lock/${INSTALLDIR##*/}/makefakeroottcp.lock in order to rebuild fakeroot-tcp with \${0##*/} $VERSIONID."
-! fakeroot ls 2>&1 >/dev/null && makefakeroottcp
 [ ! -d yay ] && gcl https://aur.archlinux.org/yay.git
 cd yay && _PRMAKE_ && makepkg -irs --noconfirm || printf "\\\\e[1;31m%s\\\\e[1;37m%s\\\\n" "ERROR: " "The command 'makepkg -irs --noconfirm' did not run as expected; CONTINUING..."
 printf "\\\\e[0;32m%s\\\\n%s\\\\n%s\\\\e[1;32m%s\\\\e[0m\\\\n" "Paths that can be followed after building 'yay' are 'yay cmatrix' which builds matrix screensavers.  The commands 'yay pikaur|pikaur-git|tpac' build more aur installers which can also be used to download aur repositories and build packages like with 'yay' in your Android smartphone, tablet, wearable and more.  Did you know that 'android-studio' is available with the command 'yay android'?" "If you have trouble importing keys, this command 'gpg --keyserver keyserver.ubuntu.com --recv-keys 71A1D0EFCFEB6281FD0437C71A1D0EFCFEB6281F' might help.  Change the number to the number of the key being imported." "Building and installing yay: " "DONE 🏁"
