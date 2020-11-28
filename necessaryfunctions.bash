@@ -144,7 +144,6 @@ cp "$INSTALLDIR/etc/pacman.d/mirrorlist" "$INSTALLDIR/etc/pacman.d/mirrorlist.$S
 printf "DONE\\n"
 if [[ $USERCOUNTRYCODE == us ]]
 then
-RUSRCOUNTRYCODE="$USERCOUNTRYCODE"
 USERCOUNTRYCODE="edu"
 fi
 CHSENMIR="$(grep -w http "$INSTALLDIR/etc/pacman.d/mirrorlist" | grep ^#S | grep -w "$USERCOUNTRYCODE" | awk 'sub(/^.{1}/,"")' | head -n 1)"
@@ -455,9 +454,9 @@ _FIXOWNER_
 _PREPROOT_() {
 if [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = "$CPUABIX86_64" ]] || [[ "$CPUABI" = i386 ]] || [[ "$IFILE" == *i686* ]]
 then
-_TASPINNER_ clock & proot --link2symlink -0 tar -p -xf "$IFILE" --strip-components 1 ; kill $!
+_TASPINNER_ clock & proot --link2symlink -0 bsdtar -p -xf "$IFILE" --strip-components 1 ; kill $!
 else
-_TASPINNER_ clock & proot --link2symlink -0 tar -p -xf "$IFILE" ; kill $!
+_TASPINNER_ clock & proot --link2symlink -0 bsdtar -p -xf "$IFILE" ; kill $!
 fi
 }
 

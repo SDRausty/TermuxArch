@@ -5,7 +5,7 @@
 # command 'setupTermuxArch h[elp]' has information how to use this file
 ################################################################################
 IFS=$'\n\t'
-VERSIONID=2.0.391
+VERSIONID=2.0.392
 set -Eeuo pipefail
 shopt -s nullglob globstar
 umask 0022
@@ -806,7 +806,7 @@ else
 STIME="$SDATE" && STIME="$(rev <<< "${STIME:7:4}")"
 fi
 ONESA="${SDATE: -1}"
-PKGS=(proot)
+PKGS=(bsdtar proot)
 STIME="$ONESA$STIME"
 ## 5) Get device information via the 'getprop' command,
 ## 6) Determine its own name and location of invocation,
