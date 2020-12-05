@@ -50,7 +50,7 @@ cd $WRDR
 if [[ -f sha512.sum ]]
 then
 _PRT_ "Checking checksums in direcory $(pwd) with sha512sum: "
-sha512sum -c --quiet sha512.sum 2>/dev/null || echo FAILED # sha512sum -c sha512.sum
+sha512sum -c --quiet sha512.sum 2>/dev/null || printf "%s\\n" "sha512sum -c sha512.sum FAILED!"
 _PRNT_  "DONE"
 else
 printf "%s\\n" "No file 'sha512.sum' found in directory $(pwd)."

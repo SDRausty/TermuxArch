@@ -17,6 +17,7 @@ KEEP=1			##  change to 0 to keep downloaded image;  Testing the installation pro
 KOE=0			##  do not change, not user configurable;  Was previously used for testing, and variable KOE lingers here for retesting if desired.  Change to 1 to change the proot init statement.
 # KID=1			##  do not change, not user configurable;  Used for testing, timing and development.   For timing Arch Linux in PRoot, uncomment and then run script TermuxArch/scripts/frags/stdoutbench.sh in Arch Linux PRoot for timing Arch Linux in PRoot if desired.
 ##  If there are system image files available not listed here, and if there are system image file worldwide mirrors available not listed here, please open an issue and a pull request.
+UNAMER="$(uname -r)"
 _AARCH64ANDROID_() {
 IFILE="ArchLinuxARM-aarch64-latest.tar.gz"
 CMIRROR="os.archlinuxarm.org"
@@ -79,10 +80,10 @@ _PR00TSTRING_() { # construct the PRoot init statement
 PROOTSTMNT="exec proot "
 if [[ -z "${KID:-}" ]]
 then	# command 'grep -w KID *h' shows variable KID usage
-PROOTSTMNT+="--kernel-release=$(uname -r)-generic "
+PROOTSTMNT+="--kernel-release=$UNAMER "
 elif [[ "$KID" = 0 ]]
 then
-PROOTSTMNT+="--kernel-release=4.14.15-generic "
+PROOTSTMNT+="--kernel-release=4.14.16 "
 else
 PROOTSTMNT+=""
 fi
@@ -99,10 +100,8 @@ do
 . "$PRSFILES"
 done
 fi
-if [[ -z "${QEMUCR:-}" ]]
+if [[ "${QEMUCR:-}" == 0 ]]
 then
-:
-else [[ "$QEMUCR" == 0 ]]
 PROOTSTMNT+="-q $PREFIX/bin/qemu-$ARCHITEC "
 fi
 [[ "$SYSVER" -ge 10 ]] && PROOTSTMNT+="-b /apex:/apex "
@@ -136,14 +135,15 @@ PROOTSTMNT+="-b ${PRSTARR[$PRBIND]}:$PRBIND "
 fi
 done
 PROOTSTMNT+="-w /root /usr/bin/env -i HOME=/root TERM=\"$TERM\" TMPDIR=/tmp ANDROID_DATA=/data "
-PROOTSTMNTUU="${PROOTSTMNT//HOME=\/root/HOME=\/home\/\$2}"
-PROOTSTMNTUU="${PROOTSTMNTUU//-0 }"
-PROOTSTMNTUU="${PROOTSTMNTUU//-w \/root/-w \/home\/\$2}" # PRoot user string with link2symlink option enabled
-PROOTSTMNTU="${PROOTSTMNTUU//--link2symlink }" # PRoot user string with link2symlink option disabled
+PROOTSTMNTU="${PROOTSTMNT//HOME=\/root/HOME=\/home\/\$2}"
+PROOTSTMNTU="${PROOTSTMNTU//-0 }"
+PROOTSTMNTU="${PROOTSTMNTU//-w \/root/-w \/home\/\$2}" # PRoot user string with link2symlink option enabled
+PROOTSTMNTEU="${PROOTSTMNTU//--link2symlink }" # PRoot user string with link2symlink option disabled
+PROOTSTMNTU="${PROOTSTMNTU//--sysvipc }" # PRoot user string with sysipc option disabled
 PROOTSTMNT="${PROOTSTMNT//-i \"\$2:wheel\" }" # PRoot root user string
 }
 _PR00TSTRING_
 ##  uncomment the next line to test function _PR00TSTRING_
-##  printf "\\n%s\\n" "PROOTSTMNT string:" && printf "%s\\n\\n" "$PROOTSTMNT" && printf "%s\\n" "PROOTSTMNTU string:" && printf "%s\\n\\n" "$PROOTSTMNTU" && printf "%s\\n" "PROOTSTMNTUU string:" && printf "%s\\n\\n" "$PROOTSTMNTUU" && exit
+##  printf "\\n%s\\n" "PROOTSTMNT string [root]:" && printf "%s\\n\\n" "${PROOTSTMNT:-}" && printf "%s\\n" "PROOTSTMNTC string [root command]:" && printf "%s\\n\\n" "${PROOTSTMNTU:-}" && printf "%s\\n" "PROOTSTMNTEU string [elogin]:" && printf "%s\\n\\n" "${PROOTSTMNTU:-}" && printf "%s\\n" "PROOTSTMNTU string [login]:" && printf "%s\\n\\n" "${PROOTSTMNTU:-}" && printf "%s\\n" "PROOTSTMNTPRTR string [raw]:" && printf "%s\\n\\n" "${PROOTSTMNT:-}" && printf "%s\\n" "PROOTSTMNTPSLC string [su login command]:" && printf "%s\\n\\n" "${PROOTSTMNT:-}" && exit
 ##  The commands 'setupTermuxArch r[e[fresh]]' can be used to regenerate the start script to the newest version if there is a newer version published and can be customized as wanted.  Command 'setupTermuxArch refresh' will refresh the installation globally, including excecuting 'keys' and 'locales-gen' and backup user configuration files that were initially created and are refreshed.  The command 'setupTermuxArch re' will refresh the installation and update user configuration files and backup user configuration files that were initially created and are refreshed.  Command 'setupTermuxArch r' will only refresh the installation and update the root user configuration files and backup root user configuration files that were initially created and are refreshed.
 # knownconfigurations.bash EOF

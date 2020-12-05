@@ -124,6 +124,8 @@ ls "$INSTALLDIR"/root/.bashrc | cut -f7- -d /
 ls "$INSTALLDIR"/root/.bash_profile | cut -f7- -d /
 ls "$INSTALLDIR"/root/.vimrc | cut -f7- -d /
 ls "$INSTALLDIR"/root/.gitconfig | cut -f7- -d /
+printf "\\n\\e[1;32m%s\\n\\e[0;32m" "Files updated to the newest version $VERSIONID in directory ~/${INSTALLDIR##*/}/usr/local/bin/:"
+ls "$INSTALLDIR/usr/local/bin/"
 if [[ "${LCR:-}" = 2 ]]
 then
 _FUNLCR2_

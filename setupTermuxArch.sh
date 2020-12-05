@@ -5,7 +5,7 @@
 # command 'setupTermuxArch h[elp]' has information how to use this file
 ################################################################################
 IFS=$'\n\t'
-VERSIONID=2.0.397
+VERSIONID=2.0.398
 set -Eeuo pipefail
 shopt -s nullglob globstar
 umask 0022
@@ -200,6 +200,12 @@ done
 }
 
 _DEPENDS_() {	# check for missing commands
+if [[ -z "${VLORALCR:-}" ]]
+then
+PKGS=(bsdtar proot)
+else
+PKGS=(pulseaudio bsdtar proot)
+fi
 printf "\\e[1;34mChecking prerequisites...\\n\\e[1;32m"
 ADM=([aria2]=aria2c [axel]=axel [curl]=curl [lftp]=lftpget [wget]=wget)
 ATM=([bsdtar]=bsdtar)
@@ -581,9 +587,9 @@ fi
 }
 
 _PRINTUSAGE_() {
-printf "\\n\\e[1;32m  %s     \\e[0;32mcommands \\e[1;32m%s \\e[0;32m%s\\n" "HELP" "'${0##*/} he[lp]|?'" "show this help screen"
+printf "\\n\\e[1;32m  %s     \\e[0;32mcommands \\e[1;32m%s \\e[0;32m%s\\n" "HELP" "'${0##*/} he[lp]'" "show this help screen"
 printf "\\n\\e[1;32m  %s    \\e[0;32mcommand \\e[1;32m%s \\e[0;32m%s\\n" "TERSE" "'${0##*/} he[lp]'" "shows the terse help screen"
-printf "\\n\\e[1;32m  %s  \\e[0;32mcommand \\e[1;32m%s \\e[0;32m%s\\n" "VERBOSE" "'${0##*/} h'" "shows the verbose help screen"
+printf "\\n\\e[1;32m  %s  \\e[0;32mcommand \\e[1;32m%s \\e[0;32m%s\\n" "VERBOSE" "'${0##*/} ?|h'" "shows the verbose help screen"
 printf "\\n\\e[0;32m%s \\e[1;32m%s \\e[0;32m%s \\e[1;32m%s \\e[0;32m%s \\e[1;32m%s \\e[0;32m%s \\e[1;32m%s \\e[0;32m%s \\e[1;32m%s \\e[0;32m%s \\n\\n%s \\e[1;32m%s\\e[0;32m%s \\e[1;32m%s \\e[0;32m%s \\e[1;32m%s \\e[0;32m%s \\e[1;32m%s\\e[0;32m%s\\n" "Usage information for" "${0##*/}" "$VERSIONID.  Some arguments can be abbreviated to one, two and three letters each;  Two and three letter arguments are acceptable.  For example" "'bash ${0##*/} cs'" "will use" "'curl'" "to download TermuxArch and produce a file like" "'setupTermuxArchSysInfo$STIME.log'" "populated with system information.  If you have a new smartphone that you are not familiar with, this file" "'setupTermuxArchSysInfo$STIME.log'" "might make for an interesting read in order to find out more about the device you might be holding in the palm of your hand right at this moment." "User configurable variables are in file" "'setupTermuxArchConfigs.bash'" ".  To create this file from file" "kownconfigurations.bash" "in the working directory, execute" "'bash ${0##*/} manual'" "to create and edit file" "setupTermuxArchConfigs.bash" "."
 printf "\\n\\e[1;32m  %s\\e[0;32m  %s \\e[1;32m%s \\e[0;32m%s \\e[1;32m%s \\e[0;32m%s \\e[1;32m%s \\e[0;32m%s \\e[1;32m%s \\e[0;32m%s \\e[1;32m%s \\e[0;32m%s \\e[1;32m%s \\e[0;32m%s \\e[1;32m%s\\e[0;32m%s \\e[1;32m%s \\e[0;32m%s \\e[1;32m%s \\e[0;32m%s\\n" "INSTALL" "You can run" "${0##*/}" "without arguments in a bash shell to install Arch Linux in Termux PRoot container in a smartphone, smartTV, table, wearable and more...  Command" "'bash ${0##*/} curl'" "will envoke" "curl" "as the download manager.  You can copy" "knownconfigurations.bash" "to" "setupTermuxArchConfigs.bash" "with the command" "'bash ${0##*/} manual'" "to edit your preferred CMIRROR site, refine the init statement and to access more options.  Change CMIRROR to desired geographic location to resolve download, 404 and checksum issues should these occur.  After editing" "setupTermuxArchConfigs.bash" ", you can run" "'bash ${0##*/}'" "and" "setupTermuxArchConfigs.bash" "loads automatically from the working directory.  User configurable variables are present in this file for your convenience." "  This link https://github.com/SDRausty/TermuxArch/issues/212 at GitHub has the most current information about setting Arch Linux in Termux PRoot as the default login shell in Termux in your smartphone, tablet, smartTV, wearable and more.  If you choose to, or are simply curious about setting Arch Linux in Termux PRoot as the default login shell, please be well acquainted with safe mode;  Long tapping on NEW SESSION will open a new session in safe mode.  This mode can be used to reset the default shell."
 printf "\\n\\e[1;32m  %s    \\e[0;32mcommand \\e[1;32m%s \\e[0;32m%s\\n" "PURGE" "'${0##*/} purge'" "uninstalls Arch Linux in PRoot from Termux"
@@ -685,6 +691,11 @@ break
 elif [[ "$RUANSWER" = [Yy]* ]] || [[ "$RUANSWER" = "" ]]
 then
 printf "\\e[30m%s\\n" "Uninstalling '~/${INSTALLDIR##*/}/'..."
+if grep -q ^pacmd "$PREFIX/etc/profile" && grep -q ^pulseaudio "$PREFIX/etc/profile"
+then
+awk '!/^pulseaudio/' "$PREFIX/etc/profile" > "$TAMPDIR/profile$FTIME"
+awk '!/^pacmd/' "$TAMPDIR/profile$FTIME" > "$PREFIX/etc/profile"
+fi
 if [[ -d "$INSTALLDIR" ]]
 then
 _RMARCHRM_
@@ -712,30 +723,28 @@ done
 }
 
 _RMARCHRM_() {
-_RMARCHCRRM_() {
-rm -rf "${INSTALLDIR:?}"/* 2>/dev/null ||:
-find  "$INSTALLDIR" -type d -exec chmod 700 {} \; 2>/dev/null || _PSGI1ESTRING_ "find _RMARCHRM_ setupTermuxArch ${0##*/}"
-rm -rf "$INSTALLDIR" 2>/dev/null || _PSGI1ESTRING_ "rm -rf _RMARCHRM_ setupTermuxArch ${0##*/}"
+_RMARCHCRRM_() {	# remove installation
+chmod -R 777 "$INSTALLDIR" || _PSGI1ESTRING_ "chmod -R 777 "$INSTALLDIR" _RMARCHRM_ ${0##*/}"
+rm -rf "$INSTALLDIR" || _PSGI1ESTRING_ "rm -rf "$INSTALLDIR" _RMARCHRM_ ${0##*/}"
+}
+_DOEXONSTGE_() {	# remove empty storage directories
+printf "\\e[0;35m"
+for EXONSTGEM in ${EXONSTGE[@]:-}
+do
+find "$EXONSTGEM" -type l -delete && rmdir "$EXONSTGEM" || (printf "\\e[1;31m%s\\e[1;35m%s\\n" "Exit signal recieved:" " attempting to 'rmdir $EXONSTGEM' exception;  Please remove directory $EXONSTGEM manually and run ${0##/*} $ARGS;  Exiting..." && exit 206)
+done
+printf "\\e[1;30m"
 }
 _SETROOT_EXCEPTION_
 declare -a EXONSTGE
-EXONSTGE=("$(find "$INSTALLDIR" -name storage -type d 2>/dev/null ||:)")
-_DOEXONSTGE_() {
-for EXONSTGEM in ${EXONSTGE[@]}
-do
-cd "$EXONSTGEM" && rm -f * && cd .. && rmdir "$EXONSTGEM" || (printf "\\e[1:33m%s\\e[1:35m%s\\n" "error:" " attempting to 'rmdir ' exception in directory $EXONSTGEM;  Please remove directory $EXONSTGEM manually and run ${0##/*} $ARGS;  Exiting..." && exit 206)
-done
-}
+EXONSTGE=("$(find "$INSTALLDIR" -name storage -type d || printf "")")
+if [[ ! -z "${EXONSTGE:-}" ]]
+then
+chmod 777 $EXONSTGE
+fi
 if [[ ! -z "${EXONSTGE:-}" ]]
 then
 _DOEXONSTGE_
-fi
-if [[ ! -z "${PURGELCR:-}" ]]
-then
-find "$INSTALLDIR/home/" -maxdepth 3 -type l -delete 2>/dev/null ||:
-find "$INSTALLDIR/root/" -maxdepth 2 -type l -delete 2>/dev/null ||:
-else
-find "$INSTALLDIR" -type l -delete 2>/dev/null ||:
 fi
 _RMARCHCRRM_
 }
@@ -806,7 +815,7 @@ else
 STIME="$SDATE" && STIME="$(rev <<< "${STIME:7:4}")"
 fi
 ONESA="${SDATE: -1}"
-PKGS=(bsdtar proot)
+FTIME="$(date +%F%H%M%S)"
 STIME="$ONESA$STIME"
 ## 5) Get device information via the 'getprop' command,
 ## 6) Determine its own name and location of invocation,
@@ -907,12 +916,12 @@ printf "\\nSetting mode to sysinfo.\\n"
 shift
 _ARG2DIR_ "$@"
 _INTROSYSINFO_ "$@"
-## [he[lp]|? [customdir]]  Display terse builtin help.
-elif [[ "${1//-}" = [Hh][Ee]* ]] || [[ "${1//-}" = [?]* ]]
+## [he[lp] [customdir]]  Display terse builtin help.
+elif [[ "${1//-}" = [Hh][Ee]* ]]
 then
 _ARG2DIR_ "$@"
 _PRINTUSAGE_ "$@"
-## [h [customdir]]  Display verbose builtin help.
+## [h|? [customdir]]  Display verbose builtin help.
 elif [[ "${1//-}" = [Hh]* ]]
 then
 LCC="1"
@@ -922,7 +931,7 @@ _PRINTUSAGE_ "$@"
 elif [[ "${1//-}" = [Ii]* ]]
 then
 printf "\\nSetting mode to install.\\n"
-_OPT1_ "$@"
+_ARG2DIR_ "$@"
 _INTRO_ "$@"
 ## [ld|ls]  Get device system information with 'lftp'.
 elif [[ "${1//-}" = [Ll][Dd]* ]] || [[ "${1//-}" = [Ll][Ss]* ]]
@@ -1028,10 +1037,11 @@ printf "\\n\\e[0;32mSetting mode\\e[1;34m : \\e[1;32mupdate Termux tools with mi
 _PRPREFRESH_ "2"
 _ARG2DIR_ "$@"
 _INTROREFRESH_ "$@"
-## [v[isualshortcut] [manual] [install|refresh] [customdir]]  Install alternate architecture on smartphone with https://github.com/qemu/QEMU emulation. Issues [Expanding setupTermuxArch so visually impaired users can install Orca screen reader (assistive technology) and have VNC support added easily. #34](https://github.com/TermuxArch/TermuxArch/issues/34) have more information about this option.
+## [v[isualorca] [manual] [install|refresh] [customdir]]  Install alternate architecture on smartphone with https://github.com/qemu/QEMU emulation. Issues [Expanding setupTermuxArch so visually impaired users can install Orca screen reader (assistive technology) and have VNC support added easily. #34](https://github.com/TermuxArch/TermuxArch/issues/34) and [Let's expand setupTermuxArch so users can install Orca screen reader (assistive technology) and also have VNC support added easily. #66](https://github.com/SDRausty/termux-archlinux/issues/66) have more information about this option.
 elif [[ "${1//-}" = [Vv]* ]]
 then
-printf "\\nSetting mode to visualshortcut [install|refresh] [customdir].\\n"
+VLORALCR=0
+printf "\\nSetting mode to visualorca [manual] [install|refresh] [customdir].\\n"
 ABILIST64="$(getprop ro.product.cpu.abilist64)"
 CPUABI="$(getprop ro.product.cpu.abi)"
 if [[ $CPUABI == *86* ]]
@@ -1092,5 +1102,5 @@ fi
 ## Files 'setupTermuxArch{.bash,.sh}' are held for backward compatibility;  Please reference file 'setupTermuxArch' as the chosen install file if aid and assistance be through sharing insight about this Arch Linux in a Termux PRoot container project which can be used on a smartphone, smartTV, tablet, wearable and more.  File 'setupTermuxArch' is earmarked as the install file name for this project.
 ## File 'setupTermuxArch' downloads as files 'setupTermuxArch.[bin,\ \(1\),\ \(2\),etc...]' through Internet browsers into Android Downloads on smartphone and Arch Linux in Termux PRoot can be installed directly from this file in Android with this command 'bash ~/storage/downloads/setupTermuxArch.bin' and similar which may also check whether there is a newer version automatically since the time it was downloaded.  If there is a newer version, this file might self update.  If this updating process went smoothly, this file will restart the process that was initially initiated by the user.
 ## These files 'setupTermuxArch[.{bash,sh}]' will NOT selfupdate to the most recent version published if they are used inside their git repository;  In this case 'git pull' or 'pullTermuxArchSubmodules.bash' can update to the newest published version.
-## Very many hardy thank yous to contributors who are helping and have already helped to make this open source resource better!  Please accept a wholehearted THANK YOU for using setupTermuxArch!
+## Many very hardy thank yous to contributors who are helping and have worked to make this open source resource better!  Please accept a wholehearted THANK YOU for using setupTermuxArch!
 # setupTermuxArch EOF
