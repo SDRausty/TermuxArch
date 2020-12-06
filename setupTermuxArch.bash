@@ -5,7 +5,7 @@
 # command 'setupTermuxArch h[elp]' has information how to use this file
 ################################################################################
 IFS=$'\n\t'
-VERSIONID=2.0.398
+VERSIONID=2.0.399
 set -Eeuo pipefail
 shopt -s nullglob globstar
 umask 0022
@@ -360,7 +360,7 @@ printf "‰s\\n" "Variable DIRCHECK is unbound."
 elif [[ "$DIRCHECK" -eq 1 ]]
 then	# delete superfluous tmp dir
 rm -rf "$INSTALLDIR"/tmp
-rm -rf "$INSTALLDIR"
+rmdir "$INSTALLDIR" ||  _PSGI1ESTRING_ "rmdir INSTALLDIR _DODIRCHK_ ${0##*/}"
 fi
 exit 204
 fi
@@ -724,14 +724,15 @@ done
 
 _RMARCHRM_() {
 _RMARCHCRRM_() {	# remove installation
-chmod -R 777 "$INSTALLDIR" || _PSGI1ESTRING_ "chmod -R 777 "$INSTALLDIR" _RMARCHRM_ ${0##*/}"
-rm -rf "$INSTALLDIR" || _PSGI1ESTRING_ "rm -rf "$INSTALLDIR" _RMARCHRM_ ${0##*/}"
+chmod -R 777 "$INSTALLDIR" || _PSGI1ESTRING_ "chmod -R 777 INSTALLDIR _RMARCHRM_ ${0##*/}"
+find "$INSTALLDIR" -type l -delete  || _PSGI1ESTRING_ "find INSTALLDIR _RMARCHRM_ ${0##*/}"
+rm -rf "$INSTALLDIR" || _PSGI1ESTRING_ "rm -rf INSTALLDIR _RMARCHRM_ ${0##*/}"
 }
 _DOEXONSTGE_() {	# remove empty storage directories
 printf "\\e[0;35m"
 for EXONSTGEM in ${EXONSTGE[@]:-}
 do
-find "$EXONSTGEM" -type l -delete && rmdir "$EXONSTGEM" || (printf "\\e[1;31m%s\\e[1;35m%s\\n" "Exit signal recieved:" " attempting to 'rmdir $EXONSTGEM' exception;  Please remove directory $EXONSTGEM manually and run ${0##/*} $ARGS;  Exiting..." && exit 206)
+find "$EXONSTGEM" -type l -delete && rmdir "$EXONSTGEM" || (printf "\\e[1;31m%s\\e[1;35m%s\\n" "Exit signal recieved:" " attempting to 'rmdir $EXONSTGEM' exception;  Please remove directory $EXONSTGEM manually;  Exiting..." && exit 206)
 done
 printf "\\e[1;30m"
 }
