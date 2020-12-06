@@ -1002,7 +1002,7 @@ elif [[ "\$1" = "a8" ]]
 then
 \$SUDOCONF pacman --noconfirm --color=always -S base base-devel emacs jdk8-openjdk "\${@:2}"
 else
-\$SUDOCONF pacman --noconfirm --color=always -S "\$@"
+\$SUDOCONF pacman --noconfirm --color=always -S "\$@" || yay -a "\$@" || (makeyay && yay -a "\$@")
 fi
 # pc EOF
 EOM
@@ -1031,7 +1031,7 @@ trap _TRPET_ EXIT
 printf "\\\\e[1;32m==> \\\\e[1;37mRunning TermuxArch command \\\\e[1;32m%s \\\\e[0;32m%s\\\\e[1;37m...\\\\n" "\${0##*/} \$ARGS" "v\$VERSIONID"
 if [[ -z "\${1:-}" ]]
 then
-\$SUDOCONF pacman --noconfirm --color=always -Syu
+\$SUDOCONF pacman --noconfirm --color=always -Syu || yay || (makeyay && yay)
 elif [[ "\$1" = "e" ]]
 then
 \$SUDOCONF pacman --noconfirm --color=always -Syu base base-devel emacs "\${@:2}"
@@ -1042,7 +1042,7 @@ elif [[ "\$1" = "e10" ]]
 then
 \$SUDOCONF pacman --noconfirm --color=always -Syu base base-devel emacs jdk10-openjdk "\${@:2}"
 else
-\$SUDOCONF pacman --noconfirm --color=always -Syu "\$@"
+\$SUDOCONF pacman --noconfirm --color=always -Syu "\$@" || yay -a "\$@" || (makeyay && yay -a "\$@")
 fi
 # pci EOF
 EOM
