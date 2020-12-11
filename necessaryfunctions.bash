@@ -161,9 +161,9 @@ cp "$INSTALLDIR/etc/pacman.d/mirrorlist" "$INSTALLDIR/etc/pacman.d/mirrorlist.$S
 printf "DONE\\n"
 if [[ $USERCOUNTRYCODE == us ]]
 then
-USERCOUNTRYCODE="com"
+USERCOUNTRYCODE="edu\/"
 fi
-CHSENMIR="$(grep -w http "$INSTALLDIR/etc/pacman.d/mirrorlist" | grep ^#S | grep -w "$USERCOUNTRYCODE" | awk 'sub(/^.{1}/,"")' | head -n 1)"
+CHSENMIR="$(grep -w http "$INSTALLDIR/etc/pacman.d/mirrorlist" | grep ^#S | grep "$USERCOUNTRYCODE" | awk 'sub(/^.{1}/,"")' | head -n 1)"
 printf "%s\\n" "$CHSENMIR" >> "$INSTALLDIR/etc/pacman.d/mirrorlist"
 printf "Choosing mirror '%s' in file '%s';  Continuing...\\n" "$CHSENMIR" "${INSTALLDIR##*/}/etc/pacman.d/mirrorlist"
 DOMIRLCR=0

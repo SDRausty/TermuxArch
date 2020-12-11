@@ -128,57 +128,95 @@ chmod 700 usr/local/bin/ae
 _ADDmakeaurhelpers_() {
 _CFLHDR_ usr/local/bin/makeaurhelpers "# add Arch Linux AUR helpers https://wiki.archlinux.org/index.php/AUR_helpers"
 cat >> usr/local/bin/makeaurhelpers <<- EOM
-printf "%s\\\\n\\\\n" "Please contribute to developing the '\${0##*/}' command at https://github.com/TermuxArch/TermuxArch/issues and https://github.com/TermuxArch/TermuxArch/pulls in order to have a greater working assortment of AUR helpers like 'yay' that builds Arch Linux packages in just a few taps.  More information about Arch Linux AUR helpers is at this https://wiki.archlinux.org/index.php/AUR_helpers link;  Waiting six seconds..."
-sleep 6
-printf "%s\\\\n\\\\n" "Command '\${0##*/}' continuing..."
-_AURHELPERS_() {
-printf "%s\\\\n" "Cloning repositories: '\$(printf "%s " "\$@")' from https://aur.archlinux.org."
-for AURHELPER in \$@
-do
+_CLONEAURHELPER_() {
+cd "\$HOME/aurhelpers"
 if [[ ! -d "\$AURHELPER" ]]
 then
-printf "%s\\\\n\\\\n" "Cloning repository '\$AURHELPER' from https://archive.archlinux32.org." && gcl https://aur.archlinux.org/\${AURHELPER}.git && printf "%s\\\\n\\\\n" "Finished downloading file '\$AURHELPER' from https://aur.archlinux.org." || _PRTERROR_
+printf "%s\\\\n\\\\n" "Cloning repository '\$AURHELPER' from https://aur.archlinux.org." && gcl https://aur.archlinux.org/\${AURHELPER}.git && printf "%s\\\\n\\\\n" "Finished cloning repository '\$AURHELPER' from https://aur.archlinux.org." && _MAKEAURHELPER_ || _PRTERROR_
 else
-printf "%s\\\\n" "Repository '\$AURHELPER' is already cloned."
+printf "%s\\\\n" "Repository '\$AURHELPER' is already cloned." && _MAKEAURHELPER_ || _PRTERROR_
 fi
-done
 }
-_BLDHELPERS_() {
-for AURHELPER in \$@
-do
-if [[ -d "\$HOME/makeaurhelpers/\$AURHELPER" ]]
+
+_DONEAURHELPER_(){
+echo echo
+echo echo
+#command "\$1" || _DOAURHELPERS_
+if ! command "\$1" || echo whats diz whats diz whats diz whats diz whats diz whats diz whats diz whats diz
 then
-cd "\$HOME/makeaurhelpers/\$AURHELPER"
-printf "%s\\\\n" "Running command 'nice -n 20 makepkg -irs --noconfirm';  Building and attempting to install '\$AURHELPER' with '\${0##*/}' $VERSIONID.  Please be patient..."
-nice -n 20 makepkg -irs --noconfirm || _PRTERROR_
-cd "\$HOME/makeaurhelpers"
+printf '%s\n' "Found command \$1"
+printf '%s\n' "Found command \$1"
+printf '%s\n' "Found command \$1"
+printf '%s\n' "Found command \$1"
+if printf '%s\n' "\${AURHELPERS[@]}" | grep -q -P "^\$1$"
+then
+echo echo
+echo echo
+echo \$1
+echo echo
+echo echo
+echo echo
+echo echo
+echo \$1
+echo echo
+echo echo
 fi
+fi
+echo echo
+echo echo
+}
+
+_DOAURHELPERS_(){
+for AURHELPER in \${AURHELPERS[@]}
+do
+if [ "\$AURHELPER" = stack-static ]
+then
+gpg --keyserver keyserver.ubuntu.com --recv-keys 575159689BEFB442
+fi
+if [ "\$AURHELPER" = pacaur ]
+then
+pci expac
+AURHELPER=auracle-git
+_CLONEAURHELPER_
+fi
+if [ "\$AURHELPER" = bauerbill ]
+then
+pci python-pyxdg
+BAUERBILLDEPS=(pbget pm2ml powerpill python3-aur python3-colorsysplus python3-memoizedb python3-xcgf python3-xcpf)
+for AURHELPER in \${BAUERBILLDEPS[@]}
+do
+_CLONEAURHELPER_
+done
+fi
+_CLONEAURHELPER_
 done
 }
+
+_MAKEAURHELPER_() {
+cd "\$HOME/aurhelpers/\$AURHELPER"
+printf "%s\\\\n" "Running command 'nice -n 20 makepkg -irs --noconfirm';  Building and attempting to install '\$AURHELPER' with '\${0##*/}' $VERSIONID.  Please be patient..."
+nice -n 20 makepkg -irs --noconfirm || nice -n 20 makepkg -irs --noconfirm || _PRTERROR_
+}
+
 _PRTERROR_() {
 printf "\\\\n\\\\e[1;31merror: \\\\e[1;37m%s\\\\e[0m\\\\n\\\\n" "Please correct the error(s) and/or warning(s) and run '\${0##*/}' again."
 }
-_PANHELPERS_() {
-printf "%s\\\\n" "Installing packages: '\$(printf "%s " "\$@")'..."
-for AURHELPER in \$@
-do
-printf "%s\\\\n\\\\n" "Attempting to install '\$AURHELPER'..." && pc "\${AURHELPER}" || _PRTERROR_
-done
-}
-if ([[ ! "\$(command -v fakeroot)" ]] || [[ ! "\$(command -v gcc)" ]] || [[ ! "\$(command -v libtool)" ]] || [[ ! "\$(command -v po4a)" ]]) 2>/dev/null
+
+[ ! -d "\$HOME/aurhelpers" ] && mkdir -p "\$HOME/aurhelpers"
+UNAMEM="\$(uname -m)"
+if [ "\$UNAMEM" = x86_64 ]
 then
-pci automake base base-devel binutils fakeroot gcc libtool po4a || pci automake base base-devel binutils fakeroot gcc libtool po4a || printf "\\n\\e[1;31mERROR: \\e[7;37m%s\\e[0m\\n\\n" "Please correct the error(s) and/or warning(s) by running command 'pci automake base base-devel fakeroot gcc libtool po4a' as root user.  You can do this without closing this session by running command \"$STARTBIN command 'pci automake base base-devel fakeroot gcc libtool po4a'\"in a new Termux session. Then you can return to this session and run '\${0##*/} \${ARGS[@]}' again."
+AURHELPERS=(stack-static aura-git auracle-git aurutils bauerbill pacaur pakku paru pbget pikaur-git pkgbuilder puyo repoctl repofish rua trizen yaah yayim)
+elif [ "\$UNAMEM" = i386 ]
+then
+AURHELPERS=(auracle-git aurutils bauerbill pacaur pakku paru pbget pikaur-git pkgbuilder puyo repoctl repofish rua trizen yaah yayim)
+else
+AURHELPERS=(aurutils bauerbill pacaur pakku paru pbget pikaur-git pkgbuilder puyo repoctl repofish trizen yaah yayim)
 fi
-declare -A AURHELPERS
-AURHELPERS=([aura]="" [auracle-git]="" [aurutils]="" [bauerbill]="pbget pm2ml powerpill python-xdg python3-aur python3-colorsysplus python3-memoizedb python3-xcgf python3-xcpf" [pacaur]="" [pakku]="" [paru]="" [paru-bin]="" [pbget]="pm2ml python3-aur python3-xcgf python3-xcpf" [pikaur]="" [pikaur-git]="" [pkgbuilder]="" [puyo]="" [repoctl]="" [repofish]="" [rua]="" [trizen]="" [yaah]="" [yay]="" [yay-bin]="" [yay-git]="" [yayim]="")
-[ ! -d "\$HOME/makeaurhelpers" ] && mkdir -p "\$HOME/makeaurhelpers"
-cd "\$HOME/makeaurhelpers"
-_PANHELPERS_ "\${AURHELPERS[@]}"
-_PANHELPERS_ "\${!AURHELPERS[@]}"
-_AURHELPERS_ "\${AURHELPERS[@]}"
-_AURHELPERS_ "\${!AURHELPERS[@]}"
-_BLDHELPERS_ "\${AURHELPERS[@]}"
-_BLDHELPERS_ "\${!AURHELPERS[@]}"
+# command yay || makeyay
+echo _DONEAURHELPER_ pikaur
+_DONEAURHELPER_ pikaur
+# _DOAURHELPERS_
 # makeaurhelpers EOF
 EOM
 chmod 700 usr/local/bin/makeaurhelpers
@@ -1002,7 +1040,7 @@ elif [[ "\$1" = "a8" ]]
 then
 \$SUDOCONF pacman --noconfirm --color=always -S base base-devel emacs jdk8-openjdk "\${@:2}"
 else
-\$SUDOCONF pacman --noconfirm --color=always -S "\$@" || yay -a "\$@" || (makeyay && yay -a "\$@")
+\$SUDOCONF pacman --noconfirm --color=always -S "\$@"
 fi
 # pc EOF
 EOM
@@ -1031,7 +1069,7 @@ trap _TRPET_ EXIT
 printf "\\\\e[1;32m==> \\\\e[1;37mRunning TermuxArch command \\\\e[1;32m%s \\\\e[0;32m%s\\\\e[1;37m...\\\\n" "\${0##*/} \$ARGS" "v\$VERSIONID"
 if [[ -z "\${1:-}" ]]
 then
-\$SUDOCONF pacman --noconfirm --color=always -Syu || yay || (makeyay && yay)
+\$SUDOCONF pacman --noconfirm --color=always -Syu
 elif [[ "\$1" = "e" ]]
 then
 \$SUDOCONF pacman --noconfirm --color=always -Syu base base-devel emacs "\${@:2}"
@@ -1042,7 +1080,7 @@ elif [[ "\$1" = "e10" ]]
 then
 \$SUDOCONF pacman --noconfirm --color=always -Syu base base-devel emacs jdk10-openjdk "\${@:2}"
 else
-\$SUDOCONF pacman --noconfirm --color=always -Syu "\$@" || yay -a "\$@" || (makeyay && yay -a "\$@")
+\$SUDOCONF pacman --noconfirm --color=always -Syu "\$@"
 fi
 # pci EOF
 EOM
