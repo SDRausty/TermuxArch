@@ -361,16 +361,6 @@ printf "%s\\n" "$PROOTSTMNT /bin/bash -lc \"\${@:2}\" ||:" >> "$STARTBIN"
 cat >> "$STARTBIN" <<- EOM
 set -Eeuo pipefail
 rm -f "$INSTALLDIR/root/.chushlogin"
-## [l[ogin] user | u[ser] user] Login as user.
-elif [[ "\${1//-}" = [Ll]* ]] || [[ "\${1//-}" = [Uu]* ]]
-then
-printf '\033]2; TermuxArch $STARTBIN login %s 📲 :DONE 🏁 \007' "\$2"
-set +Eeuo pipefail
-umask 0022
-EOM
-printf "%s\\n" "$PROOTSTMNTU /bin/su - \"\$2\" ||:" >> "$STARTBIN"
-cat >> "$STARTBIN" <<- EOM
-set -Eeuo pipefail
 ## [el[ogin] user | eu[ser] user] Login as user.
 elif [[ "\${1//-}" = e[Ll]* ]] || [[ "\${1//-}" = e[Uu]* ]]
 then
@@ -379,6 +369,33 @@ set +Eeuo pipefail
 umask 0022
 EOM
 printf "%s\\n" "$PROOTSTMNTEU /bin/su - \"\$2\" ||:" >> "$STARTBIN"
+cat >> "$STARTBIN" <<- EOM
+set -Eeuo pipefail
+## [esu user command] Login as user and execute command.
+elif [[ "\${1//-}" = [Ee][Ss]* ]]
+then
+printf '\\033]2;%s\\007' "TermuxArch $STARTBIN esu \$2 \${@:3} 📲 : DONE 🏁"
+if [[ "\$2" = root ]]
+then
+printf "%s\\n" "Please use this command \"$STARTBIN c '\${@:3}'\" for the Arch Linux in Termux PRoot \$2 user account;  Exiting..."
+exit
+fi
+touch "$INSTALLDIR/home/\$2/.chushlogin"
+set +Eeuo pipefail
+umask 0022
+EOM
+printf "%s\\n" "$PROOTSTMNTEU /bin/su - \"\$2\" -c \"\${@:3}\"" >> "$STARTBIN"
+cat >> "$STARTBIN" <<- EOM
+set -Eeuo pipefail
+rm -f "$INSTALLDIR/home/\$2/.chushlogin"
+## [l[ogin] user | u[ser] user] Login as user.
+elif [[ "\${1//-}" = [Ll]* ]] || [[ "\${1//-}" = [Uu]* ]]
+then
+printf '\033]2; TermuxArch $STARTBIN login %s 📲 :DONE 🏁 \007' "\$2"
+set +Eeuo pipefail
+umask 0022
+EOM
+printf "%s\\n" "$PROOTSTMNTU /bin/su - \"\$2\" ||:" >> "$STARTBIN"
 cat >> "$STARTBIN" <<- EOM
 set -Eeuo pipefail
 ## [raw ARGS] Construct the 'startarch' proot statement.
@@ -411,7 +428,7 @@ rm -f "$INSTALLDIR/home/\$2/.chushlogin"
 else
 _PRINTUSAGE_
 fi
-# $STARTBIN EOF
+## $STARTBIN EOF
 EOM
 chmod 700 "$STARTBIN"
 }
