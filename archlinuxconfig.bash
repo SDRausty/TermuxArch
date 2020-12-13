@@ -277,6 +277,8 @@ alias F='grep -n --color=always'
 alias f='grep -n --color=always'
 alias G='ga ; gcm ; gp'
 alias g='ga ; gcm ; gp'
+alias GITS='git show'
+alias gits='git show'
 alias GCA='git commit -a -S'
 alias gca='git commit -a -S'
 alias GCAM='git commit -a -S -m'
@@ -1513,4 +1515,4 @@ MOTTECGIT="github.com/archlinuxarm"
 MOTTECIRC="archlinuxarm.org/about/contact"
 fi
 }
-# archlinuxconfig.bash EOF
+## archlinuxconfig.bash EOF

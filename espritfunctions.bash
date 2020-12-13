@@ -266,4 +266,4 @@ _PRINTWLD_
 am startservice --user 0 -a com.termux.service_wake_unlock com.termux/com.termux.app.TermuxService > /dev/null || _PSGI1ESTRING_ "am startservice _WAKEUNLOCK_ necessaryfunctions.bash ${0##/*} : Continuing..."
 _PRINTDONE_
 }
-# espritfunctions.bash EOF
+## espritfunctions.bash EOF

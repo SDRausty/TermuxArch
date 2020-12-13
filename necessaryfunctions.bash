@@ -588,4 +588,4 @@ _RUNFINISHSETUP_
 rm -f root/bin/$BINFNSTP
 rm -f root/bin/setupbin.bash
 }
-# necessaryfunctions.bash EOF
+## necessaryfunctions.bash EOF

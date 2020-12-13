@@ -76,4 +76,4 @@ OUNA="/TermuxArch"
 _GSA_ docs docsTermuxArch "" || printf "\\n\\n%s\\n" "Cannot add or update module docs : Continuing..."
 _GSA_ gen genTermuxArch "" || printf "\\n\\n%s\\n" "Cannot add or update module gen : Continuing..."
 _GSA_ scripts "scripts.TermuxArch" "" || printf "\\n\\n%s\\n" "Cannot add or update module scripts : Continuing..."
-# pullTermuxArchSubmodules.bash EOF
+## pullTermuxArchSubmodules.bash EOF

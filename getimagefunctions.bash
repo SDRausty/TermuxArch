@@ -110,4 +110,4 @@ sed '2q;d' md5sums.txt > "$IFILE".md5
 rm md5sums.txt
 _PRINTDOWNLOADINGX86TWO_
 }
-# getimagefunctions.bash EOF
+## getimagefunctions.bash EOF
