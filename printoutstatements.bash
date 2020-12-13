@@ -15,7 +15,7 @@ FLHDR1[1]="# IFS=$'\\n\\t'"
 FLHDR1[2]="set -Eeuo pipefail"
 FLHDR1[3]="shopt -s nullglob globstar"
 FLHDR1[4]="unset LD_PRELOAD"
-FLHDR1[5]="VERSIONID=2.0.404"
+FLHDR1[5]="VERSIONID=2.0.405"
 FLHDR1[6]=""
 FLHDRP[0]="## BEGIN #####################################################################"
 FLHDRP[1]=""
@@ -225,11 +225,6 @@ _PRTX8664_
 else
 _PRTARM_
 fi
-}
-
-_PRINTERROR_() {
-printf "\\e[1;31m%s\\e[1;37m%s\\e[1;32m%s\\e[1;37m%s\\n\\n" "Signal generated in '$1' : Cannot complete task : " "Continuing..."
-printf "\\e[1;34m%s\\e[0;34m%s\\e[1;34m%s\\e[0m\\n\\n" "  If you find improvements for " "${0##*}" " please open an issue and an accompanying pull request."
 }
 
 _PRINTPROOTERROR_() {

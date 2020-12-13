@@ -433,7 +433,7 @@ if md5sum -c "$IFILE".md5 1>/dev/null
 then
 _PRINTMD5SUCCESS_
 printf "\\e[0;32m"
-_TASPINNER_ clock & _PREPROOT_ ; kill $! || _PRINTERROR_ "_PREPROOT_ _MD5CHECK_ ${0##*/} necessaryfunctions.bash"
+_TASPINNER_ clock & _PREPROOT_ ; kill $! || _PRINTERRORMSG_ "_PREPROOT_ _MD5CHECK_ ${0##*/} necessaryfunctions.bash"
 else
 rm -f "$INSTALLDIR"/*.tar.gz "$INSTALLDIR"/*.tar.gz.md5
 _PRINTMD5ERROR_
@@ -465,9 +465,9 @@ _FIXOWNER_
 _PREPROOT_() {
 if [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = "$CPUABIX86_64" ]] || [[ "$CPUABI" = i386 ]]
 then
-proot --link2symlink -0 bsdtar -p -xf "$IFILE" --strip-components 1 || _PRINTERROR_ "proot _PREPROOT_ ${0##*/} necessaryfunctions.bash"
+proot --link2symlink -0 bsdtar -p -xf "$IFILE" --strip-components 1 || _PRINTERRORMSG_ "proot _PREPROOT_ ${0##*/} necessaryfunctions.bash"
 else
-proot --link2symlink -0 bsdtar -p -xf "$IFILE" || _PRINTERROR_ "proot _PREPROOT_ ${0##*} necessaryfunctions.bash"
+proot --link2symlink -0 bsdtar -p -xf "$IFILE" || _PRINTERRORMSG_ "proot _PREPROOT_ ${0##*} necessaryfunctions.bash"
 fi
 }
 

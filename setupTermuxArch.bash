@@ -5,13 +5,18 @@
 # command 'setupTermuxArch h[elp]' has information how to use this file
 ################################################################################
 IFS=$'\n\t'
-VERSIONID=2.0.404
+VERSIONID=2.0.405
 set -Eeuo pipefail
 shopt -s nullglob globstar
 umask 0022
 unset LD_PRELOAD
 ## INIT FUNCTIONS ##############################################################
 ## The entire dataset can be viewed and work on with command 'setupTermuxArch bloom' which downloads all the components of TermuxArch into a ~/TermuxArchBloom directory in the home directory.  The command 'setupTermuxArch bloom' is very similar to command 'setupTermuxArch manual' but much more expansive, verbose.  Command 'setupTermuxArch h[elp]' has additional information how to use this file.
+
+_PRINTERRORMSG_() {
+printf "\\e[1;31m%s\\e[1;37m%s\\e[1;32m%s\\e[1;37m%s\\n\\n" "Signal generated in '$1' : Cannot complete task : " "Continuing..."
+printf "\\e[1;34m%s\\e[0;34m%s\\e[1;34m%s\\e[0m\\n\\n" "  If you can find improvements and the timr for " "${0##*}" " please open an issue and an accompanying pull request.  A PR can assist in shedding more light on an issue."
+}
 
 _TAMATRIXEXIT_() { # run when Matrix presentation ends
 if [[ ! -z "${TAMATRIXENDLCR:-}" ]]
