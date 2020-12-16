@@ -362,8 +362,8 @@ _PRINTTAIL_ "\$ARGS[@]"
 }
 
 _PRINTTAIL_() {
-printf "\\\\e[0m%s \\\\e[0;32m%s %s\\\\e[1;34m: \\\\e[1;32m%s\\\\e[0m 🏁  \\\\n\\\\e[0m" "TermuxArch command \${0##*/}" "\$ARGS"  "\$VERSIONID" "DONE 📱"
-printf '\033]2;  🔑 TermuxArch %s:DONE 📱 \007' "\${0##*/}"
+printf "\\\\e[0m%s \\\\e[1;32m%s \\\\e[0;32m%s\\\\e[1;34m: \\\\e[1;32m%s\\\\e[0m 🏁  \\\\n\\\\e[0m" "TermuxArch command" "\${0##*/} \$ARGS"  "version \$VERSIONID" "DONE 📱"
+printf '\033]2;  🔑 TermuxArch %s:DONE 📱 \007' "\${0##*/} \$ARGS"
 }
 
 trap _TRPET_ EXIT
@@ -376,19 +376,19 @@ else
 ARGS="\$@"
 fi
 
-printf "\\\\e[1;32m==> \\\\e[1;37mRunning \\\\e[1;32m%s\\\\e[1;37m%s...\\\\n" "\${0##*/} \$ARGS v\$VERSIONID"
+printf "\\\\e[1;32m==> \\\\e[0mRunning \\\\e[1;32m%s\\\\e[0;32m%s\\\\e[1;37m...\\\\n\\\\n" "\${0##*/} \$ARGS " "version \$VERSIONID"
 
 if [[ -f "\$HOME"/.hushlogin ]] && [[ -f "\$HOME"/.hushlogout ]]
 then
 rm -f "\$HOME"/.hushlogin "\$HOME"/.hushlogout
-printf "%s\\\\n" "Hushed login and logout: OFF"
+printf "%s\\\\n\\\\n" "Hushed login and logout: OFF"
 elif [[ -f "\$HOME"/.hushlogin ]] || [[ -f "\$HOME"/.hushlogout ]]
 then
 touch "\$HOME"/.hushlogin "\$HOME"/.hushlogout
-printf "%s\\\\n" "Hushed login and logout: ON"
+printf "%s\\\\n\\\\n" "Hushed login and logout: ON"
 else
 touch "\$HOME"/.hushlogin "\$HOME"/.hushlogout
-printf "%s\\\\n" "Hushed login and logout: ON"
+printf "%s\\\\n\\\\n" "Hushed login and logout: ON"
 fi
 ## ch EOF
 EOM
