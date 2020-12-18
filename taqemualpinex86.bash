@@ -3,7 +3,8 @@
 ################################################################################
 set -eu
 declare X86REALEASE
-_INST_() { # checks for neccessary commands
+declare X86REALEASESHA
+_INST_() {	# checks for neccessary commands
 COMMS="$1"
 STRING1="COMMAND 'au' enables rollback, available at https://wae.github.io/au/ IS NOT FOUND: Continuing... "
 STRING2="Cannot update ~/${0##*/} prerequisite: Continuing..."
@@ -25,10 +26,12 @@ _INPKGS_
 fi
 }
 _BOOTISO_() {
+printf "%s\\n\\n" "Booting file '$X86REALEASE';  Please use CTRL+a x to exit the QEMU session."
+sleep 4
 qemu-system-i386 -m 512M -nographic -cdrom "$1"
 }
 _PSGI1ESTRING_() {	# print signal generated in arg 1 format
-printf "\\e[1;33mSIGNAL GENERATED in %s\\e[1;34m : \\e[1;32mCONTINUING...  \\e[0;34mExecuting \\e[0;32m%s\\e[0;34m in the native shell once the installation and configuration process completes will attempt to finish the autoconfiguration and installation if the installation and configuration processes were not completely successful.  Should better solutions for \\e[0;32m%s\\e[0;34m be found, please open an issue and accompanying pull request if possible.\\nThe entire script can be reviewed by creating a \\e[0;32m%s\\e[0;34m directory with the command \\e[0;32m%s\\e[0;34m which can be used to access the entire installation script.  This option does NOT configure and install the root file system.  This command transfers the entire script into the home directory for hacking, modification and review.  The command \\e[0;32m%s\\e[0;34m has more information about how to use use \\e[0;32m%s\\e[0;34m in an effective way.\\e[0;32m%s\\e[0m\\n" "'$1'" "'bash ${0##*/} refresh'" "'${0##*/}'" "'~/TermuxArchBloom/'" "'setupTermuxArch b'" "'setupTermuxArch help'" "'${0##*/}'"
+printf "\\e[1;33mSIGNAL GENERATED in %s\\e[1;34m : \\e[1;32mCONTINUING...  \\e[0;34mShould better solutions for \\e[0;32m%s\\e[0;34m be found, please open an issue and accompanying pull request if possible.\\e[0m\\n" "'$1'" "'${0##*/}'"
 }
 if ! command -v qemu-system-i386
 then
@@ -39,18 +42,18 @@ X86REALEASESHA="$(sed -n '/^$/!{s/<[^>]*>//g;p;}' alpinev3.12releasesx86 | awk '
 [ -f "$X86REALEASESHA" ] && printf "%s\\n\\n" "Found $X86REALEASESHA file." || (printf "%s\\n\\n" "Downloading $X86REALEASESHA file from https://dl-cdn.alpinelinux.org." && curl -0 "https://dl-cdn.alpinelinux.org/alpine/v3.12/releases/x86/$X86REALEASESHA" -o "$X86REALEASESHA")
 X86REALEASE="$(awk '{print$2}' "$X86REALEASESHA")"
 [ -f "$X86REALEASE" ] && printf "%s\\n\\n" "Found $X86REALEASE file." || (printf "%s\\n\\n" "Downloading $X86REALEASE file from https://dl-cdn.alpinelinux.org." && curl -C - --fail --retry 4 -0 "https://dl-cdn.alpinelinux.org/alpine/v3.12/releases/x86/$X86REALEASE" -o "$X86REALEASE")
-if [ ! -f "checked${X86REALEASE##* }" ]
+if [ ! -f "checked$X86REALEASE" ]
 then
-printf "%s\\n\\n" "Checking file '${X86REALEASE##* }' with sha512sum."
+printf "%s\\n\\n" "Checking file '$X86REALEASE' with sha512sum."
 if sha512sum "$X86REALEASESHA"
 then
-touch "checked${X86REALEASE##* }"
-_BOOTISO_ "${X86REALEASE##* }"
+touch "checked$X86REALEASE"
+_BOOTISO_ "$X86REALEASE"
 else
-printf "%s\\n\\n" "Checking file '${X86REALEASE##* }' with sha512sum failed;  Removing files '${X86REALEASE##* }' and sha512sums."
-# rm -f "${X86REALEASE##* }" sha512sums
+printf "%s\\n\\n" "Checking file '$X86REALEASE' with sha512sum failed;  Removing files '$X86REALEASE' and '$X86REALEASESHA'."
+rm -f "$X86REALEASE" "$X86REALEASESHA"
 fi
 else
-_BOOTISO_ "${X86REALEASE##* }"
+_BOOTISO_ "$X86REALEASE"
 fi
 ## qemualpinex86.bash EOF
