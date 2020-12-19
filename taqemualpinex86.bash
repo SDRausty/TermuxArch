@@ -26,12 +26,14 @@ _INPKGS_
 fi
 }
 _BOOTISO_() {
-printf "%s\\n\\n" "Booting file '$X86REALEASE';  Please use CTRL+a x to exit the QEMU session."
+printf "%s\\n\\n" "To exit the QEMU session, please use the 'CTRL+a x' keys;  Sleeping 4 seconds... "
 sleep 4
+printf "%s\\n\\n" "Please be patient as file '$X86REALEASE' is booting;  Feel free to work at a new Termux session while this session completes its task.  To exit the QEMU session, please use the 'CTRL+a x' keys;  Sleeping 8 seconds... "
+sleep 8
 qemu-system-i386 -m 512M -nographic -cdrom "$1"
 }
 _PSGI1ESTRING_() {	# print signal generated in arg 1 format
-printf "\\e[1;33mSIGNAL GENERATED in %s\\e[1;34m : \\e[1;32mCONTINUING...  \\e[0;34mShould better solutions for \\e[0;32m%s\\e[0;34m be found, please open an issue and accompanying pull request if possible.\\e[0m\\n" "'$1'" "'${0##*/}'"
+printf "\\e[1;33mSIGNAL GENERATED in %s\\e[1;34m : \\e[1;32mCONTINUING...  \\e[0;34mShould better solutions for \\e[0;32m%s\\e[0;34m be found, please open an issue and accompanying pull request if possible.\\e[0m\\n" "'$1'" "'${0##*/} ${@:-}'"
 }
 if ! command -v qemu-system-i386
 then
