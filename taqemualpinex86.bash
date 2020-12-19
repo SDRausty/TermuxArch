@@ -4,7 +4,7 @@
 set -eu
 declare X86REALEASE
 declare X86REALEASESHA
-_INST_() {	# checks for neccessary commands
+_INST_() {	# check for wanted commands
 COMMS="$1"
 STRING1="COMMAND 'au' enables rollback, available at https://wae.github.io/au/ IS NOT FOUND: Continuing... "
 STRING2="Cannot update ~/${0##*/} prerequisite: Continuing..."
@@ -35,6 +35,9 @@ qemu-system-i386 -m 512M -nographic -cdrom "$1"
 _PSGI1ESTRING_() {	# print signal generated in arg 1 format
 printf "\\e[1;33mSIGNAL GENERATED in %s\\e[1;34m : \\e[1;32mCONTINUING...  \\e[0;34mShould better solutions for \\e[0;32m%s\\e[0;34m be found, please open an issue and accompanying pull request if possible.\\e[0m\\n" "'$1'" "'${0##*/} ${@:-}'"
 }
+## begin ##
+[ ! -d "$HOME/tmp/" ] && printf "\\e[0;34mCreating directory \\e[0;32m%s\\e[0;34m.\\e[0m\\n" "'$HOME/tmp/'" && mkdir -p "$HOME/tmp/"
+[ -d "$HOME/tmp/" ] && cd "$HOME/tmp/" || _PSGI1ESTRING_ " cd $HOME/tmp/ ${0##*/}"
 if ! command -v qemu-system-i386
 then
 _INST_ qemu-system-i386 qemu-system-i386-headless "${0##*/}" || _PSGI1ESTRING_ "_INST_ qemu-system-i386 ${0##*/}"

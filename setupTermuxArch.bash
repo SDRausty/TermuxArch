@@ -4,7 +4,7 @@
 # https://termuxarch.github.io/TermuxArch/CONTRIBUTORS thank you for helping
 # command 'setupTermuxArch h[elp]' has information how to use this file
 ################################################################################
-VERSIONID=2.0.417
+VERSIONID=2.0.418
 set -Eeuo pipefail
 shopt -s nullglob globstar
 umask 0022
@@ -244,6 +244,7 @@ printf "\\n\\e[0;34m 🕛 > 🕧 \\e[1;34mPrerequisites: \\e[1;32mOK  \\e[1;34mD
 }
 
 _DEPENDSBLOCK_() {
+au wget || _PSGI1ESTRING_ "au wget _DEPENDSBLOCK_ ${0##*/}"
 _DEPENDS_ || _PSGI1ESTRING_ "_DEPENDS_ _DEPENDSBLOCK_ ${0##*/}"
 _COREFILESDO_
 }
