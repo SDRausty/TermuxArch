@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
-# copyright 2020 (c) by SDRausty, all rights reserved, see LICENSE
+## copyright 2020 (c) by SDRausty, all rights reserved, see LICENSE
+## hosting termuxarch.github.io/TermuxArch courtesy pages.github.com
+## https://termuxarch.github.io/TermuxArch/CONTRIBUTORS thank you for helping
 ################################################################################
 set -eu
 declare X86REALEASE

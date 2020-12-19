@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
-# copyright 2017-2020 (c) by SDRausty, all rights reserved, see LICENSE
-# hosting termuxarch.github.io/TermuxArch courtesy pages.github.com
-# https://termuxarch.github.io/TermuxArch/CONTRIBUTORS thank you for helping
-# command 'setupTermuxArch h[elp]' has information how to use this file
+## copyright 2017-2020 (c) by SDRausty, all rights reserved, see LICENSE
+## hosting termuxarch.github.io/TermuxArch courtesy pages.github.com
+## https://termuxarch.github.io/TermuxArch/CONTRIBUTORS thank you for helping
+## command 'setupTermuxArch h[elp]' has information how to use this file
 ################################################################################
-VERSIONID=2.0.418
+VERSIONID=2.0.419
 set -Eeuo pipefail
 shopt -s nullglob globstar
 umask 0022
@@ -244,7 +244,6 @@ printf "\\n\\e[0;34m 🕛 > 🕧 \\e[1;34mPrerequisites: \\e[1;32mOK  \\e[1;34mD
 }
 
 _DEPENDSBLOCK_() {
-au wget || _PSGI1ESTRING_ "au wget _DEPENDSBLOCK_ ${0##*/}"
 _DEPENDS_ || _PSGI1ESTRING_ "_DEPENDS_ _DEPENDSBLOCK_ ${0##*/}"
 _COREFILESDO_
 }
@@ -270,7 +269,10 @@ then	# use https://github.com/curl/curl
 "${ADM[curl]}" "$DMVERBOSE" -O {"${FILE[sha]},${FILE[tar]}"}
 elif [[ "$DM" = wget ]]
 then	# use https://github.com/mirror/wget
+_DOADMWGET_() {
 "${ADM[wget]}" "$DMVERBOSE" -N --show-progress "${FILE[sha]}" "${FILE[tar]}"
+}
+_DOADMWGET_  || (au wget && "$PREFIX/bin/wget" "$DMVERBOSE" -N --show-progress "${FILE[sha]}" "${FILE[tar]}") || _PSGI1ESTRING_ "_DOADMWGET_ _DWNL_ ${0##*/}"
 else	# use https://github.com/lavv17/lftp
 "${ADM[lftp]}" -c "${FILE[sha]}" "${FILE[tar]}"
 fi

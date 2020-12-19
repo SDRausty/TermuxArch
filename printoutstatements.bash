@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
-# Copyright 2017-2020 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
-# Hosted sdrausty.github.io/TermuxArch courtesy https://pages.github.com
-# https://sdrausty.github.io/TermuxArch/README has info about this project.
-# https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.
-# printout statement subroutines for 'setupTermuxArch'
+## Copyright 2017-2020 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
+## Hosted sdrausty.github.io/TermuxArch courtesy https://pages.github.com
+## https://sdrausty.github.io/TermuxArch/README has info about this project.
+## https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.
+## printout statement subroutines for 'setupTermuxArch'
 ################################################################################
 FLHDR0[0]="#!/usr/bin/env bash"
 FLHDR0[1]="# Copyright 2017-2020 by SDRausty. All rights reserved, see LICENSE 🌎 🌍 🌏"
@@ -15,7 +15,7 @@ FLHDR1[1]=""
 FLHDR1[2]="set -Eeuo pipefail"
 FLHDR1[3]="shopt -s nullglob globstar"
 FLHDR1[4]="unset LD_PRELOAD"
-FLHDR1[5]="VERSIONID=2.0.418"
+FLHDR1[5]="VERSIONID=2.0.419"
 FLHDR1[6]=""
 FLHDRP[0]="## BEGIN #####################################################################"
 FLHDRP[1]=""
