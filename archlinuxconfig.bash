@@ -139,31 +139,15 @@ fi
 }
 
 _DONEAURHELPER_(){
-echo echo
-echo echo
 #command "\$1" || _DOAURHELPERS_
-if ! command "\$1" || echo whats diz whats diz whats diz whats diz whats diz whats diz whats diz whats diz
+if ! command "\$1"
 then
-printf '%s\n' "Found command \$1"
-printf '%s\n' "Found command \$1"
-printf '%s\n' "Found command \$1"
 printf '%s\n' "Found command \$1"
 if printf '%s\n' "\${AURHELPERS[@]}" | grep -q -P "^\$1$"
 then
-echo echo
-echo echo
-echo \$1
-echo echo
-echo echo
-echo echo
-echo echo
-echo \$1
-echo echo
-echo echo
+printf '%s\n' "\$1"
 fi
 fi
-echo echo
-echo echo
 }
 
 _DOAURHELPERS_(){
@@ -215,7 +199,7 @@ AURHELPERS=(aurutils bauerbill pacaur pakku paru pbget pikaur-git pkgbuilder puy
 fi
 # command yay || makeyay
 echo _DONEAURHELPER_ pikaur
-_DONEAURHELPER_ pikaur
+# _DONEAURHELPER_ pikaur
 # _DOAURHELPERS_
 ## makeaurhelpers EOF
 EOM
@@ -273,6 +257,8 @@ alias D='nice -n 20 du -hs'
 alias d='nice -n 20 du -hs'
 alias E='exit'
 alias e='exit'
+alias ES='emacs'
+alias es='emacs'
 alias F='grep -n --color=always'
 alias f='grep -n --color=always'
 alias G='ga ; gcm ; gp'
@@ -311,6 +297,8 @@ alias PCSS='pacman -Ss --color=always'
 alias pcss='pacman -Ss --color=always'
 alias Q='exit'
 alias q='exit'
+alias V='v'
+alias v='v'
 alias UM='uname -m'
 alias um='uname -m'
 EOM
@@ -446,6 +434,20 @@ printf "\\\\e[0;33m%s\\\\n\\\\e[0m" "\$USRSPACE \$DFUNIT of free user space is a
 ## dfa EOF
 EOM
 chmod 700 usr/local/bin/dfa
+}
+
+_ADDes_() {
+_CFLHDR_ usr/local/bin/es
+cat >> usr/local/bin/es <<- EOM
+if [[ -z "\${1:-}" ]]
+then
+ARGS=(".")
+else
+ARGS=("\$@")
+fi
+EOM
+printf "%s\\n%s\\n%s\\n" "[ \"\$UID\" = 0 ] && printf \"\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\\n\" \"Cannot run '\${0##*/}' as root user :\" \" the command 'addauser username' creates user accounts in $INSTALLDIR : the command '$STARTBIN command addauser username' can create user accounts in $INSTALLDIR from Termux : a default user account is created during setup : the default username 'user' can be used to access the PRoot system employing a user account : command '$STARTBIN help' has more information : \" \"exiting...\" && exit" "[ ! -x \"\$(command -v emacs)\" ] && pci emacs && emacs \"\${ARGS[@]}\" || emacs \"\${ARGS[@]}\"" "## v EOF" >> usr/local/bin/es
+chmod 700 usr/local/bin/es
 }
 
 _ADDexd_() {
