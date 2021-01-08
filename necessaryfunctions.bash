@@ -507,7 +507,7 @@ elif [[ "$CPUABI" = "$CPUABIX86_64" ]]
 then
 AL64MRLT="https://www.archlinux.org/mirrorlist/all/"
 printf "\\e[0m\\n%s\\n" "Updating ${ALMLLOCN##*/} from $AL64MRLT."
-curl --retry 4 "$AL64MRLT" -o "$ALMLLOCN"
+curl -L --retry 4 "$AL64MRLT" -o "$ALMLLOCN"
 _DOMIRROR_
 fi
 printf "\\e[0m"

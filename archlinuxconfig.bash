@@ -44,11 +44,6 @@ chmod 775 "/home/\$1"
 chown -R "\$1:\$1" "/home/\$1"
 sed -i "s/\$1:x/\$1:/g" /etc/passwd
 printf "\\\\e[0;32m%s\\\\e[1;32m%s\\\\e[0;32m%s\\\\e[1;32m%s\\\\e[0;32m%s\\\\e[1;32m%s\\\\e[0;32m%s\\\\e[1;32m%s\\\\e[0;32m%s\\\\e[0m\\\\n" "Added Arch Linux in Termux PRoot user " "'\$1'" " and configured user '\$1' for use with the Arch Linux command 'sudo'.  Created Arch Linux user \$1's home directory in /home/\$1.  To use this account run " "'$STARTBIN login \$1'" " from the shell in Termux.  To add user accounts you can use " "'addauser \$1'" " in Arch Linux and " "'$STARTBIN c[ommand] addauser \$1'" " in the default Termux shell.  Please do not nest proot in proot by using '$STARTBIN' in '$STARTBIN' as this is known to cause issues for users of PRoot."
-cd "/home/\$1"
-if [ ! -e txhome ]
-then
-ln -s "$HOME" txhome || printf "%s\\n" "Symlink error; Continuing"
-fi
 }
 _PMFSESTRING_() {
 printf "\\\\e[1;31m%s\\\\e[1;37m%s\\\\e[1;32m%s\\\\e[1;37m%s\\\\n\\\\n" "Signal generated in '\$1' : Cannot complete task : " "Continuing..."
@@ -257,8 +252,6 @@ alias D='nice -n 20 du -hs'
 alias d='nice -n 20 du -hs'
 alias E='exit'
 alias e='exit'
-alias ES='emacs'
-alias es='emacs'
 alias F='grep -n --color=always'
 alias f='grep -n --color=always'
 alias G='ga ; gcm ; gp'

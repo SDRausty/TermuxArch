@@ -5,7 +5,7 @@
 ## https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.
 ################################################################################
 
-_COPYIMAGE_() { # A systemimage.tar.gz file can be used: `setupTermuxArch ./[path/]systemimage.tar.gz` and `setupTermuxArch /absolutepath/systemimage.tar.gz`
+_COPYIMAGE_() { # A systemimage.tar.gz file can be used: 'setupTermuxArch ./[path/]systemimage.tar.gz' and 'setupTermuxArch /absolutepath/systemimage.tar.gz'
 if [[ "$LCP" = "0" ]]
 then
 printf "%s\n" "Copying $GFILE.md5 to $INSTALLDIR..."
@@ -242,33 +242,32 @@ fi
 _SYSINFO_() {
 _NAMESTARTARCH_
 _SPACEINFO_
-printf "\\n\\e[1;32mGenerating TermuxArch system information; Please wait...\\n\\n"
-_SYSTEMINFO_ ## & spinner "Generating" "System Information..."
 printf "\\e[38;5;76m"
+printf "%s\\n" "Generating TermuxArch $VERSIONID system information; Please wait..."
+_TASPINNER_ clock & _SYSTEMINFO_ ; kill $! || _PRINTERRORMSG_ "_SYSINFO_ _SYSTEMINFO_ ${0##*/} maintenanceroutines.bash"
 cat "${WDIR}setupTermuxArchSysInfo$STIME".log
-printf "\\n\\e[1mThis information may be quite important when planning issue(s) at https://github.com/sdrausty/TermuxArch/issues with the hope of improving \`setupTermuxArch\`;  Include input and output, along with screenshot(s) relavent to X, and similar.\\n\\n"
+printf "\\n\\e[1mThis information may be quite important when planning issue(s) at https://github.com/sdrausty/TermuxArch/issues with the hope of improving \'setupTermuxArch\';  Include input and output, along with screenshot(s) relavent to X, and similar.\\n\\n"
 exit
 }
 
 _SYSTEMINFO_ () {
-printf "Begin TermuxArch $VERSIONID system information.\\n" > "${WDIR}setupTermuxArchSysInfo$STIME".log
-printf "\\ndpkg --print-architecture result:\\n\\n" >> "${WDIR}setupTermuxArchSysInfo$STIME".log
+printf "%s\\n" "dpkg --print-architecture result:" >> "${WDIR}setupTermuxArchSysInfo$STIME".log
 dpkg --print-architecture >> "${WDIR}setupTermuxArchSysInfo$STIME".log
-printf "\\nuname -a results:\\n\\n" >> "${WDIR}setupTermuxArchSysInfo$STIME".log
+printf "%s\\n" "uname -a results:" >> "${WDIR}setupTermuxArchSysInfo$STIME".log
 uname -a >> "${WDIR}setupTermuxArchSysInfo$STIME".log
 printf "\\n" >> "${WDIR}setupTermuxArchSysInfo$STIME".log
 for n in 0 1 2 3 4 5
 do
 printf "%s\n" "BASH_VERSINFO[$n] = ${BASH_VERSINFO[$n]}"  >> "${WDIR}setupTermuxArchSysInfo$STIME".log
 done
-printf "\\ncat /proc/cpuinfo results:\\n\\n" >> "${WDIR}setupTermuxArchSysInfo$STIME".log
+printf "%s\\n" "cat /proc/cpuinfo results:" >> "${WDIR}setupTermuxArchSysInfo$STIME".log
 cat /proc/cpuinfo >> "${WDIR}setupTermuxArchSysInfo$STIME".log
-printf "\\nDownload directory information results:\\n\\n" >> "${WDIR}setupTermuxArchSysInfo$STIME".log
-[[ -d /sdcard/Download ]] && printf "%s\n" "/sdcard/Download exists" || printf "%s\n" "/sdcard/Download not found" >> "${WDIR}setupTermuxArchSysInfo$STIME".log
-[[ -d /storage/emulated/0/Download ]] && printf "%s\n" "/storage/emulated/0/Download exists" || printf "%s\n" "/storage/emulated/0/Download not found" >> "${WDIR}setupTermuxArchSysInfo$STIME".log
-[[ -d "$HOME"/downloads ]] && printf "%s\n" "$HOME/downloads exists" || printf "%s\n" "~/downloads not found" >> "${WDIR}setupTermuxArchSysInfo$STIME".log
-[[ -d "$HOME"/storage/downloads ]] && printf "%s\n" "$HOME/storage/downloads exists" || printf "%s\n" "$HOME/storage/downloads not found" >> "${WDIR}setupTermuxArchSysInfo$STIME".log
-printf "\\nDevice information results:\\n\\n" >> "${WDIR}setupTermuxArchSysInfo$STIME".log
+printf "%s\\n" "Download directory information results:" >> "${WDIR}setupTermuxArchSysInfo$STIME".log
+[[ -d /sdcard/Download ]] && printf "%s\\n" "/sdcard/Download exists" || printf "%s\\n" "/sdcard/Download not found" >> "${WDIR}setupTermuxArchSysInfo$STIME".log
+[[ -d /storage/emulated/0/Download ]] && printf "%s\\n" "/storage/emulated/0/Download exists" || printf "%s\\n" "/storage/emulated/0/Download not found" >> "${WDIR}setupTermuxArchSysInfo$STIME".log
+[[ -d "$HOME"/downloads ]] && printf "%s\\n" "$HOME/downloads exists" || printf "%s\\n" "~/downloads not found" >> "${WDIR}setupTermuxArchSysInfo$STIME".log
+[[ -d "$HOME"/storage/downloads ]] && printf "%s\\n" "$HOME/storage/downloads exists" || printf "%s\\n" "$HOME/storage/downloads not found" >> "${WDIR}setupTermuxArchSysInfo$STIME".log
+printf "%s\\n" "Device information results:" >> "${WDIR}setupTermuxArchSysInfo$STIME".log
 [[ -e /dev/ashmem ]] && printf "%s\n" "/dev/ashmem exists" || printf "%s\n" "/dev/ashmem does not exist" >> "${WDIR}setupTermuxArchSysInfo$STIME".log
 [[ -r /dev/ashmem ]] && printf "%s\n" "/dev/ashmem is readable" || printf "%s\n" "/dev/ashmem is not readable" >> "${WDIR}setupTermuxArchSysInfo$STIME".log
 [[ -w /dev/ashmem ]] && printf "%s\n" "/dev/ashmem is writable" || printf "%s\n" "/dev/ashmem is not writable" >> "${WDIR}setupTermuxArchSysInfo$STIME".log
@@ -280,7 +279,7 @@ printf "\\nDevice information results:\\n\\n" >> "${WDIR}setupTermuxArchSysInfo$
 [[ -r /sys/ashmmem ]] && printf "%s\n" "/sys/ashmmem is readable" || printf "%s\n" "/sys/ashmmem is not readable" >> "${WDIR}setupTermuxArchSysInfo$STIME".log
 [[ -e /sys/shm ]] && printf "%s\n" "/sys/shm exists" || printf "%s\n" "/sys/shm does not exist" >> "${WDIR}setupTermuxArchSysInfo$STIME".log
 [[ -r /sys/shm ]] && printf "%s\n" "/sys/shm is readable" || printf "%s\n" "/sys/shm is not readable" >> "${WDIR}setupTermuxArchSysInfo$STIME".log
-printf "\\ngetprop results:\\n\\n" >> "${WDIR}setupTermuxArchSysInfo$STIME".log
+printf "%s\\n" "getprop results:" >> "${WDIR}setupTermuxArchSysInfo$STIME".log
 printf "%s %s\\n" "[getprop gsm.sim.operator.iso-country]:" "[$(getprop gsm.sim.operator.iso-country)]" >> "${WDIR}setupTermuxArchSysInfo$STIME".log
 printf "%s %s\\n" "[getprop net.bt.name]:" "[$(getprop net.bt.name)]" >> "${WDIR}setupTermuxArchSysInfo$STIME".log
 printf "%s %s\\n" "[getprop net.dns1]:" "[$(getprop net.dns1)]" >> "${WDIR}setupTermuxArchSysInfo$STIME".log
@@ -301,8 +300,8 @@ printf "%s %s\\n" "[getprop ro.product.first_api_level]:" "[$(getprop ro.product
 printf "%s %s\\n" "[getprop ro.product.locale]:" "[$(getprop ro.product.locale)]" >> "${WDIR}setupTermuxArchSysInfo$STIME".log
 printf "%s %s\\n" "[getprop ro.product.manufacturer]:" "[$(getprop ro.product.manufacturer)]" >> "${WDIR}setupTermuxArchSysInfo$STIME".log
 printf "%s %s\\n" "[getprop ro.product.model]:" "[$(getprop ro.product.model)]" >> "${WDIR}setupTermuxArchSysInfo$STIME".log
-printf "\\n%s\\n" "Disk report $USRSPACE on /data $(date)\\n" >> "${WDIR}setupTermuxArchSysInfo$STIME".log
-printf "\\n%s\\n" "df $INSTALLDIR results:\\n\\n" >> "${WDIR}setupTermuxArchSysInfo$STIME".log
+printf "\\n%s\\n" "Disk report $USRSPACE on /data $(date)" >> "${WDIR}setupTermuxArchSysInfo$STIME".log
+printf "\\n%s\\n" "df $INSTALLDIR results:" >> "${WDIR}setupTermuxArchSysInfo$STIME".log
 df "$INSTALLDIR" >> "${WDIR}setupTermuxArchSysInfo$STIME".log 2>/dev/null ||:
 printf "\\n%s\\n\\n" "df results:" >> "${WDIR}setupTermuxArchSysInfo$STIME".log
 df >> "${WDIR}setupTermuxArchSysInfo$STIME".log 2>/dev/null ||:
@@ -310,8 +309,8 @@ printf "\\n%s\\n\\n" "du -hs $INSTALLDIR results:" >> "${WDIR}setupTermuxArchSys
 du -hs "$INSTALLDIR" >> "${WDIR}setupTermuxArchSysInfo$STIME".log 2>/dev/null ||:
 printf "\\n%s\\n\\n" "ls -al $INSTALLDIR results:" >> "${WDIR}setupTermuxArchSysInfo$STIME".log
 ls -al "$INSTALLDIR" >> "${WDIR}setupTermuxArchSysInfo$STIME".log 2>/dev/null ||:
-printf "\\n%s\\e[0m\\n" "End \`setupTermuxArchSysInfo$STIME.log\` $VERSIONID system information." >> "${WDIR}setupTermuxArchSysInfo$STIME".log
-printf "%s\\n" "Share along with an issue and pull request at https://github.com/TermuxArch/TermuxArch/issues; include input and output.  This file is found in \`""${WDIR}setupTermuxArchSysInfo$STIME.log\`.  If you think screenshots will help in a quicker resolution, include them as well." >> "${WDIR}setupTermuxArchSysInfo$STIME".log
+printf "\\n%s\\e[0m\\n" "End 'setupTermuxArchSysInfo$STIME.log' $VERSIONID system information." >> "${WDIR}setupTermuxArchSysInfo$STIME".log
+printf "%s\\n" "Please share along with an issue and pull request at https://github.com/TermuxArch/TermuxArch/issues; include input and output.  This file is found in '${WDIR}setupTermuxArchSysInfo$STIME.log'.  If you think screenshots will help in a quicker resolution, include them as well." >> "${WDIR}setupTermuxArchSysInfo$STIME".log
 }
 
 _USERSPACE_() {
