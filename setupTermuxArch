@@ -3,11 +3,11 @@
 ## hosting termuxarch.github.io/TermuxArch courtesy pages.github.com
 ## termuxarch.github.io/TermuxArch/CONTRIBUTORS thank you for your help!
 ################################################################################
-VERSIONID=2.0.432
 set -Eeuo pipefail
 shopt -s nullglob globstar
 umask 0022
 unset LD_PRELOAD
+VERSIONID=2.0.433
 ## INIT FUNCTIONS ##############################################################
 
 _STRPERROR_() { # run on script error
