@@ -4,13 +4,13 @@
 ## https://termuxarch.github.io/TermuxArch/CONTRIBUTORS thank you for helping
 ## commands 'setupTermuxArch h[elp]' have information how to use this file
 ################################################################################
-VERSIONID=2.0.428
+VERSIONID=2.0.429
 set -Eeuo pipefail
 shopt -s nullglob globstar
 umask 0022
 unset LD_PRELOAD
 ## INIT FUNCTIONS ##############################################################
-## The core dataset can be viewed and tooled to your wish and desire with command 'setupTermuxArch bloom' which should download all the components of TermuxArch into directory HOME/TermuxArchBloom in the Termux HOME directory.  The command 'setupTermuxArch bloom' is much like the command 'setupTermuxArch manual';  The bloom option is more expansive than 'setupTermuxArch manual' which is primarily used for mirror selection, and can be used tune the PRoot init statement.  Bloom is a much more verbose option in that it provides the CLI user the entire code dataset.  Please feel free to use the commands 'setupTermuxArch h[e[lp]]' for additional information how to use 'setupTermuxArch'.
+## The core dataset can be viewed and tooled to your wish and desire with command 'setupTermuxArch bloom' which should download all the components of TermuxArch into directory HOME/TermuxArchBloom in the Termux HOME directory.  The command 'setupTermuxArch bloom' is much like the command 'setupTermuxArch manual';  The bloom option is more expansive than 'setupTermuxArch manual' which is primarily used for mirror selection, and can be used to tune the PRoot init statement.  Bloom is a much more verbose option in that it provides the CLI user the entire code dataset.  Please feel free to use the commands 'setupTermuxArch h[e[lp]]' for additional information how to use 'setupTermuxArch'.
 
 _STRPERROR_() { # run on script error
 local RV="$?"

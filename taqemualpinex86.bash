@@ -1,66 +1,86 @@
 #!/usr/bin/env bash
 ## copyright 2020 (c) by SDRausty, all rights reserved, see LICENSE
 ## hosting termuxarch.github.io/TermuxArch courtesy pages.github.com
-## https://termuxarch.github.io/TermuxArch/CONTRIBUTORS thank you for helping
+## contributors:  github.com/WMCB-Tech github.com/JanuszChmiel thank you for helping
 ################################################################################
 set -eu
-declare X86REALEASE
-declare X86REALEASESHA
-_INST_() {	# check for wanted commands
-COMMS="$1"
-STRING1="COMMAND 'au' enables rollback, available at https://wae.github.io/au/ IS NOT FOUND: Continuing... "
-STRING2="Cannot update ~/${0##*/} prerequisite: Continuing..."
-COMMANDR="$(command -v au)" || (printf "%s\\n\\n" "$STRING1")
-COMMANDIF="${COMMANDR##*/}"
-PKG="$2"
-_INPKGS_() {
-printf "%s\\n" "Beginning qemu 'qemu-system-i386' setup:"
-if [ "$COMMANDIF" = au ]
+_AU_() {
+if command -v au
 then
-au "$PKG" || printf "%s\\n" "$STRING2"
+au "$@"
 else
-apt install "$PKG" || printf "%s\\n" "$STRING2"
+printf "%s\\n" "Installing 'au'" && curl -OL "https://raw.githubusercontent.com/WAE/au/master/au" -o "$PREFIX/bin/au" && chmod 744 "$PREFIX/bin/au"
+au "$@"
 fi
 }
-if ! command -v "$COMMS"
+_BKPPROOT_() {
+[ ! -d "$HOME/termux/proot/tmp" ] && mkdir -p "$HOME/termux/proot/tmp"
+if [ ! -f "$HOME/termux/proot/tmp/proot.bkp" ] && [ -f "$PREFIX/bin/proot" ]
 then
-_INPKGS_
+cp "$PREFIX/bin/proot" "$HOME/termux/proot/tmp/proot.bkp" && printf "%s\\n" "Copied file '$PREFIX/bin/proot' to '$HOME/termux/proot/tmp/proot.bkp'."
 fi
 }
-_BOOTISO_() {
-printf "%s\\n\\n" "To exit the QEMU session, please use the 'CTRL+a x' keys;  Sleeping 4 seconds... "
-sleep 4
-printf "%s\\n\\n" "Please be patient as file '$X86REALEASE' is booting;  Feel free to work at a new Termux session while this session completes its task.  To exit the QEMU session, please use the 'CTRL+a x' keys;  Sleeping 8 seconds... "
-sleep 8
-qemu-system-i386 -m 512M -nographic -cdrom "$1"
+_GITCLONETERMUXPROOT_ () {
+if [[ -z "${GITCLONETERMUXPROOTLCR:-}" ]]
+then
+printf "%s\\n" "Cloning 'https://github.com/termux/proot' with 'git --depth 1 --single-branch'."
+git clone --depth 1 "https://github.com/termux/proot" --single-branch
+else
+printf "%s\\n" "Cloning 'https://github.com/termux/proot' with 'git'."
+git clone "https://github.com/termux/proot"
+cd proot
+git reset --hard "$GITCLONETERMUXPROOTLCR"
+fi
 }
-_PSGI1ESTRING_() {	# print signal generated in arg 1 format
-printf "\\e[1;33mSIGNAL GENERATED in %s\\e[1;34m : \\e[1;32mCONTINUING...  \\e[0;34mShould better solutions for \\e[0;32m%s\\e[0;34m be found, please open an issue and accompanying pull request if possible.\\e[0m\\n" "'$1'" "'${0##*/} ${@:-}'"
+_MAKEV1_() {
+if [ -f "$HOME/termux/proot/src/builttaprootuserland.lock" ]
+then
+printf "%s\\n" "Found file '$HOME/termux/proot/src/builttaprootuserland.lock' in directory '$HOME/termux/proot/src';  Please remove file '$HOME/termux/proot/src/builttaprootuserland.lock' to attempt to rebuild Termux PRoot with USERLAND support:  Continuing..."
+else
+if ! grep DUSERLAND GNUmakefile
+then
+sed -ir 's/^CPPFLAGS.*/CPPFLAGS += -DUSERLAND -D_FILE_OFFSET_BITS=64 -D_GNU_SOURCE -I. -I$(VPATH)/g' GNUmakefile
+fi
+_BKPPROOT_
+if ! ./proot -V
+then
+printf "%s\\n" "Running 'make clean && make V=1' in directory $(pwd)..."
+make clean && make V=1
+make install
+else
+make install
+fi
+fi
+}
+_DOTAPROOTUSERLAND_() {
+if [ ! -e "$HOME/termux/proot/src" ]
+then
+mkdir -p "$HOME/termux" && cd "$HOME/termux"
+_GITCLONETERMUXPROOT_ || (_AU_ git && _GITCLONETERMUXPROOT_)
+fi
+printf "%s\\n" "'cd $HOME/termux/proot/src'..." && cd "$HOME/termux/proot/src"
+_MAKEV1_ || ( _AU_ clang libtalloc make && _MAKEV1_ )
+command -v "$HOME/termux/proot/src/proot" && touch "$HOME/termux/proot/src/builttaprootuserland.lock"
 }
 ## begin ##
-[ ! -d "$HOME/tmp/" ] && printf "\\e[0;34mCreating directory \\e[0;32m%s\\e[0;34m.\\e[0m\\n" "'$HOME/tmp/'" && mkdir -p "$HOME/tmp/"
-[ -d "$HOME/tmp/" ] && cd "$HOME/tmp/" || _PSGI1ESTRING_ " cd $HOME/tmp/ ${0##*/}"
-if ! command -v qemu-system-i386
+if [[ -z "${1:-}" ]]
 then
-_INST_ qemu-system-i386 qemu-system-i386-headless "${0##*/}" || _PSGI1ESTRING_ "_INST_ qemu-system-i386 ${0##*/}"
-fi
-[ -f alpinev3.12releasesx86 ] && printf "%s\\n\\n" "Found alpinev3.12releasesx86 file." || (printf "%s\\n\\n" "Downloading index into alpinev3.12releasesx86 file from https://dl-cdn.alpinelinux.org." && curl -0 https://dl-cdn.alpinelinux.org/alpine/v3.12/releases/x86/ -o alpinev3.12releasesx86)
-X86REALEASESHA="$(sed -n '/^$/!{s/<[^>]*>//g;p;}' alpinev3.12releasesx86 | awk '/virt/' | awk '/sha512/' | awk 'END{print}'|  awk '{print$1}')"
-[ -f "$X86REALEASESHA" ] && printf "%s\\n\\n" "Found $X86REALEASESHA file." || (printf "%s\\n\\n" "Downloading $X86REALEASESHA file from https://dl-cdn.alpinelinux.org." && curl -0 "https://dl-cdn.alpinelinux.org/alpine/v3.12/releases/x86/$X86REALEASESHA" -o "$X86REALEASESHA")
-X86REALEASE="$(awk '{print$2}' "$X86REALEASESHA")"
-[ -f "$X86REALEASE" ] && printf "%s\\n\\n" "Found $X86REALEASE file." || (printf "%s\\n\\n" "Downloading $X86REALEASE file from https://dl-cdn.alpinelinux.org." && curl -C - --fail --retry 4 -0 "https://dl-cdn.alpinelinux.org/alpine/v3.12/releases/x86/$X86REALEASE" -o "$X86REALEASE")
-if [ ! -f "checked$X86REALEASE" ]
+_DOTAPROOTUSERLAND_
+elif [[ "${1//-}" = [Rr][Ee][Vv]* ]]	##  [rev[ert] build from commit:
 then
-printf "%s\\n\\n" "Checking file '$X86REALEASE' with sha512sum."
-if sha512sum "$X86REALEASESHA"
+GITCLONETERMUXPROOTLCR="bc3668f3238cee2011f9afa5a964b2dfc9dc523b"
+_DOTAPROOTUSERLAND_
+elif [[ "${1//-}" = [Rr][Ee]* ]]	##  [re[vert] build from commit:
 then
-touch "checked$X86REALEASE"
-_BOOTISO_ "$X86REALEASE"
-else
-printf "%s\\n\\n" "Checking file '$X86REALEASE' with sha512sum failed;  Removing files '$X86REALEASE' and '$X86REALEASESHA'."
-rm -f "$X86REALEASE" "$X86REALEASESHA"
+GITCLONETERMUXPROOTLCR="292fbc8a5406fdaf17b530444cd3dbaa92b1551d"
+_DOTAPROOTUSERLAND_
+elif [[ "${1//-}" = [Rr]* ]]	##  [r[evert] from backup file:
+then
+if [ -f "$HOME/termux/proot/tmp/proot.bkp" ]
+then
+cp "$HOME/termux/proot/tmp/proot.bkp" "$PREFIX/bin/proot" && printf "%s\\n" "Copied file '$HOME/termux/proot/tmp/proot.bkp' to '$PREFIX/bin/proot'."
 fi
 else
-_BOOTISO_ "$X86REALEASE"
+printf "%s\\n" "Please run '${0##*/}' with no options to apply the DUSERLAND patch and to build the latest version of Termux 'proot' on smartphone;  You can also use the '${0##*/} r[e[v[ertPRootVersion]]]' options for DUSERLAND patching and building Termux 'proot' to one of two previously published source code versions."
 fi
-# qemualpinex86.bash EOF
+# taprootuserland.bash EOF
