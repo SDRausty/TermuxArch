@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-## Copyright 2017-2020 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
+## Copyright 2017-2021 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
 ## Hosted sdrausty.github.io/TermuxArch courtesy https://pages.github.com
 ## https://sdrausty.github.io/TermuxArch/README has info about this project.
 ## https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.
@@ -223,7 +223,6 @@ rm -f "\$HOME"/.chushlogin
 fi
 PS1="[\[\e[38;5;148m\]\u\[\e[1;0m\]\A\[\e[1;38;5;112m\]\W\[\e[0m\]]$ "
 export GPG_TTY="\$(tty)"
-export TZ="$(getprop persist.sys.timezone)"
 EOM
 for i in "${!LC_TYPE[@]}"
 do
@@ -231,6 +230,7 @@ printf "%s=\"%s\"\\n" "export ${LC_TYPE[i]}" "$ULANGUAGE.UTF-8" >> root/.bash_pr
 done
 [[ -f "$HOME"/.bash_profile ]] && grep proxy "$HOME"/.bash_profile | grep -s "export" >> root/.bash_profile ||:
 cat >> root/.bash_profile <<- EOM
+export TZ="$(getprop persist.sys.timezone)"
 ## .bash_profile EOF
 EOM
 }
@@ -1510,4 +1510,4 @@ MOTTECGIT="github.com/archlinuxarm"
 MOTTECIRC="archlinuxarm.org/about/contact"
 fi
 }
-## archlinuxconfig.bash EOF
+# archlinuxconfig.bash EOF

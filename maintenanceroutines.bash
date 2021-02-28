@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-## Copyright 2017-2020 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
+## Copyright 2017-2021 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
 ## Hosted sdrausty.github.io/TermuxArch courtesy https://pages.github.com
 ## https://sdrausty.github.io/TermuxArch/README has info about this project.
 ## https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.
@@ -246,7 +246,7 @@ printf "\\e[38;5;76m"
 printf "%s\\n" "Generating TermuxArch $VERSIONID system information; Please wait..."
 _TASPINNER_ clock & _SYSTEMINFO_ ; kill $! || _PRINTERRORMSG_ "_SYSINFO_ _SYSTEMINFO_ ${0##*/} maintenanceroutines.bash"
 cat "${WDIR}setupTermuxArchSysInfo$STIME".log
-printf "\\n\\e[1mThis information may be quite important when planning issue(s) at https://github.com/sdrausty/TermuxArch/issues with the hope of improving \'setupTermuxArch\';  Include input and output, along with screenshot(s) relavent to X, and similar.\\n\\n"
+printf "\\n\\e[1mPlease share this information along with an issue and pull request at https://github.com/TermuxArch/TermuxArch/issues; include input and output if creating such.  This information may be quite important when planning issue(s) at https://github.com/TermuxArch/TermuxArch/issues with the hope of improving \'%s\';  If you think screenshots will help in a quicker resolution for an issue, please include them as well.  Include input and output, along with screenshot(s) relavent to X, and similar.\\n\\n" "${0##*/}"
 exit
 }
 
@@ -309,8 +309,8 @@ printf "\\n%s\\n\\n" "du -hs $INSTALLDIR results:" >> "${WDIR}setupTermuxArchSys
 du -hs "$INSTALLDIR" >> "${WDIR}setupTermuxArchSysInfo$STIME".log 2>/dev/null ||:
 printf "\\n%s\\n\\n" "ls -al $INSTALLDIR results:" >> "${WDIR}setupTermuxArchSysInfo$STIME".log
 ls -al "$INSTALLDIR" >> "${WDIR}setupTermuxArchSysInfo$STIME".log 2>/dev/null ||:
+printf "\\n%s\\n" "This file is found at '${WDIR}setupTermuxArchSysInfo$STIME.log'." >> "${WDIR}setupTermuxArchSysInfo$STIME".log
 printf "\\n%s\\e[0m\\n" "End 'setupTermuxArchSysInfo$STIME.log' $VERSIONID system information." >> "${WDIR}setupTermuxArchSysInfo$STIME".log
-printf "%s\\n" "Please share along with an issue and pull request at https://github.com/TermuxArch/TermuxArch/issues; include input and output.  This file is found in '${WDIR}setupTermuxArchSysInfo$STIME.log'.  If you think screenshots will help in a quicker resolution, include them as well." >> "${WDIR}setupTermuxArchSysInfo$STIME".log
 }
 
 _USERSPACE_() {
@@ -320,4 +320,4 @@ then
 USRSPACE="$(df "$INSTALLDIR" 2>/dev/null | awk 'FNR == 3 {print $3}')"
 fi
 }
-## maintenanceroutines.bash EOF
+# maintenanceroutines.bash EOF

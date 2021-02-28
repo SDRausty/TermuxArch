@@ -83,4 +83,4 @@ fi
 else
 printf "%s\\n" "Please run '${0##*/}' with no options to apply the DUSERLAND patch and to build the latest version of Termux 'proot' on smartphone;  You can also use the '${0##*/} r[e[v[ertPRootVersion]]]' options for DUSERLAND patching and building Termux 'proot' to one of two previously published source code versions."
 fi
-## taprootuserland.bash EOF
+# taprootuserland.bash EOF

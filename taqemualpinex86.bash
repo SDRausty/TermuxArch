@@ -63,4 +63,4 @@ fi
 else
 _BOOTISO_ "$X86REALEASE"
 fi
-## qemualpinex86.bash EOF
+# qemualpinex86.bash EOF
