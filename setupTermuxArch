@@ -4,7 +4,7 @@
 ## https://termuxarch.github.io/TermuxArch/CONTRIBUTORS thank you for helping
 ## commands 'setupTermuxArch h[elp]' have information how to use this file
 ################################################################################
-VERSIONID=2.0.426
+VERSIONID=2.0.427
 set -Eeuo pipefail
 shopt -s nullglob globstar
 umask 0022
@@ -300,7 +300,7 @@ then
 printf "\\n\\e[0;33m%s\\e[1;33m%s\\e[0;33m.\\e[0m\\n\\n" "TermuxArch WARNING!  " "The root directory structure of ~/${INSTALLDIR##*/} is correct; Cannot continue '${0##*/} install' to install Arch Linux in Termux PRoot!  Commands '${0##*/} h[e[lp]]' and '$STARTBIN h[elp]' have more information"
 exit 205
 fi
-_PRINTINTRO_ "will attempt to install Linux in " "$INSTALLDIR" ".  Arch Linux in Termux PRoot will be available upon successful completion"
+_PRINTINTRO_ "will attempt to install Linux in " "~/${INSTALLDIR##*/}" ".  Arch Linux in Termux PRoot will be available upon successful completion"
 _DEPENDSBLOCK_ "$@"
 if [[ "$LCC" = "1" ]]
 then
@@ -373,7 +373,7 @@ rmdir "$INSTALLDIR" ||  _PSGI1ESTRING_ "rmdir INSTALLDIR _DODIRCHK_ ${0##*/}"
 fi
 exit 204
 fi
-_PRINTINTRO_ "will refresh your TermuxArch files in " "$INSTALLDIR" ".  Arch Linux in Termux PRoot will be available upon successful completion"
+_PRINTINTRO_ "will refresh your TermuxArch files in " "~/${INSTALLDIR##*/}" ".  Arch Linux in Termux PRoot will be available upon successful completion"
 }
 
 _INTROREFRESH_() {
