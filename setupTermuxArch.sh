@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 ## Copyright 2017-2021 (c) by SDRausty, all rights reserved, see LICENSE
 ## hosting termuxarch.github.io/TermuxArch courtesy pages.github.com
-## https://termuxarch.github.io/TermuxArch/CONTRIBUTORS thank you for your help!
+## termuxarch.github.io/TermuxArch/CONTRIBUTORS thank you for your help!
 ################################################################################
-VERSIONID=2.0.431
+VERSIONID=2.0.432
 set -Eeuo pipefail
 shopt -s nullglob globstar
 umask 0022
