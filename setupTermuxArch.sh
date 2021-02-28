@@ -1,16 +1,14 @@
 #!/usr/bin/env bash
 ## Copyright 2017-2021 (c) by SDRausty, all rights reserved, see LICENSE
 ## hosting termuxarch.github.io/TermuxArch courtesy pages.github.com
-## https://termuxarch.github.io/TermuxArch/CONTRIBUTORS thank you for helping
-## commands 'setupTermuxArch h[elp]' have information how to use this file
+## https://termuxarch.github.io/TermuxArch/CONTRIBUTORS thank you for your help!
 ################################################################################
-VERSIONID=2.0.430
+VERSIONID=2.0.431
 set -Eeuo pipefail
 shopt -s nullglob globstar
 umask 0022
 unset LD_PRELOAD
 ## INIT FUNCTIONS ##############################################################
-## The core dataset can be viewed and tooled to your wish and desire with command 'setupTermuxArch bloom' which should download all the components of TermuxArch into directory HOME/TermuxArchBloom in the Termux HOME directory.  The command 'setupTermuxArch bloom' is much like the command 'setupTermuxArch manual';  The bloom option is more expansive than 'setupTermuxArch manual' which is primarily used for mirror selection, and can be used to tune the PRoot init statement.  Bloom is a much more verbose option in that it provides the CLI user the entire code dataset.  Please feel free to use the commands 'setupTermuxArch h[e[lp]]' for additional information how to use 'setupTermuxArch'.
 
 _STRPERROR_() { # run on script error
 local RV="$?"
@@ -1135,6 +1133,7 @@ fi
 ## USAGE[2]: 'setupTermuxArch wget manual customdir' will install the installation in customdir with wget and use manual mode during instalation.
 ## USAGE[3]: 'setupTermuxArch wget refresh customdir' will refresh this installation using wget as the download manager.
 ## FACTS ABOUT THIS PROJECT:
+## The core dataset can be viewed and tooled to your wish and desire with command 'setupTermuxArch bloom' which should download all the components of TermuxArch into directory HOME/TermuxArchBloom in the Termux HOME directory.  The command 'setupTermuxArch bloom' is much like the command 'setupTermuxArch manual';  The bloom option is more expansive than 'setupTermuxArch manual' which is primarily used for mirror selection, and can be used to tune the PRoot init statement.  Bloom is a much more verbose option in that it provides the CLI user the entire code dataset.  Please feel free to use the commands 'setupTermuxArch h[e[lp]]' for additional information how to use 'setupTermuxArch'.
 ## File 'pullTermuxArchSubmodules.bash' will execute 'git pull' and populate git repository modules, and file 'pullTermuxArchSubmodules.bash' can be run directly in a PRoot environment.  File pullTermuxArchSubmodules.bash's functions are not related to updating functions run by command 'setupTermuxArch r[e[fresh]]' that have completely different update functions.  The commands 'setupTermuxArch r[e[fresh]]' attempt to refresh the Arch Linux in Termux PRoot installation and the TermuxArch generated scripts to the newest version.  It also helps in the installation and configuration process if everything did not go smoothly on the first try to install Arch Linux in Termux PRoot.
 ## Files 'setupTermuxArch.{bash,sh}' are held for backward compatibility;  Please reference file 'setupTermuxArch' as the chosen install file if aid and assistance be through sharing insight about this Arch Linux in a Termux PRoot container project which can be used on a smartphone, smartTV, tablet, wearable and more.  File 'setupTermuxArch' is earmarked as the install file name for this project.
 ## File 'setupTermuxArch' downloads as files 'setupTermuxArch.[bin,\ \(1\),\ \(2\),etc...]' through Internet browsers into Android Downloads on smartphone and Arch Linux in Termux PRoot can be installed directly from this file in Android with this command 'bash ~/storage/downloads/setupTermuxArch.bin' and similar which may also check whether there is a newer version automatically since the time it was downloaded.  If there is a newer version, this file will self update.  If this updating process went smoothly, this file will restart the process that was initially initiated by the user.
