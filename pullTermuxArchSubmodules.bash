@@ -56,7 +56,7 @@ else
 printf "%s\\n" "No 'sha512.sum' file found in directory $(pwd)."
 fi
 cd $RDR
-#	sleep 0."$(shuf -i 24-72 -n 1)" # latency support
+sleep 0."$(shuf -i 24-72 -n 1)" # latency support
 }
 
 _PRT_ () {	# print message with no trialing newline
