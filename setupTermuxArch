@@ -7,7 +7,7 @@ set -Eeuo pipefail
 shopt -s nullglob globstar
 umask 0022
 unset LD_PRELOAD
-VERSIONID=2.0.434
+VERSIONID=2.0.435
 _STRPERROR_() { # run on script error
 local RV="$?"
 printf "\\e[?25h\\n\\e[1;48;5;138m %s\\e[0m\\n" "TermuxArch WARNING:  Generated script signal ${RV:-UNKNOWN} near or at line number ${1:-UNKNOWN} by '${2:-COMMAND}'!"
@@ -830,11 +830,11 @@ fi
 COMMANDR="$(command -v au)" || COMMANDR="$(command -v pkg)" || COMMANDR="$(command -v apt)"
 COMMANDIF="${COMMANDR##*/}"
 ## 4) Generate pseudo random number to create uniq strings,
-SDATE="$(date +%s)" || SDATE="$(shuf -i 0-99999999 -n 1)" || _PSGI1ESTRING_ "SDATE setupTermuxArch ${0##*/}"
 if [[ -r /proc/sys/kernel/random/uuid ]]
 then
 STIME="$(cat /proc/sys/kernel/random/uuid)" && STIME="${STIME//-}" && STIME="${STIME//[[:alpha:]]}" && STIME="${STIME:0:3}"
 else
+SDATE="$(date +%s)" || SDATE="$(shuf -i 0-99999999 -n 1)" || _PSGI1ESTRING_ "SDATE setupTermuxArch ${0##*/}"
 STIME="$SDATE" && STIME="$(rev <<< "${STIME:7:4}")"
 fi
 ONESA="${SDATE: -1}"
