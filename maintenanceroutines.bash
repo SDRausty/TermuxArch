@@ -243,10 +243,10 @@ _SYSINFO_() {
 _NAMESTARTARCH_
 _SPACEINFO_
 printf "\\e[38;5;76m"
-printf "%s\\n" "Generating TermuxArch $VERSIONID system information; Please wait..."
+printf "%s\\n" "Generating TermuxArch $VERSIONID system information;  Please wait..."
 _TASPINNER_ clock & _SYSTEMINFO_ ; kill $! || _PRINTERRORMSG_ "_SYSINFO_ _SYSTEMINFO_ ${0##*/} maintenanceroutines.bash"
 cat "${WDIR}setupTermuxArchSysInfo$STIME".log
-printf "\\n\\e[1mPlease share this information along with an issue and pull request at https://github.com/TermuxArch/TermuxArch/issues; include input and output if creating such.  This information may be quite important when planning issue(s) at https://github.com/TermuxArch/TermuxArch/issues with the hope of improving \'%s\';  If you think screenshots will help in a quicker resolution for an issue, please include them as well.  Include input and output, along with screenshot(s) relavent to X, and similar.\\n\\n" "${0##*/}"
+printf "\\n\\e[1mPlease share relevant system information along with an issue and pull request at https://github.com/TermuxArch/TermuxArch/issues and also include the input and output with information which may be quite important when planning issue(s) at https://github.com/TermuxArch/TermuxArch/issues with the hope of improving this script, \'%s\'.\\n\\nIf you believe screenshots will help in a quicker resolution for an issue, also include them as well.  Please include the input as well as the output, along with screenshot(s) relrevant to Xserver on Android device, and similar.\\n\\n" "${0##*/}"
 exit
 }
 
