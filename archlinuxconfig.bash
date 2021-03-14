@@ -1185,15 +1185,12 @@ PRFXTOLS=(top)
 fi
 elif [[ $EDO01LCR = 0 ]]
 then
-PRFXTOLS=(am awk dpkg getprop grep gzip ping ps sed sudo termux-change-repo termux-info termux-open termux-open-url termux-wake-lock termux-wake-unlock top which)
+PRFXTOLS="am awk dpkg getprop grep gzip ping ps sed top which "
+PRFXTOLS+="$(compgen -c|grep termux-)"
 fi
-#  	PRFXTOLS=(toolbox toybox)
 for STOOL in ${PRFXTOLS[@]}
 do
-if [[ -z "${STOOL:-}" ]]
-then
-cp $(which "$STOOL") usr/local/bin/ || printf "%s\\n" "System tool $STOOL cannot be found: continuing..."
-fi
+cp "$(which $STOOL)" "$INSTALLDIR/usr/local/bin/$STOOL" && printf "%s\\n" "cp $(which $STOOL) $INSTALLDIR/usr/local/bin/$STOOL: continuing..." || printf "%s\\n" "System tool $STOOL cannot be found: continuing..."
 done
 if [ ! -e root/storage ] && [ -e "$HOME/storage" ]
 then
