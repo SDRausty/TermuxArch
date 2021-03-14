@@ -1185,7 +1185,7 @@ PRFXTOLS=(top)
 fi
 elif [[ $EDO01LCR = 0 ]]
 then
-PRFXTOLS="am awk dpkg getprop grep gzip ping ps sed top which $(compgen -c|grep termux-)"
+PRFXTOLS="am awk dpkg getprop grep gzip ping ps sed top which $(compgen -c|grep termux- || find $PREFIX/bin -type f -executable -name termux-)"
 fi
 for STOOL in ${PRFXTOLS[@]}
 do
