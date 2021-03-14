@@ -1185,12 +1185,12 @@ PRFXTOLS=(top)
 fi
 elif [[ $EDO01LCR = 0 ]]
 then
-PRFXTOLS="am awk dpkg getprop grep gzip ping ps sed top which "
-PRFXTOLS+="$(compgen -c|grep termux-)"
+PRFXTOLS="am awk dpkg getprop grep gzip ping ps sed top which $(compgen -c|grep termux-)"
 fi
 for STOOL in ${PRFXTOLS[@]}
 do
-cp "$(which $STOOL)" "$INSTALLDIR/usr/local/bin/$STOOL" && printf "%s\\n" "cp $(which $STOOL) $INSTALLDIR/usr/local/bin/$STOOL: continuing..." || printf "%s\\n" "System tool $STOOL cannot be found: continuing..."
+WHICHSTOOL="$(which $STOOL)"
+cp "$WHICHSTOOL" "$INSTALLDIR/usr/local/bin/$STOOL" && printf "%s\\n" "cp $WHICHSTOOL $INSTALLDIR/usr/local/bin/$STOOL: continuing..." || printf "%s\\n" "System tool $STOOL cannot be found: continuing..."
 done
 if [ ! -e root/storage ] && [ -e "$HOME/storage" ]
 then
