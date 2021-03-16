@@ -45,7 +45,7 @@ _ADDgcm_
 _ADDgitconfig_
 _ADDgp_
 _ADDgpl_
-# _ADDinfo_
+_ADDinfo_
 _ADDinputrc_
 _ADDkeys_
 _ADDmakefakeroottcp_
