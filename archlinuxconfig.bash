@@ -683,7 +683,7 @@ EOM
 chmod 700 usr/local/bin/gp
 }
 
-_ADDinputrc() {
+_ADDinputrc_() {
 cat > root/.inputrc <<- EOM
 set bell-style none
 EOM
@@ -1145,7 +1145,15 @@ _ADDstriphtmlcodefromfile_() { _CFLHDR_ usr/local/bin/striphtmlcodefromfile "#st
 
 _ADDt_() {
 _CFLHDR_ usr/local/bin/t
-printf "%s\\n%s\\n%s\\n" "[ \"\$UID\" = 0 ] && printf \"\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\\n\" \"Cannot run '\${0##*/}' as root user :\" \" the command 'addauser username' creates user accounts in $INSTALLDIR : the command '$STARTBIN command addauser username' can create user accounts in $INSTALLDIR from Termux : a default user account is created during setup : the default username 'user' can be used to access the PRoot system employing a user account : command '$STARTBIN help' has more information : \" \"exiting...\" && exit" "[ ! -x \"\$(command -v tree)\" ] && pci tree && tree || tree" "## t EOF" >> usr/local/bin/t
+cat >> usr/local/bin/t <<- EOM
+if [[ -z "\${1:-}" ]]
+then
+ARGS=(".")
+else
+ARGS=("\$@")
+fi
+EOM
+printf "%s\\n%s\\n%s\\n" "[ \"\$UID\" = 0 ] && printf \"\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\\n\" \"Cannot run '\${0##*/}' as root user :\" \" the command 'addauser username' creates user accounts in $INSTALLDIR : the command '$STARTBIN command addauser username' can create user accounts in $INSTALLDIR from Termux : a default user account is created during setup : the default username 'user' can be used to access the PRoot system employing a user account : command '$STARTBIN help' has more information : \" \"exiting...\" && exit" "[ ! -x \"\$(command -v tree)\" ] && pci tree && tree \"\${ARGS[@]}\" || tree \"\${ARGS[@]}\"" "## t EOF" >> usr/local/bin/t
 chmod 700 usr/local/bin/t
 }
 
