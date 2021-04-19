@@ -112,12 +112,21 @@ EOM
 }
 
 _ADDae_() {
-_CFLHDR_ usr/local/bin/ae "# contributor https://github.com/cb125"
+_CFLHDR_ usr/local/bin/ae "# Developed at [pacman-key --populate archlinux hangs](https://github.com/SDRausty/TermuxArch/issues/33) Contributor cb125"
 cat >> usr/local/bin/ae <<- EOM
 watch cat /proc/sys/kernel/random/entropy_avail
 ## ae EOF
 EOM
 chmod 700 usr/local/bin/ae
+}
+
+_ADDabrowser_() {
+_CFLHDR_ usr/local/bin/abrowser "# Developed at [Android 11 (with Termux storage permission denied) question; What's the source for the shortcut to the file manager of the settings app?](https://www.reddit.com/r/termux/comments/msq7lm/android_11_with_termux_storage_permission_denied/) Contributors DutchOfBurdock xeffyr"
+cat >> usr/local/bin/abrowser <<- EOM
+am start -a android.intent.action.VIEW -d "content://com.android.externalstorage.documents/root/primary"
+## abrowser EOF
+EOM
+chmod 700 usr/local/bin/abrowser
 }
 
 _ADDmakeaurhelpers_() {
@@ -254,6 +263,8 @@ alias E='exit'
 alias e='exit'
 alias F='grep -n --color=always'
 alias f='grep -n --color=always'
+alias Fr='grep -nr --color=always'
+alias fr='grep -nr --color=always'
 alias G='ga ; gcm ; gp'
 alias g='ga ; gcm ; gp'
 alias GITS='git show'
@@ -386,7 +397,7 @@ chmod 700 usr/local/bin/chperms.cache+gnupg
 }
 
 _ADDcsystemctl_() {
-_CFLHDR_ usr/local/bin/csystemctl "# contributor https://github.com/petkar"
+_CFLHDR_ usr/local/bin/csystemctl "# Contributor https://github.com/petkar"
 cat >> usr/local/bin/csystemctl <<- EOM
 INSTALLDIR="$INSTALLDIR"
 printf "\\\\e[38;5;148m%s\\\\e[0m\\\\n" "Installing /usr/bin/systemctl replacement: "
@@ -604,7 +615,7 @@ chmod 700 usr/local/bin/ga
 }
 
 _ADDgcl_() {
-_CFLHDR_ usr/local/bin/gcl "# contributor https://reddit.com/u/ElectricalUnion"
+_CFLHDR_ usr/local/bin/gcl "# Contributor https://reddit.com/u/ElectricalUnion"
 cat >> usr/local/bin/gcl <<- EOM
 if [ "\$UID" = 0 ]
 then
@@ -928,7 +939,7 @@ chmod 700 usr/local/bin/makefakeroottcp
 }
 
 _ADDmakeyay_() {
-_CFLHDR_ usr/local/bin/makeyay "# build and install command yay; contributors https://github.com/cb125 and https://github.com/SampsonCrowley"
+_CFLHDR_ usr/local/bin/makeyay "# build and install command yay; Contributors https://github.com/cb125 and https://github.com/SampsonCrowley"
 cat >> usr/local/bin/makeyay <<- EOM
 _PRTERROR_() {
 printf "\\n\\e[1;31merror: \\e[1;37m%s\\e[0m\\n\\n" "Please correct the error(s) and/or warning(s) if possible, and run '\${0##*/} \${ARGS[@]}' again."
@@ -958,7 +969,7 @@ chmod 700 usr/local/bin/makeyay
 }
 
 _ADDorcaconf_() {
-_CFLHDR_ usr/local/bin/orcaconf "# orcaconf contributor https://github.com/JanuszChmiel" "# Reference https://github.com/SDRausty/termux-archlinux/issues/66 Let us expand setupTermuxArch so users can install Orca screen reader (assistive technology) and also have VNC support added easily."
+_CFLHDR_ usr/local/bin/orcaconf "# Contributor https://github.com/JanuszChmiel" "# Reference https://github.com/SDRausty/termux-archlinux/issues/66 Let us expand setupTermuxArch so users can install Orca screen reader (assistive technology) and also have VNC support added easily."
 cat >> usr/local/bin/orcaconf <<- EOM
 [[ -f "/run/lock/${INSTALLDIR##*/}/orcaconf.lock" ]] && printf "%s\\\\n" "Already configured orca: DONE 🏁" && exit
 _INSTALLORCACONF_() {
@@ -972,7 +983,7 @@ orcarun || printf "\\e[1;31m%s\\e[0m\\n" "command 'orcarun' did not completed as
 EOM
 chmod 700 usr/local/bin/orcaconf
 _ADDorcarun_() {
-_CFLHDR_ usr/local/bin/orcarun "# orcarun contributor https://github.com/JanuszChmiel " "# Reference https://github.com/SDRausty/termux-archlinux/issues/66 Let's expand setupTermuxArch so users can install Orca screen reader (assistive technology) and also have VNC support added easily."
+_CFLHDR_ usr/local/bin/orcarun "# Contributor https://github.com/JanuszChmiel " "# Reference https://github.com/SDRausty/termux-archlinux/issues/66 Let's expand setupTermuxArch so users can install Orca screen reader (assistive technology) and also have VNC support added easily."
 cat >> usr/local/bin/orcarun <<- EOM
 if ! command Xvnc
 then
@@ -988,7 +999,7 @@ _ADDorcarun_
 }
 
 _ADDpatchmakepkg_() {
-_CFLHDR_ usr/local/bin/patchmakepkg "# patch makepkg;  contributor https://github.com/petkar"
+_CFLHDR_ usr/local/bin/patchmakepkg "# patch makepkg;  Contributor https://github.com/petkar"
 cat >> usr/local/bin/patchmakepkg <<- EOM
 [ -f "/run/lock/${INSTALLDIR##*/}/patchmakepkg.lock" ] && printf "%s\\\\n" "Found /run/lock/${INSTALLDIR##*/}/patchmakepkg.lock file;  Already patched makepkg:  DONE 🏁" && exit
 printf "%s\\\\n" "Attempting to patch makepkg: "
@@ -1151,8 +1162,23 @@ _ADDstriphtmlcodefromfile_() { _CFLHDR_ usr/local/bin/striphtmlcodefromfile "#st
 
 _ADDt_() {
 _CFLHDR_ usr/local/bin/t
-printf "%s\\n%s\\n%s\\n" "[ \"\$UID\" = 0 ] && printf \"\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\\n\" \"Cannot run '\${0##*/}' as root user :\" \" the command 'addauser username' creates user accounts in $INSTALLDIR : the command '$STARTBIN command addauser username' can create user accounts in $INSTALLDIR from Termux : a default user account is created during setup : the default username 'user' can be used to access the PRoot system employing a user account : command '$STARTBIN help' has more information : \" \"exiting...\" && exit" "[ ! -x \"\$(command -v tree)\" ] && pci tree && tree \"\$@\" || tree \"\$@\"" "## t EOF" >> usr/local/bin/t
+printf "%s\\n%s\\n%s\\n" "[ \"\$UID\" = 0 ] && printf \"\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\\n\" \"Cannot run '\${0##*/}' as root user :\" \" the command 'addauser username' creates user accounts in ~/${INSTALLDIR##*/} : the command '$STARTBIN command addauser username' can create user accounts in ~/${INSTALLDIR##*/} from Termux : a default user account is created during setup : the default username 'user' can be used to access the PRoot system employing a user account : command '$STARTBIN help' has more information : \" \"exiting...\" && exit" "[ ! -x \"\$(command -v tree)\" ] && pci tree && tree \"\$@\" || tree \"\$@\"" "## t EOF" >> usr/local/bin/t
 chmod 700 usr/local/bin/t
+}
+
+_ADDtimings_() {
+_CFLHDR_ usr/local/bin/timings "# Developed at [Terminal output speed issues](https://github.com/termux/termux-app/issues/603) Contributor evg-zhabotinsky"
+cat >> usr/local/bin/timings <<- EOM
+dd if=/dev/urandom bs=1K count=100 | hexdump -C >500KBfile.txt
+for TIMING in 0 1 2 3; do
+echo \$TIMING
+sleep 1
+time nice -n 20 cat 500KBfile.txt
+sleep 2
+done
+## timings EOF
+EOM
+chmod 700 usr/local/bin/timings
 }
 
 _ADDthstartarch_() {
@@ -1274,12 +1300,12 @@ else
 ARGS=("\$@")
 fi
 EOM
-printf "%s\\n%s\\n%s\\n" "[ \"\$UID\" = 0 ] && printf \"\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\\n\" \"Cannot run '\${0##*/}' as root user :\" \" the command 'addauser username' creates user accounts in $INSTALLDIR : the command '$STARTBIN command addauser username' can create user accounts in $INSTALLDIR from Termux : a default user account is created during setup : the default username 'user' can be used to access the PRoot system employing a user account : command '$STARTBIN help' has more information : \" \"exiting...\" && exit" "[ ! -x \"\$(command -v vim)\" ] && pci vim && vim \"\${ARGS[@]}\" || vim \"\${ARGS[@]}\"" "## v EOF" >> usr/local/bin/v
+printf "%s\\n%s\\n%s\\n" "[ \"\$UID\" = 0 ] && printf \"\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\\n\" \"Cannot run '\${0##*/}' as root user :\" \" the command 'addauser username' creates user accounts in ~/${INSTALLDIR##*/} : the command '$STARTBIN command addauser username' can create user accounts in ~/${INSTALLDIR##*/} from Termux : a default user account is created during setup : the default username 'user' can be used to access the PRoot system employing a user account : command '$STARTBIN help' has more information : \" \"exiting...\" && exit" "[ ! -x \"\$(command -v vim)\" ] && pci vim && vim \"\${ARGS[@]}\" || vim \"\${ARGS[@]}\"" "## v EOF" >> usr/local/bin/v
 chmod 700 usr/local/bin/v
 }
 
 _ADDwe_() {
-_CFLHDR_ usr/bin/we "# Watch available entropy on device." "# cat /proc/sys/kernel/random/entropy_avail contributor https://github.com/cb125"
+_CFLHDR_ usr/bin/we "# Watch available entropy on device." "# cat /proc/sys/kernel/random/entropy_avail Contributor https://github.com/cb125"
 cat >> usr/bin/we <<- EOM
 declare -a ARGS
 
@@ -1453,7 +1479,7 @@ chmod 700 usr/bin/we
 
 _ADDyt_() {
 _CFLHDR_ usr/local/bin/yt
-printf "%s\\n%s\\n%s\\n" "[ \"\$UID\" = 0 ] && printf \"\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\\n\" \"Cannot run '\${0##*/}' as root user :\" \" the command 'addauser username' creates user accounts in $INSTALLDIR : the command '$STARTBIN command addauser username' can create user accounts in $INSTALLDIR from Termux : a default user account is created during setup : the default username 'user' can be used to access the PRoot system employing a user account : command '$STARTBIN help' has more information : \" \"exiting...\" && exit" "[ ! -x \"\$(command -v youtube-dl)\" ] && pci youtube-dl && youtube-dl \"\$@\" || youtube-dl \"\$@\" " "## yt EOF" >> usr/local/bin/yt
+printf "%s\\n%s\\n%s\\n" "[ \"\$UID\" = 0 ] && printf \"\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\\n\" \"Cannot run '\${0##*/}' as root user :\" \" the command 'addauser username' creates user accounts in ~/${INSTALLDIR##*/} : the command '$STARTBIN command addauser username' can create user accounts in ~/${INSTALLDIR##*/} from Termux : a default user account is created during setup : the default username 'user' can be used to access the PRoot system employing a user account : command '$STARTBIN help' has more information : \" \"exiting...\" && exit" "[ ! -x \"\$(command -v youtube-dl)\" ] && pci youtube-dl && youtube-dl \"\$@\" || youtube-dl \"\$@\" " "## yt EOF" >> usr/local/bin/yt
 chmod 700 usr/local/bin/yt
 }
 

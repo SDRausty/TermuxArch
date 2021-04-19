@@ -20,6 +20,7 @@ _ADDOPEN4ROOT_
 _ADDREADME_
 _ADDresolvconf_
 _ADDae_
+_ADDabrowser_
 _ADDmakeaurhelpers_
 _ADDbash_logout_
 _ADDbash_profile_
@@ -62,6 +63,7 @@ _ADDprofileusretc_
 fi
 _ADDt_
 _ADDthstartarch_
+_ADDtimings_
 _ADDtools_
 _ADDtour_
 _ADDtrim_

@@ -7,7 +7,7 @@ set -Eeuo pipefail
 shopt -s nullglob globstar
 umask 0022
 unset LD_PRELOAD
-VERSIONID=2.0.443
+VERSIONID=2.0.444
 _STRPERROR_() { # run on script error
 local RV="$?"
 printf "\\e[?25h\\n\\e[1;48;5;138m %s\\e[0m\\n" "TermuxArch WARNING:  Generated script signal ${RV:-UNKNOWN} near or at line number ${1:-UNKNOWN} by '${2:-COMMAND}'!"
@@ -587,7 +587,7 @@ _EDITORCHOOSER_
 
 _PRINTERRORMSG_() {
 printf "\\e[1;31m%s\\e[1;37m%s\\e[1;32m%s\\e[1;37m%s\\n\\n" "Signal generated in '$1' : Cannot complete task : " "Continuing..."
-printf "\\e[1;34m%s\\e[0;34m%s\\e[1;34m%s\\e[0m\\n\\n" "  If you can find improvements and the timr for " "${0##*}" " please open an issue and an accompanying pull request.  A PR can assist in shedding more light on an issue."
+printf "\\e[1;34m%s\\e[0;34m%s\\e[1;34m%s\\e[0m\\n\\n" "  If you can improvements for " "${0##*} " "please open an issue and an accompanying pull request.  A PR can assist in shedding more light on an issue."
 }
 
 _PRPREFRESH_() {
@@ -600,8 +600,8 @@ printf "\\n\\e[0;34m%s \\e[1;34m%s \\e[0;32m%s\\e[1;32m%s \\e[1;34m%s \\e[1;32m%
 }
 
 _PRINTSHA512SYSCHKER_() {
-printf "\\n\\e[07;1m\\e[31;1m\\n%s \\e[34;1m\\e[30;1m%s \\n\\e[0;0m\\n" " 🔆 WARNING sha512sum mismatch!  Setup initialization mismatch!" "  Try again, initialization was not successful this time.  Wait a little while.  Then run 'bash ${0##*/}' again..."
-printf '\033]2; Run bash %s again...\007' "${0##*/} $ARGS"
+printf "\\n\\e[07;1m\\e[31;1m\\n%s \\e[34;1m\\e[30;1m%s \\n\\e[0;0m\\n" " 🔆 WARNING sha512sum mismatch!  Setup initialization mismatch!" "  Try again, initialization was not successful this time.  Wait a little while.  Then run the command 'bash ${0##*/} $ARGS' again..."
+printf '\033]2; Run %s again...\007' "bash ${0##*/} $ARGS"
 exit 124
 }
 
@@ -1135,10 +1135,5 @@ fi
 ## USAGE[1]: 'setupTermuxArch wget sysinfo' will use wget as the download manager and produce a system information file in the working directory.  This can be abbreviated to 'setupTermuxArch ws' and 'setupTermuxArch w s'.
 ## USAGE[2]: 'setupTermuxArch wget manual customdir' will install the installation in customdir with wget and use manual mode during instalation.
 ## USAGE[3]: 'setupTermuxArch wget refresh customdir' will refresh this installation using wget as the download manager.
-## FACTS ABOUT THIS PROJECT:
-## The core dataset can be viewed and tooled to your wish and desire with command 'setupTermuxArch bloom' which should download all the components of TermuxArch into directory HOME/TermuxArchBloom in the Termux HOME directory.  The command 'setupTermuxArch bloom' is much like the command 'setupTermuxArch manual';  The bloom option is more expansive than 'setupTermuxArch manual' which is primarily used for mirror selection, and can be used to tune the PRoot init statement.  Bloom is a much more verbose option in that it provides the CLI user the entire code dataset.  Please feel free to use the commands 'setupTermuxArch h[e[lp]]' for additional information how to use 'setupTermuxArch'.
-## Files 'setupTermuxArch.{bash,sh}' are held for backward compatibility;  Please reference file 'setupTermuxArch' as the chosen install file if aid and assistance be through sharing insight about this Arch Linux in a Termux PRoot container project which can be used on a smartphone, smartTV, tablet, wearable and more.  File 'setupTermuxArch' is earmarked as the install file name for this project.
-## File 'setupTermuxArch' downloads as files 'setupTermuxArch.[bin,\ \(1\),\ \(2\),etc...]' through Internet browsers into Android Downloads on smartphone and Arch Linux in Termux PRoot can be installed directly from this file in Android with this command 'bash ~/storage/downloads/setupTermuxArch.bin' and similar which may also check whether there is a newer version automatically since the time it was downloaded.  If there is a newer version, this file will self update.  If this updating process went smoothly, this file will restart the process that was initially initiated by the user.
-## These files 'setupTermuxArch[.{bash,sh}]' will NOT selfupdate to the most recent version published if they are used inside their git repository;  You can use either command 'git pull' and 'pullTermuxArchSubmodules.bash' to update to the newest version published.
-## Many very hardy thank yous to contributors who are helping and have worked to make this open source resource better!  Please accept a wholehearted THANK YOU for using setupTermuxArch!
-# setupTermuxArch EOF
+## Many very hardy thank yous to contributors who are helping and have worked to make this open source resource better!  Please accept a wholehearted THANK YOU for using our product!
+## setupTermuxArch EOF
