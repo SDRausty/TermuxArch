@@ -574,10 +574,10 @@ EOM
 _ADDbindexample_() {
 _CFLHDRS_ var/binds/bindexample.prs "# Before regenerating the start script with \`setupTermuxArch re[fresh]\`, first copy this file to another name such as \`fbinds.prs\`.  Then add as many proot statements as you want; The init script will parse file \`fbinds.prs\` at refresh adding these proot options to \`$STARTBIN\`.  The space before the last double quote is necessary.  Examples are included for convenience:"
 cat >> var/binds/bindexample.prs <<- EOM
-# PRoot bind usage: PROOTSTMNT+="-b host_path:guest_path " # the space before the last double quote is necessary
-# PROOTSTMNT+="-q $PREFIX/bin/qemu-x86_64 "
-# PROOTSTMNT+="-b /proc/:/proc/ "
-# [[ ! -r /dev/shm ]] && PROOTSTMNT+="-b $INSTALLDIR/tmp:/dev/shm "
+## PRoot bind usage: PROOTSTMNT+="-b host_path:guest_path " # the space before the last double quote is necessary
+## PROOTSTMNT+="-q $PREFIX/bin/qemu-x86_64 "
+## PROOTSTMNT+="-b /proc/:/proc/ "
+## [[ ! -r /dev/shm ]] && PROOTSTMNT+="-b $INSTALLDIR/tmp:/dev/shm "
 ## bindexample.prs EOF
 EOM
 }
@@ -1024,6 +1024,26 @@ printf "%s\\\\n" "Attempting to patch makepkg: DONE 🏁"
 ## patchmakepkg EOF
 EOM
 chmod 700 usr/local/bin/patchmakepkg
+}
+
+_ADDpacmandblock_() {
+_CFLHDR_ usr/local/bin/pacmandblock "# When using the alternate elogin or euser option to login with $STARTBIN as user 'pacman' does not behave as expected;  Hence 'pacman' is blocked when the alternate login feature is used."
+cat >> usr/local/bin/pacmandblock <<- EOM
+LOCKFILE="/var/lib/pacman/db.lck"
+if [ ! -f "\$LOCKFILE" ]
+then
+printf "%s" "Creating file \$LOCKFILE: "
+touch "\$LOCKFILE"
+printf "%s\\\\n" "DONE"
+elif [ -f "\$LOCKFILE" ]
+then
+printf "%s" "Deleting file \$LOCKFILE: "
+rm -f "\$LOCKFILE"
+printf "%s\\\\n" "DONE"
+fi
+## pacmandblock EOF
+EOM
+chmod 700 usr/local/bin/pacmandblock
 }
 
 _ADDpc_() {
