@@ -281,6 +281,8 @@ alias I='whoami'
 alias i='whoami'
 alias L='ls -al --color=always'
 alias l='ls -al --color=always'
+alias LA='ls -alR --color=always'
+alias la='ls -alR --color=always'
 alias LS='ls --color=always'
 alias ls='ls --color=always'
 alias LR='ls -alR --color=always'
@@ -1196,6 +1198,7 @@ sleep 1
 time nice -n 20 cat 500KBfile.txt
 sleep 2
 done
+rm -f 500KBfile.txt
 ## timings EOF
 EOM
 chmod 700 usr/local/bin/timings
