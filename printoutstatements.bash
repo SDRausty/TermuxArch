@@ -15,7 +15,7 @@ FLHDR1[1]=""
 FLHDR1[2]="set -Eeuo pipefail"
 FLHDR1[3]="shopt -s nullglob globstar"
 FLHDR1[4]="unset LD_PRELOAD"
-FLHDR1[5]="VERSIONID=2.0.446"
+FLHDR1[5]="VERSIONID=2.0.447"
 FLHDR1[6]=""
 FLHDRP[0]="## BEGIN #####################################################################"
 FLHDRP[1]=""
@@ -116,7 +116,7 @@ fi
 
 _PRINTCONTACTING_() {
 printf "\033]2;  🕛 > 🕞 Contacting https://%s...\007" "$CMIRROR"
-printf "\\e[0;34m 🕛 > 🕞 \\e[1;34mContacting worldwide mirror \\e[0;32m%s\\e[1;34m: " "https://$CMIRROR"
+printf "\\e[0;34m 🕛 > 🕞 \\e[1;34mContacting worldwide mirror \\e[0;32m%s\\e[1;34m: " "http://$CMIRROR"
 }
 
 _PRINTCU_() {

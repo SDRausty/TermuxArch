@@ -57,7 +57,7 @@ chmod 700 usr/local/bin/addauser
 
 _ADDMOTA_() {
 cat > etc/mota <<- EOM
-printf "\\\\n\\\\e[1;34m%s\\\\n%s\\\\e[0;34m%s\\\\n\\\\e[1;34m%s\\\\e[0;34m%s\\\\n\\\\e[1;34m%s\\\\e[0;34m%s\\\\n\\\\e[1;34m%s\\\\e[0;34m%s\\\\n\\\\n\\\\e[1;34m%s\\\\e[0m%s\\\\n\\\\e[1;34m%s\\\\e[0;34m%s\\\\e[1;34m%s\\\\e[0;34m%s\\\\n\\\\e[1;34m%s\\\\e[0m%s\\\\n\\\\e[1;34m%s\\\\e[0m%s\\\\n\\\\n" "Welcome to Arch Linux in Termux PRoot!" "Install a package: " "pacman -S package" "More  information: " "pacman -[D|F|Q|R|S|T|U]h" "Search   packages: " "pacman -Ss query" "Upgrade  packages: " "pacman -Syu" "Chat:	" "wiki.termux.com/wiki/Community" "Help:	" "info query " "and " "man query" "GitHub:	" "$MOTTECGIT" "IRC:	" "$MOTTECIRC"
+printf "\\\\n\\\\e[1;34m%s\\\\n%s\\\\e[0;34m%s\\\\n\\\\e[1;34m%s\\\\e[0;34m%s\\\\n\\\\e[1;34m%s\\\\e[0;34m%s\\\\n\\\\e[1;34m%s\\\\e[0;34m%s\\\\n\\\\n\\\\e[1;34m%s\\\\e[0m%s\\\\n\\\\e[1;34m%s\\\\e[0m%s\\\\n\\\\e[1;34m%s\\\\e[0;34m%s\\\\e[1;34m%s\\\\e[0;34m%s\\\\n\\\\e[1;34m%s\\\\e[0m%s\\\\n\\\\n" "Welcome to Arch Linux in Termux PRoot!" "Install a package: " "pacman -S package" "More  information: " "pacman -[D|F|Q|R|S|T|U]h" "Search   packages: " "pacman -Ss query" "Upgrade  packages: " "pacman -Syu" "Chat:	" "wiki.termux.com/wiki/Community" "GitHub:	" "$MOTTECGIT" "Help:	" "info query " "and " "man query" "IRC:	" "$MOTTECIRC"
 EOM
 }
 
@@ -71,24 +71,26 @@ Upgrade  packages: pacman -Syu
 
 $MOTTECBBS
 Chat:	wiki.termux.com/wiki/Community
-GitHub:	$MOTTECGIT
 Help:	info query and man query
+GitHub:	$MOTTECGIT
 IRC:	$MOTTECIRC
 EOM
 }
 
 _ADDMOTO_() {
 cat > etc/moto <<- EOM
-printf "\\\\n\\\\e[1;34mPlease Share Your Arch Linux in Termux PRoot Experience!\\\\n\\\\n\\\\e[1;34mChat:	\\\\e[0mwiki.termux.com/wiki/Community\\\\n\\\\e[1;34mHelp:	\\\\e[0;34minfo query \\\\e[1;34mand \\\\e[0;34mman query\\\\n\\\\e[1;34mGitHub:	\\\\e[0m%s\\\\n\\\\e[1;34mIRC:	\\\\e[0m%s\\\\n\\\\n\\\\e[0m" "$MOTTECGIT" "$MOTTECIRC"
+printf "\\\\n\\\\e[1;34mPlease share your Arch Linux in Termux PRoot experience!\\\\n\\\\n\\\\e[1;34mChat:	\\\\e[0mwiki.termux.com/wiki/Community\\\\n\\\\e[1;34mHelp:	\\\\e[0;34minfo query \\\\e[1;34mand \\\\e[0;34mman query\\\\n\\\\e[1;34mGitHub:	\\\\e[0m%s\\\\n\\\\e[1;34mIRC:	\\\\e[0m%s\\\\n\\\\n\\\\e[0m" "$MOTTECGIT" "$MOTTECIRC"
 EOM
 }
 
 _ADDOPEN4ROOT_() {
-_CFLHDR_ usr/local/bin/open4root "# open TermuxArch programs for root user"
-cat >> usr/local/bin/open4root <<- EOM
+_CFLHDR_ root/bin/open4root "# open TermuxArch programs for root user"
+cat >> root/bin/open4root <<- EOM
 sed -i 's/UID\" = 0/UID\" = -1/g' /usr/local/bin/*
+sed -i 's/EUID == 0/EUID == -1/g' /usr/local/bin/*
+## open4root EOF
 EOM
-chmod 700 usr/local/bin/open4root
+chmod 700 root/bin/open4root
 }
 
 _ADDREADME_() {
@@ -220,7 +222,7 @@ EOM
 
 _ADDbash_profile_() {
 [ -e root/.bash_profile ] && _DOTHRF_ "root/.bash_profile"
-printf "%s\\n%s\\n" "PATH=\"\$HOME/bin:\$PATH:/usr/sbin:/sbin:/bin\"" "[[ -f "\$HOME"/.bashrc ]] && . "\$HOME"/.bashrc" > root/.bash_profile
+printf "%s\\n%s\\n" "PATH=\"\$HOME/bin:\$PATH:/usr/sbin:/sbin:/bin:/data/data/com.termux/files/usr/bin:/system/bin:/system/xbin\"" "[[ -f "\$HOME"/.bashrc ]] && . "\$HOME"/.bashrc" > root/.bash_profile
 cat >> root/.bash_profile <<- EOM
 if [ ! -e "\$HOME"/.hushlogin ] && [ ! -e "\$HOME"/.chushlogin ]
 then
@@ -230,15 +232,29 @@ if [ -e "\$HOME"/.chushlogin ]
 then
 rm -f "\$HOME"/.chushlogin
 fi
-PS1="[\[\e[38;5;148m\]\u\[\e[1;0m\]\A\[\e[1;38;5;112m\]\W\[\e[0m\]]$ "
-export GPG_TTY="\$(tty)"
+PS1="\\[\\e[38;5;148m\\]\\u\\[\\e[1;0m\\]\\A\\[\\e[1;38;5;112m\\]\\W\\[\\e[0m\\]$ "
 EOM
+[[ -f "$HOME"/.bash_profile ]] && grep proxy "$HOME"/.bash_profile | grep -s "export" >> root/.bash_profile ||:
+cat >> root/.bash_profile <<- EOM
+export ANDROID_ROOT=/system
+EOM
+SHELVARS=" ANDROID_ART_ROOT ANDROID_DATA ANDROID_I18N_ROOT ANDROID_ROOT ANDROID_RUNTIME_ROOT ANDROID_TZDATA_ROOT BOOTCLASSPATH DEX2OATBOOTCLASSPATH"
+for SHELVAR in ${SHELVARS[@]}
+do
+ISHELVAR="$(export | grep $SHELVAR || echo 1)"
+if [[ "$ISHELVAR" != 1 ]]
+then
+printf "export %s\\n" "$(sed 's/declare -x //g' <<< "$ISHELVAR")" >> root/.bash_profile
+fi
+done
 for i in "${!LC_TYPE[@]}"
 do
 printf "%s=\"%s\"\\n" "export ${LC_TYPE[i]}" "$ULANGUAGE.UTF-8" >> root/.bash_profile
 done
-[[ -f "$HOME"/.bash_profile ]] && grep proxy "$HOME"/.bash_profile | grep -s "export" >> root/.bash_profile ||:
 cat >> root/.bash_profile <<- EOM
+export GPG_TTY="\$(tty)"
+export MOZ_FAKE_NO_SANDBOX=1
+export PULSE_SERVER=127.0.0.1
 export TZ="$(getprop persist.sys.timezone)"
 ## .bash_profile EOF
 EOM
@@ -253,6 +269,8 @@ alias ....='cd ../../../.. && pwd'
 alias .....='cd ../../../../.. && pwd'
 alias C='cd .. && pwd'
 alias c='cd .. && pwd'
+alias CPR='cp -r'
+alias cpr='cp -r'
 alias CUO='curl -O --retry 4'
 alias cuo='curl -O --retry 4'
 alias CUOL='curl -JOL --retry 4'
@@ -429,7 +447,7 @@ _CFLHDR_ usr/local/bin/dfa
 cat >> usr/local/bin/dfa <<- EOM
 DFUNIT="\$(df | awk 'FNR == 1 {print \$2}')"
 DFDATA="\$(df)"
-USRSPACE="\$(df | grep "/data" | awk {'print \$4'} | sort | tail -n 1)"
+USRSPACE="\$(df | grep "/data" | awk {'print \$4'} | sort | tail -n 1 || df | grep -w "/" | awk {'print \$4'})"
 ARGS="\$USRSPACE \$DFUNIT"
 printf "\\\\e[0;33m%s\\\\n\\\\e[0m" "\$USRSPACE \$DFUNIT of free user space is available on this device."
 ## dfa EOF
@@ -783,14 +801,14 @@ else
 printf \"\\n\\e[1;37m%s\\e[1;32m%s\\e[1;37m%s\\e[0m\\n\" \"[5/7]  The command \" \"pacman -S archlinux-keyring archlinux32-keyring --noconfirm\" \" has already been successfully run; Continuing...\"
 fi
 sed -i '/^SigLevel/s/.*/SigLevel    = Required DatabaseOptional/' /etc/pacman.conf
-printf \"\\n\\e[1;32m==> \\e[1;37m%s\\e[1;32m%s\\e[1;37m...\\n\" \"Running \${0##*/} [6/7] $ARCHITEC ($CPUABI) architecture upgrade ; \" \"pacman -S pacman --noconfirm\"
-pacman -S pacman --noconfirm || _PRTERROR_
+printf \"\\n\\e[1;32m==> \\e[1;37m%s\\e[1;32m%s\\e[1;37m...\\n\" \"Running \${0##*/} [6/7] $ARCHITEC ($CPUABI) architecture upgrade ; \" \"pacman -S curl glibc gpgme libarchive pacman --noconfirm\"
+pacman -S curl glibc gpgme libarchive pacman --noconfirm || _PRTERROR_
 printf \"\\n\\e[1;32m==> \\e[1;37m%s\\e[1;32m%s\\e[1;37m...\\n\" \"Running \${0##*/} [7/7] $ARCHITEC ($CPUABI) architecture upgrade ; \" \"pacman -Su --noconfirm ; Starting full system upgrade\"
 rm -f /etc/ssl/certs/ca-certificates.crt
 pacman -Su --noconfirm || pacman -Su --noconfirm"
 X86IPT=" "
 X86INK=":"
-else	# architecture versions armv5, armv7, aarch64 and x86_64 of Arch Linux use these options
+else	# Arch Linux architectures armv5, armv7, aarch64 and x86_64 use these options
 X86INT=":"
 X86IPT="(1/2)"
 X86INK="printf \"\\\\n\\\\e[1;32m==> \\\\e[1;37mRunning \\\\e[1;32mpacman -S %s --noconfirm --color=always\\\\e[1;37m...\\\\n\" \"\${ARGS[@]} \"
@@ -1004,7 +1022,7 @@ _ADDpatchmakepkg_() {
 _CFLHDR_ usr/local/bin/patchmakepkg "# patch makepkg;  Contributor https://github.com/petkar"
 cat >> usr/local/bin/patchmakepkg <<- EOM
 [ -f "/run/lock/${INSTALLDIR##*/}/patchmakepkg.lock" ] && printf "%s\\\\n" "Found /run/lock/${INSTALLDIR##*/}/patchmakepkg.lock file;  Already patched makepkg:  DONE 🏁" && exit
-printf "%s\\\\n" "Attempting to patch makepkg: "
+printf "Patching makepkg: \\\\n"
 SDATE="\$(date +%s)"
 BKPDIR="$INSTALLDIR/var/backups/${INSTALLDIR##*/}/"
 [ ! -d "\$BKPDIR" ] && mkdir -p "\$BKPDIR"
@@ -1014,15 +1032,14 @@ then
 sed -ie 's/fakeroot -- bash/bash/g' /bin/makepkg
 sed -ir 's/\$(fakeroot -v)/fakeroot -v/g' /bin/makepkg
 # sed append to beginning of lines
-sed -ie 232,234's/.*/# &/' /bin/makepkg
-sed -ie 236's/.*/# &/' /bin/makepkg
-sed -ie 1178,1189's/.*/# &/' /bin/makepkg
+sed -ie 240,241's/.*/# &/' /bin/makepkg
+sed -ie 1195,1199's/.*/# &/' /bin/makepkg
 fi
 # copy makepkg to /usr/local/bin to update proof it (fail safe measure)
 cp /bin/makepkg /usr/local/bin/makepkg
 # create lock file to update proof patchmakepkg
 touch "/run/lock/${INSTALLDIR##*/}/patchmakepkg.lock"
-printf "%s\\\\n" "Attempting to patch makepkg: DONE 🏁"
+printf "Patching makepkg: DONE 🏁\\\\n"
 ## patchmakepkg EOF
 EOM
 chmod 700 usr/local/bin/patchmakepkg
@@ -1074,15 +1091,15 @@ then
 printf "\\\\e[1;31m%s \\\\e[0m\\\\n" "Run command '\${0##*/}' with at least one argument: exiting..."
 elif [[ "\$1" = "a" ]]
 then
-\$SUDOCONF pacman --noconfirm --color=always -S base base-devel "\${@:2}"
+nice -n 19 \$SUDOCONF pacman --noconfirm --color=always -S base base-devel "\${@:2}"
 elif [[ "\$1" = "ae" ]]
 then
-\$SUDOCONF pacman --noconfirm --color=always -S base base-devel emacs "\${@:2}"
+nice -n 19 \$SUDOCONF pacman --noconfirm --color=always -S base base-devel emacs "\${@:2}"
 elif [[ "\$1" = "a8" ]]
 then
-\$SUDOCONF pacman --noconfirm --color=always -S base base-devel emacs jdk8-openjdk "\${@:2}"
+nice -n 19 \$SUDOCONF pacman --noconfirm --color=always -S base base-devel emacs jdk8-openjdk "\${@:2}"
 else
-\$SUDOCONF pacman --noconfirm --color=always -S "\$@"
+nice -n 19 \$SUDOCONF pacman --noconfirm --color=always -S "\$@"
 fi
 ## pc EOF
 EOM
@@ -1111,18 +1128,18 @@ trap _TRPET_ EXIT
 printf "\\\\e[1;32m==> \\\\e[1;37mRunning TermuxArch command \\\\e[1;32m%s \\\\e[0;32m%s\\\\e[1;37m...\\\\n" "\${0##*/} \$ARGS" "v\$VERSIONID"
 if [[ -z "\${1:-}" ]]
 then
-\$SUDOCONF pacman --noconfirm --color=always -Syu
+nice -n 19 \$SUDOCONF pacman --noconfirm --color=always -Syu
 elif [[ "\$1" = "e" ]]
 then
-\$SUDOCONF pacman --noconfirm --color=always -Syu base base-devel emacs "\${@:2}"
+nice -n 19 \$SUDOCONF pacman --noconfirm --color=always -Syu base base-devel emacs "\${@:2}"
 elif [[ "\$1" = "e8" ]]
 then
-\$SUDOCONF pacman --noconfirm --color=always -Syu base base-devel emacs jdk8-openjdk "\${@:2}"
+nice -n 19 \$SUDOCONF pacman --noconfirm --color=always -Syu base base-devel emacs jdk8-openjdk "\${@:2}"
 elif [[ "\$1" = "e10" ]]
 then
-\$SUDOCONF pacman --noconfirm --color=always -Syu base base-devel emacs jdk10-openjdk "\${@:2}"
+nice -n 19 \$SUDOCONF pacman --noconfirm --color=always -Syu base base-devel emacs jdk10-openjdk "\${@:2}"
 else
-\$SUDOCONF pacman --noconfirm --color=always -Syu "\$@"
+nice -n 19 \$SUDOCONF pacman --noconfirm --color=always -Syu "\$@"
 fi
 ## pci EOF
 EOM
@@ -1234,17 +1251,34 @@ if [[ -z "${EDO01LCR:-}" ]]
 then
 if [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = i386 ]]
 then	# set customized commands for Arch Linux 32 architecture
-PRFXTOLS=(awk top)
+PRFXTOLS="awk top"
 else
-PRFXTOLS=(top)
+PRFXTOLS="top"
 fi
 elif [[ $EDO01LCR = 0 ]]
 then
-PRFXTOLS="am awk dpkg getprop grep gzip ping ps sed top which $(compgen -c|grep termux- || find $PREFIX/bin -type f -executable -name termux-)"
+PRFXTOLS="am awk dpkg getprop grep gzip ping ps sed top which $(compgen -c|grep termux- || find "$PREFIX/bin" -type f -executable -name termux-)"
 fi
+_CPSTOOL_() {	# copy Termux tool to PRoot installation
+cp "$WHICHSTOOL" "$INSTALLDIR/usr/local/bin/$STOOL" && printf "%s\\n" "cp $WHICHSTOOL $INSTALLDIR/usr/local/bin/$STOOL: continuing..."
+}
 for STOOL in ${PRFXTOLS[@]}
 do
-WHICHSTOOL="$(which $STOOL)" && cp "$WHICHSTOOL" "$INSTALLDIR/usr/local/bin/$STOOL" && printf "%s\\n" "cp $WHICHSTOOL $INSTALLDIR/usr/local/bin/$STOOL: continuing..." || printf "%s\\n" "System tool $STOOL cannot be found: continuing..."
+WHICHSTOOL="$(which "$STOOL" || printf "1")"
+if [ ! -f "$INSTALLDIR/usr/local/bin/$STOOL" ]
+then
+_CPSTOOL_
+else
+if [ "$WHICHSTOOL" != 1 ]
+then
+if ! diff "$WHICHSTOOL" "$INSTALLDIR/usr/local/bin/$STOOL"
+then
+_CPSTOOL_
+fi
+else
+printf "System tool \\e[1m'%s'\\e[0m cannot be found: continuing...\\e[1\\n" "$STOOL"
+fi
+fi
 done
 if [ ! -e root/storage ] && [ -e "$HOME/storage" ]
 then
@@ -1289,7 +1323,7 @@ printf "\\\\e[1;31m%s\\\\e[1;37m%s\\\\e[1;32m%s\\\\e[1;37m%s\\\\n\\\\n" "Signal 
 printf "\\\\e[1;34m%s\\\\e[0;34m%s\\\\e[1;34m%s\\\\e[0;34m%s\\\\e[1;34m%s\\\\e[0m\\\\n\\\\n" "  If you find improvements for " "setupTermuxArch" " and " "\$0" " please open an issue and accompanying pull request."
 }
 _SUTRIM_() {
-\$SUTRIM pacman -Sc --noconfirm --color=always || _PMFSESTRING_ "\${SUTRIM}pacman -Sc \${0##*/}"
+nice -n 19 \$SUTRIM pacman -Scc --noconfirm --color=always || _PMFSESTRING_ "\${SUTRIM}pacman -Scc \${0##*/}"
 }
 if [[ "\$UID" -eq 0 ]]
 then
@@ -1305,8 +1339,8 @@ printf "%s\\\\n" "[3/5] rm -rf /usr/lib/modules"
 rm -rf /usr/lib/modules
 printf "%s\\\\n" "[4/5] \$SUTRIM"
 _SUTRIM_
-printf "%s\\\\n" "[5/5] rm -f /var/cache/pacman/pkg/*xz"
-rm -f /var/cache/pacman/pkg/*xz || _PMFSESTRING_ "rm -f \${0##*/}"
+printf "%s\\\\n" "[5/5] rm -f /var/cache/pacman/pkg/*pkg*"
+rm -f /var/cache/pacman/pkg/*pkg* || _PMFSESTRING_ "rm -f \${0##*/}"
 printf "\\\\n\\\\e[1;32m%s\\\\e[0m\\\\n\\\\n" "\${0##*/} trim \$@: Done"
 ## trim EOF
 EOM
@@ -1514,7 +1548,7 @@ _DOMODdotfiles_() {
 _MODdotfile_() {
 _MODdotfNF_() {
 printf "\\e[0;33mline %s can not be found in %s file \\e[0;34m: adding line %s to %s file \\e[0m\\n" "'$MODFILEADD'" "/${INSTALLDIR##*/}/root/$MODFILENAME" "'$MODFILEADD'" "/${INSTALLDIR##*/}/root/$MODFILENAME"
-printf "$MODFILEADD\\n" >> "$INSTALLDIR/root/$MODFILENAME"
+printf "%s\\n" "$MODFILEADD" >> "$INSTALLDIR/root/$MODFILENAME"
 }
 # add MODFILEADD to file /root/MODFILENAME
 [[ -f "$INSTALLDIR/root/$MODFILENAME" ]] && (_DOTHRF_ "root/$MODFILENAME" && ! grep -q "$MODFILEADD" "$INSTALLDIR/root/$MODFILENAME" && _MODdotfNF_ || printf "\\e[0;34mline %s found in %s file\\e[0m\\n" "'$MODFILEADD'" "/${INSTALLDIR##*/}/root/$MODFILENAME") || _MODdotfNF_
