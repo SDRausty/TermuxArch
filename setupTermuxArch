@@ -7,10 +7,10 @@ set -Eeuo pipefail
 shopt -s nullglob globstar
 umask 0022
 unset LD_PRELOAD
-VERSIONID=2.0.450
+VERSIONID=2.0.451
 _STRPERROR_() { # run on script error
 local RV="$?"
-printf "\\e[?25h\\n\\e[1;48;5;138m %s\\e[0m\\n" "TermuxArch WARNING:  Generated script signal ${RV:-UNKNOWN} near or at line number ${1:-UNKNOWN} by '${2:-COMMAND}'!"
+printf "\\e[?25h\\n\\e[1;48;5;138m %s\\e[0m\\n" "TermuxArch WARNING:  Generated script signal ${RV:-UNKNOWN} near or at line number ${1:-UNKNOWN} by '${2:-UNKNOWNCOMMAND}'!"
 _ADERHELP_() {
 printf "\\e[1;32mThe command 'bash %s help' has information how to use '%s' effectively.\\n" "${0##*/}" "${0##*/}"
 }
@@ -95,7 +95,7 @@ _PRINTSHA512SYSCHKER_
 fi
 }
 _CHKDWN_() {
-sha512sum -c setupTermuxArch.sha512 1>/dev/null && printf "\\e[0;34m%s\\e[1;34m%s\\e[1;32m%s\\n\\n" " 🕛 > 🕐 " "TermuxArch download: " "OK" && bsdtar -x -p -f setupTermuxArch.tar.gz || _PRINTSHA512SYSCHKER_
+sha512sum -c setupTermuxArch.sha512 1>/dev/null && printf "\\e[0;34m%s\\e[1;34m%s\\e[1;32m%s\\n" " 🕛 > 🕐 " "TermuxArch download: " "OK" && bsdtar -x -p -f setupTermuxArch.tar.gz || _PRINTSHA512SYSCHKER_
 }
 _CHKSELF_() {	# compare setupTermuxArch and file being used
 cd "$WFDIR"	# change directory to working file directory
@@ -540,7 +540,7 @@ _EDITORCHOOSER_
 }
 _PRINTERRORMSG_() {
 printf "\\e[1;31m%s\\e[1;37m%s\\e[1;32m%s\\e[1;37m%s\\n\\n" "Signal generated in '$1' : Cannot complete task : " "Continuing..."
-printf "\\e[1;34mIf you can improvements for \\e[0;34m'%s' \\e[1;34mplease open an issue and an accompanying pull request.  A pull request can assist in shedding more light on an issue.\\e[0m\\n\\n" "${0##*/}"
+printf "\\e[1;34mIf you find improvements for \\e[0;34m'%s' \\e[1;34mplease open an issue and an accompanying pull request.  A pull request can assist in shedding more light on an issue.\\e[0m\\n\\n" "${0##*/}"
 }
 _PRPREFRESH_() {
 printf "\\n%s\\n" "Refresh mode is set to refresh mode $1;  Initializing system refresh..."
@@ -808,7 +808,7 @@ WFDIR="${WFDIR%/*}"
 ## >> HELP OPTIONS >>
 ## >>>>>>>>>>>>>>>>>>
 ## Please open an issue and accompanying pull request at GitHub if you would like to have these options amended.
-if [ "$UID" = 0 ]
+if [ "$UID" = 0 ] || [ "$EUID" = 0 ]
 then
 printf "\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\\n\\n" "Signal 164 generated : " "Do NOT use UID 0 for PRoot " ": Exiting..." & exit 164
 fi

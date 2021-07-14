@@ -19,11 +19,11 @@ then
 printf "\\\\e[1;31mUSAGE: \\\\e[1;37m'addauser username'\\\\e[1;32m: Exiting...\\\\n"
 exit 201
 fi
-if [[ ! -d "/home/\$@" ]]
+if [[ -d "/home/\$@" ]]
 then
-_FUNADDU_ "\$@"
-else
 printf "\\\\e[1;33mDirectory: \\\\e[1;37m'/home/\$@ exists'\\\\e[0;32m: Exiting...\\\\n"
+else
+_FUNADDU_ "\$@"
 fi
 }
 _FUNADDU_() {
@@ -79,37 +79,41 @@ EOM
 
 _ADDMOTO_() {
 cat > etc/moto <<- EOM
-printf "\\\\n\\\\e[1;34mPlease share your Arch Linux in Termux PRoot experience!\\\\n\\\\n\\\\e[1;34mChat:	\\\\e[0mwiki.termux.com/wiki/Community\\\\n\\\\e[1;34mHelp:	\\\\e[0;34minfo query \\\\e[1;34mand \\\\e[0;34mman query\\\\n\\\\e[1;34mGitHub:	\\\\e[0m%s\\\\n\\\\e[1;34mIRC:	\\\\e[0m%s\\\\n\\\\n\\\\e[0m" "$MOTTECGIT" "$MOTTECIRC"
+printf "\\\\n\\\\e[1;34mPlease share your Arch Linux in Termux PRoot experience!\\\\n\\\\n\\\\e[1;34mChat:	\\\\e[0mwiki.termux.com/wiki/Community\\\\n\\\\e[1;34mGitHub:	\\\\e[0m%s\\\\n\\\\e[1;34mHelp:	\\\\e[0;34mhelp man \\\\e[1;34mand \\\\e[0;34minfo man\\\\n\\\\e[1;34mIRC:	\\\\e[0m%s\\\\n\\\\n\\\\e[0m" "$MOTTECGIT" "$MOTTECIRC"
 EOM
 }
 
 _ADDOPEN4ROOT_() {
-_CFLHDR_ root/bin/open4root "# open TermuxArch programs for root user"
-cat >> root/bin/open4root <<- EOM
+_CFLHDR_ usr/local/bin/open4root "# open programs in /usr/local/bin/ for root user"
+cat >> usr/local/bin/open4root <<- EOM
 sed -i 's/UID\" = 0/UID\" = -1/g' /usr/local/bin/*
 sed -i 's/EUID == 0/EUID == -1/g' /usr/local/bin/*
 ## open4root EOF
 EOM
-chmod 700 root/bin/open4root
+chmod 700 usr/local/bin/open4root
 }
 
 _ADDREADME_() {
 _CFLHDR_ usr/local/bin/README.md
 cat > usr/local/bin/README.md <<- EOM
-The HOME/bin directory contains shortcut commands that automate and ease using the command line.  Some of these commands are listed here:
+The /usr/local/bin directory contains shortcut commands that automate and make using the command line easier.  Some of these commands are listed here:
 
 * Command 'csystemctl' replaces systemctl with https://github.com/TermuxArch/docker-systemctl-replacement,
 * Command 'keys' installs Arch Linux keys,
 * Command 'makeyay' creates the 'yay' command, and also patches the 'makepkg' command,
 * Command 'patchmakepkg' patches the 'makepkg' command,
+* Command 'pc' pacman shortcut command; cat \$(which pc).
+* Command 'pci' pacman shortcut command; cat \$(which pci).
 * Command 'tour' runs a short tour of the Arch Linux system directories,
 * Command 'trim' removes downloaded packages from the Arch Linux system directories.
+* Command 'yt' youtube shortcut command that installs youtube-dl.
+* Command 'v' vim shortcut command that installs youtube-dl.
 
 This file can be expanded so the beginning user can get to know the Linux experience easier.  Would you like to create an issue along with a pull request to add information to this file so that the beginning user can get to know the Arch Linux in Termux PRoot experience easier?  If you do want to expand this file to enhance this experience, visit these links:
 
 * Comments are welcome at https://github.com/TermuxArch/TermuxArch/issues ✍
 * Pull requests are welcome at https://github.com/TermuxArch/TermuxArch/pulls ✍
-<!--bin/README.md EOF-->
+<!-- /usr/local/bin/README.md EOF -->
 EOM
 }
 
@@ -241,7 +245,7 @@ EOM
 SHELVARS=" ANDROID_ART_ROOT ANDROID_DATA ANDROID_I18N_ROOT ANDROID_ROOT ANDROID_RUNTIME_ROOT ANDROID_TZDATA_ROOT BOOTCLASSPATH DEX2OATBOOTCLASSPATH"
 for SHELVAR in ${SHELVARS[@]}
 do
-ISHELVAR="$(export | grep $SHELVAR || echo 1)"
+ISHELVAR="$(export | grep "$SHELVAR" || echo 1)"
 if [[ "$ISHELVAR" != 1 ]]
 then
 printf "export %s\\n" "$(sed 's/declare -x //g' <<< "$ISHELVAR")" >> root/.bash_profile
@@ -388,19 +392,17 @@ else
 ARGS="\$@"
 fi
 
-printf "\\\\e[1;32m==> \\\\e[0mRunning \\\\e[1;32m%s\\\\e[0;32m%s\\\\e[1;37m...\\\\n\\\\n" "\${0##*/} \$ARGS " "version \$VERSIONID"
-
 if [[ -f "\$HOME"/.hushlogin ]] && [[ -f "\$HOME"/.hushlogout ]]
 then
 rm -f "\$HOME"/.hushlogin "\$HOME"/.hushlogout
-printf "%s\\\\n\\\\n" "Hushed login and logout: OFF"
+printf "%s\\\\n" "Hushed login and logout: OFF"
 elif [[ -f "\$HOME"/.hushlogin ]] || [[ -f "\$HOME"/.hushlogout ]]
 then
 touch "\$HOME"/.hushlogin "\$HOME"/.hushlogout
-printf "%s\\\\n\\\\n" "Hushed login and logout: ON"
+printf "%s\\\\n" "Hushed login and logout: ON"
 else
 touch "\$HOME"/.hushlogin "\$HOME"/.hushlogout
-printf "%s\\\\n\\\\n" "Hushed login and logout: ON"
+printf "%s\\\\n" "Hushed login and logout: ON"
 fi
 ## ch EOF
 EOM
@@ -1197,7 +1199,7 @@ fi
 _CHECKRESOLVE_
 }
 
-_ADDstriphtmlcodefromfile_() { _CFLHDR_ usr/local/bin/striphtmlcodefromfile "#strip html code from file" ; printf "%s\\n%s\\n%s\\n" "[ \"\$UID\" = \"0\" ] && printf \"\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\\n\" \"Cannot run '\${0##*/}' as root user :\" \" the command 'addauser username' creates user accounts in $INSTALLDIR : the command '$STARTBIN command addauser username' can create user accounts in $INSTALLDIR from Termux : a default user account is created during setup : the default username 'user' can be used to access the PRoot system employing a user account : command '$STARTBIN help' has more information : \" \"exiting...\" && exit" "[ ! -x \"\$(command -v tree)\" ] && pci sed && sed || sed -n '/^$/!{s/<[^>]*>//g;p;}' \"\$@\"" "## striphtmlcodefromfile EOF" >> usr/local/bin/striphtmlcodefromfile ; chmod 700 usr/local/bin/striphtmlcodefromfile ; }
+_ADDstriphtmlcodefromfile_() { _CFLHDR_ usr/local/bin/striphtmlcodefromfile "#strip html code from file" ; printf "%s\\n%s\\n%s\\n" "[ \"\$UID\" = 0 ] && printf \"\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\\n\" \"Cannot run '\${0##*/}' as root user :\" \" the command 'addauser username' creates user accounts in $INSTALLDIR : the command '$STARTBIN command addauser username' can create user accounts in $INSTALLDIR from Termux : a default user account is created during setup : the default username 'user' can be used to access the PRoot system employing a user account : command '$STARTBIN help' has more information : \" \"exiting...\" && exit" "[ ! -x \"\$(command -v tree)\" ] && pci sed && sed || sed -n '/^$/!{s/<[^>]*>//g;p;}' \"\$@\"" "## striphtmlcodefromfile EOF" >> usr/local/bin/striphtmlcodefromfile ; chmod 700 usr/local/bin/striphtmlcodefromfile ; }
 
 _ADDt_() {
 _CFLHDR_ usr/local/bin/t
@@ -1317,31 +1319,28 @@ chmod 700 usr/local/bin/tour
 _ADDtrim_() {
 _CFLHDR_ usr/local/bin/trim
 cat >> usr/local/bin/trim <<- EOM
-printf "\\\\e[1;32m==> \\\\e[1;37mRunning \\\\e[1;32m%s\\\\e[1;37m...\\\\n\\\\n" "\${0##*/}"
+printf "\\\\e[1;32m==> \\\\e[1;37mRunning \\\\e[1;32m%s\\\\e[1;37m...\\\\n" "\${0##*/}"
 _PMFSESTRING_() {
-printf "\\\\e[1;31m%s\\\\e[1;37m%s\\\\e[1;32m%s\\\\e[1;37m%s\\\\n\\\\n" "Signal generated in '\$1' : Cannot complete task : " "Continuing..."
+printf "\\\\e[1;31m%s\\\\e[1;37m%s\\\\n\\\\n" "Signal generated in '\$1' : Cannot complete task : " "Continuing..."
 printf "\\\\e[1;34m%s\\\\e[0;34m%s\\\\e[1;34m%s\\\\e[0;34m%s\\\\e[1;34m%s\\\\e[0m\\\\n\\\\n" "  If you find improvements for " "setupTermuxArch" " and " "\$0" " please open an issue and accompanying pull request."
 }
-_SUTRIM_() {
-nice -n 19 \$SUTRIM pacman -Scc --noconfirm --color=always || _PMFSESTRING_ "\${SUTRIM}pacman -Scc \${0##*/}"
-}
-if [[ "\$UID" -eq 0 ]]
-then
-SUTRIM=""
-else
-SUTRIM="sudo "
-fi
+[ "\$UID" -eq 0 ] && SUTRIM="" || SUTRIM="sudo"
 printf "%s\\\\n" "[1/5] rm -rf /boot/"
 rm -rf /boot/
 printf "%s\\\\n" "[2/5] rm -rf /usr/lib/firmware"
 rm -rf /usr/lib/firmware
 printf "%s\\\\n" "[3/5] rm -rf /usr/lib/modules"
 rm -rf /usr/lib/modules
-printf "%s\\\\n" "[4/5] \$SUTRIM"
-_SUTRIM_
+if [ -z "\$SUTRIM" ]
+then
+printf "%s\\\\n" "[4/5] pacman -Scc --noconfirm --color=always"
+pacman -Scc --noconfirm --color=always || _PMFSESTRING_ "\${0##*/} \$SUTRIM pacman -Scc"
+else
+printf "%s\\\\n" "[4/5] \$SUTRIM pacman -Scc --noconfirm --color=always"
+"\$SUTRIM" pacman -Scc --noconfirm --color=always || _PMFSESTRING_ "\${0##*/} \$SUTRIM pacman -Scc"
+fi
 printf "%s\\\\n" "[5/5] rm -f /var/cache/pacman/pkg/*pkg*"
 rm -f /var/cache/pacman/pkg/*pkg* || _PMFSESTRING_ "rm -f \${0##*/}"
-printf "\\\\n\\\\e[1;32m%s\\\\e[0m\\\\n\\\\n" "\${0##*/} trim \$@: Done"
 ## trim EOF
 EOM
 chmod 700 usr/local/bin/trim
