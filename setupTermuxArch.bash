@@ -7,7 +7,7 @@ set -Eeuo pipefail
 shopt -s nullglob globstar
 umask 0022
 unset LD_PRELOAD
-VERSIONID=2.0.452
+VERSIONID=2.0.453
 _STRPERROR_() { # run on script error
 local RV="$?"
 printf "\\e[?25h\\n\\e[1;48;5;138m %s\\e[0m\\n" "TermuxArch WARNING:  Generated script signal ${RV:-UNKNOWN} near or at line number ${1:-UNKNOWN} by '${2:-UNKNOWNCOMMAND}'!"
@@ -765,7 +765,7 @@ ROOTDIR="/arch"
 STRING1="COMMAND 'au' enables auto upgrade and rollback.  Available at https://wae.github.io/au/ IS NOT FOUND: Continuing... "
 STRING2="Cannot update '${0##*/}' prerequisite: Continuing..."
 ## TERMUXARCH FEATURES INCLUDE:
-## 1) Create aliases and commands that aid in using the command line, and assist in accessing the more advanced features like the commands 'pikaur' and 'yay' easily;  The files '.bashrc' '.bash_profile' and 'bin/README.md' have detailed information about this feature,
+## 1) Create aliases and commands that aid in using the command line, and assist in accessing the more advanced features like the commands 'pikaur' and 'yay' easily;  The files '.bashrc' '.bash_profile' and '/usr/local/bin/README.md' have detailed information about this feature,
 ## 2) Set timezone and locales from device,
 ## 3) Test for correct OS,
 _COMMANDGNE_() { printf "\\n\\e[1;48;5;138m%s\\e[0m\\n\\n" "TermuxArch WARNING:  Run '${0##*/}' and 'bash ${0##*/}' from the native BASH shell in Termux:  EXITING..." && exit 126 ; }
