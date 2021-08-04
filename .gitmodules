@@ -1,9 +1,12 @@
-[submodule "docs"]
-	path = docs
-	url = https://github.com/TermuxArch/docsTermuxArch
-[submodule "gen"]
-	path = gen
-	url = https://github.com/TermuxArch/genTermuxArch
 [submodule ".scripts/maintenance"]
-	path = .scripts/maintenance
-	url = https://github.com/shlibs/maintenance
+        path = .scripts/maintenance
+        url = https://github.com/shlibs/maintenance
+[submodule "docs"]
+        path = docs
+        url = https://github.com/TermuxArch/docsTermuxArch
+[submodule "gen"]
+        path = gen
+        url = https://github.com/TermuxArch/genTermuxArch
+[submodule "scripts"]
+        path = scripts
+        url = https://github.com/TermuxArch/scripts.TermuxArch
