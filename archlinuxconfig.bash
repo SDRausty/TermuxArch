@@ -57,7 +57,7 @@ chmod 700 usr/local/bin/addauser
 
 _ADDMOTA_() {
 cat > etc/mota <<- EOM
-printf "\\\\n\\\\e[1;34m%s\\\\n%s\\\\e[0;34m%s\\\\n\\\\e[1;34m%s\\\\e[0;34m%s\\\\n\\\\e[1;34m%s\\\\e[0;34m%s\\\\n\\\\e[1;34m%s\\\\e[0;34m%s\\\\n\\\\n\\\\e[1;34m%s\\\\e[0m%s\\\\n\\\\e[1;34m%s\\\\e[0m%s\\\\n\\\\e[1;34m%s\\\\e[0;34m%s\\\\e[1;34m%s\\\\e[0;34m%s\\\\n\\\\e[1;34m%s\\\\e[0m%s\\\\n\\\\n" "Welcome to Arch Linux in Termux PRoot!" "Install a package: " "pacman -S package" "More  information: " "pacman -[D|F|Q|R|S|T|U]h" "Search   packages: " "pacman -Ss query" "Upgrade  packages: " "pacman -Syu" "Chat:	" "wiki.termux.com/wiki/Community" "GitHub:	" "$MOTTECGIT" "Help:	" "info query " "and " "man query" "IRC:	" "$MOTTECIRC"
+printf "\\\\n\\\\e[1;34m%s\\\\n%s\\\\e[0;34m%s\\\\n\\\\e[1;34m%s\\\\e[0;34m%s\\\\n\\\\e[1;34m%s\\\\e[0;34m%s\\\\n\\\\e[1;34m%s\\\\e[0;34m%s\\\\n\\\\n\\\\e[1;34m%s\\\\e[0m%s\\\\n\\\\e[1;34m%s\\\\e[0m%s\\\\n\\\\e[1;34m%s\\\\e[0;34m%s\\\\e[1;34m%s\\\\e[0;34m%s\\\\n\\\\e[1;34m%s\\\\e[0m%s\\\\n\\\\n" "Welcome to Arch Linux in Termux PRoot!" "Install a package: " "pacman -S package" "More  information: " "pacman -[D|F|Q|R|S|T|U]h" "Search   packages: " "pacman -Ss query" "Upgrade  packages: " "pacman -Syu" "Chat:	" "wiki.termux.com/wiki/Community" "GitHub:	" "$MOTTECGIT" "Help:	" "help man " "and " "info man" "IRC:	" "$MOTTECIRC"
 EOM
 }
 
@@ -124,15 +124,6 @@ watch cat /proc/sys/kernel/random/entropy_avail
 ## ae EOF
 EOM
 chmod 700 usr/local/bin/ae
-}
-
-_ADDabrowser_() {
-_CFLHDR_ usr/local/bin/abrowser "# Developed at [Android 11 (with Termux storage permission denied) question; What's the source for the shortcut to the file manager of the settings app?](https://www.reddit.com/r/termux/comments/msq7lm/android_11_with_termux_storage_permission_denied/) Contributors DutchOfBurdock xeffyr"
-cat >> usr/local/bin/abrowser <<- EOM
-am start -a android.intent.action.VIEW -d "content://com.android.externalstorage.documents/root/primary"
-## abrowser EOF
-EOM
-chmod 700 usr/local/bin/abrowser
 }
 
 _ADDmakeaurhelpers_() {
@@ -219,7 +210,7 @@ chmod 700 usr/local/bin/makeaurhelpers
 _ADDbash_logout_() {
 cat > root/.bash_logout <<- EOM
 [ ! -f "\$HOME"/.hushlogout ] && [ ! -f "\$HOME"/.chushlogout ] && . /etc/moto
-h # write session history to file HOME/.historyfile
+h
 ## .bash_logout EOF
 EOM
 }
@@ -240,7 +231,6 @@ PS1="\\[\\e[38;5;148m\\]\\u\\[\\e[1;0m\\]\\A\\[\\e[1;38;5;112m\\]\\W\\[\\e[0m\\]
 EOM
 [[ -f "$HOME"/.bash_profile ]] && grep proxy "$HOME"/.bash_profile | grep -s "export" >> root/.bash_profile ||:
 cat >> root/.bash_profile <<- EOM
-export ANDROID_ROOT=/system
 EOM
 SHELVARS=" ANDROID_ART_ROOT ANDROID_DATA ANDROID_I18N_ROOT ANDROID_ROOT ANDROID_RUNTIME_ROOT ANDROID_TZDATA_ROOT BOOTCLASSPATH DEX2OATBOOTCLASSPATH"
 for SHELVAR in ${SHELVARS[@]}
@@ -271,14 +261,23 @@ alias ..='cd ../.. && pwd'
 alias ...='cd ../../.. && pwd'
 alias ....='cd ../../../.. && pwd'
 alias .....='cd ../../../../.. && pwd'
+alias aiabrowser='am start -a android.intent.action.VIEW -d "content://com.android.externalstorage.documents/root/primary"'	## Reference [Android 11 (with Termux storage permission denied) question; What's the source for the shortcut to the file manager of the settings app?](https://www.reddit.com/r/termux/comments/msq7lm/android_11_with_termux_storage_permission_denied/) Contributors u/DutchOfBurdock u/xeffyr
+alias aiachrome='am start --user 0 -n com.android.chrome/com.google.android.apps.chrome.Main'	## Reference [Can I start an app from Termux's command line? How?](https://www.reddit.com/r/termux/comments/62zi71/can_i_start_an_app_from_termuxs_command_line_how/) Contributors u/u/fornwall u/Kramshet
+alias aiadial='am start -a android.intent.action.DIAL'
+alias aiafilemanager='am start -a android.intent.action.VIEW -d "content://com.android.externalstorage.documents/root/primary"'
+alias aiasearch='am start -a android.intent.action.SEARCH'
+alias aiaview='am start -a android.intent.action.VIEW'
+alias aiaviewd='am start -a android.intent.action.VIEW -d '
+alias aiawebsearch='am start -a android.intent.action.WEB_SEARCH'
 alias C='cd .. && pwd'
 alias c='cd .. && pwd'
+alias cw='cat \$(which' # use a ) to complete this alias
 alias CPR='cp -r'
 alias cpr='cp -r'
-alias CUO='curl -O --retry 4'
-alias cuo='curl -O --retry 4'
-alias CUOL='curl -JOL --retry 4'
-alias cuol='curl -JOL --retry 4'
+alias CUO='curl -C - --fail --retry 4 -O'
+alias cuo='curl -C - --fail --retry 4 -O'
+alias CUOL='curl -C - --fail --retry 4 -JOL'
+alias cuol='curl -C - --fail --retry 4 -JOL'
 alias D='nice -n 20 du -hs'
 alias d='nice -n 20 du -hs'
 alias E='exit'
@@ -304,6 +303,7 @@ alias i='whoami'
 alias L='ls -al --color=always'
 alias l='ls -al --color=always'
 alias LA='ls -alR --color=always'
+alias La='ls -alR --color=always'
 alias la='ls -alR --color=always'
 alias LS='ls --color=always'
 alias ls='ls --color=always'
@@ -371,7 +371,7 @@ _CFLHDR_ usr/local/bin/ch "# This script creates .hushlogin and .hushlogout file
 cat >> usr/local/bin/ch <<- EOM
 declare -a ARGS
 
-_TRPET_() { # on exit
+_TRPET_() {
 printf "\\\\e[?25h\\\\e[0m"
 set +Eeuo pipefail
 _PRINTTAIL_ "\$ARGS[@]"
@@ -507,7 +507,7 @@ PROOTSTMNT+="-b $INSTALLDIR/var/binds/fbindprocshmem:/proc/shmem "
 EOM
 }
 
-_ADDfbindprocstat_() { # Chooses the appropriate four or eight processor stat file.
+_ADDfbindprocstat_() {
 NESSOR="$(grep cessor /proc/cpuinfo)"
 NCESSOR="${NESSOR: -1}"
 if [[ "$NCESSOR" -le "3" ]] 2>/dev/null
@@ -595,7 +595,7 @@ EOM
 _ADDbindexample_() {
 _CFLHDRS_ var/binds/bindexample.prs "# Before regenerating the start script with \`setupTermuxArch re[fresh]\`, first copy this file to another name such as \`fbinds.prs\`.  Then add as many proot statements as you want; The init script will parse file \`fbinds.prs\` at refresh adding these proot options to \`$STARTBIN\`.  The space before the last double quote is necessary.  Examples are included for convenience:"
 cat >> var/binds/bindexample.prs <<- EOM
-## PRoot bind usage: PROOTSTMNT+="-b host_path:guest_path " # the space before the last double quote is necessary
+## PRoot bind usage: PROOTSTMNT+="-b host_path:guest_path "
 ## PROOTSTMNT+="-q $PREFIX/bin/qemu-x86_64 "
 ## PROOTSTMNT+="-b /proc/:/proc/ "
 ## [[ ! -r /dev/shm ]] && PROOTSTMNT+="-b $INSTALLDIR/tmp:/dev/shm "
@@ -603,7 +603,7 @@ cat >> var/binds/bindexample.prs <<- EOM
 EOM
 }
 
-_ADDfbinds_() { # Checks if /proc/stat is usable.
+_ADDfbinds_() {
 if [[ ! -r /proc/stat ]]
 then
 _ADDfbindprocstat_
@@ -828,7 +828,7 @@ printf "\\\\n\\\\e[1;32m%s \\\\e[0;34mWhen \\\\e[1;37mGenerating pacman keyring 
 }
 
 _GENEN_() {	# This for loop generates entropy on device.
-N=16 # Number of loop generations for generating entropy.
+N=16
 for I in "\$(seq 1 "\$N")"; do
 nice -n 20 ls -alR /usr >/dev/null &
 nice -n 20 find /usr >/dev/null &
@@ -845,7 +845,7 @@ _PRTERROR_() {
 printf "\\n\\e[1;31merror: \\e[1;37m%s\\e[0m\\n\\n" "Please correct the error(s) and/or warning(s) and run '\${0##*/} \${ARGS[@]}' again."
 }
 
-_TRPET_() { # on exit
+_TRPET_() {
 printf "\\\\e[?25h\\\\e[0m"
 set +Eeuo pipefail
 _PRINTTAIL_ "\$KEYRINGS[@]"
@@ -959,12 +959,43 @@ EOM
 chmod 700 usr/local/bin/makefakeroottcp
 }
 
+_ADDmakeksh_() {
+_CFLHDR_ usr/local/bin/makeksh "# build and install the ksh shell; Inspired by https://github.com/termux/termux-api/issues/436"
+cat >> usr/local/bin/makeksh <<- EOM
+_PRTERROR_() {
+printf "\\n\\e[1;31merror: \\e[1;37m%s\\e[0m\\n\\n" "Please correct the error(s) and/or warning(s) if possible, and run '\${0##*/} \${ARGS[@]}' again."
+exit 100
+}
+if [ "\$UID" = 0 ]
+then
+printf "\\\\e[1;31m%s\\\\e[1;37m%s\\\\e[1;31m%s\\\\e[0m\\\\n" "ERROR:" "  Script '\${0##*/}' should not be used as root:  The command 'addauser' creates user accounts in Arch Linux in Termux PRoot and configures these user accounts for the command 'sudo':  The 'addauser' command is intended to be run by the Arch Linux in Termux PRoot root user:  To use 'addauser' directly from Termux you can run \"$STARTBIN command 'addauser user'\" in Termux to create this account in Arch Linux Termux PRoot:  The command '$STARTBIN help' has more information about using '$STARTBIN':  " "Exiting..."
+else
+printf "\\\\e[0;32m%s\\\\e[0m\\\\n" "Attempting to build and install 'ksh':"
+if [[ ! -z "\${PREFIX:-}" ]]
+then
+: # pull requests are requested to automate install missing Termux packages
+else
+if ( [[ ! -f /usr/bin/make ]] || [[ ! -f /usr/bin/git ]] || [[ ! -f /usr/bin/bison ]] )
+then
+pci bison base base-devel gcc git || pci bison base base-devel gcc git || ( printf "\\n\\e[1;31mERROR: \\e[7;37m%s\\e[0m\\n\\n" "Please correct the error(s) and/or warning(s) by running command 'pci bison base base-devel gcc git' as proot root user.  The 'sudo' command will not help.  You might be able to bring this about without closing this session.  Please try running command: $STARTBIN command 'pci base base-devel gcc git' in a new Termux PRoot session.  This will install the neccessary packages to make 'ksh'.  Then return to this session, and run '\${0##*/}' again." && exit 120 )
+fi
+fi
+cd
+[ ! -d ksh ] && gcl https://github.com/ksh-community/ksh
+( cd ksh && nice -n 20 ./bin/package make ) || ( printf "\\\\e[1;31m%s\\\\e[1;37m%s\\\\e[1;31m%s\\\\n" "ERROR: " "The commands 'cd ksh && nice -n 20 ./bin/package make' did not run as expected; " "EXITING..." && exit 124 )
+find arch/*/bin -type f -executable || printf "\\\\e[1;31m%s\\\\e[1;37m%s\\\\n" "ERROR: " "The command 'find arch/*/bin -type f -executable' did not run as expected; CONTINUING..." && _PRTERROR_
+fi
+## makeksh EOF
+EOM
+chmod 700 usr/local/bin/makeksh
+}
+
 _ADDmakeyay_() {
 _CFLHDR_ usr/local/bin/makeyay "# build and install command yay; Contributors https://github.com/cb125 and https://github.com/SampsonCrowley"
 cat >> usr/local/bin/makeyay <<- EOM
 _PRTERROR_() {
 printf "\\n\\e[1;31merror: \\e[1;37m%s\\e[0m\\n\\n" "Please correct the error(s) and/or warning(s) if possible, and run '\${0##*/} \${ARGS[@]}' again."
-exit
+exit 100
 }
 if [ "\$UID" = 0 ]
 then
@@ -973,15 +1004,20 @@ else
 _PRMAKE_() {
 printf "\\\\e[1;32m==> \\\\e[1;37mRunning \\\\e[1;32mnice -n 20 makepkg -irs --noconfirm\\\\e[1;37m...\\\\n"
 }
-printf "\\\\e[0;32m%s\\\\e[0m\\\\n" "Building and installing 'yay':"
+printf "\\\\e[0;32m%s\\\\e[0m\\\\n" "Attempting to build and install 'yay':"
+if [[ ! -z "\${PREFIX:-}" ]]
+then
+: # pull requests are requested to automate install missing Termux packages
+else
 [ ! -f "/run/lock/${INSTALLDIR##*/}/patchmakepkg.lock" ] && patchmakepkg
 if ([[ ! "\$(command -v fakeroot)" ]] || [[ ! "\$(command -v git)" ]] || [[ ! "\$(command -v go)" ]]) 2>/dev/null
 then
-pci base base-devel fakeroot gcc git go || pci base base-devel fakeroot gcc git go || printf "\\n\\e[1;31mERROR: \\e[7;37m%s\\e[0m\\n\\n" "Please correct the error(s) and/or warning(s) by running command 'pci base base-devel fakeroot gcc git go' as root user.  You can do this without closing this session by running command \" $STARTBIN command 'pci base base-devel fakeroot gcc git go' \"in a new Termux session. Then you can return to this session and run '\${0##*/} \${ARGS[@]}' again."
+pci base base-devel fakeroot gcc git go || pci base base-devel fakeroot gcc git go || ( printf "\\n\\e[1;31mERROR: \\e[7;37m%s\\e[0m\\n\\n" "Please correct the error(s) and/or warning(s) by running command 'pci base base-devel fakeroot gcc git go' as proot root user.  The 'sudo' command will not help.  You might be able to bring this about without closing this session.  Please try running command: $STARTBIN command 'pci base base-devel fakeroot gcc git go' in a new Termux PRoot session.  This will install the neccessary packages to make 'ksh'.  Then return to this session, and run '\${0##*/}' again." && exit 120 )
+fi
 fi
 cd
 [ ! -d yay ] && gcl https://aur.archlinux.org/yay.git
-cd yay && _PRMAKE_ && nice -n 20 makepkg -irs --noconfirm || printf "\\\\e[1;31m%s\\\\e[1;37m%s\\\\n" "ERROR: " "The command 'nice -n 20 makepkg -irs --noconfirm' did not run as expected; CONTINUING..."
+cd yay && _PRMAKE_ && nice -n 20 makepkg -irs --noconfirm || ( printf "\\\\e[1;31m%s\\\\e[1;37m%s\\\\e[1;31m%s\\\\n" "ERROR: " "The command 'nice -n 20 makepkg -irs --noconfirm' did not run as expected; " "EXITING..." && exit 124 )
 printf "\\\\e[0;32m%s\\\\n%s\\\\n%s\\\\e[1;32m%s\\\\e[0m\\\\n" "Paths that can be followed after building 'yay' are 'yay cmatrix' which builds matrix screensavers.  The commands 'yay pikaur|pikaur-git|tpac' build more aur installers which can also be used to download aur repositories and build packages like with 'yay' in your Android smartphone, tablet, wearable and more.  Did you know that 'android-studio' is available with the command 'yay android'?" "If you have trouble importing keys, this command 'gpg --keyserver keyserver.ubuntu.com --recv-keys 71A1D0EFCFEB6281FD0437C71A1D0EFCFEB6281F' might help.  Change the number to the number of the key being imported." "Building and installing yay: " "DONE 🏁"
 fi
 ## makeyay EOF
@@ -1071,7 +1107,7 @@ _CFLHDR_ usr/local/bin/pc "# pacman install packages wrapper without system upda
 cat >> usr/local/bin/pc <<- EOM
 declare -g ARGS="\$@"
 umask 0022
-_TRPET_() { # on exit
+_TRPET_() {
 printf "\\\\e[?25h\\\\e[0m"
 set +Eeuo pipefail
 _PRINTTAIL_ "\$ARGS"
@@ -1112,7 +1148,7 @@ _CFLHDR_ usr/local/bin/pci "# pacman install packages wrapper with system update
 cat >> usr/local/bin/pci <<- EOM
 declare ARGS="\$@"
 umask 0022
-_TRPET_() { # on exit
+_TRPET_() {
 printf "\\\\e[?25h\\\\e[0m"
 set +Eeuo pipefail
 _PRINTTAIL_ "\$ARGS"
@@ -1364,7 +1400,7 @@ _CFLHDR_ usr/bin/we "# Watch available entropy on device." "# cat /proc/sys/kern
 cat >> usr/bin/we <<- EOM
 declare -a ARGS
 
-_TRPWE_() { # on exit
+_TRPWE_() {
 printf "\\\\e[?25h\\\\e[0m"
 set +Eeuo pipefail
 _PRINTTAIL_ "\$ARGS[@]"
@@ -1562,8 +1598,8 @@ _MODdotfile_
 }
 
 _PREPPACMANCONF_() {
-if [ -f "$INSTALLDIR"/etc/pacman.conf ] # file is found
-then # rewrite file for PRoot environment
+if [ -f "$INSTALLDIR"/etc/pacman.conf ]
+then
 sed -i 's/^CheckSpace/\#CheckSpace/g' "$INSTALLDIR/etc/pacman.conf"
 sed -i 's/^#Color/Color/g' "$INSTALLDIR/etc/pacman.conf"
 else

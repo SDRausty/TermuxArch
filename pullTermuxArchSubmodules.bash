@@ -45,7 +45,7 @@ _PESTRG_() {
 printf "\\n\\n%s\\n" "Cannot $2 module $1 : Continuing..."
 }
 
-_PRCS_ () {     # print checksums message and run sha512sum
+_PRCS_ () {	# print checksums message and run sha512sum
 cd $WRDR
 if [[ -f sha512.sum ]]
 then
@@ -59,11 +59,11 @@ cd $RDR
 sleep 0."$(shuf -i 24-72 -n 1)" # latency support
 }
 
-_PRT_ () {      # print message with no trialing newline
+_PRT_ () {	# print message with no trialing newline
 printf "%s" "$1"
 }
 
-_PRNT_ () {     # print message with one trialing newline
+_PRNT_ () {	# print message with one trialing newline
 printf "%s\\n" "$1"
 }
 

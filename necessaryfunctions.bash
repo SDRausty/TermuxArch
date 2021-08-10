@@ -20,7 +20,6 @@ _ADDOPEN4ROOT_
 _ADDREADME_
 _ADDresolvconf_
 _ADDae_
-_ADDabrowser_
 _ADDmakeaurhelpers_
 _ADDbash_logout_
 _ADDbash_profile_
@@ -50,6 +49,7 @@ _ADDinfo_
 _ADDinputrc_
 _ADDkeys_
 _ADDmakefakeroottcp_
+_ADDmakeksh_
 _ADDmakeyay_
 _ADDorcaconf_
 _ADDpatchmakepkg_
@@ -65,7 +65,7 @@ fi
 _ADDt_
 _ADDthstartarch_
 _ADDtimings_
-_ADDtools_
+# _ADDtools_
 _ADDtour_
 _ADDtrim_
 _ADDv_
@@ -247,11 +247,11 @@ _DOKYLGEN_() {
 DOKYSKEY=""
 LOCGEN=":"
 }
-if [[ "${LCR:-}" -eq 3 ]] || [[ "${LCR:-}" -eq 4 ]] || [[ "${LCR:-}" -eq 5 ]] || [[ -z "${LCR:-}" ]]	# LCR equals 3 or 4 or 5 or is undefined
+if [[ "${LCR:-}" -eq 5 ]] || [[ -z "${LCR:-}" ]]	# LCR equals 5 or is undefined
 then
 _DOKEYS_
 LOCGEN="locale-gen || locale-gen"
-elif [[ "${LCR:-}" -eq 1 ]] || [[ "${LCR:-}" -eq 2 ]]	# LCR equals 1 or 2
+elif [[ "${LCR:-}" -eq 1 ]] || [[ "${LCR:-}" -eq 2 ]] || [[ "${LCR:-}" -eq 3 ]] || [[ "${LCR:-}" -eq 4 ]] 	# LCR equals 1 or 2 or 3 or 4
 then
 _DOKYLGEN_
 fi
@@ -283,7 +283,7 @@ fi
 cat >> root/bin/"$BINFNSTP" <<- EOM
 $DOKYSKEY
 EOM
-if [[ "${LCR:-}" -eq 3 ]] || [[ "${LCR:-}" -eq 4 ]] || [[ "${LCR:-}" -eq 5 ]] || [[ -z "${LCR:-}" ]]	# LCR equals 3 or 4 or 5 or is undefined
+if [[ "${LCR:-}" -eq 5 ]] || [[ -z "${LCR:-}" ]]
 then
 if [[ "$CPUABI" = "$CPUABIX86_64" ]]
 then
@@ -312,7 +312,6 @@ _MAKESETUPBIN_() {
 _CFLHDR_ root/bin/setupbin.bash
 cat >> root/bin/setupbin.bash <<- EOM
 set +Eeuo pipefail
-umask 0022
 EOM
 printf "%s\\n" "$PROOTSTMNT /root/bin/$BINFNSTP || printf \"%s\\n\" \"Signal generated; continuing...\"" >> root/bin/setupbin.bash
 cat >> root/bin/setupbin.bash <<- EOM
@@ -325,7 +324,7 @@ _MAKESTARTBIN_() {
 _CFLHDR_ "$STARTBIN"
 printf "%s\\n" "${FLHDRP[@]}" >> "$STARTBIN"
 cat >> "$STARTBIN" <<- EOM
-_COMMANDGNE_() { printf "\\n\\e[1;48;5;138mScript %s\\e[0m\\n\\n" "\${0##*/} WARNING:  Please run '\${0##*/}' and 'bash \${0##*/}' from the BASH shell in Termux:  EXITING..." && exit 202 ; }
+_COMMANDGNE_() { printf "\\n\\e[1;48;5;138mScript %s\\e[0m\\n\\n" "\${0##*/} WARNING:  Please run '\${0##*/}' and 'bash \${0##*/}' from the BASH shell in vanilla Termux:  EXITING..." && exit 202 ; }
 COMMANDG="\$(command -v getprop)"
 if [ "\$COMMANDG" = "/usr/local/bin/getprop" ]
 then
@@ -343,12 +342,12 @@ printf '\\033]2;%s\\007' "TermuxArch $STARTBIN $@ 📲 : DONE 🏁"
 ## [] Default Arch Linux in Termux PRoot root login.
 if [[ -z "\${1:-}" ]]
 then
-printf '\\033]2;%s\\007' "TermuxArch $STARTBIN 📲 : DONE 🏁"
+printf '\\033]2;%s\\007' "TermuxArch $STARTBIN 📲"
 set +Eeuo pipefail
-umask 0022
 EOM
 printf "%s\\n" "$PROOTSTMNT /bin/bash -l ||: " >> "$STARTBIN"
 cat >> "$STARTBIN" <<- EOM
+printf '\\033]2;%s\\007' "TermuxArch $STARTBIN 📲 : DONE 🏁"
 set -Eeuo pipefail
 ## [? | help] Displays usage information.
 elif [[ "\${1//-}" = [?]* ]] || [[ "\${1//-}" = [Hh]* ]]
@@ -357,21 +356,20 @@ _PRINTUSAGE_
 ## [command ARGS] Execute a command in BASH as root.
 elif [[ "\${1//-}" = [Cc]* ]]
 then
-printf '\033]2; TermuxArch $STARTBIN command %s 📲 :DONE 🏁 \007' "\${@:2}"
+printf '\033]2; TermuxArch $STARTBIN command %s 📲\007' "\${@:2}"
 touch "$INSTALLDIR/root/.chushlogin"
 set +Eeuo pipefail
-umask 0022
 EOM
 printf "%s\\n" "$PROOTSTMNT /bin/bash -lc \"\${@:2}\" ||:" >> "$STARTBIN"
 cat >> "$STARTBIN" <<- EOM
+printf '\033]2; TermuxArch $STARTBIN command %s 📲 :DONE 🏁 \007' "\${@:2}"
 set -Eeuo pipefail
 rm -f "$INSTALLDIR/root/.chushlogin"
 ## [e[login|user] user] Login as user.
 elif [[ "\${1//-}" = e* ]]
 then
-printf '\033]2; TermuxArch $STARTBIN elogin %s 📲 :DONE 🏁 \007' "\$2"
+printf '\033]2; TermuxArch $STARTBIN elogin %s 📲\007' "\$2"
 set +Eeuo pipefail
-umask 0022
 touch "$INSTALLDIR/var/lock/${INSTALLDIR##*/}/\$\$elock"
 if [ -f "$INSTALLDIR/var/lib/pacman/db.lck" ]
 then
@@ -385,32 +383,33 @@ printf "%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n" "if [
 EOM
 printf "%s\\n" "$PROOTSTMNTEU /bin/su - \"\$2\" ||:" >> "$STARTBIN"
 cat >> "$STARTBIN" <<- EOM
+printf '\033]2; TermuxArch $STARTBIN elogin %s 📲 :DONE 🏁 \007' "\$2"
 set -Eeuo pipefail
 rm -f "$INSTALLDIR/home/\$2/.chushlogin"
 ## [l[ogin]|u[ser] user] Login as user.
 elif [[ "\${1//-}" = [Ll]* ]] || [[ "\${1//-}" = [Uu]* ]]
 then
-printf '\033]2; TermuxArch $STARTBIN login %s 📲 :DONE 🏁 \007' "\$2"
+printf '\033]2; TermuxArch $STARTBIN login %s 📲\007' "\$2"
 set +Eeuo pipefail
-umask 0022
 EOM
 printf "%s\\n" "$PROOTSTMNTU /bin/su - \"\$2\" ||:" >> "$STARTBIN"
 cat >> "$STARTBIN" <<- EOM
+printf '\033]2; TermuxArch $STARTBIN login %s 📲 :DONE 🏁 \007' "\$2"
 set -Eeuo pipefail
 ## [raw ARGS] Construct the 'startarch' proot statement.
 elif [[ "\${1//-}" = [Rr]* ]]
 then
-printf '\033]2; TermuxArch $STARTBIN raw %s 📲 :DONE 🏁 \007' "\$@"
+printf '\033]2; TermuxArch $STARTBIN raw %s 📲\007' "\$@"
 set +Eeuo pipefail
-umask 0022
 EOM
 printf "%s\\n" "$PROOTSTMNT /bin/\"\${@:2}\"" >> "$STARTBIN"
 cat >> "$STARTBIN" <<- EOM
+printf '\033]2; TermuxArch $STARTBIN raw %s 📲 :DONE 🏁 \007' "\$@"
 set -Eeuo pipefail
 ## [su user command] Login as user and execute command.
 elif [[ "\${1//-}" = [Ss]* ]]
 then
-printf '\\033]2;%s\\007' "TermuxArch $STARTBIN su \$2 \${@:3} 📲 : DONE 🏁"
+printf '\\033]2;%s\\007' "TermuxArch $STARTBIN su \$2 \${@:3} 📲"
 if [[ "\$2" = root ]]
 then
 printf "%s\\n" "Please use this command \"$STARTBIN c '\${@:3}'\" for the Arch Linux in Termux PRoot \$2 user account;  Exiting..."
@@ -418,10 +417,10 @@ exit
 fi
 touch "$INSTALLDIR/home/\$2/.chushlogin"
 set +Eeuo pipefail
-umask 0022
 EOM
 printf "%s\\n" "$PROOTSTMNTU /bin/su - \"\$2\" -c \"\${@:3}\"" >> "$STARTBIN"
 cat >> "$STARTBIN" <<- EOM
+printf '\\033]2;%s\\007' "TermuxArch $STARTBIN su \$2 \${@:3} 📲 : DONE 🏁"
 set -Eeuo pipefail
 rm -f "$INSTALLDIR/home/\$2/.chushlogin"
 else
@@ -461,7 +460,7 @@ _PREPROOTDIR_() {
 local DRARRLST=("etc" "home" "root/bin" "usr/bin" "usr/local/bin" "var/backups/${INSTALLDIR##*/}/etc" "var/backups/${INSTALLDIR##*/}/root" "var/binds")
 for ISDIR in ${DRARRLST[@]}
 do
-[[ ! -d "$ISDIR" ]] && printf "\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[0m\\n" "Creating directory " "'/$ISDIR'" "." && mkdir -p "$ISDIR" || printf "\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[0m\\n" "Directory " "'/$ISDIR'" " exists; Continuing:"
+( [[ ! -d "$ISDIR" ]] && printf "\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[0m\\n" "Creating directory " "'/$ISDIR'" "." && mkdir -p "$ISDIR" ) || printf "\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[0m\\n" "Directory " "'/$ISDIR'" " exists; Continuing:"
 done
 }
 
@@ -475,7 +474,7 @@ _MAKEFINISHSETUP_
 _MAKESETUPBIN_
 _MAKESTARTBIN_
 _FIXOWNER_
-[[ $ELCR == 0 ]] && exit ||: ##	Create ~/TermuxArchBloom directory and Arch Linux in Termux PRoot root directory skeleton.  Commands 'setupTermuxArch b[l[oom]]' can be used to access these features.  These options do NOT install the complete root file system.
+[[ $ELCR == 0 ]] && exit	##	Create ~/TermuxArchBloom directory and Arch Linux in Termux PRoot root directory skeleton.
 }
 
 _PREPROOT_() {
