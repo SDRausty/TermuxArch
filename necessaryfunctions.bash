@@ -474,7 +474,10 @@ _MAKEFINISHSETUP_
 _MAKESETUPBIN_
 _MAKESTARTBIN_
 _FIXOWNER_
-[[ $ELCR == 0 ]] && exit	##	Create ~/TermuxArchBloom directory and Arch Linux in Termux PRoot root directory skeleton.
+if [[ $ELCR == 0 ]]
+then
+exit	##	Create ~/TermuxArchBloom directory and Arch Linux in Termux PRoot root directory skeleton.
+fi
 }
 
 _PREPROOT_() {
