@@ -1,28 +1,27 @@
 #!/usr/bin/env bash
-## Copyright 2017-2021 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
+## Copyright 2017-2022 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
 ## Hosted sdrausty.github.io/TermuxArch courtesy https://pages.github.com
 ## https://sdrausty.github.io/TermuxArch/README has info about this project.
 ## https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.
 ################################################################################
-##  Running 'setupTermuxArch manual' will create 'setupTermuxArchConfigs.bash' from this file in the working directory.  Run 'setupTermuxArch' and file 'setupTermuxArchConfigs.bash' loads automaticaly once created, and this file is ignored at runtime; 'setupTermuxArch help' has additional information.  The mirror (information at https://wiki.archlinux.org/index.php/Mirrors and https://archlinuxarm.org/about/mirrors) can be changed to a desired geographic location in 'setupTermuxArchConfigs.bash' to resolve download, 404 and checksum issues should these take place.  User configurable variables are present in this file for your convenience:
-# DMVERBOSE="-v" 	##  uncomment for verbose download tool output with curl and wget;  For verbose output throughout runtime change this setting in file 'setupTermuxArch' also.
+#  Running 'setupTermuxArch manual' will create 'setupTermuxArchConfigs.bash' from this file in the working directory.  Run 'setupTermuxArch' and file 'setupTermuxArchConfigs.bash' loads automaticaly once created, and file 'knownconfigurations.bash' is ignored at runtime; 'setupTermuxArch help' has additional information.  The mirror (information at https://wiki.archlinux.org/index.php/Mirrors and https://archlinuxarm.org/about/mirrors) can be changed to a desired geographic location in 'setupTermuxArchConfigs.bash' to resolve download, 404 and checksum issues should these take place.  User configurable variables are present in this file for your convenience:
+## DM=aria2c		##  uncomment to use this download tool
+## DM=axel 		##  uncomment to use this download tool
+## DM=curl		##  uncomment to use this download tool
+## DM=lftp 		##  uncomment to use this download tool
+## DM=wget		##  uncomment to use this download tool
+## DMVERBOSE="-v" 	##  uncomment for verbose download tool output with curl and wget;  For verbose output throughout runtime change this setting in file 'setupTermuxArch' also.
+USECACHEDIR=1		##  change to 0 to use cache dir
 ECHOEXEC=""		##  insert 'echo' to supress most 'pacman' instructions from 'keys' file during runtime
 ECHOSYNC=""		##  insert 'echo' to only supress 'pacman' syncing instructions from 'keys' file during runtime
-# DM=aria2c		##  uncomment to use this download tool
-# DM=axel 		##  uncomment to use this download tool
-# DM=curl		##  uncomment to use this download tool
-# DM=lftp 		##  uncomment to use this download tool
-# DM=wget		##  uncomment to use this download tool
-KEEP=1			##  change to 0 to keep downloaded image;  Testing the installation process repeatedly can be made easier and lighter on your Internet bandwith and SAR with 'KEEP=0' and this fragment of code  'mkdir ~/arch; cp ~/ArchLinux*.tar.gz* ~/arch/' and similar.  The variable KEEP when changed to 0 (true) will keep the downloaded image and md5 files instead of deleting them for later reuse if desired.  The root file system image and md5 files can be saved and used again on subsequent installs when testing the install feature with this and similar fragments of code.
+KEEP=1			##  change to 0 to keep downloaded image;  Testing the installation process repeatedly can be made easier and lighter on your Internet bandwith and SAR with 'KEEP=0' and this fragment of code  'mkdir ~/arch; cp ~/ArchLinux*.tar.gz* ~/arch/' and similar.  The variable KEEP when changed to 0 (true) will keep the downloaded image and md5 files instead of deleting them for later reuse.  The root file system image and md5 files can be saved and used again on subsequent installs.
 KOE=0			##  do not change, not user configurable;  Was previously used for testing, and variable KOE lingers here for retesting if desired.  Change to 1 to change the proot init statement.
-# KID=1			##  do not change, not user configurable;  Used for testing, timing and development.   For timing Arch Linux in PRoot, uncomment and then run script TermuxArch/scripts/frags/stdoutbench.sh in Arch Linux PRoot for timing Arch Linux in PRoot if desired.
 ##  If there are system image files available not listed here, and if there are system image file worldwide mirrors available not listed here, please open an issue and a pull request.
 UNAMER="$(uname -r)"
 _AARCH64ANDROID_() {
 IFILE="ArchLinuxARM-aarch64-latest.tar.gz"
 CMIRROR="os.archlinuxarm.org"
 RPATH="os"
-LSTYPE="Arch Linux ARM"
 _MAKESYSTEM_
 }
 
@@ -30,7 +29,6 @@ _AARCH64CHROME_() {
 IFILE="ArchLinuxARM-aarch64-chromebook-latest.tar.gz"
 CMIRROR="os.archlinuxarm.org"
 RPATH="os"
-LSTYPE="Arch Linux ARM"
 _MAKESYSTEM_
 }
 
@@ -38,7 +36,6 @@ _ARMV5L_() {
 IFILE="ArchLinuxARM-armv5-latest.tar.gz"
 CMIRROR="os.archlinuxarm.org"
 RPATH="os"
-LSTYPE="Arch Linux ARM"
 _MAKESYSTEM_
 }
 
@@ -53,7 +50,6 @@ _ARMV7CHROME_() {
 IFILE="ArchLinuxARM-armv7-chromebook-latest.tar.gz"
 CMIRROR="os.archlinuxarm.org"
 RPATH="os"
-LSTYPE="Arch Linux ARM"
 _MAKESYSTEM_
 }
 
@@ -62,14 +58,12 @@ _MAKESYSTEM_
 _I686_() { # IFILE is read from md5sums.txt
 CMIRROR="archive.archlinux.org"
 RPATH="iso/2017.03.01"
-LSTYPE="Arch Linux 32"
 _MAKESYSTEM_
 }
 
-_X86_64_() { # IFILE is read from md5sums.txt
+_X86-64_() { # IFILE is read from md5sums.txt
 CMIRROR="mirror.rackspace.com"
 RPATH="archlinux/iso/latest"
-LSTYPE="Arch Linux"
 _MAKESYSTEM_
 }
 
@@ -145,4 +139,4 @@ _PR00TSTRING_
 ##  uncomment the next line to test function _PR00TSTRING_
 ##  printf "\\n%s\\n" "PROOTSTMNT string [root]:" && printf "%s\\n\\n" "${PROOTSTMNT:-}" && printf "%s\\n" "PROOTSTMNTC string [root command]:" && printf "%s\\n\\n" "${PROOTSTMNTU:-}" && printf "%s\\n" "PROOTSTMNTEU string [elogin]:" && printf "%s\\n\\n" "${PROOTSTMNTU:-}" && printf "%s\\n" "PROOTSTMNTU string [login]:" && printf "%s\\n\\n" "${PROOTSTMNTU:-}" && printf "%s\\n" "PROOTSTMNTPRTR string [raw]:" && printf "%s\\n\\n" "${PROOTSTMNT:-}" && printf "%s\\n" "PROOTSTMNTPSLC string [su login command]:" && printf "%s\\n\\n" "${PROOTSTMNT:-}" && exit
 ##  The commands 'setupTermuxArch r[e[fresh]]' can be used to regenerate the start script to the newest version if there is a newer version published and can be customized as wanted.  Command 'setupTermuxArch refresh' will refresh the installation globally, including excecuting 'keys' and 'locales-gen' and backup user configuration files that were initially created and are refreshed.  The command 'setupTermuxArch re' will refresh the installation and update user configuration files and backup user configuration files that were initially created and are refreshed.  Command 'setupTermuxArch r' will only refresh the installation and update the root user configuration files and backup root user configuration files that were initially created and are refreshed.
-# knownconfigurations.bash EOF
+# knownconfigurations.bash FE

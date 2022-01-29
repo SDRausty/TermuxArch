@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
-## Copyright 2017-2021 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
+## Copyright 2017-2022 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
 ## Hosted sdrausty.github.io/TermuxArch courtesy https://pages.github.com
 ## https://sdrausty.github.io/TermuxArch/README has info about this project.
 ## https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.
 ## printout statement subroutines for 'setupTermuxArch'
 ################################################################################
 FLHDR0[0]="#!/usr/bin/env bash"
-FLHDR0[1]="# Copyright 2017-2021 by SDRausty. All rights reserved, see LICENSE 🌎 🌍 🌏"
+FLHDR0[1]="# Copyright 2017-2022 by SDRausty. All rights reserved, see LICENSE 🌎 🌍 🌏"
 FLHDR0[2]="# Hosting sdrausty.github.io/TermuxArch courtesy https://pages.github.com."
 FLHDR0[3]="# https://sdrausty.github.io/TermuxArch/README has info about this project."
 FLHDR0[4]="# https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help."
@@ -15,7 +15,7 @@ FLHDR1[1]=""
 FLHDR1[2]="set -Eeuo pipefail"
 FLHDR1[3]="shopt -s nullglob globstar"
 FLHDR1[4]="unset LD_PRELOAD"
-FLHDR1[5]="VERSIONID=2.0.455"
+FLHDR1[5]="VERSIONID=2.0.1450"
 FLHDR1[6]=""
 FLHDRP[0]="## BEGIN #####################################################################"
 FLHDRP[1]=""
@@ -31,10 +31,10 @@ TRPEXIT[2]="	local RV=\"\$?\""
 TRPEXIT[3]="	printf \"\""
 TRPEXIT[4]="	if [[ \"\$RV\" = 0 ]]"
 TRPEXIT[5]="	then"
-TRPEXIT[6]="		printf \"\\\\e[0;32m%s\\\\e[1;34m: \\\\e[1;32m%s\\\\e[0m\\\\n\\\\e[0m\" \"\${0##*/} \$ARGS \$VERSIONID\" \"DONE 🏁 \""
+TRPEXIT[6]="		printf \"\\\\e[0;32m%s\\\\e[1;34m: \\\\e[1;32m%s\\\\e[0m\\\\n\\\\e[0m\" \"\${0##*/} \$ARGS version \$VERSIONID\" \"DONE 🏁 \""
 TRPEXIT[7]="		printf \"\\\\e]2; %s: %s \007\" \"\${0##*/} \$ARGS\" \"DONE 🏁 \""
 TRPEXIT[8]="	else"
-TRPEXIT[9]="		printf \"\\\\e[0;32m%s \\\\e[0m%s\\\\e[1;34m: \\\\e[1;32m%s\\\\e[0m\\\\n\\\\e[0m\" \"\${0##*/} \$ARGS \$VERSIONID\" \"[Exit Signal \$RV]\" \"DONE  🏁 \""
+TRPEXIT[9]="		printf \"\\\\e[0;32m%s \\\\e[0m%s\\\\e[1;34m: \\\\e[1;32m%s\\\\e[0m\\\\n\\\\e[0m\" \"\${0##*/} \$ARGS version \$VERSIONID\" \"[Exit Signal \$RV]\" \"DONE  🏁 \""
 TRPEXIT[10]="		printf \"\033]2; %s: %s %s \007\" \"\${0##*/} \$ARGS\" \"[Exit Signal \$RV]\" \"DONE 🏁 \""
 TRPEXIT[11]="	fi"
 TRPEXIT[12]="	printf \"\\e[?25h\\e[0m\""
@@ -51,13 +51,13 @@ TRPQUIT[0]="_TRPQ_() {  # run on quit"
 TRPQUIT[1]="	printf \"\\\\e[?25h\\\\e[1;7;38;5;0mTermuxArch WARNING:  Quit signal %s received!\\\\e[0m\\\\n\" \"\$?\""
 TRPQUIT[2]="	exit 221"
 TRPQUIT[3]="}"
-TRPQUIT[4]="ARGS=\"\$@\""
+TRPQUIT[4]="ARGS=\"\$*\""
 TRAPS[0]="trap '_TRPERR_ \$LINENO \$BASH_COMMAND \$?' ERR"
 TRAPS[1]="trap _TRPET_ EXIT"
 TRAPS[2]="trap _TRPSIG_ HUP INT TERM"
 TRAPS[3]="trap _TRPQ_ QUIT"
 TRAPS[4]=""
-# TRAPS[4]="printf \"\\\\e[1;32m==> \\\\e[0mRunning TermuxArch command \\\\e[1;32m%s\\\\e[0;32m%s\\\\e[1;37m...\\\\n\" \"\${0##*/} \$ARGS \" \"v\$VERSIONID\""
+# TRAPS[4]="printf \"\\\\e[1;32m==> \\\\e[0mRnning TermuxArch command \\\\e[1;32m%s\\\\e[0;32m%s\\\\e[1;37m...\\\\n\" \"\${0##*/} \$ARGS \" \"version \$VERSIONID\""
 
 _CFLHD_() { #	creates file header and inserts comments
 if [[ -z "${2:-}" ]]
@@ -122,7 +122,7 @@ printf "\\e[0;34m 🕛 > 🕞 \\e[1;34mContacting worldwide mirror \\e[0;32m%s\\
 
 _PRINTCU_() {
 printf '\033]2; 🕛 > 🕙 Cleaning up installation files: \007'
-printf "\\n\\e[0;34m 🕛 > 🕘 \\e[1;34mCleaning up installation files: "
+printf "\\n\\e[0;34m 🕛 > 🕙 \\e[1;34mCleaning up installation files: "
 }
 
 _PRINTDETECTEDSYSTEM_() {
@@ -178,6 +178,15 @@ printf "\033]2;%s\007" "Please run 'bash ${0##*/}' again."
 printf "\\n\\e[07;1m\\e[31;1m 🔆 WARNING: Maximum amount of attempts exceeded.\\e[34;1m\\e[30;1m\\n\\nPlease run 'bash %s' again.  See 'bash %s help' to resolve download errors.  If this keeps repeating, copy 'knownconfigurations.bash' to 'setupTermuxArchConfigs.bash' with preferred mirror.  After editing 'setupTermuxArchConfigs.bash', run 'bash %s' and 'setupTermuxArchConfigs.bash' loads automaticaly from the same directory.  Change mirror to desired geographic location to resolve md5sum errors.\\n\\nUser configurable variables are in 'setupTermuxArchConfigs.bash'.  To create this file from 'knownconfigurations.bash' in the working directory the command 'bash %s manual' can be used to create and edit 'setupTermuxArchConfigs.bash'.\\n\\nPlease run 'bash %s' again.\\n\\e[0;0m\\n" "${0##*/}" "${0##*/}" "${0##*/}" "${0##*/}" "${0##*/}"
 }
 
+_PRINTKEEPEXIT_() {
+printf "\\n\\e[0;34m 🕛 > 🕕 \\e[1;34mNot removing files after checking download integrity with md5sum.  \\e[37;1mPlease run '%s' again to continue a partial download.  Otherwise remove '%s' and restart the installation from scratch if the download is complete, but this error continues.  You can also reset KEEP=1 to disable the keep download image feature which is disabled by default as after downloading the root image file it should no longer be needed by the end user.  The command 'bash %s help' has more information.  \\e[1;33m" "${0##*/}" "$INSTALLDIR" "${0##*/}"
+exit 203
+}
+
+_PRINTKEEP_() {
+printf "\\n\\e[0;34m 🕛 > 🕗 \\e[1;34mNot removing files after checking download integrity with md5sum.  "
+}
+
 _PRINTMD5CHECK_() {
 printf "\\n\\e[0;34m 🕛 > 🕠 \\e[1;34mChecking download integrity with md5sum.  \\e[37;1mThis may take a little while  \\e[1;33m"
 }
@@ -190,7 +199,7 @@ exit
 
 _PRINTMD5SUCCESS_() {
 printf "\\e]2;%s\\007" " 🕛 > 🕡 Unpacking $IFILE..."
-printf "\\n\\n\\e[0;34m 🕛 > 🕕 \\e[1;34mSystem image file download integrity check: \\e[1;32mDONE\\n\\n\\e[0;34m 🕛 > 🕡 \\e[1;34mUnpacking %s into %s.  The option to create Arch Linux system users is available through \\e[1;32maddauser.  \\e[1;34mArch Linux user login from Termux with \\e[1;32m%s \\e[1;34mis now implemented.  Please see \\e[0;36mAbility for Scripts to Launch Commands for Arch Linux in Termux PRoot on Device\\e[1;34m https://github.com/sdrausty/TermuxArch/issues/54 for information how to use this option.  \\n\\nWhile waiting, you can use \\e[0;36mdf\\e[1;34m, \\e[0;36mdu -hs\\e[1;34m, \\e[0;36mhtop\\e[1;34m, \\e[0;36mps\\e[1;34m, \\e[0;36mtop\\e[1;34m and \\e[0;36mwatch\\e[1;34m in a new Termux session to watch the unpacking while this session completes.  Use \\e[0;36mhelp man \\e[1;34mand \\e[0;36minfo man \\e[1;34mto learn more about your Linux system in the palm of your hand.  See The Linux Documentation Project http://tldp.org to learn more about Linux and CLI (command line interface) commands.\\n\\nIf simply scrolling the screen down by scrolling down does produce the desired effect, you can try this method.  Long tap until the popup menu shows.  Then scroll down without loosing touch with the screen and without touching the popup menu.  \\e[1;37mUnpacking \\e[1;32m%s\\e[1;37m will take a long time;  Please be patient   \\e[0m" "$IFILE" "$INSTALLDIR" "$STARTBIN" "$IFILE"
+printf "\\n\\n\\e[0;34m 🕛 > 🕕 \\e[1;34mSystem image file download integrity check: \\e[1;32mDONE\\n\\n\\e[0;34m 🕛 > 🕡 \\e[1;34mUnpacking %s into %s.  The option to create Arch Linux system users is available through \\e[1;32maddauser\\e[1;34m.  Arch Linux user login from Termux with \\e[1;32m%s \\e[1;34mis now implemented.  Please see \\e[0;36mAbility for Scripts to Launch Commands for Arch Linux in Termux PRoot on Device\\e[1;34m https://github.com/sdrausty/TermuxArch/issues/54 for information how to use this option.  \\n\\nWhile waiting, you can use \\e[0;36mdf\\e[1;34m, \\e[0;36mdu -hs\\e[1;34m, \\e[0;36mhtop\\e[1;34m, \\e[0;36mps\\e[1;34m, \\e[0;36mtop\\e[1;34m and \\e[0;36mwatch\\e[1;34m in a new Termux session to watch the unpacking while this session completes.  Use \\e[0;36mhelp man \\e[1;34mand \\e[0;36minfo man \\e[1;34mto learn more about your Linux system in the palm of your hand.  See The Linux Documentation Project http://tldp.org to learn more about Linux and CLI (command line interface) commands.\\n\\nIf simply scrolling the screen up by scrolling up does produce the desired effect, you can try this method.  Long tap until the popup menu shows.  Then scroll up without loosing touch with the screen and without touching the popup menu.  \\e[1;37mUnpacking \\e[1;32m%s\\e[1;37m will take a long time;  Please be patient   \\e[0m" "$IFILE" "$INSTALLDIR" "$STARTBIN" "$IFILE"
 }
 
 _PRINTMISMATCH_() {
@@ -220,7 +229,7 @@ printf "\\e[1;34m%s\\n\\n%s\\e[1;32m%s\\e[1;34m%s\\e[1;32m%s" "Arch Linux in Ter
 if [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = i386 ]]
 then
 _PRTX86_
-elif [[ "$CPUABI" = "$CPUABIX86_64" ]]
+elif [[ "$CPUABI" = "$CPUABIX8664" ]]
 then
 _PRTX8664_
 else
@@ -238,4 +247,4 @@ declare -g PRINTROOTDIR
 PRINTROOTDIR="$(printf "%s" "${ROOTDIR%/}"|sed 's#//*#/#g')"
 }
 _PRINTROOTDIRFUNCTION_
-# printoutstatements.bash EOF
+# printoutstatements.bash FE

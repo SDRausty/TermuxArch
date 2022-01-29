@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-## Copyright 2017-2021 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
+## Copyright 2017-2022 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
 ## Hosted sdrausty.github.io/TermuxArch courtesy https://pages.github.com
 ## https://sdrausty.github.io/TermuxArch/README has info about this project.
 ## https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.
@@ -110,4 +110,4 @@ sed '2q;d' md5sums.txt > "$IFILE".md5
 rm md5sums.txt
 _PRINTDOWNLOADINGX86TWO_
 }
-# getimagefunctions.bash EOF
+# getimagefunctions.bash FE
