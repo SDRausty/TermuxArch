@@ -151,7 +151,7 @@ PERRS="$(sed "s/du: cannot read directory '//g" <<< "$PERRS" | sed "s/': Permiss
 [ -z "$PERRS" ] || { printf "%s" "Fixing  permissions in '$INSTALLDIR': " && for PERR in $PERRS ; do chmod 777 "$PERR" ; done && printf "%s\n" "DONE" ; } || printf "%s" "Fixing  permissions signal PERRS; Continuing..."
 printf "%s\n" "Script '${0##*/}' checking and fixing permissions: DONE"
 }
-[ -d "$INSTALLDIR" ] && _SHFUNC_ "$@"
+[ "$LCR" = 4 ] && [ -d "$INSTALLDIR" ] && _SHFUNC_ "$@"
 if [[ "${LCR:-}" = 2 ]]
 then
 _FUNLCR2_

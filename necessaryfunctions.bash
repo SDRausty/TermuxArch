@@ -18,9 +18,12 @@ _ADDADDS_() {
 _ADDREADME_
 _ADDae_
 _ADDauser_
+printf '\e[0;32mGenerating dot files;  \e[1;32mBEGUN\n'
 _ADDbash_logout_
 _ADDbash_profile_
 _ADDbashrc_
+printf '\e[0;32mGenerating dot files;  \e[1;32mDONE\n'
+_ADDbindexample_
 _ADDcams_
 _ADDcdtd_
 _ADDcdth_
@@ -30,7 +33,6 @@ _ADDchperms.cache+gnupg_
 _ADDcsystemctl_
 _ADDes_
 _ADDexd_
-_ADDbindexample_
 _ADDfbindprocpcidevices.prs_
 _ADDfbindprocshmem.prs_
 _ADDfbindprocuptime_
@@ -48,8 +50,11 @@ _ADDinputrc_
 _ADDkeys_
 _ADDmakeaurhelpers_
 _ADDmakefakeroottcp_
+_ADDmakeghcup-hs_
 _ADDmakeksh_
 _ADDmakeyay_
+_ADDmakerustup_
+_ADDmakeshellcheck-bin_
 _ADDmemav_
 _ADDmemfree_
 _ADDmeminfo_
@@ -61,6 +66,7 @@ _ADDpatchmakepkg_
 _ADDpacmandblock_
 _ADDpc_
 _ADDpci_
+_ADDpinghelp_
 _ADDprofile_
 if [[ -n "${VLORALCR:-}" ]]
 then
@@ -73,6 +79,7 @@ _ADDmota_
 _ADDmotd_
 _ADDmoto_
 _ADDt_
+_ADDtop_
 _ADDthstartarch_
 _ADDtimings_
 # _ADDtools_
@@ -85,7 +92,7 @@ _ADDyt_
 
 _CALLSYSTEM_() {
 declare COUNTER=""
-if [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = "$CPUABIX8664" ]] || [[ "$CPUABI" = i386 ]]
+if [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = "$CPUABIX8664" ]] || [[ "$CPUABI" = "${CPUABIX8664//_/-}" ]] || [[ "$CPUABI" = i386 ]]
 then
 _GETIMAGE_ ||:
 else
@@ -134,10 +141,11 @@ _DETECTSYSTEM64_
 elif [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = i386 ]]
 then
 _I686_
-elif [[ "$CPUABI" = "$CPUABIX8664" ]]
+elif [[ "$CPUABI" = "$CPUABIX8664" ]] || [[ "$CPUABI" = "${CPUABIX8664//_/-}" ]]
 then
 _X86-64_
 else
+echo elif [[ "$CPUABI" = "$CPUABIX8664" ]]
 _PRINTMISMATCH_
 fi
 }
@@ -246,7 +254,7 @@ _DOKEYS_() {
 if [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = i386 ]]
 then
 DOKYSKEY="keys x86"
-elif [[ "$CPUABI" = "$CPUABIX8664" ]]
+elif [[ "$CPUABI" = "$CPUABIX8664" ]] || [[ "$CPUABI" = "${CPUABIX8664//_/-}" ]]
 then
 DOKYSKEY="keys x86-64"
 else
@@ -293,8 +301,8 @@ fi
 if [ "$USECACHEDIR" = 0 ]
 then
 cat >> root/bin/"$BINFNSTP" <<- EOM
-printf '\n%s\n\n' "cp ${CACHEDIRPKG}*xz* $INSTALLDIR/var/cache/pacman/pkg/"
-cp "${CACHEDIRPKG}"*xz* "$INSTALLDIR"/var/cache/pacman/pkg/
+printf '\n%s\n\n' "find $CACHEDIRPKG/ -maxdepth 1 -type f -name *xz* -exec cp {} $INSTALLDIR/var/cache/pacman/pkg/ \;"
+find $CACHEDIRPKG/ -maxdepth 1 -type f -name *xz* -exec cp {} $INSTALLDIR/var/cache/pacman/pkg/ \;
 EOM
 fi
 cat >> root/bin/"$BINFNSTP" <<- EOM
@@ -302,7 +310,7 @@ $DOKYSKEY
 EOM
 if [[ "${LCR:-}" -eq 5 ]] || [[ -z "${LCR:-}" ]]
 then
-if [[ "$CPUABI" = "$CPUABIX8664" ]]
+if [[ "$CPUABI" = "$CPUABIX8664" ]] || [[ "$CPUABI" = "${CPUABIX8664//_/-}" ]]
 then
 printf "%s\\n" "pacman -Su glibc grep gzip sed sudo --noconfirm --color=always || pacman -Su glibc grep gzip sed sudo  --noconfirm --color=always || _PMFSESTRING_ \"pacman -Su glibc grep gzip sed sudo $BINFNSTP ${0##/*}\"" >> root/bin/"$BINFNSTP"
 elif [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = i386 ]]
@@ -379,6 +387,10 @@ set -Eeuo pipefail
 elif [[ "\${1//-}" = [?]* ]] || [[ "\${1//-}" = [Hh]* ]]
 then
 _PRINTUSAGE_
+elif [[ -z "\${2:-}" ]]
+then
+_PRINTUSAGE_
+printf "\\e[0;33m%s\\e[1;30m%s\\e[1;31m%s\\e[1;30m%s\\e[0m\\n\\n" "Please use one more argument to continue.  The command '\${0##*/} help' has more information" ";" "  Exiting" "..."
 ## [command ARGS] Execute a command in BASH as root.
 elif [[ "\${1//-}" = [Cc]* ]]
 then
@@ -405,7 +417,7 @@ printf "%s" "Creating file ~/${INSTALLDIR##*/}/var/lib/pacman/db.lck;  You can u
 :>"$INSTALLDIR/var/lib/pacman/db.lck"
 printf "%s\\n" "DONE"
 fi
-printf "%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n" "if [ -f \"$INSTALLDIR/var/lock/${INSTALLDIR##*/}/\$\$elock\" ]" "then" "if [ -f \"$INSTALLDIR/var/lib/pacman/db.lck\" ]" "then" "printf \"%s\" \"Deleting file '~/${INSTALLDIR##*/}/var/lib/pacman/db.lck';  You can use the TermuxArch 'pacmandblock' command to alter this lock state.  Please use 'startarch' and 'startarch l[ogin] username' to install software in Arch Linux in Termux PRoot: \"" "rm -f \"$INSTALLDIR/var/lib/pacman/db.lck\"" "printf \"%s\\\\n\" \"DONE\"" "fi" "rm -f \"$INSTALLDIR/var/lock/${INSTALLDIR##*}\$\$elock\"" "fi" "[ ! -f "$INSTALLDIR/home/\$2/.hushlogout" ] && [ ! -f "$INSTALLDIR/home/\$2/.chushlogout" ] && . /etc/moto" "h # write session history to file HOME/.historyfile" "## .bash_logout EOF" > "$INSTALLDIR/home/\$2/.bash_logout"
+printf "%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n" "if [ -f \"$INSTALLDIR/var/lock/${INSTALLDIR##*/}/\$\$elock\" ]" "then" "if [ -f \"$INSTALLDIR/var/lib/pacman/db.lck\" ]" "then" "printf \"%s\" \"Deleting file '~/${INSTALLDIR##*/}/var/lib/pacman/db.lck';  You can use the TermuxArch 'pacmandblock' command to alter this lock state.  Please use 'startarch' and 'startarch l[ogin] username' to install software in Arch Linux in Termux PRoot: \"" "rm -f \"$INSTALLDIR/var/lib/pacman/db.lck\"" "printf \"%s\\\\n\" \"DONE\"" "fi" "rm -f \"$INSTALLDIR/var/lock/${INSTALLDIR##*}\$\$elock\"" "fi" "[ ! -f "$INSTALLDIR/home/\$2/.hushlogout" ] && [ ! -f "$INSTALLDIR/home/\$2/.chushlogout" ] && . /etc/moto" "h # write session history to file HOME/.historyfile" "## .bash_logout FE" > "$INSTALLDIR/home/\$2/.bash_logout"
 EOM
 printf "%s\\n" "$PROOTSTMNTEU /bin/su - \"\$2\" ||:" >> "$STARTBIN"
 cat >> "$STARTBIN" <<- EOM
@@ -452,7 +464,7 @@ rm -f "$INSTALLDIR/home/\$2/.chushlogin"
 else
 _PRINTUSAGE_
 fi
-## $STARTBIN EOF
+## $STARTBIN FE
 EOM
 chmod 700 "$STARTBIN"
 }
@@ -461,16 +473,21 @@ _MAKESYSTEM_() {
 _WAKELOCK_
 if [ "$USECACHEDIR" = 0 ]
 then
-cd "$CACHEDIR" 2>/dev/null || { cd "$PREFIXDATAFILES" && mkdir -p "$CACHEDIRSUFIX" && cd "$CACHEDIR" && printf '%s\n\n' "cd $PREFIXDATAFILES && mkdir -p $CACHEDIRSUFIX && cd $CACHEDIR" ; }
-if [ -f ArchLinuxARM-aarch64-latest.tar.gz ] && [ -f ArchLinuxARM-aarch64-latest.tar.gz.md5 ]
+cd "$CACHEDIR" 2>/dev/null || { cd "$PREFIXDATAFILES" && mkdir -p "$CACHEDIRSUFIX" && cd "$CACHEDIR" && printf '%s' "cd $PREFIXDATAFILES && mkdir -p $CACHEDIRSUFIX && cd $CACHEDIR && " ; }
+if [ -n "${IFILE:-}" ]
 then
-printf '%s\n\n' "cp ArchLinuxARM-aarch64-latest.tar.gz* $INSTALLDIR" && cp ArchLinuxARM-aarch64-latest.tar.gz* "$INSTALLDIR"
+if [ -f "$IFILE" ] && [ -f "$IFILE".md5 ]
+then
+printf '%s\n' "find . -maxdepth 1 -type f -name $IFILE.md5 -exec cp {} $INSTALLDIR \;"
+printf '%s\n' "find . -maxdepth 1 -type f -name $IFILE -exec cp {} $INSTALLDIR \;"
+find . -maxdepth 1 -type f -name "$IFILE.md5" -exec cp {} "$INSTALLDIR" \;
+find . -maxdepth 1 -type f -name "$IFILE" -exec cp {} "$INSTALLDIR" \;
+fi
 else
-cd "$INSTALLDIR" || exit
-_CALLSYSTEM_ && _MD5CHECK_ && cp ArchLinuxARM-aarch64-latest.tar.gz* "$CACHEDIR"
+exit 196
 fi
+cd "$INSTALLDIR" && printf '%s\n\n' "cd $INSTALLDIR" || exit 196
 fi
-cd "$INSTALLDIR" || exit
 _CALLSYSTEM_
 _MD5CHECK_
 if [ "$KEEP" = 0 ]
@@ -513,7 +530,7 @@ done
 }
 
 _PREPINSTALLDIR_() {
-cd "$INSTALLDIR" || exit
+cd "$INSTALLDIR" || exit 196
 _PREPROOTDIR_
 _SETLANGUAGE_
 _ADDADDS_
@@ -529,7 +546,7 @@ fi
 }
 
 _PREPROOT_() {
-if [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = "$CPUABIX8664" ]] || [[ "$CPUABI" = i386 ]]
+if [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = "$CPUABIX8664" ]] || [[ "$CPUABI" = "${CPUABIX8664//_/-}" ]] || [[ "$CPUABI" = i386 ]]
 then
 proot --link2symlink -0 bsdtar -p -xf "$IFILE" --strip-components 1 || _PRINTERRORMSG_ "proot _PREPROOT_ ${0##*/} necessaryfunctions.bash"
 else
@@ -550,7 +567,7 @@ AL32MRLT="https://git.archlinux32.org/packages/plain/core/pacman-mirrorlist/mirr
 printf "\\e[0m\\n%s\\n" "Updating ${ALMLLOCN##*/} from $AL32MRLT."
 curl --retry 4 "$AL32MRLT" -o "$ALMLLOCN"
 _DOMIRROR_
-elif [[ "$CPUABI" = "$CPUABIX8664" ]]
+elif [[ "$CPUABI" = "$CPUABIX8664" ]] || [[ "$CPUABI" = "${CPUABIX8664//_/-}" ]]
 then
 AL64MRLT="https://www.archlinux.org/mirrorlist/all/"
 printf "\\e[0m\\n%s\\n" "Updating ${ALMLLOCN##*/} from $AL64MRLT."
@@ -647,11 +664,13 @@ sed -i "/\\#$ULANGUAGE.UTF-8 UTF-8/{s/#//g;s/@/-at-/g;}" etc/locale.gen
 }
 
 _TOUCHUPSYS_() {
-_ADDMOTD_
+_ADDmotd_
 _PREPPACMANCONF_
 _SETLOCALE_
 _RUNFINISHSETUP_
-rm -f root/bin/$BINFNSTP
+rm -f root/bin/"$BINFNSTP"
 rm -f root/bin/setupbin.bash
+[ -f home/user/"$BINFNSTP" ] && rm -f home/user/"$BINFNSTP"
+[ -f home/user/setupbin.bash ] && rm -f home/user/setupbin.bash
 }
 # necessaryfunctions.bash FE

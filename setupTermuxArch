@@ -7,7 +7,7 @@ set -Eeuo pipefail
 shopt -s nullglob globstar
 umask 0022
 unset LD_PRELOAD
-VERSIONID=2.0.1450
+VERSIONID=2.0.457
 _STRPERROR_() { # run on script error
 local RV="$?"
 printf "\\e[?25h\\n\\e[1;48;5;138m %s\\e[0m\\n" "TermuxArch WARNING:  Generated script signal ${RV:-UNKNOWN} near or at line number ${1:-UNKNOWN} by '${2:-UNKNOWNCOMMAND}'!"
@@ -154,7 +154,7 @@ printf "\\e[?25l\\e[0m"
 . archlinuxconfig.bash
 . espritfunctions.bash
 . getimagefunctions.bash
-. knownconfigurations.bash
+_LOADCONF_
 . maintenanceroutines.bash
 . necessaryfunctions.bash
 . printoutstatements.bash
@@ -309,7 +309,8 @@ STRNGB="\\e[1;38;5;146m%s\\e[0m\\n"
 STRNGC="\\e[1;38;5;124m%s\\e[0m\\n"
 if [[ "$COMMANDIF" = au ]] # enables rollback https://wae.github.io/au/
 then	# use 'au' to install missing packages
-au "${PKGS[@]}" || printf ""$STRNGC "$STRING2"
+au ${PKGS[@]} && printf "$STRNGB" "$STRING1" || printf "$STRNGC" "$STRING2"
+# au "${PKGS[@]}" || printf ""$STRNGC "$STRING2"
 elif [[ "$COMMANDIF" = pkg ]]
 then	# use 'pkg' to install missing packages
 pkg install ${PKGS[@]} && printf "$STRNGB" "$STRING1" || printf "$STRNGC" "$STRING2"
@@ -603,7 +604,7 @@ if [ "$COMMANDIF" = au ]
 then
 au "$PKG" || printf "%s\\n" "$STRING2"
 else
-apt install "$PKG" || printf "%s\\n" "$STRING2"
+curl -JOL https://wae.github.io/au/au "$PKG" || printf "%s\\n" "$STRING2"
 fi
 }
 if ! command -v "$COMMS"
@@ -627,7 +628,7 @@ ARCHITEC="aarch64"
 elif [[ "$ARCHITECTURE" == x86 ]]
 then
 ARCHITEC="i386"
-elif [[ "$ARCHITECTURE" == x86-64 ]]
+elif [[ "$ARCHITECTURE" == x86-64 ]] || [[ "$ARCHITECTURE" == x86_64 ]]
 then
 ARCHITEC="x86_64"
 elif [[ "$ARCHITECTURE" == exit ]]
@@ -774,9 +775,9 @@ COMMANDG="$(command -v getprop)" || _COMMANDGNE_
 _IFBINEXT_() {
 if [ -d "$HOME/bin" ] && grep "$HOME/bin" <<< "$PATH"
 then
-curl -L "https://raw.githubusercontent.com/WAE/au/master/$SCMD" -o "$HOME/bin/$SCMD" && chmod 700 "$HOME/bin/$SCMD" || _PSGI1ESTRING_ "curl au to HOME/bin setupTermuxArch ${0##*/}"
+curl -L "https://raw.githubusercontent.com/WAE/au/master/$SCMD" -o "$HOME/bin/$SCMD" && chmod 700 "$HOME/bin/$SCMD" || _PSGI1ESTRING_ "curl SCMD to HOME/bin setupTermuxArch ${0##*/}"
 else
-curl -L "https://raw.githubusercontent.com/WAE/au/master/$SCMD" -o "$PREFIX/bin/$SCMD" && chmod 700 "$PREFIX/bin/$SCMD" || _PSGI1ESTRING_ "curl au to PREFIX/bin setupTermuxArch ${0##*/}"
+curl -L "https://raw.githubusercontent.com/WAE/au/master/$SCMD" -o "$PREFIX/bin/$SCMD" && chmod 700 "$PREFIX/bin/$SCMD" || _PSGI1ESTRING_ "curl SCMD to PREFIX/bin setupTermuxArch ${0##*/}"
 fi
 }
 SCMD="au"
@@ -886,12 +887,23 @@ DM=curl
 shift
 _ARG2DIR_ "$@"
 _INTROSYSINFO_ "$@"
+## [cmi] [customdir]  Install Arch Linux with manual install using 'curl'.
+elif [[ "${1//-}" = [Cc][Mm][Ii]* ]]
+then
+printf "\\nSetting 'curl' as download manager.\\n"
+printf "\\nSetting mode to manual install.\\n"
+DM=curl
+OPT=MANUAL
+_OPT1_ "$@"
+_ARG2DIR_ "$@"
+_INTRO_ "$@"
 ## [c[url] [customdir]|ci [customdir]]  Install Arch Linux with 'curl'.
 elif [[ "${1//-}" = [Cc][Ii]* ]] || [[ "${1//-}" = [Cc]* ]]
 then
 printf "\\nSetting 'curl' as download manager.\\n"
 DM=curl
 _OPT1_ "$@"
+_ARG2DIR_ "$@"
 _INTRO_ "$@"
 ## [d[ebug]|s[ysinfo]]  Generate system information.
 elif [[ "${1//-}" = [Dd]* ]] || [[ "${1//-}" = [Ss]* ]]
@@ -947,7 +959,14 @@ printf "\\nSetting mode to matrix.\\n"
 _PREPTERMUXARCH_
 _DEPENDSBLOCK_ "$@"
 _TAMATRIX_
-## [ma[nual]]  Manual Arch Linux install, useful for resolving download issues.
+## [m[anual]]  Manual Arch Linux install, useful for resolving download issues.
+elif [[ "${1//-}" = [Mm][Ii]* ]]
+then
+printf "\\nSetting mode to manual.\\n"
+OPT=MANUAL
+_OPT1_ "$@"
+_ARG2DIR_ "$@"
+_INTRO_ "$@"
 elif [[ "${1//-}" = [Mm]* ]]
 then
 printf "\\nSetting mode to manual.\\n"
@@ -990,16 +1009,16 @@ _PRPREFRESH_ "5"
 _ARG2DIR_ "$@"
 _INTROREFRESH_ "$@"
 # Refresh modes usefull for debugging the Arch Linux in Termux PRoot refresh feature.
-# elif [[ "${1//-}" = [Rr][Ee][Ff][Rr]* ]]
-# then
-# _PRPREFRESH_ "4"
-# _ARG2DIR_ "$@"
-# _INTROREFRESH_ "$@"
-# elif [[ "${1//-}" = [Rr][Ee][Ff]* ]]
-# then
-# _PRPREFRESH_ "3"
-# _ARG2DIR_ "$@"
-# _INTROREFRESH_ "$@"
+elif [[ "${1//-}" = [Rr][Ee][Ff][Dd][Gg]* ]]
+then
+_PRPREFRESH_ "4"
+_ARG2DIR_ "$@"
+_INTROREFRESH_ "$@"
+elif [[ "${1//-}" = [Rr][Ee][Dd][Gg]* ]]
+then
+_PRPREFRESH_ "3"
+_ARG2DIR_ "$@"
+_INTROREFRESH_ "$@"
 ## [re [customdir]]  Refresh the Arch Linux in Termux PRoot scripts created by TermuxArch.  Useful for refreshing the root user's home directory and user home directories and the TermuxArch generated scripts to their newest version;  Directory '/var/backups/' backs up the refreshed files.
 elif [[ "${1//-}" = [Rr][Ee] ]]
 then
