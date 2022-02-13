@@ -4,18 +4,17 @@
 ## https://sdrausty.github.io/TermuxArch/README has info about this project.
 ## https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.
 ################################################################################
-#  Running 'setupTermuxArch manual' will create 'setupTermuxArchConfigs.bash' from this file in the working directory.  Run 'setupTermuxArch' and file 'setupTermuxArchConfigs.bash' loads automaticaly once created, and file 'knownconfigurations.bash' is ignored at runtime; 'setupTermuxArch help' has additional information.  The mirror (information at https://wiki.archlinux.org/index.php/Mirrors and https://archlinuxarm.org/about/mirrors) can be changed to a desired geographic location in 'setupTermuxArchConfigs.bash' to resolve download, 404 and checksum issues should these take place.  User configurable variables are present in this file for your convenience:
+#  Running 'setupTermuxArch manual' will create 'setupTermuxArchConfigs.bash' from this file in the working directory.  Run 'setupTermuxArch' and file 'setupTermuxArchConfigs.bash' loads automatically once created, and file 'knownconfigurations.bash' is ignored at runtime; 'setupTermuxArch help' has additional information.  The mirror (information at https://wiki.archlinux.org/index.php/Mirrors and https://archlinuxarm.org/about/mirrors) can be changed to a desired geographic location in 'setupTermuxArchConfigs.bash' to resolve download, 404 and checksum issues should these take place.  User configurable variables are present in this file for your convenience:
 ## DM=aria2c		##  uncomment to use this download tool
 ## DM=axel 		##  uncomment to use this download tool
 ## DM=curl		##  uncomment to use this download tool
 ## DM=lftp 		##  uncomment to use this download tool
 ## DM=wget		##  uncomment to use this download tool
 ## DMVERBOSE="-v" 	##  uncomment for verbose download tool output with curl and wget;  For verbose output throughout runtime change this setting in file 'setupTermuxArch' also.
-USECACHEDIR=1		##  change to 0 to use cache dir
-ECHOEXEC=""		##  insert 'echo' to supress most 'pacman' instructions from 'keys' file during runtime
-ECHOSYNC=""		##  insert 'echo' to only supress 'pacman' syncing instructions from 'keys' file during runtime
-KEEP=1			##  change to 0 to keep downloaded image;  Testing the installation process repeatedly can be made easier and lighter on your Internet bandwith and SAR with 'KEEP=0' and this fragment of code  'mkdir ~/arch; cp ~/ArchLinux*.tar.gz* ~/arch/' and similar.  The variable KEEP when changed to 0 (true) will keep the downloaded image and md5 files instead of deleting them for later reuse.  The root file system image and md5 files can be saved and used again on subsequent installs.
-KOE=0			##  do not change, not user configurable;  Was previously used for testing, and variable KOE lingers here for retesting if desired.  Change to 1 to change the proot init statement.
+ECHOEXEC=""		##  insert 'echo' to suppress most 'pacman' instructions from 'keys' file during runtime
+ECHOSYNC=""		##  insert 'echo' to only suppress 'pacman' syncing instructions from 'keys' file during runtime
+KEEP=1			##  change to 0 to keep downloaded image;  Testing the installation process repeatedly can be made easier and lighter on your Internet bandwidth and SAR with 'KEEP=0' and this fragment of code  'mkdir ~/arch; cp ~/ArchLinux*.tar.gz* ~/arch/' and similar.  The variable KEEP when changed to 0 (true) will keep the downloaded image and md5 files instead of deleting them for later reuse.  The root file system image and md5 files can be saved and used again on subsequent installs.
+USECACHEDIR=1		##  change to 0 to use cache directory;  When changed to 0 this installation script uses a cache directory defined in `necessaryfunctions.bash` that is used as to cache all installation files in order to save wireless bandwidth.  Variable `KEEP=1`  should be changed to 0 also in order to keep the downloaded image and to populate the cache. The downloaded image and md5 files should be moved to CACHEDIR in order to avoid subsequent redownloading of these files for reinstalling the entire system.
 ##  If there are system image files available not listed here, and if there are system image file worldwide mirrors available not listed here, please open an issue and a pull request.
 UNAMER="$(uname -r)"
 _AARCH64ANDROID_() {
@@ -81,11 +80,7 @@ PROOTSTMNT+="--kernel-release=4.14.16 "
 else
 PROOTSTMNT+=""
 fi
-if [[ "$KOE" = 0 ]]
-then
-PROOTSTMNT+="--kill-on-exit --sysvipc "
-fi
-PROOTSTMNT+="--link2symlink -i \"\$2:wheel\" -0 -r $INSTALLDIR "
+PROOTSTMNT+="--kill-on-exit --sysvipc --link2symlink -i \"\$2:wheel\" -0 -r $INSTALLDIR "
 # file var/binds/fbindexample.prs has a few more examples
 if [[ -n "$(ls -A "$INSTALLDIR"/var/binds/*.prs)" ]]
 then
@@ -98,7 +93,7 @@ if [[ "${QEMUCR:-}" == 0 ]]
 then
 PROOTSTMNT+="-q $PREFIX/bin/qemu-$ARCHITEC "
 fi
-[[ "$SYSVER" -ge 10 ]] && PROOTSTMNT+="-b /apex -b /storage  -b /sys -b /vendor "
+[[ "$SYSVER" -ge 10 ]] && PROOTSTMNT+="-b /apex -b /storage -b /sys -b /system -b /vendor "
 ##  Function _PR00TSTRING_ which creates the PRoot init statement PROOTSTMNT uses associative arrays.  Page https://www.gnu.org/software/bash/manual/html_node/Arrays.html has information about BASH arrays and is also available at https://www.gnu.org/software/bash/manual/ this link.
 declare -A PRSTARR # associative array
 # populate writable binds
@@ -138,5 +133,5 @@ PROOTSTMNT="${PROOTSTMNT//-i \"\$2:wheel\" }" # PRoot root user string
 _PR00TSTRING_
 ##  uncomment the next line to test function _PR00TSTRING_
 ##  printf "\\n%s\\n" "PROOTSTMNT string [root]:" && printf "%s\\n\\n" "${PROOTSTMNT:-}" && printf "%s\\n" "PROOTSTMNTC string [root command]:" && printf "%s\\n\\n" "${PROOTSTMNTU:-}" && printf "%s\\n" "PROOTSTMNTEU string [elogin]:" && printf "%s\\n\\n" "${PROOTSTMNTU:-}" && printf "%s\\n" "PROOTSTMNTU string [login]:" && printf "%s\\n\\n" "${PROOTSTMNTU:-}" && printf "%s\\n" "PROOTSTMNTPRTR string [raw]:" && printf "%s\\n\\n" "${PROOTSTMNT:-}" && printf "%s\\n" "PROOTSTMNTPSLC string [su login command]:" && printf "%s\\n\\n" "${PROOTSTMNT:-}" && exit
-##  The commands 'setupTermuxArch r[e[fresh]]' can be used to regenerate the start script to the newest version if there is a newer version published and can be customized as wanted.  Command 'setupTermuxArch refresh' will refresh the installation globally, including excecuting 'keys' and 'locales-gen' and backup user configuration files that were initially created and are refreshed.  The command 'setupTermuxArch re' will refresh the installation and update user configuration files and backup user configuration files that were initially created and are refreshed.  Command 'setupTermuxArch r' will only refresh the installation and update the root user configuration files and backup root user configuration files that were initially created and are refreshed.
+##  The commands 'setupTermuxArch r[e[fresh]]' can be used to regenerate the start script to the newest version if there is a newer version published and can be customized as wanted.  Command 'setupTermuxArch refresh' will refresh the installation globally, including executing 'keys' and 'locales-gen' and backup user configuration files that were initially created and are refreshed.  The command 'setupTermuxArch re' will refresh the installation and update user configuration files and backup user configuration files that were initially created and are refreshed.  Command 'setupTermuxArch r' will only refresh the installation and update the root user configuration files and backup root user configuration files that were initially created and are refreshed.
 # knownconfigurations.bash FE

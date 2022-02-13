@@ -7,7 +7,7 @@ set -Eeuo pipefail
 shopt -s nullglob globstar
 umask 0022
 unset LD_PRELOAD
-VERSIONID=2.0.457
+VERSIONID=2.0.458
 _STRPERROR_() { # run on script error
 local RV="$?"
 printf "\\e[?25h\\n\\e[1;48;5;138m %s\\e[0m\\n" "TermuxArch WARNING:  Generated script signal ${RV:-UNKNOWN} near or at line number ${1:-UNKNOWN} by '${2:-UNKNOWNCOMMAND}'!"
@@ -380,7 +380,6 @@ printf '\033]2; bash setupTermuxArch manual 📲 \007'
 if [[ -f "${WDIR}setupTermuxArchConfigs.bash" ]]
 then
 $USEREDIT "${WDIR}setupTermuxArchConfigs.bash"
-_LOADCONF_
 else
 cp knownconfigurations.bash "${WDIR}setupTermuxArchConfigs.bash"
 sed -i "7s/.*/\# The architecture of this device is $CPUABI; Adjust configurations in the appropriate section.  Change CMIRROR (https:\/\/wiki.archlinux.org\/index.php\/Mirrors and https:\/\/archlinuxarm.org\/about\/mirrors) to desired geographic location to resolve 404 and checksum issues.  /" "${WDIR}setupTermuxArchConfigs.bash"
@@ -413,24 +412,31 @@ if [[ -z "${2:-}" ]]
 then
 _ARG2DIR_ "$@"
 _PREPTERMUXARCH_
-elif [[ "$2" = [Bb]* ]]
+elif [[ "${2//-}" = [Bb]* ]]
 then
 shift
 printf "%s\\n" "Setting mode to bloom."
 _INTROBLOOM_ "$@"
-elif [[ "$2" = [Dd]* ]] || [[ "$2" = [Ss]* ]]
+elif [[ "${2//-}" = [Dd]* ]] || [[ "${2//-}" = [Ss]* ]]
 then
 shift
 printf "%s\\n" "Setting mode to sysinfo."
 _ARG2DIR_ "$@"
 _INTROSYSINFO_ "$@"
-elif [[ "$2" = [Ii]* ]]
+elif [[ "${2//-}" = [Ii]* ]]
 then
 shift
 printf "%s\\n" "Setting mode to install."
 _ARG2DIR_ "$@"
 _PREPTERMUXARCH_
-elif [[ "$2" = [Mm]* ]]
+elif [[ "${2//-}" = [Mm][Ii]* ]]
+then
+shift
+printf "\\nSetting mode to manual.\\n"
+OPT=MANUAL
+_ARG2DIR_ "$@"
+_PREPTERMUXARCH_
+elif [[ "${2//-}" = [Mm]* ]]
 then
 shift
 printf "%s\\n" "Setting mode to manual."
@@ -457,14 +463,14 @@ _PRPREFRESH_ "3"
 _ARG2DIR_ "$@"
 _PREPTERMUXARCH_
 _INTROREFRESH_ "$@"
-elif [[ "$2" = [Rr][Ee]* ]]
+elif [[ "${2//-}" = [Rr][Ee]* ]]
 then
 shift
 _PRPREFRESH_ "2"
 _ARG2DIR_ "$@"
 _PREPTERMUXARCH_
 _INTROREFRESH_ "$@"
-elif [[ "$2" = [Rr]* ]]
+elif [[ "${2//-}" = [Rr]* ]]
 then
 shift
 _PRPREFRESH_ "1"
@@ -481,12 +487,25 @@ then
 shift
 _ARG2DIR_ "$@"
 _PREPTERMUXARCH_
-elif [[ "$3" = [Ii]* ]]
+elif [[ "${3//-}" = [Ii]* ]]
 then
 shift 2
 _ARG2DIR_ "$@"
 _PREPTERMUXARCH_
 _INTRO_ "$@"
+elif [[ "${3//-}" = [Mm][Ii]* ]]
+then
+shift 2
+printf "\\nSetting mode to manual.\\n"
+OPT=MANUAL
+_ARG2DIR_ "$@"
+_PREPTERMUXARCH_
+elif [[ "${3//-}" = [Mm]* ]]
+then
+shift 2
+printf "%s\\n" "Setting mode to manual."
+OPT=MANUAL
+_OPT2_ "$@"
 elif [[ "${3//-}" = [Rr][Ee][Ff][Rr][Ee]* ]]
 then
 shift 2
@@ -508,14 +527,14 @@ _PRPREFRESH_ "3"
 _ARG2DIR_ "$@"
 _PREPTERMUXARCH_
 _INTROREFRESH_ "$@"
-elif [[ "$3" = [Rr][Ee]* ]]
+elif [[ "${3//-}" = [Rr][Ee]* ]]
 then
 shift 2
 _PRPREFRESH_ "2"
 _ARG2DIR_ "$@"
 _PREPTERMUXARCH_
 _INTROREFRESH_ "$@"
-elif [[ "$3" = [Rr]* ]]
+elif [[ "${3//-}" = [Rr]* ]]
 then
 shift 2
 _PRPREFRESH_ "1"
@@ -631,15 +650,13 @@ ARCHITEC="i386"
 elif [[ "$ARCHITECTURE" == x86-64 ]] || [[ "$ARCHITECTURE" == x86_64 ]]
 then
 ARCHITEC="x86_64"
-elif [[ "$ARCHITECTURE" == exit ]]
-then
-exit
 fi
-[[ $CPUABI == *arm* ]] || [[ $CPUABI == *86* ]] && printf "%s\\n" "Option ($REPLY) with architecture $CPUABI ($ARCHITEC) was picked from this list;  The chosen Arch Linux architecture for installation with emulation is $CPUABI ($ARCHITEC):  " && INCOMM="qemu-user-${ARCHITEC/_/-}" && QEMUCR=0 && break || printf "%s\\n" "Answer ($REPLY) was chosen;  Please select the architecture by number from this list: (1) armeabi, (2) armeabi-v7a, (3) arm64-v8a, (4) x86, (5) x86-64 or choose option (6) exit to exit command '${0##*/}':"
+[[ $CPUABI == *arm* ]] || [[ $CPUABI == *86* ]] && printf "%s\\n" "Option ($REPLY) with architecture $CPUABI ($ARCHITEC) was picked from this list;  The chosen Arch Linux architecture for installation with emulation is $CPUABI ($ARCHITEC):  " && INCOMM="qemu-user-$ARCHITEC" && QEMUCR=0 && break || printf "%s\\n" "Answer ($REPLY) was chosen;  Please select the architecture by number from this list: (1) armeabi, (2) armeabi-v7a, (3) arm64-v8a, (4) x86, (5) x86-64 or choose option (6) exit to exit command '${0##*/}':"
 done
 else
 INCOMM="qemu-user-$ARCHITEC" && QEMUCR=0
 fi
+INCOMM="${INCOMM//-user}"
 if ! command -v "${INCOMM//-user}"
 then
 _INST_ "${INCOMM//-user}" "$INCOMM" "${0##*/}" || _PSGI1ESTRING_ "_INST_ _QEMU_ setupTermuxArch ${0##*/}"
@@ -804,7 +821,7 @@ WDIR="$PWD/" && WFDIR="$(realpath "$0")"
 WFDIR="${WFDIR%/*}"
 ## 7)  Creates a default Arch Linux in Termux PRoot user account with the TermuxArch command 'addauser' which configures user accounts for use with the Arch Linux 'sudo' command,
 ## 8)  Installs emulated computer architectures with QEMU in your smartphone with two taps,
-## 9)  Makes the Arch Linux aur installer 'yay' with TermuxArch command 'makeyay' and more (read /usr/local/bin/README.md for details),
+## 9)  Makes the Arch Linux aur installer 'yay' with TermuxArch command 'makeauryay' and more!  Please read /usr/local/bin/README.md for details,
 ## 10)  And all options are are optional for installing Arch Linux!
 ## >>>>>>>>>>>>>>>>>>
 ## >> HELP OPTIONS >>
@@ -1097,4 +1114,4 @@ fi
 ## USAGE[1]: 'setupTermuxArch wget sysinfo' will use wget as the download manager and produce a system information file in the working directory.  This can be abbreviated to 'setupTermuxArch ws' and 'setupTermuxArch w s'.
 ## USAGE[2]: 'setupTermuxArch wget manual customdir' will install the installation in customdir with wget and use manual mode during instalation.
 ## USAGE[3]: 'setupTermuxArch wget refresh customdir' will refresh this installation using wget as the download manager.
-## Very many hardy thank yous to contributors who are helping and have worked very hard, some for many long years and more to make this open source resource much better for all of us!  Please accept a wholehearted thank you for using TermuxArch, and please support TermuxArch and GitHub with ✨🌟🌟🌠🌟🌟✨ and more!
+## Very many hardy thank yous to contributors who are helping and have worked very hard, some for many long years and more to make this open source resource much better for all of us!  Please accept a wholehearted thank you for using TermuxArch!

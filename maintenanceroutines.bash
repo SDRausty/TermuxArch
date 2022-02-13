@@ -191,7 +191,7 @@ then
 SPACEMESSAGE=""
 elif [[ "$USRSPACE" = *M ]]
 then
-USSPACE="${USRSPACE:; -1}"
+USSPACE="${USRSPACE: : -1}"
 fi
 if [[ "$USSPACE" -lt "800" ]] && [[ "$CPUABI" = "$CPUABIX8664" ]]
 then
@@ -203,7 +203,7 @@ SPACEMESSAGE="\\e[0;33mTermuxArch: \\e[1;33mFREE SPACE WARNING!  \\e[1;30mStart 
 fi
 elif [[ "$USRSPACE" = *G ]]
 then
-USSPACE="${USRSPACE:; -1}"
+USSPACE="${USRSPACE: : -1}"
 if [[ "$CPUABI" = "$CPUABI8" ]]
 then
 if [[ "$USSPACE" < "1.5" ]]
