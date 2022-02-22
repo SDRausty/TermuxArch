@@ -250,6 +250,7 @@ done
 else
 _DOTAMSTRIX_
 fi
+cat "$0"
 _TAMATRIXEND_
 }
 

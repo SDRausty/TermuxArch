@@ -5,9 +5,17 @@
 ################################################################################
 set -Eeuo pipefail
 shopt -s nullglob globstar
+if [ "$UID" = 0 ] || [ "$EUID" = 0 ]
+then
+printf "\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\\n\\n" "Signal 164 generated; " "Do NOT use UID 0 for PRoot " ": Exiting..." && exit 164
+fi
+if [ -w /root ]
+then
+printf "\n\e[1;48;5;138mScript %s\e[0m\n\n" "${0##*/} WARNING:  Please run '${0##*/}' and 'bash ${0##*/}' from the BASH shell in native Termux:  Exiting..." && exit 165
+fi
 umask 0022
 unset LD_PRELOAD
-VERSIONID=2.0.460
+VERSIONID=2.0.461
 _STRPERROR_() { # run on script error
 local RV="$?"
 printf "\\e[?25h\\n\\e[1;48;5;138m %s\\e[0m\\n" "TermuxArch WARNING:  Generated script signal ${RV:-UNKNOWN} near or at line number ${1:-UNKNOWN} by '${2:-UNKNOWNCOMMAND}'!"
@@ -32,7 +40,7 @@ _TAMATRIXEND_
 fi
 if [[ "$RV" = 0 ]]
 then
-printf "\\e[0;32mCommand \\e[1;32m%s \\e[0;32mversion %s\\e[1;34m: \\e[1;32m%s\\e[0m\\n\\n" "'${0##*/} $ARGS'" "$VERSIONID" "DONE 🏁 "
+printf "\\e[0;32mCommand \\e[1;32m%s \\e[0;32mversion %s\\e[1;34m: \\e[1;32m%s\\e[0m\\n\\n" "${0##*/} $ARGS" "$VERSIONID" "DONE 🏁 "
 printf "\\e]2; %s: %s \\007" "${0##*/} $ARGS" "DONE 🏁 "
 else
 printf "\\e[0;32m%s %s \\e[0mversion %s\\e[1;34m: \\e[0;32m%s %s\\e[0m\\n\\n" "${0##*/}" "$ARGS" "$VERSIONID" "[Exit Signal $RV]" "DONE 🏁 "
@@ -827,10 +835,6 @@ WFDIR="${WFDIR%/*}"
 ## >> HELP OPTIONS >>
 ## >>>>>>>>>>>>>>>>>>
 ## Please open an issue and an accompanying pull request at GitHub if you would like to have any these options amended and/or new options added.  Please see the new feature at Github, the discussion option!
-if [ "$UID" = 0 ] || [ "$EUID" = 0 ]
-then
-printf "\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\\n\\n" "Signal 164 generated; " "Do NOT use UID 0 for PRoot " ": Exiting..." & exit 164
-fi
 ## []  Run default Arch Linux install.
 if [[ -z "${1:-}" ]]
 then
@@ -1026,16 +1030,16 @@ _PRPREFRESH_ "5"
 _ARG2DIR_ "$@"
 _INTROREFRESH_ "$@"
 # Refresh modes usefull for debugging the Arch Linux in Termux PRoot refresh feature.
-elif [[ "${1//-}" = [Rr][Ee][Ff][Dd][Gg]* ]]
-then
-_PRPREFRESH_ "4"
-_ARG2DIR_ "$@"
-_INTROREFRESH_ "$@"
-elif [[ "${1//-}" = [Rr][Ee][Dd][Gg]* ]]
-then
-_PRPREFRESH_ "3"
-_ARG2DIR_ "$@"
-_INTROREFRESH_ "$@"
+# elif [[ "${1//-}" = [Rr][Ee][Ff][Dd][Gg]* ]]
+# then
+# _PRPREFRESH_ "4"
+# _ARG2DIR_ "$@"
+# _INTROREFRESH_ "$@"
+# elif [[ "${1//-}" = [Rr][Ee][Dd][Gg]* ]]
+# then
+# _PRPREFRESH_ "3"
+# _ARG2DIR_ "$@"
+# _INTROREFRESH_ "$@"
 ## [re [customdir]]  Refresh the Arch Linux in Termux PRoot scripts created by TermuxArch.  Useful for refreshing the root user's home directory and user home directories and the TermuxArch generated scripts to their newest version;  Directory '/var/backups/' backs up the refreshed files.
 elif [[ "${1//-}" = [Rr][Ee] ]]
 then
