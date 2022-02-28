@@ -5,17 +5,9 @@
 ################################################################################
 set -Eeuo pipefail
 shopt -s nullglob globstar
-if [ "$UID" = 0 ] || [ "$EUID" = 0 ]
-then
-printf "\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\\n\\n" "Signal 164 generated; " "Do NOT use UID 0 for PRoot " ": Exiting..." && exit 164
-fi
-if [ -w /root ]
-then
-printf "\n\e[1;48;5;138mScript %s\e[0m\n\n" "${0##*/} WARNING:  Please run '${0##*/}' and 'bash ${0##*/}' from the BASH shell in native Termux:  Exiting..." && exit 68
-fi
 umask 0022
 unset LD_PRELOAD
-VERSIONID=2.0.470
+VERSIONID=2.0.471
 _STRPERROR_() { # run on script error
 local RV="$?"
 printf "\\e[?25h\\n\\e[1;48;5;138m %s\\e[0m\\n" "TermuxArch WARNING:  Generated script signal ${RV:-UNKNOWN} near or at line number ${1:-UNKNOWN} by '${2:-UNKNOWNCOMMAND}'!"
@@ -64,6 +56,14 @@ trap '_STRPERROR_ $LINENO $BASH_COMMAND $?' ERR
 trap '_STRPEXIT_ $LINENO $BASH_COMMAND $?' EXIT
 trap '_STRPSIGNAL_ $LINENO $BASH_COMMAND $?' HUP INT TERM
 trap '_STRPQUIT_ $LINENO $BASH_COMMAND $?' QUIT
+if [ "$UID" = 0 ] || [ "$EUID" = 0 ]
+then
+printf "\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\\n\\n" "Signal 164 generated; " "Do NOT use UID 0 for PRoot " ": Exiting..." && exit 164
+fi
+if [ -w /root ]
+then
+printf "\n\e[1;48;5;138mScript %s\e[0m\n\n" "${0##*/} WARNING:  Please run '${0##*/}' and 'bash ${0##*/}' from the BASH shell in native Termux:  Exiting..." && exit 68
+fi
 _ARG2DIR_() {  # argument as ROOTDIR
 ARG2="${@:2:1}"
 if [[ -z "${ARG2:-}" ]]
@@ -1133,6 +1133,7 @@ fi
 ## SYNTAX[3]: [WHERE (default: arch)]  Install in userspace, not external storage.
 ## EXAMPLE USAGE:
 ## USAGE[1]: 'setupTermuxArch wget sysinfo' will use wget as the download manager and produce a system information file in the working directory.  This can be abbreviated to 'setupTermuxArch ws' and 'setupTermuxArch w s'.
-## USAGE[2]: 'setupTermuxArch wget manual customdir' will install the installation in customdir with wget and use manual mode during instalation.
+## USAGE[2]: 'setupTermuxArch wget manual customdir' will install the installation in customdir with wget and use manual mode during installation.
 ## USAGE[3]: 'setupTermuxArch wget refresh customdir' will refresh this installation using wget as the download manager.
-## Very many hardy thank yous to contributors who are helping and have worked very hard, some for many long years and more to make this open source resource much better for all of us!  Please accept a wholehearted thank you, and please enjoy using TermuxArch on handheld and similar.
+## After installing Arch Linux on device, file '/arch/usr/local/bin/README.md' has more information.  The files in this directory has more information as well.
+## Very many hardy thank yous to contributors who are helping and have worked very hard for many long years, some for more, and to those who took mere minutes from their valuable effort with time in order to make this open source resource much better for all of us!  Please accept a wholehearted thank you, and please enjoy using TermuxArch on Android handheld and similar in Termux PRoot.
