@@ -10,7 +10,7 @@ ISOCOUNTRYCODES=([af]="Afghanistan" [ax]="Åland Islands" [al]="Albania" [dz]="A
 USERCOUNTRYCODE="$(getprop gsm.operator.iso-country || getprop gsm.sim.operator.iso-country)"
 printf "%s\\n" "Looking for ISO country code match;  Please wait a moment..."
 # if grep -i "$USERCOUNTRYCODE" <<< "${ISOCOUNTRYCODES[@]}" 1>/dev/null
-if [[ ! -z ${ISOCOUNTRYCODES[$USERCOUNTRYCODE]:-} ]]
+if [[ -n ${ISOCOUNTRYCODES[$USERCOUNTRYCODE]:-} ]]
 then
 printf '%s' "Found ISO country code match [$USERCOUNTRYCODE]=\"${ISOCOUNTRYCODES[$USERCOUNTRYCODE]}\";  "
 else
@@ -20,18 +20,18 @@ printf "%s\\n" "Looking for ISO country code match;  DONE!  Continuing..."
 }
 
 _MRCOUNTRIESx86_() {
-MRCOUNTRIESx86="("Belarus" "France" "Germany" "Greece" "Russia" "Switzerland" "United States")"
+MRCOUNTRIESx86=("Belarus" "France" "Germany" "Greece" "Russia" "Switzerland" "United States")
 }
 
 _MRCOUNTRIESx86-64_() {
-MRCOUNTRIESx86-64="("Worldwide" "Australia" "Austria" "Bangladesh" "Belarus" "Belgium" "Bosnia and Herzegovina" "Brazil" "Bulgaria" "Canada" "Chile" "China" "Colombia" "Croatia" "Czechia" "Denmark" "Ecuador" "Finland" "France" "Georgia" "Germany" "Greece" "Hong Kong" "Hungary" "Iceland" "India" "Indonesia" "Iran" "Ireland" "Israel" "Italy" "Japan" "Kazakhstan" "Kenya" "Latvia" "Lithuania" "Luxembourg" "Moldova" "Netherlands" "New Caledonia" "New Zealand" "North Macedonia" "Norway" "Pakistan" "Paraguay" "Philippines" "Poland" "Portugal" "Romania" "Russia" "Serbia" "Singapore" "Slovakia" "Slovenia" "South Africa" "South Korea" "Spain" "Sweden" "Switzerland" "Taiwan" "Thailand" "Turkey" "Ukraine" "United Kingdom" "United States" "Vietnam")"
+MRCOUNTRIESx86_64=("Worldwide" "Australia" "Austria" "Bangladesh" "Belarus" "Belgium" "Bosnia and Herzegovina" "Brazil" "Bulgaria" "Canada" "Chile" "China" "Colombia" "Croatia" "Czechia" "Denmark" "Ecuador" "Finland" "France" "Georgia" "Germany" "Greece" "Hong Kong" "Hungary" "Iceland" "India" "Indonesia" "Iran" "Ireland" "Israel" "Italy" "Japan" "Kazakhstan" "Kenya" "Latvia" "Lithuania" "Luxembourg" "Moldova" "Netherlands" "New Caledonia" "New Zealand" "North Macedonia" "Norway" "Pakistan" "Paraguay" "Philippines" "Poland" "Portugal" "Romania" "Russia" "Serbia" "Singapore" "Slovakia" "Slovenia" "South Africa" "South Korea" "Spain" "Sweden" "Switzerland" "Taiwan" "Thailand" "Turkey" "Ukraine" "United Kingdom" "United States" "Vietnam")
 }
 
-_BLOOM_() { # Bloom = `setupTermuxArch manual verbose`
+_BLOOM_() { # Bloom = 'setupTermuxArch manual verbose'
 [[ -d "$HOME/TermuxArchBloom" ]] && _RMBLOOMQ_
 mkdir -p "$HOME/TermuxArchBloom"
 cp {LICENSE,archlinuxconfig.bash,espritfunctions.bash,getimagefunctions.bash,knownconfigurations.bash,maintenanceroutines.bash,necessaryfunctions.bash,setupTermuxArch,printoutstatements.bash} "$HOME/TermuxArchBloom"
-cd "$HOME/TermuxArchBloom"
+cd "$HOME/TermuxArchBloom" || exit 69
 printf "\\e[1;34m%s\\e[1;32m%s\\e[0m 📲\\n\\n" "TermuxArch Bloom option via " "setupTermuxArch bloom"
 ls -agl
 printf "\\n\\e[1;34m%s\\e[1;32m%s\\e[1;34m%s\\e[1;32m%s\\e[1;34m%s\\e[1;32m%s\\e[1;34m.\\e[0m\\n" "Use " "cd ~/TermuxArchBloom" " to continue.  Edit any of these files;  Then use " "bash ${0##*/} [options]" " to run the files in " "~/TermuxArchBloom"
@@ -107,22 +107,22 @@ do
 printf "\\n"
 if [[ "$OPT" = BLOOM ]] || [[ "$OPT" = MANUAL ]]
 then
-printf "The following editor(s) $USEREDTR\\b\\b are present.  Would you like to use \`\\e[1;32m${USEREDTR[$i]}\\e[0;32m\` to edit \`\\e[1;32msetupTermuxArchConfigs.bash\\e[0;32m\`?  "
+printf "The following editor(s) %s\\b\\b are present.  Would you like to use '\\e[1;32m%s\\e[0;32m' to edit '\\e[1;32msetupTermuxArchConfigs.bash\\e[0;32m'?  " "$USEREDTR" "${USEREDTR[$i]}"
 read -n 1 -p "Answer yes or no [Y|n]. "  yn
 else
-printf "Change the worldwide CMIRROR to a CMIRROR that is geographically nearby.  Choose only ONE active CMIRROR in the CMIRRORs file that you are about to edit.  The following editor(s) $USEREDTR\\b\\b are present.  Would you like to use \`\\e[1;32m${USEREDTR[$i]}\\e[0;32m\` to edit the Arch Linux configuration files?  "
+printf "Change the worldwide mirror to a mirror that is geographically nearby.  Please choose only ONE active mirror in the mirrors file that you are about to edit.  The following editor(s) \\b\\b are present.  Would you like to use '\\e[1;32m%s\\e[0;32m' to edit the Arch Linux configuration files?  " "$USEREDTR" "${USEREDTR[$i]}"
 read -n 1 -p "Answer yes or no [Y|n]. "  yn
 fi
-if [[ "$yn" = [Yy]* ]] || [[ "$yn" = "" ]]
+if [[ "$YN" = [Yy]* ]] || [[ "$YN" = "" ]]
 then
 USEREDIT="${USEREDTR[$i]}"
 EINDEX=1
 break
-elif [[ "$yn" = [Nn]* ]]
+elif [[ "$YN" = [Nn]* ]]
 then
 break
 else
-printf "\\nYou answered \\e[1;36m$yn\\e[1;32m.\\n"
+printf "\\nYou answered \\e[1;36m%s\\e[1;32m.\\n" "$YN"
 printf "\\nAnswer yes or no [Y|n].  \\n"
 fi
 done
@@ -139,19 +139,19 @@ else
 printf "\\e[1;34m  Change the worldwide CMIRROR to a CMIRROR that is geographically nearby.  Choose only ONE active CMIRROR in the CMIRRORs file that you are about to edit.  Would you like to use \\e[1;32mnano\\e[1;34m or \\e[1;32mvi\\e[1;34m to edit the Arch Linux configuration files?  "
 read -n 1 -p "Answer nano or vi [n|V]? "  nv
 fi
-if [[ "$nv" = [Nn]* ]]
+if [[ "$NV" = [Nn]* ]]
 then
 USEREDIT=nano
 _NANOIF_
 EINDEX=1
 break
-elif [[ "$nv" = [Vv]* ]] || [[ "$nv" = "" ]]
+elif [[ "$NV" = [Vv]* ]] || [[ "$NV" = "" ]]
 then
-USEREDIT=vi
+USEREDIT="vi"
 EINDEX=1
 break
 else
-printf "\\nYou answered \\e[36;1m$nv\\e[1;32m.\\n\\nAnswer nano or vi [n|v].  \\n"
+printf "\\nYou answered \\e[36;1m%s\\e[1;32m.\\n\\nAnswer nano or vi [n|v].  \\n" "$NV"
 fi
 done
 printf "\\n"
@@ -215,7 +215,7 @@ printf "\\e[?25l"
 while :
 do
 printf "  \\b\\b\\b%s\\b" "${SPINNERL:INCREMNT++%${#SPINNERL}:1}"
-sleep $SPINDLAY
+sleep "$SPINDLAY"
 done
 }
 
@@ -231,7 +231,7 @@ printf "\\e[?25h"
 
 _TAMATRIX_() {	# partial implemintation; print TermuxArch source code as matrix
 _DOTAMSTRIX_() {
-printf "\\e[?25l\\e[1;32m%s" "$(tr -d '\n' < $0)"
+printf "\\e[?25l\\e[1;32m%s" "$(tr -d '\n' < "$0")"
 # split a string from file and print this split string
 for EMSTRING in "${TAMATARR[@]}"
 do
@@ -239,8 +239,8 @@ printf "\\e[0;32m%s" "$EMSTRING"
 sleep 0.0"$(shuf -i 0-999 -n 1)"
 done
 }
-IFS=';' read -ra TAMATARR <<< "$(tr -d '\n' < $0)"
-if [[ ! -z "${MATRIXLCR:-}" ]]
+IFS=';' read -ra TAMATARR <<< "$(tr -d '\n' < "$0")"
+if [[ -n "${MATRIXLCR:-}" ]]
 then
 TAMATRIXENDLCR=0
 while :

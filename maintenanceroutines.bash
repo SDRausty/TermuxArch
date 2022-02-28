@@ -27,7 +27,7 @@ _DOFUNLCR2_() {
 BKPDIR="$INSTALLDIR/var/backups/${INSTALLDIR##*/}/home/$USER"
 _BKPTHF_() { # backup the user files
 [[ ! -d "$BKPDIR/" ]] && mkdir -p "$BKPDIR/"
-cd "$INSTALLDIR/home/$USER"
+cd "$INSTALLDIR/home/$USER" || exit 169
 [[ -f $1 ]] && printf "\\e[1;32m==>\\e[0;32m %s" "File '/${INSTALLDIR##*/}/home/$USER/$1' backed up to /${INSTALLDIR##*/}/var/backups/${INSTALLDIR##*/}/home/$USER/$1.$SDATE.bkp" && cp "$1" "$BKPDIR/$1.$SDATE.bkp" || _PSGI1ESTRING_ "cp '$1' if found maintenanceroutines.bash ${0##*/}"
 }
 if [ -d "$INSTALLDIR/home" ]
@@ -44,7 +44,7 @@ printf "\\n\\e[0;32mCopied file %s to \\e[1;32m%s\\e[0;32m.\\e[0m\\n" "/${INSTAL
 done
 fi
 fi
-cd "$INSTALLDIR/root"
+cd "$INSTALLDIR/root" || exit 169
 }
 
 _DOTHRF_() { # do the root user files
@@ -90,7 +90,7 @@ exit
 
 _FIXOWNER_() { # fix owner of INSTALLDIR/home/USER, PR9 by @petkar
 _DOFIXOWNER_() {
-printf "\\e[1;32m%s\\e[0m\\n" "Adjusting ownership and permissions..."
+printf "\\e[0;32m%s" "Adjusting ownership and permissions:  "
 FXARR="$(ls "$INSTALLDIR/home")"
 for USER in ${FXARR[@]}
 do
@@ -100,6 +100,7 @@ $STARTBIN c "chmod 777 $INSTALLDIR/home/$USER"
 $STARTBIN c "chown -R $USER:$USER $INSTALLDIR/home/$USER"
 fi
 done
+printf "\\e[0;32m%s\\e[0m\\n" "DONE"
 }
 _DOFIXOWNER_ || _PSGI1ESTRING_ "_DOFIXOWNER_ maintenanceroutines.bash ${0##*/}"
 }
@@ -108,10 +109,12 @@ _REFRESHSYS_() { # refresh installation
 printf '\033]2; setupTermuxArch refresh 📲 \007'
 _NAMESTARTARCH_
 _SPACEINFO_
-cd "$INSTALLDIR"
+cd "$INSTALLDIR" || exit 169
+_PR00TSTRING_
 _SETLANGUAGE_
 _PREPROOTDIR_ || _PSGI1ESTRING_ "_PREPROOTDIR_ _REFRESHSYS_ maintenanceroutines.bash ${0##*/}"
 _ADDADDS_
+printf '\e[0;32mGenerating dot files;  \e[1;32mDONE\n'
 _MAKEFINISHSETUP_
 _MAKESETUPBIN_
 _MAKESTARTBIN_

@@ -15,7 +15,7 @@ FLHDR1[1]=""
 FLHDR1[2]="set -Eeuo pipefail"
 FLHDR1[3]="shopt -s nullglob globstar"
 FLHDR1[4]="unset LD_PRELOAD"
-FLHDR1[5]="VERSIONID=2.0.461"
+FLHDR1[5]="VERSIONID=2.0.470"
 FLHDR1[6]=""
 FLHDRP[0]="## BEGIN #####################################################################"
 FLHDRP[1]=""
@@ -150,12 +150,12 @@ printf "\\e[0;34m 🕛 > 🕙 \\e[1;34mReleasing termux-wake-lock: "
 
 _PRINTDOWNLOADINGX86_() {
 printf '\033]2; 🕛 > 🕞 Downloading the Arch Linux system image checksum...  \007'
-printf "\\n\\e[0;34m 🕛 > 🕞 \\e[0;34mDownloading checksum from \\e[0;32mhttp://$CMIRROR\\e[0;34m...\\n\\n\\e[0;32m"
+printf "\\n\\e[0;34m 🕛 > 🕞 \\e[0;34mDownloading checksum from \\e[0;32mhttp://%s\\e[0;34m...\\n\\n\\e[0;32m" "$CMIRROR"
 }
 
 _PRINTDOWNLOADINGX86TWO_() {
 printf '\033]2; 🕛 > 🕓 Downloading the Arch Linux system image file...  \007'
-printf "\\n\\e[0;34m 🕛 > 🕓 \\e[0;34mDownloading \\e[0;32m$IFILE \\e[0;34mfrom \\e[0;32mhttp://$CMIRROR\\e[0;34m...  \\e[1;37mThis may take a long time pending connection.\\n\\n\\e[0;32m"
+printf "\\n\\e[0;34m 🕛 > 🕓 \\e[0;34mDownloading \\e[0;32m%s \\e[0;34mfrom \\e[0;32mhttp://%s\\e[0;34m...  \\e[1;37mThis may take a long time pending connection.\\n\\n\\e[0;32m" "$IFILE" "$CMIRROR"
 }
 
 _PRINTDOWNLOADINGFTCH_() {
@@ -165,7 +165,7 @@ printf "\\e[0;34m 🕛 > 🕓 \\e[1;34mDownloading the checksum file and \\e[1;3
 
 _PRINT_DOWNLOADING_FTCHIT_() {
 printf "\033]2;%s\007" " 🕛 > 🕓 Downloading the checksum and $IFILE files...  "
-printf "\\e[0;34m 🕛 > 🕓 \\e[0;34mDownloading the checksum file and \\e[0;32m$IFILE \\e[0;34m from \\e[0;32mhttp://$CMIRROR\\e[0;34m...  \\e[1;37mThis may take a long time pending connection.\\n\\n\\e[0;32m"
+printf "\\e[0;34m 🕛 > 🕓 \\e[0;34mDownloading the checksum file and \\e[0;32m%s \\e[0;34m from \\e[0;32mhttp://%s\\e[0;34m...  \\e[1;37mThis may take a long time pending connection.\\n\\n\\e[0;32m" "$IFILE" "$CMIRROR"
 }
 
 _PRINTCONFIGUP_() {
@@ -184,7 +184,7 @@ exit 203
 }
 
 _PRINTKEEP_() {
-printf "\\n\\e[0;34m 🕛 > 🕗 \\e[1;34mNot removing files after checking download integrity with md5sum.  "
+printf "\\n\\e[0;34m 🕛 > 🕗 \\e[1;34mNot removing files after checking download integrity with md5sum.  \\n"
 }
 
 _PRINTMD5CHECK_() {
@@ -204,14 +204,14 @@ printf "\\n\\n\\e[0;34m 🕛 > 🕕 \\e[1;34mSystem image file download integrit
 
 _PRINTMISMATCH_() {
 printf "\033]2;%s\007" "Run 'bash ${0##*/}' again..."
-printf "\\n\\e[07;1m\\e[31;1m 🔆 WARNING: Unknown configuration!  Did not find an architecture and operating system match in 'knownconfigurations.bash'!  \\e[36;1m\\nDetected $NASVER $CPUABI architecture.  There still is hope.  Other images are available at http://mirror.archlinuxarm.org/os/ and https://www.archlinux.org/mirrors/ to see if any match might the device.  If you find a match, then please \\e[37;1msubmit a pull request\\e[36;1m at https://github.com/TermuxArch/TermuxArch/pulls with script modifications.  Alternatively, \\e[37;1msubmit a modification request\\e[36;1m at https://github.com/TermuxArch/TermuxArch/issues if you find a configuration match.  Please include output from \\e[37;1m'uname -mo'\\e[36;1m on the device in order to expand autodetection for \\e[37;1m'${0##*/}'\\e[36;1m.  See https://termuxarch.github.io/docsTermuxArch/Known_Configurations for more information.\\n\\n	\\e[36;1mRun '${0##*/} purge' to remove the installation;  Then please try '${0##*/}' again with new options...\\e[0m\\n"
+printf "\\n\\e[07;1m\\e[31;1m 🔆 WARNING: Unknown configuration!  Did not find an architecture and operating system match in 'knownconfigurations.bash'!  \\e[36;1m\\nDetected %s architecture.  There still is hope.  Other images may be available at http://mirror.archlinuxarm.org/os/ and https://www.archlinux.org/mirrors/ to see if any match might the device.  If you find a match, then please \\e[37;1msubmit a pull request\\e[36;1m at https://github.com/TermuxArch/TermuxArch/pulls with script modifications.  Alternatively, \\e[37;1msubmit a modification request\\e[36;1m at https://github.com/TermuxArch/TermuxArch/issues if you find a configuration match.  Please include output from \\e[37;1m'uname -mo'\\e[36;1m on the device in order to expand autodetection for \\e[37;1m'%s'\\e[36;1m.  See https://termuxarch.github.io/docsTermuxArch/Known_Configurations for more information.\\n\\n	\\e[36;1mRun '%s purge' to remove the installation;  Then please try '%s' again with new options...\\e[0m\\n" "$NASVER $CPUABI" "${0##*/}" "${0##*/}" "${0##*/}"
 exit
 }
 
 _PRINTFOOTER_() {
 printf "\033]2;%s\007" "Thank you for using '${0##*/}' to install Arch Linux in Termux PRoot 📲 "
-printf "\\e[0;34m 🕛 > 🕥 \\e[1;34mYou can use \\e[1;32m$STARTBIN \\e[1;34mto launch Arch Linux in Termux PRoot.  Alternatively, you can run \\e[1;32m~$PRINTROOTDIR/$STARTBIN \\e[1;34min a BASH shell to start Arch Linux in Termux PRoot in future sessions.  See \\e[1;32m$STARTBIN help \\e[1;34mfor usage information.\\e[0m\\n\\n"
-printf "\\e[0;32m 🕛 = 🕛 \\e[1;34mInformation about \\e[0;36m\"Starting Arch Linux from Termux?\"\\e[1;34m at \\e[1;34mhttps://github.com/sdrausty/TermuxArch/issues/25\\e[1;34m.  You can use \\e[1;32mtour\\e[1;34m to run a very short tour to get to know the new Arch Linux in Termux PRoot environment you just set up a little bit better.  If there was more than one error during the update procedure and you would like to refresh the installation, use \\e[1;32m${0##*/} refresh\\e[1;34m.  This will update and recreate the configuration provided.  The TermuxArch command \\e[1;32mkeys \\e[1;34mhelps install and generate Arch Linux keyring keys.\\n\\n"
+printf "\\e[0;34m 🕛 > 🕥 \\e[1;34mYou can use \\e[1;32m%s \\e[1;34mto launch Arch Linux in Termux PRoot.  Alternatively, you can run \\e[1;32m~%s \\e[1;34min a BASH shell to start Arch Linux in Termux PRoot in future sessions.  See \\e[1;32m%s help \\e[1;34mfor usage information.\\e[0m\\n\\n" "$STARTBIN" "$PRINTROOTDIR/$STARTBIN" "$STARTBIN"
+printf "\\e[0;32m 🕛 = 🕛 \\e[1;34mInformation about \\e[0;36m\"Starting Arch Linux from Termux?\"\\e[1;34m at \\e[1;34mhttps://github.com/sdrausty/TermuxArch/issues/25\\e[1;34m.  You can use \\e[1;32mtour\\e[1;34m to run a very short tour to get to know the new Arch Linux in Termux PRoot environment you just set up a little bit better.  If there was more than one error during the update procedure and you would like to refresh the installation, use \\e[1;32m%s refresh\\e[1;34m.  This will update and recreate the configuration provided.  The TermuxArch command \\e[1;32mkeys \\e[1;34mhelps install and generate Arch Linux keyring keys.\\n\\n" "${0##*/}"
 _PRINTFOOTER2_
 }
 
@@ -225,7 +225,7 @@ printf "\\e[1;34m%s\\e[0m\\n\\n" "The website https://bbs.archlinux32.org/ has A
 _PRTX8664_() {
 printf "\\e[1;34m%s\\e[0m\\n\\n" "The website https://bbs.archlinux.org/ has Arch Linux discussion forums for the Arch Linux project.  The webpage https://wiki.archlinux.org/index.php/IRC_channel lists available Arch Linux IRC channels regarding the Arch Linux $CPUABI computer architecture."
 }
-printf "\\e[1;34m%s\\n\\n%s\\e[1;32m%s\\e[1;34m%s\\e[1;32m%s" "Arch Linux in Termux PRoot is installed in $INSTALLDIR.  This project is in active development.  Contributions to this project are welcome; See https://sdrausty.github.io/TermuxArch/CONTRIBUTORS for information.  The documentation repository for TermuxArch https://sdrausty.github.io/TermuxArch/docs/ is a TermuxArch module that is located at https://github.com/sdrausty/docsTermuxArch.  Pull requests and contributions through the issues pages are open to improve the ux (user experience) and this Termux PRoot installation script. " "The commands " "~$PRINTROOTDIR/$STARTBIN " "and " "$STARTBIN " "can be used in a BASH shell to launch Arch Linux in Termux PRoot for future sessions.  If you are new to *nix, http://tldp.org has *nix documentation.  "
+printf "\\e[1;34m%s\\n\\n%s\\e[1;32m%s\\e[1;34m%s\\e[1;32m%s\\e[1;34m%s\\n" "Arch Linux in Termux PRoot is installed in $INSTALLDIR.  This project is in active development.  Contributions to this project are welcome; See https://sdrausty.github.io/TermuxArch/CONTRIBUTORS for information.  The documentation repository for TermuxArch https://sdrausty.github.io/TermuxArch/docs/ is a TermuxArch module that is located at https://github.com/sdrausty/docsTermuxArch.  Pull requests and contributions through the issues pages are open to improve the ux (user experience) and this Termux PRoot installation script. " "The commands " "~$PRINTROOTDIR/$STARTBIN " "and " "$STARTBIN " "can be used in a BASH shell to launch Arch Linux in Termux PRoot for future sessions.  If you are new to *nix, http://tldp.org has *nix documentation.  "
 if [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = i386 ]]
 then
 _PRTX86_
@@ -238,8 +238,8 @@ fi
 }
 
 _PRINTPROOTERROR_() {
-printf "\\e[0;34m%s\\n\\n%s\\n\\n%s\\n\\n%s\\e[0m" "If error ' proot info: vpid 1: terminated with signal 11 ' is found, ensure that all the software is up to date.  After updating all software, including Android software, please reference these links in order to find a resolution if updating Termux app and Termux packages and Android device software was unsuccessful:" "  * https://github.com/termux/proot/issues?q=\"proot info: vpid 1: terminated with signal 11\"" "  * https://github.com/termux/termux-packages/issues?q=\"proot info: vpid 1: terminated with signal 11\""
-printf "\\e[0;34m%s\\n\\n%s\\n\\n%s\\n\\n%s\\e[0m" "If error ' env ... not found ' is found, ensure that all the software is up to date.  After updating, please reference these links in order to find a resolution if updating Termux app and Termux packages was unsuccessful:" "  * https://github.com/termux/proot/issues?q=\"env\"+\"not+found\"" "  * https://github.com/termux/termux-packages/issues?q=\"not+found\"+\"proot\""
+printf "\\e[0;34m\\n%s\\n\\n%s\\n\\n%s\\e[0m" "If error ' proot info: vpid 1: terminated with signal 11 ' is found, ensure that all the software is up to date.  After updating all software, including Android software, please reference these links in order to find a resolution if updating Termux app and Termux packages and Android device software was unsuccessful:" "  * https://github.com/termux/proot/issues?q=\"proot info: vpid 1: terminated with signal 11\"" "  * https://github.com/termux/termux-packages/issues?q=\"proot info: vpid 1: terminated with signal 11\""
+printf "\\e[0;34m\\n%s\\n\\n%s\\n\\n%s\\e[0m" "If error ' env ... not found ' is found, ensure that all the software is up to date.  After updating, please reference these links in order to find a resolution if updating Termux app and Termux packages was unsuccessful:" "  * https://github.com/termux/proot/issues?q=\"env\"+\"not+found\"" "  * https://github.com/termux/termux-packages/issues?q=\"not+found\"+\"proot\""
 }
 
 _PRINTROOTDIRFUNCTION_() {

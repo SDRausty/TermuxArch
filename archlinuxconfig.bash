@@ -4,7 +4,7 @@
 ## https://sdrausty.github.io/TermuxArch/README has info about this project.
 ## https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.
 ################################################################################
-_PREPFILEFCTN_() { printf '%s\n%s\n%s\n%s\n' "[ \"\$UID\" = 0 ] && printf '\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\n' \"Cannot run '\${0##*/}' as root user;\" \" the command 'addauser username' creates user accounts in ~/${INSTALLDIR##*/}; the command '$STARTBIN command addauser username' can create user accounts in ~/${INSTALLDIR##*/} from Termux; a default user account is created during setup; the default username 'user' can be used to access the PRoot system employing a user account; command '$STARTBIN help' has more information;  \" \"Exiting...\" && exit 0" "_PRNTWAIT_() { printf '\\e[0;32m%s\n' \"Please wait a moment;  Command '\${0##*/}' is attempting to make the command '$1';  Continuing...\" ; }" "{ [ -x /usr/bin/$1 ] && printf '\\e[0;31m%s\n' \"The command '$1' is installed;  Exiting...\" ; }" "[ -x /usr/bin/fakeroot ] || { pc base base-devel || pci base base-devel ; }" "{ cd && [ -x $2 ] || gcl https://aur.archlinux.org/$2 ; } && cd $2 && _PRNTWAIT_ && makepkg -firs --noconfirm ; $1 --help" "## ~/${INSTALLDIR##*/}/usr/local/bin/makeaur$3 FE" >> $3 ; }
+_PREPFILEFCTN_() { printf "%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n" "[ \"\$UID\" = 0 ] && printf '\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\n' \"Cannot run '\${0##*/}' as root user;\" \" the command 'addauser username' creates user accounts in ~/${INSTALLDIR##*/}; the command '$STARTBIN command addauser username' can create user accounts in ~/${INSTALLDIR##*/} from Termux; a default user account is created during setup; the default username 'user' can be used to access the PRoot system employing a user account; command '$STARTBIN help' has more information;  \" \"Exiting...\" && exit 0" "_PRNTWAIT_() { printf '\\e[0;32m%s\n' \"Please wait a moment;  Command '\${0##*/}' is attempting to make the command '$1';  Continuing...\" ; }" "{ [ -x /usr/bin/\"$1\" ] && printf '\\e[0;31m%s\n' \"The command '$1' is installed;  Exiting...\" ; }" "[ -x /usr/bin/fakeroot ] || { pc base base-devel || pci base base-devel ; }" "{ cd && [ -x \"$2\" ] || gcl https://aur.archlinux.org/\"$2\" ; } && cd \"$2\" && _PRNTWAIT_ && makepkg -firs --noconfirm ; \"$1\" --help" "## ~/${INSTALLDIR##*/}/usr/local/bin/makeaur\"$3\" FE" >> "$3" ; }
 
 _ADDREADME_() {
 _CFLHDR_ usr/local/bin/README.md
@@ -107,12 +107,14 @@ printf "%s\\n%s\\n%s\\n%s\\n" "PPATH=\"\$PATH\"" "# [ -d /system/xbin ] && PATH=
 if [ -d "$INSTALLDIR"/usr/local/texlive ]
 then
 TEXLIVEPATH="$(find "$INSTALLDIR"/usr/local/texlive/*/bin/ -maxdepth 1 | tail -n 1)"
-TEXLIVEPATH="${TEXLIVEPATH#*${INSTALLDIR##*/}}"
+TEXLIVEPATH="${TEXLIVEPATH#*"${INSTALLDIR##*/}"}"
 TEXDIR="${TEXLIVEPATH%/*}"
 TEXDIR="${TEXDIR%/*}"
 printf "%s\\n" "PATH=\"$TEXLIVEPATH\"" >> root/.bash_profile
-fi
 printf "%s\\n" "PATH=\"\$HOME/bin:\$PATH:\$PPATH\"" >> root/.bash_profile
+else
+printf "%s\\n" "PATH=\"\$HOME/bin:\$PATH\"" >> root/.bash_profile
+fi
 printf "%s\\n" "[[ -f \"\$HOME\"/.bashrc ]] && . \"\$HOME\"/.bashrc" >> root/.bash_profile
 cat >> root/.bash_profile <<- EOM
 if [ ! -e "\$HOME"/.hushlogin ] && [ ! -e "\$HOME"/.chushlogin ]
@@ -132,7 +134,7 @@ do
 ISHELVAR="$(export | grep "$SHELVAR" || printf '%s\n' 1)"
 if [[ "$ISHELVAR" != 1 ]]
 then
-printf "export %s\\n" "$(sed 's/declare -x //g' <<< "$ISHELVAR")" >> root/.bash_profile
+printf "export %s\\n" "${ISHELVAR/declare -x }" >> root/.bash_profile
 fi
 done
 for LCTE in "${!LC_TYPE[@]}"
@@ -142,17 +144,18 @@ done
 printf "%s\\n" "export GPG_TTY=\"\$(tty)\"" >> root/.bash_profile
 printf "%s\\n" "export MOZ_FAKE_NO_SANDBOX=1" >> root/.bash_profile
 printf "%s\\n" "export PULSE_SERVER=127.0.0.1" >> root/.bash_profile
-if [ -n ${TEXLIVEPATH:-} ]
+if [ -d "$INSTALLDIR"/usr/local/texlive ]
 then
-printf "%s\\n" "[ -d "$TEXDIR" ] && export TEXDIR=\"$TEXDIR\"" >> root/.bash_profile
+printf "%s\\n" "[ -d \"$TEXDIR\" ] && export TEXDIR=\"$TEXDIR\"" >> root/.bash_profile
 printf "%s\\n" "[ -d \"\$HOME\"/.texlive2021/texmf-config ] && export TEXMFCONFIG=\"\$HOME/.texlive2021/texmf-config\"" >> root/.bash_profile
 printf "%s\\n" "[ -d \"\$HOME\"/texmf ] && export TEXMFHOME=\"\$HOME/texmf\"" >> root/.bash_profile
 printf "%s\\n" "[ -d /usr/local/texlive/texmf-local ] && export TEXMFLOCAL=\"/usr/local/texlive/texmf-local\"" >> root/.bash_profile
 printf "%s\\n" "[ -d $TEXDIR/texmf-config ] && export TEXMFSYSCONFIG=\"$TEXDIR/texmf-config\"" >> root/.bash_profile
 printf "%s\\n" "[ -d $TEXDIR/texmf-var ] && export TEXMFSYSVAR=\"$TEXDIR/texmf-var\"" >> root/.bash_profile
 printf "%s\\n" "[ -d \"\$HOME\"/.texlive2021/texmf-var ] && export TEXMFVAR=\"\$HOME/.texlive2021/texmf-var\"" >> root/.bash_profile
-printf "%s\\n%s\\n" "export TZ=\"$(getprop persist.sys.timezone)\"" "## .bash_profile FE" >> root/.bash_profile
+printf "%s\\n" "export TMPDIR=\"/tmp\"" >> root/.bash_profile
 fi
+printf "%s\\n%s\\n" "export TZ=\"$(getprop persist.sys.timezone)\"" "## .bash_profile FE" >> root/.bash_profile
 }
 
 _ADDbashrc_() {
@@ -470,7 +473,7 @@ _ADDcdtmp_() {
 _CFLHD_ usr/local/bin/cdtmp "# Usage: \`. cdtmp\` the dot sources \`cdtmp\` which makes this shortcut script work."
 cat > usr/local/bin/cdtmp <<- EOM
 #!/usr/bin/env bash
-cd "$TMPDIR" && pwd
+cd "$TMPDIR" && pwd || exit 169
 ## ~/${INSTALLDIR##*/}/usr/local/bin/cdtmp FE
 EOM
 chmod 755 usr/local/bin/cdtmp
@@ -736,17 +739,25 @@ chmod 755 usr/local/bin/ga
 _ADDgcl_() {
 _CFLHDR_ usr/local/bin/gcl "# Contributor https://reddit.com/u/ElectricalUnion"
 cat >> usr/local/bin/gcl <<- EOM
-if [ "\$UID" = 0 ]
-then
-printf "\\\\e[1;31m%s\\\\e[1;37m%s\\\\e[1;31m%s\\\\e[0m\\\\n" "ERROR:" "  Script '\${0##*/}' should not be used as root:  The command 'addauser' creates user accounts in Arch Linux in Termux PRoot and configures these user accounts for the command 'sudo':  The 'addauser' command is intended to be run by the Arch Linux in Termux PRoot root user:  To use 'addauser' directly from Termux you can run \"$STARTBIN command 'addauser user'\" in Termux to create this account in Arch Linux Termux PRoot:  The command '$STARTBIN help' has more information about using '$STARTBIN':  " "Exiting..."
-else
+{ [ "\$UID" = 0 ] && printf "\\\\e[1;31m%s\\\\e[1;37m%s\\\\e[1;31m%s\\\\e[0m\\\\n" "ERROR:" "  Script '\${0##*/}' should not be used as root:  The command 'addauser' creates user accounts in Arch Linux in Termux PRoot and configures these user accounts for the command 'sudo':  The 'addauser' command is intended to be run by the Arch Linux in Termux PRoot root user:  To use 'addauser' directly from Termux you can run \"$STARTBIN command 'addauser user'\" in Termux to create this account in Arch Linux Termux PRoot:  The command '$STARTBIN help' has more information about using '$STARTBIN':  " "Exiting..." && exit 101 ; }
+{ [ "\$#" = 0 ] && printf "\\\\e[1;31m%s\\\\e[1;37m%s\\\\e[1;31m%s\\\\e[0m\\\\n" "Example usage: " "'\${0##*/} https://github.com/TermuxArch/TermuxArch' " "Exiting..." ; } && exit 101
+_GITCLONE_() {
+WDIR_="\$PWD"
+{ [ -d "$TMPDIR/\$\$" ] || mkdir -p "$TMPDIR/\$\$" ; } && cd "$TMPDIR/\$\$" && git init
+printf "%s\\n" "Checking HEAD branch in \$@..."
+RBRANCH="\$(git remote show "\$@" | grep 'HEAD branch' | cut -d' ' -f5)"
+rm -rf "$TMPDIR/\$\$"
+RBRANCH="\${RBRANCH# }" # strip leading space
+printf "%s\\n" "Getting branch \$RBRANCH from git repository \$@..."
+{ cd "\$WDIR_" && git clone --depth 1 "\$@" --branch \$RBRANCH --single-branch
+}
+}
 if [[ ! -x "\$(command -v git)" ]]
 then
 { pc git || pci git ; }
-git clone --depth 1 "\$@" --single-branch
+_GITCLONE_ "\$@"
 else
-git clone --depth 1 "\$@" --single-branch
-fi
+_GITCLONE_ "\$@"
 fi
 ## ~/${INSTALLDIR##*/}/usr/local/bin/gcl FE
 EOM
@@ -760,16 +771,12 @@ if [ "\$UID" = 0 ]
 then
 printf "\\\\e[1;31m%s\\\\e[1;37m%s\\\\e[1;31m%s\\\\e[0m\\\\n" "ERROR:" "  Script '\${0##*/}' should not be used as root:  The command 'addauser' creates user accounts in Arch Linux in Termux PRoot and configures these user accounts for the command 'sudo':  The 'addauser' command is intended to be run by the Arch Linux in Termux PRoot root user:  To use 'addauser' directly from Termux you can run \"$STARTBIN command 'addauser user'\" in Termux to create this account in Arch Linux Termux PRoot:  The command '$STARTBIN help' has more information about using '$STARTBIN':  " "Exiting..."
 else
-if [ "\$#" = 0 ]
-then
-printf "\\\\e[1;31m%s\\\\e[1;37m%s\\\\e[1;31m%s\\\\e[0m\\\\n" "Example usage: " "'\${0##*/} https://github.com/TermuxArch/TermuxArch' " "Exiting..."
-exit 101
-fi
+{ [ "\$#" = 0 ] && printf "\\\\e[1;31m%s\\\\e[1;37m%s\\\\e[1;31m%s\\\\e[0m\\\\n" "Example usage: " "'\${0##*/} https://github.com/TermuxArch/TermuxArch' " "Exiting..." ; } && exit 101
 _GCLONEMAIN_() {
 BASENAME="\${*%/}" # strip trailing slash
 BASENAME="\${BASENAME#*//}" # strip before double slash
 REPONAME="\${BASENAME##*/}" # strip before last slash
-( [ -e "\$REPONAME-master" ] && cd "\$REPONAME-master" ) || ( ( [ -e "\$REPONAME-main" ] || ( wget -c -O "\$REPONAME.zip" "\$*"/archive/main.zip && unzip "\$REPONAME.zip" ) && cd "\$REPONAME-main" ) || ( [ -e "\$REPONAME-master" ] || ( wget -c -O "\$REPONAME.zip" "\$*"/archive/master.zip && unzip "\$REPONAME.zip" ) && cd "\$REPONAME-master" ) )
+[ -e "\$REPONAME-master" ] && { cd "\$REPONAME-master" || exit 169 : } || { ( [ -e "\$REPONAME-main" ] || ( wget -c -O "\$REPONAME.zip" "\$*"/archive/main.zip && unzip "\$REPONAME.zip" ) && { cd "\$REPONAME-main" || exit 169 : } ; } || { [ -e "\$REPONAME-master" ] || ( wget -c -O "\$REPONAME.zip" "\$*"/archive/master.zip && unzip "\$REPONAME.zip" ) && cd "\$REPONAME-master" ; }
 git init
 git remote add origin "\$@" ||:
 git checkout -b main || git checkout main
@@ -865,94 +872,114 @@ EOM
 _ADDkeys_() {
 if [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = i386 ]]
 then	# set customized commands for Arch Linux 32 architecture
-X86INT="UPGDPKGS=(\"a/archlinux-keyring/archlinux-keyring-20191219-1.0-any.pkg.tar.xz\" \"a/archlinux32-keyring/archlinux32-keyring-20191230-1.0-any.pkg.tar.xz\" \"g/glibc/glibc-2.28-1.1-i686.pkg.tar.xz\" \"l/linux-api-headers/linux-api-headers-5.3.1-2.0-any.pkg.tar.xz\" \"l/libarchive/libarchive-3.3.3-1.0-i686.pkg.tar.xz\" \"o/openssl/openssl-1.1.1.d-2.0-i686.pkg.tar.xz\" \"p/pacman/pacman-5.2.1-1.4-i686.pkg.tar.xz\" \"z/zstd/zstd-1.4.4-1.0-i686.pkg.tar.xz\" \"/c/coreutils/coreutils-8.31-3.0-i686.pkg.tar.xz\" \"w/which/which-2.21-5.0-i686.pkg.tar.xz\" \"g/grep/grep-3.3-3.0-i686.pkg.tar.xz\" \"g/gzip/gzip-1.10-3.0-i686.pkg.tar.xz\" \"l/less/less-551-3.0-i686.pkg.tar.xz\" \"s/sed/sed-4.7-3.0-i686.pkg.tar.xz\" \"u/unzip/unzip-6.0-13.1-i686.pkg.tar.xz\")
-cp -f /usr/lib/{libcrypto.so.1.0.0,libssl.so.1.0.0} \$TMPDIR
+X86INT="_CURLDWND_() { { [ \"\${CURLDWNDVAR_:-}\" = 0 ] && curl -C - --insecure --fail --retry 4 -OL https://archive.archlinux32.org/packages/\"\$UPGDPAKG\".sig -OL https://archive.archlinux32.org/packages/\"\$UPGDPAKG\" ; } || { curl -C - --fail --retry 4 -OL https://archive.archlinux32.org/packages/\"\$UPGDPAKG\".sig -OL https://archive.archlinux32.org/packages/\"\$UPGDPAKG\" || { CURLDWNDVAR_=0 && printf '%s\\n' \"Running command 'curl --insecure';  Continuing...\" && curl -C - --insecure --fail --retry 4 -OL https://archive.archlinux32.org/packages/\"\$UPGDPAKG\".sig -OL https://archive.archlinux32.org/packages/\"\$UPGDPAKG\" ; } ; } ; }
+
+UPGDPKGS=(\"a/archlinux-keyring/archlinux-keyring-20191219-1.0-any.pkg.tar.xz\" \"a/archlinux32-keyring/archlinux32-keyring-20191230-1.0-any.pkg.tar.xz\" \"g/glibc/glibc-2.28-1.1-i686.pkg.tar.xz\" \"l/linux-api-headers/linux-api-headers-5.3.1-2.0-any.pkg.tar.xz\" \"l/libarchive/libarchive-3.3.3-1.0-i686.pkg.tar.xz\" \"o/openssl/openssl-1.1.1.d-2.0-i686.pkg.tar.xz\" \"p/pacman/pacman-5.2.1-1.4-i686.pkg.tar.xz\" \"z/zstd/zstd-1.4.4-1.0-i686.pkg.tar.xz\" \"/c/coreutils/coreutils-8.31-3.0-i686.pkg.tar.xz\" \"w/which/which-2.21-5.0-i686.pkg.tar.xz\" \"g/grep/grep-3.3-3.0-i686.pkg.tar.xz\" \"g/gzip/gzip-1.10-3.0-i686.pkg.tar.xz\" \"l/less/less-551-3.0-i686.pkg.tar.xz\" \"s/sed/sed-4.7-3.0-i686.pkg.tar.xz\" \"u/unzip/unzip-6.0-13.1-i686.pkg.tar.xz\")
+
+cp -f /usr/lib/{libcrypto.so.1.0.0,libssl.so.1.0.0} \"\$TMPDIR\"
 cd /var/cache/pacman/pkg/ || exit 196
-_DWLDFILE_() { printf \"%s\\n\\n\" \"Downloading file '\${UPGDPAKG##*/}' from https://archive.archlinux32.org.\" && { curl -C - --fail --retry 4 -OL https://archive.archlinux32.org/packages/\$UPGDPAKG || curl -C - --insecure --fail --retry 4 -OL https://archive.archlinux32.org/packages/\$UPGDPAKG ; } && printf \"%s\\n\\n\" \"Finished downloading file '\${UPGDPAKG##*/}' from https://archive.archlinux32.org.\" || _PRTERROR_ ; }
+_DWLDFILE_() { { printf \"%s\\n\\n\" \"Downloading signature file and file '\${UPGDPAKG##*/}' from https://archive.archlinux32.org.\" && _CURLDWND_ && printf \"%s\\n\\n\" \"Finished downloading signature file and file '\${UPGDPAKG##*/}' from https://archive.archlinux32.org.\" ; } || _PRTERROR_ ; }
+if [ -f /var/run/lock/"${INSTALLDIR##*/}"/kpmueoep1.lock ] && [ -f /var/run/lock/"${INSTALLDIR##*/}"/kpmueoep2.lock ] && [ -f /var/run/lock/"${INSTALLDIR##*/}"/kpmueoep3.lock ] && [ -f /var/run/lock/"${INSTALLDIR##*/}"/kpmueoep4.lock ] && [ -f /var/run/lock/"${INSTALLDIR##*/}"/kpmueoep5.lock ]
+then
+printf \"\\n%s\\n\" \"Downloading transition package and signature files from https://archive.archlinux32.org;  DONE  \"
+else
 printf \"%s\\n\" \"Downloading files: '\$(printf \"%s \" \"\${UPGDPKGS[@]##*/}\")' from https://archive.archlinux32.org.\"
 for UPGDPAKG in \${UPGDPKGS[@]}
 do
-if [[ ! -f \"\${UPGDPAKG##*/}\" ]]
+if [[ -f /var/cache/pacman/pkg/\"\${UPGDPAKG##*/}\" ]]
 then
-_DWLDFILE_ || _DWLDFILE_
-else
 printf \"%s\\n\" \"File '\${UPGDPAKG##*/}' is already downloaded.\"
+else
+_DWLDFILE_ || _DWLDFILE_
 fi
 done
+fi
 
-_PMUEOEP2_() {
-if [ ! -f "/var/run/lock/${INSTALLDIR##*/}/kpmueoep2.lock" ]
+_PMUEOEP1_() {
+if [ -f /var/run/lock/"${INSTALLDIR##*/}"/kpmueoep1.lock ]
 then
-printf \"\\n\\e[1;32m==> \\e[1;37m%s\\e[1;32m%s\\e[1;37m...\\n\" \"Running \${0##*/} [\$3/7] $ARCHITEC ($CPUABI) architecture upgrade ; \" \"pacman -U \${UPGDPKGS[\$1]##*/} \${UPGDPKGS[\$2]##*/} --noconfirm\"
-pacman -U \"\${UPGDPKGS[\$1]##*/}\" \"\${UPGDPKGS[\$2]##*/}\" --noconfirm && :>"/var/run/lock/${INSTALLDIR##*/}/kpmueoep2.lock"
+printf \"\\n\\e[1;37m%s\\e[1;32m%s\\e[1;37m%s\\n\" \"[\$2/7]  The command \" \"pacman -U \${UPGDPKGS[\$1]##*/} --needed --noconfirm\" \" has already been successfully run; Continuing...\"
 else
-printf \"\\n\\e[1;37m%s\\e[1;32m%s\\e[1;37m%s\\n\" \"[\$3/7]  The command \" \"pacman -U \${UPGDPKGS[\$1]##*/} \${UPGDPKGS[\$2]##*/} --noconfirm\" \" has already been successfully run; Continuing...\"
+printf \"\\n\\e[1;32m==> \\e[1;37m%s\\e[1;32m%s\\e[1;37m...\\n\" \"Running \${0##*/} [\$2/7] $ARCHITEC ($CPUABI) architecture upgrade ; \" \"pacman -U \${UPGDPKGS[\$1]##*/} --needed --noconfirm\"
+pacman -U /var/cache/pacman/pkg/\"\${UPGDPKGS[\$1]##*/}\" --needed --noconfirm && :>/var/run/lock/"${INSTALLDIR##*/}"/kpmueoep1.lock
+fi
+}
+
+_PMUEOEP2_() { # depreciated
+if [ -f /var/run/lock/"${INSTALLDIR##*/}"/kpmueoep2.lock ]
+then
+printf \"\\n\\e[1;37m%s\\e[1;32m%s\\e[1;37m%s\\n\" \"[\$3/7]  The command \" \"pacman -U \${UPGDPKGS[\$1]##*/} \${UPGDPKGS[\$2]##*/} --needed --noconfirm\" \" has already been successfully run; Continuing...\"
+else
+printf \"\\n\\e[1;32m==> \\e[1;37m%s\\e[1;32m%s\\e[1;37m...\\n\" \"Running \${0##*/} [\$3/7] $ARCHITEC ($CPUABI) architecture upgrade ; \" \"pacman -U \${UPGDPKGS[\$1]##*/} \${UPGDPKGS[\$2]##*/} --needed --noconfirm\"
+pacman -U /var/cache/pacman/pkg/\"\${UPGDPKGS[\$1]##*/}\" /var/cache/pacman/pkg/\"\${UPGDPKGS[\$2]##*/}\" --needed --noconfirm && :>/var/run/lock/"${INSTALLDIR##*/}"/kpmueoep2.lock
 fi
 }
 
 _PMUEOEP3_() {
-if [ ! -f "/var/run/lock/${INSTALLDIR##*/}/kpmueoep3.lock" ]
+if [ -f /var/run/lock/"${INSTALLDIR##*/}"/kpmueoep3.lock ]
 then
-printf \"\\n\\e[1;32m==> \\e[1;37m%s\\e[1;32m%s\\e[1;37m...\\n\" \"Running \${0##*/} [\$4/7] $ARCHITEC ($CPUABI) architecture upgrade ; \" \"pacman -U \${UPGDPKGS[\$1]##*/} \${UPGDPKGS[\$2]##*/} \${UPGDPKGS[\$3]##*/} --noconfirm\"
-pacman -U \"\${UPGDPKGS[\$1]##*/}\" \"\${UPGDPKGS[\$2]##*/}\" \"\${UPGDPKGS[\$3]##*/}\" --noconfirm && :>"/var/run/lock/${INSTALLDIR##*/}/kpmueoep3.lock"
+printf \"\\n\\e[1;37m%s\\e[1;32m%s\\e[1;37m%s\\e[0m\\n\" \"[\$4/7]  The command \" \"pacman -U \${UPGDPKGS[\$1]##*/} \${UPGDPKGS[\$2]##*/} \${UPGDPKGS[\$3]##*/} --needed --noconfirm\" \" has already been successfully run; Continuing...\"
 else
-printf \"\\n\\e[1;37m%s\\e[1;32m%s\\e[1;37m%s\\e[0m\\n\" \"[\$4/7]  The command \" \"pacman -U \${UPGDPKGS[\$1]##*/} \${UPGDPKGS[\$2]##*/} \${UPGDPKGS[\$3]##*/} --noconfirm\" \" has already been successfully run; Continuing...\"
+printf \"\\n\\e[1;32m==> \\e[1;37m%s\\e[1;32m%s\\e[1;37m...\\n\" \"Running \${0##*/} [\$4/7] $ARCHITEC ($CPUABI) architecture upgrade ; \" \"pacman -U \${UPGDPKGS[\$1]##*/} \${UPGDPKGS[\$2]##*/} \${UPGDPKGS[\$3]##*/} --needed --noconfirm\"
+pacman -U /var/cache/pacman/pkg/\"\${UPGDPKGS[\$1]##*/}\" /var/cache/pacman/pkg/\"\${UPGDPKGS[\$2]##*/}\" /var/cache/pacman/pkg/\"\${UPGDPKGS[\$3]##*/}\" --needed --noconfirm && :>/var/run/lock/"${INSTALLDIR##*/}"/kpmueoep3.lock
 fi
 }
 
 _PMUEOEP4_() {
-if [ ! -f "/var/run/lock/${INSTALLDIR##*/}/kpmueoep4.lock" ]
+if [ -f /var/run/lock/"${INSTALLDIR##*/}"/kpmueoep4.lock ]
 then
-printf \"\\n\\e[1;32m==> \\e[1;37m%s\\e[1;32m%s\\e[1;37m...\\n\" \"Running \${0##*/} [\$5/7] $ARCHITEC ($CPUABI) architecture upgrade ; \" \"pacman -U \${UPGDPKGS[\$1]##*/} \${UPGDPKGS[\$2]##*/} \${UPGDPKGS[\$3]##*/} \${UPGDPKGS[\$4]##*/} --noconfirm\" ; pacman -U \"\${UPGDPKGS[\$1]##*/}\" \"\${UPGDPKGS[\$2]##*/}\" \"\${UPGDPKGS[\$3]##*/}\" \"\${UPGDPKGS[\$4]##*/}\" --noconfirm && :>"/var/run/lock/${INSTALLDIR##*/}/kpmueoep4.lock"
+printf \"\\n\\e[1;37m%s\\e[1;32m%s\\e[1;37m%s\\e[0m\\n\" \"[\$5/7]  The command \" \"pacman -U \${UPGDPKGS[\$1]##*/} \${UPGDPKGS[\$2]##*/} \${UPGDPKGS[\$3]##*/} \${UPGDPKGS[\$4]##*/} --needed --noconfirm\" \" has already been successfully run; Continuing...\"
 else
-printf \"\\n\\e[1;37m%s\\e[1;32m%s\\e[1;37m%s\\e[0m\\n\" \"[\$5/7]  The command \" \"pacman -U \${UPGDPKGS[\$1]##*/} \${UPGDPKGS[\$2]##*/} \${UPGDPKGS[\$3]##*/} \${UPGDPKGS[\$4]##*/} --noconfirm\" \" has already been successfully run; Continuing...\"
+printf \"\\n\\e[1;32m==> \\e[1;37m%s\\e[1;32m%s\\e[1;37m...\\n\" \"Running \${0##*/} [\$5/7] $ARCHITEC ($CPUABI) architecture upgrade ; \" \"pacman -U \${UPGDPKGS[\$1]##*/} \${UPGDPKGS[\$2]##*/} \${UPGDPKGS[\$3]##*/} \${UPGDPKGS[\$4]##*/} --needed --noconfirm\"
+pacman -U /var/cache/pacman/pkg/\"\${UPGDPKGS[\$1]##*/}\" /var/cache/pacman/pkg/\"\${UPGDPKGS[\$2]##*/}\" /var/cache/pacman/pkg/\"\${UPGDPKGS[\$3]##*/}\" /var/cache/pacman/pkg/\"\${UPGDPKGS[\$4]##*/}\" --needed --noconfirm && :>/var/run/lock/"${INSTALLDIR##*/}"/kpmueoep4.lock
 fi
 }
 
 _PMUEOEP5_() {
-if [ ! -f "/var/run/lock/${INSTALLDIR##*/}/kpmueoep5.lock" ]
+if [ -f /var/run/lock/"${INSTALLDIR##*/}"/kpmueoep5.lock ]
 then
-printf \"\\n\\e[1;32m==> \\e[1;37m%s\\e[1;32m%s\\e[0m...\\n\" \"Running \${0##*/} [\$6/7] $ARCHITEC ($CPUABI) architecture upgrade ; \" \"pacman -U \${UPGDPKGS[\$1]##*/} \${UPGDPKGS[\$2]##*/} \${UPGDPKGS[\$3]##*/} \${UPGDPKGS[\$4]##*/} \${UPGDPKGS[\$5]##*/} --noconfirm\" ; pacman -U \"\${UPGDPKGS[\$1]##*/}\" \"\${UPGDPKGS[\$2]##*/}\" \"\${UPGDPKGS[\$3]##*/}\" \"\${UPGDPKGS[\$4]##*/}\" \"\${UPGDPKGS[\$5]##*/}\" --noconfirm && :>"/var/run/lock/${INSTALLDIR##*/}/kpmueoep5.lock"
+printf \"\\n\\e[1;37m%s\\e[1;32m%s\\e[1;37m%s\\e[0m\\n\" \"[\$6/7]  The command \" \"pacman -U \${UPGDPKGS[\$1]##*/} \${UPGDPKGS[\$2]##*/} \${UPGDPKGS[\$3]##*/} \${UPGDPKGS[\$4]##*/} \${UPGDPKGS[\$5]##*/} --needed --noconfirm\" \" has already been successfully run; Continuing...\"
 else
-printf \"\\n\\e[1;37m%s\\e[1;32m%s\\e[1;37m%s\\e[0m\\n\" \"[\$6/7]  The command \" \"pacman -U \${UPGDPKGS[\$1]##*/} \${UPGDPKGS[\$2]##*/} \${UPGDPKGS[\$3]##*/} \${UPGDPKGS[\$4]##*/} \${UPGDPKGS[\$5]##*/} --noconfirm\" \" has already been successfully run; Continuing...\"
+printf \"\\n\\e[1;32m==> \\e[1;37m%s\\e[1;32m%s\\e[0m...\\n\" \"Running \${0##*/} [\$6/7] $ARCHITEC ($CPUABI) architecture upgrade ; \" \"pacman -U \${UPGDPKGS[\$1]##*/} \${UPGDPKGS[\$2]##*/} \${UPGDPKGS[\$3]##*/} \${UPGDPKGS[\$4]##*/} \${UPGDPKGS[\$5]##*/} --needed --noconfirm\" ; pacman -U /var/cache/pacman/pkg/\"\${UPGDPKGS[\$1]##*/}\" /var/cache/pacman/pkg/\"\${UPGDPKGS[\$2]##*/}\" /var/cache/pacman/pkg/\"\${UPGDPKGS[\$3]##*/}\" \"\${UPGDPKGS[\$4]##*/}\" \"\${UPGDPKGS[\$5]##*/}\" --needed --noconfirm && :>/var/run/lock/"${INSTALLDIR##*/}"/kpmueoep5.lock
 fi
 }
-
-_PMUEOEP2_ 0 1 1
+{ [ -x /system/bin/sed ] && /system/bin/sed -i '/^LocalFileSigLevel/s/.*/SigLevel    = Never/' /etc/pacman.conf ; } || sed -i '/^LocalFileSigLevel/s/.*/SigLevel    = Never/' /etc/pacman.conf
+_PMUEOEP1_ 1 1
 _KEYSGENMSG_
-printf \"\\e[1;32m==> \\e[1;37mRunning \${0##*/} \\e[1;32mpacman -Ss keyring --color=always\\e[1;37m...\\n\"
+printf \"\\e[1;32m==> \\e[1;37mRunning %s \\e[1;32mpacman -Ss keyring --color=always\\e[1;37m...\\n\" \"\${0##*/}\"
 pacman -Ss keyring --color=always || _PRTERROR_
 _PMUEOEP5_ 9 10 11 12 13 2
 _PMUEOEP4_ 2 3 7 8 3
 _PMUEOEP3_ 4 5 6 4
-mv -f \$TMPDIR/{libcrypto.so.1.0.0,libssl.so.1.0.0} /usr/lib/
+mv -f \"\$TMPDIR\"/{libcrypto.so.1.0.0,libssl.so.1.0.0} /usr/lib/
 sed -i '/^Architecture/s/.*/Architecture = i686/' /etc/pacman.conf
 sed -i '/^SigLevel/s/.*/SigLevel    = Never/' /etc/pacman.conf
 sed -i 's/^HoldPkg/\#HoldPkg/g' /etc/pacman.conf
-if [ ! -f "/var/run/lock/${INSTALLDIR##*/}/kkeyring.lock" ]
+if [ ! -f /var/run/lock/"${INSTALLDIR##*/}"/keyring.lock ]
 then
-printf \"\\n\\e[1;32m==> \\e[1;37m%s\\e[1;32m%s\\e[1;37m...\\n\" \"Running \${0##*/} [5/7] $ARCHITEC ($CPUABI) architecture upgrade ; \" \"pacman -S archlinux-keyring archlinux32-keyring --noconfirm\"
+printf \"\\n\\e[1;32m==> \\e[1;37m%s\\e[1;32m%s\\e[1;37m...\\n\" \"Running \${0##*/} [5/7] $ARCHITEC ($CPUABI) architecture upgrade ; \" \"pacman -S archlinux-keyring archlinux32-keyring --needed --noconfirm\"
 _KEYSGENMSG_
-{ pacman -S archlinux-keyring archlinux32-keyring --noconfirm && :>"/var/run/lock/${INSTALLDIR##*/}/kkeyring.lock" ; } || _PRTERROR_
+{ pacman -S archlinux-keyring archlinux32-keyring --needed --noconfirm && sed -i '/^SigLevel/s/.*/SigLevel    = Required DatabaseOptional/' /etc/pacman.conf && PACMANQ_=\"\$(pacman -Qo /usr/lib/libblkid.so)\" && { [[ \"\$(printf $\{PACMANQ_/libsutil-linux})\" == *libsutil-linux* ]] || pacman -Rdd libutil-linux --noconfirm || _PRTERROR_ ; } && :>/var/run/lock/"${INSTALLDIR##*/}"/keyring.lock ; }
 else
-printf \"\\n\\e[1;37m%s\\e[1;32m%s\\e[1;37m%s\\e[0m\\n\" \"[5/7]  The command \" \"pacman -S archlinux-keyring archlinux32-keyring --noconfirm\" \" has already been successfully run; Continuing...\"
+printf \"\\n\\e[1;37m%s\\e[1;32m%s\\e[1;37m%s\\e[0m\\n\" \"[5/7]  The command \" \"pacman -S archlinux-keyring archlinux32-keyring --needed --noconfirm\" \" has already been successfully run; Continuing...\"
 fi
-sed -i '/^SigLevel/s/.*/SigLevel    = Required DatabaseOptional/' /etc/pacman.conf
-pacman -Rdd libutil-linux --noconfirm || _PRTERROR_
-printf \"\\n\\e[1;32m==> \\e[1;37m%s\\e[1;32m%s\\e[1;37m...\\n\" \"Running \${0##*/} [6/7] $ARCHITEC ($CPUABI) architecture upgrade ; \" \"pacman -S curl glibc gpgme libarchive pacman --noconfirm\"
-pacman -S curl glibc gpgme libarchive pacman --noconfirm || _PRTERROR_
-printf \"\\n\\e[1;32m==> \\e[1;37m%s\\e[1;32m%s\\e[1;37m...\\n\" \"Running \${0##*/} [7/7] $ARCHITEC ($CPUABI) architecture upgrade ; \" \"pacman -Su --noconfirm ; Starting full system upgrade\"
+printf \"\\n\\e[1;32m==> \\e[1;37m%s\\e[1;32m%s\\e[1;37m...\\n\" \"Running \${0##*/} [6/7] $ARCHITEC ($CPUABI) architecture upgrade ; \" \"pacman -S curl glibc gpgme libarchive pacman --needed --noconfirm\"
+pacman -S curl glibc gpgme libarchive pacman --needed --noconfirm || _PRTERROR_
+printf \"\\n\\e[1;32m==> \\e[1;37m%s\\e[1;32m%s\\e[1;37m...\\n\" \"Running \${0##*/} [7/7] $ARCHITEC ($CPUABI) architecture upgrade ; \" \"pacman -Su --needed --noconfirm ; Starting full system upgrade\"
 rm -f /etc/ssl/certs/ca-certificates.crt
-pacman -Su --noconfirm || pacman -Su --noconfirm"
+sed -i '/^LocalFileSigLevel/s/.*/SigLevel    = Optional/' /etc/pacman.conf
+sed -i '/^SigLevel/s/.*/SigLevel    = Optional/' /etc/pacman.conf
+pacman -Sy || pacman -Sy || sudo pacman -Sy
+pacman -Su --needed --noconfirm || pacman -Su --needed --noconfirm || sudo pacman -Su --needed --noconfirm"
 X86IPT=" "
 X86INK=":"
 else	# Arch Linux architectures armv5, armv7, aarch64 and x86-64 use these options
 X86INT=":"
 X86IPT="(1/2)"
-X86INK="printf \"\\\\n\\\\e[1;32m==> \\\\e[1;37mRunning \\\\e[1;32mpacman -S %s --noconfirm --color=always\\\\e[1;37m...\\\\n\" \"\$ARGS\"
-pacman -S \"\${KEYRINGS[@]}\" --noconfirm --color=always || pacman -S \"\${KEYRINGS[@]}\" --noconfirm --color=always
+X86INK="printf \"\\\\n\\\\e[1;32m==> \\\\e[1;37mRunning \\\\e[1;32mpacman -S %s --needed --noconfirm --color=always\\\\e[1;37m...\\\\n\" \"\$ARGS\"
+pacman -S \"\${KEYRINGS[@]}\" --needed --noconfirm --color=always || pacman -S \"\${KEYRINGS[@]}\" --needed --noconfirm --color=always
 printf \"\\\\n\\\\e[1;32m(2/2) \\\\e[0;34mWhen \\\\e[1;37mGenerating pacman keyring master key\\\\e[0;34m appears on the screen, the installation process can be accelerated.  The system desires a lot of entropy at this part of the install procedure.  To generate as much entropy as possible quickly, watch and listen to a file on your device.  \\\\n\\\\nThe program \\\\e[1;32mpacman-key\\\\e[0;34m will want as much entropy as possible when generating keys.  Entropy is also created through tapping, sliding, one, two and more fingers tapping with short and long taps.  When \\\\e[1;37mAppending keys from archlinux.gpg\\\\e[0;34m appears on the screen, use any of these simple methods to accelerate the installation process if it is stalled.  Put even simpler, just do something on device.  Browsing files will create entropy on device.  Slowly swiveling the device in space and time will accelerate the installation process.  This method alone might not generate enough entropy (a measure of randomness in a closed system) for the process to complete quickly.  Use \\\\e[1;32mbash ~%s/bin/we \\\\e[0;34min a new Termux session to watch entropy on device.\\\\n\\\\e[1;32m==> \\\\e[1;37mRunning \\\\e[1;32mpacman-key --populate\\\\e[1;37m...\\\\n\" \"$DARCH\"
-$ECHOEXEC pacman-key --populate
+{ [ -f /var/run/lock/"${INSTALLDIR##*/}"/kpp.lock ] && printf '\\e[1;32m==> \\e[1;37mAlready populated with command \\e[1;32mpacman-key --populate\\e[1;37m...\\n' ; } || { printf '\\e[1;32m==> \\e[1;37mRunning \\e[1;32mpacman-key --populate\\e[1;37m...\\n' && { $ECHOEXEC pacman-key --populate && :>/var/run/lock/"${INSTALLDIR##*/}"/kpp.lock ; } || _PRTERROR_ ; }
 printf \"\\\\e[1;32m==>\\\\e[1;37m Running \\\\e[1;32mpacman -Ss keyring --color=always\\\\e[1;37m...\\\\n\"
 pacman -Ss keyring --color=always"
 fi
@@ -965,7 +992,7 @@ printf "\\\\n\\\\e[1;32m%s \\\\e[0;34mWhen \\\\e[1;37mGenerating pacman keyring 
 }
 
 _GENEN_() {
-printf "\\\\e[0;32m%s\\\\e[1;32m%s\\\\e[0m\\\\n\\\\e[0m" "Generating entropy on device;  " "Continuing...  "
+printf "\\\\e[0;32m%s\\\\e[1;32m%s\\\\e[0m\\\\n\\\\e[0m" "Generating entropy on device;  " "Please wait...  "
 GENENN=16
 for INT in \$(seq 1 \$GENENN); do
 nice -n 20 ls -alR /usr >/dev/null &
@@ -988,10 +1015,27 @@ printf "\\\\e[?25h\\\\e[0m"
 set +Eeuo pipefail
 _PRINTTAIL_ "\${KEYRINGS[@]}"
 }
-
 trap _TRPET_ EXIT
+
 ## keys begin ##################################################################
-if [[ -z "\${1:-}" ]]
+[ -f /etc/pacman.conf.bkp ] || cp /etc/pacman.conf /etc/pacman.conf.bkp
+[ -z "\${USER:-}" ] && USER=root
+KEYSUNAM_="\$(uname -m)"
+if [ -x /system/bin/toybox ] && [ ! -f /var/run/lock/"${INSTALLDIR##*/}"/toyboxln."\$USER".lock ]
+then
+cd "\$USER"/bin 2>/dev/null || cd bin || exit 196
+{
+printf 'Creating symlinks in '%s' to '/system/bin/toybox';  Please wait a moment...  \n' "\$PWD"
+for TOYBOXTOOL in \$(/system/bin/toybox)
+do
+if [ "\$TOYBOXTOOL" != cat ] || [ "\$TOYBOXTOOL" != uname ]
+then
+ln -fs /system/bin/toybox "\$TOYBOXTOOL" || _PRTERROR_
+fi
+done && :>/var/run/lock/"${INSTALLDIR##*/}"/toyboxln."\$USER".lock && printf 'Creating symlinks in '%s' to '/system/bin/toybox';  DONE  \n' "\$PWD" ; } || _PRTERROR_
+cd "$INSTALLDIR" || exit 196
+fi
+if [[ -z "\${1:-}" ]] || [[ "\$KEYSUNAM_" = aarch64 ]]
 then
 KEYRINGS[0]="archlinux-keyring"
 KEYRINGS[1]="archlinuxarm-keyring"
@@ -1008,14 +1052,24 @@ KEYRINGS[1]="ca-certificates-utils"
 else
 KEYRINGS=""
 fi
+if [[ "\$KEYSUNAM_" = x86 ]]
+then
+KEYRINGS[0]="archlinux-keyring"
+KEYRINGS[1]="archlinux32-keyring"
+KEYRINGS[2]="ca-certificates-utils"
+elif [[ "\$KEYSUNAM_" = x86-64 ]] || [[ "\$KEYSUNAM_" = x86_64 ]]
+then
+KEYRINGS[0]="archlinux-keyring"
+KEYRINGS[1]="ca-certificates-utils"
+fi
 ARGS="\${KEYRINGS[@]}"
 printf '\033]2;  🔑 TermuxArch %s 📲 \007' "'\${0##*/} \$ARGS'"
-printf "\\\\n\\\\e[1;32m==> \\\\e[1;37mRunning \\\\e[1;32m%s \\\\e[0;32m%s\\\\e[1;37m...\\\\n" "\${0##*/} \$ARGS" "version \$VERSIONID"
+printf "\\\\e[1;32m==> \\\\e[1;37mRunning \\\\e[1;32m%s \\\\e[0;32m%s\\\\e[1;37m...\\\\n" "\${0##*/} \$ARGS" "version \$VERSIONID"
 _GENEN_ ; kill \$! &
 _KEYSGENMSG_
 _DOPSY_() {
 printf "\\\\n\\\\e[1;32m==> \\\\e[1;37mRunning \\\\e[1;32mpacman -Sy\\\\e[1;37m...\\\\n"
-$ECHOEXEC $ECHOSYNC pacman -Sy
+$ECHOEXEC $ECHOSYNC pacman -Sy || $ECHOEXEC $ECHOSYNC pacman -Sy || sudo $ECHOEXEC $ECHOSYNC pacman -Sy
 }
 _DOPSY_ || _DOPSY_ || _PRTERROR_
 _DOKPI_() {
@@ -1029,22 +1083,15 @@ fi
 }
 _DOKPI_ || _DOKPI_
 umask 000
-chmod 4777 /usr/bin/newgidmap
 chmod 4777 /usr/bin/newuidmap
 chmod 755 /etc/pacman.d/gnupg
 umask 022
 _DOPP_() {
-if [ ! -f "/var/run/lock/${INSTALLDIR##*/}/kpp.lock" ]
-then
-printf "\\\\e[1;32m==> \\\\e[1;37mRunning \\\\e[1;32mpacman-key --populate\\\\e[1;37m...\\\\n"
-{ $ECHOEXEC pacman-key --populate && :>"/var/run/lock/${INSTALLDIR##*/}/kpp.lock"; } || _PRTERROR_
-else
-printf "\\\\e[1;32m==> \\\\e[1;37mAlready populated with command \\\\e[1;32mpacman-key --populate\\\\e[1;37m...\\\\n"
-fi
+{ [ -f "/var/run/lock/${INSTALLDIR##*/}/kpp.lock" ] && printf "\\\\e[1;32m==> \\\\e[1;37mAlready populated with command \\\\e[1;32mpacman-key --populate\\\\e[1;37m...\\\\n" ; } || { printf "\\\\e[1;32m==> \\\\e[1;37mRunning \\\\e[1;32mpacman-key --populate\\\\e[1;37m...\\\\n" && { $ECHOEXEC pacman-key --populate && :>"/var/run/lock/${INSTALLDIR##*/}/kpp.lock"; } || _PRTERROR_ ; }
 }
 _DOPP_ || _DOPP_
 printf "\\\\e[1;32m==> \\\\e[1;37mRunning \\\\e[1;32mpacman -Ss keyring --color=always\\\\e[1;37m...\\\\n"
-pacman -Ss keyring --color=always || _PRTERROR_
+pacman -Ss keyring --color=always || pacman -Ss keyring --color=always || _PRTERROR_
 $X86INT
 $X86INK
 ## ~/${INSTALLDIR##*/}/usr/local/bin/keys FE
@@ -1054,7 +1101,7 @@ chmod 755 usr/local/bin/keys
 
 _ADDmakeauraclegit_() {
 _CFLHDR_ usr/local/bin/makeauraclegit
-printf "%s\\n%s\\n%s\\n" "[ \"\$UID\" = 0 ] && printf \"\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\\n\" \"Cannot run '\${0##*/}' as root user;\" \" the command 'addauser username' creates user accounts in ~/${INSTALLDIR##*/}; the command '$STARTBIN command addauser username' can create user accounts in ~/${INSTALLDIR##*/} from Termux; a default user account is created during setup; the default username 'user' can be used to access the PRoot system employing a user account; command '$STARTBIN help' has more information;  \" \"Exiting...\" && exit" "_PRNTWAIT_() { printf \"\\e[0;32m%s\\n\" \"Please wait a moment;  Command '\${0##*/}' continuing...\" ; }" "{ [ -x /usr/bin/auracle ] && printf \"\\e[0;31m%s\\n\" \"The comman 'aur' is installed;  Exiting...\" ; } || { { cd && gcl https://aur.archlinux.org/auracle-git ||: ; } && cd auracle-git && _PRNTWAIT_ && makepkg -firs --noconfirm ; auracle --help ; }" "## ~/${INSTALLDIR##*/}/usr/local/bin/makeaurracle FE" >> usr/local/bin/makeauraclegit
+printf "%s\\n%s\\n%s\\n%s\\n" "[ \"\$UID\" = 0 ] && printf \"\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\\n\" \"Cannot run '\${0##*/}' as root user;\" \" the command 'addauser username' creates user accounts in ~/${INSTALLDIR##*/}; the command '$STARTBIN command addauser username' can create user accounts in ~/${INSTALLDIR##*/} from Termux; a default user account is created during setup; the default username 'user' can be used to access the PRoot system employing a user account; command '$STARTBIN help' has more information;  \" \"Exiting...\" && exit" "_PRNTWAIT_() { printf \"\\e[0;32m%s\\n\" \"Please wait a moment;  Command '\${0##*/}' continuing...\" ; }" "{ [ -x /usr/bin/auracle ] && printf \"\\e[0;31m%s\\n\" \"The comman 'aur' is installed;  Exiting...\" ; } || { { cd && gcl https://aur.archlinux.org/auracle-git ||: ; } && cd auracle-git && _PRNTWAIT_ && makepkg -firs --noconfirm ; auracle --help ; }" "## ~/${INSTALLDIR##*/}/usr/local/bin/makeaurracle FE" >> usr/local/bin/makeauraclegit
 chmod 755 usr/local/bin/makeauraclegit
 }
 
@@ -1202,7 +1249,7 @@ chmod 755 usr/local/bin/makeaurghcuphs
 
 _ADDmakeaurutils_() {
 _CFLHDR_ usr/local/bin/makeaurutils "# install Arch Linux aurutils aur installer"
-printf "%s\\n%s\\n%s\\n" "[ \"\$UID\" = 0 ] && printf \"\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\\n\" \"Cannot run '\${0##*/}' as root user;\" \" the command 'addauser username' creates user accounts in ~/${INSTALLDIR##*/}; the command '$STARTBIN command addauser username' can create user accounts in ~/${INSTALLDIR##*/} from Termux; a default user account is created during setup; the default username 'user' can be used to access the PRoot system employing a user account; command '$STARTBIN help' has more information;  \" \"Exiting...\" && exit" "_PRNTWAIT_() { printf \"\\e[0;32m%s\\n\" \"Please wait a moment;  Command '\${0##*/}' is continuing...\" ; }" "{ [ -x /usr/bin/aur ] && printf \"\\e[0;31m%s\\n\" \"The comman 'aur' is installed;  Exiting...\" ; } || { { cd && gcl https://github.com/AladW/aurutils ||: ; } && cd aurutils/makepkg && _PRNTWAIT_ && makepkg -firs --noconfirm ; aur --help ; }" "## ~/${INSTALLDIR##*/}/usr/local/bin/makeaurutils FE" >> usr/local/bin/makeaurutils
+printf "%s\\n%s\\n%s\\n%s\\n" "[ \"\$UID\" = 0 ] && printf \"\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\\n\" \"Cannot run '\${0##*/}' as root user;\" \" the command 'addauser username' creates user accounts in ~/${INSTALLDIR##*/}; the command '$STARTBIN command addauser username' can create user accounts in ~/${INSTALLDIR##*/} from Termux; a default user account is created during setup; the default username 'user' can be used to access the PRoot system employing a user account; command '$STARTBIN help' has more information;  \" \"Exiting...\" && exit" "_PRNTWAIT_() { printf \"\\e[0;32m%s\\n\" \"Please wait a moment;  Command '\${0##*/}' is continuing...\" ; }" "{ [ -x /usr/bin/aur ] && printf \"\\e[0;31m%s\\n\" \"The comman 'aur' is installed;  Exiting...\" ; } || { { cd && gcl https://github.com/AladW/aurutils ||: ; } && cd aurutils/makepkg && _PRNTWAIT_ && makepkg -firs --noconfirm ; aur --help ; }" "## ~/${INSTALLDIR##*/}/usr/local/bin/makeaurutils FE" >> usr/local/bin/makeaurutils
 chmod 755 usr/local/bin/makeaurutils
 }
 
@@ -1259,7 +1306,7 @@ chmod 755 usr/local/bin/makeaurtllocalmgr
 
 _ADDmakeaurtrizen_() {
 _CFLHDR_ usr/local/bin/makeaurtrizen
-printf "%s\\n%s\\n%s\\n" "[ \"\$UID\" = 0 ] && printf \"\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\\n\" \"Cannot run '\${0##*/}' as root user;\" \" the command 'addauser username' creates user accounts in ~/${INSTALLDIR##*/}; the command '$STARTBIN command addauser username' can create user accounts in ~/${INSTALLDIR##*/} from Termux; a default user account is created during setup; the default username 'user' can be used to access the PRoot system employing a user account; command '$STARTBIN help' has more information;  \" \"Exiting...\" && exit" "_PRNTWAIT_() { printf \"\\e[0;32m%s\\n\" \"Please wait a moment;  Command '\${0##*/}' is continuing...\" ; }" "{ [ -x /usr/bin/trizen ] && printf \"\\e[0;31m%s\\n\" \"The comman 'trizen' is installed;  Exiting...\" ; } || { { cd && gcl https://github.com/trizen/trizen ||: ; } && cd trizen/archlinux/ && _PRNTWAIT_ && makepkg -firs --noconfirm; trizen --help ; }" "## ~/${INSTALLDIR##*/}/usr/local/bin/makeaurtrizen FE" >> usr/local/bin/makeaurtrizen
+printf "%s\\n%s\\n%s\\n%s\\n" "[ \"\$UID\" = 0 ] && printf \"\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\\n\" \"Cannot run '\${0##*/}' as root user;\" \" the command 'addauser username' creates user accounts in ~/${INSTALLDIR##*/}; the command '$STARTBIN command addauser username' can create user accounts in ~/${INSTALLDIR##*/} from Termux; a default user account is created during setup; the default username 'user' can be used to access the PRoot system employing a user account; command '$STARTBIN help' has more information;  \" \"Exiting...\" && exit" "_PRNTWAIT_() { printf \"\\e[0;32m%s\\n\" \"Please wait a moment;  Command '\${0##*/}' is continuing...\" ; }" "{ [ -x /usr/bin/trizen ] && printf \"\\e[0;31m%s\\n\" \"The comman 'trizen' is installed;  Exiting...\" ; } || { { cd && gcl https://github.com/trizen/trizen ||: ; } && cd trizen/archlinux/ && _PRNTWAIT_ && makepkg -firs --noconfirm; trizen --help ; }" "## ~/${INSTALLDIR##*/}/usr/local/bin/makeaurtrizen FE" >> usr/local/bin/makeaurtrizen
 chmod 755 usr/local/bin/makeaurtrizen
 }
 
@@ -1299,7 +1346,7 @@ EOM
 chmod 755 usr/local/bin/makeauryay
 }
 
-_PREPFILEFTN0_() { _CFLHDR_ usr/local/bin/makeaur$3 && _PREPFILEFCTN_ $1 $2  usr/local/bin/makeaur$3 && chmod 755 usr/local/bin/makeaur$3 ; }
+_PREPFILEFTN0_() { _CFLHDR_ usr/local/bin/makeaur"$3" && _PREPFILEFCTN_ "$1" "$2"  usr/local/bin/makeaur"$3" && chmod 755 usr/local/bin/makeaur"$3" ; }
 
 _ADDmakeaurpopularpackages_() { _PREPFILEFTN0_ popular-packages popular-packages popularpackages ; }
 
@@ -1610,7 +1657,7 @@ fi
 }
 
 _ADDprofile_() {
-[ -e "$HOME"/.profile ] && ([ -e root/.profile ] && _DOTHRF_ "root/.profile") && (grep -s proxy "$HOME"/.profile | grep -s "export" > root/.profile) ||:
+[ -e "$HOME"/.profile ] && { [ -e root/.profile ] && _DOTHRF_ "root/.profile" ; } && grep -s proxy "$HOME"/.profile | grep -s "export" > root/.profile ||:
 :>root/.profile
 }
 
@@ -1657,11 +1704,12 @@ chmod 755 usr/local/bin/t
 
 _ADDtlmgrinstaller_() {
 _CFLHDR_ usr/local/bin/tlmgrinstaller "# install TexLive installer"
-printf "%s\\n" "_GETINSTALLER_() { { [ -d \"\$HOME\"/install-tl ] || mkdir -p \"\$HOME\"/install-tl ; } && { { [ -f \"\$HOME\"/install-tl/install-tl.zip ] && [ -f \"\$HOME\"/install-tl/install-tl.zip.sha512 ] || wget -c -P \"\$HOME\"/install-tl https://mirror.math.princeton.edu/pub/CTAN/systems/texlive/tlnet/install-tl.zip.sha512 https://mirror.math.princeton.edu/pub/CTAN/systems/texlive/tlnet/install-tl.zip ; } && cd \"\$HOME\"/install-tl && { sha512sum -c install-tl.zip.sha512 || { rm -f install-tl.zip* && printf '%s\\n' \"Files were corrupt and were deleted;  Please try again.  Exiting...\" && exit 189 ; } ; } && unzip -n install-tl.zip ; } && { CDDIR=\"\$(find . -maxdepth 1 | tail -n 1)\" && { cd \"\$CDDIR\" || exit 169 ; } && printf \"%s\\n\" \"\$PWD\" && ls && printf \"%s\\n\" \"Please wait;  Command '\${0##*/}' continuing...\" && perl install-tl && printf '%s\\n' \"\$PWD\" | tee \"\$HOME/install-tl/\$CDDIR/dir.pth\" > \"\$HOME/install-tl/\$CDDIR/dir.tmp\" ; } ; }" >> usr/local/bin/tlmgrinstaller
+printf "%s\\n" "[ -d /usr/local/texlive ] || mkdir -p /usr/local/texlive" >> usr/local/bin/tlmgrinstaller
+printf "%s\\n" "_GETINSTALLER_() { { [ -d /usr/local/texlive/install-tl ] || mkdir -p /usr/local/texlive/install-tl ; } && { { [ -f /usr/local/texlive/install-tl/install-tl.zip ] && [ -f /usr/local/texlive/install-tl/install-tl.zip.sha512 ] || wget -c -P /usr/local/texlive/install-tl https://mirror.math.princeton.edu/pub/CTAN/systems/texlive/tlnet/install-tl.zip.sha512 https://mirror.math.princeton.edu/pub/CTAN/systems/texlive/tlnet/install-tl.zip ; } && cd /usr/local/texlive/install-tl && { sha512sum -c install-tl.zip.sha512 || { rm -f install-tl.zip* && printf '%s\\n' \"Files were corrupt and were deleted;  Please try again.  Exiting...  \" && exit 189 ; } ; } && unzip -n install-tl.zip ; } && { CDDIR=\"\$(find . -maxdepth 1 | tail -n 1)\" && { cd \"\$CDDIR\" || exit 169 ; } && printf '%s\\n' \"\$PWD\" && ls && printf '%s\\n' \"Please wait;  Command '\${0##*/}' continuing...\" && perl install-tl && printf '%s\\n' \"\$PWD\" | tee dir.pth > dir.tmp ; } ; }" >> usr/local/bin/tlmgrinstaller
 printf "%s\\n" "_PRINTHELP_() { printf '\\n%s\\n' \"The command '${0##*/} re' adds TEX environment variables automatically to BASH init files in the Arch Linux in Termux PRoot environment.  Please exit this shell and login again.  If logging in again does not add TEX environment variables, then please run command '${0##*/} re' in order to add TEX environment variables to the BASH init files in Termux PRoot.  Command '${0##*/} h' has more information.  \" ; }" >> usr/local/bin/tlmgrinstaller
-printf "%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n" "printf \"%s\\n\" \"Command '\${0##*/}';  Begun...  \"" "{ command -v tlmgr && printf '%s\\n' \"The command 'tlmgr' is already installed;  Exiting...\" ; } || if [ -x /usr/bin/perl ] && [ -x /usr/bin/wget ] && [ -x /usr/bin/unzip ]" "then" "_GETINSTALLER_" "else" "{ { pc perl wget unzip || pci perl wget unzip ; } || { pkg i perl wget unzip || { pkg up && pkg i perl wget unzip ; } ; } ; } && _GETINSTALLER_" "fi" "_PRINTHELP_" >> usr/local/bin/tlmgrinstaller
-printf "%s\\n" "INSDIR=\"\$(find \$HOME/install-tl/ -maxdepth 1 -type d | tail -n 1)\"" >> usr/local/bin/tlmgrinstaller
-printf "%s\\n" "[ -d \"\$HOME\"/install-tl ] && { [ -f \"\$INSDIR\"/dir.pth ] && [ -f \"\$INSDIR\"/dir.tmp ] && rm -f \"\$INSDIR\"/dir.tmp || printf '\\n%s\\n' \"Alternatively, the command '\$INSDIR/install-tl' can be run again;  Exiting...  \" ; }" >> usr/local/bin/tlmgrinstaller
+printf "%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n" "printf '%s\\n' \"Command '\${0##*/}';  Begun...  \"" "{ command -v tlmgr && printf '%s\\n' \"The command 'tlmgr' is installed;  Continuing...  \" ; } || if [ -x /usr/bin/perl ] && [ -x /usr/bin/wget ] && [ -x /usr/bin/unzip ]" "then" "_GETINSTALLER_" "else" "{ { pc perl wget unzip || pci perl wget unzip ; } || { pkg i perl wget unzip || { pkg up && pkg i perl wget unzip ; } ; } ; } && _GETINSTALLER_" "fi" "_PRINTHELP_" >> usr/local/bin/tlmgrinstaller
+printf "%s\\n" "INSDIR=\"\$(find /usr/local/texlive/install-tl/ -maxdepth 1 -type d | tail -n 1)\"" >> usr/local/bin/tlmgrinstaller
+printf "%s\\n" "[ -d /usr/local/texlive/install-tl ] && { [ -f \"\$INSDIR\"/dir.pth ] && [ -f \"\$INSDIR\"/dir.tmp ] && rm -f \"\$INSDIR\"/dir.tmp || printf '\\n%s\\n' \"Running command '\$INSDIR/install-tl';  Continuing...  \" && \"\$INSDIR\"/install-tl && exit 0 ; }" >> usr/local/bin/tlmgrinstaller
 printf "%s\\n" "## ~/${INSTALLDIR##*/}/usr/local/bin/tlmgrinstaller FE" >> usr/local/bin/tlmgrinstaller
 chmod 755 usr/local/bin/tlmgrinstaller
 }
@@ -2022,7 +2070,7 @@ printf "\\e[0;33mline %s can not be found in %s file \\e[0;34m: adding line %s t
 printf "%s\\n" "$MODFILEADD" >> "$INSTALLDIR/root/$MODFILENAME"
 }
 # add MODFILEADD to file /root/MODFILENAME
-[[ -f "$INSTALLDIR/root/$MODFILENAME" ]] && (_DOTHRF_ "root/$MODFILENAME" && ! grep -q "$MODFILEADD" "$INSTALLDIR/root/$MODFILENAME" && _MODdotfNF_ || printf "\\e[0;34mline %s found in %s file\\e[0m\\n" "'$MODFILEADD'" "/${INSTALLDIR##*/}/root/$MODFILENAME") || _MODdotfNF_
+{ [[ -f "$INSTALLDIR/root/$MODFILENAME" ]] && { _DOTHRF_ "root/$MODFILENAME" && ! grep -q "$MODFILEADD" "$INSTALLDIR/root/$MODFILENAME" && _MODdotfNF_ || printf "\\e[0;34mline %s found in %s file\\e[0m\\n" "'$MODFILEADD'" "/${INSTALLDIR##*/}/root/$MODFILENAME" ; } ; } || _MODdotfNF_
 }
 # add (setq visible-bell 1) to file /root/.emacs
 MODFILENAME=".emacs"
@@ -2053,12 +2101,7 @@ fi
 }
 
 _PREPPACMANCONF_() {
-if [ -f "$INSTALLDIR"/etc/pacman.conf ]
-then
-sed -i 's/^CheckSpace/\#CheckSpace/g' "$INSTALLDIR/etc/pacman.conf"
-sed -i 's/^#Color/Color/g' "$INSTALLDIR/etc/pacman.conf"
-else
-_PSGI1ESTRING_ "Cannot find file $INSTALLDIR/etc/pacman.conf; _PREPPACMANCONF_ archlinuxconfig.bash ${0##*/}"
-fi
+{ [ -f "$INSTALLDIR"/etc/pacman.conf ] && { sed -i 's/^CheckSpace/\#CheckSpace/g' "$INSTALLDIR/etc/pacman.conf" && sed -i 's/^#Color/Color/g' "$INSTALLDIR/etc/pacman.conf" ; } ; } || _PSGI1ESTRING_ "Cannot find file $INSTALLDIR/etc/pacman.conf; _PREPPACMANCONF_ archlinuxconfig.bash ${0##*/}"
+[ -f /usr/share/libalpm/scripts/systemd-hook ] && { sed -i 's/\-\-chroot/\-c/g' /usr/share/libalpm/scripts/systemd-hook ; }
 }
 # archlinuxconfig.bash FE

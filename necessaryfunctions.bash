@@ -7,10 +7,10 @@
 
 [ "$CPUABI" = i386 ] && CPUABI="x86"
 CACHECPBI="${CPUABI/_/-}"
-CACHEDIRPKG="/storage/emulated/0/Android/data/com.termux/files/cache/archlinux/$CACHECPBI/var/pacman/pkg/"
+CACHEDIRPKG="/storage/emulated/0/Android/data/com.termux/files/cache/archlinux/$CACHECPBI/var/cache/pacman/pkg/"
 CACHEDIR="/storage/emulated/0/Android/data/com.termux/files/cache/archlinux/$CACHECPBI/"
 PREFIXDATAFILES="/storage/emulated/0/Android/data/com.termux/"
-CACHEDIRSUFIX="files/cache/archlinux/$CACHECPBI/var/pacman/pkg/"
+CACHEDIRSUFIX="files/cache/archlinux/$CACHECPBI/var/cache/pacman/pkg/"
 BINFNSTP="finishsetup.bash"
 LC_TYPE=("LANG" "LANGUAGE" "LC_ADDRESS" "LC_COLLATE" "LC_CTYPE" "LC_IDENTIFICATION" "LC_MEASUREMENT" "LC_MESSAGES" "LC_MONETARY" "LC_NAME" "LC_NUMERIC" "LC_PAPER" "LC_TELEPHONE" "LC_TIME")
 TXPRQUON="Termux PRoot with QEMU"
@@ -24,7 +24,6 @@ printf '\e[0;32mGenerating dot files;  \e[1;32mBEGUN\n'
 _ADDbash_logout_
 _ADDbash_profile_
 _ADDbashrc_
-printf '\e[0;32mGenerating dot files;  \e[1;32mDONE\n'
 _ADDbindexample_
 _ADDcams_
 _ADDcdtd_
@@ -101,7 +100,7 @@ _ADDmotd_
 _ADDmoto_
 _ADDt_
 _ADDtlmgrinstaller_
-_ADDtop_
+[ -f usr/local/bin/top ] ||  _ADDtop_
 _ADDthstartarch_
 _ADDtimings_
 # _ADDtools_
@@ -327,12 +326,12 @@ if [[ "${LCR:-}" -eq 5 ]] || [[ -z "${LCR:-}" ]]
 then
 if [[ "$CPUABI" = "$CPUABIX8664" ]] || [[ "$CPUABI" = "${CPUABIX8664//_/-}" ]]
 then
-printf "%s\\n" "pacman -Su glibc grep gzip sed sudo --noconfirm --color=always || pacman -Su glibc grep gzip sed sudo  --noconfirm --color=always || _PMFSESTRING_ \"pacman -Su glibc grep gzip sed sudo $BINFNSTP ${0##/*}\"" >> root/bin/"$BINFNSTP"
+printf "%s\\n" "pacman -Su glibc grep gzip sed sudo --needed --noconfirm --color=always || pacman -Su glibc grep gzip sed sudo --needed --noconfirm --color=always || _PMFSESTRING_ \"pacman -Su glibc grep gzip sed sudo $BINFNSTP ${0##/*}\"" >> root/bin/"$BINFNSTP"
 elif [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = i386 ]]
 then
-printf "%s\\n" "pacman -Su glibc sed sudo --noconfirm --color=always || pacman -Su glibc sed sudo --noconfirm --color=always || _PMFSESTRING_ \"pacman -Su glibc sed sudo $BINFNSTP ${0##/*}\"" >> root/bin/"$BINFNSTP"
+printf "%s\\n" "pacman -Su glibc sed sudo --needed --noconfirm --color=always || pacman -Su glibc sed sudo --needed --noconfirm --color=always || _PMFSESTRING_ \"pacman -Su glibc sed sudo $BINFNSTP ${0##/*}\"" >> root/bin/"$BINFNSTP"
 else
-printf "%s\\n" "pacman -Su glibc --noconfirm --color=always || pacman -Su glibc --noconfirm --color=always || _PMFSESTRING_ \"pacman -Su glibc $BINFNSTP ${0##/*}\"" >> root/bin/"$BINFNSTP"
+printf "%s\\n" "pacman -Su glibc --needed --noconfirm --color=always || pacman -Su glibc --needed --noconfirm --color=always || _PMFSESTRING_ \"pacman -Su glibc $BINFNSTP ${0##/*}\"" >> root/bin/"$BINFNSTP"
 fi
 fi
 cat >> root/bin/"$BINFNSTP" <<- EOM
@@ -377,8 +376,8 @@ printf "\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\n\\n
 ~ $ startarch r dash
 ~ $ startarch+x86 r csh
 ~ $ startarch+x86 r ksh
-~ $ startarch+x86+64 r sh
-~ $ startarch+x86+64 r zsh
+~ $ startarch+x864 r sh
+~ $ startarch+x864 r zsh
 
 Variable PROOTSTMNT has more information about PRoot init statement options 'grep -h PROOTSTMNT ~/TermuxArchBloom/* | grep \=' if you wish to modify the PRoot init statement extensively.  The PRoot init statement can also be modified on-the-fly simply by using the /var/binds/ directory once logged into the Arch Linux in Termux PRoot environment."
 printf "\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\n\\n\\e[0m" "$STARTBIN s[u] user command" "  executes commands as Arch Linux user from the Termux shell.  This option is preferred when installing software from a user account with the 'sudo' command, and when using commands such as 'makeaurhelpers', 'makepkg' and 'makeauryay'.  Quoting multiple commands can assit when passing multiple arguments:  " "$STARTBIN s user 'whoami ; cat -n /etc/pacman.d/mirrorlist'" ".  Please use " "$STARTBIN c 'addauser user'" " first to create a login and the login's home directory."
@@ -402,7 +401,7 @@ _PRINTUSAGE_
 elif [[ -z "\${2:-}" ]]
 then
 _PRINTUSAGE_
-printf "\\e[0;33m%s\\e[1;30m%s\\e[1;31m%s\\e[1;30m%s\\e[0m" "Please use one more argument to continue.  The command '\${0##*/} help' has more information" ";" "  Exiting" "...  "
+printf "\\e[0;33m%s\\e[1;30m%s\\e[0;31m%s\\e[1;30m%s\\e[0m" "Please use at least one more argument to continue.  The command '\${0##*/} help' has more information" ";" "  Exiting" "...  "
 ## [command ARGS] Execute a command in BASH as root.
 elif [[ "\${1//-}" = [Cc]* ]]
 then
@@ -488,10 +487,12 @@ _MAKESYSTEM_() {
 _WAKELOCK_
 if [ "$USECACHEDIR" = 0 ]
 then
+printf '\e[0;32mPopulating from cache files;  \e[1;32mBEGUN\n'
 { cd "$CACHEDIR" 2>/dev/null && printf '%s' "cd $CACHEDIR && " ; } || { cd "$PREFIXDATAFILES" && mkdir -p "$CACHEDIRSUFIX" && cd "$CACHEDIR" && printf '%s' "cd $PREFIXDATAFILES && mkdir -p $CACHEDIRSUFIX && cd $CACHEDIR && " ; } || exit 196
 printf '%s\n' "cp -fr * $INSTALLDIR"
 cp -fr * "$INSTALLDIR"
-cd "$INSTALLDIR" && printf '%s\n\n' "cd $INSTALLDIR" || exit 196
+cd "$INSTALLDIR" && printf '%s\n' "cd $INSTALLDIR" || exit 196
+printf '\e[0;32mPopulating from cache files;  \e[1;32mDONE\n\n'
 fi
 _CALLSYSTEM_
 _MD5CHECK_
@@ -540,6 +541,7 @@ _PREPROOTDIR_
 _SETLANGUAGE_
 _ADDADDS_
 _DOMODdotfiles_
+printf '\e[0;32mGenerating dot files;  \e[1;32mDONE\n'
 _MAKEFINISHSETUP_
 _MAKESETUPBIN_
 _MAKESTARTBIN_
@@ -570,7 +572,7 @@ if [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = i386 ]]
 then
 AL32MRLT="https://git.archlinux32.org/packages/plain/core/pacman-mirrorlist/mirrorlist"
 printf "\\e[0m\\n%s\\n" "Updating ${ALMLLOCN##*/} from $AL32MRLT."
-curl --retry 4 "$AL32MRLT" -o "$ALMLLOCN"
+curl --retry 4 "$AL32MRLT" -o "$ALMLLOCN" || curl --retry 4 "$AL32MRLT" -o "$ALMLLOCN"
 _DOMIRROR_
 elif [[ "$CPUABI" = "$CPUABIX8664" ]] || [[ "$CPUABI" = "${CPUABIX8664//_/-}" ]]
 then
@@ -670,7 +672,7 @@ sed -i "/\\#$ULANGUAGE.UTF-8 UTF-8/{s/#//g;s/@/-at-/g;}" etc/locale.gen
 
 _TOUCHUPSYS_() {
 _ADDmotd_
-_PREPPACMANCONF_
+_PREPPACMANCONF_ || :
 _SETLOCALE_
 _RUNFINISHSETUP_
 rm -f root/bin/"$BINFNSTP"

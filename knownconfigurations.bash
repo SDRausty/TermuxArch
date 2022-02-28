@@ -91,7 +91,7 @@ done
 fi
 if [[ "${QEMUCR:-}" == 0 ]]
 then
-PROOTSTMNT+="-q $PREFIX/bin/qemu-$ARCHITEC "
+PROOTSTMNT+="-q $PREFIX/bin/qemu-${ARCHITEC/x86-64/x86_64} "
 fi
 [[ "$SYSVER" -ge 10 ]] && PROOTSTMNT+="-b /apex -b /storage -b /sys -b /system -b /vendor "
 ##  Function _PR00TSTRING_ which creates the PRoot init statement PROOTSTMNT uses associative arrays.  Page https://www.gnu.org/software/bash/manual/html_node/Arrays.html has information about BASH arrays and is also available at https://www.gnu.org/software/bash/manual/ this link.
@@ -131,7 +131,6 @@ PROOTSTMNTEU="${PROOTSTMNTU//--link2symlink }" # PRoot user string with link2sym
 PROOTSTMNT="${PROOTSTMNT//-i \"\$2:wheel\" }" # PRoot root user string
 }
 _PR00TSTRING_
-##  uncomment the next line to test function _PR00TSTRING_
 ##  printf "\\n%s\\n" "PROOTSTMNT string [root]:" && printf "%s\\n\\n" "${PROOTSTMNT:-}" && printf "%s\\n" "PROOTSTMNTC string [root command]:" && printf "%s\\n\\n" "${PROOTSTMNTU:-}" && printf "%s\\n" "PROOTSTMNTEU string [elogin]:" && printf "%s\\n\\n" "${PROOTSTMNTU:-}" && printf "%s\\n" "PROOTSTMNTU string [login]:" && printf "%s\\n\\n" "${PROOTSTMNTU:-}" && printf "%s\\n" "PROOTSTMNTPRTR string [raw]:" && printf "%s\\n\\n" "${PROOTSTMNT:-}" && printf "%s\\n" "PROOTSTMNTPSLC string [su login command]:" && printf "%s\\n\\n" "${PROOTSTMNT:-}" && exit
 ##  The commands 'setupTermuxArch r[e[fresh]]' can be used to regenerate the start script to the newest version if there is a newer version published and can be customized as wanted.  Command 'setupTermuxArch refresh' will refresh the installation globally, including executing 'keys' and 'locales-gen' and backup user configuration files that were initially created and are refreshed.  The command 'setupTermuxArch re' will refresh the installation and update user configuration files and backup user configuration files that were initially created and are refreshed.  Command 'setupTermuxArch r' will only refresh the installation and update the root user configuration files and backup root user configuration files that were initially created and are refreshed.
 # knownconfigurations.bash FE
