@@ -64,6 +64,18 @@ _DOFUNLCR2_
 done
 }
 
+_DOUSECACHEDIR_() {
+if [ "$USECACHEDIR" = 0 ]
+then
+printf '\e[0;32mPopulating from cache files;  \e[1;32mBEGUN\n'
+{ cd "$CACHEDIR" 2>/dev/null && printf '%s' "cd $CACHEDIR && " ; } || { cd "$PREFIXDATAFILES" && mkdir -p "$CACHEDIRSUFIX" && cd "$CACHEDIR" && printf '%s' "cd $PREFIXDATAFILES && mkdir -p $CACHEDIRSUFIX && cd $CACHEDIR && " ; } || exit 196
+printf '%s\n' "cp -fr * $INSTALLDIR"
+cp -fr * "$INSTALLDIR"
+cd "$INSTALLDIR" && printf '%s\n' "cd $INSTALLDIR" || exit 196
+printf '\e[0;32mPopulating from cache files;  \e[1;32mDONE\n\n'
+fi
+}
+
 _LOADIMAGE_() {
 _NAMESTARTARCH_
 _SPACEINFO_
@@ -115,6 +127,7 @@ _SETLANGUAGE_
 _PREPROOTDIR_ || _PSGI1ESTRING_ "_PREPROOTDIR_ _REFRESHSYS_ maintenanceroutines.bash ${0##*/}"
 _ADDADDS_
 printf '\e[0;32mGenerating dot files;  \e[1;32mDONE\n'
+_DOUSECACHEDIR_
 _MAKEFINISHSETUP_
 _MAKESETUPBIN_
 _MAKESTARTBIN_

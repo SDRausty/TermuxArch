@@ -751,16 +751,16 @@ RBRANCH="\$(git remote show "\$@" | grep 'HEAD branch' | cut -d' ' -f5)"
 rm -rf "$TMPDIR/\$\$"
 RBRANCH="\${RBRANCH# }" # strip leading space
 printf "%s\\n" "Getting branch \$RBRANCH from git repository \$@..."
-{ cd "\$WDIR_" && git clone --depth 1 --branch \$RBRANCH --single-branch "\$@"
+{ cd "\$WDIR_" && git clone --depth 1 "\$@" --branch \$RBRANCH --single-branch
 }
 }
 [ -d "\${@##*/}" ] && printf "Directory %s exits;  Exiting...\\n" "\${@##*/}" && exit
 if [[ ! -x "\$(command -v git)" ]]
 then
 { pc git || pci git ; }
-git clone --depth 1 --branch master --single-branch "\$@" || _GITCLONE_ "\$@"
+git clone --depth 1 "\$@" --branch master --single-branch || _GITCLONE_ "\$@"
 else
-git clone --depth 1 --branch master --single-branch "\$@" || _GITCLONE_ "\$@"
+git clone --depth 1 "\$@" --branch master --single-branch || _GITCLONE_ "\$@"
 fi
 ## ~/${INSTALLDIR##*/}/usr/local/bin/gcl FE
 EOM
