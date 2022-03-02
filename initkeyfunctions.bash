@@ -226,6 +226,7 @@ else
 printf \"\\n\\e[1;32m==> \\e[1;37m%s\\e[1;32m%s\\e[0m...\\n\" \"Running \${0##*/} [\$6/7] $ARCHITEC ($CPUABI) architecture upgrade ; \" \"pacman -U \${UPGDPKGS[\$1]##*/} \${UPGDPKGS[\$2]##*/} \${UPGDPKGS[\$3]##*/} \${UPGDPKGS[\$4]##*/} \${UPGDPKGS[\$5]##*/} --needed --noconfirm\" ; pacman -U /var/cache/pacman/pkg/\"\${UPGDPKGS[\$1]##*/}\" /var/cache/pacman/pkg/\"\${UPGDPKGS[\$2]##*/}\" /var/cache/pacman/pkg/\"\${UPGDPKGS[\$3]##*/}\" \"\${UPGDPKGS[\$4]##*/}\" \"\${UPGDPKGS[\$5]##*/}\" --needed --noconfirm && :>/var/run/lock/"${INSTALLDIR##*/}"/kpmueoep5.lock
 fi
 }
+[ -f /etc/pacman.conf.bkp ] || cp /etc/pacman.conf /var/backups/"${INSTALLDIR##*/}"/etc/pacman.conf."$SDATE".bkp
 { [ -x /system/bin/sed ] && /system/bin/sed -i '/^LocalFileSigLevel/s/.*/SigLevel    = Never/' /etc/pacman.conf ; } || sed -i '/^LocalFileSigLevel/s/.*/SigLevel    = Never/' /etc/pacman.conf
 _PMUEOEP1_ 1 1
 _KEYSGENMSG_
@@ -301,23 +302,22 @@ _PRINTTAIL_ "\${KEYRINGS[@]}"
 trap _TRPET_ EXIT
 
 ## keys begin ##################################################################
-[ -f /etc/pacman.conf.bkp ] || cp /etc/pacman.conf /etc/pacman.conf.bkp
-[ -z "\${TALUSER_:-}" ] && TALUSER_=root
+# [ -z "\${TALUSER_:-}" ] && TALUSER_=root
+# if [ -x /system/bin/toybox ] && [ ! -f /var/run/lock/"${INSTALLDIR##*/}"/toyboxln."\$TALUSER_".lock ]
+# then
+# cd "\$TALUSER_"/bin 2>/dev/null || cd bin || exit 196
+# {
+# printf 'Creating symlinks in '%s' to '/system/bin/toybox';  Please wait a moment...  \n' "\$PWD"
+# for TOYBOXTOOL in \$(/system/bin/toybox)
+# do
+# if [ "\$TOYBOXTOOL" != cat ] || [ "\$TOYBOXTOOL" != uname ] || [ "\$TOYBOXTOOL" != vi ]
+# then
+# ln -fs /system/bin/toybox "\$TOYBOXTOOL" || _PRTERROR_
+# fi
+# done && :>/var/run/lock/"${INSTALLDIR##*/}"/toyboxln."\$TALUSER_".lock && printf 'Creating symlinks in '%s' to '/system/bin/toybox';  DONE  \n' "\$PWD" ; } || _PRTERROR_
+# cd "$INSTALLDIR" || exit 196
+# fi
 KEYSUNAM_="\$(uname -m)"
-if [ -x /system/bin/toybox ] && [ ! -f /var/run/lock/"${INSTALLDIR##*/}"/toyboxln."\$TALUSER_".lock ]
-then
-cd "\$TALUSER_"/bin 2>/dev/null || cd bin || exit 196
-{
-printf 'Creating symlinks in '%s' to '/system/bin/toybox';  Please wait a moment...  \n' "\$PWD"
-for TOYBOXTOOL in \$(/system/bin/toybox)
-do
-if [ "\$TOYBOXTOOL" != cat ] || [ "\$TOYBOXTOOL" != uname ] || [ "\$TOYBOXTOOL" != vi ]
-then
-ln -fs /system/bin/toybox "\$TOYBOXTOOL" || _PRTERROR_
-fi
-done && :>/var/run/lock/"${INSTALLDIR##*/}"/toyboxln."\$TALUSER_".lock && printf 'Creating symlinks in '%s' to '/system/bin/toybox';  DONE  \n' "\$PWD" ; } || _PRTERROR_
-cd "$INSTALLDIR" || exit 196
-fi
 if [[ -z "\${1:-}" ]] || [[ "\$KEYSUNAM_" = aarch64 ]]
 then
 KEYRINGS[0]="archlinux-keyring"
@@ -567,7 +567,7 @@ LOCGEN=":"
 if [[ "${LCR:-}" -eq 5 ]] || [[ -z "${LCR:-}" ]]	# LCR equals 5 or is undefined
 then
 _DOKEYS_
-[ -f etc/locale.gen.pacnew ] && cp -f etc/locale.gen var/backups/${INSTALLDIR##*/}/etc/locale.gen.$SDATE.bkp && cp -f etc/locale.gen.pacnew etc/locale.gen
+[ -f etc/locale.gen.pacnew ] && cp -f etc/locale.gen var/backups/"${INSTALLDIR##*/}"/etc/locale.gen."$SDATE".bkp && cp -f etc/locale.gen.pacnew etc/locale.gen
 LOCGEN="locale-gen || locale-gen"
 elif [[ "${LCR:-}" -eq 1 ]] || [[ "${LCR:-}" -eq 2 ]] || [[ "${LCR:-}" -eq 3 ]] || [[ "${LCR:-}" -eq 4 ]] 	# LCR equals 1 or 2 or 3 or 4
 then
