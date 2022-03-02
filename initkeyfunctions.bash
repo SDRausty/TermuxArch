@@ -383,7 +383,7 @@ chmod 755 usr/local/bin/keys
 }
 
 _ADDcshrc_() { :>root/.cshrc ; }
-_ADDinitrc_() { printf '%s\n' "" > root/.inputrc ; }
+_ADDinitrc_() { printf '%s\n' "" > root/.initrc ; }
 _ADDinputrc_() { printf '%s\n' "set bell-style none
 set colored-stats on
 set colored-completion-prefix on
@@ -402,8 +402,7 @@ set print-completions-horizontally on
 set show-all-if-ambiguous on
 set show-all-if-unmodified on
 set show-mode-in-prompt on
-set visible-stats on
-" > root/.inputrc ; }
+set visible-stats on" > root/.inputrc ; }
 
 _ADDprofile_() {
 printf '%s\n' "export TMPDIR=\"/tmp\"" > root/.profile
