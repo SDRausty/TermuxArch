@@ -128,12 +128,6 @@ fi
 fi
 }
 
-_DOPROXY_() {
-[[ -f "$HOME"/.bash_profile ]] && grep -s "proxy" "$HOME"/.bash_profile | grep -s "export" >> root/bin/"$BINFNSTP" ||:
-[[ -f "$HOME"/.bashrc ]] && grep -s "proxy" "$HOME"/.bashrc  | grep -s "export" >> root/bin/"$BINFNSTP" ||:
-[[ -f "$HOME"/.profile ]] && grep -s "proxy" "$HOME"/.profile | grep -s "export" >> root/bin/"$BINFNSTP" ||:
-}
-
 _MAINBLOCK_() {
 declare KID
 declare -i KERNEL_VERSION
@@ -173,85 +167,6 @@ _PRINTFOOTER_
 _PRINTFOOTER2_
 _PRINTSTARTBIN_USAGE_
 exit
-}
-
-_MAKEFINISHSETUP_() {
-_DOKEYS_() {
-if [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = i386 ]]
-then
-DOKYSKEY="keys x86"
-elif [[ "$CPUABI" = "$CPUABIX8664" ]] || [[ "$CPUABI" = "${CPUABIX8664//_/-}" ]]
-then
-DOKYSKEY="keys x86-64"
-else
-DOKYSKEY="keys"
-fi
-}
-_DOKYLGEN_() {
-DOKYSKEY=""
-LOCGEN=":"
-}
-if [[ "${LCR:-}" -eq 5 ]] || [[ -z "${LCR:-}" ]]	# LCR equals 5 or is undefined
-then
-_DOKEYS_
-LOCGEN="locale-gen || locale-gen"
-elif [[ "${LCR:-}" -eq 1 ]] || [[ "${LCR:-}" -eq 2 ]] || [[ "${LCR:-}" -eq 3 ]] || [[ "${LCR:-}" -eq 4 ]] 	# LCR equals 1 or 2 or 3 or 4
-then
-_DOKYLGEN_
-fi
-_CFLHDR_ "root/bin/$BINFNSTP"
-cat >> root/bin/"$BINFNSTP" <<- EOM
-_PMFSESTRING_() {
-printf "\\e[1;31m%s\\e[1;37m%s\\e[1;32m%s\\e[1;37m%s\\n\\n" "Signal generated in " "'\$1'" "; Cannot complete task; " "Continuing..."
-printf "\\e[1;34m%s\\e[0;34m%s\\e[1;34m%s\\e[0;34m%s\\e[1;34m%s\\n\\n" "  If you find better resolves for " "setupTermuxArch" " and " "\$0" ", please open an issue and accompanying pull request."
-}
-_PMGPSSTRING_() {
-printf "\\n\\e[1;34m:: \\e[1;32m%s\\n" "Processing system for $NASVER $CPUABI, and removing redundant packages for Termux PRoot installation..."
-}
-EOM
-_DOPROXY_
-mkdir -p "$INSTALLDIR/run/lock/${INSTALLDIR##*/}"
-if [[ ! -f "$INSTALLDIR/run/lock/${INSTALLDIR##*/}/pacmanRc.lock" ]]
-then
-if [[ "$CPUABI" = "$CPUABI5" ]]
-then
-printf "%s\\n" "{ _PMGPSSTRING_ && pacman -Rc linux-armv5 linux-firmware --noconfirm --color=always && :>"/run/lock/${INSTALLDIR##*/}/pacmanRc.lock" ; } || _PMFSESTRING_ \"pacman -Rc linux-armv5 linux-firmware $BINFNSTP \${0##/*}\"" >> root/bin/"$BINFNSTP"
-elif [[ "$CPUABI" = "$CPUABI7" ]]
-then
-printf "%s\\n" "{ _PMGPSSTRING_ && pacman -Rc linux-armv7 linux-firmware --noconfirm --color=always && :>"/run/lock/${INSTALLDIR##*/}/pacmanRc.lock" ; } || _PMFSESTRING_ \"pacman -Rc linux-armv7 linux-firmware $BINFNSTP \${0##/*}\"" >> root/bin/"$BINFNSTP"
-elif [[ "$CPUABI" = "$CPUABI8" ]]
-then
-printf "%s\\n" "{ _PMGPSSTRING_ && pacman -Rc linux-aarch64 linux-firmware --noconfirm --color=always && :>"/run/lock/${INSTALLDIR##*/}/pacmanRc.lock" ; } || _PMFSESTRING_ \"pacman -Rc linux-aarch64 linux-firmware $BINFNSTP \${0##/*}\"" >> root/bin/"$BINFNSTP"
-fi
-fi
-printf "%s\\n" "$DOKYSKEY" >> root/bin/"$BINFNSTP"
-if [[ "${LCR:-}" -eq 5 ]] || [[ -z "${LCR:-}" ]]
-then
-if [[ "$CPUABI" = "$CPUABIX8664" ]] || [[ "$CPUABI" = "${CPUABIX8664//_/-}" ]]
-then
-printf "%s\\n" "pacman -Su glibc grep gzip sed sudo --needed --noconfirm --color=always || pacman -Su glibc grep gzip sed sudo --needed --noconfirm --color=always || _PMFSESTRING_ \"pacman -Su glibc grep gzip sed sudo $BINFNSTP ${0##/*}\"" >> root/bin/"$BINFNSTP"
-elif [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = i386 ]]
-then
-printf "%s\\n" "pacman -Su glibc sed sudo --needed --noconfirm --color=always || pacman -Su glibc sed sudo --needed --noconfirm --color=always || _PMFSESTRING_ \"pacman -Su glibc sed sudo $BINFNSTP ${0##/*}\"" >> root/bin/"$BINFNSTP"
-else
-printf "%s\\n" "pacman -Su glibc --needed --noconfirm --color=always || pacman -Su glibc --needed --noconfirm --color=always || _PMFSESTRING_ \"pacman -Su glibc $BINFNSTP ${0##/*}\"" >> root/bin/"$BINFNSTP"
-fi
-fi
-cat >> root/bin/"$BINFNSTP" <<- EOM
-printf "\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\n" "To generate locales in a preferred language, you can use the native Android menu tap commands " "Settings > Language & Keyboard > Language " "in Android; Then run " "${0##*/} refresh" " for a full system refresh, which includes the locale generation function; For a quick refresh you can use " "${0##*/} r" ".  For a refresh with user directories " "${0##*/} re" " can be used."
-$LOCGEN || _PMFSESTRING_ "LOCGEN $BINFNSTP ${0##/*}.  Please run '$LOCGEN' again in the installed system."
-EOM
-printf "%s\\n" "printf \"\\n\\e[1;32m==> \\e[1;37mRunning TermuxArch command \\e[1;32maddauser user\\e[1;37m...\\n\"" >> root/bin/"$BINFNSTP"
-printf "%s\\n" "addauser user || _PMFSESTRING_ \"addauser user $BINFNSTP ${0##/*}\"" >> root/bin/"$BINFNSTP"
-chmod 700 root/bin/"$BINFNSTP"
-}
-
-_MAKESETUPBIN_() {
-_CFLHDR_ root/bin/setupbin.bash
-printf "%s\\n" "set +Eeuo pipefail" >> root/bin/setupbin.bash
-printf "%s\\n" "$PROOTSTMNT /root/bin/$BINFNSTP ||:" >> root/bin/setupbin.bash
-printf "%s\\n" "set -Eeuo pipefail" >> root/bin/setupbin.bash
-chmod 700 root/bin/setupbin.bash
 }
 
 _MAKESYSTEM_() {
@@ -319,6 +234,7 @@ _MAKESTARTBIN_
 _FIXOWNER_
 if [ "$ELCR" = 0 ]
 then
+tree 2>/dev/null || find . -type f -print | sed 's@.*/@@' | sort
 exit	## Create ~/TermuxArchBloom directory and Arch Linux in Termux PRoot root directory skeleton.
 fi
 }
@@ -386,7 +302,6 @@ fi
 }
 
 _SETLANGUAGE_() { # This function uses device system settings to set locale.  To generate locales in a preferred language, you can use "Settings > Language & Keyboard > Language" in Android; Then run 'setupTermuxArch r' for a quick system refresh to regenerate locales in your preferred language.
-ULANGUAGE="C"
 LANGIN=([0]="$(getprop user.language)")
 LANGIN+=([1]="$(getprop user.region)")
 LANGIN+=([2]="$(getprop persist.sys.country)")
@@ -395,40 +310,15 @@ LANGIN+=([4]="$(getprop persist.sys.locale)")
 LANGIN+=([5]="$(getprop ro.product.locale)")
 LANGIN+=([6]="$(getprop ro.product.locale.language)")
 LANGIN+=([7]="$(getprop ro.product.locale.region)")
-:>"$INSTALLDIR"/etc/locale.gen
 ULANGUAGE="${LANGIN[0]:-C}_${LANGIN[1]:-C}"
-if ! grep -q "$ULANGUAGE" "$INSTALLDIR"/etc/locale.gen
-then
-ULANGUAGE="C"
-fi
-if [[ "$ULANGUAGE" != *_* ]]
-then
-ULANGUAGE="${LANGIN[3]:-C}_${LANGIN[2]:-C}"
-if ! grep -q "$ULANGUAGE" "$INSTALLDIR"/etc/locale.gen
-then
-ULANGUAGE="C"
-fi
-fi
-for i in "${!LANGIN[@]}"
+for LANGSET in "${!LANGIN[@]}"
 do
-if [[ "${LANGIN[i]}" = *-* ]]
+if [[ "${LANGIN[LANGSET]}" = *-* ]]
 then
-ULANGUAGE="${LANGIN[i]//-/_}"
+ULANGUAGE="${LANGIN[LANGSET]//-/_}"
 break
 fi
 done
-if [[ "$ULANGUAGE" != *_* ]]
-then
-ULANGUAGE="${LANGIN[6]:-C}_${LANGIN[7]:-C}"
-if ! grep -q "$ULANGUAGE" "$INSTALLDIR"/etc/locale.gen
-then
-ULANGUAGE="C"
-fi
-fi
-if [[ "$ULANGUAGE" != *_* ]]
-then
-ULANGUAGE="en_US"
-fi
 printf "\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\n" "Setting locales to: " "Language " ">> $ULANGUAGE << " "Region" ": Please wait a moment."
 }
 

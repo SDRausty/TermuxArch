@@ -30,7 +30,7 @@ MRCOUNTRIESx86_64=("Worldwide" "Australia" "Austria" "Bangladesh" "Belarus" "Bel
 _BLOOM_() { # Bloom = 'setupTermuxArch manual verbose'
 [[ -d "$HOME/TermuxArchBloom" ]] && _RMBLOOMQ_
 mkdir -p "$HOME/TermuxArchBloom"
-cp {LICENSE,archlinuxconfig.bash,espritfunctions.bash,getimagefunctions.bash,knownconfigurations.bash,maintenanceroutines.bash,necessaryfunctions.bash,setupTermuxArch,printoutstatements.bash} "$HOME/TermuxArchBloom"
+cp {LICENSE,archlinuxconfig.bash,espritfunctions.bash,fbindsfunctions.bash,getimagefunctions.bash,initkeyfunctions.bash,knownconfigurations.bash,maintenanceroutines.bash,necessaryfunctions.bash,setupTermuxArch,printoutstatements.bash} "$HOME/TermuxArchBloom"
 cd "$HOME/TermuxArchBloom" || exit 69
 printf "\\e[1;34m%s\\e[1;32m%s\\e[0m 📲\\n\\n" "TermuxArch Bloom option via " "setupTermuxArch bloom"
 ls -agl
