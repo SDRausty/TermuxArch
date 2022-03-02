@@ -24,41 +24,48 @@ IFILE="${GFILE##*/}"
 }
 
 _DOFUNLCR2_() {
-BKPDIR="$INSTALLDIR/var/backups/${INSTALLDIR##*/}/home/$USER"
-_BKPTHF_() { # backup the user files
-[[ ! -d "$BKPDIR/" ]] && mkdir -p "$BKPDIR/"
-cd "$INSTALLDIR/home/$USER" || exit 169
-[[ -f $1 ]] && printf "\\e[1;32m==>\\e[0;32m %s" "File '/${INSTALLDIR##*/}/home/$USER/$1' backed up to /${INSTALLDIR##*/}/var/backups/${INSTALLDIR##*/}/home/$USER/$1.$SDATE.bkp" && cp "$1" "$BKPDIR/$1.$SDATE.bkp" || _PSGI1ESTRING_ "cp '$1' if found maintenanceroutines.bash ${0##*/}"
+_BKPTHF_() { # backup the user's file
+_CPYTHF_ && printf "\\e[1;32m==>\\e[0;32m %s" "File '$INSTALLDIR/home/$TALUSER_/$DOFLNAME_' backed up to $INSTALLDIR/var/backups/${INSTALLDIR##*/}/home/$TALUSER_/$DOFLNAME_.$SDATE.bkp" || : #_PSGI1ESTRING_ "_CPYTHF_ maintenanceroutines.bash ${0##*/}"
 }
-if [ -d "$INSTALLDIR/home" ]
+_CPYTHF_() { # copy file to user backup files directory
+cp "$INSTALLDIR/home/$TALUSER_/$DOFLNAME_" "$BKPDIR_/$DOFLNAME_.$SDATE.bkp" || _PSGI1ESTRING_ "cp '$INSTALLDIR/home/$TALUSER_/$DOFLNAME_' '$BKPDIR_/$DOFLNAME_.$SDATE.bkp' maintenanceroutines.bash ${0##*/}"
+}
+BKPDIR_="$INSTALLDIR/var/backups/${INSTALLDIR##*/}/home/$TALUSER_"
+[[ ! -d "$BKPDIR_" ]] && mkdir -p "$BKPDIR_"
+if [[ "$TALUSER_" != alarm ]]
 then
-if [[ "$USER" != alarm ]]
-then
-export "$USER"
-DOFLIST=(.bash_profile .bashrc .gitconfig .vimrc)
-for DOFLNAME in "${DOFLIST[@]}"
+DOFLIST_=(.bash_profile .bashrc .cshrc .gitconfig .initrc .inputrc .vimrc .profile .zshrc)
+for DOFLNAME_ in "${DOFLIST_[@]}"
 do
-_BKPTHF_ "$DOFLNAME"
-cp "$INSTALLDIR/root/$DOFLNAME" "$INSTALLDIR/home/$USER/"
-printf "\\n\\e[0;32mCopied file %s to \\e[1;32m%s\\e[0;32m.\\e[0m\\n" "/${INSTALLDIR##*/}/root/$DOFLNAME" "/${INSTALLDIR##*/}/home/$USER/$DOFLNAME"
+if [ -f "$INSTALLDIR/root/$DOFLNAME_" ]
+then
+cp "$INSTALLDIR/root/$DOFLNAME_" "$INSTALLDIR/home/$TALUSER_/"
+else
+if [ -f "$INSTALLDIR/home/$TALUSER_/$DOFLNAME_" ] && [ -f "$INSTALLDIR/root/$DOFLNAME_" ]
+then
+if [[ "$(<$INSTALLDIR/root/$DOFLNAME_)" != "$(<$INSTALLDIR/home/$TALUSER_/$DOFLNAME_)" ]] # files differ
+then	# update file to the newest version from the root login
+_BKPTHF_
+cp "$INSTALLDIR/root/$DOFLNAME_" "$INSTALLDIR/home/$TALUSER_/" && printf "\\n\\e[0;32mCopied file %s to \\e[1;32m%s\\e[0;32m.\\e[0m\\n" "${INSTALLDIR##*/}/root/$DOFLNAME_" "${INSTALLDIR##*/}/home/$TALUSER_/$DOFLNAME_"
+fi
+fi
+fi
 done
 fi
-fi
-cd "$INSTALLDIR/root" || exit 169
 }
 
 _DOTHRF_() { # do the root user files
 if [[ "${LCR:-}" -eq 3 ]] || [[ "${LCR:-}" -eq 4 ]] 	# LCR equals 3 or 4
-then	# do nothing
-:
+then
+[ "$LCR" = 4 ] && _SHFUNC_ "$@"
 else
 [[ -f $1 ]] && (printf "\\e[1;32m%s\\e[0;32m%s\\e[0m\\n" "==>" " cp $1 /var/backups/${INSTALLDIR##*/}/$1.$SDATE.bkp" && cp "$1" "$INSTALLDIR/var/backups/${INSTALLDIR##*/}/$1.$SDATE.bkp") || printf "%s" "copy file '$1' if found; file not found; continuing; "
 fi
 }
 
-_FUNLCR2_() { # copy from root to home/USER
+_FUNLCR2_() { # copy from root to home
 export FLCRVAR=($(ls "$INSTALLDIR/home/"))
-for USER in ${FLCRVAR[@]}
+for TALUSER_ in ${FLCRVAR[@]}
 do
 _DOFUNLCR2_
 done
@@ -100,16 +107,16 @@ _PRINTSTARTBIN_USAGE_
 exit
 }
 
-_FIXOWNER_() { # fix owner of INSTALLDIR/home/USER, PR9 by @petkar
+_FIXOWNER_() { # fix owner of INSTALLDIR/home/TALUSER_, PR9 by @petkar
 _DOFIXOWNER_() {
 printf "\\e[0;32m%s" "Adjusting ownership and permissions:  "
 FXARR="$(ls "$INSTALLDIR/home")"
-for USER in ${FXARR[@]}
+for TALUSER_ in ${FXARR[@]}
 do
-if [[ "$USER" != alarm ]]
+if [[ "$TALUSER_" != alarm ]]
 then
-$STARTBIN c "chmod 777 $INSTALLDIR/home/$USER"
-$STARTBIN c "chown -R $USER:$USER $INSTALLDIR/home/$USER"
+$STARTBIN c "chmod 777 $INSTALLDIR/home/$TALUSER_"
+$STARTBIN c "chown -R $TALUSER_:$TALUSER_ $INSTALLDIR/home/$TALUSER_"
 fi
 done
 printf "\\e[0;32m%s\\e[0m\\n" "DONE"
@@ -167,7 +174,6 @@ PERRS="$(sed "s/du: cannot read directory '//g" <<< "$PERRS" | sed "s/': Permiss
 [ -z "$PERRS" ] || { printf "%s" "Fixing  permissions in '$INSTALLDIR': " && for PERR in $PERRS ; do chmod 777 "$PERR" ; done && printf "%s\n" "DONE" ; } || printf "%s" "Fixing  permissions signal PERRS; Continuing..."
 printf "%s\n" "Script '${0##*/}' checking and fixing permissions: DONE"
 }
-[ "$LCR" = 4 ] && [ -d "$INSTALLDIR" ] && _SHFUNC_ "$@"
 if [[ "${LCR:-}" = 2 ]]
 then
 _FUNLCR2_
