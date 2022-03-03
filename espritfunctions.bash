@@ -173,7 +173,7 @@ fi
 _RMBLOOMQ_() {
 if [[ -d "$HOME"/TermuxArchBloom ]]
 then
-printf "\\n\\n\\e[0;33m%s\\e[1;33m%s\\e[0;33m%s\\e[1;30m%s\\e[0;33m%s\\n" "TermuxArch:  " "DIRECTORY WARNING!  ~/${INSTALLDIR##*}TermuxArchBloom " "directory detected;  " "setupTermuxArch bloom" " will continue."
+printf "\\n\\n\\e[0;33m%s\\e[1;33m%s\\e[0;33m%s\\e[1;30m%s\\e[0;33m%s\\n" "ＴｅｒｍｕｘＡｒｃｈ:  " "DIRECTORY FEEDBACK!  ~/${INSTALLDIR##*}TermuxArchBloom " "directory detected;  " "setupTermuxArch bloom" " will continue."
 while true
 do
 printf "\\n\\e[1;30m"

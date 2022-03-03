@@ -4,7 +4,6 @@
 ## https://sdrausty.github.io/TermuxArch/README has info about this project.
 ## https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.
 ################################################################################
-
 _FTCHIT_() {
 _PRINT_DOWNLOADING_FTCHIT_
 if [[ "$DM" = aria2 ]]

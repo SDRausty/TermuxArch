@@ -8,7 +8,7 @@ set -Eeuo pipefail
 _SGSATRPERROR_() { # run on script error signal
 local RV="$?"
 printf "\\n%s\\n" "$RV"
-printf "\\e[?25h\\n\\e[1;48;5;138mBuildAPKs %s ERROR:  Generated script error %s near or at line number %s by \`%s\`!\\e[0m\\n" "updateTermuxArch.bash" "${3:-VALUE}" "${1:-LINENO}" "${2:-BASH_COMMAND}"
+printf "\\e[?25h\\n\\e[1;48;5;138mBuildAPKs %s ＴｅｒｍｕｘＡｒｃｈ SIGNAL:  Generated script error %s near or at line number %s by \`%s\`!\\e[0m\\n" "updateTermuxArch.bash" "${3:-VALUE}" "${1:-LINENO}" "${2:-BASH_COMMAND}"
 exit 179
 }
 
@@ -20,13 +20,13 @@ exit
 
 _SGSATRPSIGNAL_() { # run on signal
 local RV="$?"
-printf "\\e[?25h\\e[1;7;38;5;0mBuildAPKs %s WARNING:  Signal %s received!\\e[0m\\n" "updateTermuxArch.bash" "$RV"
+printf "\\e[?25h\\e[1;7;38;5;0mBuildAPKs %s FEEDBACK:  Signal %s received!\\e[0m\\n" "updateTermuxArch.bash" "$RV"
 exit 178
 }
 
 _SGSATRPQUIT_() { # run on quit signal
 local RV="$?"
-printf "\\e[?25h\\e[1;7;38;5;0mBuildAPKs %s WARNING:  Quit signal %s received!\\e[0m\\n" "updateTermuxArch.bash" "$RV"
+printf "\\e[?25h\\e[1;7;38;5;0mBuildAPKs %s FEEDBACK:  Quit signal %s received!\\e[0m\\n" "updateTermuxArch.bash" "$RV"
 exit 177
 }
 
@@ -75,7 +75,7 @@ sed -i '/\.\/\.scripts\/maintenance\//d' sha512.sum
 sed -i '/\.\/docs\//d' sha512.sum
 sed -i '/\.\/gen\//d' sha512.sum
 fi
-sha512sum -c --quiet sha512.sum || _PRNT_ "WARNING:  Checking checksums in directory $PWD with sha512sum FAILED! "
+sha512sum -c --quiet sha512.sum || _PRNT_ "FEEDBACK:  Checking checksums in directory $PWD with sha512sum FAILED! "
 _GSA_ ".scripts/maintenance" maintenance "" || printf "\\n\\n%s\\n" "Cannot add or update module .scripts/maintenance; Continuing..."
 _GSA_ docs docsTermuxArch "" || printf "\\n\\n%s\\n" "Cannot add or update module docs; Continuing..."
 _GSA_ gen genTermuxArch "" || printf "\\n\\n%s\\n" "Cannot add or update module gen; Continuing..."

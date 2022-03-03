@@ -15,13 +15,13 @@ FLHDR1[1]=""
 FLHDR1[2]="set -Eeuo pipefail"
 FLHDR1[3]="shopt -s nullglob globstar"
 FLHDR1[4]="unset LD_PRELOAD"
-FLHDR1[5]="VERSIONID=2.0.478"
+FLHDR1[5]="VERSIONID=2.0.479"
 FLHDR1[6]=""
 FLHDRP[0]="## BEGIN #####################################################################"
 FLHDRP[1]=""
 TRPERROR[0]="_TRPERR_() {  # run on script error"
 TRPERROR[1]="	local RV=\"\$?\""
-TRPERROR[2]="	printf \"\\\\e[?25h\\\\n\\\\e[1;48;5;138m %s\\\\e[0m\\\\n\\\\n\" \"TermuxArch WARNING:  Generated script signal \${RV:-UNKNOWN} near or at line number \${1:-UNKNOWN} by '\${2:-UNKNOWNCOMMAND}'!\""
+TRPERROR[2]="	printf \"\\\\e[?25h\\\\n\\\\e[1;48;5;138m %s\\\\e[0m\\\\n\\\\n\" \"TermuxArch FEEDBACK:  Generated script signal \${RV:-UNKNOWN} near or at line number \${1:-UNKNOWN} by '\${2:-UNKNOWNCOMMAND}'!\""
 TRPERROR[3]="	exit 201"
 TRPERROR[4]="}"
 TRPERROR[5]=""
@@ -43,12 +43,12 @@ TRPEXIT[14]="	exit"
 TRPEXIT[15]="}"
 TRPEXIT[16]=""
 TRPSIGNAL[0]="_TRPSIG_() {  # run on signal"
-TRPSIGNAL[1]="	printf \"\\\\e[?25h\\\\e[1;7;38;5;0mTermuxArch WARNING:  Signal %s received!\\\\e[0m\\\\n\" \"\$?\""
+TRPSIGNAL[1]="	printf \"\\\\e[?25h\\\\e[1;7;38;5;0mTermuxArch FEEDBACK:  Signal %s received!\\\\e[0m\\\\n\" \"\$?\""
 TRPSIGNAL[2]="	exit 211"
 TRPSIGNAL[3]="}"
 TRPSIGNAL[4]=""
 TRPQUIT[0]="_TRPQ_() {  # run on quit"
-TRPQUIT[1]="	printf \"\\\\e[?25h\\\\e[1;7;38;5;0mTermuxArch WARNING:  Quit signal %s received!\\\\e[0m\\\\n\" \"\$?\""
+TRPQUIT[1]="	printf \"\\\\e[?25h\\\\e[1;7;38;5;0mTermuxArch FEEDBACK:  Quit signal %s received!\\\\e[0m\\\\n\" \"\$?\""
 TRPQUIT[2]="	exit 221"
 TRPQUIT[3]="}"
 TRPQUIT[4]="ARGS=\"\$*\""
@@ -175,7 +175,7 @@ printf "\\e[0;34m 🕛 > 🕤 \\e[1;34mArch Linux in Termux PRoot is installed. 
 
 _PRINTMAX_() {
 printf "\033]2;%s\007" "Please run 'bash ${0##*/}' again."
-printf "\\n\\e[07;1m\\e[31;1m 🔆 WARNING: Maximum amount of attempts exceeded.\\e[34;1m\\e[30;1m\\n\\nPlease run 'bash %s' again.  See 'bash %s help' to resolve download errors.  If this keeps repeating, copy 'knownconfigurations.bash' to 'setupTermuxArchConfigs.bash' with preferred mirror.  After editing 'setupTermuxArchConfigs.bash', run 'bash %s' and 'setupTermuxArchConfigs.bash' loads automaticaly from the same directory.  Change mirror to desired geographic location to resolve md5sum errors.\\n\\nUser configurable variables are in 'setupTermuxArchConfigs.bash'.  To create this file from 'knownconfigurations.bash' in the working directory the command 'bash %s manual' can be used to create and edit 'setupTermuxArchConfigs.bash'.\\n\\nPlease run 'bash %s' again.\\n\\e[0;0m\\n" "${0##*/}" "${0##*/}" "${0##*/}" "${0##*/}" "${0##*/}"
+printf "\\n\\e[07;1m\\e[31;1m 🔆 FEEDBACK: Maximum amount of attempts exceeded.\\e[34;1m\\e[30;1m\\n\\nPlease run 'bash %s' again.  See 'bash %s help' to resolve download errors.  If this keeps repeating, copy 'knownconfigurations.bash' to 'setupTermuxArchConfigs.bash' with preferred mirror.  After editing 'setupTermuxArchConfigs.bash', run 'bash %s' and 'setupTermuxArchConfigs.bash' loads automaticaly from the same directory.  Change mirror to desired geographic location to resolve md5sum errors.\\n\\nUser configurable variables are in 'setupTermuxArchConfigs.bash'.  To create this file from 'knownconfigurations.bash' in the working directory the command 'bash %s manual' can be used to create and edit 'setupTermuxArchConfigs.bash'.\\n\\nPlease run 'bash %s' again.\\n\\e[0;0m\\n" "${0##*/}" "${0##*/}" "${0##*/}" "${0##*/}" "${0##*/}"
 }
 
 _PRINTKEEPEXIT_() {
@@ -193,7 +193,7 @@ printf "\\n\\e[0;34m 🕛 > 🕠 \\e[1;34mChecking download integrity with md5su
 
 _PRINTMD5ERROR_() {
 printf "\033]2;%s\007" "Run 'bash ${0##*/}' again..."
-printf "\\n\\e[07;1m\\e[31;1m 🔆 WARNING md5sum mismatch! The download failed and was removed!\\e[30;1m  Run 'bash %s' again.  The command 'bash %s help' has more information.  This kind of error can go away, like magic.  Waiting before executing again is recommended.  There are numerous reasons for checksum errors.  Proxies are one explaination.  Mirroring and mirrors are another explaination for md5sum errors.  An interrupted download is one more reason for an md5sum mismatch error.\\n	If this keeps repeating, you can copy 'knownconfigurations.bash' to 'setupTermuxArchConfigs.bash' with with command 'bash %s manual' to choose a preferred mirror.  After editing 'setupTermuxArchConfigs.bash', run 'bash %s' and 'setupTermuxArchConfigs.bash' loads automaticaly from the same directory.  Change mirror to desired geographic location to resolve md5sum errors.\\n	User configurable variables are in 'setupTermuxArchConfigs.bash'.  Create this file from 'knownconfigurations.bash' in the working directory.  Use 'bash %s manual' to create and edit 'setupTermuxArchConfigs.bash'.\\n\\n	Please run 'bash %s' again, or you can run 'bash %s manual' which creates file '%sConfigs.bash' for editing.\\n\\e[0;0m\n" "${0##*/}" "${0##*/}" "${0##*/}" "${0##*/}" "${0##*/}" "${0##*/}" "${0##*/}" "${0##*/}"
+printf "\\n\\e[07;1m\\e[31;1m 🔆 FEEDBACK md5sum mismatch! The download failed and was removed!\\e[30;1m  Run 'bash %s' again.  The command 'bash %s help' has more information.  This kind of error can go away, like magic.  Waiting before executing again is recommended.  There are numerous reasons for checksum errors.  Proxies are one explaination.  Mirroring and mirrors are another explaination for md5sum errors.  An interrupted download is one more reason for an md5sum mismatch error.\\n	If this keeps repeating, you can copy 'knownconfigurations.bash' to 'setupTermuxArchConfigs.bash' with with command 'bash %s manual' to choose a preferred mirror.  After editing 'setupTermuxArchConfigs.bash', run 'bash %s' and 'setupTermuxArchConfigs.bash' loads automaticaly from the same directory.  Change mirror to desired geographic location to resolve md5sum errors.\\n	User configurable variables are in 'setupTermuxArchConfigs.bash'.  Create this file from 'knownconfigurations.bash' in the working directory.  Use 'bash %s manual' to create and edit 'setupTermuxArchConfigs.bash'.\\n\\n	Please run 'bash %s' again, or you can run 'bash %s manual' which creates file '%sConfigs.bash' for editing.\\n\\e[0;0m\n" "${0##*/}" "${0##*/}" "${0##*/}" "${0##*/}" "${0##*/}" "${0##*/}" "${0##*/}" "${0##*/}"
 exit
 }
 
@@ -204,7 +204,7 @@ printf "\\n\\n\\e[0;34m 🕛 > 🕕 \\e[1;34mSystem image file download integrit
 
 _PRINTMISMATCH_() {
 printf "\033]2;%s\007" "Run 'bash ${0##*/}' again..."
-printf "\\n\\e[07;1m\\e[31;1m 🔆 WARNING: Unknown configuration!  Did not find an architecture and operating system match in 'knownconfigurations.bash'!  \\e[36;1m\\nDetected %s architecture.  There still is hope.  Other images may be available at http://mirror.archlinuxarm.org/os/ and https://www.archlinux.org/mirrors/ to see if any match might the device.  If you find a match, then please \\e[37;1msubmit a pull request\\e[36;1m at https://github.com/TermuxArch/TermuxArch/pulls with script modifications.  Alternatively, \\e[37;1msubmit a modification request\\e[36;1m at https://github.com/TermuxArch/TermuxArch/issues if you find a configuration match.  Please include output from \\e[37;1m'uname -mo'\\e[36;1m on the device in order to expand autodetection for \\e[37;1m'%s'\\e[36;1m.  See https://termuxarch.github.io/docsTermuxArch/Known_Configurations for more information.\\n\\n	\\e[36;1mRun '%s purge' to remove the installation;  Then please try '%s' again with new options...\\e[0m\\n" "$NASVER $CPUABI" "${0##*/}" "${0##*/}" "${0##*/}"
+printf "\\n\\e[07;1m\\e[31;1m 🔆 FEEDBACK: Unknown configuration!  Did not find an architecture and operating system match in 'knownconfigurations.bash'!  \\e[36;1m\\nDetected %s architecture.  There still is hope.  Other images may be available at http://mirror.archlinuxarm.org/os/ and https://www.archlinux.org/mirrors/ to see if any match might the device.  If you find a match, then please \\e[37;1msubmit a pull request\\e[36;1m at https://github.com/TermuxArch/TermuxArch/pulls with script modifications.  Alternatively, \\e[37;1msubmit a modification request\\e[36;1m at https://github.com/TermuxArch/TermuxArch/issues if you find a configuration match.  Please include output from \\e[37;1m'uname -mo'\\e[36;1m on the device in order to expand autodetection for \\e[37;1m'%s'\\e[36;1m.  See https://termuxarch.github.io/docsTermuxArch/Known_Configurations for more information.\\n\\n	\\e[36;1mRun '%s purge' to remove the installation;  Then please try '%s' again with new options...\\e[0m\\n" "$NASVER $CPUABI" "${0##*/}" "${0##*/}" "${0##*/}"
 exit
 }
 
