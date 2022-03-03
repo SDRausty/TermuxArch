@@ -4,6 +4,9 @@
 ## https://sdrausty.github.io/TermuxArch/README has info about this project.
 ## https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.
 ################################################################################
+
+declare -a USRINITFILES	# declare array for user init files
+USRINITFILES=(BASH_PROFILEFILE BASHRCFILE CSHRCFILE EMACSRCFILE GITCONFIGFILE INITRCFILE INPUTRCFILE VIMRCFILE PROFILEFILE ZSHRCFILE)
 _ADDADDS_() {
 _ADDREADME_
 _ADDae_
@@ -226,7 +229,7 @@ else
 printf \"\\n\\e[1;32m==> \\e[1;37m%s\\e[1;32m%s\\e[0m...\\n\" \"Running \${0##*/} [\$6/7] $ARCHITEC ($CPUABI) architecture upgrade ; \" \"pacman -U \${UPGDPKGS[\$1]##*/} \${UPGDPKGS[\$2]##*/} \${UPGDPKGS[\$3]##*/} \${UPGDPKGS[\$4]##*/} \${UPGDPKGS[\$5]##*/} --needed --noconfirm\" ; pacman -U /var/cache/pacman/pkg/\"\${UPGDPKGS[\$1]##*/}\" /var/cache/pacman/pkg/\"\${UPGDPKGS[\$2]##*/}\" /var/cache/pacman/pkg/\"\${UPGDPKGS[\$3]##*/}\" \"\${UPGDPKGS[\$4]##*/}\" \"\${UPGDPKGS[\$5]##*/}\" --needed --noconfirm && :>/var/run/lock/"${INSTALLDIR##*/}"/kpmueoep5.lock
 fi
 }
-[ -f /etc/pacman.conf.bkp ] || cp /etc/pacman.conf /var/backups/"${INSTALLDIR##*/}"/etc/pacman.conf."$SDATE".bkp
+[ -f /etc/pacman.conf ] || cp /etc/pacman.conf /var/backups/"${INSTALLDIR##*/}"/etc/pacman.conf."$SDATE".bkp
 { [ -x /system/bin/sed ] && /system/bin/sed -i '/^LocalFileSigLevel/s/.*/SigLevel    = Never/' /etc/pacman.conf ; } || sed -i '/^LocalFileSigLevel/s/.*/SigLevel    = Never/' /etc/pacman.conf
 _PMUEOEP1_ 1 1
 _KEYSGENMSG_
@@ -302,10 +305,10 @@ _PRINTTAIL_ "\${KEYRINGS[@]}"
 trap _TRPET_ EXIT
 
 ## keys begin ##################################################################
-# [ -z "\${TALUSER_:-}" ] && TALUSER_=root
-# if [ -x /system/bin/toybox ] && [ ! -f /var/run/lock/"${INSTALLDIR##*/}"/toyboxln."\$TALUSER_".lock ]
+# [ -z "\${TALUSER:-}" ] && TALUSER=root
+# if [ -x /system/bin/toybox ] && [ ! -f /var/run/lock/"${INSTALLDIR##*/}"/toyboxln."\$TALUSER".lock ]
 # then
-# cd "\$TALUSER_"/bin 2>/dev/null || cd bin || exit 196
+# cd "\$TALUSER"/bin 2>/dev/null || cd bin || exit 196
 # {
 # printf 'Creating symlinks in '%s' to '/system/bin/toybox';  Please wait a moment...  \n' "\$PWD"
 # for TOYBOXTOOL in \$(/system/bin/toybox)
@@ -314,7 +317,7 @@ trap _TRPET_ EXIT
 # then
 # ln -fs /system/bin/toybox "\$TOYBOXTOOL" || _PRTERROR_
 # fi
-# done && :>/var/run/lock/"${INSTALLDIR##*/}"/toyboxln."\$TALUSER_".lock && printf 'Creating symlinks in '%s' to '/system/bin/toybox';  DONE  \n' "\$PWD" ; } || _PRTERROR_
+# done && :>/var/run/lock/"${INSTALLDIR##*/}"/toyboxln."\$TALUSER".lock && printf 'Creating symlinks in '%s' to '/system/bin/toybox';  DONE  \n' "\$PWD" ; } || _PRTERROR_
 # cd "$INSTALLDIR" || exit 196
 # fi
 KEYSUNAM_="\$(uname -m)"
@@ -384,7 +387,8 @@ chmod 755 usr/local/bin/keys
 
 _ADDcshrc_() { :>root/.cshrc ; }
 _ADDinitrc_() { printf '%s\n' "" > root/.initrc ; }
-_ADDinputrc_() { printf '%s\n' "set bell-style none
+_ADDinputrc_() {
+INPUTRCFILE="$(printf '%s\n' "set bell-style none
 set colored-stats on
 set colored-completion-prefix on
 set completion-ignore-case on
@@ -402,17 +406,37 @@ set print-completions-horizontally on
 set show-all-if-ambiguous on
 set show-all-if-unmodified on
 set show-mode-in-prompt on
-set visible-stats on" > root/.inputrc ; }
+set visible-stats on")"
+_COMPAREFILE_ "$INPUTRCFILE" ".inputrc" "root"
+}
 
 _ADDprofile_() {
-printf '%s\n' "export TMPDIR=\"/tmp\"" > root/.profile
-for LCTE in "${!LC_TYPE[@]}"
-do
-printf "%s=\"%s\"\\n" "export ${LC_TYPE[LCTE]}" "$ULANGUAGE.UTF-8" >> root/.profile
-done
+PROFILEFILE="$(printf '%s\n' "export TMPDIR=\"/tmp\"")"
+_COMPAREFILE_ "$PROFILEFILE" ".profile" "root"
 }
 
 _ADDzshrc_() { :>root/.zshrc ; }
+
+_COMPAREFILE_() { # compare and write file if differ
+_WRITENEWFILE_() { printf '%s\n' "$1" > "$3/$2" && printf '\e[0;32m%s\n' "File '${INSTALLDIR##*/}/$3/$2' ${@: -1}." ; }
+if [ -f "$3/$2" ] # file exists
+then # compare
+if [[ "$1" != "$(cat $3/$2)" ]] # data differs
+then # write file
+_WRITENEWFILE_ "$@" "updated"
+else
+printf '\e[0;32m%s\n' "Data in file '${INSTALLDIR##*/}/$3/$2' is equal."
+fi
+else # write data to file if it does not exist
+_WRITENEWFILE_ "$@" "created"
+fi
+}
+
+_DOPROXY_() {
+[[ -f "$HOME"/.bash_profile ]] && grep -s "proxy" "$HOME"/.bash_profile | grep -s "export" >> root/bin/"$BINFNSTP" ||:
+[[ -f "$HOME"/.bashrc ]] && grep -s "proxy" "$HOME"/.bashrc  | grep -s "export" >> root/bin/"$BINFNSTP" ||:
+[[ -f "$HOME"/.profile ]] && grep -s "proxy" "$HOME"/.profile | grep -s "export" >> root/bin/"$BINFNSTP" ||:
+}
 
 _MAKESTARTBIN_() {
 _CFLHDR_ "$STARTBIN"
@@ -542,12 +566,6 @@ EOM
 chmod 700 "$STARTBIN"
 }
 
-_DOPROXY_() {
-[[ -f "$HOME"/.bash_profile ]] && grep -s "proxy" "$HOME"/.bash_profile | grep -s "export" >> root/bin/"$BINFNSTP" ||:
-[[ -f "$HOME"/.bashrc ]] && grep -s "proxy" "$HOME"/.bashrc  | grep -s "export" >> root/bin/"$BINFNSTP" ||:
-[[ -f "$HOME"/.profile ]] && grep -s "proxy" "$HOME"/.profile | grep -s "export" >> root/bin/"$BINFNSTP" ||:
-}
-
 _MAKEFINISHSETUP_() {
 _DOKEYS_() {
 if [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = i386 ]]
@@ -567,7 +585,7 @@ LOCGEN=":"
 if [[ "${LCR:-}" -eq 5 ]] || [[ -z "${LCR:-}" ]]	# LCR equals 5 or is undefined
 then
 _DOKEYS_
-[ -f etc/locale.gen.pacnew ] && cp -f etc/locale.gen var/backups/"${INSTALLDIR##*/}"/etc/locale.gen."$SDATE".bkp && cp -f etc/locale.gen.pacnew etc/locale.gen
+[ -f var/run/lock/"${INSTALLDIR##*/}"/locale.gen.pacnew.lock ] || { [ -f etc/locale.gen.pacnew ] && cp -f etc/locale.gen var/backups/"${INSTALLDIR##*/}"/etc/locale.gen."$SDATE".bkp && cp -f etc/locale.gen.pacnew etc/locale.gen && :>var/run/lock/"${INSTALLDIR##*/}"/locale.gen.pacnew.lock ; }
 LOCGEN="locale-gen || locale-gen"
 elif [[ "${LCR:-}" -eq 1 ]] || [[ "${LCR:-}" -eq 2 ]] || [[ "${LCR:-}" -eq 3 ]] || [[ "${LCR:-}" -eq 4 ]] 	# LCR equals 1 or 2 or 3 or 4
 then
@@ -626,5 +644,41 @@ printf "%s\\n" "set +Eeuo pipefail" >> root/bin/setupbin.bash
 printf "%s\\n" "$PROOTSTMNT /root/bin/$BINFNSTP ||:" >> root/bin/setupbin.bash
 printf "%s\\n" "set -Eeuo pipefail" >> root/bin/setupbin.bash
 chmod 700 root/bin/setupbin.bash
+}
+
+_SETLANGUAGE_() { # This function uses device system settings to set locale.  To generate locales in a preferred language, you can use "Settings > Language & Keyboard > Language" in Android; Then run 'setupTermuxArch r' for a quick system refresh to regenerate locales in your preferred language.
+LANGIN=([0]="$(getprop user.language)")
+LANGIN+=([1]="$(getprop user.region)")
+LANGIN+=([2]="$(getprop persist.sys.country)")
+LANGIN+=([3]="$(getprop persist.sys.language)")
+LANGIN+=([4]="$(getprop persist.sys.locale)")
+LANGIN+=([5]="$(getprop ro.product.locale)")
+LANGIN+=([6]="$(getprop ro.product.locale.language)")
+LANGIN+=([7]="$(getprop ro.product.locale.region)")
+ULANGUAGE="${LANGIN[0]:-C}_${LANGIN[1]:-C}"
+for LANGSET in "${!LANGIN[@]}"
+do
+if [[ "${LANGIN[LANGSET]}" = *-* ]]
+then
+ULANGUAGE="${LANGIN[LANGSET]//-/_}"
+break
+fi
+done
+printf "\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\n" "Setting locales to: " "Language " ">> $ULANGUAGE << " "Region" ": Please wait a moment."
+}
+
+_SETLOCALE_() { # This function uses device system settings to set locale.  To generate locales in a preferred language you can use "Settings > Language & Keyboard > Language" in Android;  Then run 'setupTermuxArch re' for a quick system refresh.
+printf "%s\\n" "##  File locale.conf was generated by ${0##*/} at ${FTIME//-}." > etc/locale.conf
+for LC_N in "${!LC_TYPE[@]}"
+do
+printf "%s\\n" "${LC_TYPE[LC_N]}=$ULANGUAGE.UTF-8" >> etc/locale.conf
+done
+set +e
+if grep "$ULANGUAGE"\\.UTF-8 etc/locale.gen
+then
+sed -i "/\\#$ULANGUAGE.UTF-8 UTF-8/{s/#//g;s/@/-at-/g;}" etc/locale.gen && printf "\\e[0;32mFound an exact match for language \\e[1;32m>> %s <<\\e[0;32m to continue locale configuration.  Command \\e[1;32mlocale-gen\\e[0;32m generates locales." "$ULANGUAGE" # && locale-gen
+else
+printf "\\e[0;33mCould not find an exact match for language \\e[1;33m>> %s <<\\e[0;33m in file /etc/local.gen.  Please edit files /etc/local.conf and /etc/local.gen, and then run the command \\e[1;33mlocale-gen\\e[0;33m to generate locales.  " "$ULANGUAGE"
+fi
 }
 # initkeyfunctions.bash FE
