@@ -7,16 +7,15 @@ set -Eeuo pipefail
 shopt -s  extglob nullglob globstar
 umask 0022
 unset LD_PRELOAD
-VERSIONID=2.0.479
+VERSIONID=2.0.480
 _ADERHELP_() {
-printf "\\e[1;32mThe command 'bash %s help' has information how to use '%s'.\\n" "${0##*/}" "${0##*/}"
-printf "\\e[1;32mPlease run 'bash %s' again or use 'bash %s refresh'.\\n" "${0##*/}" "${0##*/}"
+printf "\\e[1;32mThe command 'bash %s help' has information how to use '%s'.  " "${0##*/}" "${0##*/}"
+printf "\\e[1;32mPlease run 'bash %s' again or use 'bash %s refresh'.  " "${0##*/}" "${0##*/}"
 }
 _STRPERROR_() { # run on script error
 local RV="$?"
 _ADERHELP_
-printf "\\e[?25h\\n\\e[1;48;5;138m %s\\e[0m\\n" "TermuxArch FEEDBACK:  Generated script signal ${RV:-UNKNOWN} near or at line number ${1:-UNKNOWN} by '${2:-UNKNOWNCOMMAND}'!"
-printf "\\n"
+printf "\\e[?25h\\e[1;48;5;138m %s\\e[0m" "TermuxArch FEEDBACK:  Generated script signal ${RV:-UNKNOWN} near or at line number ${1:-UNKNOWN} by '${2:-UNKNOWNCOMMAND}'!  "
 }
 _STRPEXIT_() { # run on exit
 local RV="$?"
