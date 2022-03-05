@@ -173,7 +173,7 @@ fi
 _RMBLOOMQ_() {
 if [[ -d "$HOME"/TermuxArchBloom ]]
 then
-printf "\\n\\n\\e[0;33m%s\\e[1;33m%s\\e[0;33m%s\\e[1;30m%s\\e[0;33m%s\\n" "ＴｅｒｍｕｘＡｒｃｈ:  " "DIRECTORY FEEDBACK!  ~/${INSTALLDIR##*}TermuxArchBloom " "directory detected;  " "setupTermuxArch bloom" " will continue."
+printf "\\n\\n\\e[0;33m%s\\e[1;33m%s\\e[0;33m%s\\e[1;30m%s\\e[0;33m%s\\n" "ＴｅｒｍｕｘＡｒｃｈ  " "DIRECTORY FEEDBACK!  ~/${INSTALLDIR##*}TermuxArchBloom " "directory detected;  " "setupTermuxArch bloom" " will continue."
 while true
 do
 printf "\\n\\e[1;30m"
@@ -219,16 +219,6 @@ sleep "$SPINDLAY"
 done
 }
 
-_TAMATRIXEND_() {	# print TermuxArch source code as matrix ending
-# Information about VT100 terminal codes such as \\e[?25l is available at this https://wiki.bash-hackers.org/scripting/terminalcodes website.
-printf "\\e[0;32m"
-. "$0" help
-tail -n 32 "$0"
-. "$0" h
-printf "\\e[0m"
-printf "\\e[?25h"
-}
-
 _TAMATRIX_() {	# partial implemintation; print TermuxArch source code as matrix
 _DOTAMSTRIX_() {
 printf "\\e[?25l\\e[1;32m%s" "$(tr -d '\n' < "$0")"
@@ -252,6 +242,14 @@ _DOTAMSTRIX_
 fi
 cat "$0"
 _TAMATRIXEND_
+}
+
+_TAMATRIXEND_() {	# print 'setupTermuxArch mat[rix]' ending
+. "$0" h
+tail -n 18 "$0"
+. "$0" help
+printf "\\e[1;32mPlease run 'bash %s' again at a later time.  Also think about opening an issue and a pull request in order to enhance this feature;  Thank you for using '%s', and please enjoy using Linux on device!  " "${0##*/} $ARGS" "${0##*/} $ARGS"
+exit
 }
 
 _WAKELOCK_() {

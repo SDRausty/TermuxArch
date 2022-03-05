@@ -201,12 +201,11 @@ fi
 fi
 }
 
-_PREPROOTDIR_() {
-# create local array of directories to be created for setupTermuxArch
+_PREPROOTDIR_() { # create local array of directories to be created by setupTermuxArch
 local DRARRLST=("etc" "home" "root/bin" "usr/bin" "usr/local/bin" "usr/local/termuxarch/bin" "var/backups/${INSTALLDIR##*/}/etc" "var/backups/${INSTALLDIR##*/}/root" "var/binds")
 for ISDIR in ${DRARRLST[@]}
 do
-( [[ ! -d "$ISDIR" ]] && printf "\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[0m\\n" "Creating directory " "'/$ISDIR'" "." && mkdir -p "$ISDIR" ) || printf "\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[0m\\n" "Directory " "'/$ISDIR'" " exists; Continuing:"
+{ [[ ! -d "$ISDIR" ]] && printf "\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[0m\\n" "Creating directory " "'/$ISDIR'" "." && mkdir -p "$ISDIR" ; } || printf "\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[0m\\n" "Directory " "/$ISDIR" " exists.  "
 done
 }
 
@@ -216,7 +215,7 @@ _PREPROOTDIR_
 _SETLANGUAGE_
 _ADDADDS_
 _DOMODdotfiles_
-printf '\e[0;32mGenerating dot files;  \e[1;32mDONE\n'
+printf '\e[0;32mGenerating dot files:  \e[1;32mDONE\n'
 _MAKEFINISHSETUP_
 _MAKESETUPBIN_
 _MAKESTARTBIN_
@@ -295,8 +294,6 @@ _ADDmotd_
 _PREPPACMANCONF_ || :
 _SETLOCALE_
 _RUNFINISHSETUP_
-rm -f root/bin/"$BINFNSTP"
-rm -f root/bin/setupbin.bash
 [ -f root/bin/"$BINFNSTP" ] && rm -f root/bin/"$BINFNSTP"
 [ -f root/bin/setupbin.bash ] && rm -f root/bin/setupbin.bash
 printf "\\n\\e[1;34m%s  \\e[0m\\n\\n" "🕛 > 🕤 Arch Linux in Termux is installed and configured 📲  "

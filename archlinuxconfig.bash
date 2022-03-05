@@ -577,23 +577,20 @@ cat >> usr/local/bin/gcl <<- EOM
 { [ "\$#" = 0 ] && printf "\\\\e[1;31m%s\\\\e[1;37m%s\\\\e[1;31m%s\\\\e[0m\\\\n" "Example usage: " "'\${0##*/} https://github.com/TermuxArch/TermuxArch' " "Exiting..." ; } && exit 101
 _GITCLONE_() {
 WDIR_="\$PWD"
-{ [ -d "$TMPDIR/\$\$" ] || mkdir -p "$TMPDIR/\$\$" ; } && cd "$TMPDIR/\$\$" && git init
+{ [ -d "\$TMPDIR/\$\$" ] || mkdir -p "\$TMPDIR/\$\$" ; } && cd "\$TMPDIR/\$\$" && git init
 printf "%s\\n" "Checking HEAD branch in \$@..."
 RBRANCH="\$(git remote show "\$@" | grep 'HEAD branch' | cut -d' ' -f5)"
-rm -rf "$TMPDIR/\$\$"
 RBRANCH="\${RBRANCH# }" # strip leading space
 printf "%s\\n" "Getting branch \$RBRANCH from git repository \$@..."
-{ cd "\$WDIR_" && git clone --depth 1 "\$@" --branch \$RBRANCH --single-branch
+cd "\$WDIR_" && git clone --depth 1 "\$@" --branch \$RBRANCH --single-branch
+rm -rf "\$TMPDIR/\$\$"
 }
-}
-[ -d "\${@##*/}" ] && printf "Directory %s exits;  Exiting...\\n" "\${@##*/}" && exit
-if [[ ! -x "\$(command -v git)" ]]
-then
-{ pc git || pci git ; }
+BASENAME="\${@%/}" # strip trailing slash
+BASENAME="\${BASENAME#*//}" # strip before double slash
+BASENAME="\${BASENAME##*/}" # strip before last slash
+[ -d "\$BASENAME" ] && printf "Directory %s exists;  Exiting...\\n" "\$BASENAME" && exit 102
+[ -x "\$(command -v git)" ] || pc git || pci git
 git clone --depth 1 "\$@" --branch master --single-branch || _GITCLONE_ "\$@"
-else
-git clone --depth 1 "\$@" --branch master --single-branch || _GITCLONE_ "\$@"
-fi
 ## ~/${INSTALLDIR##*/}/usr/local/bin/gcl FE
 EOM
 chmod 755 usr/local/bin/gcl
@@ -608,10 +605,10 @@ printf "\\\\e[1;31m%s\\\\e[1;37m%s\\\\e[1;31m%s\\\\e[0m\\\\n" "Ｔｅｒｍｕ�
 else
 { [ "\$#" = 0 ] && printf "\\\\e[1;31m%s\\\\e[1;37m%s\\\\e[1;31m%s\\\\e[0m\\\\n" "Example usage: " "'\${0##*/} https://github.com/TermuxArch/TermuxArch' " "Exiting..." ; } && exit 101
 _GCLONEMAIN_() {
-BASENAME="\${*%/}" # strip trailing slash
+BASENAME="\${@%/}" # strip trailing slash
 BASENAME="\${BASENAME#*//}" # strip before double slash
 REPONAME="\${BASENAME##*/}" # strip before last slash
-[ -e "\$REPONAME-master" ] && { cd "\$REPONAME-master" || exit 169 : } || { ( [ -e "\$REPONAME-main" ] || ( wget -c -O "\$REPONAME.zip" "\$*"/archive/main.zip && unzip "\$REPONAME.zip" ) && { cd "\$REPONAME-main" || exit 169 : } ; } || { [ -e "\$REPONAME-master" ] || ( wget -c -O "\$REPONAME.zip" "\$*"/archive/master.zip && unzip "\$REPONAME.zip" ) && cd "\$REPONAME-master" ; }
+{ [ -e "\$REPONAME-master" ] && { cd "\$REPONAME-master" || exit 169 ; } ; } || { [ -e "\$REPONAME-main" ] || { wget -c -O "\$REPONAME.zip" "\$*"/archive/main.zip && unzip "\$REPONAME.zip"  ; } && { cd "\$REPONAME-main" || exit 169 ; } ; } || { [ -e "\$REPONAME-master" ] || { wget -c -O "\$REPONAME.zip" "\$*"/archive/master.zip && unzip "\$REPONAME.zip" ; } && cd "\$REPONAME-master" ; }
 git init
 git remote add origin "\$@" ||:
 git checkout -b main || git checkout main
@@ -932,7 +929,7 @@ else
 [ ! -f "/run/lock/${INSTALLDIR##*/}/patchmakepkg.lock" ] && patchmakepkg
 if { [[ ! "\$(command -v fakeroot)" ]] || [[ ! "\$(command -v git)" ]] || [[ ! "\$(command -v go)" ]] ; } 2>/dev/null
 then
-pci base base-devel fakeroot gcc git go || pci base base-devel fakeroot gcc git go || ( printf "\\n\\e[1;31mＴｅｒｍｕｘＡｒｃｈ SIGNAL: \\e[7;37m%s\\e[0m\\n\\n" "Please study the first lines of the error output and correct the error(s) and/or warning(s);  The command 'pci base base-devel fakeroot gcc git go' can be run as proot root user in a new Termux session and might resolve this issue.  You might be able to do this without closing this session.  Please try running command: $STARTBIN command 'pci base base-devel fakeroot gcc git go' in a new Termux PRoot session.  Then return to this session, and run '\${0##*/}' again." && exit 120 )
+pci base base-devel fakeroot gcc git go || pci base base-devel fakeroot gcc git go || { printf "\\n\\e[1;31mＴｅｒｍｕｘＡｒｃｈ SIGNAL: \\e[7;37m%s\\e[0m\\n\\n" "Please study the first lines of the error output and correct the error(s) and/or warning(s);  The command 'pci base base-devel fakeroot gcc git go' can be run as proot root user in a new Termux session and might resolve this issue.  You might be able to do this without closing this session.  Please try running command: $STARTBIN command 'pci base base-devel fakeroot gcc git go' in a new Termux PRoot session.  Then return to this session, and run '\${0##*/}' again." && exit 120 ; }
 fi
 fi
 cd
@@ -993,12 +990,12 @@ then
 else
 if [[ ! -f /usr/bin/make ]] || [[ ! -f /usr/bin/git ]] || [[ ! -f /usr/bin/bison ]]
 then
-pc bison base base-devel gcc git || pci bison base base-devel gcc git || ( printf "\\n\\e[1;31mＴｅｒｍｕｘＡｒｃｈ SIGNAL: \\e[7;37m%s\\e[0m\\n\\n" "Please study the first lines of the error output and correct the error(s) and/or warning(s) by running command 'pci bison base base-devel gcc git' as proot root user.  You might be able to bring this about without closing this session.  Please try running command: $STARTBIN command 'pci base base-devel gcc git' in a new Termux PRoot session.  This should install the neccessary packages to make 'ksh'.  Then return to this session, and run '\${0##*/}' again." && exit 120 )
+pc bison base base-devel gcc git || pci bison base base-devel gcc git || { printf "\\n\\e[1;31mＴｅｒｍｕｘＡｒｃｈ SIGNAL: \\e[7;37m%s\\e[0m\\n\\n" "Please study the first lines of the error output and correct the error(s) and/or warning(s) by running command 'pci bison base base-devel gcc git' as proot root user.  You might be able to bring this about without closing this session.  Please try running command: $STARTBIN command 'pci base base-devel gcc git' in a new Termux PRoot session.  This should install the neccessary packages to make 'ksh'.  Then return to this session, and run '\${0##*/}' again." && exit 120 ; }
 fi
 fi
 cd
 [ ! -d ksh ] && gcl https://github.com/ksh-community/ksh
-( cd ksh && nice -n 20 ./bin/package make ) || ( printf "\\\\e[1;31m%s\\\\e[1;37m%s\\\\e[1;31m%s\\\\n" "ＴｅｒｍｕｘＡｒｃｈ SIGNAL: " "The commands 'cd ksh && nice -n 20 ./bin/package make' did not run as expected; " "EXITING..." && exit 124 )
+{ cd ksh && nice -n 20 ./bin/package make ; } || { printf "\\\\e[1;31m%s\\\\e[1;37m%s\\\\e[1;31m%s\\\\n" "ＴｅｒｍｕｘＡｒｃｈ SIGNAL: " "The commands 'cd ksh && nice -n 20 ./bin/package make' did not run as expected; " "EXITING..." && exit 124 ; }
 find "\$HOME"/ksh/arch/*/bin -type f -executable ||: # printf "\\\\e[1;31m%s\\\\e[1;37m%s\\\\n" "ＴｅｒｍｕｘＡｒｃｈ SIGNAL: " "The command 'find arch/*/bin -type f -executable' did not run as expected; CONTINUING..." && _PRTERROR_
 fi
 ## ~/${INSTALLDIR##*/}/usr/local/bin/makeksh FE
