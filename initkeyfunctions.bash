@@ -4,7 +4,6 @@
 ## https://sdrausty.github.io/TermuxArch/README has info about this project.
 ## https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.
 ################################################################################
-
 declare -a USRINITFILES	# declare array for user init files
 USRINITFILES=(BASH_PROFILEFILE BASHRCFILE CSHRCFILE EMACSITFILE GITCONFIGFILE INITRCFILE INPUTRCFILE VIMRCFILE PROFILEFILE ZSHRCFILE)
 _ADDADDS_() {
@@ -603,7 +602,7 @@ printf "\\n\\e[1;34m:: \\e[1;32m%s\\n" "Processing system for $NASVER $CPUABI, a
 }
 EOM
 _DOPROXY_
-mkdir -p "$INSTALLDIR/run/lock/${INSTALLDIR##*/}"
+[ -d "$INSTALLDIR/run/lock/${INSTALLDIR##*/}" ] || mkdir -p "$INSTALLDIR/run/lock/${INSTALLDIR##*/}"
 if [[ ! -f "$INSTALLDIR/run/lock/${INSTALLDIR##*/}/pacmanRc.lock" ]]
 then
 if [[ "$CPUABI" = "$CPUABI5" ]]
@@ -636,6 +635,11 @@ $LOCGEN || _PMFSESTRING_ "LOCGEN $BINFNSTP ${0##/*}.  Please run '$LOCGEN' again
 EOM
 printf "%s\\n" "printf \"\\n\\e[1;32m==> \\e[1;37mRunning TermuxArch command \\e[1;32maddauser user\\e[1;37m...\\n\"" >> root/bin/"$BINFNSTP"
 printf "%s\\n" "addauser user || _PMFSESTRING_ \"addauser user $BINFNSTP ${0##/*}\"" >> root/bin/"$BINFNSTP"
+if [[ "${LCR:-}" -eq 3 ]] || [[ "${LCR:-}" -eq 4 ]]
+then
+printf "%s\\n" "locale-gen || locale-gen" >> root/bin/"$BINFNSTP"
+fi
+printf "%s\\n" "# root/bin/$BINFNSTP FE" >> root/bin/"$BINFNSTP"
 chmod 700 root/bin/"$BINFNSTP"
 }
 
@@ -644,6 +648,7 @@ _CFLHDR_ root/bin/setupbin.bash
 printf "%s\\n" "set +Eeuo pipefail" >> root/bin/setupbin.bash
 printf "%s\\n" "$PROOTSTMNT /root/bin/$BINFNSTP ||:" >> root/bin/setupbin.bash
 printf "%s\\n" "set -Eeuo pipefail" >> root/bin/setupbin.bash
+printf "%s\\n" "# root/bin/setupbin.bash FE" >> root/bin/setupbin.bash
 chmod 700 root/bin/setupbin.bash
 }
 
