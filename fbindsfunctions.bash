@@ -124,7 +124,7 @@ cat >> var/binds/bindexample.prs <<- EOM
 ## PRoot bind usage: PROOTSTMNT+="-b host_path:guest_path "
 ## PROOTSTMNT+="-q $PREFIX/bin/qemu-x86-64 "
 ## PROOTSTMNT+="-b /proc:/proc "
-## [[ ! -r /dev/shm ]] && PROOTSTMNT+="-b $INSTALLDIR/tmp:/dev/shm "
+## [ -r /dev/shm ] || PROOTSTMNT+="-b $INSTALLDIR/tmp:/dev/shm "
 ## ~/${INSTALLDIR##*/}/usr/local/bin/prs FE
 EOM
 }

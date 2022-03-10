@@ -87,8 +87,8 @@ printf "%s\\n" "PATH=\"\$HOME/bin:$TEXLIVEPATH:\$PPATH\"" >> root/.bash_profile
 else
 printf "%s\\n" "PATH=\"\$HOME/bin:\$PPATH\"" >> root/.bash_profile
 fi
-printf "%s\\n" "[[ -f \"\$HOME\"/.bashrc ]] && . \"\$HOME\"/.bashrc" >> root/.bash_profile
-printf "%s\\n" "[[ -f \"\$HOME\"/.profile ]] && . \"\$HOME\"/.profile" >> root/.bash_profile
+printf "%s\\n" "[ -f \"\$HOME\"/.bashrc ] && . \"\$HOME\"/.bashrc" >> root/.bash_profile
+printf "%s\\n" "[ -f \"\$HOME\"/.profile ] && . \"\$HOME\"/.profile" >> root/.bash_profile
 printf "%s\\n" "if [ ! -e \"\$HOME\"/.hushlogin ] && [ ! -e \"\$HOME\"/.chushlogin ]
 then
 [ -e /etc/mota ] && . /etc/mota
@@ -558,11 +558,11 @@ chmod 755 usr/local/bin/fibs
 _ADDga_() {
 _CFLHDR_ usr/local/bin/ga
 cat >> usr/local/bin/ga <<- EOM
-if [[ ! -x "\$(command -v git)" ]]
+if [ -x "\$(command -v git)" ]
 then
-{ pc git || pci git ; }
 git add .
 else
+{ pc git || pci git ; }
 git add .
 fi
 ## ~/${INSTALLDIR##*/}/usr/local/bin/ga FE
@@ -632,11 +632,11 @@ chmod 755 usr/local/bin/gclone
 _ADDgcm_() {
 _CFLHDR_ usr/local/bin/gcm
 cat >> usr/local/bin/gcm <<- EOM
-if [[ ! -x "\$(command -v git)" ]]
+if [ -x "\$(command -v git)" ]
 then
-{ pc git || pci git ; }
 git commit
 else
+{ pc git || pci git ; }
 git commit
 fi
 ## ~/${INSTALLDIR##*/}/usr/local/bin/gcm FE
@@ -662,11 +662,11 @@ fi
 _ADDgpl_() {
 _CFLHDR_ usr/local/bin/gpl
 cat >> usr/local/bin/gpl <<- EOM
-if [[ ! -x "\$(command -v git)" ]]
+if [ -x "\$(command -v git)" ]
 then
-{ pc git || pci git ; }
 git pull
 else
+{ pc git || pci git ; }
 git pull
 fi
 ## ~/${INSTALLDIR##*/}/usr/local/bin/gpl FE
@@ -677,11 +677,11 @@ chmod 755 usr/local/bin/gpl
 _ADDgp_() {
 _CFLHDR_ usr/local/bin/gp "# git push https://username:password@github.com/username/repository.git"
 cat >> usr/local/bin/gp <<- EOM
-if [[ ! -x "\$(command -v git)" ]]
+if [ -x "\$(command -v git)" ]
 then
-{ pc git || pci git ; }
 git push
 else
+{ pc git || pci git ; }
 git push
 fi
 ## ~/${INSTALLDIR##*/}/usr/local/bin/gp FE
@@ -691,7 +691,7 @@ chmod 755 usr/local/bin/gp
 
 _ADDinfo_ () {
 _CFLHDR_ usr/local/bin/info
-printf "%s\\n%s\\n%s\\n" "[ \"\$UID\" = 0 ] && printf \"\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\\n\" \"Cannot run '\${0##*/}' as root user;\" \" the command 'addauser username' creates user accounts in $INSTALLDIR; the command '$STARTBIN command addauser username' can create user accounts in $INSTALLDIR from Termux; a default user account is created during setup; the default username 'user' can be used to access the PRoot system employing a user account; command '$STARTBIN help' has more information;  \" \"Exiting...\" && exit" "[ ! -x \"/usr/bin/info\" ] && { pc texinfo || pci texinfo ; } && /usr/bin/info \"\$@\" || /usr/bin/info \"\$@\"" "## ~/${INSTALLDIR##*/}/usr/local/bin/info FE" >> usr/local/bin/info
+printf "%s\\n%s\\n%s\\n" "[ \"\$UID\" = 0 ] && printf \"\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\\n\" \"Cannot run '\${0##*/}' as root user;\" \" the command 'addauser username' creates user accounts in $INSTALLDIR; the command '$STARTBIN command addauser username' can create user accounts in $INSTALLDIR from Termux; a default user account is created during setup; the default username 'user' can be used to access the PRoot system employing a user account; command '$STARTBIN help' has more information;  \" \"Exiting...\" && exit" "{ [ -x \"/usr/bin/info\" ] || { pc texinfo || pci texinfo ; } ; } && /usr/bin/info \"\$@\" || /usr/bin/info \"\$@\"" "## ~/${INSTALLDIR##*/}/usr/local/bin/info FE" >> usr/local/bin/info
 chmod 755 usr/local/bin/info
 }
 
@@ -708,11 +708,11 @@ printf "%s\\n" "Command ${0##*/} is depreciated;  Exiting..."
 exit 0
 _CLONEAURHELPER_() {
 cd "\$HOME/aurhelpers" || exit 196
-if [[ ! -d "\$AURHELPER" ]]
+if [ -d "\$AURHELPER" ]
 then
-printf "%s\\\\n\\\\n" "Cloning repository '\$AURHELPER' from https://aur.archlinux.org." && cd && gcl https://aur.archlinux.org/\${AURHELPER}.git && printf "%s\\\\n\\\\n" "Finished cloning repository '\$AURHELPER' from https://aur.archlinux.org." && _MAKEAURHELPER_ || _PRTERROR_
-else
 { printf "%s\\\\n" "Repository '\$AURHELPER' is already cloned." && _MAKEAURHELPER_ ; } || _PRTERROR_
+else
+printf "%s\\\\n\\\\n" "Cloning repository '\$AURHELPER' from https://aur.archlinux.org." && cd && gcl https://aur.archlinux.org/\${AURHELPER}.git && printf "%s\\\\n\\\\n" "Finished cloning repository '\$AURHELPER' from https://aur.archlinux.org." && _MAKEAURHELPER_ || _PRTERROR_
 fi
 }
 
@@ -764,7 +764,7 @@ _PRTERROR_() {
 printf "\\\\n\\\\e[1;31merror: \\\\e[1;37m%s\\\\e[0m\\\\n\\\\n" "Please study the first lines of the error output and correct the error(s) and/or warning(s) and run '\${0##*/} \$ARGS' again."
 }
 
-[ ! -d "\$HOME/aurhelpers" ] && mkdir -p "\$HOME/aurhelpers"
+[ -d "\$HOME/aurhelpers" ] || mkdir -p "\$HOME/aurhelpers"
 UNAMEM="\$(uname -m)"
 if [ "\$UNAMEM" = x86-64 ]
 then
@@ -801,7 +801,7 @@ then
 pci automake base base-devel fakeroot git gcc libtool po4a || printf "\\n\\e[1;31mＴｅｒｍｕｘＡｒｃｈ SIGNAL: \\e[7;37m%s\\e[0m\\n\\n" "Please study the first lines of the error output and correct the error(s) and/or warning(s) by running command 'pci automake base base-devel fakeroot git gcc go libtool po4a' as root user in a new Termux session.  You can do this without closing this session by running command \"$STARTBIN command 'pci automake base base-devel fakeroot git gcc go libtool po4a'\"in a new Termux session. Then return to this session and run '\${0##*/} \$ARGS' again."
 fi
 cd
-[ ! -d fakeroot-tcp ] && gcl https://aur.archlinux.org/fakeroot-tcp.git
+[ -d fakeroot-tcp ] || gcl https://aur.archlinux.org/fakeroot-tcp.git
 _FUNDOPKGBUILD_() {
 cp PKGBUILD PKGBUILD.$$.bkp
 sed -ir '/prepare()/,+4d' PKGBUILD
@@ -893,7 +893,7 @@ then
 printf "\\\\e[1;31m%s\\\\e[1;37m%s\\\\e[1;31m%s\\\\e[0m\\\\n" "ＴｅｒｍｕｘＡｒｃｈ SIGNAL:" "  Script '\${0##*/}' should not be used as root:  The command 'addauser' creates user accounts in Arch Linux in Termux PRoot and configures these user accounts for the command 'sudo':  The 'addauser' command is intended to be run by the Arch Linux in Termux PRoot root user:  To use 'addauser' directly from Termux you can run \"$STARTBIN command 'addauser user'\" in Termux to create this account in Arch Linux Termux PRoot:  The command '$STARTBIN help' has more information about using '$STARTBIN':  " "Exiting..."
 else
 [ -x /usr/bin/tllocalmgr ] && printf "\\\\e[0;32m%s\\\\e[0m\\\\n" "The command 'tllocalmgr' is already installed!  Please use the command 'tllocalmgr':  Exiting..." && exit 169
-yay tllocalmgr --noconfirm 2>/dev/null || { [ ! -x /usr/bin/yay ] && makeauryay && yay tllocalmgr --noconfirm ; }
+yay tllocalmgr --noconfirm || { [ ! -x /usr/bin/yay ] && makeauryay && yay tllocalmgr --noconfirm ; }
 fi
 ## ~/${INSTALLDIR##*/}/usr/local/bin/makeaurtllocalmgr FE
 EOM
@@ -933,7 +933,7 @@ pci base base-devel fakeroot gcc git go || pci base base-devel fakeroot gcc git 
 fi
 fi
 cd
-[ ! -d yay ] && gcl https://aur.archlinux.org/yay.git
+[ -d yay ] || gcl https://aur.archlinux.org/yay.git
 { cd yay && _PRMAKE_ && nice -n 20 makepkg -firs --noconfirm ; } || { printf "\\\\e[1;31m%s\\\\e[1;37m%s\\\\e[1;31m%s\\\\n" "ＴｅｒｍｕｘＡｒｃｈ SIGNAL: " "The command 'nice -n 20 makepkg -firs --noconfirm' did not run as expected; " "EXITING..." && exit 124 ; }
 printf "\\\\e[0;32m%s\\\\n%s\\\\n%s\\\\e[1;32m%s\\\\e[0m\\\\n" "Paths that can be followed after building 'yay' are 'yay cmatrix --noconfirm' which builds a matrix screensaver.  The commands 'yay pikaur|pikaur-git|tpac' build more aur installers which can also be used to download aur repositories and build packages like with 'yay' in your Android smartphone, tablet, wearable and more.  Did you know that 'android-studio' is available with the command 'yay android'?" "If you have trouble importing keys, this command 'gpg --keyserver keyserver.ubuntu.com --recv-keys 71A1D0EFCFEB6281FD0437C71A1D0EFCFEB6281F' might help.  Change the number to the number of the key being imported." "Building and installing yay: " "DONE 🏁"
 fi
@@ -988,13 +988,13 @@ if [[ -n "\${PREFIX:-}" ]]
 then
 : # pull requests are requested to automate install missing Termux packages
 else
-if [[ ! -f /usr/bin/make ]] || [[ ! -f /usr/bin/git ]] || [[ ! -f /usr/bin/bison ]]
+if [ ! -f /usr/bin/make ] || [ ! -f /usr/bin/git ] || [ ! -f /usr/bin/bison ]
 then
 pc bison base base-devel gcc git || pci bison base base-devel gcc git || { printf "\\n\\e[1;31mＴｅｒｍｕｘＡｒｃｈ SIGNAL: \\e[7;37m%s\\e[0m\\n\\n" "Please study the first lines of the error output and correct the error(s) and/or warning(s) by running command 'pci bison base base-devel gcc git' as proot root user.  You might be able to bring this about without closing this session.  Please try running command: $STARTBIN command 'pci base base-devel gcc git' in a new Termux PRoot session.  This should install the neccessary packages to make 'ksh'.  Then return to this session, and run '\${0##*/}' again." && exit 120 ; }
 fi
 fi
 cd
-[ ! -d ksh ] && gcl https://github.com/ksh-community/ksh
+[ -d ksh ] || gcl https://github.com/ksh-community/ksh
 { cd ksh && nice -n 20 ./bin/package make ; } || { printf "\\\\e[1;31m%s\\\\e[1;37m%s\\\\e[1;31m%s\\\\n" "ＴｅｒｍｕｘＡｒｃｈ SIGNAL: " "The commands 'cd ksh && nice -n 20 ./bin/package make' did not run as expected; " "EXITING..." && exit 124 ; }
 find "\$HOME"/ksh/arch/*/bin -type f -executable ||: # printf "\\\\e[1;31m%s\\\\e[1;37m%s\\\\n" "ＴｅｒｍｕｘＡｒｃｈ SIGNAL: " "The command 'find arch/*/bin -type f -executable' did not run as expected; CONTINUING..." && _PRTERROR_
 fi
@@ -1078,9 +1078,9 @@ _CFLHDR_ usr/local/bin/orcaconf "# Contributor https://github.com/JanuszChmiel" 
 cat >> usr/local/bin/orcaconf <<- EOM
 [[ -f "/run/lock/${INSTALLDIR##*/}/orcaconf.lock" ]] && printf "%s\\\\n" "Already configured orca: DONE 🏁" && exit
 _INSTALLORCACONF_() {
-[[ ! -f "/run/lock/${INSTALLDIR##*/}/orcaconfinstall.lock" ]] && (nice -n 18 pci espeak-ng mate mate-extra orca pulseaudio-alsa tigervnc || nice -n 18 pci espeak-ng mate mate-extra orca pulseaudio-alsa tigervnc) && :>"/run/lock/${INSTALLDIR##*/}/orcaconfinstall.lock" || printf "%s\\n" "_INSTALLORCACONF_ \${0##*/} did not completed as expected; Continuing..."
+[[ ! -f "/run/lock/${INSTALLDIR##*/}/orcaconfinstall.lock" ]] && { nice -n 18 pci espeak-ng mate mate-extra orca pulseaudio-alsa tigervnc || nice -n 18 pci espeak-ng mate mate-extra orca pulseaudio-alsa tigervnc ; } && :>"/run/lock/${INSTALLDIR##*/}/orcaconfinstall.lock" || printf "%s\\n" "_INSTALLORCACONF_ \${0##*/} did not completed as expected; Continuing..."
 }
-_INSTALLORCACONF_ || _INSTALLORCACONF_ || (printf "%s\\n" "_INSTALLORCACONF_ \${0##*/} did not completed as expected.  Please check for errors and run \${0##*/} again." && exit)
+_INSTALLORCACONF_ || _INSTALLORCACONF_ || { printf "%s\\n" "_INSTALLORCACONF_ \${0##*/} did not completed as expected.  Please check for errors and run \${0##*/} again." && exit ; }
 csystemctl || printf "\\e[1;31m%s\\e[0m\\n" "command 'csystemctl' did not completed as expected"
 [[ ! -f "/run/lock/${INSTALLDIR##*/}/orcaconf.lock" ]] && :>"/run/lock/${INSTALLDIR##*/}/orcaconf.lock"
 orcarun || printf "\\e[1;31m%s\\e[0m\\n" "command 'orcarun' did not completed as expected"
@@ -1110,7 +1110,7 @@ cat >> usr/local/bin/patchmakepkg <<- EOM
 printf "Patching makepkg: \\\\n"
 SDATE="\$(date +%s)"
 BKPDIR="$INSTALLDIR/var/backups/${INSTALLDIR##*/}/"
-[ ! -d "\$BKPDIR" ] && mkdir -p "\$BKPDIR"
+[ -d "\$BKPDIR" ] || mkdir -p "\$BKPDIR"
 cp /bin/makepkg "\$BKPDIR/makepkg.\$SDATE.bkp"
 if [ "\$(awk 'FNR==232{print \$0}' /bin/makepkg)" != "#" ]
 then
@@ -1260,7 +1260,7 @@ chmod 755 usr/local/bin/pinghelp
 }
 
 _ADDresolvconf_() {
-[ ! -d run/systemd/resolve ] && mkdir -p run/systemd/resolve
+[ -d run/systemd/resolve ] || mkdir -p run/systemd/resolve
 cat > run/systemd/resolve/resolv.conf <<- EOM
 nameserver 1.1.1.1
 nameserver 1.0.0.1
@@ -1272,7 +1272,7 @@ nameserver 1.0.0.1
 EOM
 }
 _CHECKRESOLVE_() {
-[ ! -d etc ] && mkdir -p etc
+[ -d etc ] || mkdir -p etc
 if [ -f etc/resolv.conf ]
 then
 if ! grep -q 'nameserver 1.1.1.1' etc/resolv.conf
@@ -1284,7 +1284,7 @@ fi
 _CHECKRESOLVE_
 }
 
-_ADDstriphtmlcodefromfile_() { _CFLHDR_ usr/local/bin/striphtmlcodefromfile "#strip html code from file" ; printf "%s\\n%s\\n%s\\n" "[ \"\$UID\" = 0 ] && printf \"\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\\n\" \"Cannot run '\${0##*/}' as root user;\" \" the command 'addauser username' creates user accounts in $INSTALLDIR; the command '$STARTBIN command addauser username' can create user accounts in $INSTALLDIR from Termux; a default user account is created during setup; the default username 'user' can be used to access the PRoot system employing a user account; command '$STARTBIN help' has more information;  \" \"Exiting...\" && exit" "[ ! -x \"\$(command -v tree)\" ] && pci sed && sed || sed -n '/^$/!{s/<[^>]*>//g;p;}' \"\$@\"" "## ~/${INSTALLDIR##*/}/usr/local/bin/striphtmlcodefromfile FE" >> usr/local/bin/striphtmlcodefromfile ; chmod 755 usr/local/bin/striphtmlcodefromfile ; }
+_ADDstriphtmlcodefromfile_() { _CFLHDR_ usr/local/bin/striphtmlcodefromfile "#strip html code from file" ; printf "%s\\n%s\\n%s\\n%s\\n" "[ \"\$UID\" = 0 ] && printf \"\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\\n\" \"Cannot run '\${0##*/}' as root user;\" \" the command 'addauser username' creates user accounts in $INSTALLDIR; the command '$STARTBIN command addauser username' can create user accounts in $INSTALLDIR from Termux; a default user account is created during setup; the default username 'user' can be used to access the PRoot system employing a user account; command '$STARTBIN help' has more information;  \" \"Exiting...\" && exit" "[ -x \"\$(command -v sed)\" ] || { pc sed || pci sed ; }" "sed -n '/^$/!{s/<[^>]*>//g;p;}' \"\$@\"" "## ~/${INSTALLDIR##*/}/usr/local/bin/striphtmlcodefromfile FE" >> usr/local/bin/striphtmlcodefromfile ; chmod 755 usr/local/bin/striphtmlcodefromfile ; }
 
 _ADDt_() {
 _CFLHDR_ usr/local/bin/t

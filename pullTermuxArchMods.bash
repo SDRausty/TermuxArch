@@ -38,7 +38,7 @@ trap _SGSATRPQUIT_ QUIT
 RDR="$PWD"
 _GSA_() { # git repository update modules
 WRDR="$1"
-(git submodule update $3 --depth 1 --init --recursive --remote "$1" && _PRCS_) || _PESTRG_ "$1" update # the command ` git submodule help ` and the book https://git-scm.com/book/en/v2/Git-Tools-Submodules have more information about git submodules
+(git submodule update "$3" --depth 1 --init --recursive --remote "$1" && _PRCS_) || _PESTRG_ "$1" update # the command ` git submodule help ` and the book https://git-scm.com/book/en/v2/Git-Tools-Submodules have more information about git submodules
 }
 
 _PESTRG_() {

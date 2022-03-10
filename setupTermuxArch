@@ -7,7 +7,7 @@ set -Eeuo pipefail
 shopt -s  extglob nullglob globstar
 umask 0022
 unset LD_PRELOAD
-VERSIONID=2.0.482
+VERSIONID=2.0.483
 _STRPEROR_() { # run on script error
 local RV="$?"
 printf "\\e[?25h\\e[1;48;5;138m %s\\e[0m" "ＴｅｒｍｕｘＡｒｃｈ FEEDBACK:  Generated script signal received ${RV:-UNKNOWN} near or at line number ${1:-UNKNOWN} by '${2:-UNKNOWNCOMMAND}'!  "
@@ -175,9 +175,9 @@ fi
 }
 _COREFILESLOAD_() {
 printf "\\e[?25l\\e[0m"
+. fbindsfunctions.bash
 . archlinuxconfig.bash
 . espritfunctions.bash
-. fbindsfunctions.bash
 . getimagefunctions.bash
 . initkeyfunctions.bash
 _LOADCONF_
@@ -356,16 +356,16 @@ _SYSINFO_ "$@"
 }
 _DODIRCHK_() {
 _SETROOT_EXCEPTION_
-if [[ ! -d "$INSTALLDIR" ]] || [[ ! -d "$INSTALLDIR/root/bin" ]] || [[ ! -d "$INSTALLDIR/var/binds" ]] || [[ ! -f "$INSTALLDIR/bin/we" ]] || [[ ! -f "$INSTALLDIR/usr/bin/env" ]]
+if [ ! -d "$INSTALLDIR" ] || [ ! -d "$INSTALLDIR/root/bin" ] || [ ! -d "$INSTALLDIR/var/binds" ] || [ ! -f "$INSTALLDIR/bin/we" ] || [ ! -f "$INSTALLDIR/usr/bin/env" ]
 then
 printf "\\n\\e[0;33m%s\\e[1;33m%s\\e[0;33m.\\e[0m\\n\\n" "ＴｅｒｍｕｘＡｒｃｈ FEEDBACK!  " "The root directory structure is of ~/${INSTALLDIR##*/} seems to be incorrect; Cannot continue '${0##*/} $ARGS'!  This command '${0##*/} help' has more information"
-if [[ -d "$INSTALLDIR"/tmp ]]
+if [ -d "$INSTALLDIR"/tmp ]
 then	# check for superfluous tmp directory
 DIRCHECK=0
 DIRNAME=(dev etc home opt proc root sys usr var)
 for IDIRNAME in ${DIRNAME[@]}
 do
-if [[ ! -d "$INSTALLDIR/$IDIRNAME" ]]
+if [ ! -d "$INSTALLDIR/$IDIRNAME" ]
 then
 DIRCHECK=1
 else
@@ -373,10 +373,10 @@ DIRCHECK=0
 fi
 done
 fi
-if [[ -z "${DIRCHECK:-}" ]]
+if [ -z "${DIRCHECK:-}" ]
 then
 printf "Variable DIRCHECK is unbound.\\n"
-elif [[ "$DIRCHECK" -eq 1 ]]
+elif [ "$DIRCHECK" -eq 1 ]
 then	# delete superfluous tmp dir
 rm -rf "$INSTALLDIR"/tmp
 rmdir "$INSTALLDIR" ||  _PSGI1ESTRING_ "rmdir INSTALLDIR _DODIRCHK_ ${0##*/}"
@@ -408,7 +408,7 @@ then
 $USEREDIT "${WDIR}setupTermuxArchConfigs.bash"
 else
 cp knownconfigurations.bash "${WDIR}setupTermuxArchConfigs.bash"
-sed -i "7s/.*/\# The architecture of this device is $CPUABI; Adjust configurations in the appropriate section.  Change CMIRROR (https:\/\/wiki.archlinux.org\/index.php\/Mirrors and https:\/\/archlinuxarm.org\/about\/mirrors) to desired geographic location to resolve 404 and checksum issues.  /" "${WDIR}setupTermuxArchConfigs.bash"
+sed -i "7s/.*/\# The architecture of this device is $CPUABI; Adjust configurations in the appropriate section.  Change mirror (https:\/\/wiki.archlinux.org\/index.php\/Mirrors and https:\/\/archlinuxarm.org\/about\/mirrors) to desired geographic location to resolve 404 and checksum issues.  /" "${WDIR}setupTermuxArchConfigs.bash"
 $USEREDIT "${WDIR}setupTermuxArchConfigs.bash"
 . "${WDIR}setupTermuxArchConfigs.bash"
 _PRINTCONFLOADED_
@@ -587,9 +587,9 @@ _PREPTERMUXARCH_
 fi
 }
 _PREPTMPDIR_() {
-[[ ! -d "$INSTALLDIR/tmp" ]] && mkdir -p "$INSTALLDIR/tmp" && chmod 777 "$INSTALLDIR/tmp" && chmod +t "$INSTALLDIR/tmp"
+[ -d "$INSTALLDIR/tmp" ] || { mkdir -p "$INSTALLDIR/tmp" && chmod 777 "$INSTALLDIR/tmp" && chmod +t "$INSTALLDIR/tmp" ; }
 TAMPDIR="$INSTALLDIR/tmp/setupTermuxArch$$$RANDOM$PPID$SECONDS"
-[[ ! -d "$TAMPDIR" ]] && mkdir -p "$TAMPDIR"
+[ -d "$TAMPDIR" ]|| mkdir -p "$TAMPDIR"
 }
 _PREPTERMUXARCH_() {
 _NAMEINSTALLDIR_
@@ -629,7 +629,7 @@ printf "\\n\\e[1;32m  %s     \\e[0;32mcommands \\e[1;32m%s \\e[0;32m%s\\n" "HELP
 printf "\\n\\e[1;32m  %s    \\e[0;32mcommand \\e[1;32m%s \\e[0;32m%s\\n" "TERSE" "'${0##*/} he[lp]'" "shows the terse help screen."
 printf "\\n\\e[1;32m  %s  \\e[0;32mcommand \\e[1;32m%s \\e[0;32m%s\\n" "VERBOSE" "'${0##*/} h[elp]'" "shows the verbose help screen."
 printf "\\n\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\n" "Usage information for" " ${0##*/}" " version $VERSIONID.  Some arguments can be abbreviated to one, two and three letters each;  Two and three letter arguments are acceptable.  For example" " 'bash ${0##*/} cs'" " will use 'curl' to download TermuxArch and produce a file like" " setupTermuxArchSysInfo$STIME.log" " populated with system information.  If you have a new smartphone that you are not familiar with, this file" " setupTermuxArchSysInfo$STIME.log" " might make for an interesting read in order to find out more about the device you might be holding in the palm of your hand right at this moment.  User configurable variables are in file" " setupTermuxArchConfigs.bash." "  To create this file from file" " knownconfigurations.bash" " in the working directory, execute" " 'bash ${0##*/} manual'" " to create and edit file" " setupTermuxArchConfigs.bash" "."
-printf "\\n\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\n" "  INSTALL" "  You can run" " ${0##*/}" " without arguments in a bash shell to install Arch Linux in a Termux PRoot container in a smartphone, smartTV, table, wearable and more...  Command" " 'bash ${0##*/} curl'"  " will envoke 'curl' as the download manager.  You can copy" " knownconfigurations.bash" " to" " setupTermuxArchConfigs.bash" " with the command" " 'bash ${0##*/} manual'" " to edit your preferred CMIRROR site, refine the init statement and to access more options.  Change CMIRROR to desired geographic location to resolve download, 404 and checksum issues should these occur."
+printf "\\n\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\n" "  INSTALL" "  You can run" " ${0##*/}" " without arguments in a bash shell to install Arch Linux in a Termux PRoot container in a smartphone, smartTV, table, wearable and more...  Command" " 'bash ${0##*/} curl'"  " will envoke 'curl' as the download manager.  You can copy" " knownconfigurations.bash" " to" " setupTermuxArchConfigs.bash" " with the command" " 'bash ${0##*/} manual'" " to edit your preferred mirror site, refine the init statement and to access more options.  Change mirror to desired geographic location to resolve download, 404 and checksum issues should these occur."
 printf "\\n\\e[0;32m  %s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\n" "After editing file" " setupTermuxArchConfigs.bash" ", you can run" " 'bash ${0##*/}'" " and" " setupTermuxArchConfigs.bash" " loads automatically from the working directory.  User configurable variables are present in this file for your convenience. This link" " https://github.com/SDRausty/TermuxArch/issues/212" " at GitHub has the most current information about setting Arch Linux in Termux PRoot as the default login shell in Termux in your smartphone, tablet, smartTV, wearable and more.  If you choose to, or are simply curious about setting Arch Linux in Termux PRoot as the default login shell, please be well acquainted with safe mode;  Long tapping on NEW SESSION will open a new session in safe mode.  This mode can be used to reset the default shell."
 printf "\\n\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\n" "  PURGE    " "command " "'${0##*/} purge' " "uninstalls Arch Linux in PRoot from Termux."
 printf "\\n\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\n\\n" "  SYSINFO  " "command" " '${0##*/} sysinfo'" " creates a system information file;  A file like" " setupTermuxArchSysInfo$STIME.log" " will be populated with device and system information in the working directory.  Please post information from this file along with details at" " https://github.com/TermuxArch/TermuxArch/issues"  "if questions or comments are related to a particular device;  Should screenshots help in resolving an issue, include these with information from this system information log file as well.  If you are sharing an issue please consider creating a pull request at"  "https://github.com/TermuxArch/TermuxArch/pulls"  "also.  A pull request can give a much better perspective of how an issue can be easily resolved."
@@ -1038,14 +1038,14 @@ printf "\\n\\e[0;32mSetting mode\\e[1;34m; \\e[1;32mupdate Termux tools with min
 _PRPREFRESH_ "2"
 _ARG2DIR_ "$@"
 _INTROREFRESH_ "$@"
-## [purge [customdir]]  Purge Arch Linux option with function _RMARCHRM_.
+## [purge [customdir]]  Purge/Uninstall Arch Linux from device.
 elif [[ "${1//-}" = [Pp][Uu]* ]]
 then
 printf "\\nSetting mode to purge.\\n"
 PURGELCR=0
 _ARG2DIR_ "$@"
 _RMARCHQ_
-## [p[urge] [customdir]] Quick purge Arch Linux option with function _RMARCHRM_.
+## [p[urge] [customdir]] Quick purge/uninstall Arch Linux from device.
 elif [[ "${1//-}" = [Pp]* ]]
 then
 printf "\\nSetting mode to quick purge.\\n"
