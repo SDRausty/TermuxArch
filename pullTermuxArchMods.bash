@@ -67,7 +67,7 @@ _PRNT_ () {	# print message with one trialing newline
 printf "%s\\n" "$1"
 }
 
-# git pull || printf "\\n\\n%s\\n" "Cannot git pull; Continuing..."
+git pull || printf "\\n\\n%s\\n" "Cannot git pull; Continuing..."
 if grep '\.\/\.git\/' sha512.sum 1>/dev/null || grep '\.\/\.scripts\/maintenance\/' sha512.sum 1>/dev/null || grep '\.\/docs\/' sha512.sum 1>/dev/null || grep '\.\/gen\/' sha512.sum 1>/dev/null
 then
 sed -i '/\.\/\.git\//d' sha512.sum
