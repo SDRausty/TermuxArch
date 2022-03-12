@@ -7,7 +7,7 @@ set -Eeuo pipefail
 shopt -s  extglob nullglob globstar
 umask 0022
 unset LD_PRELOAD
-VERSIONID=2.0.484
+VERSIONID=2.0.485
 _STRPEROR_() { # run on script error
 local RV="$?"
 printf "\\e[1;48;5;138m %s" "ＴｅｒｍｕｘＡｒｃｈ NOTICE:  Generated script signal received ${RV:-UNKNOWN} near or at line number ${1:-UNKNOWN} by '${2:-UNKNOWNCOMMAND}'!  "
@@ -1038,7 +1038,7 @@ printf "\\n\\e[0;32mSetting mode\\e[1;34m; \\e[1;32mupdate Termux tools with min
 _PRPREFRESH_ "2"
 _ARG2DIR_ "$@"
 _INTROREFRESH_ "$@"
-## [purge [customdir]]  Purge/Uninstall Arch Linux from device.
+## [purge [customdir]]  Purge/uninstall Arch Linux from device.
 elif [[ "${1//-}" = [Pp][Uu]* ]]
 then
 printf "\\nSetting mode to purge.\\n"
