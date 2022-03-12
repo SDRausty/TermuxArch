@@ -38,7 +38,7 @@ trap _SGSATRPQUIT_ QUIT
 RDR="$PWD"
 _GSA_() { # git repository update modules
 WRDR="$1"
-(git submodule update $3 --depth 1 --init --recursive --remote "$1" && _PRCS_) || _PESTRG_ "$1" update # the command ` git submodule help ` and the book https://git-scm.com/book/en/v2/Git-Tools-Submodules have more information about git submodules
+{ git submodule update --depth 1 --init --recursive --remote "$1" && _PRCS_ ; } || { git submodule add --depth 1 https://github.com/"$3"/"$2" "$1" && _PRCS_ ; } || _PESTRG_ "$1" update # the command ` git submodule help ` and the book https://git-scm.com/book/en/v2/Git-Tools-Submodules have more information about git submodules
 }
 
 _PESTRG_() {
@@ -67,7 +67,7 @@ _PRNT_ () {	# print message with one trialing newline
 printf "%s\\n" "$1"
 }
 
-git pull || printf "\\n\\n%s\\n" "Cannot git pull; Continuing..."
+# git pull || printf "\\n\\n%s\\n" "Cannot git pull; Continuing..."
 if grep '\.\/\.git\/' sha512.sum 1>/dev/null || grep '\.\/\.scripts\/maintenance\/' sha512.sum 1>/dev/null || grep '\.\/docs\/' sha512.sum 1>/dev/null || grep '\.\/gen\/' sha512.sum 1>/dev/null
 then
 sed -i '/\.\/\.git\//d' sha512.sum
@@ -76,8 +76,8 @@ sed -i '/\.\/docs\//d' sha512.sum
 sed -i '/\.\/gen\//d' sha512.sum
 fi
 sha512sum -c --quiet sha512.sum || _PRNT_ "ＴｅｒｍｕｘＡｒｃｈ NOTICE:  Checking checksums in directory $PWD with sha512sum FAILED! "
-_GSA_ ".scripts/maintenance" maintenance "" || printf "\\n\\n%s\\n" "Cannot add or update module .scripts/maintenance; Continuing..."
-_GSA_ docs docsTermuxArch "" || printf "\\n\\n%s\\n" "Cannot add or update module docs; Continuing..."
-_GSA_ gen genTermuxArch "" || printf "\\n\\n%s\\n" "Cannot add or update module gen; Continuing..."
-_GSA_ scripts "scripts.TermuxArch" "" || printf "\\n\\n%s\\n" "Cannot add or update module scripts; Continuing..."
+_GSA_ ".scripts/maintenance" maintenance shlibs || printf "\\n\\n%s\\n" "Cannot add or update module .scripts/maintenance; Continuing..."
+_GSA_ docs docsTermuxArch TermuxArch || printf "\\n\\n%s\\n" "Cannot add or update module docs; Continuing..."
+_GSA_ gen genTermuxArch TermuxArch || printf "\\n\\n%s\\n" "Cannot add or update module gen; Continuing..."
+_GSA_ scripts "scripts.TermuxArch" TermuxArch || printf "\\n\\n%s\\n" "Cannot add or update module scripts; Continuing..."
 # pullTermuxArchSubmodules.bash FE

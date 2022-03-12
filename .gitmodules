@@ -7,3 +7,6 @@
 [submodule "scripts"]
 	path = scripts
 	url = https://github.com/TermuxArch/scripts.TermuxArch
+[submodule ".scripts/maintenance"]
+	path = .scripts/maintenance
+	url = https://github.com/shlibs/maintenance
