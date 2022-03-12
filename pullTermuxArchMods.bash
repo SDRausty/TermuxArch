@@ -20,13 +20,13 @@ exit
 
 _SGSATRPSIGNAL_() { # run on signal
 local RV="$?"
-printf "\\e[?25h\\e[1;7;38;5;0mＴｅｒｍｕｘＡｒｃｈ %s FEEDBACK:  Signal %s received!\\e[0m\\n" "${0##*/}" "$RV"
+printf "\\e[?25h\\e[1;7;38;5;0mＴｅｒｍｕｘＡｒｃｈ %s NOTICE:  Signal %s received!\\e[0m\\n" "${0##*/}" "$RV"
 exit 178
 }
 
 _SGSATRPQUIT_() { # run on quit signal
 local RV="$?"
-printf "\\e[?25h\\e[1;7;38;5;0mＴｅｒｍｕｘＡｒｃｈ %s FEEDBACK:  Quit signal %s received!\\e[0m\\n" "${0##*/}" "$RV"
+printf "\\e[?25h\\e[1;7;38;5;0mＴｅｒｍｕｘＡｒｃｈ %s NOTICE:  Quit signal %s received!\\e[0m\\n" "${0##*/}" "$RV"
 exit 177
 }
 
@@ -75,7 +75,7 @@ sed -i '/\.\/\.scripts\/maintenance\//d' sha512.sum
 sed -i '/\.\/docs\//d' sha512.sum
 sed -i '/\.\/gen\//d' sha512.sum
 fi
-sha512sum -c --quiet sha512.sum || _PRNT_ "ＴｅｒｍｕｘＡｒｃｈ FEEDBACK:  Checking checksums in directory $PWD with sha512sum FAILED! "
+sha512sum -c --quiet sha512.sum || _PRNT_ "ＴｅｒｍｕｘＡｒｃｈ NOTICE:  Checking checksums in directory $PWD with sha512sum FAILED! "
 _GSA_ ".scripts/maintenance" maintenance "" || printf "\\n\\n%s\\n" "Cannot add or update module .scripts/maintenance; Continuing..."
 _GSA_ docs docsTermuxArch "" || printf "\\n\\n%s\\n" "Cannot add or update module docs; Continuing..."
 _GSA_ gen genTermuxArch "" || printf "\\n\\n%s\\n" "Cannot add or update module gen; Continuing..."

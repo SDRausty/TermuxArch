@@ -7,10 +7,10 @@ set -Eeuo pipefail
 shopt -s  extglob nullglob globstar
 umask 0022
 unset LD_PRELOAD
-VERSIONID=2.0.483
+VERSIONID=2.0.484
 _STRPEROR_() { # run on script error
 local RV="$?"
-printf "\\e[?25h\\e[1;48;5;138m %s\\e[0m" "ＴｅｒｍｕｘＡｒｃｈ FEEDBACK:  Generated script signal received ${RV:-UNKNOWN} near or at line number ${1:-UNKNOWN} by '${2:-UNKNOWNCOMMAND}'!  "
+printf "\\e[1;48;5;138m %s" "ＴｅｒｍｕｘＡｒｃｈ NOTICE:  Generated script signal received ${RV:-UNKNOWN} near or at line number ${1:-UNKNOWN} by '${2:-UNKNOWNCOMMAND}'!  "
 _STRPEXIT_
 }
 _STRPEXIT_() { # run on exit
@@ -27,8 +27,8 @@ _TAMATRIXEND_
 fi
 if [[ "$RV" != 0 ]]
 then
-printf "\\e[1;32mPlease run 'bash %s' again, or use 'bash %s refresh'.  " "${0##*/}" "${0##*/}"
-printf "\\e[?25h\\e[1;32mRunning command '%s refresh' may assist in completing the installation and configuration.  " "${0##*/}"
+printf "\\e[1;32mPlease run 'bash %s' again, or use 'bash %s refresh' once Arch Linux is installed in Termux PRoot.  " "${0##*/}" "${0##*/}"
+printf "\\e[1;32mRunning command '%s refresh' may assist in completing the installation and configuration.  " "${0##*/}"
 printf "\\e[1;32mThe command 'bash %s help' has information how to use '%s' in order to install Arch Linux in Termux PRoot in Android, Chromebook, Fire OS and Windows on smartphone, tablet, TV, wearable and similar devices.  " "${0##*/}" "${0##*/}"
 fi
 if [[ "$RV" = 6 ]]
@@ -37,10 +37,10 @@ printf "\\e[1;48;5;132m %s" "Please ensure background data is not restricted.  C
 fi
 if [[ "$RV" = 0 ]]
 then
-printf "\\e[0;32mCommand \\e[1;32m'%s' \\e[0;32mversion %s\\e[1;34m: \\e[1;32m%s\\e[0m\\n" "$STRANARG" "${VERSIONID:-}" "DONE 🏁 "
+printf "\\e[0;32mCommand \\e[1;32m'%s' \\e[0;32mversion %s\\e[1;34m: \\e[1;32m%s\\n" "$STRANARG" "${VERSIONID:-}" "DONE 🏁 "
 printf "\033]2; %s: %s %s \\007" "$STRANARG" "[Exit Signal $RV]" "DONE 🏁 "
 else
-printf "\\e[0;32mCommand \\e[1;32m'%s' \\e[0;32mversion %s\\e[1;34m: \\e[1;32m%s\\e[0m\\n" "$STRANARG" "${VERSIONID:-}" "[Exit Signal $RV] DONE 🏁 "
+printf "\\e[0;32mCommand \\e[1;32m'%s' \\e[0;32mversion %s\\e[1;34m: \\e[1;32m%s\\n" "$STRANARG" "${VERSIONID:-}" "[Exit Signal $RV] DONE 🏁 "
 printf "\033]2; %s: %s %s \\007" "$STRANARG" "[Exit Signal $RV]" "DONE 🏁 "
 fi
 printf "\\e[?25h\\e[0m"
@@ -48,21 +48,22 @@ set +Eeuo pipefail
 }
 _STRPHNGP_() { # run on hang up
 local RV="$?"
-printf "\\e[?25h\\e[1;48;5;138m %s\\e[0m" "ＴｅｒｍｕｘＡｒｃｈ HANG UP:  Generated signal received ${RV:-UNKNOWN} near or at line number ${1:-UNKNOWN} by '${2:-UNKNOWNCOMMAND}'!  "
+printf "\\e[1;48;5;138m %s" "ＴｅｒｍｕｘＡｒｃｈ HANG UP:  Generated signal received ${RV:-UNKNOWN} near or at line number ${1:-UNKNOWN} by '${2:-UNKNOWNCOMMAND}'!  "
+_STRPEXIT_
 }
 _STRPNTRT_() { # run on signal
 local RV="$?"
-printf "\\e[?25h\\e[1;48;5;138m %s\\e[0m" "ＴｅｒｍｕｘＡｒｃｈ SIGNAL:  Generated signal received ${RV:-UNKNOWN} near or at line number ${1:-UNKNOWN} by '${2:-UNKNOWNCOMMAND}'!  "
+printf "\\e[1;48;5;138m %s" "ＴｅｒｍｕｘＡｒｃｈ SIGNAL:  Generated signal received ${RV:-UNKNOWN} near or at line number ${1:-UNKNOWN} by '${2:-UNKNOWNCOMMAND}'!  "
 _STRPEXIT_
 }
 _STRPQUIT_() { # run on quit
 local RV="$?"
-printf "\\e[?25h\\e[1;48;5;138m %s\\e[0m" "ＴｅｒｍｕｘＡｒｃｈ QUIT:  Quit signal received ${RV:-UNKNOWN} near or at line number ${1:-UNKNOWN} by '${2:-UNKNOWNCOMMAND}'!  "
+printf "\\e[1;48;5;138m %s" "ＴｅｒｍｕｘＡｒｃｈ QUIT:  Quit signal received ${RV:-UNKNOWN} near or at line number ${1:-UNKNOWN} by '${2:-UNKNOWNCOMMAND}'!  "
 _STRPEXIT_
 }
 _STRPTERM_() { # run on terminate
 local RV="$?"
-printf "\\e[?25h\\e[1;48;5;138m %s\\e[0m" "ＴｅｒｍｕｘＡｒｃｈ TERMINATE:  Generated signal received ${RV:-UNKNOWN} near or at line number ${1:-UNKNOWN} by '${2:-UNKNOWNCOMMAND}'!  "
+printf "\\e[1;48;5;138m %s" "ＴｅｒｍｕｘＡｒｃｈ TERMINATE:  Generated signal received ${RV:-UNKNOWN} near or at line number ${1:-UNKNOWN} by '${2:-UNKNOWNCOMMAND}'!  "
 _STRPEXIT_
 }
 trap '_STRPEROR_ $LINENO $BASH_COMMAND $?' ERR
@@ -73,11 +74,11 @@ trap '_STRPQUIT_ $LINENO $BASH_COMMAND $?' QUIT
 trap '_STRPTERM_ $LINENO $BASH_COMMAND $?' TERM
 if [ "$EUID" = 0 ] || [ "$UID" = 0 ]
 then
-printf "\\e[1;48;5;168mＴｅｒｍｕｘＡｒｃｈ %s\e[0m\\n\\n" "${0##*/} SIGNAL:  Please do not use the root login for PRoot:  EXITING..." "${0##*/}" && exit 164
+printf "\\e[1;48;5;168mＴｅｒｍｕｘＡｒｃｈ %s\\n\\n" "${0##*/} SIGNAL:  Please do not use the root login for PRoot:  EXITING..." "${0##*/}" && exit 164
 fi
 if [ -w /root ]
 then
-printf "\\e[1;48;5;138mＴｅｒｍｕｘＡｒｃｈ %s\e[0m\\n\\n" "${0##*/} SIGNAL:  Please run '%s' and 'bash %s' from the BASH shell in native Termux:  EXITING..." "${0##*/}" && exit 168
+printf "\\e[1;48;5;138mＴｅｒｍｕｘＡｒｃｈ %s\\n\\n" "${0##*/} SIGNAL:  Please run '%s' and 'bash %s' from the BASH shell in native Termux:  EXITING..." "${0##*/}" && exit 168
 fi
 _ARG2DIR_() {  # argument as ROOTDIR
 ARG2="${@:2:1}"
@@ -95,7 +96,7 @@ ELCR=0
 _INTROBLOOM_ "$@"
 if [[ -d "$INSTALLDIR" ]] && [[ -d "$INSTALLDIR"/root/bin ]] && [[ -d "$INSTALLDIR"/var/binds ]] && [[ -f "$INSTALLDIR"/bin/we ]] && [[ -f "$INSTALLDIR"/usr/bin/env ]]
 then
-printf "\\n\\e[0;33m%s\\e[1;33m%s\\e[0;33m.\\e[0m\\n\\n" "ＴｅｒｍｕｘＡｒｃｈ FEEDBACK!  " "The root directory structure of ~/${INSTALLDIR##*/} seems to be correct; Cannot continue '${0##*/} $ARGS' to create the directory skeleton!  Command '${0##*/} bloom customdir' can be appended with customdir.  The command '${0##*/} bloom customdir' can continue building the skeleton structure.  Commands '${0##*/} h[e[lp]]' and '$STARTBIN h[elp]' have more information"
+printf "\\n\\e[0;33m%s\\e[1;33m%s\\e[0;33m.\\n\\n" "ＴｅｒｍｕｘＡｒｃｈ NOTICE!  " "The root directory structure of ~/${INSTALLDIR##*/} seems to be correct; Cannot continue '${0##*/} $ARGS' to create the directory skeleton!  Command '${0##*/} bloom customdir' can be appended with customdir.  The command '${0##*/} bloom customdir' can continue building the skeleton structure.  Commands '${0##*/} h[e[lp]]' and '$STARTBIN h[elp]' have more information"
 else
 _PREPTERMUXARCH_
 _MAINBLOCK_
@@ -106,10 +107,10 @@ if sha512sum -c termuxarchchecksum.sha512 1>/dev/null
 then
 if [[ -z "${INSTALLDIR:-}" ]]	# is unset
 then	# exit here or the program will run on
-printf "\\e[0;34m%s \\e[1;34m%s \\e[1;32m%s\\e[0m\\n" " 🕛 = 🕛" "TermuxArch version $VERSIONID integrity:" "OK"
+printf "\\e[0;34m%s \\e[1;34m%s \\e[1;32m%s\\n" " 🕛 = 🕛" "TermuxArch version $VERSIONID integrity:" "OK"
 exit 123
 else
-printf "\\n\\e[0;34m%s \\e[1;34m%s \\e[1;32m%s\\e[0m\\n" " 🕛 > 🕜" "TermuxArch version $VERSIONID integrity:" "OK"
+printf "\\n\\e[0;34m%s \\e[1;34m%s \\e[1;32m%s\\n" " 🕛 > 🕜" "TermuxArch version $VERSIONID integrity:" "OK"
 _CHKSELF_
 _COREFILESLOAD_
 fi
@@ -128,7 +129,7 @@ then	# update the working file to newest version
 ## update working file
 cd "$WDIR"
 cp "$TAMPDIR/setupTermuxArch" "$0"
-[[ -z "${ARGS:-}" ]] && printf "\\n\\e[1;32mFile \\e[0;32m'%s'\\e[1;32m was UPDATED\\e[1;34m:\\e[0;32m  Please run 'bash %s' again if this automatic update was unsuccessful.\\n\\n\\e[1;32mRESTARTED \\e[0;32m'%s'\\e[1;34m:\\e[1;32m CONTINUING...\\n\\n\\e[0m" "${0##*/}" "${0##*/}" "${0##*/}" || printf "\\n\\e[1;32mFile \\e[0;32m'%s'\\e[1;32m was UPDATED\\e[1;34m:\\e[0;32m run 'bash %s' again if this automatic update was unsuccessful;  You should be able to use the '!!' command to run '%s' again.\\n\\e[1;32mRESTARTED \\e[0;32m'%s'\\e[1;34m:\\e[1;32m CONTINUING...\\n\\n\\e[0m" "${0##*/}" "${0##*/} $ARGS" "${0##*/} $ARGS" "${0##*/} $ARGS"
+[[ -z "${ARGS:-}" ]] && printf "\\n\\e[1;32mFile \\e[0;32m'%s'\\e[1;32m was UPDATED\\e[1;34m:\\e[0;32m  Please run 'bash %s' again if this automatic update was unsuccessful.\\n\\n\\e[1;32mRESTARTED \\e[0;32m'%s'\\e[1;34m:\\e[1;32m CONTINUING...\\n\\n" "${0##*/}" "${0##*/}" "${0##*/}" || printf "\\n\\e[1;32mFile \\e[0;32m'%s'\\e[1;32m was UPDATED\\e[1;34m:\\e[0;32m run 'bash %s' again if this automatic update was unsuccessful;  You should be able to use the '!!' command to run '%s' again.\\n\\e[1;32mRESTARTED \\e[0;32m'%s'\\e[1;34m:\\e[1;32m CONTINUING...\\n\\n" "${0##*/}" "${0##*/} $ARGS" "${0##*/} $ARGS" "${0##*/} $ARGS"
 ## restart with updated version
 . $0 $ARGS
 fi
@@ -174,7 +175,6 @@ _CHK_ "$@"
 fi
 }
 _COREFILESLOAD_() {
-printf "\\e[?25l\\e[0m"
 . fbindsfunctions.bash
 . archlinuxconfig.bash
 . espritfunctions.bash
@@ -252,7 +252,7 @@ printf "Setting download tool 'lftp' for install: Continuing...\\n"
 fi
 for PKG in "${PKGS[@]}"
 do	# check for missing commands
-COMMANDP="$(command -v "$PKG")" || printf "\\e[1;38;5;242mCommand %s not found: Continuing...\\e[0m\\n" "$PKG" # test if command exists
+COMMANDP="$(command -v "$PKG")" || printf "\\e[1;38;5;242mCommand %s not found: Continuing...\\n" "$PKG" # test if command exists
 COMMANDPF="${COMMANDP##*/}"
 if [[ "$COMMANDPF" != "$PKG" ]]
 then
@@ -311,7 +311,7 @@ printf "\033]2;%s\007" "bash ${0##*/} $ARGS 📲"
 _SETROOT_EXCEPTION_
 if [[ -d "$INSTALLDIR" ]] && [[ -d "$INSTALLDIR"/root/bin ]] && [[ -d "$INSTALLDIR"/var/binds ]] && [[ -f "$INSTALLDIR"/bin/we ]] && [[ -f "$INSTALLDIR"/usr/bin/env ]]
 then
-printf "\\n\\e[0;33m%s\\e[1;33m%s\\e[0;33m.\\e[0m\\n\\n" "ＴｅｒｍｕｘＡｒｃｈ FEEDBACK!  " "The root directory structure of ~/${INSTALLDIR##*/} seems to be correct; Cannot continue '${0##*/} $ARGS' to install Arch Linux in Termux PRoot!  Commands '${0##*/} h[e[lp]]' and '$STARTBIN h[elp]' have more information"
+printf "\\n\\e[0;33m%s\\e[1;33m%s\\e[0;33m.\\n\\n" "ＴｅｒｍｕｘＡｒｃｈ NOTICE!  " "The root directory structure of ~/${INSTALLDIR##*/} seems to be correct; Cannot continue '${0##*/} $ARGS' to install Arch Linux in Termux PRoot!  Commands '${0##*/} h[e[lp]]' and '$STARTBIN h[elp]' have more information"
 exit 205
 fi
 _PRINTINTRO_ "will attempt to install Linux in " "~/${INSTALLDIR##*/}" ".  Arch Linux in Termux PRoot will be available upon successful completion"
@@ -332,8 +332,8 @@ _DEPENDSBLOCK_ "$@"
 _BLOOM_
 }
 _INPKGS_() {	# install missing packages
-STRNGB="\\e[1;38;5;146m%s\\e[0m\\n"
-STRNGC="\\e[1;38;5;124m%s\\e[0m\\n"
+STRNGB="\\e[1;38;5;146m%s\\n"
+STRNGC="\\e[1;38;5;124m%s\\n"
 if [[ "$COMMANDIF" = au ]] # enables rollback https://wae.github.io/au/
 then	# use 'au' to install missing packages
 au "${PKGS[@]}" && printf '%s' "$STRNGB $STRING1" || printf '%s' "$STRNGC $STRING2"
@@ -358,7 +358,7 @@ _DODIRCHK_() {
 _SETROOT_EXCEPTION_
 if [ ! -d "$INSTALLDIR" ] || [ ! -d "$INSTALLDIR/root/bin" ] || [ ! -d "$INSTALLDIR/var/binds" ] || [ ! -f "$INSTALLDIR/bin/we" ] || [ ! -f "$INSTALLDIR/usr/bin/env" ]
 then
-printf "\\n\\e[0;33m%s\\e[1;33m%s\\e[0;33m.\\e[0m\\n\\n" "ＴｅｒｍｕｘＡｒｃｈ FEEDBACK!  " "The root directory structure is of ~/${INSTALLDIR##*/} seems to be incorrect; Cannot continue '${0##*/} $ARGS'!  This command '${0##*/} help' has more information"
+printf "\\n\\e[0;33m%s\\e[1;33m%s\\e[0;33m.\\n\\n" "ＴｅｒｍｕｘＡｒｃｈ NOTICE!  " "The root directory structure is of ~/${INSTALLDIR##*/} seems to be incorrect; Cannot continue '${0##*/} $ARGS'!  This command '${0##*/} help' has more information"
 if [ -d "$INSTALLDIR"/tmp ]
 then	# check for superfluous tmp directory
 DIRCHECK=0
@@ -599,7 +599,7 @@ _EDITORCHOOSER_
 }
 _PRINTERRORMSG_() {
 printf "\\e[1;31m%s\\e[1;37m%s\\n\\n" "Signal generated in '$1'; Cannot complete task; " "Continuing..."
-printf "\\e[1;34mIf you find improvements for \\e[0;34m'%s' \\e[1;34mplease open an issue and an accompanying pull request.  A pull request can assist in shedding more light on an issue.\\e[0m\\n\\n" "${0##*/}"
+printf "\\e[1;34mIf you find improvements for \\e[0;34m'%s' \\e[1;34mplease open an issue and an accompanying pull request.  A pull request can assist in shedding more light on an issue.\\n\\n" "${0##*/}"
 }
 _PRPREFRESH_() {
 printf "\\n%s\\n" "Refresh mode is set to refresh mode $1;  Initializing system refresh..."
@@ -609,7 +609,7 @@ _PRINTCONFLOADED_() {
 printf "\\n\\e[0;34m%s \\e[1;34m%s \\e[0;32m%s\\e[1;32m%s \\e[1;34m%s \\e[1;32m%s\\n" " 🕛 > 🕑" "TermuxArch configuration" "$WDIR" "setupTermuxArchConfigs.bash" "loaded:" "OK"
 }
 _PRINTSHA512SYSCHKER_() {
-printf "\\n\\e[07;1m\\e[31;1m\\n%s \\e[34;1m\\e[30;1m%s \\n\\e[0;0m\\n" " 🔆 ＴｅｒｍｕｘＡｒｃｈ FEEDBACK sha512sum mismatch!  Setup initialization mismatch!  Is your wireless on?" "  Try again, initialization was not successful this time.  Wait a little while.  Then run the command 'bash ${0##*/} $ARGS' again..."
+printf "\\n\\e[07;1m\\e[31;1m\\n%s \\e[34;1m\\e[30;1m%s \\n\\e[0;0m\\n" " 🔆 ＴｅｒｍｕｘＡｒｃｈ NOTICE sha512sum mismatch!  Setup initialization mismatch!  Is your wireless on?" "  Try again, initialization was not successful this time.  Wait a little while.  Then run the command 'bash ${0##*/} $ARGS' again..."
 printf '\033]2; Run %s again...\007' "bash ${0##*/} $ARGS"
 exit 124
 }
@@ -617,7 +617,7 @@ _PRINTSTARTBIN_USAGE_() {
 _NAMESTARTARCH_
 if [[ -x "$(command -v "$STARTBIN")" ]]
 then
-printf "\\e[1;38;5;155m\\n%s\\e[0m\\n" "$STARTBIN help"
+printf "\\e[1;38;5;155m\\n%s\\n" "$STARTBIN help"
 "$STARTBIN" help
 printf "\\n"
 else
@@ -646,7 +646,7 @@ _PRINTINTRO_() {
 printf "\\n\\e[0;34m 🕛 > 🕛 \\e[1;34mＴｅｒｍｕｘＡｒｃｈ %s $1\\e[1;32m$2\\e[1;34m$3.  You can use '!!' to run this BASH script again with options.  Please check the wireless connection if you do not see one o'clock 🕐 below and ensure background data is not restricted.  The command \\e[1;32mbash %s help \\e[1;34mhas additional information about \\e[1;32m%s\\e[1;34m.  \\e[0;34m" "version $VERSIONID" "${0##*/}" "${0##*/}"
 }
 _PSGI1ESTRING_() {	# print signal generated in arg 1 format
-printf "\\e[1;33m  SIGNAL GENERATED in %s\\e[1;34m; \\e[1;32mCONTINUING...  \\e[0;34mExecuting \\e[0;32m%s\\e[0;34m in the native shell once the installation and configuration process completes will attempt to finish the autoconfiguration and installation if the installation and configuration processes were not completely successful.  Should better solutions for \\e[0;32m%s\\e[0;34m be found, please open an issue and accompanying pull request if possible.\\nThe entire script can be reviewed by creating a \\e[0;32m%s\\e[0;34m directory with the command \\e[0;32m%s\\e[0;34m which can be used to access the entire installation script.  This option does NOT configure and install the root file system.  This command transfers the entire script into the home directory for hacking, modification and review.  The command \\e[0;32m%s\\e[0;34m has more information about how to use use \\e[0;32m%s\\e[0;34m.\\e[0m\\n" "'$1'" "'bash ${0##*/} refresh'" "'${0##*/}'" "'~/TermuxArchBloom/'" "'${0##*/} b'" "'${0##*/} help'" "'${0##*/}'"
+printf "\\e[1;33m  SIGNAL GENERATED in %s\\e[1;34m; \\e[1;32mCONTINUING...  \\e[0;34mExecuting \\e[0;32m%s\\e[0;34m in the native shell once the installation and configuration process completes will attempt to finish the autoconfiguration and installation if the installation and configuration processes were not completely successful.  Should better solutions for \\e[0;32m%s\\e[0;34m be found, please open an issue and accompanying pull request if possible.\\nThe entire script can be reviewed by creating a \\e[0;32m%s\\e[0;34m directory with the command \\e[0;32m%s\\e[0;34m which can be used to access the entire installation script.  This option does NOT configure and install the root file system.  This command transfers the entire script into the home directory for hacking, modification and review.  The command \\e[0;32m%s\\e[0;34m has more information about how to use use \\e[0;32m%s\\e[0;34m.\\n" "'$1'" "'bash ${0##*/} refresh'" "'${0##*/}'" "'~/TermuxArchBloom/'" "'${0##*/} b'" "'${0##*/} help'" "'${0##*/}'"
 }
 _QEMU_() {
 _INST_() { # check for neccessary commands
@@ -711,7 +711,7 @@ printf "Detected architecture is %s;  Install architecture is set to %s.\\n" "$(
 fi
 }
 _RMARCHQ_() {
-printf "\\n\\e[0;33m %s \\e[1;33m%s \\e[0;33m%s\\n\\n\\e[1;30m%s\\n" "ＴｅｒｍｕｘＡｒｃｈ" "DIRECTORY FEEDBACK!  ~/${INSTALLDIR##*/}/" "directory detected." "Purge '$INSTALLDIR' as requested?"
+printf "\\n\\e[0;33m %s \\e[1;33m%s \\e[0;33m%s\\n\\n\\e[1;30m%s\\n" "ＴｅｒｍｕｘＡｒｃｈ" "DIRECTORY NOTICE!  ~/${INSTALLDIR##*/}/" "directory detected." "Purge '$INSTALLDIR' as requested?"
 if [[ -z "${PURGELCR:-}" ]]
 then
 PURGEMETHOD="quick "
@@ -789,7 +789,7 @@ _SETROOT_EXCEPTION_() {
 if [[ "$INSTALLDIR" = "$HOME" ]] || [[ "$INSTALLDIR" = "$HOME"/ ]] || [[ "$INSTALLDIR" = "$HOME"/.. ]] || [[ "$INSTALLDIR" = "$HOME"/../ ]] || [[ "$INSTALLDIR" = "$HOME"/../.. ]] || [[ "$INSTALLDIR" = "$HOME"/../../ ]]
 then
 printf  '\033]2;%s\007' "Rootdir exception.  Run bash ${0##*/} $ARGS again with different options..."
-printf "\\n\\e[1;31m%s\\n\\n\\e[0m" "Rootdir exception.  Run the script $ARGS again with different options..."
+printf "\\n\\e[1;31m%s\\n\\n" "Rootdir exception.  Run the script $ARGS again with different options..."
 exit 125
 fi
 }
@@ -828,7 +828,7 @@ STRING2="Cannot update '${0##*/}' prerequisite: Continuing..."
 ## 1)  Creates aliases and commands that aid in using the command line, and assist in accessing the more advanced features like the commands 'pikaur' and 'yay' easily;  The files '.bashrc' '.bash_profile' and '/usr/local/bin/README.md' have detailed information about this feature,
 ## 2)  Sets timezone and locales from device,
 ## 3)  Tests for correct OS,
-_COMMANDGNE_() { printf "\\n\\e[1;48;5;138m%s\\e[0m\\n\\n" "ＴｅｒｍｕｘＡｒｃｈ FEEDBACK:  Run '${0##*/}' and 'bash ${0##*/}' from the native BASH shell in Termux:  EXITING..." && exit 126 ; }
+_COMMANDGNE_() { printf "\\n\\e[1;48;5;138m%s\\n\\n" "ＴｅｒｍｕｘＡｒｃｈ NOTICE:  Run '${0##*/}' and 'bash ${0##*/}' from the native BASH shell in Termux:  EXITING..." && exit 126 ; }
 COMMANDG="$(command -v getprop)" || _COMMANDGNE_
 _IFBINEXT_() {
 if [ -d "$HOME/bin" ] && grep "$HOME/bin" <<< "$PATH"
@@ -1034,7 +1034,7 @@ elif [[ "${1//-}" = [Oo]* ]]
 then
 printf "\\nSetting mode to option.\\n"
 EDO01LCR=0
-printf "\\n\\e[0;32mSetting mode\\e[1;34m; \\e[1;32mupdate Termux tools with minimal refresh with refresh user directories\\e[1;34m;\\e[0;32m For a full system refresh you can use the%s \\e[1;32m'%s' \\e[0;32m%s\\e[1;34m...\\n\\e[0m" "" "${0##*/} ref[resh]" "command"
+printf "\\n\\e[0;32mSetting mode\\e[1;34m; \\e[1;32mupdate Termux tools with minimal refresh with refresh user directories\\e[1;34m;\\e[0;32m For a full system refresh you can use the%s \\e[1;32m'%s' \\e[0;32m%s\\e[1;34m...\\n" "" "${0##*/} ref[resh]" "command"
 _PRPREFRESH_ "2"
 _ARG2DIR_ "$@"
 _INTROREFRESH_ "$@"
@@ -1089,14 +1089,14 @@ _INTROREFRESH_ "$@"
 ## [re [customdir]]  Refresh the Arch Linux in Termux PRoot scripts created by TermuxArch.  Useful for refreshing the root user's home directory and user home directories and the TermuxArch generated scripts to their newest version;  Directory '/var/backups/' backs up the refreshed files.
 elif [[ "${1//-}" = [Rr][Ee]* ]]
 then
-printf "\\n\\e[0;32mSetting mode\\e[1;34m: \\e[1;32mminimal refresh with refresh user directories; Directory '/var/backups/' backs up the refreshed files \\e[1;34m:\\e[0;32m For a full system refresh you can use the \\e[1;32m'%s' \\e[0;32m%s\\e[1;34m...\\n\\e[0m" "${0##*/} refresh" "command"
+printf "\\n\\e[0;32mSetting mode\\e[1;34m: \\e[1;32mminimal refresh with refresh user directories; Directory '/var/backups/' backs up the refreshed files \\e[1;34m:\\e[0;32m For a full system refresh you can use the \\e[1;32m'%s' \\e[0;32m%s\\e[1;34m...\\n" "${0##*/} refresh" "command"
 _PRPREFRESH_ "2"
 _ARG2DIR_ "$@"
 _INTROREFRESH_ "$@"
 ## [r [customdir]]  Refresh the Arch Linux in Termux PRoot scripts created by TermuxArch.  Useful for only refreshing the root user's home directory and the TermuxArch generated scripts to their newest version;  Directory '/var/backups/' backs up the refreshed files.
 elif [[ "${1//-}" = [Rr]* ]]
 then
-printf "\\n\\e[0;32mSetting mode\\e[1;34m: \\e[1;32mminimal refresh; Directory '/var/backups/' backs up the refreshed files\\e[1;34m:\\e[0;32m For a full system refresh you can use the \\e[1;32m'%s' \\e[0;32m%s\\e[1;34m...\\n\\e[0m" "${0##*/} refresh" "command"
+printf "\\n\\e[0;32mSetting mode\\e[1;34m: \\e[1;32mminimal refresh; Directory '/var/backups/' backs up the refreshed files\\e[1;34m:\\e[0;32m For a full system refresh you can use the \\e[1;32m'%s' \\e[0;32m%s\\e[1;34m...\\n" "${0##*/} refresh" "command"
 _PRPREFRESH_ "1"
 _ARG2DIR_ "$@"
 _INTROREFRESH_ "$@"
@@ -1104,7 +1104,7 @@ _INTROREFRESH_ "$@"
 elif [[ "${1//-}" = [Uu]* ]]
 then
 EDO01LCR=0
-printf "\\n\\e[0;32mSetting mode\\e[1;34m; \\e[1;32mupdate Termux tools with minimal refresh including user directories\\e[1;34m;\\e[0;32m For a full system refresh you can use the%s \\e[1;32m'%s' \\e[0;32m%s\\e[1;34m...\\n\\e[0m" "" "${0##*/} refresh" "command"
+printf "\\n\\e[0;32mSetting mode\\e[1;34m; \\e[1;32mupdate Termux tools with minimal refresh including user directories\\e[1;34m;\\e[0;32m For a full system refresh you can use the%s \\e[1;32m'%s' \\e[0;32m%s\\e[1;34m...\\n" "" "${0##*/} refresh" "command"
 _PRPREFRESH_ "2"
 _ARG2DIR_ "$@"
 _INTROREFRESH_ "$@"

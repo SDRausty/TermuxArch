@@ -444,7 +444,7 @@ _CFLHDR_ "$STARTBIN"
 printf "%s\\n" "${FLHDRP[@]}" >> "$STARTBIN"
 cat >> "$STARTBIN" <<- EOM
 _CHCKUSER_() { [ -d "$INSTALLDIR/home/\$2" ] || _PRNTUSGE_ "\$@" ; }
-_COMMANDGNE_() { printf "\\n\\e[1;48;5;138mＴｅｒｍｕｘＡｒｃｈ script %s\\e[0m\\n\\n" "\${0##*/} FEEDBACK:  Please run '\${0##*/}' and 'bash \${0##*/}' from the BASH shell in native Termux:  EXITING..." && exit 202 ; }
+_COMMANDGNE_() { printf "\\n\\e[1;48;5;138mＴｅｒｍｕｘＡｒｃｈ script %s\\e[0m\\n\\n" "\${0##*/} NOTICE:  Please run '\${0##*/}' and 'bash \${0##*/}' from the BASH shell in native Termux:  EXITING..." && exit 202 ; }
 if [ -w /root ]
 then
 _COMMANDGNE_
@@ -584,7 +584,14 @@ DOKYSKEY=""
 LOCGEN=":"
 }
 _LOCALEGENPACNEW_() {
-[ -f var/run/lock/"${INSTALLDIR##*/}"/locale.gen.pacnew.lock ] || { [ -f etc/locale.gen.pacnew ] && cp -f etc/locale.gen var/backups/"${INSTALLDIR##*/}"/etc/locale.gen."$SDATE".bkp && cp -f etc/locale.gen.pacnew etc/locale.gen && :>var/run/lock/"${INSTALLDIR##*/}"/locale.gen.pacnew.lock ; }
+
+if [ ! -f var/run/lock/"${INSTALLDIR##*/}"/locale.gen.pacnew.lock ]
+then
+if [ -f "etc/locale.gen.pacnew" ]
+then
+cp -f etc/locale.gen var/backups/"${INSTALLDIR##*/}"/etc/locale.gen."$SDATE".bkp && cp -f etc/locale.gen.pacnew etc/locale.gen && :>var/run/lock/"${INSTALLDIR##*/}"/locale.gen.pacnew.lock
+fi
+fi
 }
 if [[ "${LCR:-}" -eq 5 ]] || [[ -z "${LCR:-}" ]]	# LCR equals 5 or is undefined
 then
