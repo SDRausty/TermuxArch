@@ -584,7 +584,6 @@ DOKYSKEY=""
 LOCGEN=":"
 }
 _LOCALEGENPACNEW_() {
-
 if [ ! -f var/run/lock/"${INSTALLDIR##*/}"/locale.gen.pacnew.lock ]
 then
 if [ -f "etc/locale.gen.pacnew" ]
@@ -604,15 +603,13 @@ _DOKYLGEN_
 _LOCALEGENPACNEW_
 fi
 _CFLHDR_ "root/bin/$BINFNSTP"
-cat >> root/bin/"$BINFNSTP" <<- EOM
-_PMFSESTRING_() {
-printf "\\e[1;31m%s\\e[1;37m%s\\e[1;32m%s\\e[1;37m%s\\n\\n" "Signal generated in " "'\$1'" "; Cannot complete task; " "Continuing..."
-printf "\\e[1;34m%s\\e[0;34m%s\\e[1;34m%s\\e[0;34m%s\\e[1;34m%s\\n\\n" "  If you find better resolves for " "setupTermuxArch" " and " "\$0" ", please open an issue and accompanying pull request."
+printf "%s\\n" "_PMFSESTRING_() {
+printf \"\\e[1;31m%s\\e[1;37m%s\\e[1;32m%s\\e[1;37m%s\\n\\n\" \"Signal generated in \" \"'\$1'\" \"; Cannot complete task;  \" \"Continuing...\"
+printf \"\\e[1;34m%s\\e[0;34m%s\\e[1;34m%s\\e[0;34m%s\\e[1;34m%s\\n\\n\" \"  If you find better resolves for \" \"setupTermuxArch\" \" and \" \"\$0\" \", please open an issue and accompanying pull request.\"
 }
 _PMGPSSTRING_() {
-printf "\\n\\e[1;34m:: \\e[1;32m%s\\n" "Processing system for $NASVER $CPUABI, and removing redundant packages for Termux PRoot installation..."
-}
-EOM
+printf \"\\n\\e[1;34m:: \\e[1;32m%s\\n\" \"Processing system for $NASVER $CPUABI, and removing redundant packages for Termux PRoot installation...\"
+}" >> root/bin/"$BINFNSTP"
 _DOPROXY_
 [ -d "$INSTALLDIR/run/lock/${INSTALLDIR##*/}" ] || mkdir -p "$INSTALLDIR/run/lock/${INSTALLDIR##*/}"
 if [[ ! -f "$INSTALLDIR/run/lock/${INSTALLDIR##*/}/pacmanRc.lock" ]]
@@ -641,10 +638,8 @@ else
 printf "%s\\n" "pacman -Su glibc --needed --noconfirm --color=always || pacman -Su glibc --needed --noconfirm --color=always || _PMFSESTRING_ \"pacman -Su glibc $BINFNSTP ${0##/*}\"" >> root/bin/"$BINFNSTP"
 fi
 fi
-cat >> root/bin/"$BINFNSTP" <<- EOM
-printf "\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\n" "To generate locales in a preferred language, you can use the native Android menu commands " "Settings > System > Input & Language > Language " "in Android;  Then run " "${0##*/} refresh" " for a full system refresh, which includes the locale generation function; For a quick refresh you can use " "${0##*/} r" ".  For a refresh with user directories " "${0##*/} re" " can be used."
-$LOCGEN || _PMFSESTRING_ "LOCGEN $BINFNSTP ${0##/*}.  Please run '$LOCGEN' again in the installed system."
-EOM
+printf "%s\\n" "printf \"\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\n\" \"To generate locales in a preferred language, you can use the native Android menu commands \" \"Settings > System > Input & Language > Language \" \"in Android;  Then run \" \"${0##*/} refresh\" \" for a full system refresh, which includes the locale generation function; For a quick refresh you can use \" \"${0##*/} r\" \".  For a refresh with user directories \" \"${0##*/} re\" \" can be used.\"
+$LOCGEN || _PMFSESTRING_ \"LOCGEN $BINFNSTP ${0##/*}.  Please run '$LOCGEN' again in the installed system.\"" >> root/bin/"$BINFNSTP"
 printf "%s\\n" "[ -d /home/user ] || printf \"\\n\\e[1;32m==> \\e[1;37mRunning TermuxArch command \\e[1;32maddauser user\\e[1;37m...\\n\"" >> root/bin/"$BINFNSTP"
 printf "%s\\n" "[ -d /home/user ] || addauser user || _PMFSESTRING_ \"addauser user $BINFNSTP ${0##/*}\"" >> root/bin/"$BINFNSTP"
 if [[ "${LCR:-}" -eq 3 ]] || [[ "${LCR:-}" -eq 4 ]]

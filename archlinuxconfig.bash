@@ -4,31 +4,6 @@
 ## https://sdrausty.github.io/TermuxArch/README has info about this project.
 ## https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.
 ################################################################################
-_PRNT_ () { printf "%s\\n" "$1" ; }	# print message with one trialing newline
-_PRT_ () { printf "%s" "$1" ; }	# print message with no trialing newline
-if [ "${LOADLCRFILES:-}" = 0 ] || [ "${MATRIXLCR:-}" = 0 ] || [ "${MATRIXLCR:-}" = 1 ]
-then
-:
-else
-set +e
-PVAR="$(ping -n 1 1.1.1.1 2>&1 ||:)"
-set -e
-if [ -z "${PVAR##*unreachable*}" ]
-then
-_PRNT_ "Script '${0##*/} $ARGS' SIGNAL:  Please check your wireless connection and run '${0##*/} $ARGS' again.  EXITING...  " && exit 6
-fi
-fi
-
-[ "$CPUABI" = i386 ] && CPUABI="x86"
-CACHECPBI="${CPUABI/_/-}"
-CACHEDIR="/storage/emulated/0/Android/data/com.termux/files/cache/archlinux/$CACHECPBI/"
-PREFIXDATAFILES="/storage/emulated/0/Android/data/com.termux/"
-CACHEDIRSUFIX="files/cache/archlinux/$CACHECPBI/var/cache/pacman/pkg/"
-BINFNSTP="finishsetup.bash"
-LC_TYPE=("LANG" "LANGUAGE" "LC_ADDRESS" "LC_COLLATE" "LC_CTYPE" "LC_IDENTIFICATION" "LC_MEASUREMENT" "LC_MESSAGES" "LC_MONETARY" "LC_NAME" "LC_NUMERIC" "LC_PAPER" "LC_TELEPHONE" "LC_TIME")
-TXPRQUON="Termux PRoot with QEMU"
-TXPRQUON="Termux PRoot"
-
 _PREPFILEFCTN_() { printf "%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n" "[ \"\$UID\" = 0 ] && printf '\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\n' \"Cannot run '\${0##*/}' as root user;\" \" the command 'addauser username' creates user accounts in ~/${INSTALLDIR##*/}; the command '$STARTBIN command addauser username' can create user accounts in ~/${INSTALLDIR##*/} from Termux; a default user account is created during setup; the default username 'user' can be used to access the PRoot system employing a user account; command '$STARTBIN help' has more information;  \" \"Exiting...\" && exit 0" "_PRNTWAIT_() { printf '\\e[0;32m%s\n' \"Please wait a moment;  Command '\${0##*/}' is attempting to make the command '$1';  Continuing...\" ; }" "{ [ -x /usr/bin/\"$1\" ] && printf '\\e[0;31m%s\n' \"The command '$1' is installed;  Exiting...\" ; }" "[ -x /usr/bin/fakeroot ] || { pc base base-devel || pci base base-devel ; }" "{ cd && [ -x \"$2\" ] || gcl https://aur.archlinux.org/\"$2\" ; } && cd \"$2\" && _PRNTWAIT_ && makepkg -firs --noconfirm ; \"$1\" --help" "## ~/${INSTALLDIR##*/}/usr/local/bin/makeaur\"$3\" FE" >> "$3" ; }
 
 _ADDREADME_() {

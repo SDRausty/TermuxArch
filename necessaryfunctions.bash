@@ -4,6 +4,30 @@
 ## https://sdrausty.github.io/TermuxArch/README has info about this project.
 ## https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.
 ################################################################################
+_PRNT_ () { printf "%s\\n" "$1" ; }	# print message with one trialing newline
+_PRT_ () { printf "%s" "$1" ; }	# print message with no trialing newline
+if [ "${LOADLCRFILES:-}" = 0 ] || [ "${MATRIXLCR:-}" = 0 ] || [ "${MATRIXLCR:-}" = 1 ]
+then
+:
+else
+set +e
+PVAR="$(ping -n 1 1.1.1.1 2>&1 ||:)"
+set -e
+if [ -z "${PVAR##*unreachable*}" ]
+then
+_PRNT_ "Script '${0##*/} $ARGS' SIGNAL:  Please check your wireless connection and run '${0##*/} $ARGS' again.  EXITING...  " && exit 6
+fi
+fi
+
+[ "$CPUABI" = i386 ] && CPUABI="x86"
+CACHECPBI="${CPUABI/_/-}"
+CACHEDIR="/storage/emulated/0/Android/data/com.termux/files/cache/archlinux/$CACHECPBI/"
+PREFIXDATAFILES="/storage/emulated/0/Android/data/com.termux/"
+CACHEDIRSUFIX="files/cache/archlinux/$CACHECPBI/var/cache/pacman/pkg/"
+BINFNSTP="finishsetup.bash"
+LC_TYPE=("LANG" "LANGUAGE" "LC_ADDRESS" "LC_COLLATE" "LC_CTYPE" "LC_IDENTIFICATION" "LC_MEASUREMENT" "LC_MESSAGES" "LC_MONETARY" "LC_NAME" "LC_NUMERIC" "LC_PAPER" "LC_TELEPHONE" "LC_TIME")
+TXPRQUON="Termux PRoot with QEMU"
+TXPRQUON="Termux PRoot"
 
 _CALLSYSTEM_() {
 declare COUNTER=""
