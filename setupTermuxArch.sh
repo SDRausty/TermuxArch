@@ -7,7 +7,7 @@ set -Eeuo pipefail
 shopt -s  extglob nullglob globstar
 umask 0022
 unset LD_PRELOAD
-VERSIONID=2.0.492
+VERSIONID=2.0.493
 _STRPEROR_() { # run on script error
 local RV="$?"
 printf "\\e[1;48;5;138m %s" "ＴｅｒｍｕｘＡｒｃｈ NOTICE:  Generated script signal received ${RV:-UNKNOWN} near or at line number ${1:-UNKNOWN} by '${2:-UNKNOWNCOMMAND}'!  "
@@ -205,27 +205,31 @@ break
 fi
 done
 }
-_DEPENDTM_() { # check and set tar manager: depreciated
-for PKG in "${!ATM[@]}"
-do
-if [[ -x $(command -v "${ATM[$PKG]}") ]]
-then
-printf "\\nFound tar tool '%s': Continuing...\\n" "$PKG"
-break
-fi
-done
-}
 _DEPENDIFDM_() { # check if download tool is available and set for install
 for PKG in "${!ADM[@]}" # check from available toolset and set one for install
 do #	check for both set DM and if tool exists on device
 if [[ "$DM" = "$PKG" ]] && [[ ! -x $(command -v "${ADM[$PKG]}") ]]
 then	#	sets both download tool for install and exception check.
-APTIN+="$PKG "
+PKGS+=($PKG)
 printf "\\nSetting download tool '%s' for install: Continuing...\\n" "$PKG"
 fi
 done
 }
 _DEPENDS_() {	# check for missing commands
+_INPKGS_() {	# install missing packages
+STRNGB="\\e[1;38;5;146m%s\\n"
+STRNGC="\\e[1;38;5;124m%s\\n"
+if [[ "$COMMANDIF" = au ]] # enables rollback https://wae.github.io/au/
+then	# use 'au' to install missing packages
+au "${PKGS[@]}" && printf "$STRNGB%s" "$STRING1F" || printf "$STRNGC%s" "$STRING2"
+elif [[ "$COMMANDIF" = pkg ]]
+then	# use 'pkg' to install missing packages
+pkg install "${PKGS[@]}" printf '%s' "$STRNGC $STRING1" || printf '%s' "$STRNGC $STRING2"
+elif [[ "$COMMANDIF" = apt ]]
+then	# use 'apt' to install missing packages
+apt install "${PKGS[@]}" --yes && printf "$STRNGB%s" "$STRING1" || printf "$STRNGC%s" "$STRING2"
+fi
+}
 if [[ -z "${VLORALCR:-}" ]]
 then
 PKGS=(bsdtar proot)
@@ -233,8 +237,7 @@ else
 PKGS=(pulseaudio bsdtar proot)
 fi
 printf "\\e[1;34mChecking prerequisites...\\n\\e[1;32m"
-ADM=([aria2]=aria2c [axel]=axel [curl]=curl [lftp]=lftpget [wget]=wget)
-ATM=([bsdtar]=bsdtar)
+ADM=([aria2]=aria2c [axel]=axel [curl]=curl [lftp]=lftp [wget]=wget)
 if [[ "$DM" != "" ]]
 then
 _DEPENDIFDM_
@@ -247,7 +250,7 @@ fi
 if [[ "$DM" = "" ]]
 then
 DM=lftp
-APTIN+="lftp "
+PKGS+=(lftp)
 printf "Setting download tool 'lftp' for install: Continuing...\\n"
 fi
 for PKG in "${PKGS[@]}"
@@ -330,22 +333,6 @@ _PRINTINTRO_ "bloom option" "" ""
 _PREPTERMUXARCH_
 _DEPENDSBLOCK_ "$@"
 _BLOOM_
-}
-_INPKGS_() {	# install missing packages
-STRNGB="\\e[1;38;5;146m%s\\n"
-STRNGC="\\e[1;38;5;124m%s\\n"
-if [[ "$COMMANDIF" = au ]] # enables rollback https://wae.github.io/au/
-then	# use 'au' to install missing packages
-au "${PKGS[@]}" && printf '%s' "$STRNGB $STRING1" || printf '%s' "$STRNGC $STRING2"
-elif [[ "$COMMANDIF" = pkg ]]
-then	# use 'pkg' to install missing packages
-pkg install "${PKGS[@]}" && printf '%s' "$STRNGB $STRING1" || printf '%s' "$STRNGC $STRING2"
-elif [[ "$COMMANDIF" = apt ]]
-then	# use 'apt' to install missing packages
-apt install "${PKGS[@]}" --yes && printf '%s' "$STRNGC $STRING1" || printf '%s' "$STRNGC $STRING2"
-else
-printf '%s' "$STRNGC $STRING1" && printf '%s' "$STRNGC $STRING2"
-fi
 }
 _INTROSYSINFO_() {
 printf "\033]2;%s\007" "bash ${0##*/} sysinfo 📲"
@@ -466,9 +453,6 @@ elif [[ "${2//-}" = [Mm]* ]]
 then
 shift
 printf "%s\\n" "Setting mode to manual."
-echo echo
-set -x
-echo echo
 OPT=MANUAL
 _OPT2_ "$@"
 elif [[ "${2//-}" = [Rr][Ee][Ff][Rr][Ee]* ]]
@@ -654,8 +638,6 @@ COMMS="$1"
 [ "$COMMS" = "qemu-user-x86-64"  ] && COMMS="qemu-x86_64"
 COMMANDR="$(command -v au)" || printf "%s\\n\\n" "$STRING1"
 COMMANDIF="${COMMANDR##*/}"
-STRING1="COMMAND 'au' enables rollback, available at https://wae.github.io/au/ IS NOT FOUND: Continuing... "
-STRING2="Cannot update ~/${0##*/} prerequisite: Continuing..."
 PKG="$2"
 [ "$PKG" = "qemu-user-x86_64"  ] && PKG="qemu-user-x86-64"
 _INPKGS_() {
@@ -808,9 +790,9 @@ declare -a LC_TYPE	# declare array for locale types
 declare -a QEMUUSER	# declare array for qemu user tools
 declare PRFXTOLS	# declare variable for device tools that can be accessible in the PRoot environment
 declare -A EMPARIAS	# declare associative array for empty variables
-EMPARIAS=([APTIN]="# apt install string" [COMMANDIF]="" [COMMANDG]="" [CPUABI]="" [DFL]="# used for development" [DM]="" [USEREDIT]="" [FSTND]="" [INSTALLDIR]="" [LCC]="" [LCP]="" [OPT]="" [QEMUCR]="" [ROOTDIR]="" [WDIR]="" [SDATE]="" [STI]="# generates pseudo random number" [STIME]="# generates pseudo random number")
+EMPARIAS=([COMMANDIF]="" [COMMANDG]="" [CPUABI]="" [DFL]="# used for development" [DM]="" [USEREDIT]="" [FSTND]="" [INSTALLDIR]="" [LCC]="" [LCP]="" [OPT]="" [QEMUCR]="" [ROOTDIR]="" [WDIR]="" [SDATE]="" [STI]="# generates pseudo random number" [STIME]="# generates pseudo random number")
 for PKG in ${!EMPARIAS[@]} ; do declare "$PKG"="" ; done
-ECLAVARR=(ARGS APTIN BINFNSTP COMMANDIF COMMANDR COMMANDG CPUABI CPUABI5 CPUABI7 CPUABI8 CPUABIX86 CPUABIX8664 DFL DMVERBOSE DM EDO01LCR ELCR USEREDIT FSTND INSTALLDIR LCC LCP LCR OPT ROOTDIR WDIR SDATE STI STIME STRING1 STRING2)
+ECLAVARR=(ARGS BINFNSTP COMMANDIF COMMANDR COMMANDG CPUABI CPUABI5 CPUABI7 CPUABI8 CPUABIX86 CPUABIX8664 DFL DMVERBOSE DM EDO01LCR ELCR USEREDIT FSTND INSTALLDIR LCC LCP LCR OPT PKGS ROOTDIR SDATE STI STIME STRING1 STRING2 WDIR)
 for ECLAVARS in ${ECLAVARR[@]} ; do declare $ECLAVARS ; done
 ARGS="${@%/}"
 CPUABI5="armeabi"	# used for development; 'getprop ro.product.cpu.abi' ascertains architecture
@@ -822,7 +804,8 @@ DMVERBOSE="-q"	# -v for verbose download manager output from curl and wget;  for
 ELCR=1
 [[ -z "${TAMPDIR:-}" ]] && TAMPDIR=""
 ROOTDIR="/arch"
-STRING1="COMMAND 'au' enables auto upgrade and rollback.  Available at https://wae.github.io/au/ IS NOT FOUND: Continuing... "
+STRING1="COMMAND 'au' enables rollback, available at https://wae.github.io/au/ IS NOT FOUND: Continuing... "
+STRING1F="COMMAND 'au' enables auto upgrade and rollback.  Available at https://wae.github.io/au/ is found: Continuing... "
 STRING2="Cannot update '${0##*/}' prerequisite: Continuing..."
 ## TERMUXARCH FEATURES INCLUDE:
 ## 1)  Creates aliases and commands that aid in using the command line, and assist in accessing the more advanced features like the commands 'pikaur' and 'yay' easily;  The files '.bashrc' '.bash_profile' and '/usr/local/bin/README.md' have detailed information about this feature,
