@@ -378,7 +378,6 @@ printf "\\\\e[1;32m==> \\\\e[1;37mRunning \\\\e[1;32mpacman -Ss keyring --color=
 pacman -Ss keyring --color=always || pacman -Ss keyring --color=always || _PRTERROR_
 $X86INT
 $X86INK
-pacman -Su keychain --needed --noconfirm || pacman -Su keychain --needed --noconfirm || sudo pacman -Su --needed --noconfirm
 ## ~/${INSTALLDIR##*/}/usr/local/bin/keys FE
 EOM
 chmod 755 usr/local/bin/keys
@@ -625,16 +624,16 @@ printf "%s\\n" "{ _PMGPSSTRING_ && pacman -Rc linux-aarch64 linux-firmware --noc
 fi
 fi
 printf "%s\\n" "$DOKYSKEY" >> root/bin/"$BINFNSTP"
-if [[ "${LCR:-}" -eq 5 ]] || [[ -z "${LCR:-}" ]]
+if  [[ -z "${LCR:-}" ]] || [[ "${LCR:-}" -eq 5 ]]
 then
 if [[ "$CPUABI" = "$CPUABIX8664" ]] || [[ "$CPUABI" = "${CPUABIX8664//_/-}" ]]
 then
-printf "%s\\n" "pacman -Su glibc grep gzip sed sudo --needed --noconfirm --color=always || pacman -Su glibc grep gzip sed sudo --needed --noconfirm --color=always || _PMFSESTRING_ \"pacman -Su glibc grep gzip sed sudo $BINFNSTP ${0##/*}\"" >> root/bin/"$BINFNSTP"
+printf "%s\\n" "pacman -Su keychain glibc grep gzip sed sudo --needed --noconfirm --color=always || pacman -Su keychain glibc grep gzip sed sudo --needed --noconfirm --color=always || _PMFSESTRING_ \"pacman -Su keychain glibc grep gzip sed sudo $BINFNSTP ${0##/*}\"" >> root/bin/"$BINFNSTP"
 elif [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = i386 ]]
 then
-printf "%s\\n" "pacman -Su glibc sed sudo --needed --noconfirm --color=always || pacman -Su glibc sed sudo --needed --noconfirm --color=always || _PMFSESTRING_ \"pacman -Su glibc sed sudo $BINFNSTP ${0##/*}\"" >> root/bin/"$BINFNSTP"
+printf "%s\\n" "pacman -Su keychain glibc sed sudo --needed --noconfirm --color=always || pacman -Su keychain glibc sed sudo --needed --noconfirm --color=always || _PMFSESTRING_ \"pacman -Su keychain glibc sed sudo $BINFNSTP ${0##/*}\"" >> root/bin/"$BINFNSTP"
 else
-printf "%s\\n" "pacman -Su glibc --needed --noconfirm --color=always || pacman -Su glibc --needed --noconfirm --color=always || _PMFSESTRING_ \"pacman -Su glibc $BINFNSTP ${0##/*}\"" >> root/bin/"$BINFNSTP"
+printf "%s\\n" "pacman -Su keychain glibc --needed --noconfirm --color=always || pacman -Su keychain glibc --needed --noconfirm --color=always || _PMFSESTRING_ \"pacman -Su keychain glibc $BINFNSTP ${0##/*}\"" >> root/bin/"$BINFNSTP"
 fi
 fi
 printf "%s\\n" "printf \"\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\n\" \"To generate locales in a preferred language, you can use the native Android menu commands \" \"Settings > System > Input & Language > Language \" \"in Android;  Then run \" \"${0##*/} refresh\" \" for a full system refresh, which includes the locale generation function; For a quick refresh you can use \" \"${0##*/} r\" \".  For a refresh with user directories \" \"${0##*/} re\" \" can be used.\"
