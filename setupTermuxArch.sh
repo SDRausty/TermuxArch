@@ -7,7 +7,7 @@ set -Eeuo pipefail
 shopt -s  extglob nullglob globstar
 umask 0022
 unset LD_PRELOAD
-VERSIONID=2.0.494
+VERSIONID=2.0.495
 _STRPEROR_() { # run on script error
 local RV="$?"
 printf "\\e[1;48;5;138m %s" "ＴｅｒｍｕｘＡｒｃｈ NOTICE:  Generated script signal received ${RV:-UNKNOWN} near or at line number ${1:-UNKNOWN} by '${2:-UNKNOWNCOMMAND}'!  "
@@ -103,7 +103,7 @@ _MAINBLOCK_
 fi
 }
 _CHK_() {
-if sha512sum -c termuxarchchecksum.sha512 1>/dev/null
+if sha512sum -c --quiet termuxarchchecksum.sha512
 then
 if [[ -z "${INSTALLDIR:-}" ]]	# is unset
 then	# exit here or the program will run on
@@ -120,7 +120,7 @@ _PRINTSHA512SYSCHKER_
 fi
 }
 _CHKDWN_() {
-{ sha512sum -c setupTermuxArch.sha512 1>/dev/null && printf "\\e[0;34m%s\\e[1;34m%s\\e[1;32m%s\\n" " 🕛 > 🕐 " "TermuxArch download: " "OK" && bsdtar -x -p -f setupTermuxArch.tar.gz ; } || _PRINTSHA512SYSCHKER_
+{ sha512sum -c --quiet setupTermuxArch.sha512 && printf "\\e[0;34m%s\\e[1;34m%s\\e[1;32m%s\\n" " 🕛 > 🕐 " "TermuxArch download: " "OK" && bsdtar -x -p -f setupTermuxArch.tar.gz ; } || _PRINTSHA512SYSCHKER_
 }
 _CHKSELF_() {	# compare setupTermuxArch and file being used
 cd "$WFDIR"	# change directory to working file directory

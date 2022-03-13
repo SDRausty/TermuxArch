@@ -62,7 +62,7 @@ done
 }
 
 _DOUSECACHEDIR_() {
-if [ "$USECACHEDIR" = 0 ] && [[ -z "${LCR:-}" ]]
+if [ "$USECACHEDIR" = 0 ] && [ -z "${LCR:-}" ]
 then
 printf '\e[0;32mPopulating from cache files;  \e[1;32mBEGUN\n'
 { cd "$CACHEDIR" && printf '%s' "cd $CACHEDIR && " ; } || { cd "$PREFIXDATAFILES" && mkdir -p "$CACHEDIRSUFIX" && cd "$CACHEDIR" && printf '%s' "cd $PREFIXDATAFILES && mkdir -p $CACHEDIRSUFIX && cd $CACHEDIR && " ; } || exit 196

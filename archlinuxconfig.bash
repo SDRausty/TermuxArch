@@ -1571,7 +1571,7 @@ infif
 printf "\\\\e[1;30m \$en0 \\\\e[0;32m\$i \\\\e[1;32m\${entropy0} \\\\e[0;32m#E&&√♪"
 esleep
 sleep \$int
-entropy1=\$(cat /proc/sys/kernel/random/uuid 2>/dev/null)
+entropy1=\$(cat /proc/sys/kernel/random/uuid)
 infif
 printf "\$entropy1"
 esleep
