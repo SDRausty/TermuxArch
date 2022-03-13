@@ -108,7 +108,7 @@ printf '%s\n' "\$PWD"
 function git-branch() {
 if [ -d .git ]
 then
-printf "%s" "(\$(git branch 2> /dev/null | awk '/\*/{print \$2}'))";
+printf "%s" "(\$(git branch | awk '/\*/{print \$2}'))";
 fi
 }
 function em() {
@@ -524,7 +524,7 @@ chmod 755 usr/local/bin/exd
 _ADDfibs_() {
 _CFLHDR_ usr/local/bin/fibs
 cat >> usr/local/bin/fibs <<- EOM
-find /proc/ -name maps 2>/dev/null | xargs awk '{print \$6}' 2>/dev/null | grep '\.so' | sort | uniq && exit
+find /proc/ -name maps 2>/dev/null | xargs awk '{print \$6}' | grep '\.so' | sort | uniq && exit
 ## ~/${INSTALLDIR##*/}/usr/local/bin/fibs FE
 EOM
 chmod 755 usr/local/bin/fibs
@@ -771,7 +771,7 @@ printf "\\\\e[1;31m%s\\\\e[1;37m%s\\\\e[1;31m%s\\\\e[0m\\\\n" "Ｔｅｒｍｕ�
 else
 [ ! -f "/run/lock/${INSTALLDIR##*/}/patchmakepkg.lock" ] && patchmakepkg || printf "\\\\e[0;33m%s\\\\e[0m\\\\n" "Lock file "/run/lock/${INSTALLDIR##*/}/patchmakepkg.lock" found;  Continuing..."
 printf "%s\\\\n" "Preparing to build and install fakeroot-tcp with \${0##*/} version $VERSIONID: "
-if ([[ ! "\$(command -v automake)" ]] || [[ ! "\$(command -v git)" ]] || [[ ! "\$(command -v gcc -v)" ]] || [[ ! "\$(command -v libtool)" ]] || [[ ! "\$(command -v po4a)" ]]) 2>/dev/null
+if [ ! "\$(command -v automake)" ] || [ ! "\$(command -v git)" ] || [ ! "\$(command -v gcc -v)" ] || [ ! "\$(command -v libtool)" ] || [ ! "\$(command -v po4a)" ]
 then
 pci automake base base-devel fakeroot git gcc libtool po4a || printf "\\n\\e[1;31mＴｅｒｍｕｘＡｒｃｈ SIGNAL: \\e[7;37m%s\\e[0m\\n\\n" "Please study the first lines of the error output and correct the error(s) and/or warning(s) by running command 'pci automake base base-devel fakeroot git gcc go libtool po4a' as root user in a new Termux session.  You can do this without closing this session by running command \"$STARTBIN command 'pci automake base base-devel fakeroot git gcc go libtool po4a'\"in a new Termux session. Then return to this session and run '\${0##*/} \$ARGS' again."
 fi
@@ -811,7 +811,7 @@ printf "\\\\e[1;31m%s\\\\e[1;37m%s\\\\e[1;31m%s\\\\e[0m\\\\n" "Ｔｅｒｍｕ�
 else
 [ -x /usr/bin/ghcup ] && printf "\\\\e[0;32m%s\\\\e[0m\\\\n" "The command 'ghcup' is already installed!  Please use the command 'ghcup':  Exiting..." && exit 169
 [ -f /usr/lib/libnuma.so ] || { pc numactl || pci numactl ; } || { printf "\\n\\e[1;31mＴｅｒｍｕｘＡｒｃｈ SIGNAL: \\e[7;37m%s\\e[0m\\n\\n" "Please study the first lines of the error output and correct the error(s) and/or warning(s) by running command 'pci numactl' as proot root user.  You might be able to bring this about without closing this session.  Please try running command: $STARTBIN command 'pci numactl' in a new Termux PRoot session.  This should install the neccessary packages to make 'ksh'.  Then return to this session, and run '\${0##*/}' again." && exit 120 ; }
-yay ghcup-hs --noconfirm 2>/dev/null || { [ -f /usr/bin/yay ] || set +x && makeauryay && yay ghcup-hs --noconfirm && set -x ; }
+yay ghcup-hs --noconfirm || { [ -f /usr/bin/yay ] || set +x && makeauryay && yay ghcup-hs --noconfirm && set -x ; }
 fi
 ## ~/${INSTALLDIR##*/}/usr/local/bin/makeaurghcuphs FE
 EOM
@@ -853,7 +853,7 @@ then
 printf "\\\\e[1;31m%s\\\\e[1;37m%s\\\\e[1;31m%s\\\\e[0m\\\\n" "ＴｅｒｍｕｘＡｒｃｈ SIGNAL:" "  Script '\${0##*/}' should not be used as root:  The command 'addauser' creates user accounts in Arch Linux in Termux PRoot and configures these user accounts for the command 'sudo':  The 'addauser' command is intended to be run by the Arch Linux in Termux PRoot root user:  To use 'addauser' directly from Termux you can run \"$STARTBIN command 'addauser user'\" in Termux to create this account in Arch Linux Termux PRoot:  The command '$STARTBIN help' has more information about using '$STARTBIN':  " "Exiting..."
 else
 [ -x /usr/bin/shellcheck ] && printf "\\\\e[0;32m%s\\\\e[0m\\\\n" "The command 'shellcheck' is already installed!  Please use the command 'shellcheck':  Exiting..." && exit 169
-yay shellcheck-bin --noconfirm 2>/dev/null || { [ ! "\$(command -v yay)" ] && makeauryay && yay shellcheck-bin --noconfirm ; }
+yay shellcheck-bin --noconfirm || { [ ! "\$(command -v yay)" ] && makeauryay && yay shellcheck-bin --noconfirm ; }
 fi
 ## ~/${INSTALLDIR##*/}/usr/local/bin/makeaurshellcheckbin FE
 EOM
@@ -902,7 +902,7 @@ then
 : # pull requests are requested to automate install missing Termux packages
 else
 [ ! -f "/run/lock/${INSTALLDIR##*/}/patchmakepkg.lock" ] && patchmakepkg
-if { [[ ! "\$(command -v fakeroot)" ]] || [[ ! "\$(command -v git)" ]] || [[ ! "\$(command -v go)" ]] ; } 2>/dev/null
+if [ ! "\$(command -v fakeroot)" ] || [ ! "\$(command -v git)" ] || [ ! "\$(command -v go)" ]
 then
 pci base base-devel fakeroot gcc git go || pci base base-devel fakeroot gcc git go || { printf "\\n\\e[1;31mＴｅｒｍｕｘＡｒｃｈ SIGNAL: \\e[7;37m%s\\e[0m\\n\\n" "Please study the first lines of the error output and correct the error(s) and/or warning(s);  The command 'pci base base-devel fakeroot gcc git go' can be run as proot root user in a new Termux session and might resolve this issue.  You might be able to do this without closing this session.  Please try running command: $STARTBIN command 'pci base base-devel fakeroot gcc git go' in a new Termux PRoot session.  Then return to this session, and run '\${0##*/}' again." && exit 120 ; }
 fi
@@ -1621,7 +1621,7 @@ chmod 755 usr/bin/we
 
 _ADDyt_() {
 _CFLHDR_ usr/local/bin/yt
-printf "%s\\n%s\\n%s\\n" "[ \"\$UID\" = 0 ] && printf \"\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\\n\" \"Cannot run '\${0##*/}' as root user :\" \" the command 'addauser username' creates user accounts in ~/${INSTALLDIR##*/} : the command '$STARTBIN command addauser username' can create user accounts in ~/${INSTALLDIR##*/} from Termux : a default user account is created during setup : the default username 'user' can be used to access the PRoot system employing a user account : command '$STARTBIN help' has more information :  \" \"Exiting...\" && exit" "youtube-dl \"\${ARGS[@]}\" 2>/dev/null || { { pc youtube || pci youtube-dl ; } && youtube-dl \"\${ARGS[@]}\" ; }" "## ~/${INSTALLDIR##*/}/usr/local/bin/yt FE" >> usr/local/bin/yt
+printf "%s\\n%s\\n%s\\n" "[ \"\$UID\" = 0 ] && printf \"\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\\n\" \"Cannot run '\${0##*/}' as root user :\" \" the command 'addauser username' creates user accounts in ~/${INSTALLDIR##*/} : the command '$STARTBIN command addauser username' can create user accounts in ~/${INSTALLDIR##*/} from Termux : a default user account is created during setup : the default username 'user' can be used to access the PRoot system employing a user account : command '$STARTBIN help' has more information :  \" \"Exiting...\" && exit" "youtube-dl \"\${ARGS[@]}\" || { { pc youtube || pci youtube-dl ; } && youtube-dl \"\${ARGS[@]}\" ; }" "## ~/${INSTALLDIR##*/}/usr/local/bin/yt FE" >> usr/local/bin/yt
 chmod 755 usr/local/bin/yt
 }
 

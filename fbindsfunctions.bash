@@ -36,7 +36,7 @@ EOM
 _ADDfbindprocstat_() {
 NESSOR="$(grep cessor /proc/cpuinfo)"
 NCESSOR="${NESSOR: -1}"
-if [[ "$NCESSOR" -le "3" ]] 2>/dev/null
+if [ "$NCESSOR" -le "3" ]
 then
 _ADDfbindprocstat4_
 else

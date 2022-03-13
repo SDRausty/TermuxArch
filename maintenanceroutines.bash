@@ -65,7 +65,7 @@ _DOUSECACHEDIR_() {
 if [ "$USECACHEDIR" = 0 ] && [[ -z "${LCR:-}" ]]
 then
 printf '\e[0;32mPopulating from cache files;  \e[1;32mBEGUN\n'
-{ cd "$CACHEDIR" 2>/dev/null && printf '%s' "cd $CACHEDIR && " ; } || { cd "$PREFIXDATAFILES" && mkdir -p "$CACHEDIRSUFIX" && cd "$CACHEDIR" && printf '%s' "cd $PREFIXDATAFILES && mkdir -p $CACHEDIRSUFIX && cd $CACHEDIR && " ; } || exit 196
+{ cd "$CACHEDIR" && printf '%s' "cd $CACHEDIR && " ; } || { cd "$PREFIXDATAFILES" && mkdir -p "$CACHEDIRSUFIX" && cd "$CACHEDIR" && printf '%s' "cd $PREFIXDATAFILES && mkdir -p $CACHEDIRSUFIX && cd $CACHEDIR && " ; } || exit 196
 printf '%s\n' "cp -fr * $INSTALLDIR"
 cp -fr ./* "$INSTALLDIR"
 cd "$INSTALLDIR" && printf '%s\n' "cd $INSTALLDIR" || exit 196
@@ -204,7 +204,7 @@ fi
 
 _SPACEINFO_() {
 declare SPACEMESSAGE=""
-units="$(df "$INSTALLDIR" 2>/dev/null | awk 'FNR == 1 {print $2}')"
+units="$(df "$INSTALLDIR" | awk 'FNR == 1 {print $2}')"
 if [[ "$units" = Size ]]
 then
 _SPACEINFOGSIZE_
@@ -361,22 +361,22 @@ printf "\\n%s" "Ascertaining system information;  Please wait a moment  "
 [[ -r /sys/shm ]] && printf "%s\\n" "/sys/shm is readable" || printf "%s\\n" "/sys/shm is not readable" >> "${WDIR}setupTermuxArchSysInfo$STIME".log
 printf "\\n%s\\n" "Disk report $USRSPACE on /data $(date)" >> "${WDIR}setupTermuxArchSysInfo$STIME".log
 printf "\\n%s\\n" "df $INSTALLDIR results:" >> "${WDIR}setupTermuxArchSysInfo$STIME".log
-df "$INSTALLDIR" >> "${WDIR}setupTermuxArchSysInfo$STIME".log 2>/dev/null ||:
+df "$INSTALLDIR" >> "${WDIR}setupTermuxArchSysInfo$STIME".log ||:
 printf "\\n%s\\n" "df results:" >> "${WDIR}setupTermuxArchSysInfo$STIME".log
-df >> "${WDIR}setupTermuxArchSysInfo$STIME".log 2>/dev/null ||:
+df >> "${WDIR}setupTermuxArchSysInfo$STIME".log ||:
 printf "\\n%s\\n" "du -hs $INSTALLDIR results:" >> "${WDIR}setupTermuxArchSysInfo$STIME".log
-du -hs "$INSTALLDIR" >> "${WDIR}setupTermuxArchSysInfo$STIME".log 2>/dev/null ||:
+du -hs "$INSTALLDIR" >> "${WDIR}setupTermuxArchSysInfo$STIME".log ||:
 printf "\\n%s\\n" "ls -al $INSTALLDIR results:" >> "${WDIR}setupTermuxArchSysInfo$STIME".log
-ls -al "$INSTALLDIR" >> "${WDIR}setupTermuxArchSysInfo$STIME".log 2>/dev/null ||:
+ls -al "$INSTALLDIR" >> "${WDIR}setupTermuxArchSysInfo$STIME".log ||:
 printf "\\n%s\\n" "This file is found at '${WDIR}setupTermuxArchSysInfo$STIME.log'." >> "${WDIR}setupTermuxArchSysInfo$STIME".log
 printf "\\n%s\\e[0m\\n" "End 'setupTermuxArchSysInfo$STIME.log' version $VERSIONID system information." >> "${WDIR}setupTermuxArchSysInfo$STIME".log
 }
 
 _USERSPACE_() {
-USRSPACE="$(df "$INSTALLDIR" 2>/dev/null | awk 'FNR == 2 {print $4}')"
+USRSPACE="$(df "$INSTALLDIR" | awk 'FNR == 2 {print $4}')"
 if [[ "$USRSPACE" = "" ]]
 then
-USRSPACE="$(df "$INSTALLDIR" 2>/dev/null | awk 'FNR == 3 {print $3}')"
+USRSPACE="$(df "$INSTALLDIR" | awk 'FNR == 3 {print $3}')"
 fi
 }
 # maintenanceroutines.bash FE

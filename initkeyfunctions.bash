@@ -127,7 +127,7 @@ _FUNADDU_ "\$@"
 fi
 }
 _FUNADDU_() {
-[[ ! "\$(command -v sudo)" ]] 2>/dev/null && (pc sudo || pc sudo)
+command -v sudo 1>/dev/null || { pc sudo || pc sudo ; }
 printf "\\\\e[0;32m%s\\\\n\\\\e[1;32m" "Adding Arch Linux in Termux PRoot user '\$1' and creating Arch Linux in Termux PRoot user \$1's home directory in /home/\$1..."
 [ -f /etc/sudoers ] || :>/etc/sudoers
 sed -i "/# %wheel ALL=(ALL) NOPASSWD: ALL/ s/^# *//" /etc/sudoers
@@ -306,7 +306,7 @@ trap _TRPET_ EXIT
 # [ -z "\${TALUSER:-}" ] && TALUSER=root
 # if [ -x /system/bin/toybox ] && [ ! -f /var/run/lock/"${INSTALLDIR##*/}"/toyboxln."\$TALUSER".lock ]
 # then
-# cd "\$TALUSER"/bin 2>/dev/null || cd bin || exit 196
+# cd "\$TALUSER"/bin || cd bin || exit 196
 # {
 # printf 'Creating symlinks in '%s' to '/system/bin/toybox';  Please wait a moment...  \n' "\$PWD"
 # for TOYBOXTOOL in \$(/system/bin/toybox)

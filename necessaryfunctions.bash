@@ -187,7 +187,7 @@ _WAKELOCK_
 if [ "$USECACHEDIR" = 0 ] && [[ -z "${LCR:-}" ]]
 then
 printf '\e[0;32mPopulating from cache files;  \e[1;32mBEGUN\n'
-{ cd "$CACHEDIR" 2>/dev/null && printf '%s' "cd $CACHEDIR && " ; } || { cd "$PREFIXDATAFILES" && mkdir -p "$CACHEDIRSUFIX" && cd "$CACHEDIR" && printf '%s' "cd $PREFIXDATAFILES && mkdir -p $CACHEDIRSUFIX && cd $CACHEDIR && " ; } || exit 196
+{ cd "$CACHEDIR" && printf '%s' "cd $CACHEDIR && " ; } || { cd "$PREFIXDATAFILES" && mkdir -p "$CACHEDIRSUFIX" && cd "$CACHEDIR" && printf '%s' "cd $PREFIXDATAFILES && mkdir -p $CACHEDIRSUFIX && cd $CACHEDIR && " ; } || exit 196
 printf '%s\n' "cp -fr * $INSTALLDIR"
 cp -fr * "$INSTALLDIR"
 cd "$INSTALLDIR" && printf '%s\n' "cd $INSTALLDIR" || exit 196
@@ -209,7 +209,7 @@ _TOUCHUPSYS_
 
 _MD5CHECK_() {
 _PRINTMD5CHECK_
-if md5sum -c "$IFILE".md5 1>/dev/null
+if md5sum -c --quiet "$IFILE".md5
 then
 _PRINTMD5SUCCESS_
 printf "\\e[0;32m"
@@ -254,9 +254,9 @@ fi
 _PREPROOT_() {
 if [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = "$CPUABIX8664" ]] || [[ "$CPUABI" = "${CPUABIX8664//_/-}" ]] || [[ "$CPUABI" = i386 ]]
 then
-proot --link2symlink -0 bsdtar -p -xf "$IFILE" --strip-components 1 2>/dev/null ||:
+proot --link2symlink -0 bsdtar -p -xf "$IFILE" --strip-components 1 ||:
 else
-proot --link2symlink -0 bsdtar -p -xf "$IFILE" 2>/dev/null ||:
+proot --link2symlink -0 bsdtar -p -xf "$IFILE" ||:
 fi
 }
 
