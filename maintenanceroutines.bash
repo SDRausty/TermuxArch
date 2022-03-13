@@ -313,24 +313,24 @@ exit
 _SYSTEMINFO_ () {
 printf "%s\\n" "dpkg --print-architecture result:" >> "${WDIR}setupTermuxArchSysInfo$STIME".log
 dpkg --print-architecture >> "${WDIR}setupTermuxArchSysInfo$STIME".log
-printf "%s\\n" "uname -a results:" >> "${WDIR}setupTermuxArchSysInfo$STIME".log
+printf "\\n%s\\n" "uname -a results:" >> "${WDIR}setupTermuxArchSysInfo$STIME".log
 uname -a >> "${WDIR}setupTermuxArchSysInfo$STIME".log
 printf "\\n" >> "${WDIR}setupTermuxArchSysInfo$STIME".log
 for n in 0 1 2 3 4 5
 do
 printf "%s\\n" "BASH_VERSINFO[$n] = ${BASH_VERSINFO[$n]}"  >> "${WDIR}setupTermuxArchSysInfo$STIME".log
 done
-printf "%s\\n" "cat /proc/cpuinfo results:" >> "${WDIR}setupTermuxArchSysInfo$STIME".log
+printf "\\n%s\\n" "cat /proc/cpuinfo results:" >> "${WDIR}setupTermuxArchSysInfo$STIME".log
 cat /proc/cpuinfo >> "${WDIR}setupTermuxArchSysInfo$STIME".log
-printf "%s\\n" "getprop | grep product.cpu results:" >> "${WDIR}setupTermuxArchSysInfo$STIME".log
+printf "\\n%s\\n" "getprop | grep product.cpu results:" >> "${WDIR}setupTermuxArchSysInfo$STIME".log
 getprop | grep product.cpu >> "${WDIR}setupTermuxArchSysInfo$STIME".log
-printf "%s\\n" "getprop | grep net\\\\. results:" >> "${WDIR}setupTermuxArchSysInfo$STIME".log
+printf "\\n%s\\n" "getprop | grep net. results:" >> "${WDIR}setupTermuxArchSysInfo$STIME".log
 getprop | grep net\\. >> "${WDIR}setupTermuxArchSysInfo$STIME".log
-printf "Further getprop results:\\n" >> "${WDIR}setupTermuxArchSysInfo$STIME".log
+printf "\\nFurther getprop results:\\n" >> "${WDIR}setupTermuxArchSysInfo$STIME".log
 printf "%s %s\\n" "[getprop gsm.sim.operator.iso-country]:" "[$(getprop gsm.sim.operator.iso-country)]" >> "${WDIR}setupTermuxArchSysInfo$STIME".log
 printf "%s %s\\n" "[getprop persist.sys.locale]:" "[$(getprop persist.sys.locale)]" >> "${WDIR}setupTermuxArchSysInfo$STIME".log
 printf "%s %s\\n" "[getprop ro.build.target_country]:" "[$(getprop ro.build.target_country)]" >> "${WDIR}setupTermuxArchSysInfo$STIME".log
-printf "%s %s\\n" "[getprop ro.build.version.release]:" "[$SYSVER(getprop ro.build.version.release)]" >> "${WDIR}setupTermuxArchSysInfo$STIME".log
+printf "%s %s\\n" "[getprop ro.build.version.release]:" "[$SYSVER]" >> "${WDIR}setupTermuxArchSysInfo$STIME".log
 printf "%s %s\\n" "[getprop ro.build.version.preview_sdk]:" "[$(getprop ro.build.version.preview_sdk)]" >> "${WDIR}setupTermuxArchSysInfo$STIME".log
 printf "%s %s\\n" "[getprop ro.build.version.sdk]:" "[$(getprop ro.build.version.sdk)]" >> "${WDIR}setupTermuxArchSysInfo$STIME".log
 printf "%s %s\\n" "[getprop ro.com.google.clientidbase]:" "[$(getprop ro.com.google.clientidbase)]" >> "${WDIR}setupTermuxArchSysInfo$STIME".log
@@ -341,12 +341,12 @@ printf "%s %s\\n" "[getprop ro.product.first_api_level]:" "[$(getprop ro.product
 printf "%s %s\\n" "[getprop ro.product.locale]:" "[$(getprop ro.product.locale)]" >> "${WDIR}setupTermuxArchSysInfo$STIME".log
 printf "%s %s\\n" "[getprop ro.product.manufacturer]:" "[$(getprop ro.product.manufacturer)]" >> "${WDIR}setupTermuxArchSysInfo$STIME".log
 printf "%s %s\\n" "[getprop ro.product.model]:" "[$(getprop ro.product.model)]" >> "${WDIR}setupTermuxArchSysInfo$STIME".log
-printf "%s\\n" "Download directory information results:" >> "${WDIR}setupTermuxArchSysInfo$STIME".log
+printf "\\n%s\\n" "Download directory information results:" >> "${WDIR}setupTermuxArchSysInfo$STIME".log
 [[ -e /sdcard/Download ]] && printf "%s\\n" "/sdcard/Download exists" || printf "%s\\n" "/sdcard/Download not found" >> "${WDIR}setupTermuxArchSysInfo$STIME".log
 [[ -e /storage/emulated/0/Download ]] && printf "%s\\n" "/storage/emulated/0/Download exists" || printf "%s\\n" "/storage/emulated/0/Download not found" >> "${WDIR}setupTermuxArchSysInfo$STIME".log
 [[ -e "$HOME"/downloads ]] && printf "%s\\n" "$HOME/downloads exists" || printf "%s\\n" "~/downloads not found" >> "${WDIR}setupTermuxArchSysInfo$STIME".log
 [[ -e "$HOME"/storage/downloads ]] && printf "%s\\n" "$HOME/storage/downloads exists" || printf "%s\\n" "$HOME/storage/downloads not found" >> "${WDIR}setupTermuxArchSysInfo$STIME".log
-printf "%s\\n" "Device information results:" >> "${WDIR}setupTermuxArchSysInfo$STIME".log
+printf "\\n%s\\n" "Device information results:" >> "${WDIR}setupTermuxArchSysInfo$STIME".log
 [[ -e /dev/ashmem ]] && printf "%s\\n" "/dev/ashmem exists" || printf "%s\\n" "/dev/ashmem does not exist" >> "${WDIR}setupTermuxArchSysInfo$STIME".log
 [[ -r /dev/ashmem ]] && printf "%s\\n" "/dev/ashmem is readable" || printf "%s\\n" "/dev/ashmem is not readable" >> "${WDIR}setupTermuxArchSysInfo$STIME".log
 [[ -w /dev/ashmem ]] && printf "%s\\n" "/dev/ashmem is writable" || printf "%s\\n" "/dev/ashmem is not writable" >> "${WDIR}setupTermuxArchSysInfo$STIME".log
@@ -362,11 +362,11 @@ printf "\\n%s" "Ascertaining system information;  Please wait a moment  "
 printf "\\n%s\\n" "Disk report $USRSPACE on /data $(date)" >> "${WDIR}setupTermuxArchSysInfo$STIME".log
 printf "\\n%s\\n" "df $INSTALLDIR results:" >> "${WDIR}setupTermuxArchSysInfo$STIME".log
 df "$INSTALLDIR" >> "${WDIR}setupTermuxArchSysInfo$STIME".log 2>/dev/null ||:
-printf "\\n%s\\n\\n" "df results:" >> "${WDIR}setupTermuxArchSysInfo$STIME".log
+printf "\\n%s\\n" "df results:" >> "${WDIR}setupTermuxArchSysInfo$STIME".log
 df >> "${WDIR}setupTermuxArchSysInfo$STIME".log 2>/dev/null ||:
-printf "\\n%s\\n\\n" "du -hs $INSTALLDIR results:" >> "${WDIR}setupTermuxArchSysInfo$STIME".log
+printf "\\n%s\\n" "du -hs $INSTALLDIR results:" >> "${WDIR}setupTermuxArchSysInfo$STIME".log
 du -hs "$INSTALLDIR" >> "${WDIR}setupTermuxArchSysInfo$STIME".log 2>/dev/null ||:
-printf "\\n%s\\n\\n" "ls -al $INSTALLDIR results:" >> "${WDIR}setupTermuxArchSysInfo$STIME".log
+printf "\\n%s\\n" "ls -al $INSTALLDIR results:" >> "${WDIR}setupTermuxArchSysInfo$STIME".log
 ls -al "$INSTALLDIR" >> "${WDIR}setupTermuxArchSysInfo$STIME".log 2>/dev/null ||:
 printf "\\n%s\\n" "This file is found at '${WDIR}setupTermuxArchSysInfo$STIME.log'." >> "${WDIR}setupTermuxArchSysInfo$STIME".log
 printf "\\n%s\\e[0m\\n" "End 'setupTermuxArchSysInfo$STIME.log' version $VERSIONID system information." >> "${WDIR}setupTermuxArchSysInfo$STIME".log

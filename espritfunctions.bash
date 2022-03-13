@@ -196,7 +196,7 @@ elif [[ "${1//-}" = moon ]]
 then
 SPINNERL="🌑🌒🌓🌔🌕🌖🌗🌘"
 fi
-SPINDLAY="0.$(shuf -i 1-4 -n 1)"
+SPINDLAY="0.$(shuf -i 4-8 -n 1)"
 printf "\\e[?25l"
 while :
 do
