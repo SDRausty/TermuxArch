@@ -11,8 +11,8 @@ then
 aria2c -c -Z http://"$CMIRROR/$RPATH/$IFILE".md5 http://"$CMIRROR/$RPATH/$IFILE"
 elif [[ "$DM" = axel ]]
 then
-axel http://"$CMIRROR/$RPATH/$IFILE".md5
-axel http://"$CMIRROR/$RPATH/$IFILE"
+axel -ac http://"$CMIRROR/$RPATH/$IFILE".md5
+axel -ac http://"$CMIRROR/$RPATH/$IFILE"
 elif [[ "$DM" = lftp ]]
 then
 lftpget -c http://"$CMIRROR/$RPATH/$IFILE".md5 http://"$CMIRROR/$RPATH/$IFILE"
@@ -41,8 +41,8 @@ NLCMIRR="$(grep downloading "$TMPDIR/global2localmirror" | awk {'print $5'})"
 NLCMIRROR="${NLCMIRR::-3}"
 _PRINTDONE_
 _PRINTDOWNLOADINGFTCH_
-axel -a http://"$NLCMIRROR/$RPATH/$IFILE".md5
-axel -a http://"$NLCMIRROR/$RPATH/$IFILE"
+axel -ac http://"$NLCMIRROR/$RPATH/$IFILE".md5
+axel -ac http://"$NLCMIRROR/$RPATH/$IFILE"
 elif [[ "$DM" = lftp ]]
 then
 lftp -e get http://"$CMIRROR" 2>&1 | tee>"$TMPDIR/global2localmirror"
@@ -79,9 +79,9 @@ _ISX86_
 aria2c -c http://"$CMIRROR/$RPATH/$IFILE"
 elif [[ "$DM" = axel ]]
 then
-axel http://"$CMIRROR/$RPATH/$IFILE".md5
+axel -ac http://"$CMIRROR/$RPATH/$IFILE".md5
 _ISX86_
-axel http://"$CMIRROR/$RPATH/$IFILE"
+axel -ac http://"$CMIRROR/$RPATH/$IFILE"
 elif [[ "$DM" = lftp ]]
 then
 lftpget http://"$CMIRROR/$RPATH"/md5sums.txt
