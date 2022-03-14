@@ -25,9 +25,6 @@ _ADDchperms.cache+gnupg_
 _ADDcsystemctl_
 _ADDes_
 _ADDexd_
-_ADDfbindprocpcidevices.prs_
-_ADDfbindprocshmem.prs_
-_ADDfbindprocuptime_
 _ADDfbinds_
 _ADDfibs_
 _ADDga_

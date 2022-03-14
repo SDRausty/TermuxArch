@@ -310,7 +310,8 @@ fi
 
 _TOUCHUPSYS_() {
 _ADDmotd_
-_PREPPACMANCONF_ || :
+# _PREPPACMANCONF_ || :
+_PREPPACMANCONF_
 _SETLOCALE_
 _RUNFINISHSETUP_
 [ -f root/bin/"$BINFNSTP" ] && rm -f root/bin/"$BINFNSTP"

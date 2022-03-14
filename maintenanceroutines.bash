@@ -99,7 +99,7 @@ exit
 
 _FIXOWNER_() { # fix owner of INSTALLDIR/home/TALUSER, PR9 by @petkar
 _DOFIXOWNER_() {
-printf "\\e[0;32m%s" "Adjusting ownership and permissions:  "
+printf "\\e[0;32m%s" "Adjusting ownership and permissions: BEGUN"
 FXARR="$(ls "$INSTALLDIR/home")"
 for TALUSER in ${FXARR[@]}
 do
@@ -109,7 +109,7 @@ $STARTBIN c "chmod 777 $INSTALLDIR/home/$TALUSER"
 $STARTBIN c "chown -R $TALUSER:$TALUSER $INSTALLDIR/home/$TALUSER"
 fi
 done
-printf "\\e[0;32m%s\\e[0m\\n" "DONE"
+printf "\\e[0;32m%s\\e[0m\\n" ": DONE"
 }
 _DOFIXOWNER_ || _PSGI1ESTRING_ "_DOFIXOWNER_ maintenanceroutines.bash ${0##*/}"
 }
@@ -123,7 +123,7 @@ _PR00TSTRING_
 _SETLANGUAGE_
 _PREPROOTDIR_ || _PSGI1ESTRING_ "_PREPROOTDIR_ _REFRESHSYS_ maintenanceroutines.bash ${0##*/}"
 _ADDADDS_
-printf '\e[0;32mGenerating dot files;  \e[1;32mDONE\n'
+printf '\e[0;32mGenerating dot files:  \e[1;32mDONE\n'
 _DOUSECACHEDIR_
 _MAKEFINISHSETUP_
 _MAKESETUPBIN_
@@ -168,7 +168,7 @@ _SHFDFUNC_ () {
 SHFD="$(find "$RMDIR" -type d -printf '%03d %p\n' | sort -r -n -k 1 | cut -d" " -f 2)"
 for SHF1D in $SHFD
 do
-rmdir "$SHF1D" || printf "%s" "Cannot 'rmdir $SHF1D'; Continuing..."
+rmdir "$SHF1D" || printf "%s" "Cannot 'rmdir $SHF1D': Continuing..."
 done
 }
 printf "\n%s\n" "Script '${0##*/}' checking and fixing permissions in directory '$PWD': STARTED..."
@@ -180,13 +180,14 @@ RMDIR="$INSTALLDIR/$SDIR"
 done
 PERRS="$(du "$INSTALLDIR" 2>&1 >/dev/null ||:)"
 PERRS="$(sed "s/du: cannot read directory '//g" <<< "$PERRS" | sed "s/': Permission denied//g")"
-[ -z "$PERRS" ] || { printf "%s" "Fixing  permissions in '$INSTALLDIR': " && for PERR in $PERRS ; do chmod 777 "$PERR" ; done && printf "%s\n" "DONE" ; } || printf "%s" "Fixing  permissions signal PERRS; Continuing..."
+[ -z "$PERRS" ] || { printf "%s" "Fixing  permissions in '$INSTALLDIR': " && for PERR in $PERRS ; do chmod 777 "$PERR" ; done && printf "%s\n" "DONE" ; } || printf "%s" "Fixing  permissions signal PERRS: Continuing..."
 printf "%s\n" "Script '${0##*/}' checking and fixing permissions: DONE"
 }
 
 _SHFUNCWRAP_ () {
 if [[ "${LCR:-}" -eq 3 ]] || [[ "${LCR:-}" -eq 4 ]] || [[ "${LCR:-}" -eq 5 ]]
 then
+_PREPPACMANCONF_
 FNDTMPROOT=($(ls "$TMPDIR"/))
 if [ ${#FNDTMPROOT[@]} = 0 ]
 then

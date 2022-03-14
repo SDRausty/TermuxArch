@@ -1657,6 +1657,6 @@ fi
 
 _PREPPACMANCONF_() {
 { [ -f "$INSTALLDIR"/etc/pacman.conf ] && { sed -i 's/^CheckSpace/\#CheckSpace/g' "$INSTALLDIR/etc/pacman.conf" && sed -i 's/^#Color/Color/g' "$INSTALLDIR/etc/pacman.conf" ; } ; } || _PSGI1ESTRING_ "Cannot find file $INSTALLDIR/etc/pacman.conf; _PREPPACMANCONF_ archlinuxconfig.bash ${0##*/}"
-[ -f /usr/share/libalpm/scripts/systemd-hook ] && { sed -i 's/\-\-chroot/\-c/g' /usr/share/libalpm/scripts/systemd-hook ; }
+[ -f "$INSTALLDIR"/usr/share/libalpm/scripts/systemd-hook ] && { sed -i 's/\-\-chroot/\-c/g' "$INSTALLDIR"/usr/share/libalpm/scripts/systemd-hook ; }
 }
 # archlinuxconfig.bash FE
