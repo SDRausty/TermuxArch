@@ -14,13 +14,24 @@ MRCOUNTRIESx86_64=("Worldwide" "Australia" "Austria" "Bangladesh" "Belarus" "Bel
 }
 
 _BLOOM_() { # Bloom = 'setupTermuxArch manual verbose'
-[[ -d "$HOME/TermuxArchBloom" ]] && _RMBLOOMQ_
-mkdir -p "$HOME/TermuxArchBloom"
-cp {LICENSE,archlinuxconfig.bash,espritfunctions.bash,fbindsfunctions.bash,getimagefunctions.bash,initkeyfunctions.bash,knownconfigurations.bash,maintenanceroutines.bash,necessaryfunctions.bash,setupTermuxArch,printoutstatements.bash} "$HOME/TermuxArchBloom"
-cd "$HOME/TermuxArchBloom" || exit 69
+[[ -d "$HOME"/TermuxArchBloom ]] && _RMBLOOMQ_
+mkdir -p "$HOME"/TermuxArchBloom
+cp {LICENSE,archlinuxconfig.bash,espritfunctions.bash,fbindsfunctions.bash,getimagefunctions.bash,initkeyfunctions.bash,knownconfigurations.bash,maintenanceroutines.bash,necessaryfunctions.bash,setupTermuxArch,printoutstatements.bash} "$HOME"/TermuxArchBloom
+cd "$HOME"/TermuxArchBloom || exit 69
 printf "\\e[1;34m%s\\e[1;32m%s\\e[0m 📲\\n\\n" "TermuxArch Bloom option via " "setupTermuxArch bloom"
 ls -agl
-printf "\\n\\e[1;34m%s\\e[1;32m%s\\e[1;34m%s\\e[1;32m%s\\e[1;34m%s\\e[1;32m%s\\e[1;34m.\\e[0m\\n" "Use " "cd ~/TermuxArchBloom" " to continue.  Edit any of these files;  Then use " "bash ${0##*/} [options]" " to run the files in " "~/TermuxArchBloom"
+printf "\\n\\e[1;34m%s\\e[1;32m%s\\e[1;34m%s\\e[1;32m%s\\e[1;34m%s\\e[1;32m%s\\e[1;34m.  " "Use " "cd ~/TermuxArchBloom" " to continue.  Edit any of these files;  Then use " "bash ${0##*/} [options]" " to run the files in " "~/TermuxArchBloom"
+if [ "$ELCR" = 0 ]
+then
+{ [[ -d "$INSTALLDIR" ]] && [[ -d "$INSTALLDIR"/root/bin ]] && [[ -d "$INSTALLDIR"/var/binds ]] && [[ -f "$INSTALLDIR"/bin/we ]] && [[ -f "$INSTALLDIR"/usr/bin/env ]] ; } && printf "\\n\\e[0;33m%s\\e[1;33m%s\\e[0;33m.\\n\\n" "ＴｅｒｍｕｘＡｒｃｈ NOTICE!  " "The root directory structure of ~/${INSTALLDIR##*/} seems to be correct; Cannot continue '${0##*/} $ARGS' to create the directory skeleton!  Command '${0##*/} bloom customdir' can be appended with customdir.  The command '${0##*/} bloom customdir' can continue building the skeleton structure.  Commands '${0##*/} h[e[lp]]' and '$STARTBIN h[elp]' have more information"&& exit
+## Create ~/TermuxArchBloom directory and Arch Linux in Termux PRoot root directory skeleton.
+_PREPTERMUXARCH_
+_NAMESTARTARCH_
+_SPACEINFO_
+_PREPINSTALLDIR_
+tree 2>/dev/null || find . -type f -print | sed 's@.*/@@' | sort
+fi
+exit
 }
 
 _EDITFILES_() {
