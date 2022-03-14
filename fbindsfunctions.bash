@@ -4,14 +4,11 @@
 ## https://sdrausty.github.io/TermuxArch/README has info about this project.
 ## https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.
 ################################################################################
-_ADDfbindprocpcidevices.prs_() {
+_ADDfbindprocpcidevices_() {
 :>var/binds/fbindprocpcidevices
-_CFLHDRS_ var/binds/fbindprocpcidevices.prs "# bind an empty /proc/bus/pci/devices file"
-printf "%s\\n" "PROOTSTMNT+=\"-b $INSTALLDIR/var/binds/fbindprocpcidevices:/proc/bus/pci/devices \"
-## ~/${INSTALLDIR##*/}/usr/local/bin/fbindprocpcidevices.prs FE" >> var/binds/fbindprocpcidevices.prs
 }
 
-_ADDfbindprocshmem.prs_() {
+_ADDfbindprocshmem_() {
 printf "%s\\n" "------ Message Queues --------
 key        msqid      owner      perms      used-bytes   messages
 
@@ -20,9 +17,6 @@ key        shmid      owner      perms      bytes      nattch     status
 
 ------ Semaphore Arrays --------
 key        semid      owner      perms      nsems" > var/binds/fbindprocshmem
-_CFLHDRS_ var/binds/fbindprocshmem.prs
-printf "%s\\n" "PROOTSTMNT+=\"-b $INSTALLDIR/var/binds/fbindprocshmem:/proc/shmem \"
-## ~/${INSTALLDIR##*/}/usr/local/bin/fbindprocshmem.prs FE" >> var/binds/fbindprocshmem.prs
 }
 
 _ADDfbindprocstat_() {
@@ -104,12 +98,9 @@ printf "%s.%02d %s.%02d\\n" "$BINDPROCUPTIM0" "$BINDPROCUPTIM1" "$BINDPROCUPTIM2
 
 _ADDfbindprocversion_() {
 printf "%s\\n" "Linux version $UNAMER (root@localhost) (gcc version $UNAMER (prerelease) (GCC) ) #1 SMP PREEMPT $(date +%a" "%b" "%d" "%X" UTC "%Y)" > var/binds/fbindprocversion
-_CFLHDRS_ var/binds/fbindprocversion.prs "# bind kernel information when /proc/version is accessed"
-printf "%s\\n" "PROOTSTMNT+=\"-b $INSTALLDIR/var/binds/fbindprocversion:/proc/version \"
-## ~/${INSTALLDIR##*/}/usr/local/bin/fbindprocversion.prs FE" >> var/binds/fbindprocversion.prs
 }
 
-_ADDbindexample_() {
+_ADDbindexample.prs_() {
 _CFLHDRS_ var/binds/bindexample.prs "# Before regenerating the start script with \`setupTermuxArch re[fresh]\`, first copy this file to another name such as \`fbinds.prs\`.  Then add as many proot statements as you want; The init script will parse file \`fbinds.prs\` at refresh adding these proot options to \`$STARTBIN\`.  The space before the last double quote is necessary.  Examples are included for convenience:"
 printf "%s\\n" "## PRoot bind usage: PROOTSTMNT+=\"-b host_path:guest_path \"
 ## PROOTSTMNT+=\"-q $PREFIX/bin/qemu-x86-64 \"
@@ -118,24 +109,9 @@ printf "%s\\n" "## PRoot bind usage: PROOTSTMNT+=\"-b host_path:guest_path \"
 ## ~/${INSTALLDIR##*/}/usr/local/bin/bindexample.prs FE" >> var/binds/bindexample.prs
 }
 
-_ADDfbinds_() {
-_ADDbindprocloadavg_
-_ADDbindprocvmstat_
-_ADDfbindprocpcidevices.prs_
-_ADDfbindprocshmem.prs_
-_ADDfbindprocuptime_
-_ADDfbindprocversion_
-if [ ! -r /proc/stat ]
-then
-_ADDfbindprocstat_
-fi
-}
-
 _ADDbindprocloadavg_() {
 printf "%s" "0.$(shuf -n 1 -i 48-64) 0.$(shuf -n 1 -i 32-48) 0.$(shuf -n 1 -i 24-32) 1/$(shuf -n 1 -i 128-1024) $(shuf -n 1 -i 333333-999999)
 " > var/binds/fbindprocloadavg
-_CFLHDRS_ var/binds/fbindprocloadavg.prs
-printf "%s\\n" "PROOTSTMNT+=\"-b $INSTALLDIR/var/binds/fbindprocloadavg:/proc/loadavg \"" >> var/binds/fbindprocloadavg.prs
 }
 
 _ADDbindprocvmstat_() {
@@ -277,7 +253,12 @@ balloon_deflate 0
 balloon_migrate 0
 swap_ra 9661
 swap_ra_hit 7872" > var/binds/fbindprocvmstat
-_CFLHDRS_ var/binds/fbindprocvmstat.prs
-printf "%s\\n" "PROOTSTMNT+=\"-b $INSTALLDIR/var/binds/fbindprocvmstat:/proc/vmstat \"" >> var/binds/fbindprocvmstat.prs
+}
+_ADDfbinds_() {
+FBINDFUNCS=(_ADDfbindprocpcidevices_ _ADDfbindprocshmem_ _ADDfbindprocuptime_ _ADDfbindprocstat_ _ADDfbindprocversion_ _ADDbindprocloadavg_ _ADDbindprocvmstat_)
+for FBINDFUNC in "${FBINDFUNCS[@]}"
+do
+"$FBINDFUNC"
+done
 }
 # fbindsfunctions.bash FE

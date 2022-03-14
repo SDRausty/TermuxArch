@@ -80,14 +80,6 @@ else
 PROOTSTMNT+=""
 fi
 PROOTSTMNT+="--kill-on-exit --sysvipc --link2symlink -i \"\$2:wheel\" -0 -r $INSTALLDIR "
-# file var/binds/fbindexample.prs has a few more examples
-if [[ -n "$(ls -A "$INSTALLDIR"/var/binds/*.prs)" ]]
-then
-for PRSFILES in "$INSTALLDIR"/var/binds/*.prs
-do
-. "$PRSFILES"
-done
-fi
 if [[ "${QEMUCR:-}" == 0 ]]
 then
 PROOTSTMNT+="-q $PREFIX/bin/qemu-${ARCHITEC/x86-64/x86_64} "
@@ -114,7 +106,7 @@ fi
 done
 [[ "$SYSVER" -ge 10 ]] && PROOTSTMNT+="-b /apex -b /storage -b /sys -b /system -b /vendor "
 # populate NOT readable binds
-PRSTARR=([/dev/]=/dev/ [/dev/ashmem]="$INSTALLDIR/tmp" [/dev/shm]="$INSTALLDIR/tmp" [/proc/stat]="$INSTALLDIR/var/binds/fbindprocstat" [/proc/uptime]="$INSTALLDIR/var/binds/fbindprocuptime")
+PRSTARR=([/dev/]=/dev/ [/dev/ashmem]="$INSTALLDIR/tmp" [/dev/shm]="$INSTALLDIR/tmp" [/proc/loadavg]="$INSTALLDIR/var/binds/fbindprocloadavg" [/proc/pcidevices]="$INSTALLDIR/var/binds/fbindprocpcidevices" [/proc/shmem]="$INSTALLDIR/var/binds/fbindprocshmem" [/proc/stat]="$INSTALLDIR/var/binds/fbindprocstat" [/proc/uptime]="$INSTALLDIR/var/binds/fbindprocuptime" [/proc/vmstat]="$INSTALLDIR/var/binds/fbindprocvmstat" [/proc/version]="$INSTALLDIR/var/binds/fbindprocversion")
 for PRBIND in ${!PRSTARR[@]}
 do
 if [[ ! -r "$PRBIND" ]]	# is not readable
@@ -122,6 +114,14 @@ then	# add proot bind
 PROOTSTMNT+="-b ${PRSTARR[$PRBIND]}:$PRBIND "
 fi
 done
+# file var/binds/fbindexample.prs has examples
+if [[ -n "$(ls -A "$INSTALLDIR"/var/binds/*.prs)" ]]
+then
+for PRSFILES in "$INSTALLDIR"/var/binds/*.prs
+do
+. "$PRSFILES"
+done
+fi
 PROOTSTMNT+="-b /data/data/com.termux/files/usr/tmp:/tmp -w /root /usr/bin/env -i HOME=/root TERM=\"$TERM\" TMPDIR=/tmp ANDROID_DATA=/data "
 PROOTSTMNTU="${PROOTSTMNT//HOME=\/root/HOME=\/home\/\$2}"
 PROOTSTMNTU="${PROOTSTMNTU//-0 }"

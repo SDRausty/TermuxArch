@@ -14,7 +14,7 @@ printf '\e[0;32mGenerating dot files;  \e[1;32mBEGUN\n'
 _ADDbash_logout_
 _ADDbash_profile_
 _ADDbashrc_
-_ADDbindexample_
+_ADDbindexample.prs_
 _ADDcams_
 _ADDcshrc_
 _ADDcdtd_
@@ -25,8 +25,8 @@ _ADDchperms.cache+gnupg_
 _ADDcsystemctl_
 _ADDes_
 _ADDexd_
-_ADDfbinds_
 _ADDfibs_
+_ADDfbinds_
 _ADDga_
 _ADDgcl_
 _ADDgclone_
