@@ -8,17 +8,18 @@ _FTCHIT_() {
 _PRINT_DOWNLOADING_FTCHIT_
 if [[ "$DM" = aria2 ]]
 then
-aria2c -c -Z http://"$CMIRROR/$RPATH/$IFILE".md5 http://"$CMIRROR/$RPATH/$IFILE"
+aria2c --continue -Z http://"$CMIRROR/$RPATH/$IFILE".md5 http://"$CMIRROR/$RPATH/$IFILE"
 elif [[ "$DM" = axel ]]
 then
-axel -ac http://"$CMIRROR/$RPATH/$IFILE".md5
-axel -ac http://"$CMIRROR/$RPATH/$IFILE"
+echo echo0
+axel -a --no-clobber http://"$CMIRROR/$RPATH/$IFILE".md5 ||:
+axel -a --no-clobber http://"$CMIRROR/$RPATH/$IFILE" ||:
 elif [[ "$DM" = lftp ]]
 then
 lftpget -c http://"$CMIRROR/$RPATH/$IFILE".md5 http://"$CMIRROR/$RPATH/$IFILE"
 elif [[ "$DM" = wget ]]
 then
-wget "$DMVERBOSE" -c --show-progress -N http://"$CMIRROR/$RPATH/$IFILE".md5 http://"$CMIRROR/$RPATH/$IFILE"
+wget "$DMVERBOSE" --continue --show-progress -N http://"$CMIRROR/$RPATH/$IFILE".md5 http://"$CMIRROR/$RPATH/$IFILE"
 else
 curl "$DMVERBOSE" -C - --fail --retry 4 -OL {"http://$CMIRROR/$RPATH/$IFILE.md5,http://$CMIRROR/$RPATH/$IFILE"}
 fi
@@ -33,7 +34,7 @@ aria2c http://"$CMIRROR" 1>"$TMPDIR/global2localmirror"
 NLCMIRROR="$(grep Redirecting "$TMPDIR/global2localmirror" | awk {'print $8'})"
 _PRINTDONE_
 _PRINTDOWNLOADINGFTCH_
-aria2c -c -m 4 -Z "$NLCMIRROR/$RPATH/$IFILE".md5 "$NLCMIRROR/$RPATH/$IFILE"
+aria2c --continue -m 4 -Z "$NLCMIRROR/$RPATH/$IFILE".md5 "$NLCMIRROR/$RPATH/$IFILE"
 elif [[ "$DM" = axel ]]
 then
 axel -vv http://"$CMIRROR" 1 > "$TMPDIR/global2localmirror"
@@ -41,8 +42,8 @@ NLCMIRR="$(grep downloading "$TMPDIR/global2localmirror" | awk {'print $5'})"
 NLCMIRROR="${NLCMIRR::-3}"
 _PRINTDONE_
 _PRINTDOWNLOADINGFTCH_
-axel -ac http://"$NLCMIRROR/$RPATH/$IFILE".md5
-axel -ac http://"$NLCMIRROR/$RPATH/$IFILE"
+axel -a --no-clobber http://"$NLCMIRROR/$RPATH/$IFILE".md5 ||:
+axel -a --no-clobber http://"$NLCMIRROR/$RPATH/$IFILE" ||:
 elif [[ "$DM" = lftp ]]
 then
 lftp -e get http://"$CMIRROR" 2>&1 | tee>"$TMPDIR/global2localmirror"
@@ -58,7 +59,7 @@ wget -v -O/dev/null "$CMIRROR" 2>"$TMPDIR/global2localmirror"
 NLCMIRROR="$(grep Location "$TMPDIR/global2localmirror" | awk {'print $2'})"
 _PRINTDONE_
 _PRINTDOWNLOADINGFTCH_
-wget "$DMVERBOSE" -c --show-progress "$NLCMIRROR/$RPATH/$IFILE".md5 "$NLCMIRROR/$RPATH/$IFILE"
+wget "$DMVERBOSE" --continue --show-progress "$NLCMIRROR/$RPATH/$IFILE".md5 "$NLCMIRROR/$RPATH/$IFILE"
 else
 curl -v "$CMIRROR" &> "$TMPDIR/global2localmirror"
 NLCMIRROR="$(grep Location "$TMPDIR/global2localmirror" | awk {'print $3'})"
@@ -76,12 +77,12 @@ if [[ "$DM" = aria2 ]]
 then
 aria2c http://"$CMIRROR/$RPATH/$IFILE".md5
 _ISX86_
-aria2c -c http://"$CMIRROR/$RPATH/$IFILE"
+aria2c --continue http://"$CMIRROR/$RPATH/$IFILE"
 elif [[ "$DM" = axel ]]
 then
-axel -ac http://"$CMIRROR/$RPATH/$IFILE".md5
+axel -a --no-clobber http://"$CMIRROR/$RPATH/$IFILE".md5 ||:
 _ISX86_
-axel -ac http://"$CMIRROR/$RPATH/$IFILE"
+axel -a --no-clobber http://"$CMIRROR/$RPATH/$IFILE" ||:
 elif [[ "$DM" = lftp ]]
 then
 lftpget http://"$CMIRROR/$RPATH"/md5sums.txt
@@ -91,7 +92,7 @@ elif [[ "$DM" = wget ]]
 then
 wget "$DMVERBOSE" -N --show-progress http://"$CMIRROR/$RPATH/"md5sums.txt
 _ISX86_
-wget "$DMVERBOSE" -c --show-progress http://"$CMIRROR/$RPATH/$IFILE"
+wget "$DMVERBOSE" --continue --show-progress http://"$CMIRROR/$RPATH/$IFILE"
 else
 curl "$DMVERBOSE" --fail --retry 4 -OL http://"$CMIRROR/$RPATH"/md5sums.txt
 _ISX86_

@@ -15,7 +15,7 @@ FLHDR1[1]=""
 FLHDR1[2]="set -Eeuo pipefail"
 FLHDR1[3]="shopt -s nullglob globstar"
 FLHDR1[4]="unset LD_PRELOAD"
-FLHDR1[5]="VERSIONID=2.0.496"
+FLHDR1[5]="VERSIONID=2.0.497"
 FLHDR1[6]=""
 FLHDRP[0]="## BEGIN #####################################################################"
 FLHDRP[1]=""
@@ -217,15 +217,15 @@ _PRINTFOOTER2_
 
 _PRINTFOOTER2_() {
 _PRTARM_() {
-printf "\\e[1;34m%s\\e[0m\\n\\n" "The website https://archlinuxarm.org/forum/ has discussion forums available for the Arch Linux arm project regarding the Arch Linux $CPUABI computer architecture."
+printf "\\e[1;34m%s\\e[0;32m%s\\e[1;34m%s\\e[0m\\n\\n" "The webpage " "https://archlinuxarm.org/forum" " has discussion forums available for the Arch Linux arm project regarding the Arch Linux $CPUABI computer architecture."
 }
 _PRTX86_() {
-printf "\\e[1;34m%s\\e[0m\\n\\n" "The website https://bbs.archlinux32.org/ has Arch Linux 32 discussion forums.  The website https://wiki.archlinux32.org/ has information about the Arch Linux 32 project regarding the Arch Linux $CPUABI computer architecture."
+printf "\\e[1;34m%s\\e[0;32m%s\\e[1;34m%s\\e[0;32m%s\\e[1;34m%s\\e[0m\\n\\n" "The website " "https://bbs.archlinux32.org/" " has Arch Linux 32 discussion forums.  The website " "https://wiki.archlinux32.org/" " has information about the Arch Linux 32 project regarding the Arch Linux $CPUABI computer architecture."
 }
 _PRTX8664_() {
-printf "\\e[1;34m%s\\e[0m\\n\\n" "The website https://bbs.archlinux.org/ has Arch Linux discussion forums for the Arch Linux project.  The webpage https://wiki.archlinux.org/index.php/IRC_channel lists available Arch Linux IRC channels regarding the Arch Linux $CPUABI computer architecture."
+printf "\\e[1;34m%s\\e[0;32m%s\\e[1;34m%s\\e[0;32m%s\\e[1;34m%s\\e[0m\\n\\n" "The website " "https://bbs.archlinux.org/" " has Arch Linux discussion forums for the Arch Linux project.  The webpage " "https://wiki.archlinux.org/index.php/IRC_channel" " lists available Arch Linux IRC channels regarding the Arch Linux $CPUABI computer architecture."
 }
-printf "\\e[1;34m%s\\n\\n%s\\e[1;32m%s\\e[1;34m%s\\e[1;32m%s\\e[1;34m%s\\n" "Arch Linux in Termux PRoot is installed in $INSTALLDIR.  This project is in active development.  Contributions to this project are welcome; See https://sdrausty.github.io/TermuxArch/CONTRIBUTORS for information.  The documentation repository for TermuxArch https://sdrausty.github.io/TermuxArch/docs/ is a TermuxArch module that is located at https://github.com/sdrausty/docsTermuxArch.  Pull requests and contributions through the issues pages are open to improve the ux (user experience) and this Termux PRoot installation script. " "The commands " "~$PRINTROOTDIR/$STARTBIN " "and " "$STARTBIN " "can be used in a BASH shell to launch Arch Linux in Termux PRoot for future sessions.  If you are new to *nix, http://tldp.org has *nix documentation.  "
+printf "\\e[1;34m%s\\n\\n%s\\e[1;32m%s\\e[1;34m%s\\e[1;32m%s\\e[1;34m%s" "Arch Linux in Termux PRoot is installed in $INSTALLDIR.  This project is in active development.  Contributions to this project are welcome; See https://sdrausty.github.io/TermuxArch/CONTRIBUTORS for information.  The documentation repository for TermuxArch https://sdrausty.github.io/TermuxArch/docs/ is a TermuxArch module that is located at https://github.com/sdrausty/docsTermuxArch.  Pull requests and contributions through the issues pages are open to improve the ux (user experience) and this Termux PRoot installation script. " "The commands " "~$PRINTROOTDIR/$STARTBIN " "and " "$STARTBIN " "can be used in a BASH shell to launch Arch Linux in Termux PRoot for future sessions.  If you are new to *nix, http://tldp.org has *nix documentation.  "
 if [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = i386 ]]
 then
 _PRTX86_

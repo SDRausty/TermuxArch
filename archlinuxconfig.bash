@@ -8,8 +8,7 @@ _PREPFILEFCTN_() { printf "%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n" "[ \"\$UID\" = 0 ] &&
 
 _ADDREADME_() {
 _CFLHDR_ usr/local/bin/README.md
-cat > usr/local/bin/README.md <<- EOM
-The /usr/local/bin directory contains TermuxArch shortcut commands that automate and make using the command line easier.  Some of these commands are listed here:
+printf "%s\\n" "The /usr/local/bin directory contains TermuxArch shortcut commands that automate and make using the command line easier.  Some of these commands are listed here:
 
 * Command 'csystemctl' replaces systemctl with https://github.com/TermuxArch/docker-systemctl-replacement,
 * Command 'keys' installs Arch Linux keys,
@@ -28,25 +27,20 @@ This file can be expanded so the beginning user can get to know the Linux experi
 
 * Comments are welcome at https://github.com/TermuxArch/TermuxArch/issues ✍
 * Pull requests are welcome at https://github.com/TermuxArch/TermuxArch/pulls ✍
-<!-- ~/${INSTALLDIR##*/}/usr/local/bin/README.md FE -->
-EOM
+<!-- ~/${INSTALLDIR##*/}/usr/local/bin/README.md FE -->" > usr/local/bin/README.md
 }
 
 _ADDae_() {
 _CFLHDR_ usr/local/bin/ae "# Developed at [pacman-key --populate archlinux hangs](https://github.com/SDRausty/TermuxArch/issues/33) Contributor cb125"
-cat >> usr/local/bin/ae <<- EOM
-watch cat /proc/sys/kernel/random/entropy_avail
-## ~/${INSTALLDIR##*/}/usr/local/bin/ae FE
-EOM
+printf "%s\\n" "watch cat /proc/sys/kernel/random/entropy_avail
+## ~/${INSTALLDIR##*/}/usr/local/bin/ae FE" >> usr/local/bin/ae
 chmod 755 usr/local/bin/ae
 }
 
 _ADDbash_logout_() {
-cat > root/.bash_logout <<- EOM
-[ ! -f "\$HOME"/.hushlogout ] && [ ! -f "\$HOME"/.chushlogout ] && . /etc/moto
+printf "%s\\n" "[ ! -f \"\$HOME\"/.hushlogout ] && [ ! -f "\$HOME"/.chushlogout ] && . /etc/moto
 h
-## .bash_logout FE
-EOM
+## .bash_logout FE" > root/.bash_logout
 }
 
 _ADDbash_profile_() {
@@ -96,7 +90,8 @@ printf "%s\\n" "[ -d $TEXDIR/texmf-config ] && export TEXMFSYSCONFIG=\"$TEXDIR/t
 printf "%s\\n" "[ -d $TEXDIR/texmf-var ] && export TEXMFSYSVAR=\"$TEXDIR/texmf-var\"" >> root/.bash_profile
 printf "%s\\n" "[ -d \"\$HOME\"/.texlive2021/texmf-var ] && export TEXMFVAR=\"\$HOME/.texlive2021/texmf-var\"" >> root/.bash_profile
 fi
-printf "%s\\n%s\\n" "export TZ=\"$(getprop persist.sys.timezone)\"" "## .bash_profile FE" >> root/.bash_profile
+printf "%s\\n" "export TZ=\"$(getprop persist.sys.timezone)\"
+## .bash_profile FE" >> root/.bash_profile
 }
 
 _ADDbashrc_() {
@@ -238,9 +233,7 @@ alias Um='uname -m'
 alias um='uname -m'
 EOM
 [ -f "$HOME"/.bashrc ] && grep -s proxy "$HOME"/.bashrc | grep -s "export" >>  root/.bashrc ||:
-cat >> root/.bashrc <<- EOM
-## .bashrc FE
-EOM
+printf "%s\\n" "## .bashrc FE" >> root/.bashrc
 }
 
 _ADDcams_() {
@@ -392,31 +385,25 @@ chmod 755 usr/local/bin/cams
 
 _ADDcdtd_() {
 _CFLHD_ usr/local/bin/cdtd "# Usage: \`. cdtd\` the dot sources \`cdtd\` which makes this shortcut script work."
-cat > usr/local/bin/cdtd <<- EOM
-#!/usr/bin/env bash
-cd "$HOME/storage/downloads" && pwd
-## ~/${INSTALLDIR##*/}/usr/local/bin/cdtd FE
-EOM
+printf "%s\\n" "#!/usr/bin/env bash
+cd $HOME/storage/downloads && pwd
+## ~/${INSTALLDIR##*/}/usr/local/bin/cdtd FE" >> usr/local/bin/cdtd
 chmod 755 usr/local/bin/cdtd
 }
 
 _ADDcdth_() {
 _CFLHD_ usr/local/bin/cdth "# Usage: \`. cdth\` the dot sources \`cdth\` which makes this shortcut script work."
-cat > usr/local/bin/cdth <<- EOM
-#!/usr/bin/env bash
-cd "$HOME" && pwd
-## ~/${INSTALLDIR##*/}/usr/local/bin/cdth FE
-EOM
+printf "%s\\n" "#!/usr/bin/env bash
+cd $HOME && pwd
+## ~/${INSTALLDIR##*/}/usr/local/bin/cdth FE" > usr/local/bin/cdth
 chmod 755 usr/local/bin/cdth
 }
 
 _ADDcdtmp_() {
 _CFLHD_ usr/local/bin/cdtmp "# Usage: \`. cdtmp\` the dot sources \`cdtmp\` which makes this shortcut script work."
-cat > usr/local/bin/cdtmp <<- EOM
-#!/usr/bin/env bash
-cd "$TMPDIR" && pwd || exit 169
-## ~/${INSTALLDIR##*/}/usr/local/bin/cdtmp FE
-EOM
+printf "%s\\n" "#!/usr/bin/env bash
+cd $TMPDIR && pwd || exit 169
+## ~/${INSTALLDIR##*/}/usr/local/bin/cdtmp FE" > usr/local/bin/cdtmp
 chmod 755 usr/local/bin/cdtmp
 }
 
@@ -465,8 +452,10 @@ chmod 755 usr/local/bin/ch
 _ADDchperms.cache+gnupg_() {
 _CFLHDR_ usr/local/bin/chperms.cache+gnupg
 cat >> usr/local/bin/chperms.cache+gnupg <<- EOM
-[[ -d "\$HOME/.cache" ]] && find "\$HOME/.cache" -type d -exec chmod 777 {} \; && find "\$HOME/.cache" -type f -exec chmod 666 {} \;
-[[ -d "\$HOME/.gnupg" ]] && find "\$HOME/.gnupg" -type d -exec chmod 777 {} \; && find "\$HOME/.gnupg" -type f -exec chmod 666 {} \;
+set -x
+[[ -d "\$HOME"/.cache ]] && find "\$HOME"/.cache -type d -exec chmod 777 {} \; && find "\$HOME"/.cache -type f -exec chmod 666 {} \;
+[[ -d "\$HOME/".gnupg ]] && find "\$HOME/".gnupg -type d -exec chmod 777 {} \; && find "\$HOME/".gnupg -type f -exec chmod 666 {} \;
+set +x
 ## ~/${INSTALLDIR##*/}/usr/local/bin/chperms.cache+gnupg FE
 EOM
 chmod 755 usr/local/bin/chperms.cache+gnupg

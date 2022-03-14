@@ -7,7 +7,7 @@ set -Eeuo pipefail
 shopt -s  extglob nullglob globstar
 umask 0022
 unset LD_PRELOAD
-VERSIONID=2.0.496
+VERSIONID=2.0.497
 _STRPEROR_() { # run on script error
 local RV="$?"
 printf "\\e[1;48;5;138m %s" "ＴｅｒｍｕｘＡｒｃｈ NOTICE:  Generated script signal received ${RV:-UNKNOWN} near or at line number ${1:-UNKNOWN} by '${2:-UNKNOWNCOMMAND}'!  "
@@ -15,6 +15,7 @@ _STRPEXIT_
 }
 _STRPEXIT_() { # run on exit
 local RV="$?"
+[ -d "${TAMPDIR:-}" ] && rm -rf "$INSTALLDIR"/tmp/setupTermuxArch*
 if [ -z "${ARGS:-}" ]
 then
 STRANARG="${0##*/}"
@@ -38,7 +39,7 @@ fi
 if [[ "$RV" = 0 ]]
 then
 printf "\\e[0;32mCommand \\e[1;32m'%s' \\e[0;32mversion %s\\e[1;34m: \\e[1;32m%s\\n" "$STRANARG" "${VERSIONID:-}" "DONE 🏁 "
-printf "\033]2; %s: %s %s \\007" "$STRANARG" "[Exit Signal $RV]" "DONE 🏁 "
+printf "\033]2; %s:  %s\\007" "$STRANARG" "DONE 🏁 "
 else
 printf "\\e[0;32mCommand \\e[1;32m'%s' \\e[0;32mversion %s\\e[1;34m: \\e[1;32m%s\\n" "$STRANARG" "${VERSIONID:-}" "[Exit Signal $RV] DONE 🏁 "
 printf "\033]2; %s: %s %s \\007" "$STRANARG" "[Exit Signal $RV]" "DONE 🏁 "
@@ -175,24 +176,23 @@ _CHK_ "$@"
 fi
 }
 _COREFILESLOAD_() {
+if [[ "$OPT" = BLOOM ]]
+then
+rm -f termuxarchchecksum.sha512
+fi
+if [[ "$OPT" = MANUAL ]]
+then
+_MANUAL_
+fi
+_LOADCONF_
 . fbindsfunctions.bash
 . archlinuxconfig.bash
 . espritfunctions.bash
 . getimagefunctions.bash
 . initkeyfunctions.bash
-_LOADCONF_
 . maintenanceroutines.bash
 . necessaryfunctions.bash
 . printoutstatements.bash
-if [[ "$OPT" = MANUAL ]]
-then
-_MANUAL_
-fi
-if [[ "$OPT" = BLOOM ]]
-then
-rm -f termuxarchchecksum.sha512
-fi
-[ -d "${TAMPDIR:-}" ] && rm -rf "$INSTALLDIR"/tmp/setupTermuxArch*
 }
 _DEPENDDM_() { # check and set download manager
 for PKG in "${!ADM[@]}"
@@ -217,9 +217,9 @@ done
 }
 _DEPENDS_() {	# check for missing commands
 _INPKGS_() {	# install missing packages
-STRNGB="\\e[1;38;5;146m%s\\n"
-STRNGC="\\e[1;38;5;124m%s\\n"
-if [[ "$COMMANDIF" = au ]] # enables rollback https://wae.github.io/au/
+STRNGB="\\e[1;38;5;146m%s"
+STRNGC="\\e[1;38;5;124m%s"
+if [[ "$COMMANDIF" = au ]] # can enable rollback https://wae.github.io/au/
 then	# use 'au' to install missing packages
 au "${PKGS[@]}" && printf "$STRNGB%s" "$STRING1F" || printf "$STRNGC%s" "$STRING2"
 elif [[ "$COMMANDIF" = pkg ]]
@@ -237,7 +237,7 @@ else
 PKGS=(pulseaudio bsdtar proot)
 fi
 printf "\\e[1;34mChecking prerequisites...\\n\\e[1;32m"
-ADM=([aria2]=aria2c [axel]=axel [curl]=curl [lftp]=lftp [wget]=wget)
+ADM=([aria2]=aria2c [axel]=axel [curl]=curl [lftp]=lftpget [wget]=wget)
 if [[ "$DM" != "" ]]
 then
 _DEPENDIFDM_
@@ -255,14 +255,14 @@ printf "Setting download tool 'lftp' for install: Continuing...\\n"
 fi
 for PKG in "${PKGS[@]}"
 do	# check for missing commands
-COMMANDP="$(command -v "$PKG")" || printf "\\e[1;38;5;242mCommand %s not found: Continuing...\\n" "$PKG" # test if command exists
+COMMANDP="$(command -v "$PKG")" || printf "\\e[1;38;5;242mCommand %s not found: Continuing...\\e[0m\\n" "$PKG" # test if command exists
 COMMANDPF="${COMMANDP##*/}"
 if [[ "$COMMANDPF" != "$PKG" ]]
 then
 _INPKGS_
 fi
 done
-printf "\\nUsing %s to manage downloads.\\n" "${DM:-lftp}"
+printf "\\n\\e[1;38;5;242mUsing %s to manage downloads.\\e[0m\\n" "${DM:-lftp}"
 printf "\\n\\e[0;34m 🕛 > 🕧 \\e[1;34mPrerequisites: \\e[1;32mOK  \\e[1;34mDownloading TermuxArch...\\n\\n\\e[0;32m"
 }
 _DEPENDSBLOCK_() {
@@ -289,9 +289,8 @@ _DOADMWGET_() {
 }
 _DOADMWGET_  || (au wget && "$PREFIX/bin/wget" "$DMVERBOSE" -N --show-progress "${FILE[sha]}" "${FILE[tar]}") || _PSGI1ESTRING_ "_DOADMWGET_ _DWNL_ ${0##*/}"
 else	# use https://github.com/lavv17/lftp
-"${ADM[lftp]}" -c "${FILE[sha]}" "${FILE[tar]}"
+"${ADM[lftp]}" "${FILE[sha]}" "${FILE[tar]}"
 fi
-printf "\\n\\e[1;32m"
 }
 _EDITORCHOOSER_() {
 if [[ -z "${EDITOR:-}" ]]
@@ -397,8 +396,6 @@ else
 cp knownconfigurations.bash "${WDIR}setupTermuxArchConfigs.bash"
 sed -i "7s/.*/\# The architecture of this device is $CPUABI; Adjust configurations in the appropriate section.  Change mirror (https:\/\/wiki.archlinux.org\/index.php\/Mirrors and https:\/\/archlinuxarm.org\/about\/mirrors) to desired geographic location to resolve 404 and checksum issues.  /" "${WDIR}setupTermuxArchConfigs.bash"
 $USEREDIT "${WDIR}setupTermuxArchConfigs.bash"
-. "${WDIR}setupTermuxArchConfigs.bash"
-_PRINTCONFLOADED_
 fi
 }
 _NAMEINSTALLDIR_() {
@@ -802,11 +799,10 @@ CPUABIX86="x86"		# used for development
 CPUABIX8664="x86_64"	# used for development
 DMVERBOSE="-q"	# -v for verbose download manager output from curl and wget;  for verbose output throughout runtime also change in 'setupTermuxArchConfigs.bash' when using 'setupTermuxArch m[anual]'
 ELCR=1
-[[ -z "${TAMPDIR:-}" ]] && TAMPDIR=""
 ROOTDIR="/arch"
-STRING1="COMMAND 'au' enables rollback, available at https://wae.github.io/au/ IS NOT FOUND: Continuing... "
-STRING1F="COMMAND 'au' enables auto upgrade and rollback.  Available at https://wae.github.io/au/ is found: Continuing... "
-STRING2="Cannot update '${0##*/}' prerequisite: Continuing..."
+STRING1="COMMAND 'au' can enable rollback, available at https://wae.github.io/au/ IS NOT FOUND: Continuing... "
+STRING1F="COMMAND 'au' can enable auto upgrade and rollback.  Available at https://wae.github.io/au/ is found: Continuing... "
+STRING2="Cannot update '${0##*/}' prerequisites: Continuing..."
 ## TERMUXARCH FEATURES INCLUDE:
 ## 1)  Creates aliases and commands that aid in using the command line, and assist in accessing the more advanced features like the commands 'pikaur' and 'yay' easily;  The files '.bashrc' '.bash_profile' and '/usr/local/bin/README.md' have detailed information about this feature,
 ## 2)  Sets timezone and locales from device,

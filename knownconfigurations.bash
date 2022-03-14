@@ -92,7 +92,6 @@ if [[ "${QEMUCR:-}" == 0 ]]
 then
 PROOTSTMNT+="-q $PREFIX/bin/qemu-${ARCHITEC/x86-64/x86_64} "
 fi
-[[ "$SYSVER" -ge 10 ]] && PROOTSTMNT+="-b /apex -b /storage -b /sys -b /system -b /vendor "
 ##  Function _PR00TSTRING_ which creates the PRoot init statement PROOTSTMNT uses associative arrays.  Page https://www.gnu.org/software/bash/manual/html_node/Arrays.html has information about BASH arrays and is also available at https://www.gnu.org/software/bash/manual/ this link.
 declare -A PRSTARR # associative array
 # populate writable binds
@@ -105,7 +104,7 @@ PROOTSTMNT+="-b $PRBIND:$PRBIND "
 fi
 done
 # populate readable binds
-PRSTARR=(["$EXTERNAL_STORAGE"]="$EXTERNAL_STORAGE" ["$HOME"]="$HOME" ["$PREFIX"]="$PREFIX" [/data/dalvik-cache/]=/data/dalvik-cache/ [/dev/]=/dev/ [/dev/urandom]=/dev/random [/linkerconfig/ld.config.txt]=/linkerconfig/ld.config.txt [/plat_property_contexts]=/plat_property_contexts [/proc/]=/proc/ [/proc/self/fd]=/dev/fd [/proc/self/fd/0]=/dev/stdin [/proc/self/fd/1]=/dev/stdout [/proc/self/fd/2]=/dev/stderr [/proc/stat]=/proc/stat [/property_contexts]=/property_contexts)
+PRSTARR=(["$EXTERNAL_STORAGE"]="$EXTERNAL_STORAGE" ["$HOME"]="$HOME" ["$PREFIX"]="$PREFIX" [/apex/]=/apex/ [/data/dalvik-cache/]=/data/dalvik-cache/ [/dev/]=/dev/ [/dev/urandom]=/dev/random [/linkerconfig/ld.config.txt]=/linkerconfig/ld.config.txt [/plat_property_contexts]=/plat_property_contexts [/property_contexts]=/property_contexts [/proc/]=/proc/ [/proc/self/fd]=/dev/fd [/proc/self/fd/0]=/dev/stdin [/proc/self/fd/1]=/dev/stdout [/proc/self/fd/2]=/dev/stderr [/proc/stat]=/proc/stat [/property_contexts]=/property_contexts [/storage/]=/storage/ [/system/]=/system/ [/vendor/]=/vendor/)
 for PRBIND in ${!PRSTARR[@]}
 do
 if [[ -r "$PRBIND" ]]	# is readable
@@ -113,6 +112,7 @@ then	# add proot bind
 PROOTSTMNT+="-b $PRBIND:${PRSTARR[$PRBIND]} "
 fi
 done
+[[ "$SYSVER" -ge 10 ]] && PROOTSTMNT+="-b /apex -b /storage -b /sys -b /system -b /vendor "
 # populate NOT readable binds
 PRSTARR=([/dev/]=/dev/ [/dev/ashmem]="$INSTALLDIR/tmp" [/dev/shm]="$INSTALLDIR/tmp" [/proc/stat]="$INSTALLDIR/var/binds/fbindprocstat" [/proc/uptime]="$INSTALLDIR/var/binds/fbindprocuptime")
 for PRBIND in ${!PRSTARR[@]}

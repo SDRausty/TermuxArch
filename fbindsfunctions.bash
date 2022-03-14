@@ -4,33 +4,25 @@
 ## https://sdrausty.github.io/TermuxArch/README has info about this project.
 ## https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.
 ################################################################################
-
 _ADDfbindprocpcidevices.prs_() {
+_CFLHDRS_ var/binds/fbindprocpcidevices.prs "# bind an empty /proc/bus/pci/devices file"
+printf "%s\\n" "PROOTSTMNT+=\"-b $INSTALLDIR/var/binds/fbindprocpcidevices:/proc/bus/pci/devices \"
+## ~/${INSTALLDIR##*/}/usr/local/bin/fbindprocpcidevices.prs FE" >> var/binds/fbindprocpcidevices.prs
 :>var/binds/fbindprocpcidevices
-_CFLHDRS_ var/binds/fbindprocpcidevices.prs
-cat >> var/binds/fbindprocpcidevices.prs <<- EOM
-# bind an empty /proc/bus/pci/devices file
-PROOTSTMNT+="-b $INSTALLDIR/var/binds/fbindprocpcidevices:/proc/bus/pci/devices "
-## ~/${INSTALLDIR##*/}/usr/local/bin/prs FE
-EOM
 }
 
 _ADDfbindprocshmem.prs_() {
-cat > var/binds/fbindprocshmem <<- EOM
------- Message Queues --------
+printf "%s\\n" "------ Message Queues --------
 key        msqid      owner      perms      used-bytes   messages
 
 ------ Shared Memory Segments --------
 key        shmid      owner      perms      bytes      nattch     status
 
 ------ Semaphore Arrays --------
-key        semid      owner      perms      nsems
-EOM
+key        semid      owner      perms      nsems" > var/binds/fbindprocshmem
 _CFLHDRS_ var/binds/fbindprocshmem.prs
-cat >> var/binds/fbindprocshmem.prs <<- EOM
-PROOTSTMNT+="-b $INSTALLDIR/var/binds/fbindprocshmem:/proc/shmem "
-## ~/${INSTALLDIR##*/}/usr/local/bin/prs FE
-EOM
+printf "%s\\n" "PROOTSTMNT+=\"-b $INSTALLDIR/var/binds/fbindprocshmem:/proc/shmem \"
+## ~/${INSTALLDIR##*/}/usr/local/bin/fbindprocshmem.prs FE" >> var/binds/fbindprocshmem.prs
 }
 
 _ADDfbindprocstat_() {
@@ -45,8 +37,7 @@ fi
 }
 
 _ADDfbindprocstat4_() {
-cat > var/binds/fbindprocstat <<- EOM
-cpu  4232003 351921 6702657 254559583 519846 1828 215588 0 0 0
+printf "%s\\n" "cpu  4232003 351921 6702657 254559583 519846 1828 215588 0 0 0
 cpu0 1595013 127789 2759942 61446568 310224 1132 92124 0 0 0
 cpu1 1348297 91900 1908179 63099166 110243 334 78861 0 0 0
 cpu2 780526 73446 1142504 64682755 61240 222 32586 0 0 0
@@ -57,14 +48,11 @@ btime 1533498667
 processes 800170
 procs_running 2
 procs_blocked 0
-softirq 71223290 12005 18257219 222294 2975533 4317 4317 7683319 19799901 40540 22223845
-EOM
+softirq 71223290 12005 18257219 222294 2975533 4317 4317 7683319 19799901 40540 22223845" > var/binds/fbindprocstat
 }
 
 _ADDfbindprocstat6_() {
-cat > var/binds/fbindprocstat <<- EOM
-# cat /proc/stat
-cpu  148928556 146012 6648853 2086709554 4518337 0 1314039 293017 0 0
+printf "%s\\n" "cpu  148928556 146012 6648853 2086709554 4518337 0 1314039 293017 0 0
 cpu0 24948069 38092 1137251 347724817 1169568 0 30231 21138 0 0
 cpu1 16545576 29411 890111 356315677 971747 0 41593 115368 0 0
 cpu2 82009143 11955 2705377 286616379 473751 0 1239704 114343 0 0
@@ -77,13 +65,11 @@ btime 1499444193
 processes 6613836
 procs_running 3
 procs_blocked 0
-softirq 3644958646 1 2007831497 2340 995352344 1834998 0 97563 249921452 0 389918451
-EOM
+softirq 3644958646 1 2007831497 2340 995352344 1834998 0 97563 249921452 0 389918451" > var/binds/fbindprocstat
 }
 
 _ADDfbindprocstat8_() {
-cat > var/binds/fbindprocstat <<- EOM
-cpu  10278859 1073916 12849197 97940412 70467 2636 323477 0 0 0
+printf "%s\\n" "cpu  10278859 1073916 12849197 97940412 70467 2636 323477 0 0 0
 cpu0 573749 46423 332546 120133 32 79 5615 0 0 0
 cpu1 489409 40445 325756 64094 0 59 5227 0 0 0
 cpu2 385758 36997 257949 50488114 40123 39 4021 0 0 0
@@ -98,35 +84,35 @@ btime 1528042653
 processes 1400085
 procs_running 5
 procs_blocked 0
-softirq 204699421 2536598 39636497 522981 4632002 29263706 104522 6736991 41332715 232221 79701188
-EOM
+softirq 204699421 2536598 39636497 522981 4632002 29263706 104522 6736991 41332715 232221 79701188" > var/binds/fbindprocstat
 }
 
 _ADDfbindprocuptime_() {
-printf "%s\\\\n" "350735.47 234388.90" > var/binds/fbindprocuptime
+INVNUM="$(shuf -n 1 -i 0-1)"
+DIVNUM="$(shuf -n 1 -i 0-1)"
+[ "$INVNUM" = 0 ] && ADDSUB="-" || ADDSUB="+"
+[ "$DIVNUM" = 0 ] && DIVISOR=" / 2" || DIVISOR=""
+BINDPROCUPTIM2="$(shuf -n 1 -i 10000-33333)"
+BINDPROCUPTIM0="$(((BINDPROCUPTIM2 * 3)$DIVISOR))"
+BINDPROCUPTIM1="$(shuf -n 1 -i 33-66)"
+BINDPROCUPTIM3="$((BINDPROCUPTIM1 $ADDSUB $(shuf -n 1 -i 0-33)))"
+printf "%s.%02d %s.%02d\\n" "$BINDPROCUPTIM0" "$BINDPROCUPTIM1" "$BINDPROCUPTIM2" "$BINDPROCUPTIM3" > var/binds/fbindprocuptime
 }
 
 _ADDfbindprocversion_() {
-cat > var/binds/fbindprocversion <<- EOM
-Linux version $UNAMER (root@localhost) (gcc version 4.9.x 20150123 (prerelease) (GCC) ) #1 SMP PREEMPT $(date +%a" "%b" "%d" "%X" UTC "%Y)
-EOM
-_CFLHDRS_ var/binds/fbindprocversion.prs
-cat >> var/binds/fbindprocversion.prs <<- EOM
-# bind kernel information when /proc/version is accessed
-PROOTSTMNT+="-b $INSTALLDIR/var/binds/fbindprocversion:/proc/version "
-## ~/${INSTALLDIR##*/}/usr/local/bin/prs FE
-EOM
+printf "%s\\n" "Linux version $UNAMER (root@localhost) (gcc version $UNAMER (prerelease) (GCC) ) #1 SMP PREEMPT $(date +%a" "%b" "%d" "%X" UTC "%Y)" > var/binds/fbindprocversion
+_CFLHDRS_ var/binds/fbindprocversion.prs "# bind kernel information when /proc/version is accessed"
+printf "%s\\n" "PROOTSTMNT+=\"-b $INSTALLDIR/var/binds/fbindprocversion:/proc/version \"
+## ~/${INSTALLDIR##*/}/usr/local/bin/fbindprocversion.prs FE" >> var/binds/fbindprocversion.prs
 }
 
 _ADDbindexample_() {
 _CFLHDRS_ var/binds/bindexample.prs "# Before regenerating the start script with \`setupTermuxArch re[fresh]\`, first copy this file to another name such as \`fbinds.prs\`.  Then add as many proot statements as you want; The init script will parse file \`fbinds.prs\` at refresh adding these proot options to \`$STARTBIN\`.  The space before the last double quote is necessary.  Examples are included for convenience:"
-cat >> var/binds/bindexample.prs <<- EOM
-## PRoot bind usage: PROOTSTMNT+="-b host_path:guest_path "
-## PROOTSTMNT+="-q $PREFIX/bin/qemu-x86-64 "
-## PROOTSTMNT+="-b /proc:/proc "
-## [ -r /dev/shm ] || PROOTSTMNT+="-b $INSTALLDIR/tmp:/dev/shm "
-## ~/${INSTALLDIR##*/}/usr/local/bin/prs FE
-EOM
+printf "%s\\n" "## PRoot bind usage: PROOTSTMNT+=\"-b host_path:guest_path \"
+## PROOTSTMNT+=\"-q $PREFIX/bin/qemu-x86-64 \"
+## PROOTSTMNT+=\"-b /proc:/proc \"
+## [ -r /dev/shm ] || PROOTSTMNT+=\"-b $INSTALLDIR/tmp:/dev/shm \"
+## ~/${INSTALLDIR##*/}/usr/local/bin/bindexample.prs FE" >> var/binds/bindexample.prs
 }
 
 _ADDfbinds_() {
