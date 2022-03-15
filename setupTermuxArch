@@ -7,7 +7,7 @@ set -Eeuo pipefail
 shopt -s  extglob nullglob globstar
 umask 0022
 unset LD_PRELOAD
-VERSIONID=2.0.505
+VERSIONID=2.0.506
 _STRPEROR_() { # run on script error
 local RV="$?"
 printf "\\e[1;48;5;138m %s" "ＴｅｒｍｕｘＡｒｃｈ NOTICE:  Generated script signal received ${RV:-UNKNOWN} near or at line number ${1:-UNKNOWN} by '${2:-UNKNOWNCOMMAND}'!  "
@@ -1021,6 +1021,13 @@ printf "\\nSetting mode to quick purge.\\n"
 _ARG2DIR_ "$@"
 _RMARCHQ_
 ## [q[emu] [m[anual]] [i[nstall]|r[e[f[resh]]]] [customdir]]  Install alternate architecture on smartphone with https://github.com/qemu/QEMU emulation.  Issue [Implementing QEMU #25](https://github.com/TermuxArch/TermuxArch/issues/25) has more information.
+elif [[ "${1//-}" = [Qq][Ii]* ]]
+then
+printf "\\nSetting mode to qemu install.\\n"
+_OPT1_ "$@"
+_QEMU_
+_ARG2DIR_ "$@"
+_INTRO_ "$@"
 elif [[ "${1//-}" = [Qq][Mm][Ii]* ]]
 then
 printf "\\nSetting mode to qemu manual install.\\n"
@@ -1029,12 +1036,11 @@ _OPT1_ "$@"
 _QEMU_
 _ARG2DIR_ "$@"
 _INTRO_ "$@"
-elif [[ "${1//-}" = [Qq]* ]] || [[ "${1//-}" = [Qq][Mm][Ii]* ]]
+elif [[ "${1//-}" = [Qq]* ]]
 then
-printf "\\nSetting mode to qemu [install|refresh] [customdir].\\n"
+printf "\\nSetting mode to qemu.\\n"
 _OPT1_ "$@"
 _QEMU_
-_ARG2DIR_ "$@"
 _INTRO_ "$@"
 ## [refresh [customdir]]  Refresh the Arch Linux in Termux PRoot scripts created by TermuxArch and the installation itself.  Useful for refreshing the installation, the root user's home directory, user home directories and the TermuxArch generated scripts to their newest version;  Directory '/var/backups/' backs up the refreshed files.  This refresh mode also runs keys, generates locales and updates the Arch Linux in Termux PRoot system.
 elif [[ "${1//-}" = [Rr][Ee][Ff][Rr][Ee]* ]]

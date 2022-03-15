@@ -128,12 +128,12 @@ USERCOUNTRYCODE="edu\/"
 fi
 CHSENMIR="$(grep -w http "$INSTALLDIR/etc/pacman.d/mirrorlist" | grep ^#S | grep "$USERCOUNTRYCODE" | awk 'sub(/^.{1}/,"")' | head -n 1)"
 printf "%s\\n" "$CHSENMIR" >> "$INSTALLDIR/etc/pacman.d/mirrorlist"
-printf "Choosing mirror '%s' in file '%s';  Continuing...\\n" "$CHSENMIR" "${INSTALLDIR##*/}/etc/pacman.d/mirrorlist"
+printf "Choosing mirror '%s' in file '%s';  Continuing...\\n" "$CHSENMIR" "$INSTALLDIR/etc/pacman.d/mirrorlist"
 DOMIRLCR=0
 }
 if [[ -f "$INSTALLDIR/run/lock/${INSTALLDIR##*/}/domirror.lock" ]]
 then
-printf "Lockfile '%s' exists;  Continuing..." "$HOME/${INSTALLDIR##*/}/run/lock/${INSTALLDIR##*/}/domirror.lock"
+printf "Lockfile '%s' exists;  Continuing..." "$INSTALLDIR/run/lock/${INSTALLDIR##*/}/domirror.lock"
 else
 if ! grep ^Server "$INSTALLDIR/etc/pacman.d/mirrorlist"
 then
