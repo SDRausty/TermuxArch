@@ -800,7 +800,7 @@ printf "\\\\e[1;31m%s\\\\e[1;37m%s\\\\e[1;31m%s\\\\e[0m\\\\n" "Ｔｅｒｍｕ�
 else
 [ -x /usr/bin/ghcup ] && printf "\\\\e[0;32m%s\\\\e[0m\\\\n" "The command 'ghcup' is already installed!  Please use the command 'ghcup':  Exiting..." && exit 169
 [ -f /usr/lib/libnuma.so ] || { pc numactl || pci numactl ; } || { printf "\\n\\e[1;31mＴｅｒｍｕｘＡｒｃｈ SIGNAL: \\e[7;37m%s\\e[0m\\n\\n" "Please study the first lines of the error output and correct the error(s) and/or warning(s) by running command 'pci numactl' as proot root user.  You might be able to bring this about without closing this session.  Please try running command: $STARTBIN command 'pci numactl' in a new Termux PRoot session.  This should install the neccessary packages to make 'ksh'.  Then return to this session, and run '\${0##*/}' again." && exit 120 ; }
-yay ghcup-hs --noconfirm || { [ -f /usr/bin/yay ] || set +x && makeauryay && yay ghcup-hs --noconfirm && set -x ; }
+yay ghcup-hs --noconfirm || { [ -f /usr/bin/yay ] || makeauryay && yay ghcup-hs --noconfirm ; }
 fi
 ## ~/${INSTALLDIR##*/}/usr/local/bin/makeaurghcuphs FE
 EOM
@@ -1664,6 +1664,6 @@ fi
 
 _PREPPACMANCONF_() {
 { [ -f "$INSTALLDIR"/etc/pacman.conf ] && { sed -i 's/^CheckSpace/\#CheckSpace/g' "$INSTALLDIR/etc/pacman.conf" && sed -i 's/^#Color/Color/g' "$INSTALLDIR/etc/pacman.conf" ; } ; } || _PSGI1ESTRING_ "Cannot find file $INSTALLDIR/etc/pacman.conf; _PREPPACMANCONF_ archlinuxconfig.bash ${0##*/}"
-[ -f "$INSTALLDIR"/usr/share/libalpm/scripts/systemd-hook ] && { sed -i 's/\-\-chroot/\-c/g' "$INSTALLDIR"/usr/share/libalpm/scripts/systemd-hook ; }
+[ -f "$INSTALLDIR"/usr/share/libalpm/hooks/systemd-hook ] && sed -i 's/\-chroot/c/g' "$INSTALLDIR"/usr/share/libalpm/hooks/systemd-hook ||:
 }
 # archlinuxconfig.bash FE

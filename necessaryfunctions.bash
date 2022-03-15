@@ -189,7 +189,7 @@ if [ "$USECACHEDIR" = 0 ] && [ -z "${LCR:-}" ]
 then
 if [ -d "$CACHEDIR" ]
 then
-printf '\e[0;32mPopulating from cache files;  \e[1;32mBEGUN\n' &&  cd "$CACHEDIR" && printf '%s' " cd $CACHEDIR && cp -fr * $INSTALLDIR;  Please wait...  " && cp -fr ./* "$INSTALLDIR" && cd "$INSTALLDIR" && printf '%s\n' "cd $INSTALLDIR" && printf '\e[0;32mPopulating from cache files;  \e[1;32mDONE\n\n'
+printf '\e[0;32mPopulating from cache files;  \e[1;32mBEGUN\n' &&  cd "$CACHEDIR" && printf '%s' "cd $CACHEDIR && cp -fr * $INSTALLDIR;  Please wait...  " && cp -fr ./* "$INSTALLDIR" && cd "$INSTALLDIR" && printf '%s\n' "cd $INSTALLDIR" && printf '\e[0;32mPopulating from cache files;  \e[1;32mDONE\n\n'
 else
 cd "$PREFIXDATAFILES" && { [ -d "$PREFIXDATAFILESUFIX" ] || mkdir -p "$PREFIXDATAFILESUFIX" ; } && printf '%s' "cd $PREFIXDATAFILES && mkdir -p $PREFIXDATAFILESUFIX && cd $CACHEDIR" || printf '%s\n\n' "Please create cache directory '$CACHEDIR' in order to use the cache directory feature;  Continuing..."
 fi
