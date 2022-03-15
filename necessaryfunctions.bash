@@ -22,8 +22,9 @@ fi
 [ "$CPUABI" = i386 ] && CPUABI="x86"
 CACHECPBI="${CPUABI/_/-}"
 CACHEDIR="/storage/emulated/0/Android/data/com.termux/files/cache/archlinux/$CACHECPBI/"
+CACHEDIRSUFIX="var/cache/pacman/pkg/"
 PREFIXDATAFILES="/storage/emulated/0/Android/data/com.termux/"
-CACHEDIRSUFIX="files/cache/archlinux/$CACHECPBI/var/cache/pacman/pkg/"
+PREFIXDATAFILESUFIX="files/cache/archlinux/$CACHECPBI/var/cache/pacman/pkg/"
 BINFNSTP="finishsetup.bash"
 LC_TYPE=("LANG" "LANGUAGE" "LC_ADDRESS" "LC_COLLATE" "LC_CTYPE" "LC_IDENTIFICATION" "LC_MEASUREMENT" "LC_MESSAGES" "LC_MONETARY" "LC_NAME" "LC_NUMERIC" "LC_PAPER" "LC_TELEPHONE" "LC_TIME")
 TXPRQUON="Termux PRoot with QEMU"
@@ -188,9 +189,9 @@ if [ "$USECACHEDIR" = 0 ] && [ -z "${LCR:-}" ]
 then
 if [ -d "$CACHEDIR" ]
 then
-printf '\e[0;32mPopulating from cache files;  \e[1;32mBEGUN\n' &&  cd "$CACHEDIR" && printf '%s' " cd $CACHEDIR && cp -fr * $INSTALLDIR; Please wait...  " && cp -fr ./* "$INSTALLDIR" && cd "$INSTALLDIR" && printf '%s\n' "cd $INSTALLDIR" && printf '\e[0;32mPopulating from cache files;  \e[1;32mDONE\n\n'
+printf '\e[0;32mPopulating from cache files;  \e[1;32mBEGUN\n' &&  cd "$CACHEDIR" && printf '%s' " cd $CACHEDIR && cp -fr * $INSTALLDIR;  Please wait...  " && cp -fr ./* "$INSTALLDIR" && cd "$INSTALLDIR" && printf '%s\n' "cd $INSTALLDIR" && printf '\e[0;32mPopulating from cache files;  \e[1;32mDONE\n\n'
 else
-cd "$PREFIXDATAFILES" && { [ -d "$CACHEDIRSUFIX" ] || mkdir -p "$CACHEDIRSUFIX" ; } && printf '%s' "cd $PREFIXDATAFILES && mkdir -p $CACHEDIRSUFIX && cd $CACHEDIR" || printf '%s\n\n' "Please create cache directory '$CACHEDIR' in order to use the cache directory feature;  Continuing..."
+cd "$PREFIXDATAFILES" && { [ -d "$PREFIXDATAFILESUFIX" ] || mkdir -p "$PREFIXDATAFILESUFIX" ; } && printf '%s' "cd $PREFIXDATAFILES && mkdir -p $PREFIXDATAFILESUFIX && cd $CACHEDIR" || printf '%s\n\n' "Please create cache directory '$CACHEDIR' in order to use the cache directory feature;  Continuing..."
 fi
 fi
 _CALLSYSTEM_

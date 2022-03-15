@@ -85,9 +85,9 @@ _ISX86_
 axel -a --no-clobber http://"$CMIRROR/$RPATH/$IFILE" ||:
 elif [[ "$DM" = lftp ]]
 then
-lftpget http://"$CMIRROR/$RPATH"/md5sums.txt
+lftpget http://"$CMIRROR/$RPATH"/md5sums.txt || lftpget http://"$CMIRROR/$RPATH"/md5sums.txt
 _ISX86_
-lftpget -c http://"$CMIRROR/$RPATH/$IFILE"
+lftpget -c http://"$CMIRROR/$RPATH/$IFILE" || lftpget -c http://"$CMIRROR/$RPATH/$IFILE"
 elif [[ "$DM" = wget ]]
 then
 wget "$DMVERBOSE" -N --show-progress http://"$CMIRROR/$RPATH/"md5sums.txt
