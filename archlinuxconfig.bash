@@ -537,21 +537,13 @@ _CFLHDR_ usr/local/bin/gcl "# Contributor https://reddit.com/u/ElectricalUnion"
 printf "%s\\n" "{ [ \"\$UID\" = 0 ] && printf \"\\\\e[1;31m%s\\\\e[1;37m%s\\\\e[1;31m%s\\\\e[0m\\\\n\" \"ＴｅｒｍｕｘＡｒｃｈ SIGNAL:\" \"  Script '\${0##*/}' should not be used as root:  The command 'addauser' creates user accounts in Arch Linux in Termux PRoot and configures these user accounts for the command 'sudo':  The 'addauser' command is intended to be run by the Arch Linux in Termux PRoot root user:  To use 'addauser' directly from Termux you can run '$STARTBIN command 'addauser user'' in native Termux to create this account in Arch Linux Termux PRoot:  The command '$STARTBIN help' has more information about using '$STARTBIN':  \" \"Exiting...\" && exit 101 ; }
 { [ \"\$#\" = 0 ] && printf \"\\\\e[1;31m%s\\\\e[1;37m%s\\\\e[1;31m%s\\\\e[0m\\\\n\" \"Example usage: \" \"'\${0##*/} https://github.com/TermuxArch/TermuxArch' \" \"Exiting...\" ; } && exit 101
 _GITCLONE_() {
-WDIR_=\"\$PWD\"
-{ [ -d \"\$TMPDIR/\$\$\" ] || mkdir -p \"\$TMPDIR/\$\$\" ; } && cd \"\$TMPDIR/\$\$\" && git init
-printf \"%s\\n\" \"Checking HEAD branch in \$@...\"
-RBRANCH=\"\$(git remote show \"\$@\" | grep 'HEAD branch' | cut -d' ' -f5)\"
-RBRANCH=\"\${RBRANCH# }\" # strip leading space
-printf \"%s\\n\" \"Getting branch \$RBRANCH from git repository \$@...\"
-cd \"\$WDIR_\" && git clone --depth 1 \"\$@\" --branch \$RBRANCH --single-branch ||:
-rm -rf \"\$TMPDIR/\$\$\"
+git clone --depth 1 \"\$@\" --single-branch || git clone --depth 1 \"\$@\" --single-branch
 }
-_SLPCLONE_() { sleep \$(shuf -n 1 -i 0-3 ).\$(shuf -n 1 -i 0-9 ) ; }
 BASENAME=\"\${@#*//}\" # strip before double slash
 BASENAME=\"\${BASENAME##*/}\" # strip before last slash
 [ -d \"\$BASENAME\" ] && printf \"Directory %s exists;  Exiting...\\n\" \"\$BASENAME\" && exit 102
 [ -x \"\$(command -v git)\" ] || pc git || pci git
-{ git clone --depth 1 \"\$@\" --branch master --single-branch ; } || { _SLPCLONE_ && _GITCLONE_ \"\$@\" ; } || { _SLPCLONE_ && git clone --depth 1 \"\$@\" ; } || { _SLPCLONE_ && git clone \"\$@\" ; }
+_GITCLONE_
 ## ~/${INSTALLDIR##*/}/usr/local/bin/gcl FE" >> usr/local/bin/gcl
 chmod 755 usr/local/bin/gcl
 }
@@ -788,7 +780,7 @@ chmod 755 usr/local/bin/makeaurfakeroottcp
 }
 
 _ADDmakeaurghcuphsdep_() { # depreciated
-_CFLHDR_ usr/local/bin/makeaurghcuphs "# install Haskell language ghcup-hs installer with the Arch Linux aur installer yay"
+_CFLHDR_ usr/local/bin/makeaurghcuphs
 cat >> usr/local/bin/makeaurghcuphs <<- EOM
 if [ "\$UID" = 0 ]
 then
@@ -801,18 +793,6 @@ fi
 ## ~/${INSTALLDIR##*/}/usr/local/bin/makeaurghcuphs FE
 EOM
 chmod 755 usr/local/bin/makeaurghcuphs
-}
-
-_ADDmakeaurutils_() {
-_CFLHDR_ usr/local/bin/makeaurutils "# install Arch Linux aurutils aur installer"
-printf "%s\\n%s\\n%s\\n%s\\n" "[ \"\$UID\" = 0 ] && printf \"\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\\n\" \"Cannot run '\${0##*/}' as root user;\" \" the command 'addauser username' creates user accounts in ~/${INSTALLDIR##*/}; the command '$STARTBIN command addauser username' can create user accounts in ~/${INSTALLDIR##*/} from Termux; a default user account is created during setup; the default username 'user' can be used to access the PRoot system employing a user account; command '$STARTBIN help' has more information;  \" \"Exiting...\" && exit" "_PRNTWAIT_() { printf \"\\e[0;32m%s\\n\" \"Please wait a moment;  Command '\${0##*/}' is continuing...\" ; }" "{ [ -x /usr/bin/aur ] && printf \"\\e[0;31m%s\\n\" \"The comman 'aur' is installed;  Exiting...\" ; } || { { cd && gcl https://github.com/AladW/aurutils ||: ; } && cd aurutils/makepkg && _PRNTWAIT_ && makepkg -firs --noconfirm ; aur --help ; }" "## ~/${INSTALLDIR##*/}/usr/local/bin/makeaurutils FE" >> usr/local/bin/makeaurutils
-chmod 755 usr/local/bin/makeaurutils
-}
-
-_ADDmakeaurpikaur_() {
-_CFLHDR_ usr/local/bin/makeaurpikaur "# install Arch Linux pikaur aur installer"
-printf "%s\\n%s\\n%s\\n%s\\n%s\\n" "[ \"\$UID\" = 0 ] && printf \"\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\\n\" \"Cannot run '\${0##*/}' as root user;\" \" the command 'addauser username' creates user accounts in ~/${INSTALLDIR##*/}; the command '$STARTBIN command addauser username' can create user accounts in ~/${INSTALLDIR##*/} from Termux; a default user account is created during setup; the default username 'user' can be used to access the PRoot system employing a user account; command '$STARTBIN help' has more information;  \" \"Exiting...\" && exit" "{ [ -x /usr/bin/pikaur ] && printf \"\\e[0;31m%s\\n\" \"The command 'pikaur' is installed;  Exiting...\" && exit ; } || _PRNTWAIT_() { printf \"\\e[0;32m%s\\n\" \"Please wait a moment;  Command '\${0##*/}' continuing...\" ; }" "[ -x /usr/bin/fakeroot ] || pci base base-devel" "{ cd && [ -x pikaur ] || gcl https://github.com/actionless/pikaur ; } && cd pikaur && _PRNTWAIT_ && makepkg -fisr --noconfirm ; pikaur --help" "## ~/${INSTALLDIR##*/}/usr/local/bin/makeaurpikaur FE" >> usr/local/bin/makeaurpikaur
-chmod 755 usr/local/bin/makeaurpikaur
 }
 
 _ADDmakeaurrustup_() {
@@ -830,21 +810,6 @@ EOM
 chmod 755 usr/local/bin/makeaurrustup
 }
 
-_ADDmakeaurshellcheckbindep_() { # depreciated
-_CFLHDR_ usr/local/bin/makeaurshellcheckbin
-cat >> usr/local/bin/makeaurshellcheckbin <<- EOM
-if [ "\$UID" = 0 ]
-then
-printf "\\\\e[1;31m%s\\\\e[1;37m%s\\\\e[1;31m%s\\\\e[0m\\\\n" "ＴｅｒｍｕｘＡｒｃｈ SIGNAL:" "  Script '\${0##*/}' should not be used as root:  The command 'addauser' creates user accounts in Arch Linux in Termux PRoot and configures these user accounts for the command 'sudo':  The 'addauser' command is intended to be run by the Arch Linux in Termux PRoot root user:  To use 'addauser' directly from Termux you can run \"$STARTBIN command 'addauser user'\" in Termux to create this account in Arch Linux Termux PRoot:  The command '$STARTBIN help' has more information about using '$STARTBIN':  " "Exiting..."
-else
-[ -x /usr/bin/shellcheck ] && printf "\\\\e[0;32m%s\\\\e[0m\\\\n" "The command 'shellcheck' is already installed!  Please use the command 'shellcheck':  Exiting..." && exit 169
-yay shellcheck-bin --noconfirm || { [ ! "\$(command -v yay)" ] && makeauryay && yay shellcheck-bin --noconfirm ; }
-fi
-## ~/${INSTALLDIR##*/}/usr/local/bin/makeaurshellcheckbin FE
-EOM
-chmod 755 usr/local/bin/makeaurshellcheckbin
-}
-
 _ADDmakeaurtllocalmgr_() {
 _CFLHDR_ usr/local/bin/makeaurtllocalmgr
 cat >> usr/local/bin/makeaurtllocalmgr <<- EOM
@@ -858,12 +823,6 @@ fi
 ## ~/${INSTALLDIR##*/}/usr/local/bin/makeaurtllocalmgr FE
 EOM
 chmod 755 usr/local/bin/makeaurtllocalmgr
-}
-
-_ADDmakeaurtrizen_() {
-_CFLHDR_ usr/local/bin/makeaurtrizen
-printf "%s\\n%s\\n%s\\n%s\\n" "[ \"\$UID\" = 0 ] && printf \"\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\\n\" \"Cannot run '\${0##*/}' as root user;\" \" the command 'addauser username' creates user accounts in ~/${INSTALLDIR##*/}; the command '$STARTBIN command addauser username' can create user accounts in ~/${INSTALLDIR##*/} from Termux; a default user account is created during setup; the default username 'user' can be used to access the PRoot system employing a user account; command '$STARTBIN help' has more information;  \" \"Exiting...\" && exit" "_PRNTWAIT_() { printf \"\\e[0;32m%s\\n\" \"Please wait a moment;  Command '\${0##*/}' is continuing...\" ; }" "{ [ -x /usr/bin/trizen ] && printf \"\\e[0;31m%s\\n\" \"The comman 'trizen' is installed;  Exiting...\" ; } || { { cd && gcl https://github.com/trizen/trizen ||: ; } && cd trizen/archlinux/ && _PRNTWAIT_ && makepkg -firs --noconfirm; trizen --help ; }" "## ~/${INSTALLDIR##*/}/usr/local/bin/makeaurtrizen FE" >> usr/local/bin/makeaurtrizen
-chmod 755 usr/local/bin/makeaurtrizen
 }
 
 _ADDmakeauryay_() {
@@ -902,45 +861,57 @@ EOM
 chmod 755 usr/local/bin/makeauryay
 }
 
-_PREPFILEFCTN_() { printf "%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n" "[ \"\$UID\" = 0 ] && printf '\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\n' \"Cannot run '\${0##*/}' as root user;\" \" the command 'addauser username' creates user accounts in ~/${INSTALLDIR##*/}; the command '$STARTBIN command addauser username' can create user accounts in ~/${INSTALLDIR##*/} from Termux; a default user account is created during setup; the default username 'user' can be used to access the PRoot system employing a user account; command '$STARTBIN help' has more information;  \" \"Exiting...\" && exit 0" "_PRNTWAIT_() { printf '\\e[0;32m%s\n' \"Command '\${0##*/}' is making command '$1';  Please wait...\" ; }" "{ [ -x /usr/bin/\"$1\" ] && printf '\\e[0;31m%s\n' \"The command '$1' is installed;  Exiting...\" && exit 169 ; }" "[ -x /usr/bin/fakeroot ] || { pc base base-devel || pci base base-devel ; }" "patchmakepkg ; { cd && [ -x \"$2\" ] || gcl https://aur.archlinux.org/\"$2\" ; } && cd \"$2\" && _PRNTWAIT_ && makepkg -firs --noconfirm ; \"$1\" --help" "## ~/${INSTALLDIR##*/}/usr/local/bin/makeaur\"$3\" FE" >> "$3" ; }
+_PREPFILEFCTN_() { printf "%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n" "[ \"\$UID\" = 0 ] && printf '\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\n' \"Cannot run '\${0##*/}' as root user;\" \" the command 'addauser username' creates user accounts in ~/${INSTALLDIR##*/}; the command '$STARTBIN command addauser username' can create user accounts in ~/${INSTALLDIR##*/} from Termux; a default user account is created during setup; the default username 'user' can be used to access the PRoot system employing a user account; command '$STARTBIN help' has more information;  \" \"Exiting...\" && exit 0" "_PRNTWAIT_() { printf '\\e[0;32m%s\n' \"Command '\${0##*/}' is attempting to make command '$1';  Please wait...\" ; }" "{ [ -x /usr/bin/\"$1\" ] && printf '\\e[0;31m%s\n' \"The command '$1' is installed;  Exiting...\" && exit 169 ; }" "[ -x /usr/bin/fakeroot ] || { pc base base-devel || pci base base-devel ; }" "patchmakepkg ; { cd && [ -x \"$2\" ] || gcl https://aur.archlinux.org/\"$2\" ; } && cd \"$2\" && _PRNTWAIT_ && makepkg -firs --noconfirm ; \"$1\" --help" "## ~/${INSTALLDIR##*/}/usr/local/bin/makeaur\"$3\" FE" >> "$3" ; }
 
-_PREPFILEFTN0_() { _CFLHDR_ usr/local/bin/makeaur"$3" && _PREPFILEFCTN_ "$1" "$2"  usr/local/bin/makeaur"$3" && chmod 755 usr/local/bin/makeaur"$3" ; }
+_PREPFILEFTN0_() { _CFLHDR_ usr/local/bin/makeaur"$3" "$4" && _PREPFILEFCTN_ "$1" "$2"  usr/local/bin/makeaur"$3" && chmod 755 usr/local/bin/makeaur"$3" ; }
 
-_ADDmakeaurpopularpackages_() { _PREPFILEFTN0_ popular-packages popular-packages popularpackages ; }
+_ADDmakeaurto_() { _PREPFILEFTN0_ aurto aurto aurto "# Attempt to build and install an AUR tool for managing an auto-updating local 'aurto' package repository using aurutils." ; }
 
-_ADDmakeaurghcuphs_() { _PREPFILEFTN0_ ghcup-hs ghcup-hs ghcuphs  ; }
+_ADDmakeaurutils_() { _PREPFILEFTN0_ aurutils aurutils aurutils "# Attempt to build and install an AUR helper for the arch user repository." ; }
 
-_ADDmakeaurshellcheckbin_() { _PREPFILEFTN0_ shellcheck shellcheck-bin shellcheckbin ; }
-_ADDmakeaurpackagequery_() { _PREPFILEFTN0_ package-query package-query packagequery ; }
+_ADDmakeaurutilsgit_() { _PREPFILEFTN0_ aurutils aurutils-git aurutils "# Attempt to build and install an AUR helper for the arch user repository." ; }
 
-_ADDmakeauryaah_() { _PREPFILEFTN0_ yaah yaah yaah ; }
+_ADDmakeaurbauerbill_() { _PREPFILEFTN0_ bauerbill bauerbill bauerbill "# Attempt to build and install an extension of Powerpill with AUR and ABS support." ; }
 
-_ADDmakeauryayim_() { _PREPFILEFTN0_ yayim yayim yayim ; }
+_ADDmakeaurghcuphs_() { _PREPFILEFTN0_ ghcup-hs ghcup-hs-bin ghcuphs "# Attempt to build and install the Haskell language ghcup-hs installer." ; }
 
-_ADDmakeaurbauerbill_() { _PREPFILEFTN0_ bauerbill bauerbill bauerbill ; }
-
-_ADDmakeaurpacaur_() { _CFLHDR_ usr/local/bin/makeaurpacaur
+_ADDmakeaurpacaur_() { _CFLHDR_ usr/local/bin/makeaurpacaur "# Attempt to build and install an AUR helper that minimizes user interaction."
 _PREPFILEFCTN_ auracle-git auracle-git usr/local/bin/makeaurpacaur
 _PREPFILEFCTN_ expac expac usr/local/bin/makeaurpacaur
 _PREPFILEFCTN_ jq jq usr/local/bin/makeaurpacaur
 _PREPFILEFCTN_ pacaur pacaur usr/local/bin/makeaurpacaur
 chmod 755 usr/local/bin/makeaurpacaur ; }
 
-_ADDmakeaurpakku_() { _PREPFILEFTN0_ pakku pakku pakku ; }
+_ADDmakeaurpacaurgit_() { _PREPFILEFTN0_ ghcup-hs ghcup-hs-bin ghcuphs "# Attempt to build and install an AUR helper that minimizes user interaction." ; }
 
-_ADDmakeaurparu_() { _PREPFILEFTN0_ paru paru paru ; }
+_ADDmakeaurpackagequery_() { _PREPFILEFTN0_ package-query package-query packagequery "" ; }
 
-_ADDmakeaurpbget_() { _PREPFILEFTN0_ pbget pbget pbget ; }
+_ADDmakeaurpakku_() { _PREPFILEFTN0_ pakku pakku pakku "Attempt to build and install an " ; }
 
-_ADDmakeaurpikaur-git_() { _PREPFILEFTN0_ pikaur pikaur-git pikaur-git ; }
+_ADDmakeaurparu_() { _PREPFILEFTN0_ paru paru paru "Attempt to build and install an " ; }
 
-_ADDmakeaurpkgbuilder_() { _PREPFILEFTN0_ pkgbuilder pkgbuilder pkgbuilder ; }
+_ADDmakeaurpbget_() { _PREPFILEFTN0_ pbget pbget pbget "Attempt to build and install an " ; }
 
-_ADDmakeaurpuyo_() { _PREPFILEFTN0_ puyo puyo puyo ; }
+_ADDmakeaurpikaur_() { _PREPFILEFTN0_ pikaur pikaur pikaur "Attempt to build and install an AUR helper which asks all questions before installing/building. Inspired by pacaur, yaourt and yay." ; }
 
-_ADDmakeaurrepoctl_() { _PREPFILEFTN0_ repoctl repoctl repoctl ; }
+_ADDmakeaurpikaurgit_() { _PREPFILEFTN0_ pikaur pikaur-git pikaurgit "Attempt to build and install an AUR helper which asks all questions before installing/building. Inspired by pacaur, yaourt and yay." ; }
 
-_ADDmakeaurrepofish_() { _PREPFILEFTN0_ repofish repofish repofish ; }
+_ADDmakeaurpkgbuilder_() { _PREPFILEFTN0_ pkgbuilder pkgbuilder pkgbuilder "" ; }
+
+_ADDmakeaurpopularpackages_() { _PREPFILEFTN0_ popular-packages popular-packages popularpackages "" ; }
+
+_ADDmakeaurpuyo_() { _PREPFILEFTN0_ puyo puyo puyo "" ; }
+
+_ADDmakeaurrepoctl_() { _PREPFILEFTN0_ repoctl repoctl repoctl "" ; }
+
+_ADDmakeaurrepofish_() { _PREPFILEFTN0_ repofish repofish repofish "" ; }
+
+_ADDmakeaurshellcheckbin_() { _PREPFILEFTN0_ shellcheck shellcheck-bin shellcheckbin "" ; }
+_ADDmakeaurtrizen_() { _PREPFILEFTN0_ trizen trizen trizen "" ; }
+
+_ADDmakeauryaah_() { _PREPFILEFTN0_ yaah yaah yaah "" ; }
+
+_ADDmakeauryayim_() { _PREPFILEFTN0_ yayim yayim yayim "" ; }
 
 _ADDmakeksh_() {
 _CFLHDR_ usr/local/bin/makeksh "# build and install the ksh shell; Inspired by https://github.com/termux/termux-api/issues/436"
