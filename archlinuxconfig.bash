@@ -533,8 +533,8 @@ chmod 755 usr/local/bin/ga
 }
 
 _ADDgcl_() {
-_CFLHDR_ usr/local/bin/gcl "# Contributor https://reddit.com/u/ElectricalUnion"
-printf "%s\\n" "{ [ \"\$UID\" = 0 ] && printf \"\\\\e[1;31m%s\\\\e[1;37m%s\\\\e[1;31m%s\\\\e[0m\\\\n\" \"ＴｅｒｍｕｘＡｒｃｈ SIGNAL:\" \"  Script '\${0##*/}' should not be used as root:  The command 'addauser' creates user accounts in Arch Linux in Termux PRoot and configures these user accounts for the command 'sudo':  The 'addauser' command is intended to be run by the Arch Linux in Termux PRoot root user:  To use 'addauser' directly from Termux you can run '$STARTBIN command 'addauser user'' in native Termux to create this account in Arch Linux Termux PRoot:  The command '$STARTBIN help' has more information about using '$STARTBIN':  \" \"Exiting...\" && exit 101 ; }
+_CFLHDR_ usr/local/bin/gcl "# Contributor reddit.com/u/ElectricalUnion"
+printf "%s\\n" "{ [ \"\$UID\" = 0 ] && printf \"\\\\e[1;31m%s\\\\e[1;37m%s\\\\e[1;31m%s\\\\e[0m\\\\n\" \"ＴｅｒｍｕｘＡｒｃｈ SIGNAL:\" \"  Script '\${0##*/}' should not be used as root:  The command 'addauser' creates user accounts in Arch Linux in Termux PRoot and configures these user accounts for the command 'sudo':  The 'addauser' command is intended to be run by the Arch Linux in Termux PRoot root user:  To use 'addauser' directly from Termux you can run '$STARTBIN command 'addauser user'' in native Termux to create this account in Arch Linux Termux PRoot:  The command '$STARTBIN help' has more information about using '$STARTBIN':  \" \"Exiting...\" ; } && exit 101
 { [ \"\$#\" = 0 ] && printf \"\\\\e[1;31m%s\\\\e[1;37m%s\\\\e[1;31m%s\\\\e[0m\\\\n\" \"Example usage: \" \"'\${0##*/} https://github.com/TermuxArch/TermuxArch' \" \"Exiting...\" ; } && exit 101
 _GITCLONE_() {
 git clone --depth 1 \"\$@\" --single-branch || git clone --depth 1 \"\$@\" --single-branch
@@ -647,16 +647,10 @@ printf "%s\\n%s\\n%s\\n" "[ \"\$UID\" = 0 ] && printf \"\\e[1;31m%s\\e[1;37m%s\\
 chmod 755 usr/local/bin/info
 }
 
-_ADDmakeauraclegit_() {
-_CFLHDR_ usr/local/bin/makeauraclegit
-printf "%s\\n%s\\n%s\\n%s\\n" "[ \"\$UID\" = 0 ] && printf \"\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\\n\" \"Cannot run '\${0##*/}' as root user;\" \" the command 'addauser username' creates user accounts in ~/${INSTALLDIR##*/}; the command '$STARTBIN command addauser username' can create user accounts in ~/${INSTALLDIR##*/} from Termux; a default user account is created during setup; the default username 'user' can be used to access the PRoot system employing a user account; command '$STARTBIN help' has more information;  \" \"Exiting...\" && exit" "_PRNTWAIT_() { printf \"\\e[0;32m%s\\n\" \"Please wait a moment;  Command '\${0##*/}' continuing...\" ; }" "{ [ -x /usr/bin/auracle ] && printf \"\\e[0;31m%s\\n\" \"The comman 'aur' is installed;  Exiting...\" ; } || { { cd && gcl https://aur.archlinux.org/auracle-git ||: ; } && cd auracle-git && _PRNTWAIT_ && makepkg -firs --noconfirm ; auracle --help ; }" "## ~/${INSTALLDIR##*/}/usr/local/bin/makeaurracle FE" >> usr/local/bin/makeauraclegit
-chmod 755 usr/local/bin/makeauraclegit
-}
-
 _ADDmakeaurhelpers_() {
 _CFLHDR_ usr/local/bin/makeaurhelpers "# add Arch Linux AUR helpers https://wiki.archlinux.org/index.php/AUR_helpers"
 cat >> usr/local/bin/makeaurhelpers <<- EOM
-printf "%s\\n" "Command ${0##*/} is depreciated;  Exiting..."
+printf "%s\\n" "Command \${0##*/} is currently depreciated;  Exiting..."
 exit 0
 _CLONEAURHELPER_() {
 cd "\$HOME/aurhelpers" || exit 196
@@ -861,28 +855,25 @@ EOM
 chmod 755 usr/local/bin/makeauryay
 }
 
-_PREPFILEFCTN_() { printf "%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n" "[ \"\$UID\" = 0 ] && printf '\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\n' \"Cannot run '\${0##*/}' as root user;\" \" the command 'addauser username' creates user accounts in ~/${INSTALLDIR##*/}; the command '$STARTBIN command addauser username' can create user accounts in ~/${INSTALLDIR##*/} from Termux; a default user account is created during setup; the default username 'user' can be used to access the PRoot system employing a user account; command '$STARTBIN help' has more information;  \" \"Exiting...\" && exit 0" "_PRNTWAIT_() { printf '\\e[0;32m%s\n' \"Command '\${0##*/}' is attempting to make and install command '$1' $4;  Please wait...\" ; }" "{ [ -x /usr/bin/\"$1\" ] && printf '\\e[0;31m%s\n' \"The command '$1' is installed;  Exiting...\" && exit 169 ; }" "[ -x /usr/bin/make ] || { pc base base-devel || pci base base-devel ; }" "patchmakepkg ; { cd && [ -x \"$2\" ] || gcl https://aur.archlinux.org/\"$2\" ; } && cd \"$2\" && _PRNTWAIT_ && makepkg -firs --noconfirm ; \"$1\" --help" "## ~/${INSTALLDIR##*/}/usr/local/bin/makeaur\"$3\" FE" >> "$3" ; }
+_PREPFILEFCTN_() { printf "%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n" "[ \"\$UID\" = 0 ] && printf '\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\n' \"Cannot run '\${0##*/}' as root user;\" \" the command 'addauser username' creates user accounts in ~/${INSTALLDIR##*/}; the command '$STARTBIN command addauser username' can create user accounts in ~/${INSTALLDIR##*/} from Termux; a default user account is created during setup; the default username 'user' can be used to access the PRoot system employing a user account; command '$STARTBIN help' has more information;  \" \"Exiting...\" && exit 0" "_PRNTWAIT_() { printf '\\e[0;32m%s\n' \"Command '\${0##*/}' is attempting to make and install command '$1' $4;  Please wait...\" ; }" "{ [ -x /usr/bin/\"$1\" ] && printf '\\e[0;32m%s\n' \"${4^}, command '$1' is installed!  Please use the command '$1' to continue;  Exiting...\" && exit 169 ; }" "[ -x /usr/bin/make ] || { pc base base-devel || pci base base-devel ; }" "patchmakepkg ; { cd && [ -x \"$2\" ] || gcl https://aur.archlinux.org/\"$2\" ; } && cd \"$2\" && _PRNTWAIT_ && makepkg -firs --noconfirm ; \"$1\" --help" "## ~/${INSTALLDIR##*/}/usr/local/bin/makeaur\"$3\" FE" >> "$3" ; }
 
-_PREPFILEFTN0_() { _CFLHDR_ usr/local/bin/makeaur"$3" "$4" && _PREPFILEFCTN_ "$1" "$2" usr/local/bin/makeaur"$3" "$4" && chmod 755 usr/local/bin/makeaur"$3" ; }
+_PREPFILEFTN0_() { _CFLHDR_ usr/local/bin/makeaur"$3" "# Command '$3' attempts to make and install command '$1' $4" && _PREPFILEFCTN_ "$1" "$2" usr/local/bin/makeaur"$3" "$4" && chmod 755 usr/local/bin/makeaur"$3" ; }
 
-_ADDmakeaurto_() { _PREPFILEFTN0_ aurto aurto aurto "# an AUR tool for managing an auto-updating local 'aurto' package repositories using aurutils" ; }
+_ADDmakeauraclegit_() { _PREPFILEFTN0_ aur auracle-git aclegit "a flexible client for the AUR" ; }
+_ADDmakeaurto_() { _PREPFILEFTN0_ aurto aurto to "an AUR tool for managing an auto-updating local 'aurto' package repositories using aurutils" ; }
+_ADDmakeaurutils_() { _PREPFILEFTN0_ aurutils aurutils utils "an AUR helper for the arch user repository" ; }
+_ADDmakeaurutilsgit_() { _PREPFILEFTN0_ aurutils aurutils-git utilsgit "an AUR helper for the arch user repository (git version)" ; }
+_ADDmakeaurbauerbill_() { _PREPFILEFTN0_ bauerbill bauerbill bauerbill "an extension of Powerpill with AUR and ABS support" ; }
+_ADDmakeaurghcuphs_() { _PREPFILEFTN0_ ghcup-hs ghcup-hs-bin ghcuphs "the Haskell language ghcup-hs installer" ; }
 
-_ADDmakeaurutils_() { _PREPFILEFTN0_ aurutils aurutils aurutils "# an AUR helper for the arch user repository" ; }
-
-_ADDmakeaurutilsgit_() { _PREPFILEFTN0_ aurutils aurutils-git aurutils "# an AUR helper for the arch user repository (git version)" ; }
-
-_ADDmakeaurbauerbill_() { _PREPFILEFTN0_ bauerbill bauerbill bauerbill "# an extension of Powerpill with AUR and ABS support" ; }
-
-_ADDmakeaurghcuphs_() { _PREPFILEFTN0_ ghcup-hs ghcup-hs-bin ghcuphs "# the Haskell language ghcup-hs installer" ; }
-
-_ADDmakeaurpacaur_() { _CFLHDR_ usr/local/bin/makeaurpacaur "# an AUR helper that minimizes user interaction"
+_ADDmakeaurpacaur_() { _CFLHDR_ usr/local/bin/makeaurpacaur "an AUR helper that minimizes user interaction"
 _PREPFILEFCTN_ auracle-git auracle-git usr/local/bin/makeaurpacaur ""
 _PREPFILEFCTN_ expac expac usr/local/bin/makeaurpacaur ""
 _PREPFILEFCTN_ jq jq usr/local/bin/makeaurpacaur ""
 _PREPFILEFCTN_ pacaur pacaur usr/local/bin/makeaurpacaur ""
 chmod 755 usr/local/bin/makeaurpacaur ; }
 
-_ADDmakeaurpacaurgit_() { _PREPFILEFTN0_ ghcup-hs ghcup-hs-bin ghcuphs "# an AUR helper that minimizes user interaction (git version)" ; }
+_ADDmakeaurpacaurgit_() { _PREPFILEFTN0_ ghcup-hs ghcup-hs-bin ghcuphs "an AUR helper that minimizes user interaction (git version)" ; }
 _ADDmakeaurpackagequery_() { _PREPFILEFTN0_ package-query package-query packagequery "" ; }
 _ADDmakeaurpakku_() { _PREPFILEFTN0_ pakku pakku pakku "a Pacman wrapper and AUR helper with a Pacman-like user interface" ; }
 _ADDmakeaurpakkugit_() { _PREPFILEFTN0_ pakku pakku-git pakkugit "a Pacman wrapper and AUR helper with a Pacman-like user interface (git version)" ; }
