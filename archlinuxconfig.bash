@@ -543,7 +543,7 @@ printf \"%s\\n\" \"Checking HEAD branch in \$@...\"
 RBRANCH=\"\$(git remote show \"\$@\" | grep 'HEAD branch' | cut -d' ' -f5)\"
 RBRANCH=\"\${RBRANCH# }\" # strip leading space
 printf \"%s\\n\" \"Getting branch \$RBRANCH from git repository \$@...\"
-cd \"\$WDIR_\" && git clone --depth 1 \"\$@\" --branch \$RBRANCH --single-branch
+cd \"\$WDIR_\" && git clone --depth 1 \"\$@\" --branch \$RBRANCH --single-branch ||:
 rm -rf \"\$TMPDIR/\$\$\"
 }
 _SLPCLONE_() { sleep \$(shuf -n 1 -i 0-3 ).\$(shuf -n 1 -i 0-9 ) ; }
