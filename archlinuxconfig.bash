@@ -543,7 +543,7 @@ BASENAME=\"\${@#*//}\" # strip before double slash
 BASENAME=\"\${BASENAME##*/}\" # strip before last slash
 [ -d \"\$BASENAME\" ] && printf \"Directory %s exists;  Exiting...\\n\" \"\$BASENAME\" && exit 102
 [ -x \"\$(command -v git)\" ] || pc git || pci git
-_GITCLONE_
+_GITCLONE_ \"\$@\"
 ## ~/${INSTALLDIR##*/}/usr/local/bin/gcl FE" >> usr/local/bin/gcl
 chmod 755 usr/local/bin/gcl
 }
@@ -861,57 +861,55 @@ EOM
 chmod 755 usr/local/bin/makeauryay
 }
 
-_PREPFILEFCTN_() { printf "%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n" "[ \"\$UID\" = 0 ] && printf '\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\n' \"Cannot run '\${0##*/}' as root user;\" \" the command 'addauser username' creates user accounts in ~/${INSTALLDIR##*/}; the command '$STARTBIN command addauser username' can create user accounts in ~/${INSTALLDIR##*/} from Termux; a default user account is created during setup; the default username 'user' can be used to access the PRoot system employing a user account; command '$STARTBIN help' has more information;  \" \"Exiting...\" && exit 0" "_PRNTWAIT_() { printf '\\e[0;32m%s\n' \"Command '\${0##*/}' is attempting to make command '$1';  Please wait...\" ; }" "{ [ -x /usr/bin/\"$1\" ] && printf '\\e[0;31m%s\n' \"The command '$1' is installed;  Exiting...\" && exit 169 ; }" "[ -x /usr/bin/fakeroot ] || { pc base base-devel || pci base base-devel ; }" "patchmakepkg ; { cd && [ -x \"$2\" ] || gcl https://aur.archlinux.org/\"$2\" ; } && cd \"$2\" && _PRNTWAIT_ && makepkg -firs --noconfirm ; \"$1\" --help" "## ~/${INSTALLDIR##*/}/usr/local/bin/makeaur\"$3\" FE" >> "$3" ; }
+_PREPFILEFCTN_() { printf "%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n" "[ \"\$UID\" = 0 ] && printf '\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\n' \"Cannot run '\${0##*/}' as root user;\" \" the command 'addauser username' creates user accounts in ~/${INSTALLDIR##*/}; the command '$STARTBIN command addauser username' can create user accounts in ~/${INSTALLDIR##*/} from Termux; a default user account is created during setup; the default username 'user' can be used to access the PRoot system employing a user account; command '$STARTBIN help' has more information;  \" \"Exiting...\" && exit 0" "_PRNTWAIT_() { printf '\\e[0;32m%s\n' \"Command '\${0##*/}' is attempting to make and install command '$1' $4;  Please wait...\" ; }" "{ [ -x /usr/bin/\"$1\" ] && printf '\\e[0;31m%s\n' \"The command '$1' is installed;  Exiting...\" && exit 169 ; }" "[ -x /usr/bin/make ] || { pc base base-devel || pci base base-devel ; }" "patchmakepkg ; { cd && [ -x \"$2\" ] || gcl https://aur.archlinux.org/\"$2\" ; } && cd \"$2\" && _PRNTWAIT_ && makepkg -firs --noconfirm ; \"$1\" --help" "## ~/${INSTALLDIR##*/}/usr/local/bin/makeaur\"$3\" FE" >> "$3" ; }
 
-_PREPFILEFTN0_() { _CFLHDR_ usr/local/bin/makeaur"$3" "$4" && _PREPFILEFCTN_ "$1" "$2"  usr/local/bin/makeaur"$3" && chmod 755 usr/local/bin/makeaur"$3" ; }
+_PREPFILEFTN0_() { _CFLHDR_ usr/local/bin/makeaur"$3" "$4" && _PREPFILEFCTN_ "$1" "$2" usr/local/bin/makeaur"$3" "$4" && chmod 755 usr/local/bin/makeaur"$3" ; }
 
-_ADDmakeaurto_() { _PREPFILEFTN0_ aurto aurto aurto "# Attempt to build and install an AUR tool for managing an auto-updating local 'aurto' package repository using aurutils." ; }
+_ADDmakeaurto_() { _PREPFILEFTN0_ aurto aurto aurto "# an AUR tool for managing an auto-updating local 'aurto' package repositories using aurutils" ; }
 
-_ADDmakeaurutils_() { _PREPFILEFTN0_ aurutils aurutils aurutils "# Attempt to build and install an AUR helper for the arch user repository." ; }
+_ADDmakeaurutils_() { _PREPFILEFTN0_ aurutils aurutils aurutils "# an AUR helper for the arch user repository" ; }
 
-_ADDmakeaurutilsgit_() { _PREPFILEFTN0_ aurutils aurutils-git aurutils "# Attempt to build and install an AUR helper for the arch user repository." ; }
+_ADDmakeaurutilsgit_() { _PREPFILEFTN0_ aurutils aurutils-git aurutils "# an AUR helper for the arch user repository (git version)" ; }
 
-_ADDmakeaurbauerbill_() { _PREPFILEFTN0_ bauerbill bauerbill bauerbill "# Attempt to build and install an extension of Powerpill with AUR and ABS support." ; }
+_ADDmakeaurbauerbill_() { _PREPFILEFTN0_ bauerbill bauerbill bauerbill "# an extension of Powerpill with AUR and ABS support" ; }
 
-_ADDmakeaurghcuphs_() { _PREPFILEFTN0_ ghcup-hs ghcup-hs-bin ghcuphs "# Attempt to build and install the Haskell language ghcup-hs installer." ; }
+_ADDmakeaurghcuphs_() { _PREPFILEFTN0_ ghcup-hs ghcup-hs-bin ghcuphs "# the Haskell language ghcup-hs installer" ; }
 
-_ADDmakeaurpacaur_() { _CFLHDR_ usr/local/bin/makeaurpacaur "# Attempt to build and install an AUR helper that minimizes user interaction."
-_PREPFILEFCTN_ auracle-git auracle-git usr/local/bin/makeaurpacaur
-_PREPFILEFCTN_ expac expac usr/local/bin/makeaurpacaur
-_PREPFILEFCTN_ jq jq usr/local/bin/makeaurpacaur
-_PREPFILEFCTN_ pacaur pacaur usr/local/bin/makeaurpacaur
+_ADDmakeaurpacaur_() { _CFLHDR_ usr/local/bin/makeaurpacaur "# an AUR helper that minimizes user interaction"
+_PREPFILEFCTN_ auracle-git auracle-git usr/local/bin/makeaurpacaur ""
+_PREPFILEFCTN_ expac expac usr/local/bin/makeaurpacaur ""
+_PREPFILEFCTN_ jq jq usr/local/bin/makeaurpacaur ""
+_PREPFILEFCTN_ pacaur pacaur usr/local/bin/makeaurpacaur ""
 chmod 755 usr/local/bin/makeaurpacaur ; }
 
-_ADDmakeaurpacaurgit_() { _PREPFILEFTN0_ ghcup-hs ghcup-hs-bin ghcuphs "# Attempt to build and install an AUR helper that minimizes user interaction." ; }
-
+_ADDmakeaurpacaurgit_() { _PREPFILEFTN0_ ghcup-hs ghcup-hs-bin ghcuphs "# an AUR helper that minimizes user interaction (git version)" ; }
 _ADDmakeaurpackagequery_() { _PREPFILEFTN0_ package-query package-query packagequery "" ; }
-
-_ADDmakeaurpakku_() { _PREPFILEFTN0_ pakku pakku pakku "Attempt to build and install an " ; }
-
-_ADDmakeaurparu_() { _PREPFILEFTN0_ paru paru paru "Attempt to build and install an " ; }
-
-_ADDmakeaurpbget_() { _PREPFILEFTN0_ pbget pbget pbget "Attempt to build and install an " ; }
-
-_ADDmakeaurpikaur_() { _PREPFILEFTN0_ pikaur pikaur pikaur "Attempt to build and install an AUR helper which asks all questions before installing/building. Inspired by pacaur, yaourt and yay." ; }
-
-_ADDmakeaurpikaurgit_() { _PREPFILEFTN0_ pikaur pikaur-git pikaurgit "Attempt to build and install an AUR helper which asks all questions before installing/building. Inspired by pacaur, yaourt and yay." ; }
-
-_ADDmakeaurpkgbuilder_() { _PREPFILEFTN0_ pkgbuilder pkgbuilder pkgbuilder "" ; }
-
-_ADDmakeaurpopularpackages_() { _PREPFILEFTN0_ popular-packages popular-packages popularpackages "" ; }
-
+_ADDmakeaurpakku_() { _PREPFILEFTN0_ pakku pakku pakku "a Pacman wrapper and AUR helper with a Pacman-like user interface" ; }
+_ADDmakeaurpakkugit_() { _PREPFILEFTN0_ pakku pakku-git pakkugit "a Pacman wrapper and AUR helper with a Pacman-like user interface (git version)" ; }
+_ADDmakeaurpakkugui_() { _PREPFILEFTN0_ pakku pakku-gui pakkugui "a GTK frontend for pakku" ; }
+_ADDmakeaurpakkuguigit_() { _PREPFILEFTN0_ pakku pakku-gui-git pakkuguigit "a GTK frontend for pakku (git version)" ; }
+_ADDmakeaurparu_() { _PREPFILEFTN0_ paru paru paru "a feature packed AUR helper" ; }
+_ADDmakeaurparubin_() { _PREPFILEFTN0_ paru paru-bin parubin  "a feature packed AUR helper" ; }
+_ADDmakeaurparugit_() { _PREPFILEFTN0_ paru paru-git parugit  "a feature packed AUR helper (git version)" ; }
+_ADDmakeaurparuz_() { _PREPFILEFTN0_ paruz paruz paruz "a fzf terminal UI for paru or pacman" ; }
+_ADDmakeaurpbget_() { _PREPFILEFTN0_ pbget pbget pbget "that retrieves PKGBUILD and local source files from Git, ABS and the AUR for makepkg" ; }
+_ADDmakeaurpikaur_() { _PREPFILEFTN0_ pikaur pikaur pikaur "an AUR helper which asks all questions before installing/building. Inspired by pacaur, yaourt and yay" ; }
+_ADDmakeaurpikaurgit_() { _PREPFILEFTN0_ pikaur pikaur-git pikaurgit "an AUR helper which asks all questions before installing/building. Inspired by pacaur, yaourt and yay (git version)" ; }
+_ADDmakeaurpkgbuilder_() { _PREPFILEFTN0_ pkgbuilder pkgbuilder pkgbuilder "a Python AUR helper/library" ; }
+_ADDmakeaurpkgbuildergit_() { _PREPFILEFTN0_ pkgbuilder pkgbuilder-git pkgbuildergit "a Python AUR helper/library (git version)" ; }
+_ADDmakeaurpopularpackages_() { _PREPFILEFTN0_ popular-packages popular-packages popularpackages "which lists popular packages not (yet) installed" ; }
 _ADDmakeaurpuyo_() { _PREPFILEFTN0_ puyo puyo puyo "" ; }
-
-_ADDmakeaurrepoctl_() { _PREPFILEFTN0_ repoctl repoctl repoctl "" ; }
-
-_ADDmakeaurrepofish_() { _PREPFILEFTN0_ repofish repofish repofish "" ; }
-
-_ADDmakeaurshellcheckbin_() { _PREPFILEFTN0_ shellcheck shellcheck-bin shellcheckbin "" ; }
-_ADDmakeaurtrizen_() { _PREPFILEFTN0_ trizen trizen trizen "" ; }
-
-_ADDmakeauryaah_() { _PREPFILEFTN0_ yaah yaah yaah "" ; }
-
-_ADDmakeauryayim_() { _PREPFILEFTN0_ yayim yayim yayim "" ; }
+_ADDmakeaurrepoctl_() { _PREPFILEFTN0_ repoctl repoctl repoctl "an AUR helper that also simplifies managing local Pacman repositories" ; }
+_ADDmakeaurrepoctlgit_() { _PREPFILEFTN0_ repoctl repoctl-git repoctlgit "an AUR helper that also simplifies managing local Pacman repositories (development version)" ; }
+_ADDmakeaurrepofish_() { _PREPFILEFTN0_ repofish repofish repofish "that my friends told me to make available this script I wrote to manage my local archlinux repo and AUR packages, so here it is" ; }
+_ADDmakeaurshellcheckbin_() { _PREPFILEFTN0_ shellcheck shellcheck-bin shellcheckbin "a shell script analysis tool (binary release, static)" ; }
+_ADDmakeaurshellcheckgit_() { _PREPFILEFTN0_ shellcheck shellcheck-git shellcheckgit "a shell script analysis tool (latest git commit)" ; }
+_ADDmakeaurshellcheckgitstatic_() { _PREPFILEFTN0_ shellcheck shellcheck-git-static shellcheckgitstatic "a shellcheck-static, but using the latest-commit builds maintained by the author" ; }
+_ADDmakeaurtrizen_() { _PREPFILEFTN0_ trizen trizen trizen "the Trizen AUR Package Manager, a lightweight pacman wrapper and AUR helper" ; }
+_ADDmakeaurtrizengit_() { _PREPFILEFTN0_ trizen trizen-git trizengit "the Trizen AUR Package Manager, a lightweight pacman wrapper and AUR helper (git version)" ; }
+_ADDmakeaurtpac_() { _PREPFILEFTN0_ tpac tpac tpac  "a trizen wrapper to mimic yaourt's search feature" ; }
+_ADDmakeauryaah_() { _PREPFILEFTN0_ yaah yaah yaah "Yet Another AUR Helper" ; }
+_ADDmakeauryayim_() { _PREPFILEFTN0_ yayim yayim yayim "a modified version of yay with additional features, improvements and small bug fixes" ; }
 
 _ADDmakeksh_() {
 _CFLHDR_ usr/local/bin/makeksh "# build and install the ksh shell; Inspired by https://github.com/termux/termux-api/issues/436"
