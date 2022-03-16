@@ -859,20 +859,27 @@ _PREPFILEFCTN_() { printf "%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n" "[ \"\$UID\" = 0 ] &&
 
 _PREPFILEFTN0_() { _CFLHDR_ usr/local/bin/makeaur"$3" "# Command '$3' attempts to make and install command '$1' $4" && _PREPFILEFCTN_ "$1" "$2" usr/local/bin/makeaur"$3" "$4" && chmod 755 usr/local/bin/makeaur"$3" ; }
 
+_ADDmakeaurpacaur_() { _CFLHDR_ usr/local/bin/makeaurpacaur "# an AUR helper that minimizes user interaction"
+_PREPFILEFCTN_ auracle-git auracle-git usr/local/bin/makeaurpacaur ""
+_PREPFILEFCTN_ expac expac usr/local/bin/makeaurpacaur ""
+_PREPFILEFCTN_ jq jq usr/local/bin/makeaurpacaur ""
+_PREPFILEFCTN_ pacaur pacaur usr/local/bin/makeaurpacaur "an AUR helper that minimizes user interaction"
+chmod 755 usr/local/bin/makeaurpacaur ; }
+
+_ADDmakeaurpbget_() { _CFLHDR_ usr/local/bin/makeaurpbget "# retrieve PKGBUILD and local source files from Git, ABS and the AUR for makepkg"
+_PREPFILEFCTN_ pm2ml pm2ml usr/local/bin/makeaurpbget ""
+_PREPFILEFCTN_ python3-aur python3-aur usr/local/bin/makeaurpbget ""
+_PREPFILEFCTN_ python3-xcgf python3-xcgf usr/local/bin/makeaurpbget ""
+_PREPFILEFCTN_ python3-xcpf python3-xcpf usr/local/bin/makeaurpbget ""
+_PREPFILEFCTN_ pbget pbget usr/local/bin/makeaurpbget "retrieve PKGBUILD and local source files from Git, ABS and the AUR for makepkg"
+chmod 755 usr/local/bin/makeaurpbget ; }
+
 _ADDmakeauraclegit_() { _PREPFILEFTN0_ aur auracle-git aclegit "a flexible client for the AUR" ; }
 _ADDmakeaurto_() { _PREPFILEFTN0_ aurto aurto to "an AUR tool for managing an auto-updating local 'aurto' package repositories using aurutils" ; }
 _ADDmakeaurutils_() { _PREPFILEFTN0_ aurutils aurutils utils "an AUR helper for the arch user repository" ; }
 _ADDmakeaurutilsgit_() { _PREPFILEFTN0_ aurutils aurutils-git utilsgit "an AUR helper for the arch user repository (git version)" ; }
 _ADDmakeaurbauerbill_() { _PREPFILEFTN0_ bauerbill bauerbill bauerbill "an extension of Powerpill with AUR and ABS support" ; }
 _ADDmakeaurghcuphs_() { _PREPFILEFTN0_ ghcup-hs ghcup-hs-bin ghcuphs "the Haskell language ghcup-hs installer" ; }
-
-_ADDmakeaurpacaur_() { _CFLHDR_ usr/local/bin/makeaurpacaur "an AUR helper that minimizes user interaction"
-_PREPFILEFCTN_ auracle-git auracle-git usr/local/bin/makeaurpacaur ""
-_PREPFILEFCTN_ expac expac usr/local/bin/makeaurpacaur ""
-_PREPFILEFCTN_ jq jq usr/local/bin/makeaurpacaur ""
-_PREPFILEFCTN_ pacaur pacaur usr/local/bin/makeaurpacaur ""
-chmod 755 usr/local/bin/makeaurpacaur ; }
-
 _ADDmakeaurpacaurgit_() { _PREPFILEFTN0_ ghcup-hs ghcup-hs-bin ghcuphs "an AUR helper that minimizes user interaction (git version)" ; }
 _ADDmakeaurpackagequery_() { _PREPFILEFTN0_ package-query package-query packagequery "" ; }
 _ADDmakeaurpakku_() { _PREPFILEFTN0_ pakku pakku pakku "a Pacman wrapper and AUR helper with a Pacman-like user interface" ; }
@@ -883,7 +890,6 @@ _ADDmakeaurparu_() { _PREPFILEFTN0_ paru paru paru "a feature packed AUR helper"
 _ADDmakeaurparubin_() { _PREPFILEFTN0_ paru paru-bin parubin  "a feature packed AUR helper" ; }
 _ADDmakeaurparugit_() { _PREPFILEFTN0_ paru paru-git parugit  "a feature packed AUR helper (git version)" ; }
 _ADDmakeaurparuz_() { _PREPFILEFTN0_ paruz paruz paruz "a fzf terminal UI for paru or pacman" ; }
-_ADDmakeaurpbget_() { _PREPFILEFTN0_ pbget pbget pbget "that retrieves PKGBUILD and local source files from Git, ABS and the AUR for makepkg" ; }
 _ADDmakeaurpikaur_() { _PREPFILEFTN0_ pikaur pikaur pikaur "an AUR helper which asks all questions before installing/building. Inspired by pacaur, yaourt and yay" ; }
 _ADDmakeaurpikaurgit_() { _PREPFILEFTN0_ pikaur pikaur-git pikaurgit "an AUR helper which asks all questions before installing/building. Inspired by pacaur, yaourt and yay (git version)" ; }
 _ADDmakeaurpkgbuilder_() { _PREPFILEFTN0_ pkgbuilder pkgbuilder pkgbuilder "a Python AUR helper/library" ; }
