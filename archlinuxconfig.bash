@@ -36,7 +36,7 @@ chmod 755 usr/local/bin/ae
 }
 
 _ADDbash_logout_() {
-printf "%s\\n" "[ ! -f \"\$HOME\"/.hushlogout ] && [ ! -f "\$HOME"/.chushlogout ] && . /etc/moto
+printf "%s\\n" "[ ! -f \"\$HOME\"/.hushlogout ] && [ ! -f \"\$HOME\"/.chushlogout ] && . /etc/moto
 h
 ## .bash_logout FE" > root/.bash_logout
 }
@@ -855,23 +855,35 @@ EOM
 chmod 755 usr/local/bin/makeauryay
 }
 
-_PREPFILEFCTN_() { printf "%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n" "[ \"\$UID\" = 0 ] && printf '\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\\n' \"Cannot run '\${0##*/}' as root user;\" \" the command 'addauser username' creates user accounts in ~/${INSTALLDIR##*/}; the command '$STARTBIN command addauser username' can create user accounts in ~/${INSTALLDIR##*/} from Termux; a default user account is created during setup; the default username 'user' can be used to access the PRoot system employing a user account; command '$STARTBIN help' has more information;  \" \"Exiting...\" && exit 0" "_PRNTWAIT_() { printf '\\e[0;32mCommand \\e[1;32m%s\\e[0;32m is attempting to make and install command \\e[1;32m%s\\e[0;32m, %s;  Please wait...\\n' \"'\${0##*/}'\" \"'$1'\"  \"$4\" ; }" "{ [ -x /usr/bin/\"$1\" ] && printf '\\e[0;32m%s, command \\e[1;32m%s\\e[0;32m is installed!  Please use the command \\e[1;32m%s\\e[0;32m to continue;  Exiting...  ' \"${4^}\" \"'$1'\" \"'$1'\" && exit 169 ; }" "[ -x /usr/bin/make ] || { pc base base-devel || pci base base-devel ; }" "patchmakepkg ; { cd && [ -x \"$2\" ] || gcl https://aur.archlinux.org/\"$2\" ; } && cd \"$2\" && _PRNTWAIT_ && makepkg -firs --noconfirm ; \"$1\" --help" "## ~/${INSTALLDIR##*/}/usr/local/bin/makeaur\"$3\" FE" >> "$3" ; }
+_PREPFILEFCTN_() { printf "%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n" "[ \"\$UID\" = 0 ] && printf '\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\\n' \"Cannot run '\${0##*/}' as root user;\" \" the command 'addauser username' creates user accounts in ~/${INSTALLDIR##*/}; the command '$STARTBIN command addauser username' can create user accounts in ~/${INSTALLDIR##*/} from Termux; a default user account is created during setup; the default username 'user' can be used to access the PRoot system employing a user account; command '$STARTBIN help' has more information;  \" \"Exiting...\" && exit 0" "_PRNTWAIT_() { printf '\\e[0;32mCommand \\e[1;32m%s\\e[0;32m is attempting to make and install command \\e[1;32m%s\\e[0;32m, %s;  Please wait...\\n' \"'\${0##*/}'\" \"'$1'\"  \"$4\" ; }" "{ [ -x /usr/bin/\"$1\" ] && printf '\\e[0;32m%s, command \\e[1;32m%s\\e[0;32m is installed!  Please use the command \\e[1;32m%s\\e[0;32m to continue;  Exiting...  ' \"${4^}\" \"'$1'\" \"'$1'\" && exit 169 ; }" "[ -x /usr/bin/make ] || { pc base base-devel || pci base base-devel ; }" "{ [ -f /run/lock/\"${INSTALLDIR##*/}\"/patchmakepkg.lock ] || patchmakepkg ; } ${5:-} ; { cd && [ -x \"$2\" ] || gcl https://aur.archlinux.org/\"$2\" ; } && cd \"$2\" && _PRNTWAIT_ && makepkg -firs --noconfirm ; \"$1\" --help" "## ~/${INSTALLDIR##*/}/usr/local/bin/makeaur\"$3\" FE" >> "$3" ; }
+
+_PREPFILEFCTNS0_() { printf "%s\\n%s\\n%s\\n%s\\n%s\\n" "[ \"\$UID\" = 0 ] && printf '\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\\n' \"Cannot run '\${0##*/}' as root user;\" \" the command 'addauser username' creates user accounts in ~/${INSTALLDIR##*/}; the command '$STARTBIN command addauser username' can create user accounts in ~/${INSTALLDIR##*/} from Termux; a default user account is created during setup; the default username 'user' can be used to access the PRoot system employing a user account; command '$STARTBIN help' has more information;  \" \"Exiting...\" && exit 0" "{ [ -x /usr/bin/\"$1\" ] && printf '\\e[0;32mCommand \\e[1;32m%s\\e[0;32m is installed!  Please use the command \\e[1;32m%s\\e[0;32m to continue;  Exiting...  ' \"'$1'\" \"'$1'\" && exit 169 ; }" "_PRNTWAIT_() { printf '\\e[0;32mCommand \\e[1;32m%s\\e[0;32m is attempting to make and install package \\e[1;32m%s\\e[0;32m;  Please wait...\\n' \"'\${0##*/}'\" \"'$2'\" ; }" "[ -x /usr/bin/make ] || { pc base base-devel || pci base base-devel ; }" "[ -f /run/lock/\"${INSTALLDIR##*/}\"/patchmakepkg.lock ] || patchmakepkg" >> "$3" ; }
+
+_PREPFILEFCTNS_() { printf "%s\\n" "{ { [ -e \"$1\" ] && printf '\\e[0;32mPackage \\e[1;32m%s\\e[0;32m is installed;  Continuing...  ' \"'$2'\"  ; } || { ${5:-} { cd && [ -e \"$1\" ] || gcl https://aur.archlinux.org/\"$2\" ; } && cd \"$2\" && _PRNTWAIT_ && makepkg -firs --noconfirm ; } ; }" >> "$3" ; }
 
 _PREPFILEFTN0_() { _CFLHDR_ usr/local/bin/makeaur"$3" "# Command '$3' attempts to make and install command '$1' $4" && _PREPFILEFCTN_ "$1" "$2" usr/local/bin/makeaur"$3" "$4" && chmod 755 usr/local/bin/makeaur"$3" ; }
 
 _ADDmakeaurpacaur_() { _CFLHDR_ usr/local/bin/makeaurpacaur "# an AUR helper that minimizes user interaction"
-_PREPFILEFCTN_ auracle-git auracle-git usr/local/bin/makeaurpacaur ""
-_PREPFILEFCTN_ expac expac usr/local/bin/makeaurpacaur ""
-_PREPFILEFCTN_ jq jq usr/local/bin/makeaurpacaur ""
-_PREPFILEFCTN_ pacaur pacaur usr/local/bin/makeaurpacaur "an AUR helper that minimizes user interaction"
+_PREPFILEFCTNS0_ pacaur pacaur usr/local/bin/makeaurpacaur "an AUR helper that minimizes user interaction" "{ [ -x /usr/bin/expac ] || pc expac --noconfirm ; }"
+_PREPFILEFCTNS_ "/usr/bin/auracle-git" auracle-git usr/local/bin/makeaurpacaur  ""
+_PREPFILEFCTNS_ "/usr/bin/jq" jq usr/local/bin/makeaurpacaur ""
+_PREPFILEFCTNS_ "/usr/bin/pacaur" pacaur usr/local/bin/makeaurpacaur "an AUR helper that minimizes user interaction"
 chmod 755 usr/local/bin/makeaurpacaur ; }
 
+_ADDmakeaurpacaurgit_() { _CFLHDR_ usr/local/bin/makeaurpacaurgit "# an AUR helper that minimizes user interaction"
+_PREPFILEFCTNS0_ pacaur pacaur-git usr/local/bin/makeaurpacaurgit "an AUR helper that minimizes user interaction" "{ [ -x /usr/bin/expac ] || pc expac --noconfirm ; }"
+_PREPFILEFCTNS_ "/usr/bin/auracle-git" auracle-git usr/local/bin/makeaurpacaurgit  ""
+_PREPFILEFCTNS_ "/usr/bin/pacaur" pacaur-git usr/local/bin/makeaurpacaurgit "an AUR helper that minimizes user interaction" ; }
+
 _ADDmakeaurpbget_() { _CFLHDR_ usr/local/bin/makeaurpbget "# retrieve PKGBUILD and local source files from Git, ABS and the AUR for makepkg"
-_PREPFILEFCTN_ pm2ml pm2ml usr/local/bin/makeaurpbget ""
-_PREPFILEFCTN_ python3-aur python3-aur usr/local/bin/makeaurpbget ""
-_PREPFILEFCTN_ python3-xcgf python3-xcgf usr/local/bin/makeaurpbget ""
-_PREPFILEFCTN_ python3-xcpf python3-xcpf usr/local/bin/makeaurpbget ""
-_PREPFILEFCTN_ pbget pbget usr/local/bin/makeaurpbget "retrieve PKGBUILD and local source files from Git, ABS and the AUR for makepkg"
+_PREPFILEFCTNS0_ pbget pbget usr/local/bin/makeaurpbget "retrieve PKGBUILD and local source files from Git, ABS and the AUR for makepkg"
+_PREPFILEFCTNS_ "/usr/lib/python3.10/site-packages/XCGF.py" python3-xcgf "usr/local/bin/makeaurpbget" "" "sudo pacman-key --recv-keys 1D1F0DC78F173680 ;"
+_PREPFILEFCTNS_ "/usr/lib/pm2ml" python-pyxdg usr/local/bin/makeaurpbget ""
+_PREPFILEFCTNS_ "/usr/lib/pm2ml" python3-memoizedb usr/local/bin/makeaurpbget ""
+_PREPFILEFCTNS_ "/usr/lib/pm2ml" python3-xcpf usr/local/bin/makeaurpbget ""
+_PREPFILEFCTNS_ "/usr/lib/pm2ml" pm2ml usr/local/bin/makeaurpbget ""
+_PREPFILEFCTNS_ "/usr/lib/python3-aur" python3-aur usr/local/bin/makeaurpbget ""
+_PREPFILEFCTNS_ pbget pbget usr/local/bin/makeaurpbget "retrieve PKGBUILD and local source files from Git, ABS and the AUR for makepkg"
 chmod 755 usr/local/bin/makeaurpbget ; }
 
 _ADDmakeauraclegit_() { _PREPFILEFTN0_ aur auracle-git aclegit "a flexible client for the AUR" ; }
@@ -880,7 +892,6 @@ _ADDmakeaurutils_() { _PREPFILEFTN0_ aurutils aurutils utils "an AUR helper for 
 _ADDmakeaurutilsgit_() { _PREPFILEFTN0_ aurutils aurutils-git utilsgit "an AUR helper for the arch user repository (git version)" ; }
 _ADDmakeaurbauerbill_() { _PREPFILEFTN0_ bauerbill bauerbill bauerbill "an extension of Powerpill with AUR and ABS support" ; }
 _ADDmakeaurghcuphs_() { _PREPFILEFTN0_ ghcup-hs ghcup-hs-bin ghcuphs "the Haskell language ghcup-hs installer" ; }
-_ADDmakeaurpacaurgit_() { _PREPFILEFTN0_ ghcup-hs ghcup-hs-bin ghcuphs "an AUR helper that minimizes user interaction (git version)" ; }
 _ADDmakeaurpackagequery_() { _PREPFILEFTN0_ package-query package-query packagequery "" ; }
 _ADDmakeaurpakku_() { _PREPFILEFTN0_ pakku pakku pakku "a Pacman wrapper and AUR helper with a Pacman-like user interface" ; }
 _ADDmakeaurpakkugit_() { _PREPFILEFTN0_ pakku pakku-git pakkugit "a Pacman wrapper and AUR helper with a Pacman-like user interface (git version)" ; }
@@ -1042,7 +1053,7 @@ _ADDorcarun_
 _ADDpatchmakepkg_() {
 _CFLHDR_ usr/local/bin/patchmakepkg "# patch makepkg;  Contributor https://github.com/petkar"
 cat >> usr/local/bin/patchmakepkg <<- EOM
-[ -f "/run/lock/${INSTALLDIR##*/}/patchmakepkg.lock" ] && printf "%s\\\\n" "Found /run/lock/${INSTALLDIR##*/}/patchmakepkg.lock file;  Already patched makepkg: DONE 🏁" && exit
+[ -f "/run/lock/${INSTALLDIR##*/}/patchmakepkg.lock" ] && printf "%s\\\\n" "Nothing to do;  Already patched command 'makepkg': DONE 🏁" && exit
 printf "Patching makepkg: \\\\n"
 SDATE="\$(date +%s)"
 BKPDIR="$INSTALLDIR/var/backups/${INSTALLDIR##*/}/"

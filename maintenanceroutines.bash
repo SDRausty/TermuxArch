@@ -34,7 +34,7 @@ BKPDIR="$INSTALLDIR/var/backups/${INSTALLDIR##*/}/home/$TALUSER"
 [ -d "$BKPDIR" ] || mkdir -p "$BKPDIR"
 if [ "$TALUSER" != alarm ]
 then
-DOFLIST_=(.bash_profile .bashrc .cshrc .emacs .gitconfig .initrc .inputrc .vimrc .profile .zshrc)
+DOFLIST_=(.bash_logout .bash_profile .bashrc .cshrc .emacs .gitconfig .initrc .inputrc .vimrc .profile .zshrc)
 for DOFLNAME in "${DOFLIST_[@]}"
 do
 printf "\\n\\e[0;32mProcessing user \\e[1;32m%s\\e[0;32m file \\e[1;32m%s\\e[0;32m.  " "$TALUSER" "$DOFLNAME"
