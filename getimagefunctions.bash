@@ -11,7 +11,6 @@ then
 aria2c --continue -Z http://"$CMIRROR/$RPATH/$IFILE".md5 http://"$CMIRROR/$RPATH/$IFILE"
 elif [[ "$DM" = axel ]]
 then
-echo echo0
 axel -a --no-clobber http://"$CMIRROR/$RPATH/$IFILE".md5 ||:
 axel -a --no-clobber http://"$CMIRROR/$RPATH/$IFILE" ||:
 elif [[ "$DM" = lftp ]]
@@ -103,12 +102,13 @@ fi
 _ISX86_() {
 if [[ "$CPUABI" = "$CPUABIX86" ]]
 then
-IFILE="$(grep i686 md5sums.txt | awk {'print $2'})"
+IFILE="$(grep i686 md5sums.txt | awk {'print $2'} ||:)"
 else
-IFILE="$(grep boot md5sums.txt | awk {'print $2'})"
+IFILE="$(grep boot md5sums.txt | awk {'print $2'} ||:)"
 fi
-sed '2q;d' md5sums.txt > "$IFILE".md5
-rm md5sums.txt
+sed '2q;d' md5sums.txt > "$IFILE".md5 2>/dev/null ||:
+rm -f md5sums.txt
+rm -f \.md5
 _PRINTDOWNLOADINGX86TWO_
 }
 # getimagefunctions.bash FE

@@ -5,17 +5,15 @@
 ################################################################################
 set -Eeuo pipefail
 shopt -s  extglob nullglob globstar
-umask 0022
 unset LD_PRELOAD
-VERSIONID=2.0.518
+VERSIONID=2.0.519
 _STRPEROR_() { # run on script error
 local RV="$?"
 printf "\\e[1;48;5;138m %s" "ＴｅｒｍｕｘＡｒｃｈ NOTICE:  Generated script signal received ${RV:-UNKNOWN} near or at line number ${1:-UNKNOWN} by '${2:-UNKNOWNCOMMAND}'!  "
-_STRPEXIT_
+exit "$RV"
 }
 _STRPEXIT_() { # run on exit
 local RV="$?"
-{ [ -z "${ARGS:-}" ] && STRANARG="${0##*/}" ; } || STRANARG="${0##*/} ${ARGS:-}"
 if [[ -n "${TAMATRIXENDLCR:-}" ]]
 then
 _TAMATRIXEND_
@@ -38,29 +36,29 @@ else
 printf "\\e[0;32mCommand \\e[1;32m'%s' \\e[0;32mversion %s\\e[1;34m: \\e[1;32m%s\\n" "$STRANARG" "${VERSIONID:-}" "[Exit Signal $RV] DONE 🏁 "
 printf "\033]2; %s: %s %s \\007" "$STRANARG" "[Exit Signal $RV]" "DONE 🏁 "
 fi
-rm -rf "$TAMPDIR"/setupTermuxArch*
+rm -rf "$TAMPDIR"
 printf "\\e[?25h\\e[0m"
 set +Eeuo pipefail
 }
 _STRPHNGP_() { # run on hang up
 local RV="$?"
 printf "\\e[1;48;5;138m %s" "ＴｅｒｍｕｘＡｒｃｈ HANG UP:  Generated signal received ${RV:-UNKNOWN} near or at line number ${1:-UNKNOWN} by '${2:-UNKNOWNCOMMAND}'!  "
-_STRPEXIT_
+exit "$RV"
 }
 _STRPNTRT_() { # run on signal
 local RV="$?"
 printf "\\e[1;48;5;138m %s" "ＴｅｒｍｕｘＡｒｃｈ SIGNAL:  Generated signal received ${RV:-UNKNOWN} near or at line number ${1:-UNKNOWN} by '${2:-UNKNOWNCOMMAND}'!  "
-_STRPEXIT_
+exit "$RV"
 }
 _STRPQUIT_() { # run on quit
 local RV="$?"
 printf "\\e[1;48;5;138m %s" "ＴｅｒｍｕｘＡｒｃｈ QUIT:  Quit signal received ${RV:-UNKNOWN} near or at line number ${1:-UNKNOWN} by '${2:-UNKNOWNCOMMAND}'!  "
-_STRPEXIT_
+exit "$RV"
 }
 _STRPTERM_() { # run on terminate
 local RV="$?"
 printf "\\e[1;48;5;138m %s" "ＴｅｒｍｕｘＡｒｃｈ TERMINATE:  Generated signal received ${RV:-UNKNOWN} near or at line number ${1:-UNKNOWN} by '${2:-UNKNOWNCOMMAND}'!  "
-_STRPEXIT_
+exit "$RV"
 }
 trap '_STRPEROR_ $LINENO $BASH_COMMAND $?' ERR
 trap '_STRPEXIT_ $LINENO $BASH_COMMAND $?' EXIT
@@ -77,6 +75,7 @@ then
 printf "\\e[1;48;5;138mＴｅｒｍｕｘＡｒｃｈ %s\\n\\n" "${0##*/} SIGNAL:  Please run '%s' and 'bash %s' from the BASH shell in native Termux:  EXITING..." "${0##*/}" && exit 168
 fi
 _ARG2DIR_() {  # argument as ROOTDIR
+{ [ -z "${ARGS:-}" ] && STRANARG="${0##*/}" ; } || STRANARG="${0##*/} ${ARGS:-}"
 ARG2="${@:2:1}"
 if [[ -z "${ARG2:-}" ]]
 then
@@ -114,7 +113,7 @@ then	# update the working file to newest version
 ## update working file
 cd "$WDIR"
 cp "$TAMPDIR/setupTermuxArch" "$0"
-[[ -z "${ARGS:-}" ]] && printf "\\n\\e[1;32mFile \\e[0;32m'%s'\\e[1;32m was UPDATED\\e[1;34m:\\e[0;32m  Please run 'bash %s' again if this automatic update was unsuccessful.\\n\\n\\e[1;32mRESTARTED \\e[0;32m'%s'\\e[1;34m:\\e[1;32m CONTINUING...\\n\\n" "${0##*/}" "${0##*/}" "${0##*/}" || printf "\\n\\e[1;32mFile \\e[0;32m'%s'\\e[1;32m was UPDATED\\e[1;34m:\\e[0;32m run 'bash %s' again if this automatic update was unsuccessful;  You should be able to use the '!!' command to run '%s' again.\\n\\e[1;32mRESTARTED \\e[0;32m'%s'\\e[1;34m:\\e[1;32m CONTINUING...\\n\\n" "${0##*/}" "${0##*/} $ARGS" "${0##*/} $ARGS" "${0##*/} $ARGS"
+[[ -z "${ARGS:-}" ]] && printf "\\n\\e[1;32mFile \\e[0;32m'%s'\\e[1;32m was UPDATED\\e[1;34m:\\e[0;32m  Please run 'bash %s' again if this automatic update was unsuccessful.\\n\\n\\e[1;32mRESTARTED \\e[0;32m'%s'\\e[1;34m:\\e[1;32m CONTINUING...\\n\\n" "${0##*/}" "${0##*/}" "${0##*/}" || printf "\\n\\e[1;32mFile \\e[0;32m'%s'\\e[1;32m was UPDATED\\e[1;34m:\\e[0;32m run 'bash %s' again if this automatic update was unsuccessful;  You should be able to use the '!!' command to run '%s' again.\\n\\e[1;32mRESTARTED \\e[0;32m'%s'\\e[1;34m:\\e[1;32m CONTINUING...\\n\\n" "${0##*/}" "$STRANARG" "$STRANARG" "$STRANARG"
 ## restart with updated version
 . $0 $ARGS
 fi
@@ -132,7 +131,6 @@ fi
 }
 _CHOOSEABIx86_(){
 CPUABILIST64="$(getprop ro.product.cpu.abilist64)"
-CPUABI="$(getprop ro.product.cpu.abi)"
 if [[ $CPUABI == *86* ]]
 then
 _OPT1_ "$@"
@@ -160,6 +158,10 @@ _CHK_ "$@"
 fi
 }
 _COREFILESLOAD_() {
+. fbindsfunctions.bash
+. initkeyfunctions.bash
+. maintenanceroutines.bash
+. necessaryfunctions.bash
 if [[ "$OPT" = BLOOM ]]
 then
 rm -f termuxarchchecksum.sha512
@@ -169,13 +171,9 @@ then
 _MANUAL_
 fi
 _LOADCONF_
-. fbindsfunctions.bash
 . archlinuxconfig.bash
 . espritfunctions.bash
 . getimagefunctions.bash
-. initkeyfunctions.bash
-. maintenanceroutines.bash
-. necessaryfunctions.bash
 . printoutstatements.bash
 }
 _DEPENDDM_() { # check and set download manager
@@ -293,11 +291,11 @@ USEREDIT="nano"
 fi
 }
 _INTRO_() {
-printf "\033]2;%s\007" "bash ${0##*/} $ARGS 📲"
+printf "\033]2;%s\007" "bash $STRANARG 📲"
 _SETROOT_EXCEPTION_
 if [[ -d "$INSTALLDIR" ]] && [[ -d "$INSTALLDIR"/root/bin ]] && [[ -d "$INSTALLDIR"/var/binds ]] && [[ -f "$INSTALLDIR"/bin/we ]] && [[ -f "$INSTALLDIR"/usr/bin/env ]]
 then
-printf "\\n\\e[0;33m%s\\e[1;33m%s\\e[0;33m.\\n\\n" "ＴｅｒｍｕｘＡｒｃｈ NOTICE!  " "The root directory structure of ~/${INSTALLDIR##*/} seems to be correct; Cannot continue '${0##*/} $ARGS' to install Arch Linux in Termux PRoot!  Commands '${0##*/} h[e[lp]]' and '$STARTBIN h[elp]' have more information"
+printf "\\n\\e[0;33m%s\\e[1;33m%s\\e[0;33m.\\n\\n" "ＴｅｒｍｕｘＡｒｃｈ NOTICE!  " "The root directory structure of ~/${INSTALLDIR##*/} seems to be correct; Cannot continue '$STRANARG' to install Arch Linux in Termux PRoot!  Commands '${0##*/} h[e[lp]]' and '$STARTBIN h[elp]' have more information"
 exit 205
 fi
 _PRINTINTRO_ "will attempt to install Linux in " "~/${INSTALLDIR##*/}" ".  Arch Linux in Termux PRoot will be available upon successful completion"
@@ -328,7 +326,7 @@ _DODIRCHK_() {
 _SETROOT_EXCEPTION_
 if [ ! -d "$INSTALLDIR" ] || [ ! -d "$INSTALLDIR/root/bin" ] || [ ! -d "$INSTALLDIR/var/binds" ] || [ ! -f "$INSTALLDIR/bin/we" ] || [ ! -f "$INSTALLDIR/usr/bin/env" ]
 then
-printf "\\n\\e[0;33m%s\\e[1;33m%s\\e[0;33m.\\n\\n" "ＴｅｒｍｕｘＡｒｃｈ NOTICE!  " "The root directory structure is of ~/${INSTALLDIR##*/} seems to be incorrect; Cannot continue '${0##*/} $ARGS'!  This command '${0##*/} help' has more information"
+printf "\\n\\e[0;33m%s\\e[1;33m%s\\e[0;33m.\\n\\n" "ＴｅｒｍｕｘＡｒｃｈ NOTICE!  " "The root directory structure is of ~/${INSTALLDIR##*/} seems to be incorrect; Cannot continue '$STRANARG'!  This command '${0##*/} help' has more information"
 if [ -d "$INSTALLDIR"/tmp ]
 then	# check for superfluous tmp directory
 DIRCHECK=0
@@ -553,7 +551,7 @@ fi
 }
 _PREPTMPDIR_() {
 [ -d "$INSTALLDIR/tmp" ] || { mkdir -p "$INSTALLDIR/tmp" && chmod 777 "$INSTALLDIR/tmp" && chmod +t "$INSTALLDIR/tmp" ; }
-TAMPDIR="$INSTALLDIR/tmp/setupTermuxArch$$$RANDOM$PPID$SECONDS"
+TAMPDIR="$INSTALLDIR/tmp/${0##*/}$STIME$PPID"
 [ -d "$TAMPDIR" ]|| mkdir -p "$TAMPDIR"
 }
 _PREPTERMUXARCH_() {
@@ -574,8 +572,8 @@ _PRINTCONFLOADED_() {
 printf "\\n\\e[0;34m%s \\e[1;34m%s \\e[0;32m%s\\e[1;32m%s \\e[1;34m%s \\e[1;32m%s\\n" " 🕛 > 🕑" "TermuxArch configuration" "$WDIR" "setupTermuxArchConfigs.bash" "loaded:" "OK"
 }
 _PRINTSHA512SYSCHKER_() {
-printf "\\n\\e[07;1m\\e[31;1m\\n%s \\e[34;1m\\e[30;1m%s \\n\\e[0;0m\\n" " 🔆 ＴｅｒｍｕｘＡｒｃｈ NOTICE sha512sum mismatch!  Setup initialization mismatch!  Is your wireless on?" "  Try again, initialization was not successful this time.  Wait a little while.  Then run the command 'bash ${0##*/} $ARGS' again..."
-printf '\033]2; Run %s again...\007' "bash ${0##*/} $ARGS"
+printf "\\n\\e[07;1m\\e[31;1m\\n%s \\e[34;1m\\e[30;1m%s \\n\\e[0;0m\\n" " 🔆 ＴｅｒｍｕｘＡｒｃｈ NOTICE sha512sum mismatch!  Setup initialization mismatch!  Is your wireless on?" "  Try again, initialization was not successful this time.  Wait a little while.  Then run the command 'bash $STRANARG' again..."
+printf '\033]2; Run %s again...\007' "bash $STRANARG"
 exit 124
 }
 _PRINTSTARTBIN_USAGE_() {
@@ -639,11 +637,11 @@ _QEMUCFCK_
 if [[ -z "${ARCHITEC:-}" ]]
 then
 printf "Command '%s' version %s;  Setting install mode with QEMU emulation;  Please select the architecture to install by number (1-5) from this list:\\n" "${0##*/}" "$VERSIONID"
-select ARCHITECTURE in armeabi armeabi-v7a arm64-v8a x86 x86-64 exit ;
+select ARCHITECTURE in armeabi-v7a arm64-v8a x86 x86-64 exit ;
 do
 CPUABI="$ARCHITECTURE"
 [ "$CPUABI" = exit ] && exit 0
-if [[ "$ARCHITECTURE" == armeabi ]] || [[ "$ARCHITECTURE" == armeabi-v7a ]]
+if [[ "$ARCHITECTURE" == armeabi-v7a ]]
 then
 ARCHITEC="arm"
 elif [[ "$ARCHITECTURE" == arm64-v8a ]]
@@ -751,8 +749,8 @@ _RMARCHCRRM_
 _SETROOT_EXCEPTION_() {
 if [[ "$INSTALLDIR" = "$HOME" ]] || [[ "$INSTALLDIR" = "$HOME"/ ]] || [[ "$INSTALLDIR" = "$HOME"/.. ]] || [[ "$INSTALLDIR" = "$HOME"/../ ]] || [[ "$INSTALLDIR" = "$HOME"/../.. ]] || [[ "$INSTALLDIR" = "$HOME"/../../ ]]
 then
-printf  '\033]2;%s\007' "Rootdir exception.  Run bash ${0##*/} $ARGS again with different options..."
-printf "\\n\\e[1;31m%s\\n\\n" "Rootdir exception.  Run the script $ARGS again with different options..."
+printf  '\033]2;%s\007' "Rootdir exception.  Please run bash ${0##*/} again with different options..."
+printf "\\n\\e[1;31m%s\\n\\n" "Rootdir exception.  Please run the script ${0##*/} again with different options..."
 exit 125
 fi
 }
@@ -773,9 +771,10 @@ declare PRFXTOLS	# declare variable for device tools that can be accessible in t
 declare -A EMPARIAS	# declare associative array for empty variables
 EMPARIAS=([COMMANDIF]="" [COMMANDG]="" [CPUABI]="" [DFL]="# used for development" [DM]="" [USEREDIT]="" [FSTND]="" [INSTALLDIR]="" [LCC]="" [LCP]="" [OPT]="" [QEMUCR]="" [ROOTDIR]="" [WDIR]="" [SDATE]="" [STI]="# generates pseudo random number" [STIME]="# generates pseudo random number")
 for PKG in ${!EMPARIAS[@]} ; do declare "$PKG"="" ; done
-ECLAVARR=(ARGS BINFNSTP COMMANDIF COMMANDR COMMANDG CPUABI CPUABI5 CPUABI7 CPUABI8 CPUABIX86 CPUABIX8664 DFL DMVERBOSE DM EDO01LCR ELCR USEREDIT FSTND INSTALLDIR LCC LCP LCR OPT PKGS ROOTDIR SDATE STI STIME STRING1 STRING2 WDIR)
+ECLAVARR=(ARGS BINFNSTP COMMANDIF COMMANDR COMMANDG CPUABI CPUABI5 CPUABI7 CPUABI8 CPUABIX86 CPUABIX8664 DFL DMVERBOSE DM EDO01LCR ELCR USEREDIT FSTND INSTALLDIR LCC LCP LCR OPT PKGS ROOTDIR SDATE STI STIME STRING1 STRING2 TMXRCHBND RWDIR)
 for ECLAVARS in ${ECLAVARR[@]} ; do declare $ECLAVARS ; done
 ARGS="${@%/}"
+CPUABI="$(getprop ro.product.cpu.abi)"
 CPUABI5="armeabi"	# used for development; 'getprop ro.product.cpu.abi' ascertains architecture
 CPUABI7="armeabi-v7a"	# used for development
 CPUABI8="arm64-v8a"	# used for development
@@ -787,8 +786,10 @@ ROOTDIR="/arch"
 STRING1="COMMAND 'au' can enable rollback, available at https://wae.github.io/au/ IS NOT FOUND: Continuing... "
 STRING1F="COMMAND 'au' can enable auto upgrade and rollback.  Available at https://wae.github.io/au/ is found: Continuing... "
 STRING2="Cannot update '${0##*/}' prerequisites: Continuing..."
+TMXRCHBNDR="/usr/local/termuxarch/bin"
+TMXRCHBNDS="usr/local/termuxarch/bin"
 ## TERMUXARCH FEATURES INCLUDE:
-## 1)  Creates aliases and commands that aid in using the command line, and assist in accessing the more advanced features like the commands 'pikaur' and 'yay' easily;  The files '.bashrc' '.bash_profile' and '/usr/local/bin/README.md' have detailed information about this feature,
+## 1)  Creates aliases and commands that aid in using the command line, and assist in accessing the more advanced features like the commands 'pikaur' and 'yay' easily;  The files '.bashrc' '.bash_profile' and 'usr/local/termuxarch/bin/README.md' have detailed information about this feature,
 ## 2)  Sets timezone and locales from device,
 ## 3)  Tests for correct OS,
 _COMMANDGNE_() { printf "\\n\\e[1;48;5;138m%s\\n\\n" "ＴｅｒｍｕｘＡｒｃｈ NOTICE:  Run '${0##*/}' and 'bash ${0##*/}' from the native BASH shell in Termux:  EXITING..." && exit 126 ; }
@@ -825,7 +826,7 @@ WDIR="$PWD/" && WFDIR="$(realpath "$0")"
 WFDIR="${WFDIR%/*}"
 ## 7)  Creates a default Arch Linux in Termux PRoot user account with the TermuxArch command 'addauser' which configures user accounts for use with the Arch Linux 'sudo' command,
 ## 8)  Installs emulated computer architectures with QEMU in your smartphone with two taps,
-## 9)  Makes the Arch Linux aur installer 'yay' with TermuxArch command 'makeauryay' and more!  Please read /usr/local/bin/README.md for details,
+## 9)  Makes the Arch Linux aur installer 'yay' with TermuxArch command 'makeauryay' and more!  Please read usr/local/termuxarch/bin/README.md for details,
 ## 10)  And all options are are optional for installing Arch Linux!
 ## >>>>>>>>>>>>>>>>>>
 ## >> HELP OPTIONS >>
@@ -1122,6 +1123,7 @@ fi
 ## >>  HELP FACTS  >>
 ## >>>>>>>>>>>>>>>>>>
 ## THESE OPTIONS ARE AVAILABLE FOR YOUR CONVENIENCE:
+## Should any of these options fail to work as expected, please open an issue at GitHub with the command line used and output.
 ## GRAMMAR[a]: setupTermuxArch [HOW] [DO] [WHERE]
 ## OPTIONS[a]: setupTermuxArch [HOW] [DO] [WHERE]
 ## GRAMMAR[b]: setupTermuxArch [WHAT] [WHERE]
@@ -1134,5 +1136,5 @@ fi
 ## USAGE[1]: 'setupTermuxArch curl sysinfo' will use curl as the download manager and produce a system information file in the working directory.  This can be abbreviated to 'setupTermuxArch cs' and 'setupTermuxArch c s'.
 ## USAGE[2]: 'setupTermuxArch curl manual customdir' will install the installation in customdir with curl and use manual mode during installation.
 ## USAGE[3]: 'setupTermuxArch curl refresh customdir' will refresh this installation using curl as the download manager.
-## After installing Arch Linux on device, file '/arch/usr/local/bin/README.md' has more information.  The TermuxArch files in directory '/arch/usr/local/bin' have more information as well.
+## After installing Arch Linux on device, file 'usr/local/termuxarch/bin/README.md' has more information.  The TermuxArch files in directory 'usr/local/termuxarch/bin' have more information as well.
 ## Very many hardy thank yous to contributors who are helping and have worked very hard for many long years, some for more, and to those who took mere minutes from their valuable effort with time in order to make this open source resource much better for all of us!  Please enjoy using TermuxArch in Termux PRoot in Android, Chromebook, Fire OS and Windows on smartphone, tablet, wearable and similar.

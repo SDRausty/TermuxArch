@@ -106,7 +106,7 @@ printf "%s\\n" "## PRoot bind usage: PROOTSTMNT+=\"-b host_path:guest_path \"
 ## PROOTSTMNT+=\"-q $PREFIX/bin/qemu-x86-64 \"
 ## PROOTSTMNT+=\"-b /proc:/proc \"
 ## [ -r /dev/shm ] || PROOTSTMNT+=\"-b $INSTALLDIR/tmp:/dev/shm \"
-## ~/${INSTALLDIR##*/}/usr/local/bin/bindexample.prs FE" >> var/binds/bindexample.prs
+## ~/${INSTALLDIR##*/}$TMXRCHBNDR/bindexample.prs FE" >> var/binds/bindexample.prs
 }
 
 _ADDbindprocloadavg_() {

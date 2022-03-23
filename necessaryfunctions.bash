@@ -6,29 +6,16 @@
 ################################################################################
 _PRNT_ () { printf "%s\\n" "$1" ; }	# print message with one trialing newline
 _PRT_ () { printf "%s" "$1" ; }	# print message with no trialing newline
-if [ "${LOADLCRFILES:-}" = 0 ] || [ "${MATRIXLCR:-}" = 0 ] || [ "${MATRIXLCR:-}" = 1 ]
-then
-:
-else
-set +e
-PVAR="$(ping -n 1 1.1.1.1 2>&1 ||:)"
-set -e
-if [ -z "${PVAR##*unreachable*}" ]
-then
-_PRNT_ "Script '${0##*/} $ARGS' SIGNAL:  Please check your wireless connection and run '${0##*/} $ARGS' again.  EXITING...  " && exit 6
-fi
-fi
 
 [ "$CPUABI" = i386 ] && CPUABI="x86"
 CACHECPBI="${CPUABI/_/-}"
-CACHEDIR="/storage/emulated/0/Android/data/com.termux/files/cache/archlinux/$CACHECPBI/"
 CACHEDIRSUFIX="var/cache/pacman/pkg/"
-PREFIXDATAFILES="/storage/emulated/0/Android/data/com.termux/"
-PREFIXDATAFILESUFIX="files/cache/archlinux/$CACHECPBI/var/cache/pacman/pkg/"
 BINFNSTP="finishsetup.bash"
 LC_TYPE=("LANG" "LANGUAGE" "LC_ADDRESS" "LC_COLLATE" "LC_CTYPE" "LC_IDENTIFICATION" "LC_MEASUREMENT" "LC_MESSAGES" "LC_MONETARY" "LC_NAME" "LC_NUMERIC" "LC_PAPER" "LC_TELEPHONE" "LC_TIME")
+PREFIXDATAFILESUFIX="files/cache/archlinux/$CACHECPBI/var/cache/pacman/pkg/"
 TXPRQUON="Termux PRoot with QEMU"
 TXPRQUON="Termux PRoot"
+UNAMER="$(uname -r)"
 
 _CALLSYSTEM_() {
 declare COUNTER=""
@@ -189,7 +176,7 @@ if [ "$USECACHEDIR" = 0 ] && [ -z "${LCR:-}" ]
 then
 if [ -d "$CACHEDIR" ]
 then
-printf '\e[0;32mPopulating from cache files;  \e[1;32mBEGUN\n' &&  cd "$CACHEDIR" && printf '%s' "cd $CACHEDIR && cp -fr * $INSTALLDIR;  Please wait...  " && cp -fr ./* "$INSTALLDIR" && cd "$INSTALLDIR" && printf '%s\n' "cd $INSTALLDIR" && printf '\e[0;32mPopulating from cache files;  \e[1;32mDONE\n\n'
+_PPLCACHEDIR_
 else
 cd "$PREFIXDATAFILES" && { [ -d "$PREFIXDATAFILESUFIX" ] || mkdir -p "$PREFIXDATAFILESUFIX" ; } && printf '%s' "cd $PREFIXDATAFILES && mkdir -p $PREFIXDATAFILESUFIX && cd $CACHEDIR" || printf '%s\n\n' "Please create cache directory '$CACHEDIR' in order to use the cache directory feature;  Continuing..."
 fi
@@ -209,25 +196,18 @@ _TOUCHUPSYS_
 }
 
 _MD5CHECK_() {
-_PRINTMD5CHECK_
-if md5sum -c --quiet "$IFILE".md5
+if md5sum -c --quiet "$IFILE".md5 2> /dev/null
 then
 _PRINTMD5SUCCESS_
 printf "\\e[0;32m"
 _TASPINNER_ clock & _PREPROOT_ ; kill $! || _PRINTERRORMSG_ "_PREPROOT_ _MD5CHECK_ ${0##*/} necessaryfunctions.bash"
 else
-if [ "$KEEP" = 0 ]
-then
-_PRINTKEEPEXIT_
-else
-rm -f "$INSTALLDIR"/*.tar.gz "$INSTALLDIR"/*.tar.gz.md5
-_PRINTMD5ERROR_
-fi
+{ [[ "$KEEP" = 0 ]] && _PRINTKEEPEXIT_ ; exit 203 ; } || { _PRINTMD5ERROR_ && rm -f "$INSTALLDIR"/*.tar.gz "$INSTALLDIR"/*.tar.gz.md5 ; exit 205 ; }
 fi
 }
 
 _PREPROOTDIR_() { # create local array of directories to be created by setupTermuxArch
-local DRARRLST=("etc" "home" "root/bin" "usr/bin" "usr/local/bin" "usr/local/termuxarch/bin" "var/backups/${INSTALLDIR##*/}/etc" "var/backups/${INSTALLDIR##*/}/root" "var/binds")
+local DRARRLST=("etc" "home" "root/bin" "usr/bin" "$TMXRCHBNDS" "usr/local/bin" "var/backups/${INSTALLDIR##*/}/etc" "var/backups/${INSTALLDIR##*/}/root" "var/binds")
 for ISDIR in ${DRARRLST[@]}
 do
 { [ -d "$ISDIR" ] || printf "\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[0m\\n" "Creating directory " "'/$ISDIR'" "." && mkdir -p "$ISDIR" ; } || printf "\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[0m\\n" "Directory " "/$ISDIR" " exists.  "

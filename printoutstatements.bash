@@ -13,51 +13,51 @@ FLHDR0[4]="# https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for yo
 FLHDR1[0]="##############################################################################"
 FLHDR1[1]=""
 FLHDR1[2]="set -Eeuo pipefail"
-FLHDR1[3]="shopt -s nullglob globstar"
+FLHDR1[3]="shopt -s extglob nullglob globstar"
 FLHDR1[4]="unset LD_PRELOAD"
-FLHDR1[5]="VERSIONID=2.0.518"
+FLHDR1[5]="VERSIONID=2.0.519"
 FLHDR1[6]=""
 FLHDRP[0]="## BEGIN #####################################################################"
 FLHDRP[1]=""
 TRPERROR[0]="_TRPERR_() {  # run on script error"
 TRPERROR[1]="	local RV=\"\$?\""
 TRPERROR[2]="	printf \"\\\\e[?25h\\\\n\\\\e[1;48;5;138m %s\\\\e[0m\\\\n\\\\n\" \"ＴｅｒｍｕｘＡｒｃｈ NOTICE:  Generated script signal \${RV:-UNKNOWN} near or at line number \${1:-UNKNOWN} by '\${2:-UNKNOWNCOMMAND}'!\""
-TRPERROR[3]="	_TRPET_"
+TRPERROR[3]="	exit \"\$RV\""
 TRPERROR[4]="}"
 TRPERROR[5]=""
 TRPEXIT[0]="_TRPET_() {  # run on exit"
-TRPEXIT[1]="{ [ -z \"\${ARGS:-}\" ] && STRANARG=\"'\${0##*/}'\" ; } || STRANARG=\"'\${0##*/} \${ARGS:-}'\""
-TRPEXIT[2]="	local RV=\"\$?\""
-TRPEXIT[3]="	printf \"\""
-TRPEXIT[4]="	if [[ \"\$RV\" = 0 ]]"
-TRPEXIT[5]="	then"
-TRPEXIT[6]="		printf \"\\\\e[0;32mCommand \\\\e[1;32m%s \\\\e[0;32mversion %s\\\\e[1;34m: \\\\e[1;32mDONE 🏁\\\\e[0m\\\\n\" \"\$STRANARG\" \"\$VERSIONID\""
-TRPEXIT[7]="		printf \"\\\\e]2; %s: DONE 🏁 \007\" \"\$STRANARG\""
-TRPEXIT[8]="	else"
-TRPEXIT[9]="		printf \"\\\\e[0;32mCommand \\\\e[1;32m%s\\\\e[0;32m version %s \\\\e[0m[Exit Signal %s]\\\\e[1;34m: \\\\e[1;32mDONE  🏁\\\\e[0m\\\\n\" \"\$STRANARG\" \"\$VERSIONID\" \"\$RV\""
-TRPEXIT[10]="		printf \"\033]2; %s: [Exit Signal %s] DONE 🏁 \007\" \"\$STRANARG\" \"\$RV\""
-TRPEXIT[11]="	fi"
-TRPEXIT[12]="	printf \"\\e[?25h\\e[0m\""
-TRPEXIT[13]="	set +Eeuo pipefail"
-TRPEXIT[14]="	exit 0"
-TRPEXIT[15]="}"
-TRPEXIT[16]=""
+TRPEXIT[1]="	local RV=\"\$?\""
+TRPEXIT[2]="	printf \"\""
+TRPEXIT[3]="	if [[ \"\$RV\" = 0 ]]"
+TRPEXIT[4]="	then"
+TRPEXIT[5]="		printf \"\\\\e[0;32mTermuxArch command \\\\e[1;32m%s\\\\e[0;32m version %s\\\\e[1;34m: \\\\e[1;32mDONE 🏁\\\\e[0m\\\\n\" \"\$STRANARG\" \"\$VERSIONID\""
+TRPEXIT[6]="		printf \"\\\\e]2; %s: DONE 🏁 \007\" \"\$STRANARG\""
+TRPEXIT[7]="	else"
+TRPEXIT[8]="		printf \"\\\\e[0;32mTermuxArch command \\\\e[1;32m%s\\\\e[0;32m version %s\\\\e[0m [Exit Signal %s]\\\\e[1;34m: \\\\e[1;32mDONE  🏁\\\\e[0m\\\\n\" \"\$STRANARG\" \"\$VERSIONID\" \"\$RV\""
+TRPEXIT[9]="		printf \"\033]2; %s [Exit Signal %s]: DONE 🏁 \007\" \"\$STRANARG\" \"\$RV\""
+TRPEXIT[10]="	fi"
+TRPEXIT[11]="	printf \"\\e[?25h\\e[0m\""
+TRPEXIT[12]="	set +Eeuo pipefail"
+TRPEXIT[13]="	exit"
+TRPEXIT[14]="}"
+TRPEXIT[15]=""
 TRPSIGNAL[0]="_TRPSIG_() {  # run on signal"
-TRPSIGNAL[1]="	printf \"\\\\e[?25h\\\\e[1;7;38;5;0mＴｅｒｍｕｘＡｒｃｈ NOTICE:  Signal %s received!\\\\e[0m\\\\n\" \"\$?\""
-TRPSIGNAL[2]="	_TRPET_"
-TRPSIGNAL[3]="}"
-TRPSIGNAL[4]=""
+TRPSIGNAL[1]="	local RV=\"\$?\""
+TRPSIGNAL[2]="	printf \"\\\\e[?25h\\\\e[1;7;38;5;0mＴｅｒｍｕｘＡｒｃｈ NOTICE:  Signal %s received!\\\\e[0m\\\\n\" \"\$?\""
+TRPSIGNAL[3]="	exit \"\$RV\""
+TRPSIGNAL[4]="}"
 TRPQUIT[0]="_TRPQ_() {  # run on quit"
-TRPQUIT[1]="	printf \"\\\\e[?25h\\\\e[1;7;38;5;0mＴｅｒｍｕｘＡｒｃｈ NOTICE:  Quit signal %s received!\\\\e[0m\\\\n\" \"\$?\""
-TRPQUIT[2]="	_TRPET_"
-TRPQUIT[3]="}"
-TRPQUIT[4]="ARGS=\"\$*\""
+TRPQUIT[1]="	local RV=\"\$?\""
+TRPQUIT[2]="	printf \"\\\\e[?25h\\\\e[1;7;38;5;0mＴｅｒｍｕｘＡｒｃｈ NOTICE:  Quit signal %s received!\\\\e[0m\\\\n\" \"\$?\""
+TRPQUIT[3]="	exit \"\$RV\""
+TRPQUIT[4]="}"
 TRAPS[0]="trap '_TRPERR_ \$LINENO \$BASH_COMMAND \$?' ERR"
 TRAPS[1]="trap _TRPET_ EXIT"
 TRAPS[2]="trap _TRPSIG_ HUP INT TERM"
 TRAPS[3]="trap _TRPQ_ QUIT"
-TRAPS[4]=""
-# TRAPS[4]="printf \"\\\\e[1;32m==> \\\\e[0mRnning TermuxArch command \\\\e[1;32m%s\\\\e[0;32m%s\\\\e[1;37m...\\\\n\" \"\${0##*/} \$ARGS \" \"version \$VERSIONID\""
+TRAPS[4]="ARGS=\"\$@\""
+TRAPS[5]="{ [ -z \"\${ARGS:-}\" ] && STRANARG=\"\${0##*/}\" ; } || STRANARG=\"\${0##*/} \${ARGS:-}\""
+# TRAPS[6]="printf \"\\\\e[1;32m==> \\\\e[0mRunning TermuxArch command \\\\e[1;32m%s\\\\e[0;32m %s\\\\e[1;37m...\\\\n\" \"\$STRANARG\" \"version \$VERSIONID\""
 
 _CFLHD_() { #	creates file header and inserts comments
 if [[ -z "${2:-}" ]]
@@ -170,7 +170,7 @@ printf "\\e[0;34m 🕛 > 🕓 \\e[0;34mDownloading the checksum file and \\e[0;3
 
 _PRINTCONFIGUP_() {
 printf "\033]2;%s\007" " 🕛 > 🕤 Arch Linux is installed!  Configuring and updating Arch Linux 📲"
-printf "\\e[0;34m 🕛 > 🕤 \\e[1;34mArch Linux in Termux PRoot is installed.  Configuring and updating Arch Linux 📲  "
+printf "\\n\\e[0;34m 🕛 > 🕤 \\e[1;34mArch Linux in Termux PRoot is installed.  Configuring and updating Arch Linux 📲  "
 }
 
 _PRINTMAX_() {
@@ -180,7 +180,6 @@ printf "\\n\\e[07;1m\\e[31;1m 🔆 ＴｅｒｍｕｘＡｒｃｈ NOTICE: Maximu
 
 _PRINTKEEPEXIT_() {
 printf "\\n\\e[0;34m 🕛 > 🕕 \\e[1;34mNot removing files after checking download integrity with md5sum.  \\e[37;1mPlease run '%s' again to continue a partial download.  Otherwise remove '%s' and restart the installation from scratch if the download is complete, but this error continues.  You can also reset KEEP=1 to disable the keep download image feature which is disabled by default as after downloading the root image file it should no longer be needed by the end user.  The command 'bash %s help' has more information.  \\e[1;33m" "${0##*/}" "$INSTALLDIR" "${0##*/}"
-exit 203
 }
 
 _PRINTKEEP_() {
@@ -194,7 +193,6 @@ printf "\\n\\e[0;34m 🕛 > 🕠 \\e[1;34mChecking download integrity with md5su
 _PRINTMD5ERROR_() {
 printf "\033]2;%s\007" "Run 'bash ${0##*/}' again..."
 printf "\\n\\e[07;1m\\e[31;1m 🔆 ＴｅｒｍｕｘＡｒｃｈ SIGNAL md5sum mismatch! The download failed and was removed!\\e[30;1m  Run 'bash %s' again.  The command 'bash %s help' has more information.  This kind of error can go away, just like magic.  Waiting before executing %s again is recommended.  There are numerous reasons for checksum errors.  Proxies are one explaination.  Mirroring and mirrors are another explaination for md5sum errors.  An interrupted download is one more reason for an md5sum mismatch error.\\n	If this keeps repeating, you can copy 'knownconfigurations.bash' to 'setupTermuxArchConfigs.bash' with with command 'bash %s manual' to choose a preferred mirror.  After editing 'setupTermuxArchConfigs.bash', run 'bash %s' and 'setupTermuxArchConfigs.bash' loads automaticaly from the same directory.  Change mirror to desired geographic location to resolve md5sum errors.\\n	User configurable variables are in 'setupTermuxArchConfigs.bash'.  Create this file from 'knownconfigurations.bash' in the working directory.  Use 'bash %s manual' to create and edit 'setupTermuxArchConfigs.bash'.\\n\\n	Please run 'bash %s' again, or you can run 'bash %s manual' which creates file '%sConfigs.bash' for editing.\\n\\e[0;0m\n" "${0##*/}" "${0##*/}" "${0##*/}" "${0##*/}" "${0##*/}" "${0##*/}" "${0##*/}" "${0##*/}" "${0##*/}"
-exit
 }
 
 _PRINTMD5SUCCESS_() {

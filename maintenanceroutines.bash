@@ -61,15 +61,23 @@ _DOFUNLCR2_
 done
 }
 
+_PPLCACHEDIR_() {
+printf '\e[0;32mPopulating from cache files;  \e[1;32mBEGUN\n'
+{ cd "$CACHEDIR" && printf '%s' "cd $CACHEDIR && " ; } || { cd "$PREFIXDATAFILES" && mkdir -p "$CACHEDIRSUFIX" && cd "$CACHEDIR" && printf '%s' "cd $PREFIXDATAFILES && mkdir -p $CACHEDIRSUFIX && cd $CACHEDIR && " ; } || exit 196
+[ -d "$CACHEDIRSUFIX" ] || { mkdir -p "$CACHEDIRSUFIX" && printf '%s' "mkdir -p $CACHEDIRSUFIX && " ; }
+cd "$INSTALLDIR" && printf '%s\n' "cd $INSTALLDIR" || exit 196
+find "$CACHEDIR" -type f -name "*tar.gz*" -exec ln -s {} \;
+[ -d "$INSTALLDIR"/var/cache/pacman/pkg ] || { mkdir -p "$INSTALLDIR"/var/cache/pacman/pkg && printf '%s' "mkdir -p $INSTALLDIR/var/cache/pacman/pkg && " ; }
+cd "$INSTALLDIR"/var/cache/pacman/pkg && printf '%s\n' "cd $INSTALLDIR/var/cache/pacman/pkg" || exit 196
+printf '%s\n' "find "$CACHEDIR$CACHEDIRSUFIX" -type f -exec ln -s {} \;" && find "$CACHEDIR$CACHEDIRSUFIX" -type f -exec ln -s {} \;
+cd "$INSTALLDIR" && printf '%s\n' "cd $INSTALLDIR" || exit 196
+printf '\e[0;32mPopulating from cache files;  \e[1;32mDONE\n\n'
+}
+
 _DOUSECACHEDIR_() {
 if [ "$USECACHEDIR" = 0 ] && [ -z "${LCR:-}" ]
 then
-printf '\e[0;32mPopulating from cache files;  \e[1;32mBEGUN\n'
-{ cd "$CACHEDIR" && printf '%s' "cd $CACHEDIR && " ; } || { cd "$PREFIXDATAFILES" && mkdir -p "$CACHEDIRSUFIX" && cd "$CACHEDIR" && printf '%s' "cd $PREFIXDATAFILES && mkdir -p $CACHEDIRSUFIX && cd $CACHEDIR && " ; } || exit 196
-printf '%s\n' "cp -fr * $INSTALLDIR"
-cp -fr ./* "$INSTALLDIR"
-cd "$INSTALLDIR" && printf '%s\n' "cd $INSTALLDIR" || exit 196
-printf '\e[0;32mPopulating from cache files;  \e[1;32mDONE\n\n'
+_PPLCACHEDIR_
 fi
 }
 
@@ -142,8 +150,8 @@ ls "$INSTALLDIR"/root/.bashrc | cut -f7- -d /
 ls "$INSTALLDIR"/root/.bash_profile | cut -f7- -d /
 ls "$INSTALLDIR"/root/.vimrc | cut -f7- -d /
 ls "$INSTALLDIR"/root/.gitconfig | cut -f7- -d /
-printf "\\n\\e[1;32m%s\\n\\e[0;32m" "Files updated to the newest version $VERSIONID in directory ~/${INSTALLDIR##*/}/usr/local/bin/:"
-ls "$INSTALLDIR/usr/local/bin/"
+printf "\\n\\e[1;32m%s\\n\\e[0;32m" "Files updated to the newest version $VERSIONID in directory ~/${INSTALLDIR##*/}$TMXRCHBNDR/:"
+ls "$INSTALLDIR$TMXRCHBNDR/"
 if [[ "${LCR:-}" = 2 ]] || [[ "${LCR:-}" = 3 ]] || [[ "${LCR:-}" = 4 ]] || [[ "${LCR:-}" = 5 ]]
 then
 _FUNLCR2_
@@ -176,7 +184,7 @@ SDIRS="apex data host-rootfs sdcard storage system vendor"
 for SDIR in $SDIRS
 do
 RMDIR="$INSTALLDIR/$SDIR"
-[ -d "$RMDIR" ] && { chmod 755 "$RMDIR" ; printf "%s" "Deleting superfluous '$RMDIR' directory: " && (rmdir "$RMDIR" || _SHFDFUNC_) && printf "%s\n" "Continuing..." ; }
+[ -d "$RMDIR" ] && { chmod 755 "$RMDIR" ; printf "%s" "Deleting superfluous '$RMDIR' directory: " && { rmdir "$RMDIR" || _SHFDFUNC_ ; } && printf "%s\n" "Continuing..." ; }
 done
 PERRS="$(du "$INSTALLDIR" 2>&1 >/dev/null ||:)"
 PERRS="$(sed "s/du: cannot read directory '//g" <<< "$PERRS" | sed "s/': Permission denied//g")"
