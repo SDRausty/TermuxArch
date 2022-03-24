@@ -63,7 +63,7 @@ done
 
 _PPLCACHEDIR_() {
 printf '\e[0;32mPopulating from cache files.  \e[1;32mBEGUN\n\e[0;32mThe \e[1;32m%s\e[0;32m command can be used to populate the cache.  The command \e[1;32m%s\e[0;32m will repopulate the installation package files from the cache directory and update the TermuxArch files to the newest published version.\n\e[1;32m' "'trim'" "'${0##*/} ref'"
-{ cd "$CACHEDIR" && printf '%s' "cd $CACHEDIR && " ; } || { cd "$PREFIXDATAFILES" && mkdir -p "$CACHEDIRSUFIX" && cd "$CACHEDIR" && printf '%s' "cd $PREFIXDATAFILES && mkdir -p $CACHEDIRSUFIX && cd $CACHEDIR && " ; } || exit 196
+{ cd "$CACHEDIR" && printf '%s' "cd $CACHEDIR && " ; } || { cd "$PREFIXDATAFILES" && mkdir -p "$CACHEDIRSUFIX" && cd "$CACHEDIR" && printf '%s\n' "cd $PREFIXDATAFILES && mkdir -p $CACHEDIRSUFIX && cd $CACHEDIR && " ; } || exit 196
 [ -d "$CACHEDIRSUFIX" ] || { mkdir -p "$CACHEDIRSUFIX" && printf '%s' "mkdir -p $CACHEDIRSUFIX && " ; }
 cd "$INSTALLDIR" && printf '%s\n' "cd $INSTALLDIR" || exit 196
 find "$CACHEDIR" -type f -name "*tar.gz*" -exec ln -s {} \; 2>/dev/null
@@ -105,7 +105,7 @@ _PRINTSTARTBIN_USAGE_
 exit
 }
 
-_FIXOWNER_() { # fix owner of INSTALLDIR/home/TALUSER, PR9 by @petkar
+_FIXOWNER_() { # fix owner of INSTALLDIR/home/USER, PR by @petkar
 _DOFIXOWNER_() {
 printf "\\e[0;32m%s" "Adjusting ownership and permissions: BEGUN"
 FXARR="$(ls "$INSTALLDIR/home")"
@@ -126,16 +126,8 @@ _REFRESHSYS_() { # refresh installation
 printf '\033]2; setupTermuxArch refresh 📲 \007'
 _NAMESTARTARCH_
 _SPACEINFO_
-cd "$INSTALLDIR" || exit 169
-_PR00TSTRING_
-_SETLANGUAGE_
-_PREPROOTDIR_ || _PSGI1ESTRING_ "_PREPROOTDIR_ _REFRESHSYS_ maintenanceroutines.bash ${0##*/}"
-_ADDADDS_
-printf '\e[0;32mGenerating dot files:  \e[1;32mDONE\n'
+_PREPINSTALLDIR_
 _DOUSECACHEDIR_
-_MAKEFINISHSETUP_
-_MAKESETUPBIN_
-_MAKESTARTBIN_
 _SETLOCALE_
 printf "\\n"
 _WAKELOCK_
@@ -160,7 +152,6 @@ else
 printf "\\n\\e[0;32mIn order to refresh user directories, please use '\\e[1;32m%s re[fresh]\\e[0;32m'.  " "${0##*/}"
 fi
 printf "\\n"
-_COPYSTARTBIN2PATH_
 _WAKEUNLOCK_
 _PRINTFOOTER_
 set +Eeuo pipefail

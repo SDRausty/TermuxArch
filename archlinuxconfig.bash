@@ -779,7 +779,7 @@ EOM
 chmod 755 $TMXRCHBNDS/makeaurfakeroottcp
 }
 
-_ADDmakeaurghcuphsdep_() { # depreciated
+_ADDmakeaurghcuphs_() {
 _CFLHDR_ $TMXRCHBNDS/makeaurghcuphs
 _PRTPATCHHELP_ "$TMXRCHBNDS/makeaurghcuphs"
 cat >> $TMXRCHBNDS/makeaurghcuphs <<- EOM
@@ -789,7 +789,7 @@ printf "\\\\e[1;31m%s\\\\e[1;37m%s\\\\e[1;31mExiting...\\\\e[0m\\\\n" "Ｔｅｒ
 else
 [ -x /usr/bin/ghcup ] && printf "\\\\e[0;32m%s\\\\e[0m\\\\n" "The command 'ghcup' is already installed!  Please use the command 'ghcup':  Exiting..." && exit
 [ -f /usr/lib/libnuma.so ] || { pc numactl || pci numactl ; } || { printf "\\n\\e[1;31mＴｅｒｍｕｘＡｒｃｈ SIGNAL: \\e[7;37m%s\\e[0m\\n\\n" "Please study the first lines of the error output and correct the error(s) and/or warning(s) by running command 'pci numactl' as proot root user.  You might be able to bring this about without closing this session.  Please try running command: $STARTBIN command 'pci numactl' in a new Termux PRoot session.  This should install the neccessary packages to make 'ksh'.  Then return to this session, and run '\${0##*/}' again." && exit 120 ; }
-yay ghcup-hs --noconfirm || { [ -f /usr/bin/yay ] || makeauryay && yay ghcup-hs --noconfirm ; }
+pikaur ghcup-hs --noconfirm || { [ -f /usr/bin/pikaur ] || makeaurpikaur && pikaur ghcup-hs --noconfirm ; }
 fi
 ## ~/${INSTALLDIR##*/}$TMXRCHBNDR/makeaurghcuphs FE
 EOM
@@ -903,7 +903,8 @@ _ADDmakeaurto_() { _PREPFILEFTN0_ aurto aurto to "an AUR tool for managing an au
 _ADDmakeaurutils_() { _PREPFILEFTN0_ aur aurutils utils "an AUR helper for the arch user repository" ; }
 _ADDmakeaurutilsgit_() { _PREPFILEFTN0_ aur aurutils-git utilsgit "an AUR helper for the arch user repository (git version)" ; }
 _ADDmakeaurbauerbill_() { _PREPFILEFTN0_ bauerbill bauerbill bauerbill "an extension of Powerpill with AUR and ABS support" ; }
-_ADDmakeaurghcuphs_() { _PREPFILEFTN0_ ghcup ghcup-hs-bin ghcuphs "the Haskell language ghcup-hs installer" ; }
+_ADDmakeaurghcuphsdep_() { # depreciated
+_PREPFILEFTN0_ ghcup ghcup-hs-bin ghcuphs "the Haskell language ghcup-hs installer" "{ [ -f /usr/lib/libnuma.so ] || { pc numactl || pci numactl ; } && " ; }
 _ADDmakeaurpakku_() { _PREPFILEFTN0_ pakku pakku pakku "a Pacman wrapper and AUR helper with a Pacman-like user interface" ; }
 _ADDmakeaurpakkugit_() { _PREPFILEFTN0_ pakku pakku-git pakkugit "a Pacman wrapper and AUR helper with a Pacman-like user interface (git version)" ; }
 _ADDmakeaurpakkugui_() { _PREPFILEFTN0_ pakku pakku-gui pakkugui "a GTK frontend for pakku" ; }

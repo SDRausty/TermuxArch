@@ -6,7 +6,7 @@
 set -Eeuo pipefail
 shopt -s  extglob nullglob globstar
 unset LD_PRELOAD
-VERSIONID=2.0.520
+VERSIONID=2.0.521
 _STRPEROR_() { # run on script error
 local RV="$?"
 printf "\\e[1;48;5;138m %s" "ＴｅｒｍｕｘＡｒｃｈ NOTICE:  Generated script signal received ${RV:-UNKNOWN} near or at line number ${1:-UNKNOWN} by '${2:-UNKNOWNCOMMAND}'!  "
@@ -634,25 +634,45 @@ _INPKGS_
 fi
 }
 _QEMUCFCK_
+_QEMUCHCK_() {
+if [[ "$CPUABI" == "$1" ]]
+then
+printf "\\n\\e[1;33m %s  \\e[0;33m %s  \\e[1;31m%s  " "ＴｅｒｍｕｘＡｒｃｈ" "QEMU NOTICE!  Machine architecture is $CPUABI;" "Exiting..."
+exit 189
+fi
+}
 if [[ -z "${ARCHITEC:-}" ]]
 then
-printf "Command '%s' version %s;  Setting install mode with QEMU emulation;  Please select the architecture to install by number (1-5) from this list:\\n" "${0##*/}" "$VERSIONID"
-select ARCHITECTURE in armeabi-v7a arm64-v8a x86 x86-64 exit ;
+printf "Command '%s' version %s;  Setting install mode with QEMU emulation;  32 bit arm7 supports arm5 and x86 emulated architectures.  64 bit arm64 supports arm5, arm7, x86 and x86-64 emulated architectures.  Please select the architecture to install by number (1-5) from this list:\\n" "${0##*/}" "$VERSIONID"
+select ARCHITECTURE in armv5 armv7 arm64-v8a x86 x86-64 exit ;
 do
-CPUABI="$ARCHITECTURE"
 [ "$CPUABI" = exit ] && exit 0
-if [[ "$ARCHITECTURE" == armeabi-v7a ]]
+if [[ "$ARCHITECTURE" == armv5 ]]
 then
 ARCHITEC="arm"
+CPUABI="armeabi"
+printf '%s' "Files ArchLinuxARM-armv5-latest.tar.gz[.md5] cannot be found;  Please open an issue if you know where armv5 Arch Linux images are located.  "
+exit 69
+elif [[ "$ARCHITECTURE" == armv7 ]]
+then
+_QEMUCHCK_ "armeabi-v7a"
+ARCHITEC="arm"
+CPUABI="armeabi-v7a"
 elif [[ "$ARCHITECTURE" == arm64-v8a ]]
 then
+_QEMUCHCK_ "arm64-v8a"
 ARCHITEC="aarch64"
+CPUABI="$ARCHITECTURE"
 elif [[ "$ARCHITECTURE" == x86 ]]
 then
+_QEMUCHCK_ "x86"
 ARCHITEC="i386"
+CPUABI="$ARCHITECTURE"
 elif [[ "$ARCHITECTURE" == x86-64 ]] || [[ "$ARCHITECTURE" == x86_64 ]]
 then
+_QEMUCHCK_ "x86_64"
 ARCHITEC="x86-64"
+CPUABI="$ARCHITECTURE"
 fi
 [[ $CPUABI == *arm* ]] || [[ $CPUABI == *86* ]] && printf "%s\\n" "Option ($REPLY) with architecture $CPUABI ($ARCHITEC) was picked from this list;  The chosen Arch Linux architecture for installation with emulation is $CPUABI ($ARCHITEC):  " && INCOMM="qemu-user-$ARCHITEC" && QEMUCR=0 && break || printf "%s\\n" "Answer ($REPLY) was chosen;  Please select the architecture by number from this list: (1) armeabi, (2) armeabi-v7a, (3) arm64-v8a, (4) x86, (5) x86-64 or choose option (6) exit to exit command '${0##*/}':"
 done
@@ -668,7 +688,7 @@ _QEMUCFCK_() {
 if [[ -f "$INSTALLDIR/$STARTBIN" ]] && grep -q qemu- "$INSTALLDIR/$STARTBIN"
 then	# set installed qemu architecture
 ARCHITEC="$(ARCTEVAR="$(grep -m1 qemu "$INSTALLDIR/$STARTBIN")" && ARCTFVAR=${ARCTEVAR#*qemu-} && cut -d" " -f1 <<< "$ARCTFVAR")" && CPUABI="$ARCHITEC" && INCOMM="qemu-user-$ARCHITEC" && QEMUCR=0
-printf "Detected architecture is %s;  Install architecture is set to %s.\\n" "$(getprop ro.product.cpu.abi)" "$ARCHITEC"
+printf "Detected architecture is %s;  Install architecture is set to %s.\\n" "$CPUABI" "$ARCHITEC"
 fi
 }
 _RMARCHQ_() {

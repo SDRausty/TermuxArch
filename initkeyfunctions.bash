@@ -647,12 +647,12 @@ if  [[ -z "${LCR:-}" ]] || [[ "${LCR:-}" -eq 5 ]]
 then
 if [[ "$CPUABI" = "$CPUABIX8664" ]] || [[ "$CPUABI" = "${CPUABIX8664//_/-}" ]]
 then
-printf "%s\\n" "pacman -Su keychain glibc grep gzip sed sudo --needed --noconfirm --color=always || pacman -Su keychain glibc grep gzip sed sudo --needed --noconfirm --color=always || _PMFSESTRING_ \"pacman -Su keychain glibc grep gzip sed sudo $BINFNSTP ${0##/*}\"" >> root/bin/"$BINFNSTP"
+printf "%s\\n" "pacman -Su keychain glibc grep gzip pacman-contrib sed sudo --needed --noconfirm --color=always || pacman -Su keychain glibc grep gzip pacman-contrib sed sudo --needed --noconfirm --color=always || _PMFSESTRING_ \"pacman -Su keychain glibc grep gzip sed sudo $BINFNSTP ${0##/*}\"" >> root/bin/"$BINFNSTP"
 elif [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = i386 ]]
 then
-printf "%s\\n" "pacman -Su keychain glibc sed sudo --needed --noconfirm --color=always || pacman -Su keychain glibc sed sudo --needed --noconfirm --color=always || _PMFSESTRING_ \"pacman -Su keychain glibc sed sudo $BINFNSTP ${0##/*}\"" >> root/bin/"$BINFNSTP"
+printf "%s\\n" "pacman -Su keychain glibc pacman-contrib sed sudo --needed --noconfirm --color=always || pacman -Su keychain glibc sed sudo --needed --noconfirm --color=always || _PMFSESTRING_ \"pacman -Su keychain glibc pacman-contrib sed sudo $BINFNSTP ${0##/*}\"" >> root/bin/"$BINFNSTP"
 else
-printf "%s\\n" "pacman -Su keychain glibc --needed --noconfirm --color=always || pacman -Su keychain glibc --needed --noconfirm --color=always || _PMFSESTRING_ \"pacman -Su keychain glibc $BINFNSTP ${0##/*}\"" >> root/bin/"$BINFNSTP"
+printf "%s\\n" "pacman -Su keychain glibc pacman-contrib --needed --noconfirm --color=always || pacman -Su keychain glibc pacman -S pacman-contrib --needed --noconfirm --color=always || _PMFSESTRING_ \"pacman -Su keychain glibc $BINFNSTP ${0##/*}\"" >> root/bin/"$BINFNSTP"
 fi
 fi
 printf "%s\\n" "printf \"\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\n\" \"To generate locales in a preferred language, you can use the native Android menu commands \" \"Settings > System > Input & Language > Language \" \"in Android;  Then run \" \"${0##*/} refresh\" \" for a full system refresh, which includes the locale generation function; For a quick refresh you can use \" \"${0##*/} r\" \".  For a refresh with user directories \" \"${0##*/} re\" \" can be used.\"
