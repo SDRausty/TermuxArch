@@ -15,11 +15,11 @@ ECHOEXEC=""		##  insert 'echo' to suppress most 'pacman' instructions from 'keys
 ECHOSYNC=""		##  insert 'echo' to only suppress 'pacman' syncing instructions from 'keys' file during runtime
 KEEP=0			##  change to 0 to keep downloaded image;  Testing the installation process repeatedly can be made easier and lighter on your Internet bandwidth and SAR with 'KEEP=0' and this fragment of code  'mkdir ~/arch; cp ~/ArchLinux*.tar.gz* ~/arch/' and similar.  The variable KEEP when changed to 0 (true) will keep the downloaded image and md5 files instead of deleting them for later reuse.  The root file system image and md5 files can be saved and used again on subsequent installs.
 USECACHEDIR=0		##  change to 0 to use cache directory;  When changed to 0 this installation script uses a cache directory defined in `necessaryfunctions.bash` that can be used to cache all of the installation files in order to save wireless bandwidth upon subsequent reinstallation.  Variable `KEEP=1`  should be changed to 0 also in order to keep the downloaded image file and md5 files. The downloaded image and md5 files should be moved to CACHEDIR along with files in INSTALLDIR/var/cache/pacman/pkg in order to avoid subsequent redownloading of these files for reinstalling the entire system.
-CACHLCTN="0"
-CACHEDIR="/storage/emulated/$CACHLCTN/Android/data/com.termux/files/cache/archlinux/$CACHECPBI/"
-PREFIXDATAFILES="/storage/emulated/$CACHLCTN/Android/data/com.termux/"
-# KID=1			##  do not change, not user configurable;  Used for testing, timing and development.   For timing Arch Linux in PRoot, uncomment and then run script TermuxArch/scripts/frags/stdoutbench.sh in Arch Linux PRoot for timing Arch Linux in PRoot if desired.
-##  If there are system image files available not listed here, and if there are system image file worldwide mirrors available not listed here, please open an issue and a pull request.
+CACHLCTN="/storage/emulated/0"	##  change to external sdcard path if desired.
+CACHEDIR="$CACHLCTN/Android/data/com.termux/files/cache/archlinux/$CACHECPBI/"
+PREFIXDATAFILES="$CACHLCTN/Android/data/com.termux/"
+# KID=1			##  do not change, not user configurable;  Used for testing, timing and development.   For timing Arch Linux in PRoot, uncomment and then run script TermuxArch/scripts/frags/stdoutbench.sh in Arch Linux PRoot for timing Arch Linux in PRoot.
+##  If there are system image files available not listed here please open an issue and a pull request.
 
 _AARCH64ANDROID_() {
 IFILE="ArchLinuxARM-aarch64-latest.tar.gz"

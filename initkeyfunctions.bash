@@ -57,6 +57,13 @@ _ADDmakeaurparubin_
 _ADDmakeaurparugit_
 _ADDmakeaurparuz_
 _ADDmakeaurpbget_
+_ADDmakeaurpowerpill_
+_ADDmakeaurpython3colorsysplus_
+_ADDmakeaurpython3memoizedb_
+_ADDmakeaurpython3xcgf_
+_ADDmakeaurpython3xcpf_
+_ADDmakeaurpython3aur_
+_ADDmakeaurpm2ml_
 _ADDmakeaurpikaur_
 _ADDmakeaurpikaurgit_
 _ADDmakeaurpkgbuilder_
@@ -74,7 +81,7 @@ _ADDmakeaurtrizen_
 _ADDmakeaurtrizengit_
 _ADDmakeauryaah_
 _ADDmakeauryay_
-_ADDmakeauryayim_
+# _ADDmakeauryayim_ Failed to connect to gitea.jojiiofficial.de port 443
 _ADDmakeaurutils_
 _ADDmakeaurutilsgit_
 _ADDmakeksh_
