@@ -6,7 +6,7 @@
 set -Eeuo pipefail
 shopt -s  extglob nullglob globstar
 unset LD_PRELOAD
-VERSIONID=2.0.523
+VERSIONID=2.0.524
 _STRPEROR_() { # run on script error
 local RV="$?"
 printf "\\e[1;48;5;138m %s" "ＴｅｒｍｕｘＡｒｃｈ NOTICE:  Generated script signal received ${RV:-UNKNOWN} near or at line number ${1:-UNKNOWN} by '${2:-UNKNOWNCOMMAND}'!  "
@@ -23,6 +23,7 @@ then
 printf "\\e[1;32mPlease run 'bash %s' again, or use 'bash %s refresh' once Arch Linux is installed in Termux PRoot.  " "${0##*/}" "${0##*/}"
 printf "\\e[1;32mRunning command '%s refresh' may assist in completing the installation and configuration.  " "${0##*/}"
 printf "\\e[1;32mPlease attempt refreshing the Arch Linux in Termux PRoot system after finding out more why everything did not go as expected; Command '%s sysinfo' can help.  " "${0##*/}"
+printf "\\e[1;32mIs the system that you are using [up to date with packages](https://github.com/WAE/au) and [app](https://github.com/termux/termux-app/releases) and Android?  " "${0##*/}"
 printf "\\e[1;32mThe command '%s help' has information how to use '%s' in order to install Arch Linux in Termux PRoot in Android, Chromebook, Fire OS and Windows on smartphone, tablet, TV, wearable and similar devices.  " "${0##*/}" "${0##*/}"
 printf "\\e[1;48;5;133m %s" "Ensure background data is not restricted.  Please check the wireless connection.  "
 fi
