@@ -119,7 +119,7 @@ fi
 done
 printf "\\e[0;32m%s\\e[0m\\n" ": DONE"
 }
-_DOFIXOWNER_ || _PSGI1ESTRING_ "_DOFIXOWNER_ maintenanceroutines.bash ${0##*/}"
+# _DOFIXOWNER_ || _PSGI1ESTRING_ "_DOFIXOWNER_ maintenanceroutines.bash ${0##*/}"
 }
 
 _REFRESHSYS_() { # refresh installation
