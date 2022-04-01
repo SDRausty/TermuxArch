@@ -1,7 +1,5 @@
 <link rel="prerender" href="https://sdrausty.github.io/TermuxArch/">
 
-[![Gitpod Ready-to-Code](https://img.shields.io/badge/Gitpod-Ready--to--Code-blue?logo=gitpod)](https://gitpod.io/#https://github.com/SDRausty/TermuxArch)
-
 ## [TermuxArch](https://github.com/SDRausty/TermuxArch/)
 
 ##### -r--r--r-- [setupTermuxArch](https://raw.githubusercontent.com/TermuxArch/TermuxArch/master/setupTermuxArch)
