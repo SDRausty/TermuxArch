@@ -51,7 +51,7 @@ else
 BPATH="$PREFIX"/bin
 fi
 cp "$INSTALLDIR/$STARTBIN" "$BPATH"
-printf "\\n\\e[0;34m%s\\e[1;34m%s\\e[1;32m%s\\e[1;34m%s\\e[1;37m%s\\e[1;34m.\\e[0m\\n\\n" " 🕛 > 🕦 " "File " "$STARTBIN " "copied to " "$BPATH"
+printf "\\n\\e[0;34m%s\\e[1;34m%s\\e[1;32m%s\\e[1;34m%s\\e[1;37m%s\\e[1;34m.\\e[0m\\n\\n" " 🕛 > 🕐 " "File " "$STARTBIN " "copied to " "$BPATH"
 }
 
 _DETECTSYSTEM_() {
@@ -201,7 +201,14 @@ _PRINTMD5SUCCESS_
 printf "\\e[0;32m"
 _TASPINNER_ clock & _PREPROOT_ ; kill $! || _PRINTERRORMSG_ "_PREPROOT_ _MD5CHECK_ ${0##*/} necessaryfunctions.bash"
 else
+if md5sum -c --quiet *.md5 2> /dev/null
+then
+_PRINTMD5SUCCESS_
+printf "\\e[0;32m"
+_TASPINNER_ clock & _PREPROOT_ ; kill $! || _PRINTERRORMSG_ "_PREPROOT_ _MD5CHECK_ ${0##*/} necessaryfunctions.bash"
+else
 { [[ "$KEEP" = 0 ]] && _PRINTKEEPEXIT_ ; exit 203 ; } || { _PRINTMD5ERROR_ && rm -f "$INSTALLDIR"/*.tar.gz "$INSTALLDIR"/*.tar.gz.md5 ; exit 205 ; }
+fi
 fi
 }
 

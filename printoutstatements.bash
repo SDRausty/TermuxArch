@@ -15,7 +15,7 @@ FLHDR1[1]=""
 FLHDR1[2]="set -Eeuo pipefail"
 FLHDR1[3]="shopt -s extglob nullglob globstar"
 FLHDR1[4]="unset LD_PRELOAD"
-FLHDR1[5]="VERSIONID=2.0.525"
+FLHDR1[5]="VERSIONID=2.0.526"
 FLHDR1[6]=""
 FLHDRP[0]="## BEGIN #####################################################################"
 FLHDRP[1]=""
@@ -140,7 +140,7 @@ printf "\\e[1;32mDONE  \\e[0m\\n\\n"
 
 _PRINTWLA_() {
 printf '\033]2; 🕛 > 🕒 Activating termux-wake-lock: OK\007'
-printf "\\e[0;34m 🕛 > 🕒 \\e[1;34mActivating termux-wake-lock: "
+printf "\\n\\e[0;34m 🕛 > 🕒 \\e[1;34mActivating termux-wake-lock: "
 }
 
 _PRINTWLD_() {
@@ -197,7 +197,7 @@ printf "\\n\\e[07;1m\\e[31;1m 🔆 ＴｅｒｍｕｘＡｒｃｈ SIGNAL md5sum 
 
 _PRINTMD5SUCCESS_() {
 printf "\\e]2;%s\\007" " 🕛 > 🕡 Unpacking $IFILE..."
-printf "\\n\\n\\e[0;34m 🕛 > 🕕 \\e[1;34mSystem image file download integrity check: \\e[1;32mDONE\\n\\n\\e[0;34m 🕛 > 🕡 \\e[1;34mUnpacking %s into %s.  The option to create Arch Linux system users is available through \\e[1;32maddauser\\e[1;34m.  Arch Linux user login from Termux with \\e[1;32m%s \\e[1;34mis now implemented.  Please see \\e[0;36mAbility for Scripts to Launch Commands for Arch Linux in Termux PRoot on Device\\e[1;34m https://github.com/sdrausty/TermuxArch/issues/54 for information how to use this option.  \\n\\nWhile waiting, you can use \\e[0;36mdf\\e[1;34m, \\e[0;36mdu -hs\\e[1;34m, \\e[0;36mps\\e[1;34m, \\e[0;36mtop\\e[1;34m and \\e[0;36mwatch\\e[1;34m in a new Termux session to watch the unpacking while this session completes.  Use \\e[0;36mhelp man \\e[1;34mand \\e[0;36minfo man \\e[1;34mto learn more about your Linux system in the palm of your hand.  See The Linux Documentation Project http://tldp.org to learn more about Linux and CLI (command line interface) commands.\\n\\nIf simply scrolling the screen up by scrolling up does produce the desired effect, you can try this method.  Long tap until the popup menu shows.  Then scroll up without loosing touch with the screen and without touching the popup menu.  \\e[1;37mUnpacking \\e[1;32m%s\\e[1;37m will take a long time;  Please be patient   \\e[0m" "$IFILE" "$INSTALLDIR" "$STARTBIN" "$IFILE"
+printf "\\n\\n\\e[0;34m 🕛 > 🕔 \\e[1;34mSystem image file download integrity check: \\e[1;32mDONE\\n\\n\\e[0;34m 🕛 > 🕡 \\e[1;34mUnpacking %s into %s.  The option to create Arch Linux system users is available through \\e[1;32maddauser\\e[1;34m.  Arch Linux user login from Termux with \\e[1;32m%s \\e[1;34mis now implemented.  Please see \\e[0;36mAbility for Scripts to Launch Commands for Arch Linux in Termux PRoot on Device\\e[1;34m https://github.com/sdrausty/TermuxArch/issues/54 for information how to use this option.  \\n\\nWhile waiting, you can use \\e[0;36mdf\\e[1;34m, \\e[0;36mdu -hs\\e[1;34m, \\e[0;36mps\\e[1;34m, \\e[0;36mtop\\e[1;34m and \\e[0;36mwatch\\e[1;34m in a new Termux session to watch the unpacking while this session completes.  Use \\e[0;36mhelp man \\e[1;34mand \\e[0;36minfo man \\e[1;34mto learn more about your Linux system in the palm of your hand.  See The Linux Documentation Project http://tldp.org to learn more about Linux and CLI (command line interface) commands.\\n\\nIf simply scrolling the screen up by scrolling up does produce the desired effect, you can try this method.  Long tap until the popup menu shows.  Then scroll up without loosing touch with the screen and without touching the popup menu.  \\e[1;37mUnpacking \\e[1;32m%s\\e[1;37m will take a long time;  Please be patient   \\e[0m" "$IFILE" "$INSTALLDIR" "$STARTBIN" "$IFILE"
 }
 
 _PRINTMISMATCH_() {
@@ -208,7 +208,7 @@ exit
 
 _PRINTFOOTER_() {
 printf "\033]2;%s\007" "Thank you for using '${0##*/}' to install Arch Linux in Termux PRoot 📲 "
-printf "\\e[0;34m 🕛 > 🕥 \\e[1;34mYou can use \\e[1;32m%s \\e[1;34mto launch Arch Linux in Termux PRoot.  Alternatively, you can run \\e[1;32m~%s \\e[1;34min a BASH shell to start Arch Linux in Termux PRoot in future sessions.  See \\e[1;32m%s help \\e[1;34mfor usage information.\\e[0m\\n\\n" "$STARTBIN" "$PRINTROOTDIR/$STARTBIN" "$STARTBIN"
+printf "\\e[0;34m 🕛 > 🕚 \\e[1;34mYou can use \\e[1;32m%s \\e[1;34mto launch Arch Linux in Termux PRoot.  Alternatively, you can run \\e[1;32m~%s \\e[1;34min a BASH shell to start Arch Linux in Termux PRoot in future sessions.  See \\e[1;32m%s help \\e[1;34mfor usage information.\\e[0m\\n\\n" "$STARTBIN" "$PRINTROOTDIR/$STARTBIN" "$STARTBIN"
 printf "\\e[0;32m 🕛 = 🕛 \\e[1;34mYou can use \\e[1;32mtour\\e[1;34m to run a very short tour to get to know the new Arch Linux in Termux PRoot environment you just set up a little bit better.  If there was more than one error during the update procedure and you would like to refresh the installation, use \\e[1;32m%s refresh\\e[1;34m.  This will update and recreate the configuration provided.  The TermuxArch command \\e[1;32mkeys \\e[1;34mhelps install and generate Arch Linux keyring keys.\\n\\n" "${0##*/}"
 _PRINTFOOTER2_
 }
