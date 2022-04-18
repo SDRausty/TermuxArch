@@ -5,7 +5,7 @@
 ## https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.
 ################################################################################
 _PRTPATCHHELP_() {
-printf "%s\\n" "[ -x $TMXRCHBNDR/patch ] || printf \"\\e[1;30m%s\\e[0;40m%s\\e[1;30m%s\\e[0;40m%s\\e[1;30m%s\\e[0;40m%s\\e[1;30m%s\\e[0;40m%s\\e[1;30m%s\\\\n\" \"This command \" \"'ln -s /system/bin/patch $INSTALLDIR$TMXRCHBNDR/patch'\" \" run in a native Termux shell might resolve a \" \"'patch: setting attribute security.selinux for security.selinux: Permission denied'\" \" error.  This workaround seems to work equally well with QEMU architecture emulation.  Issues \" \"“Building xrdp from AUR fails mentioning selinux #293”\" \" at https://github.com/SDRausty/TermuxArch/issues/293 and \" \"“patch: setting attribute security.selinux for security.selinux: Permission denied #182”\" \" at https://github.com/termux/proot/issues/182 have more information about this error.\"" >> "$1"
+printf "%s\\n" "[ -x $TMXRCHBNDR/patch ] || printf \"\\e[1;30m%s\\e[0;40m%s\\e[1;30m%s\\e[0;40m%s\\e[1;30m%s\\e[0;40m%s\\e[1;30m%s\\e[0;40m%s\\e[1;30m%s\\e[0m\\n\" \"This command \" \"'ln -s $PREFIX/bin/patch $INSTALLDIR$TMXRCHBNDR/patch'\" \" run in a native Termux shell might resolve a \" \"'patch: setting attribute security.selinux for security.selinux: Permission denied'\" \" error.  This workaround seems to work equally well in PRoot with QEMU architecture emulation as well.  Issues \" \"“Building xrdp from AUR fails mentioning selinux #293”\" \" at https://github.com/SDRausty/TermuxArch/issues/293 and \" \"“patch: setting attribute security.selinux for security.selinux: Permission denied #182”\" \" at https://github.com/termux/proot/issues/182 have more information about this error.\"" >> "$1"
 }
 _ADDREADME_() {
 _CFLHDR_ $TMXRCHBNDS/README.md
@@ -422,8 +422,8 @@ _PRINTTAIL_ "\${ARGS[@]}"
 }
 
 _PRINTTAIL_() {
-printf "\\\\e[0m%s \\\\e[1;32m%s \\\\e[0;32m%s\\\\e[1;34m: \\\\e[1;32m%s\\\\e[0m 🏁  \\\\n\\\\e[0m" "TermuxArch command" "\$STRANARG"  "version \$VERSIONID" "DONE 📱"
-printf '\033]2;  🔑 TermuxArch %s:DONE 📱 \007' "\$STRANARG"
+printf "\\\\e[0m%s \\\\e[1;32m%s \\\\e[0;32m%s\\\\e[1;34m: \\\\e[1;32m%s\\\\e[0m 🏁  \\\\n\\\\e[0m" "TermuxArch command" "\$STRNRG"  "version \$VERSIONID" "DONE 📱"
+printf '\033]2;  🔑 TermuxArch %s:DONE 📱 \007' "\$STRNRG"
 }
 
 ## ch begin ####################################################################
@@ -656,81 +656,128 @@ _ADDmakeaurhelpers_() {
 _CFLHDR_ $TMXRCHBNDS/makeaurhelpers "# add Arch Linux AUR helpers https://wiki.archlinux.org/index.php/AUR_helpers"
 _PRTPATCHHELP_ "$TMXRCHBNDS/makeaurhelpers"
 cat >> $TMXRCHBNDS/makeaurhelpers <<- EOM
-printf "\\e[0;1m%s\\n" "Command \${0##*/} is currently depreciated;  Exiting..."
-exit 0
+HLPSTG="Help:  Command '\${0##*/}' accepts option 'confirm'."
+NMKPKC="nice -n 20 makepkg -firs"
+NMKPKN="nice -n 20 makepkg -firs --noconfirm"
+{ [ -z "\${1:-}" ] && NMKPKG="\$NMKPKN" ; } || { [[ "\${1//-}" = [Cc]* ]] && NMKPKG="\$NMKPKC" || NMKPKG="\$NMKPKN" && [[ "\${1//-}" = [Hh]* ]] && printf '%s\\n' "\$HLPSTG" && exit ; }
+_ARHCMD_() {
+{ [ -x /usr/bin/make ] && [ -x /usr/bin/strip ] ; } || { pc base base-devel binutils || pci base base-devel binutils ; } ||:
+if [ "\$AURHELPER" = stack-static ]
+then	# import stack-static key
+[ -f /run/lock/${INSTALLDIR##*/}/gpg575159689BEFB442.lock ] || { printf '\\e[0m%s\\n' "Command '\${0##*/}' is running command gpg --keyserver keyserver.ubuntu.com --recv-keys 575159689BEFB442" && gpg --keyserver keyserver.ubuntu.com --recv-keys 575159689BEFB442 && :>/run/lock/${INSTALLDIR##*/}/gpg575159689BEFB442.lock ; }
+fi
+if command -v "\$AURHELPER"
+then
+printf '%s\\n' "Found command '\$AURHELPER';  The Arch Linux aur helper '\$AURHELPER' is already built."
+else
+_CLONEAURHELPER_
+fi
+}
+
 _CLONEAURHELPER_() {
-cd "\$HOME/aurhelpers" || exit 196
 if [ -d "\$AURHELPER" ]
 then
 { printf "%s\\\\n" "Repository '\$AURHELPER' is already cloned." && _MAKEAURHELPER_ ; } || _PRTERROR_
 else
-printf "%s\\\\n\\\\n" "Cloning repository '\$AURHELPER' from https://aur.archlinux.org." && cd && gcl https://aur.archlinux.org/\${AURHELPER}.git && printf "%s\\\\n\\\\n" "Finished cloning repository '\$AURHELPER' from https://aur.archlinux.org." && _MAKEAURHELPER_ || _PRTERROR_
+printf "%s\\\\n\\\\n" "Cloning repository '\$AURHELPER' from https://aur.archlinux.org." && cd && gcl https://aur.archlinux.org/\${AURHELPER}.git && printf "%s\\\\n\\\\n" "Finished cloning repository '\$AURHELPER' from https://aur.archlinux.org."
+_MAKEAURHELPER_ || _PRTERROR_
 fi
-}
-
-_DONEAURHELPER_(){
-#command "\$1" || _DOAURHELPERS_
-if ! command "\$1"
-then
-printf '%s\n' "Found command \$1"
-if printf '%s\n' "\${AURHELPERS[@]}" | grep -q -P "^\$1$"
-then
-printf '%s\n' "\$1"
-fi
-fi
-}
-
-_DOAURHELPERS_(){
-for AURHELPER in \${AURHELPERS[@]}
-do
-if [ "\$AURHELPER" = stack-static ]
-then
-gpg --keyserver keyserver.ubuntu.com --recv-keys 575159689BEFB442
-fi
-if [ "\$AURHELPER" = pacaur ]
-then
-{ pc expac  || pci expac ; }
-AURHELPER=auracle-git
-_CLONEAURHELPER_
-fi
-if [ "\$AURHELPER" = bauerbill ]
-then
-{ pc python-pyxdg || pci python-pyxdg ; }
-BAUERBILLDEPS=(pbget pm2ml powerpill python3-aur python3-colorsysplus python3-memoizedb python3-xcgf python3-xcpf)
-for AURHELPER in \${BAUERBILLDEPS[@]}
-do
-_CLONEAURHELPER_
-done
-fi
-_CLONEAURHELPER_
-done
 }
 
 _MAKEAURHELPER_() {
-cd "\$HOME/aurhelpers/\$AURHELPER" || exit 196
-printf "%s\\\\n" "Running command 'nice -n 20 makepkg -firs --noconfirm';  Building and attempting to install '\$AURHELPER' with '\${0##*/}' version $VERSIONID.  Please be patient..."
-nice -n 20 makepkg -firs --noconfirm || nice -n 20 makepkg -firs --noconfirm || _PRTERROR_
+cd "\$HOME/\$AURHELPER" || exit 196
+printf "%s\\\\n" "Running command '\$NMKPKG';  Attempting to build and install '\$AURHELPER' for architecture \$NMCMND with '\${0##*/}' version $VERSIONID;  Please be patient..."
+\$NMKPKG || _PRTERROR_
 }
 
 _PRTERROR_() {
-printf "\\\\n\\\\e[1;31merror: \\\\e[1;37m%s\\\\e[0m\\\\n\\\\n" "Please study the first lines of the error output and correct the error(s) and/or warning(s) and run '\$STRANARG' again."
+printf "\\\\n\\\\e[1;31merror: \\\\e[1;37m%s\\\\e[0m\\\\n\\\\n" "Please study the first lines of the error output and correct the error(s) and/or warning(s) and run '\$STRNRG' again."
 }
 
-[ -d "\$HOME/aurhelpers" ] || mkdir -p "\$HOME/aurhelpers"
-UNAMEM="\$(uname -m)"
-if [ "\$UNAMEM" = x86-64 ]
+if [ "\$UID" = 0 ]
 then
-AURHELPERS=(stack-static aura-git auracle-git aurutils bauerbill pacaur pakku paru pbget pikaur-git pkgbuilder puyo repoctl repofish rua trizen yaah yayim)
-elif [ "\$UNAMEM" = i386 ]
-then
-AURHELPERS=(auracle-git aurutils bauerbill pacaur pakku paru pbget pikaur-git pkgbuilder puyo repoctl repofish rua trizen yaah yayim)
-else
-AURHELPERS=(aurutils bauerbill pacaur pakku paru pbget pikaur-git pkgbuilder puyo repoctl repofish trizen yaah yayim)
+printf "\\\\e[1;31m%s\\\\e[1;37m%s\\\\e[1;31mExiting...\\\\e[0m\\\\n" "ＴｅｒｍｕｘＡｒｃｈ SIGNAL:" "  Script '\${0##*/}' should not be used as root:  The command 'addauser' creates user accounts in Arch Linux in Termux PRoot and configures these user accounts for the command 'sudo':  The 'addauser' command is intended to be run by the Arch Linux in Termux PRoot root user:  To use 'addauser' directly from Termux you can run \"$STARTBIN command 'addauser user'\" in Termux to create this account in Arch Linux Termux PRoot:  The command '$STARTBIN help' has more information about using '$STARTBIN':  "
+exit 101
 fi
-# command yay || makeauryay
-# _DONEAURHELPER_ pikaur
-# _DOAURHELPERS_
-## ~/${INSTALLDIR##*/}$TMXRCHBNDR/makeaurhelpers FE
+NMCMND="\$(uname -m)"
+AURHELPERS=(
+aget
+aura
+aura-git
+auracle-git
+aurget
+aurh-git
+aurman
+aurora-git
+aurs
+aurs-git
+aurum
+aurutils
+aurutils-git
+auryn
+baph
+bauerbill
+blinky
+buildaur
+buildaur-git
+foxaur
+gfoxaur
+git-aurcheck
+goaur
+haur
+lightpkg
+liteaur
+liteaur-git
+magico
+maur
+pacaur
+pacaur-git
+pakka
+pakku
+paru
+paru-bin
+paru-git
+pbget
+pikaur
+pikaur-aurnews
+pikaur-git
+pkgbuilder
+pkgbuilder-git
+puyo
+python3-aur
+ram
+repoctl
+repoctl-git
+repofish
+rua
+sakuri
+saurch-git
+simpleaur-git
+stack-static
+trizen
+trizen-git
+tulip-pm
+vam
+wfa-git
+xaur
+yaah
+yay
+yay-bin
+yay-git
+yup
+yup-bin
+yup-git
+zeus
+zeus-bin
+zur
+zur-git)
+printf "Command '%s' version %s;  Setting Arch Linux aur helper to build and install.  Please select the aur helper to install by number from this list:\\n" "\${0##*/}" "$VERSIONID"
+select AURHELPER in  \${AURHELPERS[@]} exit ;
+do
+{ [ "\$AURHELPER" = exit ] || [[ "\$REPLY" = [Ee]* ]] || [[ "\$REPLY" = [Qq]* ]] ; } && printf '%s\\n' "Exiting..." && exit
+[[ "\${AURHELPERS[@]}" =~ (^|[[:space:]])"\$AURHELPER"($|[[:space:]]) ]] && printf "%s" "Option '\$REPLY' was picked from this list;  The chosen Arch Linux aur helper to build and install is '\$AURHELPER'.  " && _ARHCMD_ && break || printf "%s\\n" "Answer '\$REPLY' was chosen;  Please select the Arch Linux aur helper to build and install by number from this list or type exit and tap enter to exit command '\${0##*/}':"
+done
+## $INSTALLDIR$TMXRCHBNDR/makeaurhelpers FE
 EOM
 chmod 755 $TMXRCHBNDS/makeaurhelpers
 }
@@ -741,7 +788,7 @@ _PRTPATCHHELP_ "$TMXRCHBNDS/makeaurfakeroottcp"
 cat >> $TMXRCHBNDS/makeaurfakeroottcp <<- EOM
 _DOMAKEFAKEROOTTCP_() {
 _PRTERROR_() {
-printf "\\n\\e[1;31merror: \\e[1;37m%s\\e[0m\\n\\n" "Please study the first lines of the error output and correct the error(s) and/or warning(s), and run '\$STRANARG' again." && exit 104
+printf "\\n\\e[1;31merror: \\e[1;37m%s\\e[0m\\n\\n" "Please study the first lines of the error output and correct the error(s) and/or warning(s), and run '\$STRNRG' again." && exit 104
 }
 if [ "\$UID" = 0 ]
 then
@@ -751,7 +798,7 @@ else
 printf "%s\\\\n" "Preparing to build and install fakeroot-tcp with \${0##*/} version $VERSIONID: "
 if { [ ! "\$(command -v automake)" ] || [ ! "\$(command -v git)" ] || [ ! "\$(command -v gcc -v)" ] || [ ! "\$(command -v libtool)" ] || [ ! "\$(command -v po4a)" ] ; }
 then
-pci automake base base-devel fakeroot git gcc libtool po4a || printf "\\n\\e[1;31mＴｅｒｍｕｘＡｒｃｈ SIGNAL: \\e[7;37m%s\\e[0m\\n\\n" "Please study the first lines of the error output and correct the error(s) and/or warning(s) by running command 'pci automake base base-devel fakeroot git gcc go libtool po4a' as root user in a new Termux session.  You can do this without closing this session by running command \"$STARTBIN command 'pci automake base base-devel fakeroot git gcc go libtool po4a'\"in a new Termux session. Then return to this session and run '\$STRANARG' again."
+pci automake base base-devel fakeroot git gcc libtool po4a || printf "\\n\\e[1;31mＴｅｒｍｕｘＡｒｃｈ SIGNAL: \\e[7;37m%s\\e[0m\\n\\n" "Please study the first lines of the error output and correct the error(s) and/or warning(s) by running command 'pci automake base base-devel fakeroot git gcc go libtool po4a' as root user in a new Termux session.  You can do this without closing this session by running command \"$STARTBIN command 'pci automake base base-devel fakeroot git gcc go libtool po4a'\"in a new Termux session. Then return to this session and run '\$STRNRG' again."
 fi
 cd
 [ -d fakeroot-tcp ] || gcl https://aur.archlinux.org/fakeroot-tcp.git
@@ -768,7 +815,7 @@ sed -ir "s/^md5sums=.*/md5sums=('f6104ef6960c962377ef062bf222a1d2')/g" PKGBUILD
 }
 cd fakeroot-tcp || exit 196
 [ ! -f "/run/lock/${INSTALLDIR##*/}/makeaurfakeroottcp_FUNDOPKGBUILD_.lock" ] && _FUNDOPKGBUILD_
-printf "%s\\\\n" "Running command 'nice -n 20 makepkg -firs';  Building and attempting to install 'fakeroot-tcp' with '\${0##*/}' version $VERSIONID.  Please be patient..."
+printf "%s\\\\n" "Running command 'nice -n 20 makepkg -firs';  Attempting to build and install 'fakeroot-tcp' with '\${0##*/}' version $VERSIONID.  Please be patient..."
 nice -n 20 makepkg -firs || _PRTERROR_
 libtool --finish /usr/lib/libfakeroot || _PRTERROR_
 :>"/run/lock/${INSTALLDIR##*/}/makeaurfakeroottcp.lock"
@@ -882,7 +929,7 @@ _PREPFILEFTN1_() { _CFLHDR_ $TMXRCHBNDS/makeaur"$3" "# Command '$3' attempts to 
 _ADDmakeaurpacaur_() { _PREPFILEFTN0_ pacaur pacaur pacaur "an AUR helper that minimizes user interaction" "{ [ -x /usr/bin/expac ] || pc expac --noconfirm ; } && { makeauraclegit ||: ; } && { printf '\\e[0m[1/1]  ' ; makeaurjqgit ||: ; } &&" ; }
 _ADDmakeaurjqgit_() { _PREPFILEFTN0_ jq jq-git jqgit "Command line JSON processor" "" ; }
 
-_ADDmakeaurpacaurgit_() { _PREPFILEFTN0_ pacaur pacaur-git pacaurgit "an AUR helper that minimizes user interaction" "{ [ -x /usr/bin/cmake ] || pc cmake --noconfirm ; } && { [ -x /usr/bin/expac ] || pc expac --noconfirm ; } && { printf '\\e[0m[1/1]  ' ; makeauraclegit ||: ; } &&" ; }
+_ADDmakeaurpacaurgit_() { _PREPFILEFTN0_ pacaur pacaur-git pacaurgit "an AUR helper that minimizes user interaction" "{ [ -x /usr/bin/cmake ] || { pc cmake expac || pci cmake expac ; } ; } && { printf '\\e[0m[1/1]  ' ; makeauraclegit ||: ; } &&" ; }
 
 _ADDmakeaurpbget_() { _PREPFILEFTN0_ pbget pbget pbget "retrieve PKGBUILD and local source files from Git, ABS and the AUR for makepkg" "{ [ -f /usr/lib/python3.10/site-packages/pyxdg-0.27-py3.10.egg-info/PKG-INFO ] || pc python-pyxdg ; } && { printf '\\e[0m[1/4]  ' ; makeaurpython3memoizedb ||: ; } && { printf '[2/4]  ' ; makeaurpython3xcgf ||: ; } && { printf '[2/4]  ' ; makeaurpython3xcpf ||: ; } && { printf '[3/4]  ' ; makeaurpm2ml ||: ; } && { printf '[4/4]  ' ; makeaurpython3aur ||: ; } &&" ; }
 
@@ -892,13 +939,13 @@ _ADDmakeaurpython3memoizedb_() { _PREPFILEFTN1_ "/usr/lib/python3.10/site-packag
 
 _ADDmakeaurpython3xcgf_() { _PREPFILEFTN1_ "/usr/lib/python3.10/site-packages/XCGF.py" python3-xcgf python3xcgf "Xyne's common Pacman functions, for internal use" ; }
 
-_ADDmakeaurpython3xcpf_() { _PREPFILEFTN1_ "/usr/lib/python3.10/site-packages/XCPF/ArchPkg.py" python3-xcpf python3xcpf "Xyne's common Pacman functions, for internal use" "{ { pacman-key -l | grep 1D1F0DC78F173680 1>/dev/null ; } || { sudo pacman-key -r 1D1F0DC78F173680 && sudo pacman-key --lsign 1D1F0DC78F173680 ; } ; } &&" ; }
+_ADDmakeaurpython3xcpf_() { _PREPFILEFTN1_ "/usr/lib/python3.10/site-packages/XCPF/ArchPkg.py" python3-xcpf python3xcpf "Xyne's common Pacman functions, for internal use" "[ -f /run/lock/${INSTALLDIR##*/}/gpg1D1F0DC78F173680.lock ] || { printf '\\e[0m%s\\n' \"Command '\${0##*/}' is running command gpg --keyserver keyserver.ubuntu.com --recv-keys 1D1F0DC78F173680\" && gpg --keyserver keyserver.ubuntu.com --recv-keys 1D1F0DC78F173680 && :>/run/lock/${INSTALLDIR##*/}/gpg1D1F0DC78F173680.lock ; } &&" ; }
 
 _ADDmakeaurpm2ml_() { _PREPFILEFTN1_ "/usr/lib/python3.10/site-packages/pm2ml.py" pm2ml pm2ml "generate metalinks for downloading Pacman packages and databases" ; }
 
 _ADDmakeaurpython3aur_() { _PREPFILEFTN1_ "/usr/lib/python3.10/site-packages/AUR/AurPkg.py" python3-aur python3aur "AUR-related modules and helper utilities (aurploader, aurquery, aurtomatic" ; }
 
-_ADDmakeaurpackagequery_() { _PREPFILEFTN0_  package-query package-query packagequery "Query ALPM and AUR" "{ [ -x /usr/bin/wget ] || pc wget ; } && " ; }
+_ADDmakeaurpackagequery_() { _PREPFILEFTN0_  package-query package-query packagequery "Query ALPM and AUR" "{ [ -x /usr/bin/wget ] || { pc wget || pci wget ; } ; } &&" ; }
 
 _ADDmakeauraclegit_() { _PREPFILEFTN0_ aur auracle-git aclegit "a flexible client for the AUR" ; }
 _ADDmakeaurto_() { _PREPFILEFTN0_ aurto aurto to "an AUR tool for managing an auto-updating local 'aurto' package repositories using aurutils" ; }
@@ -906,11 +953,11 @@ _ADDmakeaurutils_() { _PREPFILEFTN0_ aur aurutils utils "an AUR helper for the a
 _ADDmakeaurutilsgit_() { _PREPFILEFTN0_ aur aurutils-git utilsgit "an AUR helper for the arch user repository (git version)" ; }
 _ADDmakeaurbauerbill_() { _PREPFILEFTN0_ bauerbill bauerbill bauerbill "an extension of Powerpill with AUR and ABS support" ; }
 _ADDmakeaurghcuphsdep_() { # depreciated
-_PREPFILEFTN0_ ghcup ghcup-hs-bin ghcuphs "the Haskell language ghcup-hs installer" "{ [ -f /usr/lib/libnuma.so ] || { pc numactl || pci numactl ; } && " ; }
-_ADDmakeaurpakku_() { _PREPFILEFTN0_ pakku pakku pakku "a Pacman wrapper and AUR helper with a Pacman-like user interface" ; }
-_ADDmakeaurpakkugit_() { _PREPFILEFTN0_ pakku pakku-git pakkugit "a Pacman wrapper and AUR helper with a Pacman-like user interface (git version)" ; }
-_ADDmakeaurpakkugui_() { _PREPFILEFTN0_ pakku pakku-gui pakkugui "a GTK frontend for pakku" ; }
-_ADDmakeaurpakkuguigit_() { _PREPFILEFTN0_ pakku pakku-gui-git pakkuguigit "a GTK frontend for pakku (git version)" ; }
+_PREPFILEFTN0_ ghcup ghcup-hs-bin ghcuphs "the Haskell language ghcup-hs installer" "{ [ -f /usr/lib/libnuma.so ] || { pc numactl || pci numactl ; } &&" ; }
+_ADDmakeaurpakku_() { _PREPFILEFTN0_ pakku pakku pakku "a Pacman wrapper and AUR helper with a Pacman-like user interface" "{ [ -e /usr/lib/python3.10/site-packages/asciidoc/utils.py ] || { pc asciidoc || pci asciidoc ; } ; } &&" ; }
+_ADDmakeaurpakkugit_() { _PREPFILEFTN0_ pakku pakku-git pakkugit "a Pacman wrapper and AUR helper with a Pacman-like user interface (git version)" "{ [ -e /usr/lib/python3.10/site-packages/asciidoc/utils.py ] || { pc asciidoc || pci asciidoc ; } ; } &&" ; }
+_ADDmakeaurpakkugui_() { _PREPFILEFTN0_ pakku pakku-gui pakkugui "a GTK frontend for pakku" "{ [ -e /usr/lib/python3.10/site-packages/asciidoc/utils.py ] || { pc asciidoc || pci asciidoc ; } ; } &&" ; }
+_ADDmakeaurpakkuguigit_() { _PREPFILEFTN0_ pakku pakku-gui-git pakkuguigit "a GTK frontend for pakku (git version)" "{ [ -e /usr/lib/python3.10/site-packages/asciidoc/utils.py ] || { pc asciidoc || pci asciidoc ; } ; } &&" ; }
 _ADDmakeaurparu_() { _PREPFILEFTN0_ paru paru paru "a feature packed AUR helper" ; }
 _ADDmakeaurparubin_() { _PREPFILEFTN0_ paru paru-bin parubin  "a feature packed AUR helper" ; }
 _ADDmakeaurparugit_() { _PREPFILEFTN0_ paru paru-git parugit  "a feature packed AUR helper (git version)" ; }
@@ -920,8 +967,8 @@ _ADDmakeaurpikaurgit_() { _PREPFILEFTN0_ pikaur pikaur-git pikaurgit "an AUR hel
 _ADDmakeaurpkgbuilder_() { _PREPFILEFTN0_ pkgbuilder pkgbuilder pkgbuilder "a Python AUR helper/library" ; }
 _ADDmakeaurpkgbuildergit_() { _PREPFILEFTN0_ pkgbuilder pkgbuilder-git pkgbuildergit "a Python AUR helper/library (git version)" ; }
 _ADDmakeaurpopularpackages_() { _PREPFILEFTN0_ popular-packages popular-packages popularpackages "which lists popular packages not (yet) installed" ; }
-_ADDmakeaurpowerpill_() { _PREPFILEFTN0_ powerpill powerpill powerpill "pacman wrapper for faster downloads" ; }
-_ADDmakeaurpuyo_() { _PREPFILEFTN0_ puyo puyo puyo "an assistant for managing packages on Arch Linux" ; }
+_ADDmakeaurpowerpill_() { _PREPFILEFTN0_ powerpill powerpill powerpill "pacman wrapper for faster downloads" "{ [ -e /usr/share/doc/fmt/index.html ] || { pc fmt nlohmann-json || pci fmt nlohmann-json ; } ; } &&" ; }
+_ADDmakeaurpuyo_() { _PREPFILEFTN0_ puyo puyo puyo "an assistant for managing packages on Arch Linux" "makeauryay &&" ; }
 _ADDmakeaurrepoctl_() { _PREPFILEFTN0_ repoctl repoctl repoctl "an AUR helper that also simplifies managing local Pacman repositories" ; }
 _ADDmakeaurrepoctlgit_() { _PREPFILEFTN0_ repoctl repoctl-git repoctlgit "an AUR helper that also simplifies managing local Pacman repositories (development version)" ; }
 _ADDmakeaurrepofish_() { _PREPFILEFTN0_ repofish repofish repofish "that my friends told me to make available this script I wrote to manage my local archlinux repo and AUR packages, so here it is" ; }
@@ -938,7 +985,7 @@ _ADDmakeksh_() {
 _CFLHDR_ $TMXRCHBNDS/makeksh "# build and install the ksh shell; Inspired by https://github.com/termux/termux-api/issues/436"
 cat >> $TMXRCHBNDS/makeksh <<- EOM
 _PRTERROR_() {
-printf "\\n\\e[1;31merror: \\e[1;37m%s\\e[0m\\n\\n" "Please study the first lines of the error output and correct the error(s) and/or warning(s), and run '\$STRANARG' again."
+printf "\\n\\e[1;31merror: \\e[1;37m%s\\e[0m\\n\\n" "Please study the first lines of the error output and correct the error(s) and/or warning(s), and run '\$STRNRG' again."
 exit 100
 }
 if [ "\$UID" = 0 ]
@@ -1124,14 +1171,14 @@ _PRINTTAIL_ "\$ARGS"
 }
 
 _PRINTTAIL_() {
-printf "\\\\e[0;32m%s \\\\e[1;32m%s \\\\e[0;32m%s\\\\e[1;34m: \\\\e[1;32m%s\\\\e[0m 🏁  \\\\n\\\\n\\\\e[0m" "TermuxArch command" "\$STRANARG" "version \$VERSIONID" "DONE 📱"
-printf '\033]2;  🔑 TermuxArch %s:DONE 📱 \007' "\$STRANARG"
+printf "\\\\e[0;32m%s \\\\e[1;32m%s \\\\e[0;32m%s\\\\e[1;34m: \\\\e[1;32m%s\\\\e[0m 🏁  \\\\n\\\\n\\\\e[0m" "TermuxArch command" "\$STRNRG" "version \$VERSIONID" "DONE 📱"
+printf '\033]2;  🔑 TermuxArch %s:DONE 📱 \007' "\$STRNRG"
 }
 
 trap _TRPET_ EXIT
 ## pc begin ####################################################################
-printf '\033]2;  🔑 TermuxArch %s 📲 \007' "\$STRANARG"
-printf "\\\\e[1;32m==> \\\\e[1;37mRunning TermuxArch command \\\\e[1;32m%s \\\\e[0;32m%s\\\\e[1;37m...\\\\n" "\$STRANARG" "version \$VERSIONID"
+printf '\033]2;  🔑 TermuxArch %s 📲 \007' "\$STRNRG"
+printf "\\\\e[1;32m==> \\\\e[1;37mRunning TermuxArch command \\\\e[1;32m%s \\\\e[0;32m%s\\\\e[1;37m...\\\\n" "\$STRNRG" "version \$VERSIONID"
 [ "\$UID" -eq 0 ] && SUDOCONF="" || SUDOCONF="sudo"
 if [[ -z "\${1:-}" ]]
 then
@@ -1164,14 +1211,14 @@ _PRINTTAIL_ "\$ARGS"
 }
 
 _PRINTTAIL_() {
-printf "\\\\e[0;32m%s \\\\e[1;32m%s \\\\e[0;32m%s\\\\e[1;34m: \\\\e[1;32m%s\\\\e[0m 🏁  \\\\n\\\\n\\\\e[0m" "TermuxArch command" "\$STRANARG" "version \$VERSIONID" "DONE 📱"
-printf '\033]2;  🔑 TermuxArch %s:DONE 📱 \007' "\$STRANARG"
+printf "\\\\e[0;32m%s \\\\e[1;32m%s \\\\e[0;32m%s\\\\e[1;34m: \\\\e[1;32m%s\\\\e[0m 🏁  \\\\n\\\\n\\\\e[0m" "TermuxArch command" "\$STRNRG" "version \$VERSIONID" "DONE 📱"
+printf '\033]2;  🔑 TermuxArch %s:DONE 📱 \007' "\$STRNRG"
 }
 
 trap _TRPET_ EXIT
 ## pci begin ###################################################################
 [ "\$UID" -eq 0 ] && SUDOCONF="" || SUDOCONF="sudo"
-printf "\\\\e[1;32m==> \\\\e[1;37mRunning TermuxArch command \\\\e[1;32m%s \\\\e[0;32m%s\\\\e[1;37m...\\\\n" "\$STRANARG" "version \$VERSIONID"
+printf "\\\\e[1;32m==> \\\\e[1;37mRunning TermuxArch command \\\\e[1;32m%s \\\\e[0;32m%s\\\\e[1;37m...\\\\n" "\$STRNRG" "version \$VERSIONID"
 if [[ -z "\${1:-}" ]]
 then
 nice -n 20 \$SUDOCONF pacman --needed --noconfirm --color=always -Syu || nice -n 20 \$SUDOCONF pacman --needed --noconfirm --color=always -Syu
@@ -1443,8 +1490,8 @@ _PRINTTAIL_ "\${ARGS[@]}"
 }
 
 _PRINTTAIL_() {
-printf "\\\\n\\\\e[0;32m%s \\\\e[1;32m%s \\\\e[0;32m%s\\\\e[1;34m: \\\\e[1;32m%s\\\\e[0m 🏁  \\\\n\\\\n\\\\e[0m" "TermuxArch command" "\$STRANARG" "version \$VERSIONID" "DONE 📱"
-printf '\033]2;  🔑 TermuxArch command %s:DONE 📱 \007' "\$STRANARG"
+printf "\\\\n\\\\e[0;32m%s \\\\e[1;32m%s \\\\e[0;32m%s\\\\e[1;34m: \\\\e[1;32m%s\\\\e[0m 🏁  \\\\n\\\\n\\\\e[0m" "TermuxArch command" "\$STRNRG" "version \$VERSIONID" "DONE 📱"
+printf '\033]2;  🔑 TermuxArch command %s:DONE 📱 \007' "\$STRNRG"
 }
 
 trap _TRPET_ EXIT
@@ -1462,8 +1509,8 @@ multi=16
 entropy0=\$(cat /proc/sys/kernel/random/entropy_avail 2>/dev/null)
 
 printintro() {
-printf '\033]2; TermuxArch command Watch Entropy '%s' 📲  \007' "\$STRANARG"
-printf "\\\\n\\\\e[1;32mTermuxArch command Watch Entropy '%s':\\\\n" "\$STRANARG"
+printf '\033]2; TermuxArch command Watch Entropy '%s' 📲  \007' "\$STRNRG"
+printf "\\\\n\\\\e[1;32mTermuxArch command Watch Entropy '%s':\\\\n" "\$STRNRG"
 }
 
 _PRINTTAIL_() {
@@ -1527,8 +1574,8 @@ fi
 }
 
 entropysequential() {
-printf '\033]2; TermuxArch Watch Entropy Sequential '%s' 📲  \007' "\$STRANARG"
-printf "\\\\n\\\\e[1;32mTermuxArch Watch Entropy Sequential '%s':\\\\n" "\$STRANARG"
+printf '\033]2; TermuxArch Watch Entropy Sequential '%s' 📲  \007' "\$STRNRG"
+printf "\\\\n\\\\e[1;32mTermuxArch Watch Entropy Sequential '%s':\\\\n" "\$STRNRG"
 for i in \$(seq 1 \$en0); do
 entropy0=\$(cat /proc/sys/kernel/random/entropy_avail 2>/dev/null)
 infif
@@ -1538,8 +1585,8 @@ done
 }
 
 entropysimple() {
-printf '\033]2; TermuxArch Watch Entropy Simple '%s' 📲  \007' "\$STRANARG"
-printf "\\\\n\\\\e[1;32mTermuxArch Watch Entropy Simple '%s':\\\\n" "\$STRANARG"
+printf '\033]2; TermuxArch Watch Entropy Simple '%s' 📲  \007' "\$STRNRG"
+printf "\\\\n\\\\e[1;32mTermuxArch Watch Entropy Simple '%s':\\\\n" "\$STRNRG"
 for i in \$(seq 1 \$en0); do
 entropy0=\$(cat /proc/sys/kernel/random/entropy_avail 2>/dev/null)
 infif
@@ -1549,8 +1596,8 @@ done
 }
 
 entropyverbose() {
-printf '\033]2; TermuxArch Watch Entropy Verbose '%s' 📲  \007' "\$STRANARG"
-printf "\\\\n\\\\e[1;32mTermuxArch Watch Entropy Verbose '%s':\\\\n" "\$STRANARG"
+printf '\033]2; TermuxArch Watch Entropy Verbose '%s' 📲  \007' "\$STRNRG"
+printf "\\\\n\\\\e[1;32mTermuxArch Watch Entropy Verbose '%s':\\\\n" "\$STRNRG"
 for i in \$(seq 1 \$en0); do
 entropy0=\$(cat /proc/sys/kernel/random/entropy_avail 2>/dev/null)
 infif
@@ -1607,7 +1654,7 @@ chmod 755 usr/bin/we
 
 _ADDyt_() {
 _CFLHDR_ $TMXRCHBNDS/yt
-printf "%s\\n%s\\n%s\\n" "[ \"\$UID\" = 0 ] && printf \"\\e[1;31m%s\\e[1;37m%s\\e[1;31mExiting...\\n\" \"Cannot run '\$STRANARG' as root user :\" \" the command 'addauser username' creates user accounts in ~/${INSTALLDIR##*/} : the command '$STARTBIN command addauser username' can create user accounts in ~/${INSTALLDIR##*/} from Termux : a default user account is created during setup : the default username 'user' can be used to access the PRoot system employing a user account : command '$STARTBIN help' has more information :  \" && exit" "youtube-dl \"\${ARGS[@]}\" || { { pc youtube || pci youtube-dl ; } && youtube-dl \"\${ARGS[@]}\" ; }" "## ~/${INSTALLDIR##*/}$TMXRCHBNDR/yt FE" >> $TMXRCHBNDS/yt
+printf "%s\\n%s\\n%s\\n" "[ \"\$UID\" = 0 ] && printf \"\\e[1;31m%s\\e[1;37m%s\\e[1;31mExiting...\\n\" \"Cannot run '\$STRNRG' as root user :\" \" the command 'addauser username' creates user accounts in ~/${INSTALLDIR##*/} : the command '$STARTBIN command addauser username' can create user accounts in ~/${INSTALLDIR##*/} from Termux : a default user account is created during setup : the default username 'user' can be used to access the PRoot system employing a user account : command '$STARTBIN help' has more information :  \" && exit" "youtube-dl \"\${ARGS[@]}\" || { { pc youtube || pci youtube-dl ; } && youtube-dl \"\${ARGS[@]}\" ; }" "## ~/${INSTALLDIR##*/}$TMXRCHBNDR/yt FE" >> $TMXRCHBNDS/yt
 chmod 755 $TMXRCHBNDS/yt
 }
 

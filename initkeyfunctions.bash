@@ -307,12 +307,12 @@ done
 }
 
 _PRINTTAIL_() {
-printf "\\\\n\\\\e[0;32m%s \\\\e[1;32m%s \\\\e[0;32m%s\\\\e[1;34m: \\\\e[1;32m%s\\\\e[0m 🏁  \\\\n\\\\n\\\\e[0m" "TermuxArch command" "\$STRANARG" "version \$VERSIONID" "DONE 📱"
-printf '\033]2;  🔑 TermuxArch %s: DONE 📱 \007'  "'\$STRANARG'"
+printf "\\\\n\\\\e[0;32m%s \\\\e[1;32m%s \\\\e[0;32m%s\\\\e[1;34m: \\\\e[1;32m%s\\\\e[0m 🏁  \\\\n\\\\n\\\\e[0m" "TermuxArch command" "\$STRNRG" "version \$VERSIONID" "DONE 📱"
+printf '\033]2;  🔑 TermuxArch %s: DONE 📱 \007'  "'\$STRNRG'"
 }
 
 _PRTERROR_() {
-printf "\\n\\e[1;31merror: \\e[1;37m%s\\e[0m\\n\\n" "Please study the first lines of the error output and correct the error(s) and/or warning(s) and run '\$STRANARG' again."
+printf "\\n\\e[1;31merror: \\e[1;37m%s\\e[0m\\n\\n" "Please study the first lines of the error output and correct the error(s) and/or warning(s) and run '\$STRNRG' again."
 }
 
 _TRPET_() {
@@ -367,8 +367,8 @@ KEYRINGS[0]="archlinux-keyring"
 KEYRINGS[1]="ca-certificates-utils"
 fi
 ARGS="\${KEYRINGS[@]}"
-printf '\033]2;  🔑 TermuxArch %s 📲 \007' "'\$STRANARG'"
-printf "\\\\e[1;32m==> \\\\e[1;37mRunning command \\\\e[1;32m%s \\\\e[0;32m%s\\\\e[1;37m...\\\\n" "\$STRANARG" "version \$VERSIONID"
+printf '\033]2;  🔑 TermuxArch %s 📲 \007' "'\$STRNRG'"
+printf "\\\\e[1;32m==> \\\\e[1;37mRunning command \\\\e[1;32m%s \\\\e[0;32m%s\\\\e[1;37m...\\\\n" "\$STRNRG" "version \$VERSIONID"
 _GENEN_ ; kill \$! &
 _KEYSGENMSG_
 _DOPSY_() {
