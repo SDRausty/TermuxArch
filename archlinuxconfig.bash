@@ -5,7 +5,7 @@
 ## https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.
 ################################################################################
 _PRTPATCHHELP_() {
-printf "%s\\n" "[ -x $TMXRCHBNDR/patch ] || printf \"\\e[1;30m%s\\e[0;40m%s\\e[1;30m%s\\e[0;40m%s\\e[1;30m%s\\e[0;40m%s\\e[1;30m%s\\e[0;40m%s\\e[1;30m%s\\e[0m\\n\" \"This command \" \"'ln -s $PREFIX/bin/patch $INSTALLDIR$TMXRCHBNDR/patch'\" \" run in a native Termux shell might resolve a \" \"'patch: setting attribute security.selinux for security.selinux: Permission denied'\" \" error.  This workaround seems to work equally well in PRoot with QEMU architecture emulation as well.  Issues \" \"“Building xrdp from AUR fails mentioning selinux #293”\" \" at https://github.com/SDRausty/TermuxArch/issues/293 and \" \"“patch: setting attribute security.selinux for security.selinux: Permission denied #182”\" \" at https://github.com/termux/proot/issues/182 have more information about this error.\"" >> "$1"
+printf "%s\\n" "[ -x $TMXRCHBNDR/patch ] || printf \"\\e[1;30m%s\\e[0;40m%s\\e[1;30m%s\\e[0;40m%s\\e[1;30m%s\\e[0;40m%s\\e[1;30m%s\\e[0;40m%s\\e[1;30m%s\\e[0m\\n\" \"This command \" \"'ln -s $PREFIX/bin/patch $INSTALLDIR$TMXRCHBNDR/patch'\" \" should resolve a \" \"'patch: setting attribute security.selinux for security.selinux: Permission denied'\" \" error.  This workaround seems to work equally well in Termux PRoot with QEMU architecture emulation as well.  Issues \" \"“Building xrdp from AUR fails mentioning selinux #293”\" \" at https://github.com/SDRausty/TermuxArch/issues/293 and \" \"“patch: setting attribute security.selinux for security.selinux: Permission denied #182”\" \" at https://github.com/termux/proot/issues/182 have more information about this error.\"" >> "$1"
 }
 _ADDREADME_() {
 _CFLHDR_ $TMXRCHBNDS/README.md
@@ -546,7 +546,7 @@ git clone --depth 1 \"\$@\" --single-branch || git clone --depth 1 \"\$@\" --sin
 }
 BASENAME=\"\${@#*//}\" # strip before double slash
 BASENAME=\"\${BASENAME##*/}\" # strip before last slash
-[ -d \"\$BASENAME\" ] && printf \"Directory %s exists;  Exiting...\\n\" \"\$BASENAME\" && exit 102
+[ -d \"\$BASENAME\" ] && printf \"Directory %s exists;  Exiting...\\n\" \"\$BASENAME\" && exit
 [ -x \"\$(command -v git)\" ] || pc git || pci git
 _GITCLONE_ \"\$@\"
 ## ~/${INSTALLDIR##*/}$TMXRCHBNDR/gcl FE" >> $TMXRCHBNDS/gcl
@@ -656,126 +656,264 @@ _ADDmakeaurhelpers_() {
 _CFLHDR_ $TMXRCHBNDS/makeaurhelpers "# add Arch Linux AUR helpers https://wiki.archlinux.org/index.php/AUR_helpers"
 _PRTPATCHHELP_ "$TMXRCHBNDS/makeaurhelpers"
 cat >> $TMXRCHBNDS/makeaurhelpers <<- EOM
-HLPSTG="Help:  Command '\${0##*/}' accepts option 'confirm'."
-NMKPKC="nice -n 20 makepkg -firs"
-NMKPKN="nice -n 20 makepkg -firs --noconfirm"
-{ [ -z "\${1:-}" ] && NMKPKG="\$NMKPKN" ; } || { [[ "\${1//-}" = [Cc]* ]] && NMKPKG="\$NMKPKC" || NMKPKG="\$NMKPKN" && [[ "\${1//-}" = [Hh]* ]] && printf '%s\\n' "\$HLPSTG" && exit ; }
+if [ "\$UID" = 0 ]
+then
+printf "\\\\e[1;31m%s\\\\e[1;37m%s\\\\e[1;31mExiting...\\\\e[0m\\\\n" "ＴｅｒｍｕｘＡｒｃｈ SIGNAL:" "  Script '\${0##*/}' should not be used as root:  The command 'addauser' creates user accounts in Arch Linux in Termux PRoot and configures these user accounts for the command 'sudo':  The 'addauser' command is intended to be run by the Arch Linux in Termux PRoot root user:  To use 'addauser' directly from Termux you can run \"$STARTBIN command 'addauser user'\" in Termux to create this account in Arch Linux Termux PRoot:  The command '$STARTBIN help' has more information about using '$STARTBIN':  "
+exit 101
+fi
+HLPSTG="Help:	Command '\${0##*/}' accepts options 'all', 'noconfirm', 'reverse order build all' and 'small'.  One letter arguments are acceptable; i.e. '\${0##*/} r' is the equivalent of '\${0##*/} reverse order build all'."
+NMKPKC="nice -n 20 makepkg -Ccfis --check --needed"
+NMKPKN="nice -n 20 makepkg -Ccfis --check --needed --noconfirm"
+{ [ -z "\${1:-}" ] && NMKPKG="\$NMKPKC" ; } || { { [[ "\${1//-}" = [Aa]* ]] || [[ "\${1//-}" = [Nn]* ]] || [[ "\${1//-}" = [Ss]* ]] || [[ "\${1//-}" = [Rr]* ]] ; } && NMKPKG="\$NMKPKN" || NMKPKG="\$NMKPKC" && [[ "\${1//-}" = [Hh]* ]] && printf '%s\\n' "\$HLPSTG" && exit ; }
+[ -n "\${1:-}" ] && DALL="\${1//-}" && DALL="\${1:0:1}" || DALL=1
 _ARHCMD_() {
-{ [ -x /usr/bin/make ] && [ -x /usr/bin/strip ] ; } || { pc base base-devel binutils || pci base base-devel binutils ; } ||:
+{ [ -x /usr/bin/make ] && [ -x /usr/bin/strip ] ; } || { pc base base-devel binutils git || pci base base-devel binutils git ; }
+# add dependancies for bauerbill
+if [ "\$AURHELPER" = bauerbill ]
+then
+_CHKAURHELPER_ 1
+[ -f /run/lock/${INSTALLDIR##*/}/gpg1D1F0DC78F173680.lock ] || { printf '\\e[0m%s\\n' "Command '\${0##*/}' is running command gpg --keyserver keyserver.ubuntu.com --recv-keys 1D1F0DC78F173680" && gpg --keyserver keyserver.ubuntu.com --recv-keys 1D1F0DC78F173680 && :>/run/lock/${INSTALLDIR##*/}/gpg1D1F0DC78F173680.lock ; }
+makeaurpython3aur
+makeaurpython3colorsysplus
+fi
+# add dependancies for gfoxaur
+if [ "\$AURHELPER" = gfoxaur ]
+then
+_CHKAURHELPER_ 1
+{ [ -x /usr/bin/libinput ] || pc libinput || pci libinput ; }
+makeauraclegit
+fi
+# add dependancies for pacaur and pacaur-git
+if [ "\$AURHELPER" = pacaur ] || [ "\$AURHELPER" = pacaur-git ]
+then
+_CHKAURHELPER_ 1
+{ [ -x /usr/bin/expac ] || pc expac || pci expac ; }
+makeauraclegit
+fi
+# add dependancies for popular-packages
+if [ "\$AURHELPER" = popular-packages ]
+then
+_CHKAURHELPER_ 1
+makeaurpackagequery
+fi
+# add dependancies for pbget
+if [ "\$AURHELPER" = pbget ]
+then
+_CHKAURHELPER_ 1
+makeaurpython3aur
+makeaurpython3xcgf
+makeaurpython3xcpf
+makeaurpm2ml
+fi
+# add dependancies for powerpill
+if [ "\$AURHELPER" = powerpill ]
+then
+_CHKAURHELPER_ 1
+[ -x /usr/bin/aria2c ] || { pc aria2 || pci aria2 ; }
+makeaurpython3memoizedb
+makeaurpython3xcgf
+makeaurpython3xcpf
+makeaurpm2ml
+fi
+# add dependancies for stack-static
 if [ "\$AURHELPER" = stack-static ]
 then	# import stack-static key
+_CHKAURHELPER_ 1
 [ -f /run/lock/${INSTALLDIR##*/}/gpg575159689BEFB442.lock ] || { printf '\\e[0m%s\\n' "Command '\${0##*/}' is running command gpg --keyserver keyserver.ubuntu.com --recv-keys 575159689BEFB442" && gpg --keyserver keyserver.ubuntu.com --recv-keys 575159689BEFB442 && :>/run/lock/${INSTALLDIR##*/}/gpg575159689BEFB442.lock ; }
 fi
-if command -v "\$AURHELPER"
+# add dependancies for xaur
+if [ "\$AURHELPER" = xaur ]
 then
-printf '%s\\n' "Found command '\$AURHELPER';  The Arch Linux aur helper '\$AURHELPER' is already built."
+_CHKAURHELPER_ 1
+makeaurpyinstaller
+fi
+# add dependancies for zur
+if [ "\$AURHELPER" = zur ]
+then
+_CHKAURHELPER_ 1
+{ [ -x /usr/bin/zig ] || pc zig || pci zig ; }
+makeauraclegit
+fi
+_CHKAURHELPER_
+}
+
+_CHKAURHELPER_() {
+if command -v "\${AURHELPERS[\$AURHELPER]}" >/dev/null
+then
+printf '%s' "Found command '\${AURHELPERS[\$AURHELPER]}';  The Arch Linux aur helper \$(pacman -Qo \${AURHELPERS[\$AURHELPER]}).  "
+[[ "\$DALL" = [Aa]* ]] || [[ "\$DALL" = [Rr]* ]] || [[ "\$DALL" = [Ss]* ]] || exit 0
 else
+if [ -z "\${1:-}" ]
+then
 _CLONEAURHELPER_
+fi
 fi
 }
 
 _CLONEAURHELPER_() {
 if [ -d "\$AURHELPER" ]
 then
-{ printf "%s\\\\n" "Repository '\$AURHELPER' is already cloned." && _MAKEAURHELPER_ ; } || _PRTERROR_
+printf "%s" "Repository '\$AURHELPER' is already cloned...  " && _MAKEAURHELPER_ || _PRTERROR_
 else
-printf "%s\\\\n\\\\n" "Cloning repository '\$AURHELPER' from https://aur.archlinux.org." && cd && gcl https://aur.archlinux.org/\${AURHELPER}.git && printf "%s\\\\n\\\\n" "Finished cloning repository '\$AURHELPER' from https://aur.archlinux.org."
+printf "%s\\\\n" "Cloning git repository from 'https://aur.archlinux.org/\$AURHELPER' into directory '\$HOME/\$AURHELPER'..." && cd && gcl https://aur.archlinux.org/"\$AURHELPER"
 _MAKEAURHELPER_ || _PRTERROR_
 fi
 }
 
 _MAKEAURHELPER_() {
 cd "\$HOME/\$AURHELPER" || exit 196
-printf "%s\\\\n" "Running command '\$NMKPKG';  Attempting to build and install '\$AURHELPER' for architecture \$NMCMND with '\${0##*/}' version $VERSIONID;  Please be patient..."
+printf "%s\\\\n" "Running command '\$NMKPKG' in directory '\$PWD';  Attempting to build and install '\$AURHELPER' for architecture \$NMCMND with '\${0##*/}' version $VERSIONID;  Please be patient..."
 \$NMKPKG || _PRTERROR_
 }
 
 _PRTERROR_() {
-printf "\\\\n\\\\e[1;31merror: \\\\e[1;37m%s\\\\e[0m\\\\n\\\\n" "Please study the first lines of the error output and correct the error(s) and/or warning(s) and run '\$STRNRG' again."
+printf "\\\\n\\\\e[1;31merror: \\\\e[1;37m%s\\\\e[0m\\\\n\\\\n" "Please study the first lines of the error output and correct the error(s) and/or warning(s) and run '\$STRNRG' again.  You can use the TermuxArch command 'pci' to ensure that the system is uptodate.  The command 'gpg --keyserver keyserver.ubuntu.com --recv-keys 71A1D0EF' can be used to import gpg keys."
 }
 
-if [ "\$UID" = 0 ]
-then
-printf "\\\\e[1;31m%s\\\\e[1;37m%s\\\\e[1;31mExiting...\\\\e[0m\\\\n" "ＴｅｒｍｕｘＡｒｃｈ SIGNAL:" "  Script '\${0##*/}' should not be used as root:  The command 'addauser' creates user accounts in Arch Linux in Termux PRoot and configures these user accounts for the command 'sudo':  The 'addauser' command is intended to be run by the Arch Linux in Termux PRoot root user:  To use 'addauser' directly from Termux you can run \"$STARTBIN command 'addauser user'\" in Termux to create this account in Arch Linux Termux PRoot:  The command '$STARTBIN help' has more information about using '$STARTBIN':  "
-exit 101
-fi
 NMCMND="\$(uname -m)"
+for DRHLPR in AURHELPER AURHELPERD AURHELPERS AURHELPERSM ; do declare -A \$DRHLPR ; done
+# depreciated aur helpers reason
+AURHELPER=(
+[aget]=="Validating source files with b2sums skipped"
+[aura-git]="Validating source files with sha256sums skipped"
+[auracle-git]="Validating source files with sha256sums skipped"
+[aurh-git]="Validating source files with sha256sums skipped"
+[aurman]="Validating source files with md5sums skipped"
+[aurora-git]="Validating source files with md5sums skipped"
+[aurs]="curl: (22) The requested URL returned error: 503"
+[aurs-git]="Validating source files with sha512sum skipped"
+[aurutils]="Validating source files with sha512sum skipped"
+[baph]="Validating source files with md5sums skipped"
+[foxaur]="curl: (22) The requested URL returned error: 503"
+[goaur]="Validating source files with md5sums skipped"
+[liteaur]="Validating source files with sha256sums FAILED"
+[magico]="Validating source files with md5sums skipped"
+[maur]="Validating source files with sha512sum skipped"
+[pikaur-aurnews]="Validating source files with md5sums skipped"
+[pkgbuilder-git]="Validating source files with md5sums skipped"
+[repoctl-git]="Validating source files with sha512sum skipped"
+[simpleaur-git]="Validating source files with sha512sum skipped"
+[saurch-git]="fatal: repository 'http://vitali64.duckdns.org/git/utils/saurch.git/' not found"
+[trizen-git]="Validating source files with sha512sum skipped"
+[vam]="Validating source files with md5sums skipped"
+[wfa-git]="Validating source files with md5sums skipped"
+[yay-git]="Validating source files with sha512sum skipped"
+[yayim]="curl: (60) SSL: no alternative certificate subject name matches target host name 'gitea.jojiiofficial.de'"
+[yup]="Validating source files with sha256sums skipped"
+[yup-bin]="Validating source files with sha256sums skipped"
+[yup-git]="Validating source files with sha256sums skipped"
+[zeus]="Validating source files with sha256sums FAILED"
+[zur-git]="Validating source files with sha256sums skipped"
+)
+# depreciated aur helpers
+AURHELPERD=(
+[aget]=aget
+[aura-git]=aura
+[auracle-git]=auracle
+[aurh-git]=aurh
+[aurman]=aurman
+[aurora-git]=aurora
+[aurs]=aurs
+[aurs-git]=aurs
+[aurutils]=aurutils
+[baph]=baph
+[foxaur]=foxaur
+[goaur]=goaur
+[liteaur]=liteaur
+[magico]=magico
+[maur]=maur
+[pikaur-aurnews]=pikaur-aurnews
+[pkgbuilder-git]=pkgbuilder
+[repoctl-git]=repoctl
+[simpleaur-git]=simpleaur
+[saurch-git]=saurch
+[trizen-git]=trizen
+[vam]=vam
+[wfa-git]=wfa
+[yay-git]=yay
+[yayim]=yayim
+[yup]=yup
+[yup-bin]=yup
+[yup-git]=yup
+[zeus]=zeus
+[zur-git]=zur
+)
+# aur helpers
 AURHELPERS=(
-aget
-aura
-aura-git
-auracle-git
-aurget
-aurh-git
-aurman
-aurora-git
-aurs
-aurs-git
-aurum
-aurutils
-aurutils-git
-auryn
-baph
-bauerbill
-blinky
-buildaur
-buildaur-git
-foxaur
-gfoxaur
-git-aurcheck
-goaur
-haur
-lightpkg
-liteaur
-liteaur-git
-magico
-maur
-pacaur
-pacaur-git
-pakka
-pakku
-paru
-paru-bin
-paru-git
-pbget
-pikaur
-pikaur-aurnews
-pikaur-git
-pkgbuilder
-pkgbuilder-git
-puyo
-python3-aur
-ram
-repoctl
-repoctl-git
-repofish
-rua
-sakuri
-saurch-git
-simpleaur-git
-stack-static
-trizen
-trizen-git
-tulip-pm
-vam
-wfa-git
-xaur
-yaah
-yay
-yay-bin
-yay-git
-yup
-yup-bin
-yup-git
-zeus
-zeus-bin
-zur
-zur-git)
-printf "Command '%s' version %s;  Setting Arch Linux aur helper to build and install.  Please select the aur helper to install by number from this list:\\n" "\${0##*/}" "$VERSIONID"
-select AURHELPER in  \${AURHELPERS[@]} exit ;
+[aura]=aura
+[aurget]=aurget
+[aurto]=aurto
+[aurutils-git]=aur
+[auryn]=auryn
+[bauerbill]=bauerbill
+[blinky]=blinky
+[buildaur]=buildaur
+[buildaur-git]=buildaur
+[gfoxaur]=gfoxaur
+[git-aurcheck]=git-aurcheck
+[haur]=haur
+[lightpkg]=lightpkg
+[liteaur-git]=liteaur
+[package-query]=package-query
+[package-query-git]=package-query
+[pacaur]=pacaur
+[pacaur-git]=pacaur
+[pakka]=pakka
+[pakku]=pakku
+[pakku-git]=pakku
+[pakku-gui]=pakku
+[pakku-gui-git]=pakku
+[paru]=paru
+[paru-bin]=paru
+[paru-git]=paru
+[paruz]=paruz
+[pbget]=pbget
+[pikaur]=pikaur
+[pikaur-git]=pikaur
+[pkgbuild-introspection]=mksrcinfo
+[pkgbuild-introspection-git]=mksrcinfo
+[pkgbuilder]=pkgbuilder
+[powerpill]=powerpill
+[popular-packages]=popular-packages
+[puyo]=puyo
+[ram]=ram
+[repoctl]=repoctl
+[repofish]=repofish
+[rua]=rua
+[sakuri]=sakuri
+[stack-static]=stack
+[trizen]=trizen
+[tulip-pm]=tulip
+[xaur]=xaur
+[yaah]=yaah
+[yay]=yay
+[yay-bin]=yay
+[zeus-bin]=zeus
+[zur]=zur
+)
+# smaller aur helpers
+AURHELPERSM=(
+[aurget]=aurget
+[blinky]=blinky
+[haur]=haur
+[lightpkg]=lightpkg
+[liteaur-git]=liteaur
+[paruz]=paruz
+[pbget]=pbget
+[pikaur]=pikaur
+[pikaur-git]=pikaur
+[sakuri]=sakuri
+[trizen]=trizen
+[yaah]=yaah
+)
+[ -n "\${1:-}" ] && [[ "\${1//-}" = [Aa]* ]] && { for AURHELPER in \$(for AURHLP in "\${!AURHELPERS[@]}"; do printf '%s\n' "\$AURHLP" ; done | sort -n) ; do printf '%s\\n' "Attempting to build aur helper '\$AURHELPER'..." && _ARHCMD_ ||: ; done ; } && exit
+[ -n "\${1:-}" ] && [[ "\${1//-}" = [Rr]* ]] && { for AURHELPER in \$(for AURHLP in "\${!AURHELPERS[@]}"; do printf '%s\n' "\$AURHLP" ; done | sort -nr) ; do printf '%s\\n' "Attempting to build aur helper '\$AURHELPER'..." && _ARHCMD_ ||: ; done ; } && exit
+[ -n "\${1:-}" ] && [[ "\${1//-}" = [Ss]* ]] && { for AURHELPER in \$(for AURHLP in "\${!AURHELPERSM[@]}"; do printf '%s\n' "\$AURHLP" ; done | sort -n) ; do printf '%s\\n' "Attempting to build aur helper '\$AURHELPER'..." && _ARHCMD_ ||: ; done ; } && exit
+printf "Command '%s' version %s setting Arch Linux aur helper to build and install;  Please select the aur helper to install by number from this list or type quit to exit this menu:\\n" "\${0##*/}" "$VERSIONID"
+select AURHELPER in \$(for AURHLP in "\${!AURHELPERS[@]}" ; do printf '%s\n' "\$AURHLP" ; done | sort -n);
 do
-{ [ "\$AURHELPER" = exit ] || [[ "\$REPLY" = [Ee]* ]] || [[ "\$REPLY" = [Qq]* ]] ; } && printf '%s\\n' "Exiting..." && exit
-[[ "\${AURHELPERS[@]}" =~ (^|[[:space:]])"\$AURHELPER"($|[[:space:]]) ]] && printf "%s" "Option '\$REPLY' was picked from this list;  The chosen Arch Linux aur helper for architecture \$NMCMND to build and install is '\$AURHELPER'.  " && _ARHCMD_ && break || printf "%s\\n" "Answer '\$REPLY' was chosen;  Please select the Arch Linux aur helper to build and install by number from this list or type exit and tap enter to exit command '\${0##*/}':"
+{ [ "\$AURHELPER" = exit ] || [ "\$AURHELPER" = quit ] || [[ "\$REPLY" = [Ee]* ]] || [[ "\$REPLY" = [Qq]* ]] ; } && printf '%s\\n' "Exiting..." && exit
+[[ "\${!AURHELPERS[@]}" =~ (^|[[:space:]])"\$AURHELPER"($|[[:space:]]) ]] && printf "%s\\n" "Option '\$REPLY) \$AURHELPER' was picked from this list;  The chosen Arch Linux aur helper for architecture \$NMCMND to build and install is '\$AURHELPER'...  " && _ARHCMD_ && break || printf "%s\\n" "Answer '\$REPLY' was chosen;  Please select the Arch Linux aur helper to build and install by number from this list or type exit and tap enter to exit command '\${0##*/}':"
 done
 ## $INSTALLDIR$TMXRCHBNDR/makeaurhelpers FE
 EOM
@@ -802,23 +940,9 @@ pci automake base base-devel fakeroot git gcc libtool po4a || printf "\\n\\e[1;3
 fi
 cd
 [ -d fakeroot-tcp ] || gcl https://aur.archlinux.org/fakeroot-tcp.git
-_FUNDOPKGBUILD_() {
-[ -f makeaurfakeroottcpFUNDOPKGBUILD.lock || { cp PKGBUILD PKGBUILD.$$.bkp
-sed -ir '/prepare()/,+4d' PKGBUILD
-sed -i 's/silence-dlerror.patch//g' PKGBUILD
-sed -i 's/pkgver=1.24/pkgver=1.25.3/g' PKGBUILD
-sed -i 's/ftp.debian.org\/debian/http.kali.org\/kali/g' PKGBUILD
-sed -i '/^md5sums=/{n;d}' PKGBUILD
-sed -ir "s/^md5sums=.*/md5sums=('f6104ef6960c962377ef062bf222a1d2')/g" PKGBUILD
-:>"/run/lock/${INSTALLDIR##*/}/makeaurfakeroottcp.lock"
-:>makeaurfakeroottcpFUNDOPKGBUILD.lock ; }
-}
 cd fakeroot-tcp || exit 196
-[ ! -f "/run/lock/${INSTALLDIR##*/}/makeaurfakeroottcp_FUNDOPKGBUILD_.lock" ] && _FUNDOPKGBUILD_
-printf "%s\\\\n" "Running command 'nice -n 20 makepkg -firs';  Attempting to build and install 'fakeroot-tcp' with '\${0##*/}' version $VERSIONID.  Please be patient..."
-nice -n 20 makepkg -firs || _PRTERROR_
-libtool --finish /usr/lib/libfakeroot || _PRTERROR_
-:>"/run/lock/${INSTALLDIR##*/}/makeaurfakeroottcp.lock"
+printf "%s\\\\n" "Running command 'nice -n 20 makepkg -Ccfis --check --needed';  Attempting to build and install 'fakeroot-tcp' with '\${0##*/}' version $VERSIONID.  Please be patient..."
+{ nice -n 20 makepkg -Ccfis --check --needed && libtool --finish /usr/lib/libfakeroot && :>"/run/lock/${INSTALLDIR##*/}/makeaurfakeroottcp.lock" ; } || _PRTERROR_
 fi
 printf "%s\\\\n" "Building and installing fakeroot-tcp: DONE 🏁"
 }
@@ -891,7 +1015,7 @@ printf "\\\\e[1;31m%s\\\\e[1;37m%s\\\\e[1;31mExiting...\\\\e[0m\\\\n" "Ｔｅｒ
 else
 [ -x /usr/bin/yay ] && printf "\\\\e[0;32m%s\\\\e[0m\\\\n" "The command 'yay' is already installed!  Please use the command 'yay':  Exiting..." && exit
 _PRMAKE_() {
-printf "\\\\e[1;32m==> \\\\e[1;37mRunning command \\\\e[1;32mnice -n 20 makepkg -firs --noconfirm\\\\e[1;37m...\\\\n"
+printf "\\\\e[1;32m==> \\\\e[1;37mRunning command \\\\e[1;32mnice -n 20 makepkg -Ccfis --check --needed --noconfirm\\\\e[1;37m...\\\\n"
 }
 printf "\\\\e[0;32m%s\\\\e[0m\\\\n" "Building and installing 'yay':"
 if [[ -n "\${PREFIX:-}" ]]
@@ -906,7 +1030,7 @@ fi
 fi
 cd
 [ -d yay ] || gcl https://aur.archlinux.org/yay.git
-{ { cd yay || exit 169 ; } && _PRMAKE_ && nice -n 20 makepkg -firs --noconfirm ; } || { printf "\\\\e[1;31m%s\\\\e[1;37m%s\\\\e[1;31m%s\\\\n" "ＴｅｒｍｕｘＡｒｃｈ SIGNAL: " "The command 'nice -n 20 makepkg -firs --noconfirm' did not run as expected; " "EXITING..." && exit 124 ; }
+{ { cd yay || exit 169 ; } && _PRMAKE_ && nice -n 20 makepkg -Ccfis --check --needed --noconfirm ; } || { printf "\\\\e[1;31m%s\\\\e[1;37m%s\\\\e[1;31m%s\\\\n" "ＴｅｒｍｕｘＡｒｃｈ SIGNAL: " "The command 'nice -n 20 makepkg -Ccfis --check --needed --noconfirm' did not run as expected; " "EXITING..." && exit 124 ; }
 printf "\\\\e[0;32m%s\\\\n%s\\\\n%s\\\\e[1;32m%s\\\\e[0m\\\\n" "Paths that can be followed after building 'yay' are 'yay cmatrix --noconfirm' which builds a matrix screensaver.  The commands 'yay pikaur|pikaur-git|tpac' build more aur installers which can also be used to download aur repositories and build packages like with 'yay' in your Android smartphone, tablet, wearable and more.  Did you know that 'android-studio' is available with the command 'yay android'?" "If you have trouble importing keys, this command 'gpg --keyserver keyserver.ubuntu.com --recv-keys 71A1D0EFCFEB6281FD0437C71A1D0EFCFEB6281F' might help.  Change the number to the number of the key being imported." "Building and installing yay: " "DONE 🏁"
 fi
 ## ~/${INSTALLDIR##*/}$TMXRCHBNDR/makeauryay FE
@@ -914,26 +1038,33 @@ EOM
 chmod 755 $TMXRCHBNDS/makeauryay
 }
 
-_PREPFILEFCTN_() { _PRTPATCHHELP_ "$3" && printf "%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n" "[ \"\$UID\" = 0 ] && printf '\\e[1;31m%s\\e[1;37m%s\\e[1;31mExiting...\\n' \"Cannot run '\${0##*/}' as root user;\" \" the command 'addauser username' creates user accounts in ~/${INSTALLDIR##*/}; the command '$STARTBIN command addauser username' can create user accounts in ~/${INSTALLDIR##*/} from Termux; a default user account is created during setup; the default username 'user' can be used to access the PRoot system employing a user account; command '$STARTBIN help' has more information;  \" && exit 0" "_PRNTWAIT_() { printf '\\e[0;32mCommand \\e[1;32m%s\\e[0;32m is attempting to make and install command \\e[1;32m%s\\e[0;32m, %s;  Please wait...\\n' \"'\${0##*/}'\" \"'$1'\"  \"$4\" ; }" "[ -x /usr/bin/\"$1\" ] && { printf '\\e[0;32m%s, command \\e[1;32m%s\\e[0;32m is installed!  Please use the command \\e[1;32m%s\\e[0;32m to continue.  ' \"${4^}\" \"'$1'\" \"'$1'\" && exit ; }" "_PRNTWAIT_ && [ -x /usr/bin/make ] || { pc base base-devel || pci base base-devel ; }" "{ [ -f /run/lock/\"${INSTALLDIR##*/}\"/patchmakepkg.lock ] || patchmakepkg ; } && ${5:-} cd && { [ -x \"$2\" ] || { gcl https://aur.archlinux.org/\"$2\" && printf '\\e[0;32mCommand \\e[1;32m%s\\e[0;32m is continuing to make and install command \\e[1;32m%s\\e[0;32m, %s;  Please wait...\\n' \"'\${0##*/}'\" \"'$1'\"  \"$4\" ; } ; } && { cd \"$2\" || exit 169 ; } && makepkg -firs --noconfirm && \"$1\" -h ||:" "## ~/${INSTALLDIR##*/}/$3 FE" >> "$3" ; }
+_PREPFILEFCTN_() { _PRTPATCHHELP_ "$3" && printf "%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n" "[ \"\$UID\" = 0 ] && printf '\\e[1;31m%s\\e[1;37m%s\\e[1;31mExiting...\\n' \"Cannot run '\${0##*/}' as root user;\" \" the command 'addauser username' creates user accounts in ~/${INSTALLDIR##*/}; the command '$STARTBIN command addauser username' can create user accounts in ~/${INSTALLDIR##*/} from Termux; a default user account is created during setup; the default username 'user' can be used to access the PRoot system employing a user account; command '$STARTBIN help' has more information;  \" && exit 0" "_PRNTWAIT_() { printf '\\e[0;32mCommand \\e[1;32m%s\\e[0;32m is attempting to make and install command \\e[1;32m%s\\e[0;32m %s Please wait...\\n' \"'\${0##*/}'\" \"'$1'\"  \"$4\" ; }" "[ -x /usr/bin/\"$1\" ] && { printf '\\e[0;32m%s, command \\e[1;32m%s\\e[0;32m is installed!  Please use the command \\e[1;32m%s\\e[0;32m to continue.  ' \"${4^}\" \"'$1'\" \"'$1'\" && exit ; }" "_PRNTWAIT_ && [ -x /usr/bin/make ] || { pc base base-devel || pci base base-devel ; }" "{ [ -f /run/lock/\"${INSTALLDIR##*/}\"/patchmakepkg.lock ] || patchmakepkg ; } && ${5:-} cd && { [ -x \"$2\" ] || { gcl https://aur.archlinux.org/\"$2\" && printf '\\e[0;32mCommand \\e[1;32m%s\\e[0;32m is continuing to make and install command \\e[1;32m%s\\e[0;32m, %s;  Please wait...\\n' \"'\${0##*/}'\" \"'$1'\"  \"$4\" ; } ; } && { cd \"$2\" || exit 169 ; } && makepkg -Ccfis --check --needed --noconfirm && \"$1\" -h ||:" "## ~/${INSTALLDIR##*/}/$3 FE" >> "$3" ; }
 
-_PREPFILEFCTN1_() { _PRTPATCHHELP_ "$3" && printf "%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n" "[ \"\$UID\" = 0 ] && printf '\\e[1;31m%s\\e[1;37m%s\\e[1;31mExiting...\\n' \"Cannot run '\${0##*/}' as root user;\" \" the command 'addauser username' creates user accounts in ~/${INSTALLDIR##*/}; the command '$STARTBIN command addauser username' can create user accounts in ~/${INSTALLDIR##*/} from Termux; a default user account is created during setup; the default username 'user' can be used to access the PRoot system employing a user account; command '$STARTBIN help' has more information;  \" && exit 0" "_PRNTWAIT_() { printf '\\e[0;32mCommand \\e[1;32m%s\\e[0;32m is attempting to make and install Arch Linux package \\e[1;32m%s\\e[0;32m, %s;  Please wait...\\n' \"'\${0##*/}'\" \"'$2'\"  \"$4\" ; }" "[ -e \"$1\" ] && { printf '\\e[0;32m%s, package \\e[1;32m%s\\e[0;32m is installed!  Nothing to do for command \\e[1;32m%s\\e[0;32m.  ' \"${4^}\" \"'$2'\" \"'\${0##*/}'\" && exit ; }" "_PRNTWAIT_ && [ -x /usr/bin/make ] || { pc base base-devel || pci base base-devel ; }" "{ [ -f /run/lock/\"${INSTALLDIR##*/}\"/patchmakepkg.lock ] || patchmakepkg ; } && ${5:-} cd && { [ -x \"$2\" ] || { gcl https://aur.archlinux.org/\"$2\" && printf '\\e[0;32mCommand \\e[1;32m%s\\e[0;32m is continuing to make and install command \\e[1;32m%s\\e[0;32m, %s;  Please wait...\\n' \"'\${0##*/}'\" \"'$1'\"  \"$4\" ; } ; } && { cd \"$2\" || exit 169 ; } && makepkg -firs --noconfirm ||:" "## ~/${INSTALLDIR##*/}/$3 FE" >> "$3" ; }
+_PREPFILEFCTN1_() { _PRTPATCHHELP_ "$3" && printf "%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n" "[ \"\$UID\" = 0 ] && printf '\\e[1;31m%s\\e[1;37m%s\\e[1;31mExiting...\\n' \"Cannot run '\${0##*/}' as root user;\" \" the command 'addauser username' creates user accounts in ~/${INSTALLDIR##*/}; the command '$STARTBIN command addauser username' can create user accounts in ~/${INSTALLDIR##*/} from Termux; a default user account is created during setup; the default username 'user' can be used to access the PRoot system employing a user account; command '$STARTBIN help' has more information;  \" && exit 0" "_PRNTWAIT_() { printf '\\e[0;32mCommand \\e[1;32m%s\\e[0;32m is attempting to make and install Arch Linux package \\e[1;32m%s\\e[0;32m, %s;  Please wait...\\n' \"'\${0##*/}'\" \"'$2'\"  \"$4\" ; }" "[ -e \"$1\" ] && { printf '\\e[0;32m%s, package \\e[1;32m%s\\e[0;32m is installed!  Nothing to do for command \\e[1;32m%s\\e[0;32m.  ' \"${4^}\" \"'$2'\" \"'\${0##*/}'\" && exit ; }" "_PRNTWAIT_ && [ -x /usr/bin/make ] || { pc base base-devel || pci base base-devel ; }" "{ [ -f /run/lock/\"${INSTALLDIR##*/}\"/patchmakepkg.lock ] || patchmakepkg ; } && ${5:-} cd && { [ -x \"$2\" ] || { gcl https://aur.archlinux.org/\"$2\" && printf '\\e[0;32mCommand \\e[1;32m%s\\e[0;32m is continuing to make and install command \\e[1;32m%s\\e[0;32m, %s;  Please wait...\\n' \"'\${0##*/}'\" \"'$1'\"  \"$4\" ; } ; } && { cd \"$2\" || exit 169 ; } && makepkg -Ccfis --check --needed --noconfirm" "## ~/${INSTALLDIR##*/}/$3 FE" >> "$3" ; }
 
 _PREPFILEFCTNS0_() { _PRTPATCHHELP_ "$3" && printf "%s\\n%s\\n%s\\n%s\\n%s\\n" "[ \"\$UID\" = 0 ] && printf '\\e[1;31m%s\\e[1;37m%s\\e[1;31mExiting...\\n' \"Cannot run '\${0##*/}' as root user;\" \" the command 'addauser username' creates user accounts in ~/${INSTALLDIR##*/}; the command '$STARTBIN command addauser username' can create user accounts in ~/${INSTALLDIR##*/} from Termux; a default user account is created during setup; the default username 'user' can be used to access the PRoot system employing a user account; command '$STARTBIN help' has more information;  \" && exit 0" "{ [ -x /usr/bin/\"$1\" ] && printf '\\e[0;32mCommand \\e[1;32m%s\\e[0;32m is installed!  Please use the command \\e[1;32m%s\\e[0;32m to continue.  ' \"'$1'\" \"'$1'\" && exit ; }" "_PRNTWAIT_() { printf '\\e[0;32mCommand \\e[1;32m%s\\e[0;32m is attempting to make and install package \\e[1;32m%s\\e[0;32m;  Please wait...\\n' \"'\${0##*/}'\" \"'$2'\" ; }" "[ -x /usr/bin/make ] || { pc base base-devel || pci base base-devel ; }" "[ -f /run/lock/\"${INSTALLDIR##*/}\"/patchmakepkg.lock ] || patchmakepkg" >> "$3" ; }
 
-_PREPFILEFCTNS_() { printf "%s\\n" "{ { [ -e \"$1\" ] && printf '\\e[0;32mPackage \\e[1;32m%s\\e[0;32m is installed;  Continuing...  ' \"'$2'\"  ; } || { ${5:-} cd && { [ -e \"$1\" ] || gcl https://aur.archlinux.org/\"$2\" ; } && { cd \"$2\" || exit 169 ; } && _PRNTWAIT_ && makepkg -firs --noconfirm ; } ; }" >> "$3" ; }
+_PREPFILEFCTNS_() { printf "%s\\n" "{ { [ -e \"$1\" ] && printf '\\e[0;32mPackage \\e[1;32m%s\\e[0;32m is installed;  Continuing...  ' \"'$2'\"  ; } || { ${5:-} cd && { [ -e \"$1\" ] || gcl https://aur.archlinux.org/\"$2\" ; } && { cd \"$2\" || exit 169 ; } && _PRNTWAIT_ && makepkg -Ccfis --check --needed --noconfirm ; } ; }" >> "$3" ; }
 
 _PREPFILEFTN0_() { _CFLHDR_ $TMXRCHBNDS/makeaur"$3" "# Command '$3' attempts to make and install command '$1' $4" && _PREPFILEFCTN_ "$1" "$2" "$TMXRCHBNDS/makeaur$3" "$4" "${5:-}" && chmod 755 $TMXRCHBNDS/makeaur"$3" ; }
 
 _PREPFILEFTN1_() { _CFLHDR_ $TMXRCHBNDS/makeaur"$3" "# Command '$3' attempts to make and install Arch Linux package '$3' $4" && _PREPFILEFCTN1_ "$1" "$2" "$TMXRCHBNDS/makeaur$3" "$4" "${5:-}" && chmod 755 $TMXRCHBNDS/makeaur"$3" ; }
 
-_ADDmakeaurpacaur_() { _PREPFILEFTN0_ pacaur pacaur pacaur "an AUR helper that minimizes user interaction" "{ [ -x /usr/bin/expac ] || pc expac --noconfirm ; } && { makeauraclegit ||: ; } && { printf '\\e[0m[1/1]  ' ; makeaurjqgit ||: ; } &&" ; }
+_ADDmakeaurpacaur_() { _PREPFILEFTN0_ pacaur pacaur pacaur "an AUR helper that minimizes user interaction" "{ [ -x /usr/bin/expac ] || pc expac --noconfirm || pci expac ; } && { makeauraclegit ||: ; } && { printf '\\e[0m[1/1]  ' ; makeaurjqgit ||: ; } &&" ; }
+
 _ADDmakeaurjqgit_() { _PREPFILEFTN0_ jq jq-git jqgit "Command line JSON processor" "" ; }
+
+_ADDmakeaurpyinstaller_() { _PREPFILEFTN0_ pyinstaller pyinstaller pyinstaller "" "makeaurpyinstallerhookscontrib && makeaurpythonaltgraph &&" ; }
+
+_ADDmakeaurpyinstallerhookscontrib_() { _PREPFILEFTN0_ pyinstaller-hooks-contrib pyinstaller-hooks-contrib pyinstallerhookscontrib "" ; }
 
 _ADDmakeaurpacaurgit_() { _PREPFILEFTN0_ pacaur pacaur-git pacaurgit "an AUR helper that minimizes user interaction" "{ [ -x /usr/bin/cmake ] || { pc cmake expac || pci cmake expac ; } ; } && { printf '\\e[0m[1/1]  ' ; makeauraclegit ||: ; } &&" ; }
 
 _ADDmakeaurpbget_() { _PREPFILEFTN0_ pbget pbget pbget "retrieve PKGBUILD and local source files from Git, ABS and the AUR for makepkg" "{ [ -f /usr/lib/python3.10/site-packages/pyxdg-0.27-py3.10.egg-info/PKG-INFO ] || pc python-pyxdg ; } && { printf '\\e[0m[1/4]  ' ; makeaurpython3memoizedb ||: ; } && { printf '[2/4]  ' ; makeaurpython3xcgf ||: ; } && { printf '[2/4]  ' ; makeaurpython3xcpf ||: ; } && { printf '[3/4]  ' ; makeaurpm2ml ||: ; } && { printf '[4/4]  ' ; makeaurpython3aur ||: ; } &&" ; }
 
-_ADDmakeaurpython3colorsysplus_() { _PREPFILEFTN1_ "/usr/lib/python3.10/site-packages/XCGF.py" python3-colorsysplus python3colorsysplus "an extension of the standard colorsys module with support for CMYK, terminal colors, ANSI and more" ; }
+_ADDmakeaurpythonaltgraph_() { _PREPFILEFTN0_ python-altgraph python-altgraph pythonaltgraph "" ; }
+
+_ADDmakeaurpython3colorsysplus_() { _PREPFILEFTN1_ "/usr/lib/python3.10/site-packages/colorsysplus/__init__.py" python3-colorsysplus python3colorsysplus "an extension of the standard colorsys module with support for CMYK, terminal colors, ANSI and more" ; }
 
 _ADDmakeaurpython3memoizedb_() { _PREPFILEFTN1_ "/usr/lib/python3.10/site-packages/MemoizeDB.py" python3-memoizedb python3memoizedb "a generic data retrieval memoizer that uses an sqlite database to cache data" ; }
 
@@ -967,7 +1098,7 @@ _ADDmakeaurpikaurgit_() { _PREPFILEFTN0_ pikaur pikaur-git pikaurgit "an AUR hel
 _ADDmakeaurpkgbuilder_() { _PREPFILEFTN0_ pkgbuilder pkgbuilder pkgbuilder "a Python AUR helper/library" ; }
 _ADDmakeaurpkgbuildergit_() { _PREPFILEFTN0_ pkgbuilder pkgbuilder-git pkgbuildergit "a Python AUR helper/library (git version)" ; }
 _ADDmakeaurpopularpackages_() { _PREPFILEFTN0_ popular-packages popular-packages popularpackages "which lists popular packages not (yet) installed" ; }
-_ADDmakeaurpowerpill_() { _PREPFILEFTN0_ powerpill powerpill powerpill "pacman wrapper for faster downloads" "{ [ -e /usr/share/doc/fmt/index.html ] || { pc fmt nlohmann-json || pci fmt nlohmann-json ; } ; } &&" ; }
+_ADDmakeaurpowerpill_() { _PREPFILEFTN0_ powerpill powerpill powerpill "pacman wrapper for faster downloads" "{ [ -e /usr/share/doc/fmt/index.html ] || { pc fmt || pci fmt ; } ; } &&" ; }
 _ADDmakeaurpuyo_() { _PREPFILEFTN0_ puyo puyo puyo "an assistant for managing packages on Arch Linux" "makeauryay &&" ; }
 _ADDmakeaurrepoctl_() { _PREPFILEFTN0_ repoctl repoctl repoctl "an AUR helper that also simplifies managing local Pacman repositories" ; }
 _ADDmakeaurrepoctlgit_() { _PREPFILEFTN0_ repoctl repoctl-git repoctlgit "an AUR helper that also simplifies managing local Pacman repositories (development version)" ; }
@@ -979,7 +1110,7 @@ _ADDmakeaurtrizen_() { _PREPFILEFTN0_ trizen trizen trizen "the Trizen AUR Packa
 _ADDmakeaurtrizengit_() { _PREPFILEFTN0_ trizen trizen-git trizengit "the Trizen AUR Package Manager, a lightweight pacman wrapper and AUR helper (git version)" ; }
 _ADDmakeaurtpac_() { _PREPFILEFTN0_ tpac tpac tpac  "a trizen wrapper to mimic yaourt's search feature" ; }
 _ADDmakeauryaah_() { _PREPFILEFTN0_ yaah yaah yaah "Yet Another AUR Helper" ; }
-_ADDmakeauryayim_() { _PREPFILEFTN0_ yayim yayim yayim "a modified version of yay with additional features, improvements and small bug fixes" ; }
+_ADDmakeaurzigzag_() { _PREPFILEFTN0_ zig-zag zig-zag zig-zag "a programming language prioritizing robustness, optimality, and clarity" ; }
 
 _ADDmakeksh_() {
 _CFLHDR_ $TMXRCHBNDS/makeksh "# build and install the ksh shell; Inspired by https://github.com/termux/termux-api/issues/436"
