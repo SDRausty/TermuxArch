@@ -59,6 +59,7 @@ _ADDmakeaurparuz_
 _ADDmakeaurpbget_
 _ADDmakeaurpikaur_
 _ADDmakeaurpikaurgit_
+_ADDmakeaurpipessh_
 _ADDmakeaurpkgbuilder_
 _ADDmakeaurpkgbuildergit_
 _ADDmakeaurpm2ml_
@@ -171,7 +172,7 @@ printf "\\\\e[1;31m%s\\\\e[0;31m%s\\\\e[0;36m%s\\\\n\\\\n" "Signal generated in 
 printf "\\\\e[1;34m%s\\\\e[0;34m%s\\\\e[1;34m%s\\\\e[0;34m%s\\\\e[1;34m%s\\\\e[0m\\\\n\\\\n" "  If you find improvements for " "${0##*}" " and " "\${0##*}" " please open an issue and an accompanying pull request."
 }
 _HUSDIRC_ "\$@"
-## ~/${INSTALLDIR##*/}$TMXRCHBNDR/addauser FE
+## $INSTALLDIR$TMXRCHBNDR/addauser FE
 EOM
 chmod 755 $TMXRCHBNDS/addauser
 }
@@ -401,7 +402,7 @@ printf "\\\\e[1;32m==> \\\\e[1;37mRunning command \\\\e[1;32mpacman -Ss keyring 
 pacman -Ss keyring --color=always || pacman -Ss keyring --color=always || _PRTERROR_
 $X86INT
 $X86INK
-## ~/${INSTALLDIR##*/}$TMXRCHBNDR/keys FE
+## $INSTALLDIR$TMXRCHBNDR/keys FE
 EOM
 chmod 755 $TMXRCHBNDS/keys
 }
@@ -535,6 +536,7 @@ printf "%s" "Creating file ~/${INSTALLDIR##*/}/var/lib/pacman/db.lck;  You can u
 printf "%s\\n" "Continuing..."
 fi
 printf "%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n" "if [ -f \"$INSTALLDIR/var/lock/${INSTALLDIR##*/}/\$\$elock\" ]" "then" "if [ -f \"$INSTALLDIR/var/lib/pacman/db.lck\" ]" "then" "printf \"%s\" \"Deleting file '~/${INSTALLDIR##*/}/var/lib/pacman/db.lck';  You can use the TermuxArch 'pacmandblock' command to alter this lock state.  Please use 'startarch' and 'startarch l[ogin] username' to install software in the Arch Linux in Termux PRoot environment:  \"" "rm -f \"$INSTALLDIR/var/lib/pacman/db.lck\"" "printf \"%s\\\\n\" \"DONE\"" "fi" "rm -f \"$INSTALLDIR/var/lock/${INSTALLDIR##*}\$\$elock\"" "fi" "[ ! -f "$INSTALLDIR/home/\$2/.hushlogout" ] && [ ! -f "$INSTALLDIR/home/\$2/.chushlogout" ] && . /etc/moto" "h # write session history to file HOME/.historyfile" "## .bash_logout FE" > "$INSTALLDIR/home/\$2/.bash_logout"
+## $INSTALLDIR$TMXRCHBNDR/keys FE
 EOM
 printf "%s\\n" "$PROOTSTMNTEU /bin/su - \"\$2\" ||:" >> "$STARTBIN"
 cat >> "$STARTBIN" <<- EOM
@@ -667,7 +669,7 @@ if [[ "${LCR:-}" -eq 3 ]] || [[ "${LCR:-}" -eq 4 ]]
 then
 printf "%s\\n" "locale-gen || locale-gen" >> root/bin/"$BINFNSTP"
 fi
-printf "%s\\n" "# root/bin/$BINFNSTP FE" >> root/bin/"$BINFNSTP"
+printf "%s\\n" "# $BINFNSTP FE" >> root/bin/"$BINFNSTP"
 chmod 700 root/bin/"$BINFNSTP"
 }
 
@@ -675,7 +677,7 @@ _MAKESETUPBIN_() {
 _CFLHDR_ root/bin/setupbin.bash
 printf "%s\\n" "set +Eeuo pipefail" >> root/bin/setupbin.bash
 printf "%s\\n" "$PROOTSTMNT /root/bin/$BINFNSTP ||:" >> root/bin/setupbin.bash
-printf "%s\\n" "# root/bin/setupbin.bash FE" >> root/bin/setupbin.bash
+printf "%s\\n" "# setupbin.bash FE" >> root/bin/setupbin.bash
 chmod 700 root/bin/setupbin.bash
 }
 
