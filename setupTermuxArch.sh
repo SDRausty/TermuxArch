@@ -6,7 +6,7 @@
 set -Eeuo pipefail
 shopt -s  extglob nullglob globstar
 unset LD_PRELOAD
-VERSIONID=2.0.533
+VERSIONID=2.0.534
 _STRPEROR_() { # run on script error
 local RV="$?"
 printf "\\e[1;48;5;138m %s" "ＴｅｒｍｕｘＡｒｃｈ NOTICE:  Generated script signal received ${RV:-UNKNOWN} near or at line number ${1:-UNKNOWN} by '${2:-UNKNOWNCOMMAND}'!  "
@@ -21,19 +21,15 @@ _TAMATRIXEND_
 fi
 if [[ "$RV" != 0 ]]
 then
-printf "\\e[1;32mPlease run 'bash %s' again, or use 'bash %s refresh' once Arch Linux is installed in Termux PRoot.  " "${0##*/}" "${0##*/}"
-printf "\\e[1;32mRunning command '%s refresh' may assist in completing the installation and configuration.  " "${0##*/}"
-printf "\\e[1;32mCommand '%s refresh' can be used to refresh the Arch Linux in Termux PRoot system to the newest version published;  Command '%s sysinfo' has more information.  It can help with diagnostics.  " "${0##*/}" "${0##*/}"
-printf "\\e[1;32mIs the system that you are using [up to date with packages](https://github.com/WAE/au), [app](https://github.com/termux/termux-app/releases) and Android?  " "${0##*/}"
-printf "\\e[1;32mCommand '%s help' has more information.  " "${0##*/}"
+_PTSTRPXT_
 fi
 if [[ "$RV" = 0 ]]
 then
-printf "\\e[0;32mCommand \\e[1;32m'%s' \\e[0;32mversion %s\\e[1;34m: \\e[1;32m%s\\n" "$STRNRG" "${VERSIONID:-}" "DONE 🏁 "
-printf "\033]2; %s:  %s\\007" "$STRNRG" "DONE 🏁 "
+printf "\\e[0;32mCommand \\e[1;32m'%s' \\e[0;32mversion %s\\e[1;34m: \\e[1;32m%s\\n" "${STRNRG:-}" "${VERSIONID:-}" "DONE 🏁 "
+printf "\033]2; %s:  %s\\007" "${STRNRG:-}" "DONE 🏁 "
 else
-printf "\\e[0;32mCommand \\e[1;32m'%s' \\e[0;32mversion %s\\e[1;34m: \\e[1;32m%s\\n" "$STRNRG" "${VERSIONID:-}" "[Exit Signal $RV] DONE 🏁 "
-printf "\033]2; %s: %s %s \\007" "$STRNRG" "[Exit Signal $RV]" "DONE 🏁 "
+printf "\\e[0;32mCommand \\e[1;32m'%s' \\e[0;32mversion %s\\e[1;34m: \\e[1;32m%s\\n" "${STRNRG:-}" "${VERSIONID:-}" "[Exit Signal $RV] DONE 🏁 "
+printf "\033]2; %s: %s %s \\007" "${STRNRG:-}" "[Exit Signal $RV]" "DONE 🏁 "
 fi
 [ -z "${TAMPDIR:-}" ] || rm -rf "$TAMPDIR"
 printf "\\e[?25h\\e[0m"
@@ -65,13 +61,16 @@ trap '_STRPHNGP_ $LINENO $BASH_COMMAND $?' HUP
 trap '_STRPNTRT_ $LINENO $BASH_COMMAND $?' INT
 trap '_STRPQUIT_ $LINENO $BASH_COMMAND $?' QUIT
 trap '_STRPTERM_ $LINENO $BASH_COMMAND $?' TERM
+ARGS="${@%/}"
+PGNM="${0##*/}"
+{ [ -z "${ARGS:-}" ] && STRNRG="${0##*/}" ; } || STRNRG="${0##*/} ${ARGS:-}"
 if [ "$EUID" = 0 ] || [ "$UID" = 0 ]
 then
-printf "\\e[1;48;5;168mＴｅｒｍｕｘＡｒｃｈ %s\\n\\n" "${0##*/} SIGNAL:  Please do not use the root login for PRoot:  EXITING..." "${0##*/}" && exit 164
+printf "\\e[1;48;5;168m%s\\e[0m\\n" "ＴｅｒｍｕｘＡｒｃｈ ${PGNM^^} SIGNAL:  Please do not use the root login for PRoot:  EXITING..." && exit
 fi
 if [ -w /root ]
 then
-printf "\\e[1;48;5;138mＴｅｒｍｕｘＡｒｃｈ %s\\n\\n" "${0##*/} SIGNAL:  Please run '%s' and 'bash %s' from the BASH shell in native Termux:  EXITING..." "${0##*/}" && exit 168
+printf "\\e[1;48;5;138m%s\\e[0m\\n" "ＴｅｒｍｕｘＡｒｃｈ ${PGNM^^} SIGNAL:  Please run '${0##*/}' and 'bash ${0##*/}' from the BASH shell in native Termux:  EXITING..." && exit
 fi
 _ARG2DIR_() {  # argument as ROOTDIR
 ARG2="${@:2:1}"
@@ -618,6 +617,13 @@ printf "\\n\\e[0;34m 🕛 > 🕛 \\e[1;34mＴｅｒｍｕｘＡｒｃｈ %s $1\\
 _PSGI1ESTRING_() {	# print signal generated in arg 1 format
 printf "\\e[1;33m  SIGNAL GENERATED in %s\\e[1;34m; \\e[1;32mCONTINUING...  \\e[0;34mExecuting \\e[0;32m%s\\e[0;34m in the native shell once the installation and configuration process completes will attempt to finish the autoconfiguration and installation if the installation and configuration processes were not completely successful.  Should better solutions for \\e[0;32m%s\\e[0;34m be found, please open an issue and accompanying pull request if possible.\\nThe entire script can be reviewed by creating a \\e[0;32m%s\\e[0;34m directory with the command \\e[0;32m%s\\e[0;34m which can be used to access the entire installation script.  This option does NOT configure and install the root file system.  This command transfers the entire script into the home directory for hacking, modification and review.  The command \\e[0;32m%s\\e[0;34m has more information about how to use use \\e[0;32m%s\\e[0;34m.\\n" "'$1'" "'bash ${0##*/} refresh'" "'${0##*/}'" "'~/TermuxArchBloom/'" "'${0##*/} b'" "'${0##*/} help'" "'${0##*/}'"
 }
+_PTSTRPXT_() { # print run on exit messages
+printf "\\e[0;32mPlease run 'bash %s' again, or use 'bash %s refresh' once Arch Linux is installed in Termux PRoot QEMU.  " "${0##*/}" "${0##*/}"
+printf "\\e[0;32mRunning command '%s refresh' can assist in completing the installation and configuration.  This command also updates the system to the newest version snd runs the command 'keys'.  If command '%s refresh' does not assist in completing the tasks of installing and configuring the Arch Linux system completely, these alternate commands '%s re' then using '%s r' can help in the order given.  Command 'keys' can also assist in installing default Arch Linux system keyrings.  " "${0##*/}" "${0##*/}" "${0##*/}" "${0##*/}"
+printf "\\e[0;32mCommand '%s refresh' can be used to refresh the Arch Linux system in Termux PRoot QEMU system to the newest version published;  Command '%s sysinfo' has more information.  The '%s sysinfo' command can help with diagnostics.  " "${0##*/}" "${0##*/}"
+printf "\\e[1;32mIs the system that you are using [up to date with packages](https://github.com/WAE/au), [app](https://github.com/termux/termux-app/releases) and %s HARDWARE?  " "${CPUABI^^}"
+printf "\\e[1;32mCommand '%s help' has more information.  " "${0##*/}"
+}
 _QEMU_() {
 _INST_() { # check for neccessary commands
 COMMS="$1"
@@ -871,7 +877,6 @@ WFDIR="${WFDIR%/*}"
 ## >>>>>>>>>>>>>>>>>>
 ## Please open an issue and an accompanying pull request at GitHub if you would like to have any these options amended and/or new options added.  Please see the new feature at Github, the discussion option!
 ## []  Run default Arch Linux install.
-{ [ -z "${ARGS:-}" ] && STRNRG="${0##*/}" ; } || STRNRG="${0##*/} ${ARGS:-}"
 if [[ -z "${1:-}" ]]
 then
 _OPT1_ "$@"

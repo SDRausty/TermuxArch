@@ -10,8 +10,16 @@ printf "%s\\n%s\\n" "[ -e $TMXRCHBNDR/am ] || cp $PREFIX/bin/am $INSTALLDIR$TMXR
 _PRTPATCHHELP_() {
 printf "%s\\n" "[ -e $TMXRCHBNDR/patch ] || printf \"\\e[1;30m%s\\e[0;40m%s\\e[1;30m%s\\e[0;40m%s\\e[1;30m%s\\e[0;40m%s\\e[1;30m%s\\e[0;40m%s\\e[1;30m%s\\e[0m\\n\" \"This command \" \"'ln -s $PREFIX/bin/patch $INSTALLDIR$TMXRCHBNDR/patch'\" \" should resolve a \" \"'patch: setting attribute security.selinux for security.selinux: Permission denied'\" \" error.  This workaround seems to work equally well in Termux PRoot with QEMU architecture emulation as well.  Issues \" \"“Building xrdp from AUR fails mentioning selinux #293”\" \" at https://github.com/SDRausty/TermuxArch/issues/293 and \" \"“patch: setting attribute security.selinux for security.selinux: Permission denied #182”\" \" at https://github.com/termux/proot/issues/182 have more information about this error.\"" >> "$1"
 }
+_PRTRTHLP_() {
+printf "%s\\n" "if [ "\$EUID" = 0 ] || [ "\$UID" = 0 ]
+then
+printf \"\\e[1;31m%s\\e[1;37m%s\\e[1;31mExiting...\\e[0m\\n\" \"ＴｅｒｍｕｘＡｒｃｈ \${SRPTNM^^} SIGNAL:\" \"  Script '\$SRPTNM' should not be used as root:  The command 'addauser' creates user accounts in Arch Linux in Termux PRoot and configures these user accounts for the Arch Linux 'sudo' command:  The 'addauser' command is intended to be run by the Arch Linux in Termux PRoot root user:  To use 'addauser' directly from Termux you can run '$STARTBIN command 'addauser user'' in Termux to create this account in Arch Linux Termux PRoot:  The command '$STARTBIN help' has more information about using '$STARTBIN':  \"
+exit 101
+fi" >> "$1"
+}
+
 _ADDREADME_() {
-_CFLHDR_ $TMXRCHBNDS/README.md
+_CFLHDR_ "$TMXRCHBNDS"/README.md
 printf "%s\\n" "The $TMXRCHBNDR directory contains TermuxArch shortcut commands that automate and make using the command line easier.  Some of these commands are listed here:
 
 * Command 'addauser' creates Arch Linux user accounts in Termux PRoot QEMU and configures them for use with the Arch Linux 'sudo' command,
@@ -32,14 +40,14 @@ This command 'ls $TMXRCHBNDR && cat ~/.bashrc' issued in the Termux PRoot QEMU e
 
 * Comments are welcome at https://github.com/TermuxArch/TermuxArch/issues ✍
 * Pull requests are welcome at https://github.com/TermuxArch/TermuxArch/pulls ✍
-<!-- $INSTALLDIR$TMXRCHBNDR/README.md FE -->" > $TMXRCHBNDS/README.md
+<!-- $INSTALLDIR$TMXRCHBNDR/README.md FE -->" > "$TMXRCHBNDS"/README.md
 }
 
 _ADDae_() {
-_CFLHDR_ $TMXRCHBNDS/ae "# Developed at [pacman-key --populate archlinux hangs](https://github.com/SDRausty/TermuxArch/issues/33) Contributor cb125"
+_CFLHDR_ "$TMXRCHBNDS"/ae "# Developed at [pacman-key --populate archlinux hangs](https://github.com/SDRausty/TermuxArch/issues/33) Contributor cb125"
 printf "%s\\n" "watch cat /proc/sys/kernel/random/entropy_avail
-## $INSTALLDIR$TMXRCHBNDR/ae FE" >> $TMXRCHBNDS/ae
-chmod 755 $TMXRCHBNDS/ae
+## $INSTALLDIR$TMXRCHBNDR/ae FE" >> "$TMXRCHBNDS"/ae
+chmod 755 "$TMXRCHBNDS"/ae
 }
 
 _ADDbash_logout_() {
@@ -72,8 +80,8 @@ then
 rm -f \"\$HOME\"/.chushlogin
 fi
 PS1=\"\\[\\e[38;5;148m\\]\\u\\[\\e[1;0m\\]\\A\\[\\e[1;38;5;112m\\]\\W\\[\\e[0m\\]$ \"" >> root/.bash_profile
-[[ -f "$HOME"/.bash_profile ]] && grep proxy "$HOME"/.bash_profile | grep -s "export" >> root/.bash_profile ||:
-[[ -f "$HOME"/.bash_profile ]] && grep EDITOR "$HOME"/.bash_profile | grep -s "export" >> root/.bash_profile ||:
+[[ ! -f "$HOME"/.bash_profile ]] || grep proxy "$HOME"/.bash_profile | grep -s "export" >> root/.bash_profile ||:
+[[ ! -f "$HOME"/.bash_profile ]] || grep EDITOR "$HOME"/.bash_profile | grep -s "export" >> root/.bash_profile ||:
 SHELVARS=" ANDROID_ART_ROOT ANDROID_DATA ANDROID_I18N_ROOT ANDROID_ROOT ANDROID_RUNTIME_ROOT ANDROID_TZDATA_ROOT BOOTCLASSPATH DEX2OATBOOTCLASSPATH"
 for SHELVAR in ${SHELVARS[@]}
 do
@@ -238,20 +246,20 @@ alias UM='uname -m'
 alias Um='uname -m'
 alias um='uname -m'
 EOM
-[ -f "$HOME"/.bashrc ] && grep -s EDITOR "$HOME"/.bashrc | grep -s "export" >>  root/.bashrc ||:
-[ -f "$HOME"/.bashrc ] && grep -s proxy "$HOME"/.bashrc | grep -s "export" >>  root/.bashrc ||:
+[ ! -f "$HOME"/.bashrc ] ||grep -s EDITOR "$HOME"/.bashrc | grep -s "export" >>  root/.bashrc ||:
+[ ! -f "$HOME"/.bashrc ] || grep -s proxy "$HOME"/.bashrc | grep -s "export" >>  root/.bashrc ||:
 printf "%s\\n" "## .bashrc FE" >> root/.bashrc
 }
 
 _ADDcams_() {
-_CFLHDR_ $TMXRCHBNDS/cams "### Example usage: 'cams 0 255 16 2048 r 90 2'
+_CFLHDR_ "$TMXRCHBNDS"/cams "### Example usage: 'cams 0 255 16 2048 r 90 2'
 ### Loop example: 'while true ; do cams ; done'
 ### Semantics: [camid [totalframes+1 [framespersecond [threshold [r[otate] [degrees [exitwait]]]]]]]
 ### Please run 'au ffmpeg imagemagick termux-api' before running this script.  Also ensure that Termux-api is installed, which is available at this https://github.com/termux/termux-api/actions/workflows/debug_build.yml webpage.
 ### VLC media player APK can be downloaded from these https://www.videolan.org/vlc/download-android.html and https://get.videolan.org/vlc-android/3.3.4/ webpages.
 ### More options in addition to image checking and rotation can be added by editing this file at the magick rotation command;  The command line options for magick are listed at this https://imagemagick.org/script/command-line-options.php webpage.
 ### Seven arguments are listed below, including their default values;  If run with no arguments, the default values will be used:"
-cat >> $TMXRCHBNDS/cams <<- EOM
+cat >> "$TMXRCHBNDS"/cams <<- EOM
 [[ -n "\${1:-}" ]] && { [[ "\${1//-}" = [\/]* ]] || [[ "\${1//-}" = [?]* ]] || [[ "\${1//-}" = [Hh]* ]] ; } && { printf '\e[1;32m%s\n' "Help for '\${0##*/}':" && TSFILE="(\$(grep '##\ ' "\$0"))" && printf '\e[0;32m%s\e[1;32m\n%s\n' "\$(for HL in "\${TSFILE[@]}" ; do cut -d\) -f1 <<< "\${HL//###/	}" | cut -f 2 ; done )" "Help for '\${0##*/}': DONE" ; exit ; }
 [[ -n "\${1:-}" ]] && { [[ "\${1//-}" = [Pp]* ]] && POCKET=0 && CAMID=2 && printf '%s\\n' pocket || CAMID=\${1:-2} ; }
 [[ -z "\${1:-}" ]] && CAMID=2 ### [1] default 2:  One camera 0 1 2 3 4 5 6 7 id,
@@ -387,46 +395,46 @@ printf '\e[0;34m%s\e[1;36m%s\e[0;34m%s\e[0m\n' "The command " "termux-wake-unloc
 sleep "\${7:-4}" ### [7] default of four seconds:  Time before exit;  Programs 'convert' and 'ffmpeg' will continue to run in the background until their jobs of producing animated gif and webm files end.
 ## $INSTALLDIR$TMXRCHBNDR/cams FE
 EOM
-chmod 755 $TMXRCHBNDS/cams
+chmod 755 "$TMXRCHBNDS"/cams
 }
 
 _ADDcdtd_() {
-_CFLHD_ $TMXRCHBNDS/cdtd "# Usage: \`. cdtd\` the dot sources \`cdtd\` which makes this shortcut script work."
+_CFLHD_ "$TMXRCHBNDS"/cdtd "# Usage: \`. cdtd\` the dot sources \`cdtd\` which makes this shortcut script work."
 printf "%s\\n" "#!/usr/bin/env bash
 cd $HOME/storage/downloads && pwd
-## $INSTALLDIR$TMXRCHBNDR/cdtd FE" >> $TMXRCHBNDS/cdtd
-chmod 755 $TMXRCHBNDS/cdtd
+## $INSTALLDIR$TMXRCHBNDR/cdtd FE" >> "$TMXRCHBNDS"/cdtd
+chmod 755 "$TMXRCHBNDS"/cdtd
 }
 
 _ADDcdth_() {
-_CFLHD_ $TMXRCHBNDS/cdth "# Usage: \`. cdth\` the dot sources \`cdth\` which makes this shortcut script work."
+_CFLHD_ "$TMXRCHBNDS"/cdth "# Usage: \`. cdth\` the dot sources \`cdth\` which makes this shortcut script work."
 printf "%s\\n" "#!/usr/bin/env bash
 cd $HOME && pwd
-## $INSTALLDIR$TMXRCHBNDR/cdth FE" > $TMXRCHBNDS/cdth
-chmod 755 $TMXRCHBNDS/cdth
+## $INSTALLDIR$TMXRCHBNDR/cdth FE" > "$TMXRCHBNDS"/cdth
+chmod 755 "$TMXRCHBNDS"/cdth
 }
 
 _ADDcdtmp_() {
-_CFLHD_ $TMXRCHBNDS/cdtmp "# Usage: \`. cdtmp\` the dot sources \`cdtmp\` which makes this shortcut script work."
+_CFLHD_ "$TMXRCHBNDS"/cdtmp "# Usage: \`. cdtmp\` the dot sources \`cdtmp\` which makes this shortcut script work."
 printf "%s\\n" "#!/usr/bin/env bash
 cd $TMPDIR && pwd || exit 169
-## $INSTALLDIR$TMXRCHBNDR/cdtmp FE" > $TMXRCHBNDS/cdtmp
-chmod 755 $TMXRCHBNDS/cdtmp
+## $INSTALLDIR$TMXRCHBNDR/cdtmp FE" > "$TMXRCHBNDS"/cdtmp
+chmod 755 "$TMXRCHBNDS"/cdtmp
 }
 
 _ADDch_() {
-_CFLHDR_ $TMXRCHBNDS/ch "# This script creates and deletes the .hushlogin and .hushlogout files."
-cat >> $TMXRCHBNDS/ch <<- EOM
+_CFLHDR_ "$TMXRCHBNDS"/ch "# This script creates and deletes the .hushlogin and .hushlogout files."
+cat >> "$TMXRCHBNDS"/ch <<- EOM
 declare -a ARGS
 
 _TRPET_() {
-printf "\\\\e[?25h\\\\e[0m"
+printf "\\e[?25h\\e[0m"
 set +Eeuo pipefail
 _PRINTTAIL_ "\${ARGS[@]}"
 }
 
 _PRINTTAIL_() {
-printf "\\\\e[0m%s \\\\e[1;32m%s \\\\e[0;32m%s\\\\e[1;34m: \\\\e[1;32m%s\\\\e[0m 🏁  \\\\n\\\\e[0m" "TermuxArch command" "\$STRNRG"  "version \$VERSIONID" "DONE 📱"
+printf "\\e[0m%s \\e[1;32m%s \\e[0;32m%s\\e[1;34m: \\e[1;32m%s\\e[0m 🏁  \\n\\e[0m" "TermuxArch command" "\$STRNRG"  "version \$VERSIONID" "DONE 📱"
 printf '\033]2;  🔑 TermuxArch %s:DONE 📱 \007' "\$STRNRG"
 }
 
@@ -442,61 +450,61 @@ fi
 if [[ -f "\$HOME"/.hushlogin ]] && [[ -f "\$HOME"/.hushlogout ]]
 then
 rm -f "\$HOME"/.hushlogin "\$HOME"/.hushlogout
-printf "%s\\\\n" "Hushed login and logout: OFF"
+printf "%s\\n" "Hushed login and logout: OFF"
 elif [[ -f "\$HOME"/.hushlogin ]] || [[ -f "\$HOME"/.hushlogout ]]
 then
 touch "\$HOME"/.hushlogin "\$HOME"/.hushlogout
-printf "%s\\\\n" "Hushed login and logout: ON"
+printf "%s\\n" "Hushed login and logout: ON"
 else
 touch "\$HOME"/.hushlogin "\$HOME"/.hushlogout
-printf "%s\\\\n" "Hushed login and logout: ON"
+printf "%s\\n" "Hushed login and logout: ON"
 fi
 ## $INSTALLDIR$TMXRCHBNDR/ch FE
 EOM
-chmod 755 $TMXRCHBNDS/ch
+chmod 755 "$TMXRCHBNDS"/ch
 }
 
 _ADDchperms.cache+gnupg_() {
-_CFLHDR_ $TMXRCHBNDS/chperms.cache+gnupg
-cat >> $TMXRCHBNDS/chperms.cache+gnupg <<- EOM
+_CFLHDR_ "$TMXRCHBNDS"/chperms.cache+gnupg
+cat >> "$TMXRCHBNDS"/chperms.cache+gnupg <<- EOM
 set -x
 [[ -d "\$HOME"/.cache ]] && find "\$HOME"/.cache -type d -exec chmod 777 {} \; && find "\$HOME"/.cache -type f -exec chmod 666 {} \;
 [[ -d "\$HOME/".gnupg ]] && find "\$HOME/".gnupg -type d -exec chmod 777 {} \; && find "\$HOME/".gnupg -type f -exec chmod 666 {} \;
 set +x
 ## $INSTALLDIR$TMXRCHBNDR/chperms.cache+gnupg FE
 EOM
-chmod 755 $TMXRCHBNDS/chperms.cache+gnupg
+chmod 755 "$TMXRCHBNDS"/chperms.cache+gnupg
 }
 
 _ADDcsystemctl_() {
-_CFLHDR_ $TMXRCHBNDS/csystemctl "# Contributor https://github.com/petkar"
-cat >> $TMXRCHBNDS/csystemctl <<- EOM
+_CFLHDR_ "$TMXRCHBNDS"/csystemctl "# Contributor https://github.com/petkar"
+cat >> "$TMXRCHBNDS"/csystemctl <<- EOM
 INSTALLDIR="$INSTALLDIR"
-printf "\\\\e[38;5;148m%s\\\\e[0m\\\\n" "Installing /usr/bin/systemctl replacement: "
-[ -f "/run/lock/${INSTALLDIR##*/}/csystemctl.lock" ] && printf "%s\\\\n" "Already installed $TMXRCHBNDR/systemctl replacement: DONE 🏁" && exit
+printf "\\e[38;5;148m%s\\e[0m\\n" "Installing /usr/bin/systemctl replacement: "
+[ -f "/run/lock/${INSTALLDIR##*/}/csystemctl.lock" ] && printf "%s\\n" "Already installed $TMXRCHBNDR/systemctl replacement: DONE 🏁" && exit
 declare COMMANDP
-COMMANDP="\$(command -v python3)" || printf "%s\\\\n" "Command python3 can not be found: continuing..."
+COMMANDP="\$(command -v python3)" || printf "%s\\n" "Command python3 can not be found: continuing..."
 [[ "\${COMMANDP:-}" == *python3* ]] || { pc python3 || pci python3 ; }
 SDATE="\$(date +%s)"
 # path is $TMXRCHBNDR because updates overwrite /usr/bin/systemctl and may make systemctl-replacement obsolete
 # backup original binary
 mv -f /usr/bin/systemctl $INSTALLDIR/var/backups/${INSTALLDIR##*/}/systemctl.\$SDATE.bkp
-printf "\\\\e[38;5;148m%s\\\\n\\\\e[0m" "Moved /usr/bin/systemctl to $INSTALLDIR/var/backups/${INSTALLDIR##*/}/systemctl.\$SDATE.bkp"
-printf "%s\\\\n" "Getting replacement systemctl from https://raw.githubusercontent.com/TermuxArch/docker-systemctl-replacement/master/files/docker/systemctl3.py"
+printf "\\e[38;5;148m%s\\n\\e[0m" "Moved /usr/bin/systemctl to $INSTALLDIR/var/backups/${INSTALLDIR##*/}/systemctl.\$SDATE.bkp"
+printf "%s\\n" "Getting replacement systemctl from https://raw.githubusercontent.com/TermuxArch/docker-systemctl-replacement/master/files/docker/systemctl3.py"
 # Arch Linux package 'systemctl' updates will mot halt functioning as $TMXRCHBNDR precedes /usr/bin in the PATH
 # download and copy to both directories $TMXRCHBNDR and /usr/bin
 curl --fail --retry 2 https://raw.githubusercontent.com/TermuxArch/docker-systemctl-replacement/master/files/docker/systemctl3.py | tee /usr/bin/systemctl $TMXRCHBNDR/systemctl >/dev/null
 chmod 755 /usr/bin/systemctl $TMXRCHBNDR/systemctl
 :>"/run/lock/${INSTALLDIR##*/}/csystemctl.lock"
-printf "\\\\e[38;5;148m%s\\\\e[1;32m%s\\\\e[0m\\\\n" "Installing systemctl replacement in $TMXRCHBNDR and /usr/bin: " "DONE 🏁"
+printf "\\e[38;5;148m%s\\e[1;32m%s\\e[0m\\n" "Installing systemctl replacement in $TMXRCHBNDR and /usr/bin: " "DONE 🏁"
 ## $INSTALLDIR$TMXRCHBNDR/csystemctl FE
 EOM
-chmod 755 $TMXRCHBNDS/csystemctl
+chmod 755 "$TMXRCHBNDS"/csystemctl
 }
 
 _ADDes_() {
-_CFLHDR_ $TMXRCHBNDS/es
-cat >> $TMXRCHBNDS/es <<- EOM
+_CFLHDR_ "$TMXRCHBNDS"/es
+cat >> "$TMXRCHBNDS"/es <<- EOM
 if [[ -z "\${1:-}" ]]
 then
 ARGS=(".")
@@ -504,31 +512,31 @@ else
 ARGS=("\$@")
 fi
 EOM
-printf "%s\\n%s\\n%s\\n" "[ \"\$UID\" = 0 ] && printf \"\\e[1;31m%s\\e[1;37m%s\\e[1;31mExiting...\\n\" \"Cannot run '\${0##*/}' as root user;\" \" the command 'addauser username' creates user accounts in $INSTALLDIR; the command '$STARTBIN command addauser username' can create user accounts in $INSTALLDIR from Termux; a default user account is created during setup; the default username 'user' can be used to access the PRoot system employing a user account; command '$STARTBIN help' has more information;  \" && exit" "[ ! -x \"\$(command -v emacs)\" ] && { pc emacs || pci emacs ; } && emacs \"\${ARGS[@]}\" || emacs \"\${ARGS[@]}\"" "## $INSTALLDIR$TMXRCHBNDR/es FE" >> $TMXRCHBNDS/es
-chmod 755 $TMXRCHBNDS/es
+printf "%s\\n%s\\n%s\\n" "[ \"\$UID\" = 0 ] && printf \"\\e[1;31m%s\\e[1;37m%s\\e[1;31mExiting...\\n\" \"Cannot run '\${0##*/}' as root user;\" \" the command 'addauser username' creates user accounts in $INSTALLDIR; the command '$STARTBIN command addauser username' can create user accounts in $INSTALLDIR from Termux; a default user account is created during setup; the default username 'user' can be used to access the PRoot system employing a user account; command '$STARTBIN help' has more information;  \" && exit" "[ ! -x \"\$(command -v emacs)\" ] && { pc emacs || pci emacs ; } && emacs \"\${ARGS[@]}\" || emacs \"\${ARGS[@]}\"" "## $INSTALLDIR$TMXRCHBNDR/es FE" >> "$TMXRCHBNDS"/es
+chmod 755 "$TMXRCHBNDS"/es
 }
 
 _ADDexd_() {
-_CFLHDR_ $TMXRCHBNDS/exd "# Usage: \`. exd\` the dot sources \`exd\` which makes this shortcut script work."
-cat >> $TMXRCHBNDS/exd <<- EOM
+_CFLHDR_ "$TMXRCHBNDS"/exd "# Usage: \`. exd\` the dot sources \`exd\` which makes this shortcut script work. Reference https://github.com/SDRausty/TermuxArch/issues/59#issuecomment-381285151_"
+cat >> "$TMXRCHBNDS"/exd <<- EOM
 export DISPLAY=:0 PULSE_SERVER=tcp:127.0.0.1:4712
 ## $INSTALLDIR$TMXRCHBNDR/exd FE
 EOM
-chmod 755 $TMXRCHBNDS/exd
+chmod 755 "$TMXRCHBNDS"/exd
 }
 
 _ADDfibs_() {
-_CFLHDR_ $TMXRCHBNDS/fibs
-cat >> $TMXRCHBNDS/fibs <<- EOM
+_CFLHDR_ "$TMXRCHBNDS"/fibs
+cat >> "$TMXRCHBNDS"/fibs <<- EOM
 find /proc/ -name maps 2>/dev/null | xargs awk '{print \$6}' | grep '\.so' | sort | uniq && exit
 ## $INSTALLDIR$TMXRCHBNDR/fibs FE
 EOM
-chmod 755 $TMXRCHBNDS/fibs
+chmod 755 "$TMXRCHBNDS"/fibs
 }
 
 _ADDga_() {
-_CFLHDR_ $TMXRCHBNDS/ga
-cat >> $TMXRCHBNDS/ga <<- EOM
+_CFLHDR_ "$TMXRCHBNDS"/ga
+cat >> "$TMXRCHBNDS"/ga <<- EOM
 if [ -x "\$(command -v git)" ]
 then
 git add .
@@ -538,33 +546,31 @@ git add .
 fi
 ## $INSTALLDIR$TMXRCHBNDR/ga FE
 EOM
-chmod 755 $TMXRCHBNDS/ga
+chmod 755 "$TMXRCHBNDS"/ga
 }
 
 _ADDgcl_() {
-_CFLHDR_ $TMXRCHBNDS/gcl "# Contributor reddit.com/u/ElectricalUnion"
-printf "%s\\n" "{ [ \"\$UID\" = 0 ] && printf \"\\\\e[1;31m%s\\\\e[1;37m%s\\\\e[1;31mExiting...\\\\e[0m\\\\n\" \"ＴｅｒｍｕｘＡｒｃｈ SIGNAL:\" \"  Script '\${0##*/}' should not be used as root:  The command 'addauser' creates user accounts in Arch Linux in Termux PRoot and configures these user accounts for the Arch Linux 'sudo' command:  The 'addauser' command is intended to be run by the Arch Linux in Termux PRoot root user:  To use 'addauser' directly from Termux you can run '$STARTBIN command 'addauser user'' in native Termux to create this account in Arch Linux Termux PRoot:  The command '$STARTBIN help' has more information about using '$STARTBIN':  \" ; } && exit 101
-{ [ \"\$#\" = 0 ] && printf \"\\\\e[1;31m%s\\\\e[1;37m%s\\\\e[1;31mExiting...\\\\e[0m\\\\n\" \"Example usage: \" \"'\${0##*/} https://github.com/TermuxArch/TermuxArch' \" ; } && exit 101
+_CFLHDR_ "$TMXRCHBNDS"/gcl "# Contributor reddit.com/u/ElectricalUnion"
+printf "%s\\n" "{ [ \"\$UID\" = 0 ] && printf \"\\e[1;31m%s\\e[1;37m%s\\e[1;31mExiting...\\e[0m\\n\" \"ＴｅｒｍｕｘＡｒｃｈ SIGNAL:\" \"  Script '\${0##*/}' should not be used as root:  The command 'addauser' creates user accounts in Arch Linux in Termux PRoot and configures these user accounts for the Arch Linux 'sudo' command:  The 'addauser' command is intended to be run by the Arch Linux in Termux PRoot root user:  To use 'addauser' directly from Termux you can run '$STARTBIN command 'addauser user'' in native Termux to create this account in Arch Linux Termux PRoot:  The command '$STARTBIN help' has more information about using '$STARTBIN':  \" ; } && exit 101
+{ [ \"\$#\" = 0 ] && printf \"\\e[1;31m%s\\e[1;37m%s\\e[1;31mExiting...\\e[0m\\n\" \"Example usage: \" \"'\${0##*/} https://github.com/TermuxArch/TermuxArch' \" ; } && exit 101
 _GITCLONE_() {
-git clone --depth 1 \"\$@\" --single-branch || git clone --depth 1 \"\$@\" --single-branch || printf \"\\\\n\\e[1m%s\\\\n\" \"This command 'sudo pacman -Rdd ca-certificates-utils ; sudo pacman -S ca-certificates-utils ; sudo pacman -Syu' might resolve an 'error setting certificate verify locations:  CAfile:' error.\"
+git clone --depth 1 \"\$@\" --single-branch || git clone --depth 1 \"\$@\" --single-branch || printf \"\\n\\e[1m%s\\n\" \"This command 'sudo pacman -Rdd ca-certificates-utils ; sudo pacman -S ca-certificates-utils ; sudo pacman -Syu' might resolve an 'error setting certificate verify locations:  CAfile:' error.\"
 }
 BASENAME=\"\${@#*//}\" # strip before double slash
 BASENAME=\"\${BASENAME##*/}\" # strip before last slash
 [ -d \"\$BASENAME\" ] && printf \"Directory %s exists;  Exiting...\\n\" \"\$BASENAME\" && exit
 [ -x \"\$(command -v git)\" ] || pc git || pci git
 _GITCLONE_ \"\$@\"
-## $INSTALLDIR$TMXRCHBNDR/gcl FE" >> $TMXRCHBNDS/gcl
-chmod 755 $TMXRCHBNDS/gcl
+## $INSTALLDIR$TMXRCHBNDR/gcl FE" >> "$TMXRCHBNDS"/gcl
+chmod 755 "$TMXRCHBNDS"/gcl
 }
 
 _ADDgclone_() {
-_CFLHDR_ $TMXRCHBNDS/gclone "# Usefull for cloning over very slow and sketchy Internet connections."
-cat >> $TMXRCHBNDS/gclone <<- EOM
-if [ "\$UID" = 0 ]
-then
-printf "\\\\e[1;31m%s\\\\e[1;37m%s\\\\e[1;31mExiting...\\\\e[0m\\\\n" "ＴｅｒｍｕｘＡｒｃｈ SIGNAL:" "  Script '\${0##*/}' should not be used as root:  The command 'addauser' creates user accounts in Arch Linux in Termux PRoot and configures these user accounts for the Arch Linux 'sudo' command:  The 'addauser' command is intended to be run by the Arch Linux in Termux PRoot root user:  To use 'addauser' directly from Termux you can run \"$STARTBIN command 'addauser user'\" in Termux to create this account in Arch Linux Termux PRoot:  The command '$STARTBIN help' has more information about using '$STARTBIN':  "
-else
-{ [ "\$#" = 0 ] && printf "\\\\e[1;31m%s\\\\e[1;37m%s\\\\e[1;31mExiting...s\\\\e[0m\\\\n" "Example usage: " "'\${0##*/} https://github.com/TermuxArch/TermuxArch' " ; } && exit 101
+_CFLHDR_ "$TMXRCHBNDS"/gclone "# Usefull for cloning over very slow and sketchy Internet connections."
+_DPTCHHLP_ "$TMXRCHBNDS"/gclone
+_PRTRTHLP_ "$TMXRCHBNDS"/gclone
+cat >> "$TMXRCHBNDS"/gclone <<- EOM
+{ [ "\$#" = 0 ] && printf "\\e[1;31m%s\\e[1;37m%s\\e[1;31mExiting...s\\e[0m\\n" "Example usage: " "'\${0##*/} https://github.com/TermuxArch/TermuxArch' " ; } && exit 101
 _GCLONEMAIN_() {
 BASENAME="\${@%/}" # strip trailing slash
 BASENAME="\${BASENAME#*//}" # strip before double slash
@@ -584,15 +590,14 @@ _GCLONEMAIN_ "\$@"
 else
 _GCLONEMAIN_ "\$@"
 fi
-fi
 ## $INSTALLDIR$TMXRCHBNDR/gclone FE
 EOM
-chmod 755 $TMXRCHBNDS/gclone
+chmod 755 "$TMXRCHBNDS"/gclone
 }
 
 _ADDgcm_() {
-_CFLHDR_ $TMXRCHBNDS/gcm
-cat >> $TMXRCHBNDS/gcm <<- EOM
+_CFLHDR_ "$TMXRCHBNDS"/gcm
+cat >> "$TMXRCHBNDS"/gcm <<- EOM
 if [ -x "\$(command -v git)" ]
 then
 git commit
@@ -602,7 +607,7 @@ git commit
 fi
 ## $INSTALLDIR$TMXRCHBNDR/gcm FE
 EOM
-chmod 755 $TMXRCHBNDS/gcm
+chmod 755 "$TMXRCHBNDS"/gcm
 }
 
 _ADDgitconfig_() {
@@ -621,8 +626,8 @@ fi
 }
 
 _ADDgpl_() {
-_CFLHDR_ $TMXRCHBNDS/gpl
-cat >> $TMXRCHBNDS/gpl <<- EOM
+_CFLHDR_ "$TMXRCHBNDS"/gpl
+cat >> "$TMXRCHBNDS"/gpl <<- EOM
 if [ -x "\$(command -v git)" ]
 then
 git pull
@@ -632,12 +637,12 @@ git pull
 fi
 ## $INSTALLDIR$TMXRCHBNDR/gpl FE
 EOM
-chmod 755 $TMXRCHBNDS/gpl
+chmod 755 "$TMXRCHBNDS"/gpl
 }
 
 _ADDgp_() {
-_CFLHDR_ $TMXRCHBNDS/gp "# git push https://username:password@github.com/username/repository.git"
-cat >> $TMXRCHBNDS/gp <<- EOM
+_CFLHDR_ "$TMXRCHBNDS"/gp "# git push https://username:password@github.com/username/repository.git"
+cat >> "$TMXRCHBNDS"/gp <<- EOM
 if [ -x "\$(command -v git)" ]
 then
 git push
@@ -647,80 +652,98 @@ git push
 fi
 ## $INSTALLDIR$TMXRCHBNDR/gp FE
 EOM
-chmod 755 $TMXRCHBNDS/gp
+chmod 755 "$TMXRCHBNDS"/gp
 }
 
 _ADDinfo_ () {
-_CFLHDR_ $TMXRCHBNDS/info
-printf "%s\\n%s\\n%s\\n" "[ \"\$UID\" = 0 ] && printf \"\\e[1;31mExiting...\\e[1;37m%s\\e[1;31m%s\\n\" \"Cannot run '\${0##*/}' as root user;\" \" the command 'addauser username' creates user accounts in $INSTALLDIR; the command '$STARTBIN command addauser username' can create user accounts in $INSTALLDIR from Termux; a default user account is created during setup; the default username 'user' can be used to access the PRoot system employing a user account; command '$STARTBIN help' has more information;  \" && exit" "{ [ -x \"/usr/bin/info\" ] || { pc texinfo || pci texinfo ; } ; } && /usr/bin/info \"\$@\" || /usr/bin/info \"\$@\"" "## $INSTALLDIR$TMXRCHBNDR/info FE" >> $TMXRCHBNDS/info
-chmod 755 $TMXRCHBNDS/info
+_CFLHDR_ "$TMXRCHBNDS"/info
+printf "%s\\n%s\\n%s\\n" "[ \"\$UID\" = 0 ] && printf \"\\e[1;31mExiting...\\e[1;37m%s\\e[1;31m%s\\n\" \"Cannot run '\${0##*/}' as root user;\" \" the command 'addauser username' creates user accounts in $INSTALLDIR; the command '$STARTBIN command addauser username' can create user accounts in $INSTALLDIR from Termux; a default user account is created during setup; the default username 'user' can be used to access the PRoot system employing a user account; command '$STARTBIN help' has more information;  \" && exit" "{ [ -x \"/usr/bin/info\" ] || { pc texinfo || pci texinfo ; } ; } && /usr/bin/info \"\$@\" || /usr/bin/info \"\$@\"" "## $INSTALLDIR$TMXRCHBNDR/info FE" >> "$TMXRCHBNDS"/info
+chmod 755 "$TMXRCHBNDS"/info
 }
 
 _ADDmakeaurhelpers_() {
-_CFLHDR_ $TMXRCHBNDS/makeaurhelpers "# add Arch Linux AUR helpers https://wiki.archlinux.org/index.php/AUR_helpers"
-_DPTCHHLP_ "$TMXRCHBNDS/makeaurhelpers"
-cat >> $TMXRCHBNDS/makeaurhelpers <<- EOM
-if [ "\$UID" = 0 ]
-then
-printf "\\\\e[1;31m%s\\\\e[1;37m%s\\\\e[1;31mExiting...\\\\e[0m\\\\n" "ＴｅｒｍｕｘＡｒｃｈ SIGNAL:" "  Script '\${0##*/}' should not be used as root:  The command 'addauser' creates user accounts in Arch Linux in Termux PRoot and configures these user accounts for the Arch Linux 'sudo' command:  The 'addauser' command is intended to be run by the Arch Linux in Termux PRoot root user:  To use 'addauser' directly from Termux you can run \"$STARTBIN command 'addauser user'\" in Termux to create this account in Arch Linux Termux PRoot:  The command '$STARTBIN help' has more information about using '$STARTBIN':  "
-exit 101
-fi
+_CFLHDR_ "$TMXRCHBNDS"/makeaurhelpers "# add Arch Linux AUR helpers https://wiki.archlinux.org/index.php/AUR_helpers"
+_DPTCHHLP_ "$TMXRCHBNDS"/makeaurhelpers
+_PRTRTHLP_ "$TMXRCHBNDS"/makeaurhelpers
+cat >> "$TMXRCHBNDS"/makeaurhelpers <<- EOM
 NMKPKC="nice -n 20 makepkg -ACcfis --check --needed"
 NMKPKN="nice -n 20 makepkg -ACcfis --check --needed --noconfirm"
-HLPSTG="  Help for command '\$SRPTNM' version $VERSIONID:
+NMKPKR="nice -n 20 makepkg -ACcfirs --check --needed --noconfirm"
+{ [ -z "\${1:-}" ] && NMKPKG="\$NMKPKC" ; } || { { [[ "\${1//-}" = [Aa]* ]] || [[ "\${1//-}" = [Nn]* ]] || [[ "\${1//-}" = [Rr]* ]] || [[ "\${1//-}" = [Ss][Bb]* ]] || [[ "\${1//-}" = [Tt][Ss]* ]] ; } && NMKPKG="\$NMKPKN" ; } || { [[ "\${1//-}" = [Ee]* ]] || [[ "\${1//-}" = [Gg]* ]] ; } && NMKPKG="\$NMKPKR" || NMKPKG="\$NMKPKC"
+# builtin help variables begin
+NMCMND="\$(uname -m)"
+DFLTSG="Default: \"-A ignore incomplete arch field in PKGBUILD\" also sets arch=('any');"
+XNMPKC="\"NMKPKC=\"\$NMKPKC\"\""
+XNMPKN="\"NMKPKN=\"\$NMKPKN\"\""
+XNMPKR="\"NMKPKN=\"\$NMKPKR\"\""
+XLCD00="\"\$SRPTNM f 'digital rain'\""
+XLCD0L="\"\$SRPTNM find 'digital rain'\""
+XLCD01="\"\$SRPTNM b 'greenrain'\""
+XLCD02="\"\$SRPTNM v 'greenrain'\""
+# builtin help variables end
+HLPSTG="Help for command '\$SRPTNM' version $VERSIONID:  One and two letter arguments are good; i.e. Command \$XLCD00 is the equivalent of \$XLCD0L.  \${SRPTNM^^} NOTICE:  \$DFLTSG  Variables \$XNMPKC, \$XNMPKN and \$XNMPKR in file '\$SRPTNM' can be edited in order to alter these settings.  Command '\$SRPTNM' accepts these arguments:
 
-a[ll]			builds all the AUR helper packages with passing checksums in alphabetical order,
-b[uild]		package	builds one Arch Linux package from AUR.  EXAMPLE: '\$SRPTNM build greenrain',
-c[andy]		builds a terminal candy from AUR,
-f[ind] pkg★		finds AUR packages;  EXAMPLE: '\$SRPTNM find 'digital rain',
+a[ll AUR helpers]	builds all the AUR helper packages with passing checksums in alphabetical order,
+
+b[uild] package		builds one Arch Linux packages from AUR.  EXAMPLE: \$XLCD01,
+
+c[andy]			builds a terminal candy from AUR,
+
+f[ind] packages★	finds AUR packages;  EXAMPLE: \$XLCD00,
+
 h[elp]			show this help screen,
-m[ake]			make Arch Linux makepkg related package from AUR,
-n[oconfirm]		do not confirm install (\$SRPTNM installs packages by default and noconfirm is on by default except for individual package builds).  This option only applies to the select menu packages,
-r[everse build	 all]	builds all the AUR helper packages with passing checksums in reverse alphabetical order, similar to option 'a',
-s[creensaver b	uild]	builds a terminal screensavers from AUR,
-sb			small build builds some of the smaller AUR helper packages based on size,
-tc			terminal candies builds all of the terminal candies from AUR,
-tm			total make makes all the Arch Linux makepkg related package from AUR,
-ts			terminal screensavers builds all of the terminal screensavers from AUR,
-v[iew] pkg★		view a PKGBUILD file for a particular package;  EXAMPLE: '\$SRPTNM view 'greenrain'.
 
-One and two letter arguments are good; i.e. '\$SRPTNM f 'digital rain'' is the equivalent of '\$SRPTNM find 'digital rain''.  \${SRPTNM^^} NOTICE:  Default: '-A ignore incomplete arch field in PKGBUILD' also sets arch=('any');  Please edit variables 'NMKPKC="\$(printf '%s\\n' "\$NMKPKC")"' and 'NMKPKN="\$(printf '%s\\n' "\$NMKPKN")"' in file '\$SRPTNM' if you wish to change these settings.
+m[ake makepkgs]		make Arch Linux makepkg related packages from AUR,
 
-★opens and uses an Android web browser in order to either find Arch Linux AUR packages or view a PKGBUILD file.
+n[oconfirm install]	do not confirm install (\$SRPTNM installs packages by default with noconfirm except for individual package builds).  This option applies to the select menu packages,
 
-"
-[ -n "\${1:-}" ] && [ -n "\${2:-}" ] && [[ "\${1:-}" = [Ff]* ]] && am start -a android.intent.action.VIEW -d "https://aur.archlinux.org/packages?O=0&K=\${2:-}" && exit
-[ -n "\${1:-}" ] && [ -n "\${2:-}" ] && [[ "\${1:-}" = [Vv]* ]] && am start -a android.intent.action.VIEW -d "https://aur.archlinux.org/cgit/aur.git/tree/PKGBUILD?h=\${2:-}" && exit
-[ -n "\${1:-}" ] && { [[ "\${1//-}" = '/'* ]] || [[ "\${1//-}" = [Hh]* ]] ; } && printf '\\e[0;32m%s' "\$HLPSTG" && exit
-{ [ -z "\${1:-}" ] && NMKPKG="\$NMKPKC" ; } || { [[ "\${1//-}" = [Aa]* ]] || [[ "\${1//-}" = [Nn]* ]] || [[ "\${1//-}" = [Rr]* ]] || [[ "\${1//-}" = [Ss][Bb]* ]] || [[ "\${1//-}" = [Tt][Ss]* ]] ; } && NMKPKG="\$NMKPKN" || NMKPKG="\$NMKPKC"
+r[everse build all]	builds all the AUR helper packages with passing checksums in reverse alphabetical order, this option is like option 'a',
+
+s[creensavers build]	builds a terminal screensavers from AUR,
+
+sb[uild] 		small build builds some of the smaller AUR helper packages,
+
+tc[andies]		terminal candies builds all of the terminal candies from AUR,
+
+tm[akepkgs]		total makepkgs builds all the Arch Linux makepkg related package from AUR,
+
+ts[creensavers]		terminal screensavers builds all of the terminal screensavers from AUR,
+
+v[iew] package★		view a PKGBUILD file for a particular package;  EXAMPLE: \$XLCD02.
+
+★open and use an Android web browser in order to either find Arch Linux AUR packages matching search term(s) or view a package PKGBUILD file: "
+[ -n "\${1:-}" ] && [ -n "\${2:-}" ] && [[ "\${1:-}" = [Ff]* ]] && { am start -a android.intent.action.VIEW -d "https://aur.archlinux.org/packages?O=0&K=\${2:-}" ; exit ; }
+[ -n "\${1:-}" ] && [ -n "\${2:-}" ] && [[ "\${1:-}" = [Vv]* ]] && { am start -a android.intent.action.VIEW -d "https://aur.archlinux.org/cgit/aur.git/tree/PKGBUILD?h=\${2:-}" ; exit ; }
+[ -n "\${1:-}" ] && { for ARG1 in '/' '?' Dd Hh Ii Jj Kk Ll Oo Pp Qq Uu Ww Xx Yy Zz ; do [[ "\${1//-}" = ["\$ARG1"]* ]] && { printf '\\e[0;32m%s' "\$HLPSTG" ; exit ; } ; done ; }
 _ARHCMD_() {
-{ [ -x /usr/bin/make ] && [ -x /usr/bin/strip ] ; } || { pc base base-devel binutils git || pci base base-devel binutils git ; }
+{ [ -x /usr/bin/make ] && [ -x /usr/bin/strip ] ; } || { { pc base base-devel binutils git && makeaurfakeroottcp ; } || { pci base base-devel binutils git && makeaurfakeroottcp ; } ; }
 # add dependancies for bash-pipes
-if [ "\$AURHELPER" = bash-pipes ]
+if [ "\$AURHLPR" = bash-pipes ]
 then
-command -v "\$AURHELPER" >/dev/null || makeaurpipessh
+command -v "\$AURHLPR" >/dev/null || makeaurpipessh
 fi
 # add dependancies for bauerbill
-if [ "\$AURHELPER" = bauerbill ]
+if [ "\$AURHLPR" = bauerbill ]
 then
-command -v "\$AURHELPER" >/dev/null || {
+command -v "\$AURHLPR" >/dev/null || {
 [ -f /run/lock/${INSTALLDIR##*/}/gpg1D1F0DC78F173680.lock ] || { printf '\\e[0m%s\\n' "Command '\$SRPTNM' is running command gpg --keyserver keyserver.ubuntu.com --recv-keys 1D1F0DC78F173680" && gpg --keyserver keyserver.ubuntu.com --recv-keys 1D1F0DC78F173680 && :>/run/lock/${INSTALLDIR##*/}/gpg1D1F0DC78F173680.lock ; }
 makeaurpython3aur
 makeaurpython3colorsysplus
 }
 fi
 # add dependancies for pacaur and pacaur-git
-if [ "\$AURHELPER" = pacaur ] || [ "\$AURHELPER" = pacaur-git ]
+if [ "\$AURHLPR" = pacaur ] || [ "\$AURHLPR" = pacaur-git ]
 then
-command -v "\$AURHELPER" >/dev/null || {
+command -v "\$AURHLPR" >/dev/null || {
 { [ -x /usr/bin/expac ] || pc expac || pci expac ; }
 makeauraclegit
 }
 fi
 # add dependancies for pbget
-if [ "\$AURHELPER" = pbget ]
+if [ "\$AURHLPR" = pbget ]
 then
-command -v "\$AURHELPER" >/dev/null || {
+command -v "\$AURHLPR" >/dev/null || {
+[ -f /run/lock/${INSTALLDIR##*/}/gpg1D1F0DC78F173680.lock ] || { printf '\\e[0m%s\\n' "Command '\$SRPTNM' is running command gpg --keyserver keyserver.ubuntu.com --recv-keys 1D1F0DC78F173680" && gpg --keyserver keyserver.ubuntu.com --recv-keys 1D1F0DC78F173680 && :>/run/lock/${INSTALLDIR##*/}/gpg1D1F0DC78F173680.lock ; }
 makeaurpython3memoizedb
 makeaurpython3xcpf
 makeaurpython3xcgf
@@ -729,14 +752,14 @@ makeaurpm2ml
 }
 fi
 # add dependancies for popular-packages
-if [ "\$AURHELPER" = popular-packages ]
+if [ "\$AURHLPR" = popular-packages ]
 then
-command -v "\$AURHELPER" >/dev/null || makeaurpackagequery
+command -v "\$AURHLPR" >/dev/null || makeaurpackagequery
 fi
 # add dependancies for powerpill
-if [ "\$AURHELPER" = powerpill ]
+if [ "\$AURHLPR" = powerpill ]
 then
-command -v "\$AURHELPER" >/dev/null || {
+command -v "\$AURHLPR" >/dev/null || {
 makeaurpackagequery
 [ -x /usr/bin/aria2c ] || { pc aria2 || pci aria2 ; }
 makeaurpython3memoizedb
@@ -746,67 +769,66 @@ makeaurpm2ml
 }
 fi
 # add dependancies for stack-static
-if [ "\$AURHELPER" = stack-static ]
+if [ "\$AURHLPR" = stack-static ]
 then	# import stack-static key
-command -v "\$AURHELPER" >/dev/null || {
+command -v "\$AURHLPR" >/dev/null || {
 [ -f /run/lock/${INSTALLDIR##*/}/gpg575159689BEFB442.lock ] || { printf '\\e[0m%s\\n' "Command '\$SRPTNM' is running command gpg --keyserver keyserver.ubuntu.com --recv-keys 575159689BEFB442" && gpg --keyserver keyserver.ubuntu.com --recv-keys 575159689BEFB442 && :>/run/lock/${INSTALLDIR##*/}/gpg575159689BEFB442.lock ; }
 }
 fi
 # add dependancies for xaur
-if [ "\$AURHELPER" = xaur ]
+if [ "\$AURHLPR" = xaur ]
 then
-command -v "\$AURHELPER" >/dev/null || {
+command -v "\$AURHLPR" >/dev/null || {
 makeaurpyinstaller
 }
 fi
 # add dependancies for zur
-if [ "\$AURHELPER" = zur ]
+if [ "\$AURHLPR" = zur ]
 then
-command -v "\$AURHELPER" >/dev/null || {
+command -v "\$AURHLPR" >/dev/null || {
 [ -x /usr/bin/zig ] || pc zig || pci zig
 makeauraclegit
 }
 fi
-_CHKAURHELPER_ "\$@"
+_CHKAURHLPR_ "\$@"
 }
-
-_CHKAURHELPER_() {
-[ -n "\${2:-}" ] && [[ "\${BLDPKG:-}" = 0 ]] && CHKRHLPR="\$2" || CHKRHLPR="\${AURHELPERS[\$AURHELPER]}"
+# check if AUR command is on PATH
+_CHKAURHLPR_() {
+[ -n "\${2:-}" ] && [[ "\${BLDPKG:-}" = 0 ]] && CHKRHLPR="\$2" || CHKRHLPR="\${AURHLPRS[\$AURHLPR]}"
 if command -v "\$CHKRHLPR" >/dev/null
 then
-RCHLXPKG="\$(pacman -Ql \$CHKRHLPR | head -n 1 | cut -d" " -f 1)"
+RCHLXPKG="\$(pacman -Ql "\$CHKRHLPR" | head -n 1 | cut -d" " -f 1)"
 printf '%s' "Found command '\$CHKRHLPR';  The '\$CHKRHLPR' command belongs to Arch Linux package '\${RCHLXPKG:-unknown}'.  "
-[ -z "\${TALL:-}" ] || { \$CHKRHLPR && { [ "\$AURHELPER" = termsaver-git ] && sleep 8 && clear ; } || sleep 2 && clear ; }
+[ -z "\${TALL:-}" ] || { \$CHKRHLPR && { [ "\$AURHLPR" = termsaver-git ] && printf '%s\\n' "Sleeping eight seconds;  Then clearing screen..." && sleep 8 && clear ; } || printf '%s\\n' "Sleeping two seconds;  Then clearing screen..." && sleep 2 && clear ; }
 [[ "\$DALL" = [Aa]* ]] || [[ "\$DALL" = [Rr]* ]] || [[ "\$DALL" = [Ss][Bb]* ]] || [[ "\$DALL" = [Tt][Ss]* ]] || exit 0
 else
-_CLONEAURHELPER_
+_CLONEAURHLPR_
 fi
 }
-
-_CLONEAURHELPER_() {
-if [ -d "\$AURHELPER" ]
+# clone AUR package
+_CLONEAURHLPR_() {
+if [ -d "\$AURHLPR" ]
 then
-printf "%s" "Repository '\$AURHELPER' is already cloned...  " && _MAKEAURHELPER_ || _PRTERROR_
+{ printf "%s" "Repository '\$AURHLPR' is already cloned...  " && _MAKEAURHLPR_ ; } || _PRTERROR_
 else
-printf "%s\\\\n" "Cloning git repository from 'https://aur.archlinux.org/\$AURHELPER' into directory '\$HOME/\$AURHELPER'..." && cd && gcl https://aur.archlinux.org/"\$AURHELPER" && _MAKEAURHELPER_ || _PRTERROR_
+{ printf "%s\\n" "Cloning git repository from 'https://aur.archlinux.org/\$AURHLPR' into directory '\$HOME/\$AURHLPR'..." && cd && gcl https://aur.archlinux.org/"\$AURHLPR" && _MAKEAURHLPR_ ; } || _PRTERROR_
 fi
 }
-
-_MAKEAURHELPER_() {
-cd "\$HOME/\$AURHELPER" || exit 196
-printf "%s\\\\n" "Running command '\$NMKPKG' in directory '\$PWD';  Attempting to build and install '\$AURHELPER' for architecture \$NMCMND with '\$SRPTNM' version $VERSIONID;  Please be patient..."
+# make AUR package
+_MAKEAURHLPR_() {
+cd "\$HOME/\$AURHLPR" || exit 196
+{ [ ! -f PKGBUILD ] && exit 196 ; } || { VLGRPPBD="\$(grep 'depends=(' PKGBUILD)" && printf '\\n\\n%s\\n\\n' "\${VLGRPPBD[@]}" ; }
+printf "%s\\n" "Running command '\$NMKPKG' in directory '\$PWD';  Attempting to build and install Arch Linux AUR package '\$AURHLPR' for architecture \$NMCMND with '\$SRPTNM' version $VERSIONID;  Please be patient..."
 \$NMKPKG || _PRTERROR_
 }
-
+# print error help message
 _PRTERROR_() {
-printf "\\\\n\\\\e[1;31merror: \\\\e[1;37m%s\\\\e[0m\\\\n\\\\n" "Please study the first lines of the error output and correct the error(s) and/or warning(s) and run '\$STRNRG' again.  You can use the TermuxArch command 'pci' to ensure that the system is up to date.  The command 'gpg --keyserver keyserver.ubuntu.com --recv-keys 71A1D0EF' can be used to import gpg keys.  In order to resolve 'unauthenticated git protocol on port 9418 is no longer supported' the command 'git config --global url."https://".insteadOf git://' can be used."
+printf "\\n\\e[1;31merror: \\e[1;37m%s\\e[0m\\n\\n" "Please study the first lines of the error output and correct the error(s) and/or warning(s) and run '\$STRNRG' again.  You can use the TermuxArch command 'pci' to ensure that the system is up to date.  The command 'gpg --keyserver keyserver.ubuntu.com --recv-keys 71A1D0EF' can be used to import gpg keys.  In order to resolve 'unauthenticated git protocol on port 9418 is no longer supported' the command 'git config --global url."https://".insteadOf git://' can be used.  Running command '\$STRNRG' again with the same menu selection may resolve the errors previously encountered automatically as well."
 }
-
-NMCMND="\$(uname -m)"
-for DRHLPR in AURHELPER AURHELPERD AURHELPERS AURHELPERSM CANDY MAKEPKGS SCREENSAVERS ; do declare -A \$DRHLPR ; done
+for DRHLPR in AURHLPR AURHLPRD AURHLPRDPG AURHLPRDRN AURHLPRS AURHLPRSM ENTERTAINMENT CANDY GAME MAKEPKGS MKRPKGDS SCREENSAVERS VLGRPPBD ; do declare -A \$DRHLPR ; done
 # depreciated aur helpers reason
-AURHELPER=(
-[aget]=="Validating source files with b2sums skipped"
+AURHLPRDRN=(
+[aget]="Validating source files with b2sums skipped"
 [aura-git]="Validating source files with sha256sums skipped"
 [auracle-git]="Validating source files with sha256sums skipped"
 [aurh-git]="Validating source files with sha256sums skipped"
@@ -840,143 +862,138 @@ AURHELPER=(
 [zeus]="Validating source files with sha256sums FAILED"
 [zur-git]="Validating source files with sha256sums skipped"
 )
+# pending aur helpers
+AURHLPRDPG=(
+[aura]="aura"
+[aura-git]="aura"
+[pacaur]="pacaur"
+[pacaur-git]="pacaur"
+[pkgbuilder]="pkgbuilder"
+[stack-static]="stack"
+[xaur]="xaur"
+[zur-git]="zur"
+)
 # depreciated aur helpers
-AURHELPERD=(
-[aget]=aget
-[aura-git]=aura
-[auracle-git]=auracle
-[aurh-git]=aurh
-[aurman]=aurman
-[aurora-git]=aurora
-[aurs]=aurs
-[aurs-git]=aurs
-[aurutils]=aurutils
-[baph]=baph
-[foxaur]=foxaur
-[gfoxaur]=gfoxaur
-[goaur]=goaur
-[liteaur]=liteaur
-[magico]=magico
-[maur]=maur
-[pakku-git]=pakku
-[pikaur-aurnews]=pikaur-aurnews
-[pikaur-git]=pikaur
-[pkgbuilder-git]=pkgbuilder
-[repoctl-git]=repoctl
-[simpleaur-git]=simpleaur
-[saurch-git]=saurch
-[trizen-git]=trizen
-[vam]=vam
-[wfa-git]=wfa
-[yay-git]=yay
-[yayim]=yayim
-[yup]=yup
-[yup-bin]=yup
-[yup-git]=yup
-[zeus]=zeus
-[zur-git]=zur
+AURHLPRD=(
+[aura]="aura"
+[aura-git]="aura"
+[aget]="aget"
+[auracle-git]="auracle"
+[aurh-git]="aurh"
+[aurman]="aurman"
+[aurora-git]="aurora"
+[aurs]="aurs"
+[aurs-git]="aurs"
+[aurutils]="aurutils"
+[baph]="baph"
+[foxaur]="foxaur"
+[gfoxaur]="gfoxaur"
+[goaur]="goaur"
+[liteaur]="liteaur"
+[magico]="magico"
+[maur]="maur"
+[pakku-git]="pakku"
+[pacaur]="pacaur"
+[pacaur-git]="pacaur"
+[pikaur-aurnews]="pikaur-aurnews"
+[pikaur-git]="pikaur"
+[pkgbuilder]="pkgbuilder"
+[pkgbuilder-git]="pkgbuilder"
+[repoctl-git]="repoctl"
+[simpleaur-git]="simpleaur"
+[saurch-git]="saurch"
+[stack-static]="stack"
+[trizen-git]="trizen"
+[vam]="vam"
+[wfa-git]="wfa"
+[xaur]="xaur"
+[yay-git]="yay"
+[yayim]="yayim"
+[yup]="yup"
+[yup-bin]="yup"
+[yup-git]="yup"
+[zeus]="zeus"
+[zur]="zur"
+[zur-git]="zur"
 )
 # aur helpers
-AURHELPERS=(
-[aura]=aura
-[aurget]=aurget
-[aurto]=aurto
-[aurutils-git]=aur
-[auryn]=auryn
-[bauerbill]=bauerbill
-[blinky]=blinky
-[buildaur]=buildaur
-[buildaur-git]=buildaur
-[git-aurcheck]=git-aurcheck
-[haur]=haur
-[lightpkg]=lightpkg
-[liteaur-git]=liteaur
-[package-query]=package-query
-[package-query-git]=package-query
-[pacaur]=pacaur
-[pacaur-git]=pacaur
-[packer]=packer
-[pakka]=pakka
-[pakku]=pakku
-[pakku-gui]=pakku
-[pakku-gui-git]=pakku
-[paru]=paru
-[paru-bin]=paru
-[paru-git]=paru
-[paruz]=paruz
-[pbget]=pbget
-[pikaur]=pikaur
-[pkgbuild-introspection]=mksrcinfo
-[pkgbuild-introspection-git]=mksrcinfo
-[pkgbuilder]=pkgbuilder
-[powerpill]=powerpill
-[popular-packages]=popular-packages
-[puyo]=puyo
-[ram]=ram
-[repoctl]=repoctl
-[repofish]=repofish
-[rua]=rua
-[sakuri]=sakuri
-[stack-static]=stack
-[trizen]=trizen
-[tulip-pm]=tulip
-[xaur]=xaur
-[yaourt]=yaourt
-[yaah]=yaah
-[yay]=yay
-[yay-bin]=yay
-[zeus-bin]=zeus
-[zur]=zur
+AURHLPRS=(
+[aurget]="aurget"
+[aurto]="aurto"
+[aurutils-git]="aur"
+[auryn]="auryn"
+[bauerbill]="bauerbill"
+[blinky]="blinky"
+[buildaur]="buildaur"
+[buildaur-git]="buildaur"
+[git-aurcheck]="git-aurcheck"
+[haur]="haur"
+[lightpkg]="lightpkg"
+[liteaur-git]="liteaur"
+[package-query]="package-query"
+[package-query-git]="package-query"
+[packer]="packer"
+[pakka]="pakka"
+[pakku]="pakku"
+[pakku-gui]="pakku"
+[pakku-gui-git]="pakku"
+[paru]="paru"
+[paru-bin]="paru"
+[paru-git]="paru"
+[paruz]="paruz"
+[pbget]="pbget"
+[pikaur]="pikaur"
+[pkgbuild-introspection]="mksrcinfo"
+[pkgbuild-introspection-git]="mksrcinfo"
+[powerpill]="powerpill"
+[popular-packages]="popular-packages"
+[puyo]="puyo"
+[ram]="ram"
+[repoctl]="repoctl"
+[repofish]="repofish"
+[rua]="rua"
+[sakuri]="sakuri"
+[trizen]="trizen"
+[tulip-pm]="tulip"
+[yaourt]="yaourt"
+[yaah]="yaah"
+[yay]="yay"
+[yay-bin]="yay"
+[zeus-bin]="zeus"
 )
 # smaller aur helpers
-AURHELPERSM=(
-[aurget]=aurget
-[blinky]=blinky
-[haur]=haur
-[lightpkg]=lightpkg
-[liteaur-git]=liteaur
-[paruz]=paruz
-[pbget]=pbget
-[pikaur]=pikaur
-[sakuri]=sakuri
-[trizen]=trizen
-[yaah]=yaah
+AURHLPRSM=(
+[aurget]="aurget"
+[haur]="haur"
+[lightpkg]="lightpkg"
+[liteaur-git]="liteaur"
+[paruz]="paruz"
+[pbget]="pbget"
+[pikaur]="pikaur"
+[sakuri]="sakuri"
+[trizen]="trizen"
+[yaah]="yaah"
 )
 # terminal candy
 CANDY=(
-[chucknorris]=chucknorris
-[corny-jokes-git]=corny-jokes
-[emoj]=emoj
-[edex-ui]=edex-ui
-[hollywood]=hollywood
-[ternimal]=ternimal
-[nbsdgames-git]=nbsdgames
-[sl-git]=sl
-[sl-patch]=sl
+[chucknorris]="chucknorris"
+[corny-jokes-git]="corny-jokes"
+[emoj]="emoj"
+[edex-ui]="edex-ui"
+[hollywood]="hollywood"
+[ternimal]="ternimal"
+[nbsdgames-git]="nbsdgames"
+[sl-git]="sl"
+[sl-patch]="sl"
 )
-# AUR makepkgs descriptions
-MAKEPKGS=(
-[archbuilder-git]="makepkg wrapper that uses buildah"
-[archbuilder]="makepkg wrapper that uses buildah"
-[dir-dlagent]="A makepkg DLAGENT which forwards requests to configured directories"
-[dmakepkg-git]="Makepkg running from within docker for clean builds without maintaining a chroot"
-[docker-makepkg]="A script and docker image to build packages in a clean container"
-[git-makepkg-templates-git]="makepkg-templates for git source packages"
-[makepkg-git-lfs-proto]="Add Git-lfs support to makepkg. Use "git-lfs+" as protocol specifier in source url."
-[makepkg-meta]="Easily create and install custom"
-[makepkg-nosudo]="Use su instead of sudo in makepkg, for more convenient use in termux"
-[makepkg-optimize-mold]="Supplemental build and packaging optimizations for makepkg"
-[makepkg-optimize]="Supplemental build and packaging optimizations for makepkg"
-[makepkg-tidy-ect]="A libmakepkg tidy script for loselessly compressing files using ect"
-[makepkg-tidy-pdfsizeopt]="A libmakepkg tidy script for loselessly optimizing PDFs using pdfsizeopt"
-[makepkg-tidy-scripts-git]="Collection of scripts for tidying packages created using makepkg. Includes optipng and upx support."
-[makepkg-unreal]="Some shell functions to ease the installation of various Unreal games."
-[makeppkg-git]="wrapper for Arch Linux's makepkg, patches source before packages are built"
-[makeppkg]="wrapper for Arch Linux's makepkg, patches source before packages are built"
-[pbget]="Retrieve PKGBUILDs and local source files from Git, ABS and the AUR for makepkg."
-[remakepkg]="Apply changes to pacman packages"
-[telegram-tdlib-purple-git]="libpurple/pidgin Telegram plugin implemented using official tdlib client library. Needs TD_API_ID and TD_API_HASH env vars to be set for makepkg."
-[telegram-tdlib-purple-minimal-git]="libpurple Telegram plugin implemented using official tdlib client library, packaged for bitlbee, without voip and image-processing dependencies. Needs TD_API_ID and TD_API_HASH env vars to be set for makepkg."
+# two AUR packages
+ENTERTAINMENT=(
+[sl-git]="sl"
+[tmatrix]="tmatrix"
+)
+# one AUR game package
+GAME=(
+[nbsdgames-git]="nbsdgames"
 )
 # AUR makepkg
 MAKEPKGS=(
@@ -1002,145 +1019,153 @@ MAKEPKGS=(
 [telegram-tdlib-purple-git]="telegram-tdlib-purple"
 [telegram-tdlib-purple-minimal-git]="telegram-tdlib-purple-minimal"
 )
+# AUR makepkgs descriptions
+MKRPKGDS=(
+[archbuilder-git]="makepkg wrapper that uses buildah"
+[archbuilder]="makepkg wrapper that uses buildah"
+[dir-dlagent]="A makepkg DLAGENT which forwards requests to configured directories"
+[dmakepkg-git]="Makepkg running from within docker for clean builds without maintaining a chroot"
+[docker-makepkg]="A script and docker image to build packages in a clean container"
+[git-makepkg-templates-git]="makepkg-templates for git source packages"
+[makepkg-git-lfs-proto]="Add Git-lfs support to makepkg. Use "git-lfs+" as protocol specifier in source url."
+[makepkg-meta]="Easily create and install custom"
+[makepkg-nosudo]="Use su instead of sudo in makepkg, for more convenient use in termux"
+[makepkg-optimize-mold]="Supplemental build and packaging optimizations for makepkg"
+[makepkg-optimize]="Supplemental build and packaging optimizations for makepkg"
+[makepkg-tidy-ect]="A libmakepkg tidy script for loselessly compressing files using ect"
+[makepkg-tidy-pdfsizeopt]="A libmakepkg tidy script for loselessly optimizing PDFs using pdfsizeopt"
+[makepkg-tidy-scripts-git]="Collection of scripts for tidying packages created using makepkg. Includes optipng and upx support."
+[makepkg-unreal]="Some shell functions to ease the installation of various Unreal games."
+[makeppkg-git]="wrapper for Arch Linux's makepkg, patches source before packages are built"
+[makeppkg]="wrapper for Arch Linux's makepkg, patches source before packages are built"
+[pbget]="Retrieve PKGBUILDs and local source files from Git, ABS and the AUR for makepkg."
+[remakepkg]="Apply changes to pacman packages"
+[telegram-tdlib-purple-git]="libpurple/pidgin Telegram plugin implemented using official tdlib client library. Needs TD_API_ID and TD_API_HASH env vars to be set for makepkg."
+[telegram-tdlib-purple-minimal-git]="libpurple Telegram plugin implemented using official tdlib client library, packaged for bitlbee, without voip and image-processing dependencies. Needs TD_API_ID and TD_API_HASH env vars to be set for makepkg."
+)
 # terminal screensavers
 SCREENSAVERS=(
-[asciiquarium-git]=asciiquarium
-[bash-pipes]=bash-pipes
-[cmatrix-git]=cmatrix
-[dvdts-fp-git]=dvdts
-[greenrain]=greenrain
-[neo-matrix]=neo-matrix
-[neo-matrix-git]=neo-matrix
-[pipes.c]=cpipes
-[pipes.sh]=pipes.sh
-[rmatrix]=rmatrix
-[rmatrix-git]=rmatrix
-[termsaver-git]=termsaver
-[tmatrix]=tmatrix
-[tmatrix-git]=tmatrix
-[tty-clock-git]=tty-clock
+[asciiquarium-git]="asciiquarium"
+[bash-pipes]="bash-pipes"
+[cmatrix-git]="cmatrix"
+[digital-rain-git]="digital-rain"
+[dvdts-fp-git]="dvdts"
+[greenrain]="greenrain"
+[neo-matrix]="neo-matrix"
+[neo-matrix-git]="neo-matrix"
+[pipes.c]="cpipes"
+[pipes.sh]="pipes.sh"
+[rmatrix]="rmatrix"
+[rmatrix-git]="rmatrix"
+[termsaver-git]="termsaver"
+[tmatrix]="tmatrix"
+[tmatrix-git]="tmatrix"
+[tty-clock-git]="tty-clock"
 )
 SLCTSYRNG="aur helper"
 [ -n "\${1:-}" ] && DALL="\${1//-}" && DALL="\${1:0:2}" || DALL=1
-[ -n "\${1:-}" ] && [[ "\${1//-}" = [Aa]* ]] && { for AURHELPER in \$(for AURHLP in "\${!AURHELPERS[@]}"; do printf '%s\n' "\$AURHLP" ; done | sort -n) ; do printf '%s\\n' "Attempting to build \$SLCTSYRNG '\$AURHELPER'..." && _ARHCMD_ ||: ; done ; } && exit
-[ -n "\${1:-}" ] && { [[ "\${1//-}" = [Bb]* ]] || [[ "\${1//-}" = [Mm]* ]] ; } && [ -n "\${2:-}" ] && AURHELPER="\$2" && BLDPKG=0 && printf '%s\\n' "Attempting to build aur package '\$AURHELPER'..." && _ARHCMD_ "\$@" && exit 0
-[ -n "\${1:-}" ] && [[ "\${1//-}" = [Cc]* ]] && TALL=0 && AURHELPERSTG=\$(declare -p CANDY) && eval AURHELPERS="\${AURHELPERSTG#*=}" && SLCTSYRNG="candy"
-[ -n "\${1:-}" ] && [[ "\${1//-}" = [Mm]* ]] && AURHELPERSTG=\$(declare -p MAKEPKGS) && eval AURHELPERS="\${AURHELPERSTG#*=}" && SLCTSYRNG="makepkg"
-[ -n "\${1:-}" ] && [[ "\${1//-}" = [Rr]* ]] && { for AURHELPER in \$(for AURHLP in "\${!AURHELPERS[@]}"; do printf '%s\n' "\$AURHLP" ; done | sort -nr) ; do printf '%s\\n' "Attempting to build \$SLCTSYRNG '\$AURHELPER'..." && _ARHCMD_ ||: ; done ; } && exit
-[ -n "\${1:-}" ] && [[ "\${1//-}" = [Ss][Bb]* ]] && { for AURHELPER in \$(for AURHLP in "\${!AURHELPERSM[@]}"; do printf '%s\n' "\$AURHLP" ; done | sort -n) ; do printf '%s\\n' "Attempting to build \$SLCTSYRNG '\$AURHELPER'..." && _ARHCMD_ ||: ; done ; } && exit
-[ -n "\${1:-}" ] && [[ "\${1//-}" = [Ss]* ]] && TALL=0 && AURHELPERSTG=\$(declare -p SCREENSAVERS) && eval AURHELPERS="\${AURHELPERSTG#*=}" && SLCTSYRNG="screensaver"
-[ -n "\${1:-}" ] && [[ "\${1//-}" = [Tt][Cc]* ]] && TALL=0 && AURHELPERSTG=\$(declare -p CANDY) && eval AURHELPERS="\${AURHELPERSTG#*=}" && SLCTSYRNG="candy" && { for AURHELPER in \$(for AURHLP in "\${!AURHELPERS[@]}"; do printf '%s\n' "\$AURHLP" ; done | sort -n) ; do printf '%s\\n' "Attempting to build \$SLCTSYRNG '\$AURHELPER'..." && _ARHCMD_ ||: ; done ; } && exit
-[ -n "\${1:-}" ] && [[ "\${1//-}" = [Tt][Mm]* ]] && TALL=0 && AURHELPERSTG=\$(declare -p MAKEPKGS) && eval AURHELPERS="\${AURHELPERSTG#*=}" && SLCTSYRNG="makepkgs" && { for AURHELPER in \$(for AURHLP in "\${!AURHELPERS[@]}"; do printf '%s\n' "\$AURHLP" ; done | sort -n) ; do printf '%s\\n' "Attempting to build \$SLCTSYRNG '\$AURHELPER'..." && _ARHCMD_ ||: ; done ; } && exit
-[ -n "\${1:-}" ] && [[ "\${1//-}" = [Tt][Ss]* ]] && TALL=0 && AURHELPERSTG=\$(declare -p SCREENSAVERS) && eval AURHELPERS="\${AURHELPERSTG#*=}" && SLCTSYRNG="screensaver" && { for AURHELPER in \$(for AURHLP in "\${!AURHELPERS[@]}"; do printf '%s\n' "\$AURHLP" ; done | sort -n) ; do printf '%s\\n' "Attempting to build \$SLCTSYRNG '\$AURHELPER'..." && _ARHCMD_ ||: ; done ; } && exit
-printf "Command '%s' version %s setting Arch Linux \$SLCTSYRNG to build and install;  \${SRPTNM^^} NOTICE:  Default: '-A ignore incomplete arch field in PKGBUILD' also sets arch=('any').  Select the \$SLCTSYRNG to install by number from this list or type quit to exit this menu:\\n" "\$SRPTNM" "$VERSIONID"
-select AURHELPER in \$(for AURHLP in "\${!AURHELPERS[@]}" ; do printf '%s\n' "\$AURHLP" ; done | sort -n);
+[ -n "\${1:-}" ] && [[ "\${1//-}" = [Aa]* ]] && { for AURHLPR in \$(for AURHLP in "\${!AURHLPRS[@]}"; do printf '%s\n' "\$AURHLP" ; done | sort -n) ; do printf '%s\\n' "Attempting to build \$SLCTSYRNG '\$AURHLPR'..." && _ARHCMD_ ||: ; done ; } && exit
+[ -n "\${1:-}" ] && { [[ "\${1//-}" = [Bb]* ]] || [[ "\${1//-}" = [Mm]* ]] ; } && [ -n "\${2:-}" ] && AURHLPR="\$2" && BLDPKG=0 && printf '%s\\n' "Attempting to build aur package '\$AURHLPR'..." && _ARHCMD_ "\$@" && exit 0
+[ -n "\${1:-}" ] && [[ "\${1//-}" = [Cc]* ]] && TALL=0 && AURHLPRSTG=\$(declare -p CANDY) && eval AURHLPRS="\${AURHLPRSTG#*=}" && SLCTSYRNG="candy"
+[ -n "\${1:-}" ] && [[ "\${1//-}" = [Ee]* ]] && TALL=0 && AURHLPRSTG=\$(declare -p ENTERTAINMENT) && eval AURHLPRS="\${AURHLPRSTG#*=}" && SLCTSYRNG="package"
+[ -n "\${1:-}" ] && [[ "\${1//-}" = [Gg]* ]] && TALL=0 && AURHLPRSTG=\$(declare -p GAME) && eval AURHLPRS="\${AURHLPRSTG#*=}" && SLCTSYRNG="game package"
+[ -n "\${1:-}" ] && [[ "\${1//-}" = [Mm]* ]] && AURHLPRSTG=\$(declare -p MAKEPKGS) && eval AURHLPRS="\${AURHLPRSTG#*=}" && SLCTSYRNG="makepkg"
+[ -n "\${1:-}" ] && [[ "\${1//-}" = [Rr]* ]] && { for AURHLPR in \$(for AURHLP in "\${!AURHLPRS[@]}"; do printf '%s\n' "\$AURHLP" ; done | sort -nr) ; do printf '%s\\n' "Attempting to build \$SLCTSYRNG '\$AURHLPR'..." && _ARHCMD_ ||: ; done ; } && exit
+[ -n "\${1:-}" ] && [[ "\${1//-}" = [Ss][Bb]* ]] && { for AURHLPR in \$(for AURHLP in "\${!AURHLPRSM[@]}"; do printf '%s\n' "\$AURHLP" ; done | sort -n) ; do printf '%s\\n' "Attempting to build \$SLCTSYRNG '\$AURHLPR'..." && _ARHCMD_ ||: ; done ; } && exit
+[ -n "\${1:-}" ] && [[ "\${1//-}" = [Ss]* ]] && TALL=0 && AURHLPRSTG=\$(declare -p SCREENSAVERS) && eval AURHLPRS="\${AURHLPRSTG#*=}" && SLCTSYRNG="screensaver"
+[ -n "\${1:-}" ] && [[ "\${1//-}" = [Tt][Cc]* ]] && TALL=0 && AURHLPRSTG=\$(declare -p CANDY) && eval AURHLPRS="\${AURHLPRSTG#*=}" && SLCTSYRNG="candy" && { for AURHLPR in \$(for AURHLP in "\${!AURHLPRS[@]}"; do printf '%s\n' "\$AURHLP" ; done | sort -n) ; do printf '%s\\n' "Attempting to build \$SLCTSYRNG '\$AURHLPR'..." && _ARHCMD_ ||: ; done ; } && exit
+[ -n "\${1:-}" ] && [[ "\${1//-}" = [Tt][Mm]* ]] && TALL=0 && AURHLPRSTG=\$(declare -p MAKEPKGS) && eval AURHLPRS="\${AURHLPRSTG#*=}" && SLCTSYRNG="makepkg" && { for AURHLPR in \$(for AURHLP in "\${!AURHLPRS[@]}"; do printf '%s\n' "\$AURHLP" ; done | sort -n) ; do printf '%s\\n' "Attempting to build \$SLCTSYRNG '\$AURHLPR'..." && _ARHCMD_ ||: ; done ; } && exit
+[ -n "\${1:-}" ] && [[ "\${1//-}" = [Tt][Ss]* ]] && TALL=0 && AURHLPRSTG=\$(declare -p SCREENSAVERS) && eval AURHLPRS="\${AURHLPRSTG#*=}" && SLCTSYRNG="screensaver" && { for AURHLPR in \$(for AURHLP in "\${!AURHLPRS[@]}"; do printf '%s\n' "\$AURHLP" ; done | sort -n) ; do printf '%s\\n' "Attempting to build \$SLCTSYRNG '\$AURHLPR'..." && _ARHCMD_ ||: ; done ; } && exit
+printf "Please set the Arch Linux AUR package for command '%s \$SLCTSYRNG' to build and install;  \${SRPTNM^^} NOTICE:  \$DFLTSG  Please select the \$SLCTSYRNG to install by number from this menu:\\n" "\$SRPTNM"
+select AURHLPR in exit \$(for AURHLP in "\${!AURHLPRS[@]}" ; do printf '%s\n' "\$AURHLP" ; done | sort -n);
 do
-{ [[ "\$REPLY" = [Ee]* ]] || [[ "\$REPLY" = [Qq]* ]] ; } && printf '%s\\n' "Exiting..." && exit
-{ [[ "\${!AURHELPERS[@]}" =~ (^|[[:space:]])"\$AURHELPER"($|[[:space:]]) ]] || { [[ "\${!AURHELPERS[@]}" =~ (^|[[:space:]])"\$REPLY"($|[[:space:]]) ]] && AURHELPER="\$REPLY" ; } ; } && printf "%s\\n" "Option '\$REPLY \$AURHELPER' was picked from this list;  The chosen Arch Linux \$SLCTSYRNG for architecture \$NMCMND to build and install is '\$AURHELPER'...  " && _ARHCMD_ && break || printf "%s\\n" "Answer '\$REPLY' was chosen;  Please select the Arch Linux \$SLCTSYRNG to build and install by number from this list or type exit and tap enter to exit command '\$SRPTNM':"
+{ [[ "\$REPLY" = 0 ]] || [[ "\$REPLY" = 1 ]] || [[ "\$REPLY" = [Ee]* ]] || [[ "\$REPLY" = [Qq]* ]] ; } && printf '%s\\n' "Exiting..." && exit
+{ [[ "\${!AURHLPRS[@]}" =~ (^|[[:space:]])"\$AURHLPR"($|[[:space:]]) ]] || { [[ "\${!AURHLPRS[@]}" =~ (^|[[:space:]])"\$REPLY"($|[[:space:]]) ]] && AURHLPR="\$REPLY" ; } ; } && printf "%s\\n" "Option '\$REPLY \$AURHLPR' was picked from this list;  The chosen Arch Linux \$SLCTSYRNG for architecture \$NMCMND to build and install is '\$AURHLPR'...  " && _ARHCMD_ && break || printf "%s\\n" "Answer '\$REPLY' was chosen;  Please select the Arch Linux \${SLCTSYRNG:-1} to build and install by number from this list or type e and tap enter to exit command '\$SRPTNM':"
 done
 ## $INSTALLDIR$TMXRCHBNDR/makeaurhelpers FE
 EOM
-chmod 755 $TMXRCHBNDS/makeaurhelpers
+chmod 755 "$TMXRCHBNDS"/makeaurhelpers
 }
 
 _ADDmakeaurfakeroottcp_() {
-_CFLHDR_ $TMXRCHBNDS/makeaurfakeroottcp "# build and install fakeroot-tcp"
-_PRTPATCHHELP_ "$TMXRCHBNDS/makeaurfakeroottcp"
-cat >> $TMXRCHBNDS/makeaurfakeroottcp <<- EOM
+_CFLHDR_ "$TMXRCHBNDS"/makeaurfakeroottcp "# build and install fakeroot-tcp"
+_DPTCHHLP_ "$TMXRCHBNDS"/makeaurfakeroottcp
+_PRTRTHLP_ "$TMXRCHBNDS"/makeaurfakeroottcp
+cat >> "$TMXRCHBNDS"/makeaurfakeroottcp <<- EOM
 _DOMAKEFAKEROOTTCP_() {
 _PRTERROR_() {
 printf "\\n\\e[1;31merror: \\e[1;37m%s\\e[0m\\n\\n" "Please study the first lines of the error output and correct the error(s) and/or warning(s), and run '\$STRNRG' again." && exit 104
 }
-if [ "\$UID" = 0 ]
-then
-printf "\\\\e[1;31m%s\\\\e[1;37m%s\\\\e[1;31mExiting...\\\\e[0m\\\\n" "ＴｅｒｍｕｘＡｒｃｈ SIGNAL:" "  Script '\${0##*/}' should not be used as root:  The command 'addauser' creates user accounts in Arch Linux in Termux PRoot and configures these user accounts for the Arch Linux 'sudo' command:  The 'addauser' command is intended to be run by the Arch Linux in Termux PRoot root user:  To use 'addauser' directly from Termux you can run \"$STARTBIN command 'addauser user'\" in Termux to create this account in Arch Linux Termux PRoot:  The command '$STARTBIN help' has more information about using '$STARTBIN':  "
-else
-[ ! -f "/run/lock/${INSTALLDIR##*/}/patchmakepkg.lock" ] && patchmakepkg || printf "\\\\e[0;33m%s\\\\e[0m\\\\n" "Lock file "/run/lock/${INSTALLDIR##*/}/patchmakepkg.lock" found;  Continuing..."
-printf "%s\\\\n" "Preparing to build and install fakeroot-tcp with \${0##*/} version $VERSIONID: "
+[ ! -f "/run/lock/${INSTALLDIR##*/}/patchmakepkg.lock" ] && patchmakepkg || printf "\\e[0;33m%s\\e[0m\\n" "Lock file "/run/lock/${INSTALLDIR##*/}/patchmakepkg.lock" found;  Continuing..."
+printf "%s\\n" "Preparing to build and install fakeroot-tcp with \${0##*/} version $VERSIONID: "
 if { [ ! "\$(command -v automake)" ] || [ ! "\$(command -v git)" ] || [ ! "\$(command -v gcc -v)" ] || [ ! "\$(command -v libtool)" ] || [ ! "\$(command -v po4a)" ] ; }
 then
 pci automake base base-devel fakeroot git gcc libtool po4a || printf "\\n\\e[1;31mＴｅｒｍｕｘＡｒｃｈ SIGNAL: \\e[7;37m%s\\e[0m\\n\\n" "Please study the first lines of the error output and correct the error(s) and/or warning(s) by running command 'pci automake base base-devel fakeroot git gcc go libtool po4a' as root user in a new Termux session.  You can do this without closing this session by running command \"$STARTBIN command 'pci automake base base-devel fakeroot git gcc go libtool po4a'\"in a new Termux session. Then return to this session and run '\$STRNRG' again."
-fi
 cd
 [ -d fakeroot-tcp ] || gcl https://aur.archlinux.org/fakeroot-tcp.git
 cd fakeroot-tcp || exit 196
-printf "%s\\\\n" "Running command 'nice -n 20 makepkg -Ccfis --check --needed';  Attempting to build and install 'fakeroot-tcp' with '\${0##*/}' version $VERSIONID.  Please be patient..."
+printf "%s\\n" "Running command 'nice -n 20 makepkg -Ccfis --check --needed';  Attempting to build and install Arch Linux AUR package 'fakeroot-tcp' with '\${0##*/}' version $VERSIONID.  Please be patient..."
 { nice -n 20 makepkg -Ccfis --check --needed && libtool --finish /usr/lib/libfakeroot && :>"/run/lock/${INSTALLDIR##*/}/makeaurfakeroottcp.lock" ; } || _PRTERROR_
 fi
-printf "%s\\\\n" "Building and installing fakeroot-tcp: DONE 🏁"
+printf "%s\\n" "Building and installing fakeroot-tcp: DONE 🏁"
 }
-[ ! -f "/run/lock/${INSTALLDIR##*/}/makeaurfakeroottcp.lock" ] && _DOMAKEFAKEROOTTCP_ || printf "%s\\\\n" "Please remove file "/run/lock/${INSTALLDIR##*/}/makeaurfakeroottcp.lock" in order to rebuild fakeroot-tcp with \${0##*/} version $VERSIONID."
+[ ! -f "/run/lock/${INSTALLDIR##*/}/makeaurfakeroottcp.lock" ] && _DOMAKEFAKEROOTTCP_ || printf "%s\\n" "Please remove file "/run/lock/${INSTALLDIR##*/}/makeaurfakeroottcp.lock" in order to rebuild fakeroot-tcp with \${0##*/} version $VERSIONID."
 ## $INSTALLDIR$TMXRCHBNDR/makeaurfakeroottcp FE
 EOM
-chmod 755 $TMXRCHBNDS/makeaurfakeroottcp
+chmod 755 "$TMXRCHBNDS"/makeaurfakeroottcp
 }
 
 _ADDmakeaurghcuphs_() {
-_CFLHDR_ $TMXRCHBNDS/makeaurghcuphs
-_PRTPATCHHELP_ "$TMXRCHBNDS/makeaurghcuphs"
-cat >> $TMXRCHBNDS/makeaurghcuphs <<- EOM
-if [ "\$UID" = 0 ]
-then
-printf "\\\\e[1;31m%s\\\\e[1;37m%s\\\\e[1;31mExiting...\\\\e[0m\\\\n" "ＴｅｒｍｕｘＡｒｃｈ SIGNAL:" "  Script '\${0##*/}' should not be used as root:  The command 'addauser' creates user accounts in Arch Linux in Termux PRoot and configures these user accounts for the Arch Linux 'sudo' command':  The 'addauser' command is intended to be run by the Arch Linux in Termux PRoot root user:  To use 'addauser' directly from Termux you can run \"$STARTBIN command 'addauser user'\" in Termux to create this account in Arch Linux Termux PRoot:  The command '$STARTBIN help' has more information about using '$STARTBIN':  "
-else
-[ -x /usr/bin/ghcup ] && printf "\\\\e[0;32m%s\\\\e[0m\\\\n" "The command 'ghcup' is already installed!  Please use the command 'ghcup':  Exiting..." && exit
+_CFLHDR_ "$TMXRCHBNDS"/makeaurghcuphs
+_DPTCHHLP_ "$TMXRCHBNDS"/makeaurghcuphs
+_PRTRTHLP_ "$TMXRCHBNDS"/makeaurghcuphs
+cat >> "$TMXRCHBNDS"/makeaurghcuphs <<- EOM
+[ -x /usr/bin/ghcup ] && printf "\\e[0;32m%s\\e[0m\\n" "The command 'ghcup' is already installed!  Please use the command 'ghcup':  Exiting..." && exit
 [ -f /usr/lib/libnuma.so ] || { pc numactl || pci numactl ; } || { printf "\\n\\e[1;31mＴｅｒｍｕｘＡｒｃｈ SIGNAL: \\e[7;37m%s\\e[0m\\n\\n" "Please study the first lines of the error output and correct the error(s) and/or warning(s) by running command 'pci numactl' as proot root user.  You might be able to bring this about without closing this session.  Please try running command: $STARTBIN command 'pci numactl' in a new Termux PRoot session.  This should install the neccessary packages to make 'ksh'.  Then return to this session, and run '\${0##*/}' again." && exit 120 ; }
 pikaur ghcup-hs --noconfirm || { [ -f /usr/bin/pikaur ] || makeaurpikaur && pikaur ghcup-hs --noconfirm ; }
-fi
 ## $INSTALLDIR$TMXRCHBNDR/makeaurghcuphs FE
 EOM
-chmod 755 $TMXRCHBNDS/makeaurghcuphs
+chmod 755 "$TMXRCHBNDS"/makeaurghcuphs
 }
 
 _ADDmakeaurrustup_() {
-_CFLHDR_ $TMXRCHBNDS/makeaurrustup
-_PRTPATCHHELP_ "$TMXRCHBNDS/makeaurrustup"
-cat >> $TMXRCHBNDS/makeaurrustup <<- EOM
-if [ "\$UID" = 0 ]
-then
-printf "\\\\e[1;31m%s\\\\e[1;37m%s\\\\e[1;31mExiting...\\\\e[0m\\\\n" "ＴｅｒｍｕｘＡｒｃｈ SIGNAL:" "  Script '\${0##*/}' should not be used as root:  The command 'addauser' creates user accounts in Arch Linux in Termux PRoot and configures these user accounts for the Arch Linux 'sudo' command:  The 'addauser' command is intended to be run by the Arch Linux in Termux PRoot root user:  To use 'addauser' directly from Termux you can run \"$STARTBIN command 'addauser user'\" in Termux to create this account in Arch Linux Termux PRoot:  The command '$STARTBIN help' has more information about using '$STARTBIN':  "
-else
-[ -x /usr/bin/rustup ] && printf "\\\\e[0;32m%s\\\\e[0m\\\\n" "The command 'rustup' is already installed!  Please use the command 'rustup':  Exiting..." && exit
+_CFLHDR_ "$TMXRCHBNDS"/makeaurrustup
+_DPTCHHLP_ "$TMXRCHBNDS"/makeaurrustup
+_PRTRTHLP_ "$TMXRCHBNDS"/makeaurrustup
+cat >> "$TMXRCHBNDS"/makeaurrustup <<- EOM
+[ -x /usr/bin/rustup ] && printf "\\e[0;32m%s\\e[0m\\n" "The command 'rustup' is already installed!  Please use the command 'rustup':  Exiting..." && exit
 { pc rustup --noconfirm || pci rustup --noconfirm ; } || yay rustup --noconfirm
-fi
 ## $INSTALLDIR$TMXRCHBNDR/rustup FE
 EOM
-chmod 755 $TMXRCHBNDS/makeaurrustup
+chmod 755 "$TMXRCHBNDS"/makeaurrustup
 }
 
 _ADDmakeaurtllocalmgr_() {
-_CFLHDR_ $TMXRCHBNDS/makeaurtllocalmgr
-_PRTPATCHHELP_ "$TMXRCHBNDS/makeaurtllocalmgr"
-cat >> $TMXRCHBNDS/makeaurtllocalmgr <<- EOM
-if [ "\$UID" = 0 ]
-then
-printf "\\\\e[1;31m%s\\\\e[1;37m%s\\\\e[1;31mExiting...\\\\e[0m\\\\n" "ＴｅｒｍｕｘＡｒｃｈ SIGNAL:" "  Script '\${0##*/}' should not be used as root:  The command 'addauser' creates user accounts in Arch Linux in Termux PRoot and configures these user accounts for the Arch Linux 'sudo' command:  The 'addauser' command is intended to be run by the Arch Linux in Termux PRoot root user:  To use 'addauser' directly from Termux you can run \"$STARTBIN command 'addauser user'\" in Termux to create this account in Arch Linux Termux PRoot:  The command '$STARTBIN help' has more information about using '$STARTBIN':  "
-else
-[ -x /usr/bin/tllocalmgr ] && printf "\\\\e[0;32m%s\\\\e[0m\\\\n" "The command 'tllocalmgr' is already installed!  Please use the command 'tllocalmgr':  Exiting..." && exit
+_CFLHDR_ "$TMXRCHBNDS"/makeaurtllocalmgr
+_DPTCHHLP_ "$TMXRCHBNDS"/makeaurtllocalmgr
+_PRTRTHLP_ "$TMXRCHBNDS"/makeaurtllocalmgr
+cat >> "$TMXRCHBNDS"/makeaurtllocalmgr <<- EOM
+[ -x /usr/bin/tllocalmgr ] && printf "\\e[0;32m%s\\e[0m\\n" "The command 'tllocalmgr' is already installed!  Please use the command 'tllocalmgr':  Exiting..." && exit
 yay tllocalmgr --noconfirm || { [ ! -x /usr/bin/yay ] && makeauryay && yay tllocalmgr --noconfirm ; }
-fi
 ## $INSTALLDIR$TMXRCHBNDR/makeaurtllocalmgr FE
 EOM
-chmod 755 $TMXRCHBNDS/makeaurtllocalmgr
+chmod 755 "$TMXRCHBNDS"/makeaurtllocalmgr
 }
 
 _ADDmakeauryay_() {
-_CFLHDR_ $TMXRCHBNDS/makeauryay "# build and install command yay; Contributors https://github.com/cb125 and https://github.com/SampsonCrowley"
-_PRTPATCHHELP_ "$TMXRCHBNDS/makeauryay"
-cat >> $TMXRCHBNDS/makeauryay <<- EOM
+_CFLHDR_ "$TMXRCHBNDS"/makeauryay "# build and install command yay; Contributors https://github.com/cb125 and https://github.com/SampsonCrowley"
+_DPTCHHLP_ "$TMXRCHBNDS"/makeauryay
+_PRTRTHLP_ "$TMXRCHBNDS"/makeauryay
+cat >> "$TMXRCHBNDS"/makeauryay <<- EOM
 _PRTERROR_() {
 printf "\\n\\e[1;31mＴｅｒｍｕｘＡｒｃｈ SIGNAL: \\e[1;37m%s\\e[0m\\n\\n" "Please study the first lines of the error output and correct thiserror the error(s) and/or warning(s), and run '\${0##*/}' again."
 exit 100
 }
-if [ "\$UID" = 0 ]
-then
-printf "\\\\e[1;31m%s\\\\e[1;37m%s\\\\e[1;31mExiting...\\\\e[0m\\\\n" "ＴｅｒｍｕｘＡｒｃｈ SIGNAL:" "  Script '\${0##*/}' should not be used as root:  The command 'addauser' creates user accounts in Arch Linux in Termux PRoot and configures these user accounts for the Arch Linux 'sudo' command:  The 'addauser' command is intended to be run by the Arch Linux in Termux PRoot root user:  To use 'addauser' directly from Termux you can run \"$STARTBIN command 'addauser user'\" in Termux to create this account in Arch Linux Termux PRoot:  The command '$STARTBIN help' has more information about using '$STARTBIN':  "
-else
-[ -x /usr/bin/yay ] && printf "\\\\e[0;32m%s\\\\e[0m\\\\n" "The command 'yay' is already installed!  Please use the command 'yay':  Exiting..." && exit
+[ -x /usr/bin/yay ] && printf "\\e[0;32m%s\\e[0m\\n" "The command 'yay' is already installed!  Please use the command 'yay':  Exiting..." && exit
 _PRMAKE_() {
-printf "\\\\e[1;32m==> \\\\e[1;37mRunning command \\\\e[1;32mnice -n 20 makepkg -Ccfis --check --needed --noconfirm\\\\e[1;37m...\\\\n"
+printf "\\e[1;32m==> \\e[1;37mRunning command \\e[1;32mnice -n 20 makepkg -Ccfis --check --needed --noconfirm\\e[1;37m...\\n"
 }
-printf "\\\\e[0;32m%s\\\\e[0m\\\\n" "Building and installing 'yay':"
+printf "\\e[0;32m%s\\e[0m\\n" "Building and installing 'yay':"
 if [[ -n "\${PREFIX:-}" ]]
 then
 : # pull requests are requested to automate install missing Termux packages
@@ -1150,15 +1175,14 @@ if { [ ! "\$(command -v fakeroot)" ] || [ ! "\$(command -v git)" ] || [ ! "\$(co
 then
 pci base base-devel fakeroot gcc git go || pci base base-devel fakeroot gcc git go || { printf "\\n\\e[1;31mＴｅｒｍｕｘＡｒｃｈ SIGNAL: \\e[7;37m%s\\e[0m\\n\\n" "Please study the first lines of the error output and correct the error(s) and/or warning(s);  The command 'pci base base-devel fakeroot gcc git go' can be run as proot root user in a new Termux session and might resolve this issue.  You might be able to do this without closing this session.  Please try running command: $STARTBIN command 'pci base base-devel fakeroot gcc git go' in a new Termux PRoot session.  Then return to this session, and run '\${0##*/}' again." && exit 120 ; }
 fi
-fi
 cd
 [ -d yay ] || gcl https://aur.archlinux.org/yay.git
-{ { cd yay || exit 169 ; } && _PRMAKE_ && nice -n 20 makepkg -Ccfis --check --needed --noconfirm ; } || { printf "\\\\e[1;31m%s\\\\e[1;37m%s\\\\e[1;31m%s\\\\n" "ＴｅｒｍｕｘＡｒｃｈ SIGNAL: " "The command 'nice -n 20 makepkg -Ccfis --check --needed --noconfirm' did not run as expected; " "EXITING..." && exit 124 ; }
-printf "\\\\e[0;32m%s\\\\n%s\\\\n%s\\\\e[1;32m%s\\\\e[0m\\\\n" "Paths that can be followed after building 'yay' are 'yay cmatrix --noconfirm' which builds a matrix screensaver.  The commands 'yay pikaur|pikaur-git|tpac' build more aur installers which can also be used to download aur repositories and build packages like with 'yay' in your Android smartphone, tablet, wearable and more.  Did you know that 'android-studio' is available with the command 'yay android'?" "If you have trouble importing keys, this command 'gpg --keyserver keyserver.ubuntu.com --recv-keys 71A1D0EFCFEB6281FD0437C71A1D0EFCFEB6281F' might help.  Change the number to the number of the key being imported." "Building and installing yay: " "DONE 🏁"
+{ { cd yay || exit 169 ; } && _PRMAKE_ && nice -n 20 makepkg -Ccfis --check --needed --noconfirm ; } || { printf "\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\\n" "ＴｅｒｍｕｘＡｒｃｈ SIGNAL: " "The command 'nice -n 20 makepkg -Ccfis --check --needed --noconfirm' did not run as expected; " "EXITING..." && exit 124 ; }
+printf "\\e[0;32m%s\\n%s\\n%s\\e[1;32m%s\\e[0m\\n" "Paths that can be followed after building 'yay' are 'yay cmatrix --noconfirm' which builds a matrix screensaver.  The commands 'yay pikaur|pikaur-git|tpac' build more aur installers which can also be used to download aur repositories and build packages like with 'yay' in your Android smartphone, tablet, wearable and more.  Did you know that 'android-studio' is available with the command 'yay android'?" "If you have trouble importing keys, this command 'gpg --keyserver keyserver.ubuntu.com --recv-keys 71A1D0EFCFEB6281FD0437C71A1D0EFCFEB6281F' might help.  Change the number to the number of the key being imported." "Building and installing yay: " "DONE 🏁"
 fi
 ## $INSTALLDIR$TMXRCHBNDR/makeauryay FE
 EOM
-chmod 755 $TMXRCHBNDS/makeauryay
+chmod 755 "$TMXRCHBNDS"/makeauryay
 }
 
 _PREPFILEFCTN_() { _PRTPATCHHELP_ "$3" && printf "%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n" "[ \"\$UID\" = 0 ] && printf '\\e[1;31m%s\\e[1;37m%s\\e[1;31mExiting...\\n' \"Cannot run '\${0##*/}' as root user;\" \" the command 'addauser username' creates user accounts in ~/${INSTALLDIR##*/}; the command '$STARTBIN command addauser username' can create user accounts in ~/${INSTALLDIR##*/} from Termux; a default user account is created during setup; the default username 'user' can be used to access the PRoot system employing a user account; command '$STARTBIN help' has more information;  \" && exit 0" "_PRNTWAIT_() { printf '\\e[0;32mCommand \\e[1;32m%s\\e[0;32m is attempting to make and install command \\e[1;32m%s\\e[0;32m %s Please wait...\\n' \"'\${0##*/}'\" \"'$1'\"  \"$4\" ; }" "[ -x /usr/bin/\"$1\" ] && { printf '\\e[0;32m%s, command \\e[1;32m%s\\e[0;32m is installed!  Please use the command \\e[1;32m%s\\e[0;32m to continue.  ' \"${4^}\" \"'$1'\" \"'$1'\" && exit ; }" "_PRNTWAIT_ && [ -x /usr/bin/make ] || { pc base base-devel || pci base base-devel ; }" "{ [ -f /run/lock/\"${INSTALLDIR##*/}\"/patchmakepkg.lock ] || patchmakepkg ; } && ${5:-} cd && { [ -x \"$2\" ] || { gcl https://aur.archlinux.org/\"$2\" && printf '\\e[0;32mCommand \\e[1;32m%s\\e[0;32m is continuing to make and install command \\e[1;32m%s\\e[0;32m, %s;  Please wait...\\n' \"'\${0##*/}'\" \"'$1'\"  \"$4\" ; } ; } && { cd \"$2\" || exit 169 ; } && makepkg -Ccfis --check --needed --noconfirm && \"$1\" -h ||:" "## $INSTALLDIR/$3 FE" >> "$3" ; }
@@ -1169,9 +1193,9 @@ _PREPFILEFCTNS0_() { _PRTPATCHHELP_ "$3" && printf "%s\\n%s\\n%s\\n%s\\n%s\\n" "
 
 _PREPFILEFCTNS_() { printf "%s\\n" "{ { [ -e \"$1\" ] && printf '\\e[0;32mPackage \\e[1;32m%s\\e[0;32m is installed;  Continuing...  ' \"'$2'\"  ; } || { ${5:-} cd && { [ -e \"$1\" ] || gcl https://aur.archlinux.org/\"$2\" ; } && { cd \"$2\" || exit 169 ; } && _PRNTWAIT_ && makepkg -Ccfis --check --needed --noconfirm ; } ; }" >> "$3" ; }
 
-_PREPFILEFTN0_() { _CFLHDR_ $TMXRCHBNDS/makeaur"$3" "# Command '$3' attempts to make and install command '$1' $4" && _PREPFILEFCTN_ "$1" "$2" "$TMXRCHBNDS/makeaur$3" "$4" "${5:-}" && chmod 755 $TMXRCHBNDS/makeaur"$3" ; }
+_PREPFILEFTN0_() { _CFLHDR_ "$TMXRCHBNDS"/makeaur"$3" "# Command '$3' attempts to make and install command '$1' $4" && _PREPFILEFCTN_ "$1" "$2" "$TMXRCHBNDS/makeaur$3" "$4" "${5:-}" && chmod 755 "$TMXRCHBNDS"/makeaur"$3" ; }
 
-_PREPFILEFTN1_() { _CFLHDR_ $TMXRCHBNDS/makeaur"$3" "# Command '$3' attempts to make and install Arch Linux package '$3' $4" && _PREPFILEFCTN1_ "$1" "$2" "$TMXRCHBNDS/makeaur$3" "$4" "${5:-}" && chmod 755 $TMXRCHBNDS/makeaur"$3" ; }
+_PREPFILEFTN1_() { _CFLHDR_ "$TMXRCHBNDS"/makeaur"$3" "# Command '$3' attempts to make and install Arch Linux package '$3' $4" && _PREPFILEFCTN1_ "$1" "$2" "$TMXRCHBNDS/makeaur$3" "$4" "${5:-}" && chmod 755 "$TMXRCHBNDS"/makeaur"$3" ; }
 
 _ADDmakeaurpacaur_() { _PREPFILEFTN0_ pacaur pacaur pacaur "an AUR helper that minimizes user interaction" "{ [ -x /usr/bin/expac ] || pc expac --noconfirm || pci expac ; } && { makeauraclegit ||: ; } && { printf '\\e[0m[1/1]  ' ; makeaurjqgit ||: ; } &&" ; }
 
@@ -1238,17 +1262,15 @@ _ADDmakeauryaah_() { _PREPFILEFTN0_ yaah yaah yaah "Yet Another AUR Helper" ; }
 _ADDmakeaurzigzag_() { _PREPFILEFTN0_ zig-zag zig-zag zig-zag "a programming language prioritizing robustness, optimality, and clarity" ; }
 
 _ADDmakeksh_() {
-_CFLHDR_ $TMXRCHBNDS/makeksh "# build and install the ksh shell; Inspired by https://github.com/termux/termux-api/issues/436"
-cat >> $TMXRCHBNDS/makeksh <<- EOM
+_CFLHDR_ "$TMXRCHBNDS"/makeksh "# build and install the ksh shell; Inspired by https://github.com/termux/termux-api/issues/436"
+_DPTCHHLP_ "$TMXRCHBNDS"/makeksh
+_PRTRTHLP_ "$TMXRCHBNDS"/makeksh
+cat >> "$TMXRCHBNDS"/makeksh <<- EOM
 _PRTERROR_() {
 printf "\\n\\e[1;31merror: \\e[1;37m%s\\e[0m\\n\\n" "Please study the first lines of the error output and correct the error(s) and/or warning(s), and run '\$STRNRG' again."
 exit 100
 }
-if [ "\$UID" = 0 ]
-then
-printf "\\\\e[1;31m%s\\\\e[1;37m%s\\\\e[1;31mExiting...\\\\e[0m\\\\n" "ＴｅｒｍｕｘＡｒｃｈ SIGNAL:" "  Script '\${0##*/}' should not be used as root:  The command 'addauser' creates user accounts in Arch Linux in Termux PRoot and configures these user accounts for the Arch Linux 'sudo' command:  The 'addauser' command is intended to be run by the Arch Linux in Termux PRoot root user:  To use 'addauser' directly from Termux you can run \"$STARTBIN command 'addauser user'\" in Termux to create this account in Arch Linux Termux PRoot:  The command '$STARTBIN help' has more information about using '$STARTBIN':  "
-else
-printf "\\\\e[0;32m%s\\\\e[0m\\\\n" "Building and installing 'ksh':"
+printf "\\e[0;32m%s\\e[0m\\n" "Building and installing 'ksh':"
 if [[ -n "\${PREFIX:-}" ]]
 then
 : # pull requests are requested to automate install missing Termux packages
@@ -1257,50 +1279,49 @@ if { [ ! -f /usr/bin/make ] || [ ! -f /usr/bin/git ] || [ ! -f /usr/bin/bison ] 
 then
 pc bison base base-devel gcc git || pci bison base base-devel gcc git || { printf "\\n\\e[1;31mＴｅｒｍｕｘＡｒｃｈ SIGNAL: \\e[7;37m%s\\e[0m\\n\\n" "Please study the first lines of the error output and correct the error(s) and/or warning(s) by running command 'pci bison base base-devel gcc git' as proot root user.  You might be able to bring this about without closing this session.  Please try running command: $STARTBIN command 'pci base base-devel gcc git' in a new Termux PRoot session.  This should install the neccessary packages to make 'ksh'.  Then return to this session, and run '\${0##*/}' again." && exit 120 ; }
 fi
-fi
 cd
 [ -d ksh ] || gcl https://github.com/ksh-community/ksh
-{ { cd ksh || exit 169 ; } && nice -n 20 ./bin/package make ; } || { printf "\\\\e[1;31m%s\\\\e[1;37m%s\\\\e[1;31mEXITING...\\\\n" "ＴｅｒｍｕｘＡｒｃｈ SIGNAL: " "The commands 'cd ksh && nice -n 20 ./bin/package make' did not run as expected; " && exit 124 ; }
-find "\$HOME"/ksh/arch/*/bin -type f -executable ||: # printf "\\\\e[1;31m%s\\\\e[1;37m%s\\\\n" "ＴｅｒｍｕｘＡｒｃｈ SIGNAL: " "The command 'find arch/*/bin -type f -executable' did not run as expected; CONTINUING..." && _PRTERROR_
+{ { cd ksh || exit 169 ; } && nice -n 20 ./bin/package make ; } || { printf "\\e[1;31m%s\\e[1;37m%s\\e[1;31mEXITING...\\n" "ＴｅｒｍｕｘＡｒｃｈ SIGNAL: " "The commands 'cd ksh && nice -n 20 ./bin/package make' did not run as expected; " && exit 124 ; }
+find "\$HOME"/ksh/arch/*/bin -type f -executable ||: # printf "\\e[1;31m%s\\e[1;37m%s\\n" "ＴｅｒｍｕｘＡｒｃｈ SIGNAL: " "The command 'find arch/*/bin -type f -executable' did not run as expected; CONTINUING..." && _PRTERROR_
 fi
 ## $INSTALLDIR$TMXRCHBNDR/makeksh FE
 EOM
-chmod 755 $TMXRCHBNDS/makeksh
+chmod 755 "$TMXRCHBNDS"/makeksh
 }
 
 _ADDmemav_() {
-_CFLHDR_ $TMXRCHBNDS/memav
-printf "%s\\n%s\\n%s\\n" "[ \"\$UID\" = 0 ] && printf \"\\e[1;31m%s\\e[1;37m%s\\e[1;31mExiting...\\n\" \"Cannot run '\${0##*/}' as root user;\" \" the command 'addauser username' creates user accounts in ~/${INSTALLDIR##*/}; the command '$STARTBIN command addauser username' can create user accounts in ~/${INSTALLDIR##*/} from Termux; a default user account is created during setup; the default username 'user' can be used to access the PRoot system employing a user account; command '$STARTBIN help' has more information;  \" && exit" "grep -i available /proc/meminfo" "## $INSTALLDIR$TMXRCHBNDR/memav FE" >> $TMXRCHBNDS/memav
-chmod 755 $TMXRCHBNDS/memav
+_CFLHDR_ "$TMXRCHBNDS"/memav
+printf "%s\\n%s\\n%s\\n" "[ \"\$UID\" = 0 ] && printf \"\\e[1;31m%s\\e[1;37m%s\\e[1;31mExiting...\\n\" \"Cannot run '\${0##*/}' as root user;\" \" the command 'addauser username' creates user accounts in ~/${INSTALLDIR##*/}; the command '$STARTBIN command addauser username' can create user accounts in ~/${INSTALLDIR##*/} from Termux; a default user account is created during setup; the default username 'user' can be used to access the PRoot system employing a user account; command '$STARTBIN help' has more information;  \" && exit" "grep -i available /proc/meminfo" "## $INSTALLDIR$TMXRCHBNDR/memav FE" >> "$TMXRCHBNDS"/memav
+chmod 755 "$TMXRCHBNDS"/memav
 }
 
 _ADDmemfree_() {
-_CFLHDR_ $TMXRCHBNDS/memfree
-printf "%s\\n%s\\n%s\\n" "[ \"\$UID\" = 0 ] && printf \"\\e[1;31m%s\\e[1;37m%s\\e[1;31mExiting...\\n\" \"Cannot run '\${0##*/}' as root user;\" \" the command 'addauser username' creates user accounts in ~/${INSTALLDIR##*/}; the command '$STARTBIN command addauser username' can create user accounts in ~/${INSTALLDIR##*/} from Termux; a default user account is created during setup; the default username 'user' can be used to access the PRoot system employing a user account; command '$STARTBIN help' has more information;  \" && exit" "grep -i free /proc/meminfo" "## $INSTALLDIR$TMXRCHBNDR/memfree FE" >> $TMXRCHBNDS/memfree
-chmod 755 $TMXRCHBNDS/memfree
+_CFLHDR_ "$TMXRCHBNDS"/memfree
+printf "%s\\n%s\\n%s\\n" "[ \"\$UID\" = 0 ] && printf \"\\e[1;31m%s\\e[1;37m%s\\e[1;31mExiting...\\n\" \"Cannot run '\${0##*/}' as root user;\" \" the command 'addauser username' creates user accounts in ~/${INSTALLDIR##*/}; the command '$STARTBIN command addauser username' can create user accounts in ~/${INSTALLDIR##*/} from Termux; a default user account is created during setup; the default username 'user' can be used to access the PRoot system employing a user account; command '$STARTBIN help' has more information;  \" && exit" "grep -i free /proc/meminfo" "## $INSTALLDIR$TMXRCHBNDR/memfree FE" >> "$TMXRCHBNDS"/memfree
+chmod 755 "$TMXRCHBNDS"/memfree
 }
 
 _ADDmeminfo_() {
-_CFLHDR_ $TMXRCHBNDS/meminfo
-printf "%s\\n%s\\n%s\\n" "[ \"\$UID\" = 0 ] && printf \"\\e[1;31m%s\\e[1;37m%s\\e[1;31mExiting...\\n\" \"Cannot run '\${0##*/}' as root user;\" \" the command 'addauser username' creates user accounts in ~/${INSTALLDIR##*/}; the command '$STARTBIN command addauser username' can create user accounts in ~/${INSTALLDIR##*/} from Termux; a default user account is created during setup; the default username 'user' can be used to access the PRoot system employing a user account; command '$STARTBIN help' has more information;  \" && exit" "cat /proc/meminfo" "## $INSTALLDIR$TMXRCHBNDR/meminfo FE" >> $TMXRCHBNDS/meminfo
-chmod 755 $TMXRCHBNDS/meminfo
+_CFLHDR_ "$TMXRCHBNDS"/meminfo
+printf "%s\\n%s\\n%s\\n" "[ \"\$UID\" = 0 ] && printf \"\\e[1;31m%s\\e[1;37m%s\\e[1;31mExiting...\\n\" \"Cannot run '\${0##*/}' as root user;\" \" the command 'addauser username' creates user accounts in ~/${INSTALLDIR##*/}; the command '$STARTBIN command addauser username' can create user accounts in ~/${INSTALLDIR##*/} from Termux; a default user account is created during setup; the default username 'user' can be used to access the PRoot system employing a user account; command '$STARTBIN help' has more information;  \" && exit" "cat /proc/meminfo" "## $INSTALLDIR$TMXRCHBNDR/meminfo FE" >> "$TMXRCHBNDS"/meminfo
+chmod 755 "$TMXRCHBNDS"/meminfo
 }
 
 _ADDmemmem_() {
-_CFLHDR_ $TMXRCHBNDS/memmem
-printf "%s\\n%s\\n%s\\n" "[ \"\$UID\" = 0 ] && printf \"\\e[1;31m%s\\e[1;37m%s\\e[1;31mExiting...\\n\" \"Cannot run '\${0##*/}' as root user;\" \" the command 'addauser username' creates user accounts in ~/${INSTALLDIR##*/}; the command '$STARTBIN command addauser username' can create user accounts in ~/${INSTALLDIR##*/} from Termux; a default user account is created during setup; the default username 'user' can be used to access the PRoot system employing a user account; command '$STARTBIN help' has more information;  \" && exit" "grep -i mem /proc/meminfo" "## $INSTALLDIR$TMXRCHBNDR/memmem FE" >> $TMXRCHBNDS/memmem
-chmod 755 $TMXRCHBNDS/memmem
+_CFLHDR_ "$TMXRCHBNDS"/memmem
+printf "%s\\n%s\\n%s\\n" "[ \"\$UID\" = 0 ] && printf \"\\e[1;31m%s\\e[1;37m%s\\e[1;31mExiting...\\n\" \"Cannot run '\${0##*/}' as root user;\" \" the command 'addauser username' creates user accounts in ~/${INSTALLDIR##*/}; the command '$STARTBIN command addauser username' can create user accounts in ~/${INSTALLDIR##*/} from Termux; a default user account is created during setup; the default username 'user' can be used to access the PRoot system employing a user account; command '$STARTBIN help' has more information;  \" && exit" "grep -i mem /proc/meminfo" "## $INSTALLDIR$TMXRCHBNDR/memmem FE" >> "$TMXRCHBNDS"/memmem
+chmod 755 "$TMXRCHBNDS"/memmem
 }
 
 _ADDmemtot_() {
-_CFLHDR_ $TMXRCHBNDS/memtot
-printf "%s\\n%s\\n%s\\n" "[ \"\$UID\" = 0 ] && printf \"\\e[1;31m%s\\e[1;37m%s\\e[1;31mExiting...\\n\" \"Cannot run '\${0##*/}' as root user;\" \" the command 'addauser username' creates user accounts in ~/${INSTALLDIR##*/}; the command '$STARTBIN command addauser username' can create user accounts in ~/${INSTALLDIR##*/} from Termux; a default user account is created during setup; the default username 'user' can be used to access the PRoot system employing a user account; command '$STARTBIN help' has more information;  \" && exit" "grep -i total /proc/meminfo" "## $INSTALLDIR$TMXRCHBNDR/memtot FE" >> $TMXRCHBNDS/memtot
-chmod 755 $TMXRCHBNDS/memtot
+_CFLHDR_ "$TMXRCHBNDS"/memtot
+printf "%s\\n%s\\n%s\\n" "[ \"\$UID\" = 0 ] && printf \"\\e[1;31m%s\\e[1;37m%s\\e[1;31mExiting...\\n\" \"Cannot run '\${0##*/}' as root user;\" \" the command 'addauser username' creates user accounts in ~/${INSTALLDIR##*/}; the command '$STARTBIN command addauser username' can create user accounts in ~/${INSTALLDIR##*/} from Termux; a default user account is created during setup; the default username 'user' can be used to access the PRoot system employing a user account; command '$STARTBIN help' has more information;  \" && exit" "grep -i total /proc/meminfo" "## $INSTALLDIR$TMXRCHBNDR/memtot FE" >> "$TMXRCHBNDS"/memtot
+chmod 755 "$TMXRCHBNDS"/memtot
 }
 
 _ADDmota_() {
 cat > etc/mota <<- EOM
-printf "\\\\n\\\\e[1;34m%s\\\\n%s\\\\e[0;34m%s\\\\n\\\\e[1;34m%s\\\\e[0;34m%s\\\\n\\\\e[1;34m%s\\\\e[0;34m%s\\\\n\\\\e[1;34m%s\\\\e[0;34m%s\\\\n\\\\n\\\\e[1;34m%s\\\\e[0m%s\\\\n\\\\e[1;34m%s\\\\e[0m%s\\\\n\\\\e[1;34m%s\\\\e[0m%s\\\\n\\\\e[1;34m%s\\\\e[0;34m%s\\\\e[1;34m%s\\\\e[0;34m%s\\\\n\\\\e[1;34m%s\\\\e[0m%s\\\\n\\\\e[1;34m%s\\\\e[0m%s\\\\n\\\\n" "Welcome to Arch Linux in Termux PRoot!" "Install a package: " "pacman -S package" "More  information: " "pacman -[D|F|Q|R|S|T|U]h" "Search   packages: " "pacman -Ss query" "Upgrade  packages: " "pacman -Syu" "Chat:	" "wiki.termux.com/wiki/Community" "Discus:	" "github.com/login/repo/discussions" "GitHub:	" "$MOTTECGIT" "Help:	" "help man " "and " "info man" "IRC:	" "$MOTTECIRC" "Rev:	" "github.com/login/repo/releases"
+printf "\\n\\e[1;34m%s\\n%s\\e[0;34m%s\\n\\e[1;34m%s\\e[0;34m%s\\n\\e[1;34m%s\\e[0;34m%s\\n\\e[1;34m%s\\e[0;34m%s\\n\\n\\e[1;34m%s\\e[0m%s\\n\\e[1;34m%s\\e[0m%s\\n\\e[1;34m%s\\e[0m%s\\n\\e[1;34m%s\\e[0;34m%s\\e[1;34m%s\\e[0;34m%s\\n\\e[1;34m%s\\e[0m%s\\n\\e[1;34m%s\\e[0m%s\\n\\n" "Welcome to Arch Linux in Termux PRoot!" "Install a package: " "pacman -S package" "More  information: " "pacman -[D|F|Q|R|S|T|U]h" "Search   packages: " "pacman -Ss query" "Upgrade  packages: " "pacman -Syu" "Chat:	" "wiki.termux.com/wiki/Community" "Discus:	" "github.com/login/repo/discussions" "GitHub:	" "$MOTTECGIT" "Help:	" "help man " "and " "info man" "IRC:	" "$MOTTECIRC" "Rev:	" "github.com/login/repo/releases"
 EOM
 }
 
@@ -1324,24 +1345,24 @@ EOM
 
 _ADDmoto_() {
 cat > etc/moto <<- EOM
-printf "\\\\n\\\\e[1;34mPlease share your Arch Linux in Termux PRoot experience!\\\\n\\\\n\\\\e[1;34mChat:	\\\\e[0mwiki.termux.com/wiki/Community\\\\n\\\\e[1;34mDiscus:	\\\\e[0mgithub.com/login/repo/discussions\\\\n\\\\e[1;34mGitHub:	\\\\e[0m%s\\\\n\\\\e[1;34mHelp:	\\\\e[0;34mhelp man \\\\e[1;34mand \\\\e[0;34minfo man\\\\n\\\\e[1;34mIRC:	\\\\e[0m%s\\\\n\\\\e[1;34mRev:	\\\\e[0mgithub.com/login/repo/releases\\\\n\\\\n\\\\e[0m" "$MOTTECGIT" "$MOTTECIRC"
+printf "\\n\\e[1;34mPlease share your Arch Linux in Termux PRoot experience!\\n\\n\\e[1;34mChat:	\\e[0mwiki.termux.com/wiki/Community\\n\\e[1;34mDiscus:	\\e[0mgithub.com/login/repo/discussions\\n\\e[1;34mGitHub:	\\e[0m%s\\n\\e[1;34mHelp:	\\e[0;34mhelp man \\e[1;34mand \\e[0;34minfo man\\n\\e[1;34mIRC:	\\e[0m%s\\n\\e[1;34mRev:	\\e[0mgithub.com/login/repo/releases\\n\\n\\e[0m" "$MOTTECGIT" "$MOTTECIRC"
 EOM
 }
 
 _ADDopen4root_() {
-_CFLHDR_ $TMXRCHBNDS/open4root "# Open programs in '$TMXRCHBNDR' for root login."
-cat >> $TMXRCHBNDS/open4root <<- EOM
+_CFLHDR_ "$TMXRCHBNDS"/open4root "# Open programs in '$TMXRCHBNDR' for root login."
+cat >> "$TMXRCHBNDS"/open4root <<- EOM
 sed -i 's/UID\" = 0/UID\" = -1/g' $TMXRCHBNDR/* ||:
 sed -i 's/EUID == 0/EUID == -1/g' $TMXRCHBNDR/* ||:
 ## $INSTALLDIR$TMXRCHBNDR/open4root FE
 EOM
-chmod 755 $TMXRCHBNDS/open4root
+chmod 755 "$TMXRCHBNDS"/open4root
 }
 
 _ADDorcaconf_() {
-_CFLHDR_ $TMXRCHBNDS/orcaconf "# Contributor https://github.com/JanuszChmiel" "# Reference https://github.com/SDRausty/termux-archlinux/issues/66 Let us expand setupTermuxArch so users can install Orca screen reader (assistive technology) and also have VNC support added easily."
-cat >> $TMXRCHBNDS/orcaconf <<- EOM
-[[ -f "/run/lock/${INSTALLDIR##*/}/orcaconf.lock" ]] && printf "%s\\\\n" "Already configured orca: DONE 🏁" && exit
+_CFLHDR_ "$TMXRCHBNDS"/orcaconf "# Contributor https://github.com/JanuszChmiel" "# Reference https://github.com/SDRausty/termux-archlinux/issues/66 Let us expand setupTermuxArch so users can install Orca screen reader (assistive technology) and also have VNC support added easily."
+cat >> "$TMXRCHBNDS"/orcaconf <<- EOM
+[[ -f "/run/lock/${INSTALLDIR##*/}/orcaconf.lock" ]] && printf "%s\\n" "Already configured orca: DONE 🏁" && exit
 _INSTALLORCACONF_() {
 [[ ! -f "/run/lock/${INSTALLDIR##*/}/orcaconfinstall.lock" ]] && { nice -n 18 pci espeak-ng mate mate-extra orca pulseaudio-alsa tigervnc || nice -n 18 pci espeak-ng mate mate-extra orca pulseaudio-alsa tigervnc ; } && :>"/run/lock/${INSTALLDIR##*/}/orcaconfinstall.lock" || printf "%s\\n" "_INSTALLORCACONF_ \${0##*/} did not completed as expected; Continuing..."
 }
@@ -1351,10 +1372,10 @@ csystemctl || printf "\\e[1;31m%s\\e[0m\\n" "command 'csystemctl' did not comple
 orcarun || printf "\\e[1;31m%s\\e[0m\\n" "command 'orcarun' did not completed as expected"
 ## $INSTALLDIR$TMXRCHBNDR/orcaconf FE
 EOM
-chmod 755 $TMXRCHBNDS/orcaconf
+chmod 755 "$TMXRCHBNDS"/orcaconf
 _ADDorcarun_() {
-_CFLHDR_ $TMXRCHBNDS/orcarun "# Contributor https://github.com/JanuszChmiel " "# Reference https://github.com/SDRausty/termux-archlinux/issues/66 Let's expand setupTermuxArch so users can install Orca screen reader (assistive technology) and also have VNC support added easily."
-cat >> $TMXRCHBNDS/orcarun <<- EOM
+_CFLHDR_ "$TMXRCHBNDS"/orcarun "# Contributor https://github.com/JanuszChmiel " "# Reference https://github.com/SDRausty/termux-archlinux/issues/66 Let's expand setupTermuxArch so users can install Orca screen reader (assistive technology) and also have VNC support added easily."
+cat >> "$TMXRCHBNDS"/orcarun <<- EOM
 if ! command Xvnc
 then
 orcaconf
@@ -1363,17 +1384,17 @@ Xvnc -localhost -geometry 1024x768 -depth 24 -SecurityTypes=None
 fi
 ## $INSTALLDIR$TMXRCHBNDR/orcarun FE
 EOM
-chmod 755 $TMXRCHBNDS/orcarun
+chmod 755 "$TMXRCHBNDS"/orcarun
 }
 _ADDorcarun_
 }
 
 _ADDpatchmakepkg_() {
-_CFLHDR_ $TMXRCHBNDS/patchmakepkg "# patch makepkg;  Contributor https://github.com/petkar"
-_PRTPATCHHELP_ "$TMXRCHBNDS/patchmakepkg"
-cat >> $TMXRCHBNDS/patchmakepkg <<- EOM
-[ -f "/run/lock/${INSTALLDIR##*/}/patchmakepkg.lock" ] && printf "%s\\\\n" "Nothing to do;  Already patched command 'makepkg': DONE 🏁" && exit
-printf "Patching makepkg: \\\\n"
+_CFLHDR_ "$TMXRCHBNDS"/patchmakepkg "# patch makepkg;  Contributor https://github.com/petkar"
+_PRTPATCHHELP_ "$TMXRCHBNDS"/patchmakepkg
+cat >> "$TMXRCHBNDS"/patchmakepkg <<- EOM
+[ -f "/run/lock/${INSTALLDIR##*/}/patchmakepkg.lock" ] && printf "%s\\n" "Nothing to do;  Already patched command 'makepkg': DONE 🏁" && exit
+printf "Patching makepkg: \\n"
 SDATE="\$(date +%s)"
 BKPDIR="$INSTALLDIR/var/backups/${INSTALLDIR##*/}/"
 [ -d "\$BKPDIR" ] || mkdir -p "\$BKPDIR"
@@ -1390,55 +1411,55 @@ fi
 cp /bin/makepkg $TMXRCHBNDR/makepkg
 # create lock file to update proof patchmakepkg
 :>"/run/lock/${INSTALLDIR##*/}/patchmakepkg.lock"
-printf "Patching makepkg: DONE 🏁\\\\n"
+printf "Patching makepkg: DONE 🏁\\n"
 ## $INSTALLDIR$TMXRCHBNDR/patchmakepkg FE
 EOM
-chmod 755 $TMXRCHBNDS/patchmakepkg
+chmod 755 "$TMXRCHBNDS"/patchmakepkg
 }
 
 _ADDpacmandblock_() {
-_CFLHDR_ $TMXRCHBNDS/pacmandblock "# When using the alternate elogin or euser option to login with $STARTBIN as user 'pacman' does not behave as expected;  Hence 'pacman' is blocked when the alternate login feature is used."
-cat >> $TMXRCHBNDS/pacmandblock <<- EOM
+_CFLHDR_ "$TMXRCHBNDS"/pacmandblock "# When using the alternate elogin or euser option to login with $STARTBIN as user 'pacman' does not behave as expected;  Hence 'pacman' is blocked when the alternate login feature is used."
+cat >> "$TMXRCHBNDS"/pacmandblock <<- EOM
 LOCKFILE="/var/lib/pacman/db.lck"
 if [ ! -f "\$LOCKFILE" ]
 then
 printf "%s" "Creating file \$LOCKFILE: "
 :>"\$LOCKFILE"
-printf "%s\\\\n" "DONE"
+printf "%s\\n" "DONE"
 elif [ -f "\$LOCKFILE" ]
 then
 printf "%s" "Deleting file \$LOCKFILE: "
 rm -f "\$LOCKFILE"
-printf "%s\\\\n" "DONE"
+printf "%s\\n" "DONE"
 fi
 ## $INSTALLDIR$TMXRCHBNDR/pacmandblock FE
 EOM
-chmod 755 $TMXRCHBNDS/pacmandblock
+chmod 755 "$TMXRCHBNDS"/pacmandblock
 }
 
 _ADDpc_() {
-_CFLHDR_ $TMXRCHBNDS/pc "# pacman install packages wrapper without system update"
-cat >> $TMXRCHBNDS/pc <<- EOM
+_CFLHDR_ "$TMXRCHBNDS"/pc "# pacman install packages wrapper without system update"
+cat >> "$TMXRCHBNDS"/pc <<- EOM
 declare -g ARGS="\$@"
 _TRPET_() {
-printf "\\\\e[?25h\\\\e[0m"
+printf "\\e[?25h\\e[0m"
 set +Eeuo pipefail
 _PRINTTAIL_ "\$ARGS"
 }
 
 _PRINTTAIL_() {
-printf "\\\\e[0;32m%s \\\\e[1;32m%s \\\\e[0;32m%s\\\\e[1;34m: \\\\e[1;32m%s\\\\e[0m 🏁  \\\\n\\\\n\\\\e[0m" "TermuxArch command" "\$STRNRG" "version \$VERSIONID" "DONE 📱"
+printf "\\e[0;32m%s \\e[1;32m%s \\e[0;32m%s\\e[1;34m: \\e[1;32m%s\\e[0m 🏁  \\n\\n\\e[0m" "TermuxArch command" "\$STRNRG" "version \$VERSIONID" "DONE 📱"
 printf '\033]2;  🔑 TermuxArch %s:DONE 📱 \007' "\$STRNRG"
 }
 
 trap _TRPET_ EXIT
 ## pc begin ####################################################################
 printf '\033]2;  🔑 TermuxArch %s 📲 \007' "\$STRNRG"
-printf "\\\\e[1;32m==> \\\\e[1;37mRunning TermuxArch command \\\\e[1;32m%s \\\\e[0;32m%s\\\\e[1;37m...\\\\n" "\$STRNRG" "version \$VERSIONID"
+printf "\\e[1;32m==> \\e[1;37mRunning TermuxArch command \\e[1;32m%s \\e[0;32m%s\\e[1;37m...\\n" "\$STRNRG" "version \$VERSIONID"
 [ "\$UID" -eq 0 ] && SUDOCONF="" || SUDOCONF="sudo"
 if [[ -z "\${1:-}" ]]
 then
-printf "\\\\e[1;31m%s \\\\e[0m\\\\n" "Run command '\${0##*/}' with at least one argument;  Exiting..."
+printf "\\e[1;31m%s \\e[0m\\n" "Run command '\${0##*/}' with at least one argument;  Exiting..."
 elif [[ "\$1" = "a" ]]
 then
 nice -n 20 \$SUDOCONF pacman --needed --noconfirm --color=always -S base base-devel "\${@:2}"
@@ -1453,28 +1474,28 @@ nice -n 20 \$SUDOCONF pacman --needed --noconfirm --color=always -S "\$@"
 fi
 ## $INSTALLDIR$TMXRCHBNDR/pc FE
 EOM
-chmod 755 $TMXRCHBNDS/pc
+chmod 755 "$TMXRCHBNDS"/pc
 }
 
 _ADDpci_() {
-_CFLHDR_ $TMXRCHBNDS/pci "# pacman install packages wrapper with system update"
-cat >> $TMXRCHBNDS/pci <<- EOM
+_CFLHDR_ "$TMXRCHBNDS"/pci "# pacman install packages wrapper with system update"
+cat >> "$TMXRCHBNDS"/pci <<- EOM
 declare ARGS="\$@"
 _TRPET_() {
-printf "\\\\e[?25h\\\\e[0m"
+printf "\\e[?25h\\e[0m"
 set +Eeuo pipefail
 _PRINTTAIL_ "\$ARGS"
 }
 
 _PRINTTAIL_() {
-printf "\\\\e[0;32m%s \\\\e[1;32m%s \\\\e[0;32m%s\\\\e[1;34m: \\\\e[1;32m%s\\\\e[0m 🏁  \\\\n\\\\n\\\\e[0m" "TermuxArch command" "\$STRNRG" "version \$VERSIONID" "DONE 📱"
+printf "\\e[0;32m%s \\e[1;32m%s \\e[0;32m%s\\e[1;34m: \\e[1;32m%s\\e[0m 🏁  \\n\\n\\e[0m" "TermuxArch command" "\$STRNRG" "version \$VERSIONID" "DONE 📱"
 printf '\033]2;  🔑 TermuxArch %s:DONE 📱 \007' "\$STRNRG"
 }
 
 trap _TRPET_ EXIT
 ## pci begin ###################################################################
 [ "\$UID" -eq 0 ] && SUDOCONF="" || SUDOCONF="sudo"
-printf "\\\\e[1;32m==> \\\\e[1;37mRunning TermuxArch command \\\\e[1;32m%s \\\\e[0;32m%s\\\\e[1;37m...\\\\n" "\$STRNRG" "version \$VERSIONID"
+printf "\\e[1;32m==> \\e[1;37mRunning TermuxArch command \\e[1;32m%s \\e[0;32m%s\\e[1;37m...\\n" "\$STRNRG" "version \$VERSIONID"
 if [[ -z "\${1:-}" ]]
 then
 nice -n 20 \$SUDOCONF pacman --needed --noconfirm --color=always -Syu || nice -n 20 \$SUDOCONF pacman --needed --noconfirm --color=always -Syu
@@ -1492,7 +1513,7 @@ nice -n 20 \$SUDOCONF pacman --needed --noconfirm --color=always -Syu "\$@" || n
 fi
 ## $INSTALLDIR$TMXRCHBNDR/pci FE
 EOM
-chmod 755 $TMXRCHBNDS/pci
+chmod 755 "$TMXRCHBNDS"/pci
 }
 
 _ADDprofileusretc_() {
@@ -1517,10 +1538,10 @@ fi
 }
 
 _ADDpinghelp_() {
-_CFLHDR_ $TMXRCHBNDS/pinghelp
-printf "%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n" "[ \"\$UID\" = 0 ] && printf \"\\e[1;31m%s\\e[1;37m%s\\e[1;31mExiting...  %s\\n\" \"Cannot run '\${0##*/}' as root user;\" \" the command 'addauser username' creates user accounts in ~/${INSTALLDIR##*/}; the command '$STARTBIN command addauser username' can create user accounts in ~/${INSTALLDIR##*/} from Termux; a default user account is created during setup; the default username 'user' can be used to access the PRoot system employing a user account; command '$STARTBIN help' has more information;  \" && exit" "_PRTSYG_() { printf '%s\\n' \"Signal received:  Continuing...\" ; }" "ARGONE=\"\${1-www.github.com}\"" "ISCOMCAR=\"\$(command -v ping)\"" "printf '%s\\n' \"\$ISCOMCAR\"" "{ SHUFREST=\"\$(shuf -n 1 -i 2-8)\" && printf '\\n%s\\n' \"Running command '/system/bin/ping -c 2 -i \$SHUFREST \$ARGONE':\" && /system/bin/ping -c 2 -i \"\$SHUFREST\" \"\$ARGONE\" ; } || _PRTSYG_" "{ SHUFREST=\"\$(shuf -n 1 -i 2-8)\" && printf '\\n%s\\n' \"Running command '$PREFIX/bin/ping -c 2 -i \$SHUFREST \$ARGONE':\" && $PREFIX/bin/ping -c 2 -i \"\$SHUFREST\" \"\$ARGONE\" ; } || _PRTSYG_" "{ SHUFREST=\"\$(shuf -n 1 -i 2-8)\" && printf '\\n%s\\n' \"Running command '/bin/ping -c 2 -i \$SHUFREST \$ARGONE':\" && /bin/ping -c 2 -i \"\$SHUFREST\" \"\$ARGONE\" ; } || _PRTSYG_" "{ SHUFREST=\"\$(shuf -n 1 -i 2-8)\" && printf '\\n%s\\n' \"Running command '/usr/bin/ping -c 2 -i \$SHUFREST \$ARGONE':\" && /usr/bin/ping -c 2 -i \"\$SHUFREST\" \"\$ARGONE\" ; } || _PRTSYG_" "{ printf '\\n%s\\n' \"Running command 'curl -I \$ARGONE 80':\" && curl -I \"\$ARGONE\" ; } || _PRTSYG_" "{ printf '\\n%s\\n' \"Running command 'dig \$ARGONE':\" && { dig \"\$ARGONE\" || { pc dnsutils && dig \"\$ARGONE\" ; } ; } ; } || _PRTSYG_" "{ printf '\\n%s\\n' \"Running command 'telnet \$ARGONE 79':\" && telnet \"\$ARGONE\" 80 ; } || _PRTSYG_" >> $TMXRCHBNDS/pinghelp
-printf "%s\\n%s\\n" "printf '\\n%s\\n' \"The Termux packages 'dnsutils', 'lynx' and 'strace' can be helpful in diagnosing network issues.  The 'telnet' command can assist as well.\"" "## $INSTALLDIR$TMXRCHBNDR/pinghelp FE" >> $TMXRCHBNDS/pinghelp
-chmod 755 $TMXRCHBNDS/pinghelp
+_CFLHDR_ "$TMXRCHBNDS"/pinghelp
+printf "%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n" "[ \"\$UID\" = 0 ] && printf \"\\e[1;31m%s\\e[1;37m%s\\e[1;31mExiting...  %s\\n\" \"Cannot run '\${0##*/}' as root user;\" \" the command 'addauser username' creates user accounts in ~/${INSTALLDIR##*/}; the command '$STARTBIN command addauser username' can create user accounts in ~/${INSTALLDIR##*/} from Termux; a default user account is created during setup; the default username 'user' can be used to access the PRoot system employing a user account; command '$STARTBIN help' has more information;  \" && exit" "_PRTSYG_() { printf '%s\\n' \"Signal received:  Continuing...\" ; }" "ARGONE=\"\${1-www.github.com}\"" "ISCOMCAR=\"\$(command -v ping)\"" "printf '%s\\n' \"\$ISCOMCAR\"" "{ SHUFREST=\"\$(shuf -n 1 -i 2-8)\" && printf '\\n%s\\n' \"Running command '/system/bin/ping -c 2 -i \$SHUFREST \$ARGONE':\" && /system/bin/ping -c 2 -i \"\$SHUFREST\" \"\$ARGONE\" ; } || _PRTSYG_" "{ SHUFREST=\"\$(shuf -n 1 -i 2-8)\" && printf '\\n%s\\n' \"Running command '$PREFIX/bin/ping -c 2 -i \$SHUFREST \$ARGONE':\" && $PREFIX/bin/ping -c 2 -i \"\$SHUFREST\" \"\$ARGONE\" ; } || _PRTSYG_" "{ SHUFREST=\"\$(shuf -n 1 -i 2-8)\" && printf '\\n%s\\n' \"Running command '/bin/ping -c 2 -i \$SHUFREST \$ARGONE':\" && /bin/ping -c 2 -i \"\$SHUFREST\" \"\$ARGONE\" ; } || _PRTSYG_" "{ SHUFREST=\"\$(shuf -n 1 -i 2-8)\" && printf '\\n%s\\n' \"Running command '/usr/bin/ping -c 2 -i \$SHUFREST \$ARGONE':\" && /usr/bin/ping -c 2 -i \"\$SHUFREST\" \"\$ARGONE\" ; } || _PRTSYG_" "{ printf '\\n%s\\n' \"Running command 'curl -I \$ARGONE 80':\" && curl -I \"\$ARGONE\" ; } || _PRTSYG_" "{ printf '\\n%s\\n' \"Running command 'dig \$ARGONE':\" && { dig \"\$ARGONE\" || { pc dnsutils && dig \"\$ARGONE\" ; } ; } ; } || _PRTSYG_" "{ printf '\\n%s\\n' \"Running command 'telnet \$ARGONE 79':\" && telnet \"\$ARGONE\" 80 ; } || _PRTSYG_" >> "$TMXRCHBNDS"/pinghelp
+printf "%s\\n%s\\n" "printf '\\n%s\\n' \"The Termux packages 'dnsutils', 'lynx' and 'strace' can be helpful in diagnosing network issues.  The 'telnet' command can assist as well.\"" "## $INSTALLDIR$TMXRCHBNDR/pinghelp FE" >> "$TMXRCHBNDS"/pinghelp
+chmod 755 "$TMXRCHBNDS"/pinghelp
 }
 
 _ADDresolvconf_() {
@@ -1548,36 +1569,36 @@ fi
 _CHECKRESOLVE_
 }
 
-_ADDstriphtmlcodefromfile_() { _CFLHDR_ $TMXRCHBNDS/striphtmlcodefromfile "#strip html code from file" ; printf "%s\\n%s\\n%s\\n%s\\n" "[ \"\$UID\" = 0 ] && printf \"\\e[1;31m%s\\e[1;37m%s\\e[1;31mExiting...\\n\" \"Cannot run '\${0##*/}' as root user;\" \" the command 'addauser username' creates user accounts in $INSTALLDIR; the command '$STARTBIN command addauser username' can create user accounts in $INSTALLDIR from Termux; a default user account is created during setup; the default username 'user' can be used to access the PRoot system employing a user account; command '$STARTBIN help' has more information;  \" && exit" "[ -x \"\$(command -v sed)\" ] || { pc sed || pci sed ; }" "sed -n '/^$/!{s/<[^>]*>//g;p;}' \"\$@\"" "## $INSTALLDIR$TMXRCHBNDR/striphtmlcodefromfile FE" >> $TMXRCHBNDS/striphtmlcodefromfile ; chmod 755 $TMXRCHBNDS/striphtmlcodefromfile ; }
+_ADDstriphtmlcodefromfile_() { _CFLHDR_ "$TMXRCHBNDS"/striphtmlcodefromfile "#strip html code from file" ; printf "%s\\n%s\\n%s\\n%s\\n" "[ \"\$UID\" = 0 ] && printf \"\\e[1;31m%s\\e[1;37m%s\\e[1;31mExiting...\\n\" \"Cannot run '\${0##*/}' as root user;\" \" the command 'addauser username' creates user accounts in $INSTALLDIR; the command '$STARTBIN command addauser username' can create user accounts in $INSTALLDIR from Termux; a default user account is created during setup; the default username 'user' can be used to access the PRoot system employing a user account; command '$STARTBIN help' has more information;  \" && exit" "[ -x \"\$(command -v sed)\" ] || { pc sed || pci sed ; }" "sed -n '/^$/!{s/<[^>]*>//g;p;}' \"\$@\"" "## $INSTALLDIR$TMXRCHBNDR/striphtmlcodefromfile FE" >> "$TMXRCHBNDS"/striphtmlcodefromfile ; chmod 755 "$TMXRCHBNDS"/striphtmlcodefromfile ; }
 
 _ADDt_() {
-_CFLHDR_ $TMXRCHBNDS/t
-printf "%s\\n" "[ \"\$UID\" = 0 ] && printf \"\\e[1;31m%s\\e[1;37m%s\\e[1;31mExiting...\\n\" \"Cannot run '\${0##*/}' as root user;\" \" the command 'addauser username' creates user accounts in ~/${INSTALLDIR##*/}; the command '$STARTBIN command addauser username' can create user accounts in ~/${INSTALLDIR##*/} from Termux; a default user account is created during setup; the default username 'user' can be used to access the PRoot system employing a user account; command '$STARTBIN help' has more information;  \" && exit" >> $TMXRCHBNDS/t
-printf "%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n" "if [ -x /usr/bin/tree ] || [ -x \"\${PREFIX:-}\"/bin/tree ]" "then" "tree \"\$@\"" "else" "{ pc tree || pci tree ; } && tree \"\$@\"" "fi" "## $INSTALLDIR$TMXRCHBNDR/t FE" >> $TMXRCHBNDS/t
-chmod 755 $TMXRCHBNDS/t
+_CFLHDR_ "$TMXRCHBNDS"/t
+printf "%s\\n" "[ \"\$UID\" = 0 ] && printf \"\\e[1;31m%s\\e[1;37m%s\\e[1;31mExiting...\\n\" \"Cannot run '\${0##*/}' as root user;\" \" the command 'addauser username' creates user accounts in ~/${INSTALLDIR##*/}; the command '$STARTBIN command addauser username' can create user accounts in ~/${INSTALLDIR##*/} from Termux; a default user account is created during setup; the default username 'user' can be used to access the PRoot system employing a user account; command '$STARTBIN help' has more information;  \" && exit" >> "$TMXRCHBNDS"/t
+printf "%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n" "if [ -x /usr/bin/tree ] || [ -x \"\${PREFIX:-}\"/bin/tree ]" "then" "tree \"\$@\"" "else" "{ pc tree || pci tree ; } && tree \"\$@\"" "fi" "## $INSTALLDIR$TMXRCHBNDR/t FE" >> "$TMXRCHBNDS"/t
+chmod 755 "$TMXRCHBNDS"/t
 }
 
 _ADDtlmgrinstaller_() {
-_CFLHDR_ $TMXRCHBNDS/tlmgrinstaller "# install TexLive installer"
-printf "%s\\n" "[ -d /usr/local/texlive ] || mkdir -p /usr/local/texlive" >> $TMXRCHBNDS/tlmgrinstaller
-printf "%s\\n" "_GETINSTALLER_() { { [ -d /usr/local/texlive/install-tl ] || mkdir -p /usr/local/texlive/install-tl ; } && { { [ -f /usr/local/texlive/install-tl/install-tl.zip ] && [ -f /usr/local/texlive/install-tl/install-tl.zip.sha512 ] || wget -c -P /usr/local/texlive/install-tl https://mirror.math.princeton.edu/pub/CTAN/systems/texlive/tlnet/install-tl.zip.sha512 https://mirror.math.princeton.edu/pub/CTAN/systems/texlive/tlnet/install-tl.zip ; } && { cd /usr/local/texlive/install-tl || exit 169 ; } && { sha512sum -c install-tl.zip.sha512 || { rm -f install-tl.zip* && printf '%s\\n' \"Files were corrupt and were deleted;  Please try again.  Exiting...  \" && exit 189 ; } ; } && unzip -n install-tl.zip ; } && { CDDIR=\"\$(find . -maxdepth 1 | tail -n 1)\" && { cd \"\$CDDIR\" || exit 169 ; } && printf '%s\\n' \"\$PWD\" && ls && printf '%s\\n' \"Please wait;  Command '\${0##*/}' continuing...\" && perl install-tl && printf '%s\\n' \"\$PWD\" | tee dir.pth > dir.tmp ; } ; }" >> $TMXRCHBNDS/tlmgrinstaller
-printf "%s\\n" "_PRINTHELP_() { printf '\\n%s\\n' \"The command '${0##*/} re' adds TEX environment variables automatically to BASH init files in the Arch Linux in Termux PRoot environment.  Please exit this shell and login again.  If logging in again does not add TEX environment variables, then please run command '${0##*/} re' in order to add TEX environment variables to the BASH init files in Termux PRoot.  Command '${0##*/} h' has more information.  \" ; }" >> $TMXRCHBNDS/tlmgrinstaller
-printf "%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n" "printf '%s\\n' \"Command '\${0##*/}';  Begun...  \"" "{ command -v tlmgr && printf '%s\\n' \"The command 'tlmgr' is installed;  Continuing...  \" ; } || if [ -x /usr/bin/perl ] && [ -x /usr/bin/wget ] && [ -x /usr/bin/unzip ]" "then" "_GETINSTALLER_" "else" "{ { pc perl wget unzip || pci perl wget unzip ; } || { pkg i perl wget unzip || { pkg up && pkg i perl wget unzip ; } ; } ; } && _GETINSTALLER_" "fi" "_PRINTHELP_" >> $TMXRCHBNDS/tlmgrinstaller
-printf "%s\\n" "INSDIR=\"\$(find /usr/local/texlive/install-tl/ -maxdepth 1 -type d | tail -n 1)\"" >> $TMXRCHBNDS/tlmgrinstaller
-printf "%s\\n" "[ -d /usr/local/texlive/install-tl ] && { [ -f \"\$INSDIR\"/dir.pth ] && [ -f \"\$INSDIR\"/dir.tmp ] && rm -f \"\$INSDIR\"/dir.tmp || printf '\\n%s\\n' \"Running command '\$INSDIR/install-tl';  Continuing...  \" && \"\$INSDIR\"/install-tl && exit 0 ; }" >> $TMXRCHBNDS/tlmgrinstaller
-printf "%s\\n" "## $INSTALLDIR$TMXRCHBNDR/tlmgrinstaller FE" >> $TMXRCHBNDS/tlmgrinstaller
-chmod 755 $TMXRCHBNDS/tlmgrinstaller
+_CFLHDR_ "$TMXRCHBNDS"/tlmgrinstaller "# install TexLive installer"
+printf "%s\\n" "[ -d /usr/local/texlive ] || mkdir -p /usr/local/texlive" >> "$TMXRCHBNDS"/tlmgrinstaller
+printf "%s\\n" "_GETINSTALLER_() { { [ -d /usr/local/texlive/install-tl ] || mkdir -p /usr/local/texlive/install-tl ; } && { { [ -f /usr/local/texlive/install-tl/install-tl.zip ] && [ -f /usr/local/texlive/install-tl/install-tl.zip.sha512 ] || wget -c -P /usr/local/texlive/install-tl https://mirror.math.princeton.edu/pub/CTAN/systems/texlive/tlnet/install-tl.zip.sha512 https://mirror.math.princeton.edu/pub/CTAN/systems/texlive/tlnet/install-tl.zip ; } && { cd /usr/local/texlive/install-tl || exit 169 ; } && { sha512sum -c install-tl.zip.sha512 || { rm -f install-tl.zip* && printf '%s\\n' \"Files were corrupt and were deleted;  Please try again.  Exiting...  \" && exit 189 ; } ; } && unzip -n install-tl.zip ; } && { CDDIR=\"\$(find . -maxdepth 1 | tail -n 1)\" && { cd \"\$CDDIR\" || exit 169 ; } && printf '%s\\n' \"\$PWD\" && ls && printf '%s\\n' \"Please wait;  Command '\${0##*/}' continuing...\" && perl install-tl && printf '%s\\n' \"\$PWD\" | tee dir.pth > dir.tmp ; } ; }" >> "$TMXRCHBNDS"/tlmgrinstaller
+printf "%s\\n" "_PRINTHELP_() { printf '\\n%s\\n' \"The command '${0##*/} re' adds TEX environment variables automatically to BASH init files in the Arch Linux in Termux PRoot environment.  Please exit this shell and login again.  If logging in again does not add TEX environment variables, then please run command '${0##*/} re' in order to add TEX environment variables to the BASH init files in Termux PRoot.  Command '${0##*/} h' has more information.  \" ; }" >> "$TMXRCHBNDS"/tlmgrinstaller
+printf "%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n" "printf '%s\\n' \"Command '\${0##*/}';  Begun...  \"" "{ command -v tlmgr && printf '%s\\n' \"The command 'tlmgr' is installed;  Continuing...  \" ; } || if [ -x /usr/bin/perl ] && [ -x /usr/bin/wget ] && [ -x /usr/bin/unzip ]" "then" "_GETINSTALLER_" "else" "{ { pc perl wget unzip || pci perl wget unzip ; } || { pkg i perl wget unzip || { pkg up && pkg i perl wget unzip ; } ; } ; } && _GETINSTALLER_" "fi" "_PRINTHELP_" >> "$TMXRCHBNDS"/tlmgrinstaller
+printf "%s\\n" "INSDIR=\"\$(find /usr/local/texlive/install-tl/ -maxdepth 1 -type d | tail -n 1)\"" >> "$TMXRCHBNDS"/tlmgrinstaller
+printf "%s\\n" "[ -d /usr/local/texlive/install-tl ] && { [ -f \"\$INSDIR\"/dir.pth ] && [ -f \"\$INSDIR\"/dir.tmp ] && rm -f \"\$INSDIR\"/dir.tmp || printf '\\n%s\\n' \"Running command '\$INSDIR/install-tl';  Continuing...  \" && \"\$INSDIR\"/install-tl && exit 0 ; }" >> "$TMXRCHBNDS"/tlmgrinstaller
+printf "%s\\n" "## $INSTALLDIR$TMXRCHBNDR/tlmgrinstaller FE" >> "$TMXRCHBNDS"/tlmgrinstaller
+chmod 755 "$TMXRCHBNDS"/tlmgrinstaller
 }
 
 _ADDtop_() {
-_CFLHDR_ $TMXRCHBNDS/top
-printf "%s\\n%s\\n%s\\n" "[ \"\$UID\" = 0 ] && printf \"\\e[1;31m%s\\e[1;37m%s\\e[1;31mExiting...\\n\" \"Cannot run '\${0##*/}' as root user;\" \" the command 'addauser username' creates user accounts in ~/${INSTALLDIR##*/}; the command '$STARTBIN command addauser username' can create user accounts in ~/${INSTALLDIR##*/} from Termux; a default user account is created during setup; the default username 'user' can be used to access the PRoot system employing a user account; command '$STARTBIN help' has more information;  \" && exit" "{ [ -f /system/bin/top ] && /system/bin/top && exit ; } || { printf \"%s\\n\" \"The command '\${0##*/}' is currently disabled in Termux PRoot.   Please open an issue and PR should a better resolution for '\${0##*/}' in Termux PRoot be found.  Running command 'ps aux':\" && ps aux && printf \"%s\\n\" \"Running command 'nproc':\" && nproc && printf \"%s\\n\" \"Running command 'nproc --all':\" && nproc --all && ps aux | cut -d:  -f2- | grep -v TIME | grep -v '\-bash' | grep -v cut | grep -v ps\ aux | grep -v sort | cut -c 4- | sort && exit ; }" "## $INSTALLDIR$TMXRCHBNDR/top FE" >> $TMXRCHBNDS/top
-chmod 755 $TMXRCHBNDS/top
+_CFLHDR_ "$TMXRCHBNDS"/top
+printf "%s\\n%s\\n%s\\n" "[ \"\$UID\" = 0 ] && printf \"\\e[1;31m%s\\e[1;37m%s\\e[1;31mExiting...\\n\" \"Cannot run '\${0##*/}' as root user;\" \" the command 'addauser username' creates user accounts in ~/${INSTALLDIR##*/}; the command '$STARTBIN command addauser username' can create user accounts in ~/${INSTALLDIR##*/} from Termux; a default user account is created during setup; the default username 'user' can be used to access the PRoot system employing a user account; command '$STARTBIN help' has more information;  \" && exit" "{ [ -f /system/bin/top ] && /system/bin/top && exit ; } || { printf \"%s\\n\" \"The command '\${0##*/}' is currently disabled in Termux PRoot.   Please open an issue and PR should a better resolution for '\${0##*/}' in Termux PRoot be found.  Running command 'ps aux':\" && ps aux && printf \"%s\\n\" \"Running command 'nproc':\" && nproc && printf \"%s\\n\" \"Running command 'nproc --all':\" && nproc --all && ps aux | cut -d:  -f2- | grep -v TIME | grep -v '\-bash' | grep -v cut | grep -v ps\ aux | grep -v sort | cut -c 4- | sort && exit ; }" "## $INSTALLDIR$TMXRCHBNDR/top FE" >> "$TMXRCHBNDS"/top
+chmod 755 "$TMXRCHBNDS"/top
 }
 
 _ADDtimings_() {
-_CFLHDR_ $TMXRCHBNDS/timings "# Developed at [Terminal output speed issues](https://github.com/termux/termux-app/issues/603) Contributor evg-zhabotinsky"
-cat >> $TMXRCHBNDS/timings <<- EOM
+_CFLHDR_ "$TMXRCHBNDS"/timings "# Developed at [Terminal output speed issues](https://github.com/termux/termux-app/issues/603) Contributor evg-zhabotinsky"
+cat >> "$TMXRCHBNDS"/timings <<- EOM
 dd if=/dev/urandom bs=1K count=100 | hexdump -C >500KBfile.txt
 for TIMING in 0 1 2 3; do
 printf '%s\n' \$TIMING
@@ -1588,12 +1609,12 @@ done
 rm -f 500KBfile.txt
 ## $INSTALLDIR$TMXRCHBNDR/timings FE
 EOM
-chmod 755 $TMXRCHBNDS/timings
+chmod 755 "$TMXRCHBNDS"/timings
 }
 
 _ADDthstartarch_() {
-_CFLHDR_ $TMXRCHBNDS/th"$STARTBIN"
-cat >> $TMXRCHBNDS/th"$STARTBIN" <<- EOM
+_CFLHDR_ "$TMXRCHBNDS"/th"$STARTBIN"
+cat >> "$TMXRCHBNDS"/th"$STARTBIN" <<- EOM
 _PRTERROR_() {
 printf "\\e[1;31mERROR;\\e[1;37m%s\\e[0m\\n" " Please run '\${0##*/}' again."
 }
@@ -1613,7 +1634,7 @@ $STARTBIN su user "pwd && whoami" || _PRTERROR_
 printf "%s\\n" "th$STARTBIN done"
 ## $INSTALLDIR$TMXRCHBNDR/th$STARTBIN FE
 EOM
-chmod 755 $TMXRCHBNDS/th"$STARTBIN"
+chmod 755 "$TMXRCHBNDS"/th"$STARTBIN"
 }
 
 _ADDtools_() {	# developing implementaion; working system tools that work can be added to array PRFXTOLS
@@ -1661,67 +1682,67 @@ fi
 }
 
 _ADDtour_() {
-_CFLHDR_ $TMXRCHBNDS/tour "# A short tour that shows a few of the new featires of this system."
-cat >> $TMXRCHBNDS/tour <<- EOM
-printf "\\\\e[1;32m==> \\\\e[1;37mPlease hide the virtual keyboard.  Beginning a short tour that shows a few of the new featires of this system.  Running command \\\\e[1;32mexport\\\\e[1;37m...\\\\n\\\\n"
+_CFLHDR_ "$TMXRCHBNDS"/tour "# A short tour that shows a few of the new featires of this system."
+cat >> "$TMXRCHBNDS"/tour <<- EOM
+printf "\\e[1;32m==> \\e[1;37mPlease hide the virtual keyboard.  Beginning a short tour that shows a few of the new featires of this system.  Running command \\e[1;32mexport\\e[1;37m...\\n\\n"
 sleep 4
 export
 sleep 2
-printf "\\\\n\\\\e[1;32m==> \\\\e[1;37mRunning command \\\\e[1;32mls -alRr --color=always %s\\\\e[1;37m...\\\\n\\\\n" "\$HOME"
+printf "\\n\\e[1;32m==> \\e[1;37mRunning command \\e[1;32mls -alRr --color=always %s\\e[1;37m...\\n\\n" "\$HOME"
 sleep 1
 ls -alRr --color=always "\$HOME"
 sleep 4
-printf "\\\\n\\\\e[1;32m==> \\\\e[1;37mRunning command \\\\e[1;32mcat %s/.bash_profile\\\\e[1;37m...\\\\n\\\\n" "\$HOME"
+printf "\\n\\e[1;32m==> \\e[1;37mRunning command \\e[1;32mcat %s/.bash_profile\\e[1;37m...\\n\\n" "\$HOME"
 sleep 1
 cat "\$HOME"/.bash_profile
 sleep 4
-printf "\\\\n\\\\e[1;32m==> \\\\e[1;37mRunning command \\\\e[1;32mcat %s/.bashrc\\\\e[1;37m...\\\\n\\\\n" "\$HOME"
+printf "\\n\\e[1;32m==> \\e[1;37mRunning command \\e[1;32mcat %s/.bashrc\\e[1;37m...\\n\\n" "\$HOME"
 sleep 1
 cat "\$HOME"/.bashrc
 sleep 4
-printf "\\\\n\\\\e[1;32m==> \\\\e[1;37mRunning command \\\\e[1;32mcat $TMXRCHBNDR/pci\\\\e[1;37m...\\\\n\\\\n"
+printf "\\n\\e[1;32m==> \\e[1;37mRunning command \\e[1;32mcat $TMXRCHBNDR/pci\\e[1;37m...\\n\\n"
 sleep 1
 cat $TMXRCHBNDR/pci
 sleep 4
-printf "\\\\n\\\\e[1;32m==> \\\\e[1;37mRunning command \\\\e[1;32mcat $TMXRCHBNDR/README.md\\\\e[1;37m...\\\\n\\\\n"
+printf "\\n\\e[1;32m==> \\e[1;37mRunning command \\e[1;32mcat $TMXRCHBNDR/README.md\\e[1;37m...\\n\\n"
 sleep 1
 cat $TMXRCHBNDR/README.md
-printf "\\\\e[1;32m\\\\n%s \\\\e[38;5;121m%s \\\\n\\\\n\\\\e[4;38;5;129m%s\\\\e[0m\\\\n\\\\n\\\\e[1;34m%s \\\\e[38;5;135m%s\\\\e[0m\\\\n\\\\n" "==>" "Short tour is complete; Scroll up if you wish to study the output.  Run this script again at a later time, and it might be surprising at how this environment changes over time. " "If you are new to *nix, http://tldp.org has documentation." "IRC: " "https://$MOTTECIRC"
+printf "\\e[1;32m\\n%s \\e[38;5;121m%s \\n\\n\\e[4;38;5;129m%s\\e[0m\\n\\n\\e[1;34m%s \\e[38;5;135m%s\\e[0m\\n\\n" "==>" "Short tour is complete; Scroll up if you wish to study the output.  Run this script again at a later time, and it might be surprising at how this environment changes over time. " "If you are new to *nix, http://tldp.org has documentation." "IRC: " "https://$MOTTECIRC"
 ## $INSTALLDIR$TMXRCHBNDR/tour FE
 EOM
-chmod 755 $TMXRCHBNDS/tour
+chmod 755 "$TMXRCHBNDS"/tour
 }
 
 _ADDtrim_() {
-_CFLHDR_ $TMXRCHBNDS/trim
-cat >> $TMXRCHBNDS/trim <<- EOM
-printf "\\\\e[1;32m==> \\\\e[1;37mRunning command \\\\e[1;32m%s\\\\e[1;37m...\\\\n" "\${0##*/}"
+_CFLHDR_ "$TMXRCHBNDS"/trim
+cat >> "$TMXRCHBNDS"/trim <<- EOM
+printf "\\e[1;32m==> \\e[1;37mRunning command \\e[1;32m%s\\e[1;37m...\\n" "\${0##*/}"
 _PMFSESTRING_() {
-printf "\\\\e[1;31m%s\\\\e[1;37m%s\\\\n\\\\n" "Signal generated in '\$1'; Cannot complete task; " "Continuing..."
-printf "\\\\e[1;34m%s\\\\e[0;34m%s\\\\e[1;34m%s\\\\e[0;34m%s\\\\e[1;34m%s\\\\e[0m\\\\n\\\\n" "  If you find improvements for " "${0##*/}" " and " "\$0" " please open an issue and accompanying pull request."
+printf "\\e[1;31m%s\\e[1;37m%s\\n\\n" "Signal generated in '\$1'; Cannot complete task; " "Continuing..."
+printf "\\e[1;34m%s\\e[0;34m%s\\e[1;34m%s\\e[0;34m%s\\e[1;34m%s\\e[0m\\n\\n" "  If you find improvements for " "${0##*/}" " and " "\$0" " please open an issue and accompanying pull request."
 }
 [ "\$UID" -eq 0 ] && SUTRIM="" || SUTRIM="sudo"
-printf "%s\\\\n" "[1/4] rm -rf /usr/lib/firmware"
+printf "%s\\n" "[1/4] rm -rf /usr/lib/firmware"
 rm -rf /usr/lib/firmware
-printf "%s\\\\n" "[2/4] rm -rf /usr/lib/modules"
+printf "%s\\n" "[2/4] rm -rf /usr/lib/modules"
 rm -rf /usr/lib/modules
 if [ -d "$CACHEDIR" ]
 then
 [ -d "$CACHEDIR$CACHEDIRSUFIX" ] || { mkdir -p "$CACHEDIR$CACHEDIRSUFIX" && printf '%s' "mkdir -p $CACHEDIR$CACHEDIRSUFIX && " ; }
-printf "%s\\\\n" "[3/4] Triming installation files and populating cache in dircectory '$CACHEDIR';  Running command 'find $CACHEDIR -maxdepth 1 -type f -name \"*.tar.gz*\" -exec mv {} $INSTALLDIR \;';  The '${0##*/} ref' command can be used to repopulate the cache."
+printf "%s\\n" "[3/4] Triming installation files and populating cache in dircectory '$CACHEDIR';  Running command 'find $CACHEDIR -maxdepth 1 -type f -name \"*.tar.gz*\" -exec mv {} $INSTALLDIR \;';  The '${0##*/} ref' command can be used to repopulate the cache."
 find $INSTALLDIR -maxdepth 1 -type f -name "*.tar.gz*" -exec mv {} "$CACHEDIR" \; || _PMFSESTRING_ "find $INSTALLDIR -maxdepth 1 -type f -exec mv {} $CACHEDIR \;"
-printf "%s\\\\n" "[4/4] find /var/cache/pacman/pkg/ -maxdepth 1 -type f -exec mv {} $CACHEDIR$CACHEDIRSUFIX \;"
+printf "%s\\n" "[4/4] find /var/cache/pacman/pkg/ -maxdepth 1 -type f -exec mv {} $CACHEDIR$CACHEDIRSUFIX \;"
 find /var/cache/pacman/pkg/ -maxdepth 1 -type f -exec mv {} "$CACHEDIR$CACHEDIRSUFIX" \; || _PMFSESTRING_ "find /var/cache/pacman/pkg/ -maxdepth 1 -type f -exec mv {} "$CACHEDIR$CACHEDIRSUFIX" \;"
-printf "The command '%s ref' will repopulate the installation package files from the cache directory and update the TermuxArch files to the newest published version.\\\\n" "${0##*/}"
+printf "The command '%s ref' will repopulate the installation package files from the cache directory and update the TermuxArch files to the newest published version.\\n" "${0##*/}"
 fi
 ## $INSTALLDIR$TMXRCHBNDR/trim FE
 EOM
-chmod 755 $TMXRCHBNDS/trim
+chmod 755 "$TMXRCHBNDS"/trim
 }
 
 _ADDv_() {
-_CFLHDR_ $TMXRCHBNDS/v
-cat >> $TMXRCHBNDS/v <<- EOM
+_CFLHDR_ "$TMXRCHBNDS"/v
+cat >> "$TMXRCHBNDS"/v <<- EOM
 if [[ -z "\${1:-}" ]]
 then
 ARGS=(".")
@@ -1729,9 +1750,9 @@ else
 ARGS=("\$@")
 fi
 EOM
-printf "%s\\n" "[ \"\$UID\" = 0 ] && printf \"\\e[1;31m%s\\e[1;37m%s\\e[1;31mExiting...\\n\" \"Cannot run '\${0##*/}' as root user;\" \" the command 'addauser username' creates user accounts in ~/${INSTALLDIR##*/}; the command '$STARTBIN command addauser username' can create user accounts in ~/${INSTALLDIR##*/} from Termux; a default user account is created during setup; the default username 'user' can be used to access the PRoot system employing a user account; command '$STARTBIN help' has more information;  \" && exit" >> $TMXRCHBNDS/v
-printf "%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n" "if [ -x /usr/bin/vim ] || [ -x \"\${PREFIX:-}\"/bin/vim ]" "then" "vim \"\${ARGS[@]}\"" "else" "{ pc vim || pci vim ; } && vim \"\${ARGS[@]}\"" "fi" "## $INSTALLDIR$TMXRCHBNDR/v FE" >> $TMXRCHBNDS/v
-chmod 755 $TMXRCHBNDS/v
+printf "%s\\n" "[ \"\$UID\" = 0 ] && printf \"\\e[1;31m%s\\e[1;37m%s\\e[1;31mExiting...\\n\" \"Cannot run '\${0##*/}' as root user;\" \" the command 'addauser username' creates user accounts in ~/${INSTALLDIR##*/}; the command '$STARTBIN command addauser username' can create user accounts in ~/${INSTALLDIR##*/} from Termux; a default user account is created during setup; the default username 'user' can be used to access the PRoot system employing a user account; command '$STARTBIN help' has more information;  \" && exit" >> "$TMXRCHBNDS"/v
+printf "%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n" "if [ -x /usr/bin/vim ] || [ -x \"\${PREFIX:-}\"/bin/vim ]" "then" "vim \"\${ARGS[@]}\"" "else" "{ pc vim || pci vim ; } && vim \"\${ARGS[@]}\"" "fi" "## $INSTALLDIR$TMXRCHBNDR/v FE" >> "$TMXRCHBNDS"/v
+chmod 755 "$TMXRCHBNDS"/v
 }
 
 _ADDwe_() {
@@ -1740,13 +1761,13 @@ cat >> usr/bin/we <<- EOM
 declare -a ARGS
 
 _TRPWE_() {
-printf "\\\\e[?25h\\\\e[0m"
+printf "\\e[?25h\\e[0m"
 set +Eeuo pipefail
 _PRINTTAIL_ "\${ARGS[@]}"
 }
 
 _PRINTTAIL_() {
-printf "\\\\n\\\\e[0;32m%s \\\\e[1;32m%s \\\\e[0;32m%s\\\\e[1;34m: \\\\e[1;32m%s\\\\e[0m 🏁  \\\\n\\\\n\\\\e[0m" "TermuxArch command" "\$STRNRG" "version \$VERSIONID" "DONE 📱"
+printf "\\n\\e[0;32m%s \\e[1;32m%s \\e[0;32m%s\\e[1;34m: \\e[1;32m%s\\e[0m 🏁  \\n\\n\\e[0m" "TermuxArch command" "\$STRNRG" "version \$VERSIONID" "DONE 📱"
 printf '\033]2;  🔑 TermuxArch command %s:DONE 📱 \007' "\$STRNRG"
 }
 
@@ -1766,37 +1787,37 @@ entropy0=\$(cat /proc/sys/kernel/random/entropy_avail 2>/dev/null)
 
 printintro() {
 printf '\033]2; TermuxArch command Watch Entropy '%s' 📲  \007' "\$STRNRG"
-printf "\\\\n\\\\e[1;32mTermuxArch command Watch Entropy '%s':\\\\n" "\$STRNRG"
+printf "\\n\\e[1;32mTermuxArch command Watch Entropy '%s':\\n" "\$STRNRG"
 }
 
 _PRINTTAIL_() {
-printf "\\\\n\\\\n\\\\e[1;32mTermuxArch command Watch Entropy 🏁 \\\\n\\\\n"
+printf "\\n\\n\\e[1;32mTermuxArch command Watch Entropy 🏁 \\n\\n"
 printf '\033]2; TermuxArch command Watch Entropy 🏁 \007'
 }
 
 _PRINTUSAGE_() {
-printf "\\\\n\\\\e[0;32mUsage:  \\\\e[1;32mwe \\\\e[0;32m Watch Entropy sequential.\\\\n\\\\n	\\\\e[1;32mwe sequential\\\\e[0;32m Watch Entropy sequential.\\\\n\\\\n	\\\\e[1;32mwe simple\\\\e[0;32m Watch Entropy simple.\\\\n\\\\n	\\\\e[1;32mwe verbose\\\\e[0;32m Watch Entropy verbose.\\\\n\\\\n"'\033]2; TermuxArch command Watch Entropy 📲  \007'
+printf "\\n\\e[0;32mUsage:  \\e[1;32mwe \\e[0;32m Watch Entropy sequential.\\n\\n	\\e[1;32mwe sequential\\e[0;32m Watch Entropy sequential.\\n\\n	\\e[1;32mwe simple\\e[0;32m Watch Entropy simple.\\n\\n	\\e[1;32mwe verbose\\e[0;32m Watch Entropy verbose.\\n\\n"'\033]2; TermuxArch command Watch Entropy 📲  \007'
 }
 
 infif() {
 if [[ \$entropy0 = "inf" ]] || [[ \$entropy0 = "" ]] || [[ \$entropy0 = 0 ]]
 then
 entropy0=1000
-printf "\\\\e[1;32m∞^∞infifinfif2minfifinfifinfifinfif∞=1\\\\e[0;32minfifinfifinfifinfif\\\\e[0;32m∞==0infifinfifinfifinfif\\\\e[0;32minfifinfifinfif∞"
+printf "\\e[1;32m∞^∞infifinfif2minfifinfifinfifinfif∞=1\\e[0;32minfifinfifinfifinfif\\e[0;32m∞==0infifinfifinfifinfif\\e[0;32minfifinfifinfif∞"
 fi
 }
 
 en0=\$((\${entropy0}*\$multi))
 
 esleep() {
-int=\$(printf "%s\\\\n" "\$i/\$entropy0" | bc -l)
+int=\$(printf "%s\\n" "\$i/\$entropy0" | bc -l)
 for i in {1..5}; do
-if (( \$(printf "%s\\\\n" "\$int > 0.1"|bc -l) ))
+if (( \$(printf "%s\\n" "\$int > 0.1"|bc -l) ))
 then
-tmp=\$(printf "%s\\\\n" "\${int}/100" | bc -l)
+tmp=\$(printf "%s\\n" "\${int}/100" | bc -l)
 int=\$tmp
 fi
-if (( \$(printf "%s\\\\n" "\$int > 0.1"|bc -l) ))
+if (( \$(printf "%s\\n" "\$int > 0.1"|bc -l) ))
 then
 break
 fi
@@ -1814,50 +1835,50 @@ then
 abcif=\$(command -v bc) ||:
 if [[ \$abcif = "" ]]
 then
-printf "\\\\e[1;34mInstalling \\\\e[0;32mbc\\\\e[1;34m...\\\\n\\\\n\\\\e[1;32m"
+printf "\\e[1;34mInstalling \\e[0;32mbc\\e[1;34m...\\n\\n\\e[1;32m"
 { pc bc || pci bc ; }
-printf "\\\\n\\\\e[1;34mInstalling \\\\e[0;32mbc\\\\e[1;34m: \\\\e[1;32mDONE 🏁\\\\n\\\\e[0m"
+printf "\\n\\e[1;34mInstalling \\e[0;32mbc\\e[1;34m: \\e[1;32mDONE 🏁\\n\\e[0m"
 fi
 else
 tbcif=\$(command -v bc) ||:
 if [[ \$tbcif = "" ]]
 then
-printf "\\\\e[1;34mInstalling \\\\e[0;32mbc\\\\e[1;34m...\\\\n\\\\n\\\\e[1;32m"
+printf "\\e[1;34mInstalling \\e[0;32mbc\\e[1;34m...\\n\\n\\e[1;32m"
 apt install bc --yes
-printf "\\\\n\\\\e[1;34mInstalling \\\\e[0;32mbc\\\\e[1;34m: \\\\e[1;32mDONE 🏁\\\\n\\\\e[0m"
+printf "\\n\\e[1;34mInstalling \\e[0;32mbc\\e[1;34m: \\e[1;32mDONE 🏁\\n\\e[0m"
 fi
 fi
 }
 
 entropysequential() {
 printf '\033]2; TermuxArch Watch Entropy Sequential '%s' 📲  \007' "\$STRNRG"
-printf "\\\\n\\\\e[1;32mTermuxArch Watch Entropy Sequential '%s':\\\\n" "\$STRNRG"
+printf "\\n\\e[1;32mTermuxArch Watch Entropy Sequential '%s':\\n" "\$STRNRG"
 for i in \$(seq 1 \$en0); do
 entropy0=\$(cat /proc/sys/kernel/random/entropy_avail 2>/dev/null)
 infif
-printf "\\\\e[1;30m \$en0 \\\\e[0;32m\$i \\\\e[1;32m\${entropy0}\\\\n"
+printf "\\e[1;30m \$en0 \\e[0;32m\$i \\e[1;32m\${entropy0}\\n"
 1sleep
 done
 }
 
 entropysimple() {
 printf '\033]2; TermuxArch Watch Entropy Simple '%s' 📲  \007' "\$STRNRG"
-printf "\\\\n\\\\e[1;32mTermuxArch Watch Entropy Simple '%s':\\\\n" "\$STRNRG"
+printf "\\n\\e[1;32mTermuxArch Watch Entropy Simple '%s':\\n" "\$STRNRG"
 for i in \$(seq 1 \$en0); do
 entropy0=\$(cat /proc/sys/kernel/random/entropy_avail 2>/dev/null)
 infif
-printf "\\\\e[1;32m\${entropy0} "
+printf "\\e[1;32m\${entropy0} "
 1sleep
 done
 }
 
 entropyverbose() {
 printf '\033]2; TermuxArch Watch Entropy Verbose '%s' 📲  \007' "\$STRNRG"
-printf "\\\\n\\\\e[1;32mTermuxArch Watch Entropy Verbose '%s':\\\\n" "\$STRNRG"
+printf "\\n\\e[1;32mTermuxArch Watch Entropy Verbose '%s':\\n" "\$STRNRG"
 for i in \$(seq 1 \$en0); do
 entropy0=\$(cat /proc/sys/kernel/random/entropy_avail 2>/dev/null)
 infif
-printf "\\\\e[1;30m \$en0 \\\\e[0;32m\$i \\\\e[1;32m\${entropy0} \\\\e[0;32m#E&&√♪"
+printf "\\e[1;30m \$en0 \\e[0;32m\$i \\e[1;32m\${entropy0} \\e[0;32m#E&&√♪"
 esleep
 sleep \$int
 entropy1=\$(cat /proc/sys/kernel/random/uuid)
@@ -1909,9 +1930,9 @@ chmod 755 usr/bin/we
 }
 
 _ADDyt_() {
-_CFLHDR_ $TMXRCHBNDS/yt
-printf "%s\\n%s\\n%s\\n" "[ \"\$UID\" = 0 ] && printf \"\\e[1;31m%s\\e[1;37m%s\\e[1;31mExiting...\\n\" \"Cannot run '\$STRNRG' as root user :\" \" the command 'addauser username' creates user accounts in ~/${INSTALLDIR##*/} : the command '$STARTBIN command addauser username' can create user accounts in ~/${INSTALLDIR##*/} from Termux : a default user account is created during setup : the default username 'user' can be used to access the PRoot system employing a user account : command '$STARTBIN help' has more information :  \" && exit" "youtube-dl \"\${ARGS[@]}\" || { { pc youtube || pci youtube-dl ; } && youtube-dl \"\${ARGS[@]}\" ; }" "## $INSTALLDIR$TMXRCHBNDR/yt FE" >> $TMXRCHBNDS/yt
-chmod 755 $TMXRCHBNDS/yt
+_CFLHDR_ "$TMXRCHBNDS"/yt
+printf "%s\\n%s\\n%s\\n" "[ \"\$UID\" = 0 ] && printf \"\\e[1;31m%s\\e[1;37m%s\\e[1;31mExiting...\\n\" \"Cannot run '\$STRNRG' as root user :\" \" the command 'addauser username' creates user accounts in ~/${INSTALLDIR##*/} : the command '$STARTBIN command addauser username' can create user accounts in ~/${INSTALLDIR##*/} from Termux : a default user account is created during setup : the default username 'user' can be used to access the PRoot system employing a user account : command '$STARTBIN help' has more information :  \" && exit" "youtube-dl \"\${ARGS[@]}\" || { { pc youtube || pci youtube-dl ; } && youtube-dl \"\${ARGS[@]}\" ; }" "## $INSTALLDIR$TMXRCHBNDR/yt FE" >> "$TMXRCHBNDS"/yt
+chmod 755 "$TMXRCHBNDS"/yt
 }
 
 _DOMODdotfiles_() {
@@ -1956,7 +1977,6 @@ fi
 }
 
 _PREPPACMANCONF_() {
-{ [ -f "$INSTALLDIR"/etc/pacman.conf ] && { sed -i 's/^CheckSpace/\#CheckSpace/g' "$INSTALLDIR/etc/pacman.conf" && sed -i 's/^#Color/Color/g' "$INSTALLDIR/etc/pacman.conf" ; } ; } || _PSGI1ESTRING_ "Cannot find file $INSTALLDIR/etc/pacman.conf; _PREPPACMANCONF_ archlinuxconfig.bash ${0##*/}"
-[ -f "$INSTALLDIR"/usr/share/libalpm/hooks/systemd-hook ] && sed -i 's/\-chroot/c/g' "$INSTALLDIR"/usr/share/libalpm/hooks/systemd-hook ||:
+[ -f "$INSTALLDIR"/run/lock/"${INSTALLDIR##*/}"/pacman.conf.lock ] || { [ -f "$INSTALLDIR"/etc/pacman.conf ] && { sed -i 's/^CheckSpace/\#CheckSpace/g' "$INSTALLDIR/etc/pacman.conf" && sed -i 's/^#Color/Color/g' "$INSTALLDIR/etc/pacman.conf" && :>"$INSTALLDIR"/run/lock/"${INSTALLDIR##*/}"/pacman.conf.lock ; } ; }
 }
 # archlinuxconfig.bash FE
