@@ -23,6 +23,7 @@ _CFLHDR_ "$TMXRCHBNDS"/README.md
 printf "%s\\n" "The $TMXRCHBNDR directory contains TermuxArch shortcut commands that automate and make using the command line easier.  Some of these commands are listed here:
 
 * Command 'addauser' creates Arch Linux user accounts in Termux PRoot QEMU and configures them for use with the Arch Linux 'sudo' command,
+* Command 'cams' records from device cameras,
 * Command 'csystemctl' replaces systemctl with https://github.com/TermuxArch/docker-systemctl-replacement,
 * Command 'em' is a 'uemacs' editor shortcut command that builds and installs and then runs the uemacs editor.
 * Command 'keys' installs Arch Linux keys,
@@ -161,15 +162,10 @@ alias dfa='df | grep storage\/emulated'
 alias DFT='df | grep storage\/'
 alias Dft='df | grep storage\/'
 alias dft='df | grep storage\/'
-alias EE='am startservice --user 0 -a com.termux.service_wake_unlock com.termux/com.termux.app.TermuxService > /dev/null ; exit'
-alias Ee='am startservice --user 0 -a com.termux.service_wake_unlock com.termux/com.termux.app.TermuxService > /dev/null ; exit'
-alias ee='am startservice --user 0 -a com.termux.service_wake_unlock com.termux/com.termux.app.TermuxService > /dev/null ; exit'
 alias E='exit'
 alias e='exit'
 alias F='nice -n 20 grep -n --color=always'
 alias f='nice -n 20 grep -n --color=always'
-alias Fr='nice -n 20 grep -nr --color=always'
-alias fr='nice -n 20 grep -nr --color=always'
 alias G='ga ; gcm ; gp'
 alias g='ga ; gcm ; gp'
 alias GITS='git show'
@@ -196,8 +192,10 @@ alias LA='ls -alR --color=always'
 alias La='ls -alR --color=always'
 alias la='ls -alR --color=always'
 alias LS='ls --color=always'
+alias Ls='ls --color=always'
 alias ls='ls --color=always'
 alias LR='ls -alR --color=always'
+alias Lr='ls -alR --color=always'
 alias lr='ls -alR --color=always'
 alias MEMAV='grep -i available /proc/meminfo'
 alias Memav='grep -i available /proc/meminfo'
@@ -214,15 +212,12 @@ alias N2='nice -n -20'
 alias n2='nice -n -20'
 alias P='_PWD_'
 alias p='_PWD_'
-alias PACMAN='pacman --color=always'
-alias Pacman='pacman --color=always'
-alias pacman='pacman --color=always'
-alias PCS='pacman -S --color=always'
-alias Pcs='pacman -S --color=always'
-alias pcs='pacman -S --color=always'
-alias PCSS='pacman -Ss --color=always'
-alias Pcss='pacman -Ss --color=always'
-alias pcss='pacman -Ss --color=always'
+alias PCS='pacman -S'
+alias Pcs='pacman -S'
+alias pcs='pacman -S'
+alias PCSS='pacman -Ss'
+alias Pcss='pacman -Ss'
+alias pcss='pacman -Ss'
 alias PF='printf "%s\n"'
 alias Pf='printf "%s\n"'
 alias pf='printf "%s\n"'
@@ -502,6 +497,16 @@ EOM
 chmod 755 "$TMXRCHBNDS"/csystemctl
 }
 
+_ADDcolorizebashrc_() {
+_CFLHDR_ "$TMXRCHBNDS"/colorizebashrc "# Change always to never and vica versa in file '.bashrc'."
+cat >> "$TMXRCHBNDS"/colorizebashrc <<- EOM
+grep always "\$HOME"/.bashrc 1>/dev/null && sed -i 's/always/never/g' "\$HOME"/.bashrc || sed -i 's/never/always/g' "\$HOME"/.bashrc
+grep always "\$HOME"/.bashrc || grep never "\$HOME"/.bashrc
+## $INSTALLDIR$TMXRCHBNDR/colorizebashrc FE
+EOM
+chmod 755 "$TMXRCHBNDS"/colorizebashrc
+}
+
 _ADDes_() {
 _CFLHDR_ "$TMXRCHBNDS"/es
 cat >> "$TMXRCHBNDS"/es <<- EOM
@@ -669,7 +674,7 @@ cat >> "$TMXRCHBNDS"/makeaurhelpers <<- EOM
 NMKPKC="nice -n 20 makepkg -ACcfis --check --needed"
 NMKPKN="nice -n 20 makepkg -ACcfis --check --needed --noconfirm"
 NMKPKR="nice -n 20 makepkg -ACcfirs --check --needed --noconfirm"
-{ [ -z "\${1:-}" ] && NMKPKG="\$NMKPKC" ; } || { { [[ "\${1//-}" = [Aa]* ]] || [[ "\${1//-}" = [Nn]* ]] || [[ "\${1//-}" = [Rr]* ]] || [[ "\${1//-}" = [Ss][Bb]* ]] || [[ "\${1//-}" = [Tt][Ss]* ]] ; } && NMKPKG="\$NMKPKN" ; } || { [[ "\${1//-}" = [Ee]* ]] || [[ "\${1//-}" = [Gg]* ]] ; } && NMKPKG="\$NMKPKR" || NMKPKG="\$NMKPKC"
+{ [ -z "\${1:-}" ] && NMKPKG="\$NMKPKC" ; } || { { [[ "\${1//-}" = [Aa]* ]] || [[ "\${1//-}" = [Nn]* ]] || [[ "\${1//-}" = [Rr]* ]] || [[ "\${1//-}" = [Ss][Bb]* ]] || [[ "\${1//-}" = [Tt][Ss]* ]] ; } && NMKPKG="\$NMKPKN" ; } || { { [[ "\${1//-}" = [Ee]* ]] || [[ "\${1//-}" = [Gg]* ]] ; } && NMKPKG="\$NMKPKR" ; } || NMKPKG="\$NMKPKC"
 # builtin help variables begin
 NMCMND="\$(uname -m)"
 DFLTSG="Default: \"-A ignore incomplete arch field in PKGBUILD\" also sets arch=('any');"
@@ -799,8 +804,8 @@ if command -v "\$CHKRHLPR" >/dev/null
 then
 RCHLXPKG="\$(pacman -Ql "\$CHKRHLPR" | head -n 1 | cut -d" " -f 1)"
 printf '%s' "Found command '\$CHKRHLPR';  The '\$CHKRHLPR' command belongs to Arch Linux package '\${RCHLXPKG:-unknown}'.  "
-[ -z "\${TALL:-}" ] || { \$CHKRHLPR && { [ "\$AURHLPR" = termsaver-git ] && printf '%s\\n' "Sleeping eight seconds;  Then clearing screen..." && sleep 8 && clear ; } || printf '%s\\n' "Sleeping two seconds;  Then clearing screen..." && sleep 2 && clear ; }
-[[ "\$DALL" = [Aa]* ]] || [[ "\$DALL" = [Rr]* ]] || [[ "\$DALL" = [Ss][Bb]* ]] || [[ "\$DALL" = [Tt][Ss]* ]] || exit 0
+[ -z "\${TALL:-}" ] || \$CHKRHLPR
+[[ "\$DALL" = [Aa]* ]] || [[ "\$DALL" = [Rr]* ]] || [[ "\$DALL" = [Ss][Bb]* ]] || [[ "\$DALL" = [Tt][Mm]* ]] || [[ "\$DALL" = [Tt][Ss]* ]] || exit 0
 else
 _CLONEAURHLPR_
 fi
@@ -817,15 +822,15 @@ fi
 # make AUR package
 _MAKEAURHLPR_() {
 cd "\$HOME/\$AURHLPR" || exit 196
-{ [ ! -f PKGBUILD ] && exit 196 ; } || { VLGRPPBD="\$(grep 'depends=(' PKGBUILD)" && printf '\\n\\n%s\\n\\n' "\${VLGRPPBD[@]}" ; }
-printf "%s\\n" "Running command '\$NMKPKG' in directory '\$PWD';  Attempting to build and install Arch Linux AUR package '\$AURHLPR' for architecture \$NMCMND with '\$SRPTNM' version $VERSIONID;  Please be patient..."
+{ [ ! -f PKGBUILD ] && exit 198 ; } || { PKGBUILDVL="\$(<"\$HOME/\$AURHLPR/"PKGBUILD)" && VLGRPPBD="\$(awk 'BEGIN { found = 0; } ; /depends=\(/ { if (!found) { found = 1; \$0 = substr(\$0, index(\$0, "=\\(") + 2); }; } ; /\)/ { if (found) { found = 2; \$0 = substr(\$0, 0, index(\$0, "\\)") - 1); } ; } ; { if (found) { print; if (found == 2) found = 0; } ; }' <<< "\$PKGBUILDVL" 2>/dev/null)" && printf '\\e[0;32m%s' "Found dependancies '\$(xargs <<< "\$VLGRPPBD")' for Arch Linux AUR package '\$AURHLPR'.  Please check dependancies for package '\$AURHLPR'.  " ; }
+printf "%s\\n" "Attempting to build and install Arch Linux AUR package '\$AURHLPR' for architecture \$NMCMND with '\$SRPTNM':  Running command '\$NMKPKG' in directory '\$PWD':  Please be patient..."
 \$NMKPKG || _PRTERROR_
 }
 # print error help message
 _PRTERROR_() {
 printf "\\n\\e[1;31merror: \\e[1;37m%s\\e[0m\\n\\n" "Please study the first lines of the error output and correct the error(s) and/or warning(s) and run '\$STRNRG' again.  You can use the TermuxArch command 'pci' to ensure that the system is up to date.  The command 'gpg --keyserver keyserver.ubuntu.com --recv-keys 71A1D0EF' can be used to import gpg keys.  In order to resolve 'unauthenticated git protocol on port 9418 is no longer supported' the command 'git config --global url."https://".insteadOf git://' can be used.  Running command '\$STRNRG' again with the same menu selection may resolve the errors previously encountered automatically as well."
 }
-for DRHLPR in AURHLPR AURHLPRD AURHLPRDPG AURHLPRDRN AURHLPRS AURHLPRSM ENTERTAINMENT CANDY GAME MAKEPKGS MKRPKGDS SCREENSAVERS VLGRPPBD ; do declare -A \$DRHLPR ; done
+for DRHLPR in AURHLPR AURHLPRD AURHLPRDPG AURHLPRDRN AURHLPRS AURHLPRSM ENTERTAINMENT CANDY GAME MAKEPKGS MKRPKGDS SCREENSAVERS ; do declare -A \$DRHLPR ; done
 # depreciated aur helpers reason
 AURHLPRDRN=(
 [aget]="Validating source files with b2sums skipped"
@@ -868,9 +873,16 @@ AURHLPRDPG=(
 [aura-git]="aura"
 [pacaur]="pacaur"
 [pacaur-git]="pacaur"
+[paru]="paru"
+[paru-git]="paru"
 [pkgbuilder]="pkgbuilder"
+[ram]="ram"
+[repoctl]="repoctl"
+[rua]="rua"
 [stack-static]="stack"
+[tulip-pm]="tulip"
 [xaur]="xaur"
+[yay]="yay"
 [zur-git]="zur"
 )
 # depreciated aur helpers
@@ -895,18 +907,25 @@ AURHLPRD=(
 [pakku-git]="pakku"
 [pacaur]="pacaur"
 [pacaur-git]="pacaur"
+[paru]="paru"
+[paru-git]="paru"
 [pikaur-aurnews]="pikaur-aurnews"
 [pikaur-git]="pikaur"
 [pkgbuilder]="pkgbuilder"
 [pkgbuilder-git]="pkgbuilder"
+[ram]="ram"
+[repoctl]="repoctl"
 [repoctl-git]="repoctl"
+[rua]="rua"
 [simpleaur-git]="simpleaur"
 [saurch-git]="saurch"
 [stack-static]="stack"
 [trizen-git]="trizen"
+[tulip-pm]="tulip"
 [vam]="vam"
 [wfa-git]="wfa"
 [xaur]="xaur"
+[yay]="yay"
 [yay-git]="yay"
 [yayim]="yayim"
 [yup]="yup"
@@ -937,9 +956,7 @@ AURHLPRS=(
 [pakku]="pakku"
 [pakku-gui]="pakku"
 [pakku-gui-git]="pakku"
-[paru]="paru"
 [paru-bin]="paru"
-[paru-git]="paru"
 [paruz]="paruz"
 [pbget]="pbget"
 [pikaur]="pikaur"
@@ -948,22 +965,18 @@ AURHLPRS=(
 [powerpill]="powerpill"
 [popular-packages]="popular-packages"
 [puyo]="puyo"
-[ram]="ram"
-[repoctl]="repoctl"
 [repofish]="repofish"
-[rua]="rua"
 [sakuri]="sakuri"
 [trizen]="trizen"
-[tulip-pm]="tulip"
 [yaourt]="yaourt"
 [yaah]="yaah"
-[yay]="yay"
 [yay-bin]="yay"
 [zeus-bin]="zeus"
 )
 # smaller aur helpers
 AURHLPRSM=(
 [aurget]="aurget"
+[blinky]="blinky"
 [haur]="haur"
 [lightpkg]="lightpkg"
 [liteaur-git]="liteaur"
@@ -973,6 +986,7 @@ AURHLPRSM=(
 [sakuri]="sakuri"
 [trizen]="trizen"
 [yaah]="yaah"
+[yay-bin]="yay"
 )
 # terminal candy
 CANDY=(
@@ -988,7 +1002,7 @@ CANDY=(
 )
 # two AUR packages
 ENTERTAINMENT=(
-[sl-git]="sl"
+rsl-git]="sl"
 [tmatrix]="tmatrix"
 )
 # one AUR game package
@@ -1012,8 +1026,6 @@ MAKEPKGS=(
 [makepkg-tidy-pdfsizeopt]="makepkg-tidy-pdfsizeopt"
 [makepkg-tidy-scripts-git]="makepkg-tidy-scripts"
 [makepkg-unreal]="makepkg-unreal"
-[makeppkg-git]="makeppkg"
-[makeppkg]="makeppkg"
 [pbget]="pbget"
 [remakepkg]="remakepkg"
 [telegram-tdlib-purple-git]="telegram-tdlib-purple"
@@ -1036,8 +1048,6 @@ MKRPKGDS=(
 [makepkg-tidy-pdfsizeopt]="A libmakepkg tidy script for loselessly optimizing PDFs using pdfsizeopt"
 [makepkg-tidy-scripts-git]="Collection of scripts for tidying packages created using makepkg. Includes optipng and upx support."
 [makepkg-unreal]="Some shell functions to ease the installation of various Unreal games."
-[makeppkg-git]="wrapper for Arch Linux's makepkg, patches source before packages are built"
-[makeppkg]="wrapper for Arch Linux's makepkg, patches source before packages are built"
 [pbget]="Retrieve PKGBUILDs and local source files from Git, ABS and the AUR for makepkg."
 [remakepkg]="Apply changes to pacman packages"
 [telegram-tdlib-purple-git]="libpurple/pidgin Telegram plugin implemented using official tdlib client library. Needs TD_API_ID and TD_API_HASH env vars to be set for makepkg."
@@ -1051,36 +1061,35 @@ SCREENSAVERS=(
 [digital-rain-git]="digital-rain"
 [dvdts-fp-git]="dvdts"
 [greenrain]="greenrain"
+[ncmatrix]="ncmatrix"
 [neo-matrix]="neo-matrix"
 [neo-matrix-git]="neo-matrix"
 [pipes.c]="cpipes"
 [pipes.sh]="pipes.sh"
-[rmatrix]="rmatrix"
-[rmatrix-git]="rmatrix"
 [termsaver-git]="termsaver"
 [tmatrix]="tmatrix"
 [tmatrix-git]="tmatrix"
 [tty-clock-git]="tty-clock"
 )
-SLCTSYRNG="aur helper"
+SLCTSYRNG="AUR helper"
 [ -n "\${1:-}" ] && DALL="\${1//-}" && DALL="\${1:0:2}" || DALL=1
 [ -n "\${1:-}" ] && [[ "\${1//-}" = [Aa]* ]] && { for AURHLPR in \$(for AURHLP in "\${!AURHLPRS[@]}"; do printf '%s\n' "\$AURHLP" ; done | sort -n) ; do printf '%s\\n' "Attempting to build \$SLCTSYRNG '\$AURHLPR'..." && _ARHCMD_ ||: ; done ; } && exit
 [ -n "\${1:-}" ] && { [[ "\${1//-}" = [Bb]* ]] || [[ "\${1//-}" = [Mm]* ]] ; } && [ -n "\${2:-}" ] && AURHLPR="\$2" && BLDPKG=0 && printf '%s\\n' "Attempting to build aur package '\$AURHLPR'..." && _ARHCMD_ "\$@" && exit 0
-[ -n "\${1:-}" ] && [[ "\${1//-}" = [Cc]* ]] && TALL=0 && AURHLPRSTG=\$(declare -p CANDY) && eval AURHLPRS="\${AURHLPRSTG#*=}" && SLCTSYRNG="candy"
-[ -n "\${1:-}" ] && [[ "\${1//-}" = [Ee]* ]] && TALL=0 && AURHLPRSTG=\$(declare -p ENTERTAINMENT) && eval AURHLPRS="\${AURHLPRSTG#*=}" && SLCTSYRNG="package"
-[ -n "\${1:-}" ] && [[ "\${1//-}" = [Gg]* ]] && TALL=0 && AURHLPRSTG=\$(declare -p GAME) && eval AURHLPRS="\${AURHLPRSTG#*=}" && SLCTSYRNG="game package"
-[ -n "\${1:-}" ] && [[ "\${1//-}" = [Mm]* ]] && AURHLPRSTG=\$(declare -p MAKEPKGS) && eval AURHLPRS="\${AURHLPRSTG#*=}" && SLCTSYRNG="makepkg"
+[ -n "\${1:-}" ] && [[ "\${1//-}" = [Cc]* ]] && TALL=0 && AURHLPRSTG=\$(declare -p CANDY) && eval AURHLPRS="\${AURHLPRSTG#*=}" && SLCTSYRNG="AUR candy"
+[ -n "\${1:-}" ] && [[ "\${1//-}" = [Ee]* ]] && TALL=0 && AURHLPRSTG=\$(declare -p ENTERTAINMENT) && eval AURHLPRS="\${AURHLPRSTG#*=}" && SLCTSYRNG="AUR package"
+[ -n "\${1:-}" ] && [[ "\${1//-}" = [Gg]* ]] && TALL=0 && AURHLPRSTG=\$(declare -p GAME) && eval AURHLPRS="\${AURHLPRSTG#*=}" && SLCTSYRNG="AUR game package"
+[ -n "\${1:-}" ] && [[ "\${1//-}" = [Mm]* ]] && AURHLPRSTG=\$(declare -p MAKEPKGS) && eval AURHLPRS="\${AURHLPRSTG#*=}" && SLCTSYRNG="AUR related makepkg"
 [ -n "\${1:-}" ] && [[ "\${1//-}" = [Rr]* ]] && { for AURHLPR in \$(for AURHLP in "\${!AURHLPRS[@]}"; do printf '%s\n' "\$AURHLP" ; done | sort -nr) ; do printf '%s\\n' "Attempting to build \$SLCTSYRNG '\$AURHLPR'..." && _ARHCMD_ ||: ; done ; } && exit
 [ -n "\${1:-}" ] && [[ "\${1//-}" = [Ss][Bb]* ]] && { for AURHLPR in \$(for AURHLP in "\${!AURHLPRSM[@]}"; do printf '%s\n' "\$AURHLP" ; done | sort -n) ; do printf '%s\\n' "Attempting to build \$SLCTSYRNG '\$AURHLPR'..." && _ARHCMD_ ||: ; done ; } && exit
 [ -n "\${1:-}" ] && [[ "\${1//-}" = [Ss]* ]] && TALL=0 && AURHLPRSTG=\$(declare -p SCREENSAVERS) && eval AURHLPRS="\${AURHLPRSTG#*=}" && SLCTSYRNG="screensaver"
 [ -n "\${1:-}" ] && [[ "\${1//-}" = [Tt][Cc]* ]] && TALL=0 && AURHLPRSTG=\$(declare -p CANDY) && eval AURHLPRS="\${AURHLPRSTG#*=}" && SLCTSYRNG="candy" && { for AURHLPR in \$(for AURHLP in "\${!AURHLPRS[@]}"; do printf '%s\n' "\$AURHLP" ; done | sort -n) ; do printf '%s\\n' "Attempting to build \$SLCTSYRNG '\$AURHLPR'..." && _ARHCMD_ ||: ; done ; } && exit
 [ -n "\${1:-}" ] && [[ "\${1//-}" = [Tt][Mm]* ]] && TALL=0 && AURHLPRSTG=\$(declare -p MAKEPKGS) && eval AURHLPRS="\${AURHLPRSTG#*=}" && SLCTSYRNG="makepkg" && { for AURHLPR in \$(for AURHLP in "\${!AURHLPRS[@]}"; do printf '%s\n' "\$AURHLP" ; done | sort -n) ; do printf '%s\\n' "Attempting to build \$SLCTSYRNG '\$AURHLPR'..." && _ARHCMD_ ||: ; done ; } && exit
 [ -n "\${1:-}" ] && [[ "\${1//-}" = [Tt][Ss]* ]] && TALL=0 && AURHLPRSTG=\$(declare -p SCREENSAVERS) && eval AURHLPRS="\${AURHLPRSTG#*=}" && SLCTSYRNG="screensaver" && { for AURHLPR in \$(for AURHLP in "\${!AURHLPRS[@]}"; do printf '%s\n' "\$AURHLP" ; done | sort -n) ; do printf '%s\\n' "Attempting to build \$SLCTSYRNG '\$AURHLPR'..." && _ARHCMD_ ||: ; done ; } && exit
-printf "Please set the Arch Linux AUR package for command '%s \$SLCTSYRNG' to build and install;  \${SRPTNM^^} NOTICE:  \$DFLTSG  Please select the \$SLCTSYRNG to install by number from this menu:\\n" "\$SRPTNM"
+printf "Please set the Arch Linux AUR package for command '%s \$SLCTSYRNG' to build and install:  \${SRPTNM^^} NOTICE:  \$DFLTSG  Please select the \$SLCTSYRNG to install by name or number from this menu:\\n" "\$SRPTNM"
 select AURHLPR in exit \$(for AURHLP in "\${!AURHLPRS[@]}" ; do printf '%s\n' "\$AURHLP" ; done | sort -n);
 do
 { [[ "\$REPLY" = 0 ]] || [[ "\$REPLY" = 1 ]] || [[ "\$REPLY" = [Ee]* ]] || [[ "\$REPLY" = [Qq]* ]] ; } && printf '%s\\n' "Exiting..." && exit
-{ [[ "\${!AURHLPRS[@]}" =~ (^|[[:space:]])"\$AURHLPR"($|[[:space:]]) ]] || { [[ "\${!AURHLPRS[@]}" =~ (^|[[:space:]])"\$REPLY"($|[[:space:]]) ]] && AURHLPR="\$REPLY" ; } ; } && printf "%s\\n" "Option '\$REPLY \$AURHLPR' was picked from this list;  The chosen Arch Linux \$SLCTSYRNG for architecture \$NMCMND to build and install is '\$AURHLPR'...  " && _ARHCMD_ && break || printf "%s\\n" "Answer '\$REPLY' was chosen;  Please select the Arch Linux \${SLCTSYRNG:-1} to build and install by number from this list or type e and tap enter to exit command '\$SRPTNM':"
+{ [[ "\${!AURHLPRS[@]}" =~ (^|[[:space:]])"\$AURHLPR"($|[[:space:]]) ]] || { [[ "\${!AURHLPRS[@]}" =~ (^|[[:space:]])"\$REPLY"($|[[:space:]]) ]] && AURHLPR="\$REPLY" ; } ; } && printf "\\e[0;32m%s\\n" "Option '\$REPLY \$AURHLPR' was picked from this menu;  The chosen Arch Linux \$SLCTSYRNG for architecture \$NMCMND to build and install is '\$AURHLPR'...  " && _ARHCMD_ && break || printf "%s\\n" "Answer '\$REPLY' was chosen:  Please select the Arch Linux \${SLCTSYRNG:-1} to build and install by number from this list or type e and tap enter to exit command '\$SRPTNM':"
 done
 ## $INSTALLDIR$TMXRCHBNDR/makeaurhelpers FE
 EOM
@@ -1101,12 +1110,12 @@ printf "%s\\n" "Preparing to build and install fakeroot-tcp with \${0##*/} versi
 if { [ ! "\$(command -v automake)" ] || [ ! "\$(command -v git)" ] || [ ! "\$(command -v gcc -v)" ] || [ ! "\$(command -v libtool)" ] || [ ! "\$(command -v po4a)" ] ; }
 then
 pci automake base base-devel fakeroot git gcc libtool po4a || printf "\\n\\e[1;31mＴｅｒｍｕｘＡｒｃｈ SIGNAL: \\e[7;37m%s\\e[0m\\n\\n" "Please study the first lines of the error output and correct the error(s) and/or warning(s) by running command 'pci automake base base-devel fakeroot git gcc go libtool po4a' as root user in a new Termux session.  You can do this without closing this session by running command \"$STARTBIN command 'pci automake base base-devel fakeroot git gcc go libtool po4a'\"in a new Termux session. Then return to this session and run '\$STRNRG' again."
+fi
 cd
 [ -d fakeroot-tcp ] || gcl https://aur.archlinux.org/fakeroot-tcp.git
 cd fakeroot-tcp || exit 196
 printf "%s\\n" "Running command 'nice -n 20 makepkg -Ccfis --check --needed';  Attempting to build and install Arch Linux AUR package 'fakeroot-tcp' with '\${0##*/}' version $VERSIONID.  Please be patient..."
 { nice -n 20 makepkg -Ccfis --check --needed && libtool --finish /usr/lib/libfakeroot && :>"/run/lock/${INSTALLDIR##*/}/makeaurfakeroottcp.lock" ; } || _PRTERROR_
-fi
 printf "%s\\n" "Building and installing fakeroot-tcp: DONE 🏁"
 }
 [ ! -f "/run/lock/${INSTALLDIR##*/}/makeaurfakeroottcp.lock" ] && _DOMAKEFAKEROOTTCP_ || printf "%s\\n" "Please remove file "/run/lock/${INSTALLDIR##*/}/makeaurfakeroottcp.lock" in order to rebuild fakeroot-tcp with \${0##*/} version $VERSIONID."
@@ -1171,13 +1180,13 @@ then
 : # pull requests are requested to automate install missing Termux packages
 else
 [ ! -f "/run/lock/${INSTALLDIR##*/}/patchmakepkg.lock" ] && patchmakepkg
-if { [ ! "\$(command -v fakeroot)" ] || [ ! "\$(command -v git)" ] || [ ! "\$(command -v go)" ] ; }
+if { [ ! "\$(command -v fakeroot)" ] || [ ! "\$(command -v git)" ] ; }
 then
-pci base base-devel fakeroot gcc git go || pci base base-devel fakeroot gcc git go || { printf "\\n\\e[1;31mＴｅｒｍｕｘＡｒｃｈ SIGNAL: \\e[7;37m%s\\e[0m\\n\\n" "Please study the first lines of the error output and correct the error(s) and/or warning(s);  The command 'pci base base-devel fakeroot gcc git go' can be run as proot root user in a new Termux session and might resolve this issue.  You might be able to do this without closing this session.  Please try running command: $STARTBIN command 'pci base base-devel fakeroot gcc git go' in a new Termux PRoot session.  Then return to this session, and run '\${0##*/}' again." && exit 120 ; }
+pci base base-devel fakeroot gcc git || pci base base-devel fakeroot gcc git || { printf "\\n\\e[1;31mＴｅｒｍｕｘＡｒｃｈ SIGNAL: \\e[7;37m%s\\e[0m\\n\\n" "Please study the first lines of the error output and correct the error(s) and/or warning(s);  The command 'pci base base-devel fakeroot gcc git go' can be run as proot root user in a new Termux session and might resolve this issue.  You might be able to do this without closing this session.  Please try running command: $STARTBIN command 'pci base base-devel fakeroot gcc git go' in a new Termux PRoot session.  Then return to this session, and run '\${0##*/}' again." && exit 120 ; }
 fi
 cd
-[ -d yay ] || gcl https://aur.archlinux.org/yay.git
-{ { cd yay || exit 169 ; } && _PRMAKE_ && nice -n 20 makepkg -Ccfis --check --needed --noconfirm ; } || { printf "\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\\n" "ＴｅｒｍｕｘＡｒｃｈ SIGNAL: " "The command 'nice -n 20 makepkg -Ccfis --check --needed --noconfirm' did not run as expected; " "EXITING..." && exit 124 ; }
+[ -d yay-bin ] || gcl https://aur.archlinux.org/yay-bin.git
+{ { cd yay-bin || exit 169 ; } && _PRMAKE_ && nice -n 20 makepkg -Ccfis --check --needed --noconfirm ; } || { printf "\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\\n" "ＴｅｒｍｕｘＡｒｃｈ SIGNAL: " "The command 'nice -n 20 makepkg -Ccfis --check --needed --noconfirm' did not run as expected; " "EXITING..." && exit 124 ; }
 printf "\\e[0;32m%s\\n%s\\n%s\\e[1;32m%s\\e[0m\\n" "Paths that can be followed after building 'yay' are 'yay cmatrix --noconfirm' which builds a matrix screensaver.  The commands 'yay pikaur|pikaur-git|tpac' build more aur installers which can also be used to download aur repositories and build packages like with 'yay' in your Android smartphone, tablet, wearable and more.  Did you know that 'android-studio' is available with the command 'yay android'?" "If you have trouble importing keys, this command 'gpg --keyserver keyserver.ubuntu.com --recv-keys 71A1D0EFCFEB6281FD0437C71A1D0EFCFEB6281F' might help.  Change the number to the number of the key being imported." "Building and installing yay: " "DONE 🏁"
 fi
 ## $INSTALLDIR$TMXRCHBNDR/makeauryay FE

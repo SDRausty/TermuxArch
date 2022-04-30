@@ -23,6 +23,7 @@ _ADDcdtmp_
 _ADDch_
 _ADDchperms.cache+gnupg_
 _ADDcsystemctl_
+_ADDcolorizebashrc_
 _ADDes_
 _ADDexd_
 _ADDfibs_
