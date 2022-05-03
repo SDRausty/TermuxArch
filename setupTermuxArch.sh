@@ -6,7 +6,7 @@
 set -Eeuo pipefail
 shopt -s  extglob nullglob globstar
 unset LD_PRELOAD
-VERSIONID=2.0.536
+VERSIONID=2.0.537
 _STRPEROR_() { # run on script error
 local RV="$?"
 printf "\\e[1;48;5;138m %s" "ＴｅｒｍｕｘＡｒｃｈ ${PGNM^^} NOTICE:  Generated script signal received ${RV:-UNKNOWN} near or at line number ${1:-UNKNOWN} by '${2:-UNKNOWNCOMMAND}'!  "
@@ -26,10 +26,10 @@ fi
 if [[ "$RV" = 0 ]]
 then
 printf "\\e[0;32mCommand \\e[1;32m'%s' \\e[0;32mversion %s\\e[1;34m: \\e[1;32m%s\\n" "${STRNRG:-}" "${VERSIONID:-}" "DONE 🏁 "
-printf "\033]2; %s:  %s\\007" "${STRNRG:-}" "DONE 🏁 "
+printf "\033]2;%s\\007" "${STRNRG:-}:  DONE 🏁 "
 else
 printf "\\e[0;32mCommand \\e[1;32m'%s' \\e[0;32mversion %s\\e[1;34m: \\e[1;32m%s\\n" "${STRNRG:-}" "${VERSIONID:-}" "[Exit Signal $RV] DONE 🏁 "
-printf "\033]2; %s: %s %s \\007" "${STRNRG:-}" "[Exit Signal $RV]" "DONE 🏁 "
+printf "\033]2;%s\\007" "${STRNRG:-} [Exit Signal $RV]:  DONE 🏁 "
 fi
 [ -z "${TAMPDIR:-}" ] || rm -rf "$TAMPDIR"
 printf "\\e[?25h\\e[0m"
@@ -119,10 +119,10 @@ _CHOOSEABI_(){
 if [[ -z "$CPUABILIST64" ]]
 then
 ARCHITEC="i386"
-CPUABI="x86"
+CPUABI="i386"
 else
-ARCHITEC="x86-64"
-CPUABI="x86-64"
+ARCHITEC="x86_64"
+CPUABI="x86_64"
 fi
 }
 _CHOOSEABIx86_(){
@@ -355,7 +355,6 @@ fi
 _PRINTINTRO_ "will refresh your TermuxArch files in " "~/${INSTALLDIR##*/}" ".  Arch Linux in Termux PRoot will be available upon successful completion"
 _DODIRCHK_
 _DEPENDSBLOCK_ "$@"
-_QEMUCFCK_
 _REFRESHSYS_ "$@"
 }
 _INSTLLDIRCHK_() {
@@ -617,20 +616,28 @@ _PSGI1ESTRING_() {	# print signal generated in arg 1 format
 printf "\\e[1;33m%s\\e[1;34m; \\e[1;32mCONTINUING...  \\e[0;34mExecuting \\e[0;32m%s\\e[0;34m in the native shell once the installation and configuration process completes will attempt to finish the autoconfiguration and installation if the installation and configuration processes were not completely successful.  Should better solutions for \\e[0;32m%s\\e[0;34m be found, please open an issue and accompanying pull request if possible.\\nThe entire script can be reviewed by creating a \\e[0;32m%s\\e[0;34m directory with the command \\e[0;32m%s\\e[0;34m which can be used to access the entire installation script.  This option does NOT configure and install the root file system.  This command transfers the entire script into the home directory for hacking, modification and review.  The command \\e[0;32m%s\\e[0;34m has more information about how to use use \\e[0;32m%s\\e[0;34m.\\n" "ＴｅｒｍｕｘＡｒｃｈ ${PGNM^^} SIGNAL GENERATED in '$1'" "'bash ${0##*/} refresh'" "'${0##*/}'" "'~/TermuxArchBloom/'" "'${0##*/} b'" "'${0##*/} help'" "'${0##*/}'"
 }
 _PTSTRPXT_() { # print run on exit messages
-printf "\\e[0;32mPlease run 'bash %s' again, or use 'bash %s refresh' once Arch Linux is installed in Termux PRoot QEMU.  " "${0##*/}" "${0##*/}"
+printf "\\e[0;32mPlease run 'bash %s' again, or use 'bash %s refresh' once Arch Linux is installed in Termux PRoot QEMU.  " "${STRNRG:-}" "${0##*/}"
 printf "\\e[0;32mRunning command '%s refresh' can assist in completing the installation and configuration.  This command also updates the system to the newest version snd runs the command 'keys'.  If command '%s refresh' does not assist in completing the tasks of installing and configuring the Arch Linux system completely, these alternate commands '%s re' then using '%s r' can help in the order given.  Command 'keys' can also assist in installing default Arch Linux system keyrings.  " "${0##*/}" "${0##*/}" "${0##*/}" "${0##*/}"
 printf "\\e[0;32mCommand '%s refresh' can be used to refresh the Arch Linux system in Termux PRoot QEMU system to the newest version published;  Command '%s sysinfo' has more information.  The '%s sysinfo' command can help with diagnostics.  " "${0##*/}" "${0##*/}"
-printf "\\e[1;32mIs the system that you are using [up to date with packages](https://github.com/WAE/au), [app](https://github.com/termux/termux-app/releases) and %s HARDWARE?  " "${CPUABI^^}"
+printf "\\e[1;32mIs the system that you are using [up to date with packages](https://github.com/WAE/au), [app](https://github.com/termux/termux-app/releases)?  "
 printf "\\e[1;32mCommand '%s help' has more information.  " "${0##*/}"
 }
 _QEMU_() {
+_QEMUCHCK_() {
+if [[ "$CPUABI" == "$1" ]]
+then
+printf "\\e[1;33m %s\\e[0;33m  %s\\e[1;31m  %s  " "ＴｅｒｍｕｘＡｒｃｈ ${PGNM^^}" "QEMU NOTICE!  Machine architecture is $CPUABI.  Please choose a different computer architecture." "Exiting..."
+exit 189
+fi
+}
+_INSTLLDIRCHK_
 _INST_() { # check for neccessary commands
 COMMS="$1"
-[ "$COMMS" = "qemu-user-x86-64"  ] && COMMS="qemu-x86_64"
+[ "$COMMS" = "qemu-user-x86_64"  ] && COMMS="qemu-x86_64"
 COMMANDR="$(command -v au)" || printf "%s\\n\\n" "$STRING1"
 COMMANDIF="${COMMANDR##*/}"
 PKG="$2"
-[ "$PKG" = "qemu-user-x86_64"  ] && PKG="qemu-user-x86-64"
+[ "$PKG" = "qemu-user-x86_64"  ] && PKG="qemu-user-x86_64"
 _INPKGS_() {
 printf "%s\\n" "Beginning qemu '$ARCHITEC' setup:"
 if [ "$COMMANDIF" = au ]
@@ -645,28 +652,14 @@ then
 _INPKGS_
 fi
 }
-_QEMUCFCK_
-_QEMUCHCK_() {
-if [[ "$CPUABI" == "$1" ]]
-then
-printf "\\n\\e[1;33m %s  \\e[0;33m %s  \\e[1;31m%s  " "ＴｅｒｍｕｘＡｒｃｈ ${PGNM^^}" "QEMU NOTICE!  Machine architecture is $CPUABI;" "Exiting..."
-exit 189
-fi
-}
 _INSTLLDIRCHK_
 if [[ -n "${ARCHITEC:-}" ]] || [[ -z "${ARCHITEC:-}" ]]
 then
-printf "Command '%s' version %s;  Setting install mode with QEMU emulation;  32 bit arm7 supports arm5 and x86 emulated architectures.  64 bit arm64 supports arm5, arm7, x86 and x86-64 emulated architectures.  Please select the architecture to install by number (1-5) from this list:\\n" "${0##*/}" "$VERSIONID"
-select ARCHITECTURE in armv5 armv7 arm64-v8a x86 x86-64 exit ;
+printf "Command '%s' version %s;  Setting install mode with PRoot QEMU emulation;  32 bit arm7 supports arm5 and i386 emulated architectures.  64 bit arm64 supports arm5, arm7, i386 and x86_64 emulated architectures.  Please select the architecture to install by number (1-5) from this list:\\n" "${0##*/}" "$VERSIONID"
+select ARCHITECTURE in armv7 arm64-v8a i386 x86_64 exit ;
 do
 [ "$ARCHITECTURE" = exit ] && exit
-if [[ "$ARCHITECTURE" == armv5 ]]
-then
-ARCHITEC="arm"
-CPUABI="armeabi"
-printf '%s' "Files ArchLinuxARM-armv5-latest.tar.gz[.md5] cannot be found;  Please open an issue if you know where armv5 Arch Linux images are located.  "
-exit 69
-elif [[ "$ARCHITECTURE" == armv7 ]]
+if [[ "$ARCHITECTURE" == armv7 ]]
 then
 _QEMUCHCK_ "armeabi-v7a"
 ARCHITEC="arm"
@@ -676,18 +669,18 @@ then
 _QEMUCHCK_ "arm64-v8a"
 ARCHITEC="aarch64"
 CPUABI="$ARCHITECTURE"
-elif [[ "$ARCHITECTURE" == x86 ]]
+elif [[ "$ARCHITECTURE" == i386 ]]
 then
-_QEMUCHCK_ "x86"
+_QEMUCHCK_ "i386"
 ARCHITEC="i386"
 CPUABI="$ARCHITECTURE"
-elif [[ "$ARCHITECTURE" == x86-64 ]] || [[ "$ARCHITECTURE" == x86_64 ]]
+elif [[ "$ARCHITECTURE" == x86_64 ]]
 then
 _QEMUCHCK_ "x86_64"
-ARCHITEC="x86-64"
+ARCHITEC="x86_64"
 CPUABI="$ARCHITECTURE"
 fi
-[[ $CPUABI == *arm* ]] || [[ $CPUABI == *86* ]] && printf "%s\\n" "Option ($REPLY) with architecture $CPUABI (${ARCHITEC:-}) was picked from this list;  The chosen Arch Linux architecture for installation with emulation is $CPUABI (${ARCHITEC:-}):  " && INCOMM="qemu-user-${ARCHITEC:-}" && QEMUCR=0 && break || printf "%s\\n" "Answer ($REPLY) was chosen;  Please select the architecture by number from this list: (1) armeabi, (2) armeabi-v7a, (3) arm64-v8a, (4) x86, (5) x86-64 or choose option (6) exit to exit command '${0##*/}':"
+[[ $CPUABI == *arm* ]] || [[ $CPUABI == *86* ]] && printf "%s\\n" "Option ($REPLY) with architecture $CPUABI (${ARCHITEC:-}) was picked from this list;  The chosen Arch Linux architecture for installation with emulation is $CPUABI (${ARCHITEC:-}):  " && INCOMM="qemu-user-${ARCHITEC:-}" && QEMUCR=0 && break || printf "%s\\n" "Answer ($REPLY) was chosen;  Please select the architecture by number from this list: (1) armeabi, (2) armeabi-v7a, (3) arm64-v8a, (4) i386, (5) x86_64 or choose option (6) exit to exit command '${0##*/}':"
 done
 else
 INCOMM="qemu-user-$ARCHITEC" && QEMUCR=0
@@ -697,22 +690,6 @@ then
 _INST_ "$INCOMM" "$INCOMM" "${0##*/}" || _PSGI1ESTRING_ "_INST_ _QEMU_ setupTermuxArch ${0##*/}"
 fi
 printf "Detected architecture is %s;  Install architecture is set to %s.\\n" "$CPUABI" "$ARCHITEC"
-}
-_QEMUCFCK_() {
-if [[ -f "$INSTALLDIR/$STARTBIN" ]] && grep proot "$INSTALLDIR/$STARTBIN" | grep -m1 qemu 1>/dev/null
-then    # set installed qemu architecture
-ARCTEVAR="$(grep proot "$INSTALLDIR/$STARTBIN" | grep -m1 qemu)"
-ARCTEVAR="$(cut -d" " -f1 <<< ${ARCTEVAR#*qemu-})"
-for RCTFVR in ${ALLRCTFVR[@]}
-do
-if [ "$RCTFVR" = "$ARCTEVAR" ]
-then
-INCOMM="qemu-user-${ARCTEVAR//_/-}" && QEMUCR=0
-printf "Detected architecture is %s;  Install architecture is set to %s.\\n" "$CPUABI" "$ARCTEVAR"
-break
-fi
-done
-fi
 }
 _RMARCHQ_() {
 printf "\\n\\e[0;33m %s \\e[1;33m%s \\e[0;33m%s\\n\\n\\e[1;30m%s\\n" "ＴｅｒｍｕｘＡｒｃｈ ${PGNM^^}" "DIRECTORY NOTICE!  ~/${INSTALLDIR##*/}/" "directory detected." "Purge '$INSTALLDIR' as requested?"
@@ -806,7 +783,7 @@ fi
 ## USER INFORMATION:  Configurable variables such as mirrors and download manager options are in 'setupTermuxArchConfigs.bash'.  Working with 'knownconfigurations.bash' in the working directory is simple.  The command 'bash setupTermuxArch manual' will create 'setupTermuxArchConfigs.bash' in the working directory for editing;  This command 'setupTermuxArch h' has more information.
 declare -A ADM		# declare associative array for download tools
 declare -A ALLRCTFVR	# declare associative array for all known architectures
-ALLRCTFVR=([i386]="i386" [i686]="i686" [x86]="x86" [x86-64]="x86-64" [x86_64]="x86_64" [armv5]="armv5"  [armeabi]="armeabi" [armv7]="armv7" [armeabi-v7a]="armeabi-v7a" [arm64-v8a]="arm64-v8a")	# populate associative array for all known architectures
+ALLRCTFVR=([i386]="i386" [i686]="i686" [x86]="x86" [x86_64]="x86_64" [armeabi]="armeabi" [armv7]="armv7" [armeabi-v7a]="armeabi-v7a" [arm64-v8a]="arm64-v8a")	# populate associative array for all known architectures
 declare -A FILE		# declare associative array for download file
 declare -a ECLAVARR	# declare indexed array for arrays and variables
 declare -a LC_TYPE	# declare indexed array for locale types
@@ -827,7 +804,7 @@ CPUABI="$(getprop ro.product.cpu.abi)"
 CPUABI5="armeabi"	# used for development; 'getprop ro.product.cpu.abi' ascertains architecture
 CPUABI7="armeabi-v7a"	# used for development
 CPUABI8="arm64-v8a"	# used for development
-CPUABIX86="x86"		# used for development
+CPUABIX86="i386"	# used for development
 CPUABIX8664="x86_64"	# used for development
 DMVERBOSE="-q"	# -v for verbose download manager output from curl and wget;  for verbose output throughout runtime also change in 'setupTermuxArchConfigs.bash' when using 'setupTermuxArch m[anual]'
 ELCR=1
@@ -1071,15 +1048,13 @@ _RMARCHQ_
 elif [[ "${1//-}" = [Qq][Ii]* ]]
 then
 printf "\\nSetting mode to qemu install.\\n"
-_OPT1_ "$@"
-_QEMU_
 _ARG2DIR_ "$@"
+_QEMU_
 _INTRO_ "$@"
 elif [[ "${1//-}" = [Qq][Mm][Ii]* ]]
 then
 printf "\\nSetting mode to qemu manual install.\\n"
 OPT=MANUAL
-_OPT1_ "$@"
 _QEMU_
 _ARG2DIR_ "$@"
 _INTRO_ "$@"

@@ -6,20 +6,36 @@
 ################################################################################
 _PRNT_ () { printf "%s\\n" "$1" ; }	# print message with one trialing newline
 _PRT_ () { printf "%s" "$1" ; }	# print message with no trialing newline
-
-[ "$CPUABI" = i386 ] && CPUABI="x86"
-CACHECPBI="${CPUABI/_/-}"
-CACHEDIRSUFIX="var/cache/pacman/pkg/"
+_QEMUCFCK_() {
+if [[ -f "$INSTALLDIR/$STARTBIN" ]] && grep proot "$INSTALLDIR/$STARTBIN" | grep -m1 qemu 1>/dev/null
+then    # set installed qemu architecture
+ARCTEVAR="$(grep proot "$INSTALLDIR/$STARTBIN" | grep -m1 qemu)"
+ARCTEVAR="$(cut -d" " -f1 <<< ${ARCTEVAR#*qemu-})"
+[ "${ARCTEVAR:-}" = x86 ] && ARCTEVAR="i386"
+for RCTFVR in ${ALLRCTFVR[@]}
+do
+if [ "$RCTFVR" = "${ARCTEVAR:-}" ]
+then
+INCOMM="qemu-user-${ARCTEVAR:-}" && QEMUCR=0
+break
+fi
+done
+fi
+[ -z ${ARCTEVAR:-} ] && ARCTEVAR="$CPUABI"
+printf "Detected architecture is %s;  Install architecture is set to %s.\\n" "$CPUABI" "$ARCTEVAR"
+}
+_QEMUCFCK_
 BINFNSTP="finishsetup.bash"
+CACHEDIRSUFIX="var/cache/pacman/pkg/"
 LC_TYPE=("LANG" "LANGUAGE" "LC_ADDRESS" "LC_COLLATE" "LC_CTYPE" "LC_IDENTIFICATION" "LC_MEASUREMENT" "LC_MESSAGES" "LC_MONETARY" "LC_NAME" "LC_NUMERIC" "LC_PAPER" "LC_TELEPHONE" "LC_TIME")
-PREFIXDATAFILESUFIX="files/cache/archlinux/$CACHECPBI/var/cache/pacman/pkg/"
+PREFIXDATAFILESUFIX="files/cache/archlinux/$ARCTEVAR/var/cache/pacman/pkg/"
 TXPRQUON="Termux PRoot with QEMU"
 TXPRQUON="Termux PRoot"
 UNAMER="$(uname -r)"
 
 _CALLSYSTEM_() {
 declare COUNTER=""
-if [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = "$CPUABIX8664" ]] || [[ "$CPUABI" = "${CPUABIX8664//_/-}" ]] || [[ "$CPUABI" = i386 ]]
+if [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = "$CPUABIX8664" ]] || [[ "$CPUABI" = i386 ]]
 then
 _GETIMAGE_ ||:
 else
@@ -68,9 +84,9 @@ _DETECTSYSTEM64_
 elif [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = i386 ]]
 then
 _I686_
-elif [[ "$CPUABI" = "$CPUABIX8664" ]] || [[ "$CPUABI" = "${CPUABIX8664//_/-}" ]]
+elif [[ "$CPUABI" = "$CPUABIX8664" ]]
 then
-_X86-64_
+_X86_64_
 else
 _PRINTMISMATCH_
 fi
@@ -235,7 +251,7 @@ _FIXOWNER_
 }
 
 _PREPROOT_() {
-if [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = "$CPUABIX8664" ]] || [[ "$CPUABI" = "${CPUABIX8664//_/-}" ]] || [[ "$CPUABI" = i386 ]]
+if [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = "$CPUABIX8664" ]] || [[ "$CPUABI" = i386 ]]
 then
 proot --link2symlink -0 bsdtar -p -xf "$IFILE" --strip-components 1 ||:
 else
@@ -256,7 +272,7 @@ AL32MRLT="https://git.archlinux32.org/packages/plain/core/pacman-mirrorlist/mirr
 printf "\\e[0m\\n%s\\n" "Updating ${ALMLLOCN##*/} from $AL32MRLT."
 curl --retry 4 "$AL32MRLT" -o "$ALMLLOCN" || curl --retry 4 "$AL32MRLT" -o "$ALMLLOCN"
 _DOMIRROR_
-elif [[ "$CPUABI" = "$CPUABIX8664" ]] || [[ "$CPUABI" = "${CPUABIX8664//_/-}" ]]
+elif [[ "$CPUABI" = "$CPUABIX8664" ]]
 then
 AL64MRLT="https://www.archlinux.org/mirrorlist/all/"
 printf "\\e[0m\\n%s\\n" "Updating ${ALMLLOCN##*/} from $AL64MRLT."
