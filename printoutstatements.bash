@@ -15,7 +15,7 @@ FLHDR1[1]=""
 FLHDR1[2]="set -Eeuo pipefail"
 FLHDR1[3]="shopt -s extglob nullglob globstar"
 FLHDR1[4]="unset LD_PRELOAD"
-FLHDR1[5]="VERSIONID=2.0.537"
+FLHDR1[5]="VERSIONID=2.0.538"
 FLHDR1[6]="SRPTNM=\"\${0##*/}\""
 FLHDRP[0]="## BEGIN #####################################################################"
 FLHDRP[1]=""
@@ -224,7 +224,7 @@ _PRTX8664_() {
 printf "\\e[1;34m%s\\e[0;32m%s\\e[1;34m%s\\e[0;32m%s\\e[1;34m%s\\e[0m\\n\\n" "The website " "https://bbs.archlinux.org/" " has Arch Linux discussion forums for the Arch Linux project.  The webpage " "https://wiki.archlinux.org/index.php/IRC_channel" " lists available Arch Linux IRC channels regarding the Arch Linux $CPUABI computer architecture."
 }
 printf "\\e[1;34m%s\\n\\n%s\\e[1;32m%s\\e[1;34m%s\\e[1;32m%s\\e[1;34m%s" "Arch Linux in Termux PRoot QEMU is installed in $INSTALLDIR.  This project is in active development.  Contributions to this project are welcome; See https://sdrausty.github.io/TermuxArch/CONTRIBUTORS for information.  The documentation repository for TermuxArch https://sdrausty.github.io/TermuxArch/docs is a TermuxArch module that is located at https://github.com/sdrausty/docsTermuxArch.  Pull requests and contributions through the issues pages are open to improve the ux (user experience) and this Termux PRoot QEMU installation script. " "The commands " "~$PRINTROOTDIR/$STARTBIN " "and " "$STARTBIN " "can be used in a BASH shell to launch Arch Linux in Termux PRoot QEMU for future sessions.  For those new to *nix, http://tldp.org has *nix documentation.  "
-if [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = i386 ]]
+if [[ "$CPUABI" = "$CPUABIX86" ]]
 then
 _PRTX86_
 elif [[ "$CPUABI" = "$CPUABIX8664" ]]
@@ -236,8 +236,8 @@ fi
 }
 
 _PRINTPROOTERROR_() {
+printf "\\e[0;34m\\n%s\\n\\n\e[0m" "If error ' proot info: vpid 1: terminated with signal 4 ' is found, please create a 'qbind.prs' from file 'bindexample.prs' in directory '$INSTALLDIR/var/binds/' in order to complete the PRoot QEMU configuration by running command '${0##*/} r' after creating and editing a 'qbind.prs' file."
 printf "\\e[0;34m\\n%s\\n\\n%s\\n\\n%s\\e[0m\\n\\n" "If error ' proot info: vpid 1: terminated with signal 11 ' is found, ensure that all the software is up to date.  After updating all software, including Android software, please reference these links in order to find a resolution if updating Termux app and Termux packages and Android device software was unsuccessful:" "  * https://github.com/termux/proot/issues?q=\"proot info: vpid 1: terminated with signal 11\"" "  * https://github.com/termux/termux-packages/issues?q=\"proot info: vpid 1: terminated with signal 11\""
-printf "\\e[0;34m\\n%s\\n\\n\e[0m" "If error ' proot info: vpid 1: terminated with signal 4 ' is found, please create a 'qbind.prs' from file 'bindexample.prs' in directory '$INSTALLDIR/var/binds/' in order to complete the QEMU configuration by running command '${0##*/} r' after creating and editing a 'qbind.prs' file."
 printf "\\e[0;34m\\n%s\\n\\n%s\\n\\n%s\\e[0m\\n\\n" "If error ' env ... not found ' is found, ensure that all the software is up to date.  After updating, please reference these links in order to find a resolution if updating Termux app and Termux packages was unsuccessful:" "  * https://github.com/termux/proot/issues?q=\"env\"+\"not+found\"" "  * https://github.com/termux/termux-packages/issues?q=\"not+found\"+\"proot\""
 }
 

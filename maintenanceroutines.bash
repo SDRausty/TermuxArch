@@ -84,7 +84,6 @@ _LOADIMAGE_() {
 _NAMESTARTARCH_
 _SPACEINFO_
 printf "\\n"
-_WAKELOCK_
 _PREPINSTALLDIR_
 _COPYIMAGE_
 _MD5CHECK_
@@ -94,7 +93,6 @@ _PRINTDONE_
 _PRINTCONFIGUP_
 _TOUCHUPSYS_
 printf "\\n"
-_WAKEUNLOCK_
 _PRINTFOOTER_
 set +Eeuo pipefail
 "$INSTALLDIR/$STARTBIN" || _PRINTPROOTERROR_
@@ -217,7 +215,7 @@ fi
 
 _SPACEINFOGSIZE_() {
 _USERSPACE_
-if [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = "$CPUABIX8664" ]] || [[ "$CPUABI" = i386 ]]
+if [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = "$CPUABIX8664" ]]
 then
 if [[ "$USRSPACE" = *G ]]
 then
@@ -230,7 +228,7 @@ if [[ "$USSPACE" -lt "800" ]] && [[ "$CPUABI" = "$CPUABIX8664" ]]
 then
 SPACEMESSAGE="\\e[0;33mＴｅｒｍｕｘＡｒｃｈ: \\e[1;33mFREE SPACE NOTICE!  \\e[1;30mStart thinking about cleaning out some stuff please.  \\e[33mThere is only $USRSPACE of free user space is available on this device.  \\e[1;30mThe recommended minimum to install Arch Linux in Termux PRoot for x86_64 architecture is 800M of free user space.\\e[0m\\n"
 fi
-if [[ "$USSPACE" -lt "600" ]] && { [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = i386 ]] ; }
+if [[ "$USSPACE" -lt "600" ]] && [[ "$CPUABI" = "$CPUABIX86" ]]
 then
 SPACEMESSAGE="\\e[0;33mＴｅｒｍｕｘＡｒｃｈ: \\e[1;33mFREE SPACE NOTICE!  \\e[1;30mStart thinking about cleaning out some stuff please.  \\e[33mThere is only $USRSPACE of free user space is available on this device.  \\e[1;30mThe recommended minimum to install Arch Linux in Termux PRoot for $CPUABI architecture is 600M of free user space.\\e[0m\\n"
 fi

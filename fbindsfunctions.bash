@@ -103,7 +103,7 @@ printf "%s\\n" "Linux version $UNAMER (root@localhost) (gcc version $UNAMER (pre
 _ADDbindexample.prs_() {
 _CFLHDRS_ var/binds/bindexample.prs "# Before regenerating the start script with \`setupTermuxArch re[fresh]\`, first copy this file to another name such as \`fbinds.prs\`.  Then add as many proot statements as you want; The init script will parse file \`fbinds.prs\` at refresh adding these proot options to \`$STARTBIN\`.  The space before the last double quote is necessary.  Examples are included for convenience:"
 printf "%s\\n" "## PRoot bind usage: PROOTSTMNT+=\"-b host_path:guest_path \"
-## PROOTSTMNT+=\"-q $PREFIX/bin/qemu-x86_64 \"
+## PROOTSTMNT+=\"-q $PREFIX/bin/${COMMS:-qemu-x86_64} \"
 ## PROOTSTMNT+=\"-b /proc:/proc \"
 ## [ -r /dev/shm ] || PROOTSTMNT+=\"-b $INSTALLDIR/tmp:/dev/shm \"
 ## ~/${INSTALLDIR##*/}$TMXRCHBNDR/bindexample.prs FE" >> var/binds/bindexample.prs
