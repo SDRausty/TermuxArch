@@ -6,7 +6,7 @@
 set -Eeuo pipefail
 shopt -s  extglob nullglob globstar
 unset LD_PRELOAD
-VERSIONID=2.0.538
+VERSIONID=2.0.539
 _STRPEROR_() { # run on script error
 local RV="$?"
 printf "\\e[1;48;5;138m %s" "ＴｅｒｍｕｘＡｒｃｈ ${PGNM^^} NOTICE:  Generated script signal received ${RV:-UNKNOWN} near or at line number ${1:-UNKNOWN} by '${2:-UNKNOWNCOMMAND}'!  "
@@ -617,7 +617,7 @@ printf "\\e[1;33m%s\\e[1;34m; \\e[1;32mCONTINUING...  \\e[0;34mExecuting \\e[0;3
 }
 _PTSTRPXT_() { # print run on exit messages
 printf "\\e[0;32mPlease run 'bash %s' again, or use 'bash %s refresh' once Arch Linux is installed in Termux PRoot QEMU.  " "${STRNRG:-}" "${0##*/}"
-printf "\\e[0;32mRunning command '%s refresh' can assist in completing the installation and configuration.  This command also updates the system to the newest version snd runs the command 'keys'.  If command '%s refresh' does not assist in completing the tasks of installing and configuring the Arch Linux system completely, these alternate commands '%s re' then using '%s r' can help in the order given.  Command 'keys' can also assist in installing default Arch Linux system keyrings.  " "${0##*/}" "${0##*/}" "${0##*/}" "${0##*/}"
+printf "\\e[0;32mRunning command '%s refresh' can assist in completing the installation and configuration.  This command also updates the system to the newest version and runs the command 'keys'.  If command '%s refresh' does not assist in completing the tasks of installing and configuring the Arch Linux system completely, these alternate commands '%s re' then using '%s r' can help in the order given.  Command 'keys' can also assist in installing default Arch Linux system keyrings.  " "${0##*/}" "${0##*/}" "${0##*/}" "${0##*/}"
 printf "\\e[0;32mCommand '%s refresh' can be used to refresh the Arch Linux system in Termux PRoot QEMU system to the newest version published;  Command '%s sysinfo' has more information.  The '%s sysinfo' command can help with diagnostics.  " "${0##*/}" "${0##*/}"
 printf "\\e[1;32mIs the system that you are using [up to date with packages](https://github.com/WAE/au), [app](https://github.com/termux/termux-app/releases)?  "
 printf "\\e[1;32mCommand '%s help' has more information.  " "${0##*/}"

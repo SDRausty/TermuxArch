@@ -127,7 +127,6 @@ _PREPINSTALLDIR_
 _DOUSECACHEDIR_
 _SETLOCALE_
 printf "\\n"
-_WAKELOCK_
 printf "\\e[1;32m==> \\e[1;37m%s \\e[1;32m%s %s...\\n" "Running" "${0##*/}" "$ARGS"
 "$INSTALLDIR"/root/bin/setupbin.bash || _PRINTPROOTERROR_
 rm -f root/bin/finishsetup.bash
@@ -149,7 +148,6 @@ else
 printf "\\n\\e[0;32mIn order to refresh user directories, please use '\\e[1;32m%s re[fresh]\\e[0;32m'.  " "${0##*/}"
 fi
 printf "\\n"
-_WAKEUNLOCK_
 _PRINTFOOTER_
 set +Eeuo pipefail
 $STARTBIN || _PRINTPROOTERROR_
@@ -184,16 +182,16 @@ _SHFUNCWRAP_ () {
 if [[ "${LCR:-}" -eq 3 ]] || [[ "${LCR:-}" -eq 4 ]] || [[ "${LCR:-}" -eq 5 ]]
 then
 _PREPPACMANCONF_
-FNDTMPROOT=($(ls "$TMPDIR"/))
+FNDTMPROOT=($(find "$TMPDIR" -maxdepth 1 -type d -name "proot*"))
 if [ ${#FNDTMPROOT[@]} = 0 ]
 then
 _SHFUNC_ "$@"
 else
 if [ ${#FNDTMPROOT[@]} = 1 ]
 then
-printf "\\n\\e[0;32mFound %s open Termux PRoot session;  Not checking for errors." "${#FNDTMPROOT[@]}"
+printf "\\n\\e[0;34m%s" "Found ${#FNDTMPROOT[@]} open Termux PRoot QEMU session;  Not checking for errors."
 else
-printf "\\n\\e[0;32mFound %s open Termux PRoot sessions;  Not checking for errors." "${#FNDTMPROOT[@]}"
+printf "\\n\\e[0;34m%s" "Found ${#FNDTMPROOT[@]} open Termux PRoot QEMU sessions;  Not checking for errors."
 fi
 fi
 fi
