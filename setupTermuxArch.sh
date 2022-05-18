@@ -6,7 +6,7 @@
 set -Eeuo pipefail
 shopt -s  extglob nullglob globstar
 unset LD_PRELOAD
-VERSIONID=2.0.539
+VERSIONID=2.0.540
 _STRPEROR_() { # run on script error
 local RV="$?"
 printf "\\e[1;48;5;138m %s" "ＴｅｒｍｕｘＡｒｃｈ ${PGNM^^} NOTICE:  Generated script signal received ${RV:-UNKNOWN} near or at line number ${1:-UNKNOWN} by '${2:-UNKNOWNCOMMAND}'!  "
@@ -290,7 +290,7 @@ _INTRO_() {
 printf "\033]2;%s\007" "bash $STRNRG 📲"
 _SETROOT_EXCEPTION_
 _INSTLLDIRCHK_
-_PRINTINTRO_ "will attempt to install Linux in " "~/${INSTALLDIR##*/}" ".  Arch Linux in Termux PRoot will be available upon successful completion"
+_PRINTINTRO_ "will attempt to install Linux in " "~/${INSTALLDIR##*/}" ".  Arch Linux in TermuxArch PRoot QEMU will be available upon successful completion"
 _DEPENDSBLOCK_ "$@"
 if [[ "$LCC" = "1" ]]
 then
@@ -352,7 +352,7 @@ _DODIRCHK_
 else
 _SETROOT_EXCEPTION_
 fi
-_PRINTINTRO_ "will refresh your TermuxArch files in " "~/${INSTALLDIR##*/}" ".  Arch Linux in Termux PRoot will be available upon successful completion"
+_PRINTINTRO_ "will refresh your TermuxArch files in " "~/${INSTALLDIR##*/}" ".  Arch Linux in TermuxArch PRoot QEMU will be available upon successful completion"
 _DODIRCHK_
 _DEPENDSBLOCK_ "$@"
 _REFRESHSYS_ "$@"
@@ -360,7 +360,7 @@ _REFRESHSYS_ "$@"
 _INSTLLDIRCHK_() {
 if [[ -f "$INSTALLDIR"/bin/we ]] && [[ -d "$INSTALLDIR"/usr/local/termuxarch/bin ]] && [[ -d "$INSTALLDIR"/root/bin ]] && [[ -d "$INSTALLDIR"/var/binds ]]
 then
-printf "\\n\\e[0;33m%s\\e[1;33m%s\\e[0;33m.\\n\\n" "ＴｅｒｍｕｘＡｒｃｈ ${PGNM^^} NOTICE!  " "The root directory structure of ~/${INSTALLDIR##*/} appears correct;  Cannot continue '$STRNRG' to install Arch Linux in Termux PRoot!  Commands '${0##*/} h[e[lp]]' and '$STARTBIN h[elp]' have more information"
+printf "\\n\\e[0;33m%s\\e[1;33m%s\\e[0;33m.\\n\\n" "ＴｅｒｍｕｘＡｒｃｈ ${PGNM^^} NOTICE!  " "The root directory structure of ~/${INSTALLDIR##*/} appears correct;  Cannot continue '$STRNRG' to install Arch Linux in TermuxArch PRoot QEMU!  Commands '${0##*/} h[e[lp]]' have more information"
 exit 205
 fi
 }
@@ -596,8 +596,8 @@ printf "\\n\\e[1;32m  %s     \\e[0;32mcommands \\e[1;32m%s \\e[0;32m%s\\n" "HELP
 printf "\\n\\e[1;32m  %s    \\e[0;32mcommand \\e[1;32m%s \\e[0;32m%s\\n" "TERSE" "'${0##*/} he[lp]'" "shows the terse help screen."
 printf "\\n\\e[1;32m  %s  \\e[0;32mcommand \\e[1;32m%s \\e[0;32m%s\\n" "VERBOSE" "'${0##*/} h[elp]'" "shows the verbose help screen."
 printf "\\n\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\n" "Usage information for" " ${0##*/}" " version $VERSIONID.  Some arguments can be abbreviated to one, two and three letters each;  Two and three letter arguments are acceptable.  For example" " 'bash ${0##*/} cs'" " will use 'curl' to download TermuxArch and produce a file like" " setupTermuxArchSysInfo$STIME.log" " populated with system information.  If you have a new smartphone that you are not familiar with, once created, this file" " setupTermuxArchSysInfo$STIME.log" " might make for an interesting read in order to find out more about the device you might be holding in the palm of your hand right at this moment.  User configurable variables are in file" " setupTermuxArchConfigs.bash." "  To create this file from file" " knownconfigurations.bash" " in the working directory, execute" " 'bash ${0##*/} manual'" " to create and edit file" " setupTermuxArchConfigs.bash" "."
-printf "\\n\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\n" "  INSTALL" "  You can run" " ${0##*/}" " without arguments in a bash shell to install Arch Linux in a Termux PRoot container in a smartphone, smartTV, table, wearable and more...  Command" " 'bash ${0##*/} curl'"  " will envoke 'curl' as the download manager.  You can copy" " knownconfigurations.bash" " to" " setupTermuxArchConfigs.bash" " with the command" " 'bash ${0##*/} manual'" " to edit your preferred mirror site, refine the init statement and to access more options.  Change mirror to desired geographic location to resolve download, 404 and checksum issues should these occur."
-printf "\\n\\e[0;32m  %s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\n" "After editing file" " setupTermuxArchConfigs.bash" ", you can run" " 'bash ${0##*/}'" " and" " setupTermuxArchConfigs.bash" " loads automatically from the working directory.  User configurable variables are present in this file for your convenience. This link" " https://github.com/SDRausty/TermuxArch/issues/212" " at GitHub has the most current information about setting Arch Linux in Termux PRoot as the default login shell in Termux in your smartphone, tablet, smartTV, wearable and more.  If you choose to, or are simply curious about setting Arch Linux in Termux PRoot as the default login shell, please be well acquainted with safe mode;  Long tapping on NEW SESSION will open a new session in safe mode.  This mode can be used to reset the default shell."
+printf "\\n\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\n" "  INSTALL" "  You can run" " ${0##*/}" " without arguments in a bash shell to install Arch Linux in a PRoot QEMU container in a smartphone, smartTV, table, wearable and more...  Command" " 'bash ${0##*/} curl'"  " will envoke 'curl' as the download manager.  You can copy" " knownconfigurations.bash" " to" " setupTermuxArchConfigs.bash" " with the command" " 'bash ${0##*/} manual'" " to edit your preferred mirror site, refine the init statement and to access more options.  Change mirror to desired geographic location to resolve download, 404 and checksum issues should these occur."
+printf "\\n\\e[0;32m  %s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\n" "After editing file" " setupTermuxArchConfigs.bash" ", you can run" " 'bash ${0##*/}'" " and" " setupTermuxArchConfigs.bash" " loads automatically from the working directory.  User configurable variables are present in this file for your convenience. This link" " https://github.com/SDRausty/TermuxArch/issues/212" " at GitHub has the most current information about setting Arch Linux in PRoot QEMU as the default login shell in Termux in your smartphone, tablet, smartTV, wearable and more.  If you choose to, or are simply curious about setting Arch Linux in PRoot QEMU as the default login shell, please be well acquainted with safe mode;  Long tapping on NEW SESSION will open a new session in safe mode.  This mode can be used to reset the default shell."
 printf "\\n\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\n" "  PURGE    " "command " "'${0##*/} purge' " "uninstalls Arch Linux in PRoot from Termux."
 printf "\\n\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\n\\n" "  SYSINFO  " "command" " '${0##*/} sysinfo'" " creates a system information file;  A file like" " 'setupTermuxArchSysInfo$STIME.log'" " will be populated with device and system information in the working directory.  Please post information from this file along with details at" " https://github.com/TermuxArch/TermuxArch/issues"  " if questions or comments are related to a particular device;  Should screenshots help in resolving an issue, include these with information from this system information log file as well.  If you are sharing an issue please consider creating a pull request at"  " https://github.com/TermuxArch/TermuxArch/pulls"  " also.  A pull request can give a much better perspective of how an issue can be easily resolved."
 if [[ "$LCC" = 1 ]]
@@ -616,11 +616,11 @@ _PSGI1ESTRING_() {	# print signal generated in arg 1 format
 printf "\\e[1;33m%s\\e[1;34m; \\e[1;32mCONTINUING...  \\e[0;34mExecuting \\e[0;32m%s\\e[0;34m in the native shell once the installation and configuration process completes will attempt to finish the autoconfiguration and installation if the installation and configuration processes were not completely successful.  Should better solutions for \\e[0;32m%s\\e[0;34m be found, please open an issue and accompanying pull request if possible.\\nThe entire script can be reviewed by creating a \\e[0;32m%s\\e[0;34m directory with the command \\e[0;32m%s\\e[0;34m which can be used to access the entire installation script.  This option does NOT configure and install the root file system.  This command transfers the entire script into the home directory for hacking, modification and review.  The command \\e[0;32m%s\\e[0;34m has more information about how to use use \\e[0;32m%s\\e[0;34m.\\n" "ＴｅｒｍｕｘＡｒｃｈ ${PGNM^^} SIGNAL GENERATED in '$1'" "'bash ${0##*/} refresh'" "'${0##*/}'" "'~/TermuxArchBloom/'" "'${0##*/} b'" "'${0##*/} help'" "'${0##*/}'"
 }
 _PTSTRPXT_() { # print run on exit messages
-printf "\\e[0;32mPlease run 'bash %s' again, or use 'bash %s refresh' once Arch Linux is installed in Termux PRoot QEMU.  " "${STRNRG:-}" "${0##*/}"
-printf "\\e[0;32mRunning command '%s refresh' can assist in completing the installation and configuration.  This command also updates the system to the newest version and runs the command 'keys'.  If command '%s refresh' does not assist in completing the tasks of installing and configuring the Arch Linux system completely, these alternate commands '%s re' then using '%s r' can help in the order given.  Command 'keys' can also assist in installing default Arch Linux system keyrings.  " "${0##*/}" "${0##*/}" "${0##*/}" "${0##*/}"
-printf "\\e[0;32mCommand '%s refresh' can be used to refresh the Arch Linux system in Termux PRoot QEMU system to the newest version published;  Command '%s sysinfo' has more information.  The '%s sysinfo' command can help with diagnostics.  " "${0##*/}" "${0##*/}"
-printf "\\e[1;32mIs the system that you are using [up to date with packages](https://github.com/WAE/au), [app](https://github.com/termux/termux-app/releases)?  "
-printf "\\e[1;32mCommand '%s help' has more information.  " "${0##*/}"
+printf "\\e[0;32mPlease run 'bash %s' again, or use 'bash %s refresh' once Arch Linux is installed in TermuxArch PRoot QEMU.  " "${STRNRG:-}" "${0##*/}"
+printf "\\e[0;32mRunning command '%s refresh' assists in completing the installation and configuration.  This command also updates the system to the newest version and runs the command 'keys'.  If command '%s refresh' does not assist in completing the tasks of installing and configuring the Arch Linux system completely, these alternate commands '%s re' then using '%s r' helps in the order given.  Command 'keys' assists in installing default Arch Linux system keyrings.  " "${0##*/}" "${0##*/}" "${0##*/}" "${0##*/}"
+printf "\\e[0;32mCommand '%s refresh' can be used to refresh the Arch Linux system in TermuxArch PRoot QEMU system to the newest version published;  Command '%s sysinfo' has more information and can help with diagnostics.  " "${0##*/}" "${0##*/}"
+printf "\\e[1;32mIs the system that you are using [up to date with packages](https://github.com/WAE/au), [Termux app](https://github.com/termux/termux-app/releases) and device software?  "
+printf "\\e[0;32mCommand '%s help' has more information.  " "${0##*/}"
 }
 _QEMU_() {
 _QEMUCHCK_() {
@@ -737,7 +737,7 @@ done
 }
 _RMARCHRM_() {
 _RMARCHCRRM_() {	# remove installation
-chmod -R 777 "$INSTALLDIR" ||:
+chmod -R 777 "$INSTALLDIR" || { printf "\\e[1;31m%s\\e[1;35m%s\\n" "Exit signal recieved:" " attempting to 'rmdir $EXONSTGEM' exception;  Please remove directory $EXONSTGEM manually;  Exiting..." && exit 206 ; }
 find "$INSTALLDIR" -type l -delete  || _PSGI1ESTRING_ "find INSTALLDIR _RMARCHRM_ ${0##*/}"
 rm -rf "$INSTALLDIR" || _PSGI1ESTRING_ "rm -rf INSTALLDIR _RMARCHRM_ ${0##*/}"
 }
@@ -752,10 +752,6 @@ printf "\\e[1;30m"
 _SETROOT_EXCEPTION_
 declare -a EXONSTGE
 EXONSTGE=("$(find "$INSTALLDIR" -name storage -type d || printf "")")
-if [[ -n "${EXONSTGE:-}" ]]
-then
-chmod 777 "$EXONSTGE"
-fi
 if [[ -n "${EXONSTGE:-}" ]]
 then
 _DOEXONSTGE_
@@ -784,7 +780,7 @@ declare -A FILE		# declare associative array for download file
 declare -a ECLAVARR	# declare indexed array for arrays and variables
 declare -a LC_TYPE	# declare indexed array for locale types
 declare -a QEMUUSER	# declare indexed array for qemu user tools
-declare PRFXTOLS	# declare variable for device tools that can be accessible in the PRoot environment
+declare PRFXTOLS	# declare variable for device tools
 declare -A EMPARIAS	# declare associative array for empty variables
 EMPARIAS=([COMMANDIF]="" [COMMANDG]="" [DFL]="# used for development" [DM]="" [FILE]="" [FSTND]="" [INSTALLDIR]="" [LCC]="" [LCP]="" [OPT]="" [QEMUCR]="" [ROOTDIR]="" [WDIR]="" [SDATE]="" [STI]="# generates pseudo random number" [STIME]="# generates pseudo random number" [USEREDIT]="")
 for PKG in ${!EMPARIAS[@]} ; do declare "$PKG"="" ; done
@@ -805,8 +801,8 @@ CPUABIX8664="x86_64"	# used for development
 DMVERBOSE="-q"	# -v for verbose download manager output from curl and wget;  for verbose output throughout runtime also change in 'setupTermuxArchConfigs.bash' when using 'setupTermuxArch m[anual]'
 ELCR=1
 ROOTDIR="/arch"
-STRING1="COMMAND 'au' can enable rollback, available at https://wae.github.io/au/ IS NOT FOUND: Continuing... "
-STRING1F="COMMAND 'au' can enable auto upgrade and rollback.  Available at https://wae.github.io/au/ is found: Continuing... "
+STRING1="COMMAND 'au' enables rollback, available at https://wae.github.io/au/ IS NOT FOUND: Continuing... "
+STRING1F="COMMAND 'au' enables auto upgrade and rollback.  Available at https://wae.github.io/au/ is found: Continuing... "
 STRING2="Cannot update '${0##*/}' prerequisites: Continuing..."
 _COMMANDGNE_() { printf "\\n\\e[1;48;5;138m%s\\n\\n" "ＴｅｒｍｕｘＡｒｃｈ ${PGNM^^} NOTICE:  Run '${0##*/}' and 'bash ${0##*/}' from the native BASH shell in Termux:  EXITING..." && exit 126 ; }
 COMMANDG="$(command -v getprop)" || _COMMANDGNE_
@@ -839,7 +835,7 @@ STIME="$ONESA$STIME"
 ## 6)  Determine its own name and location of invocation,
 WDIR="$PWD/" && WFDIR="$(realpath "$0")"
 WFDIR="${WFDIR%/*}"
-## 7)  Create a default Arch Linux in Termux PRoot user account with the TermuxArch command 'addauser' that also configure user accounts to use the Arch Linux 'sudo' command,
+## 7)  Create a default Arch Linux in TermuxArch PRoot QEMU user account with the TermuxArch command 'addauser' that also configure user accounts to use the Arch Linux 'sudo' command,
 ## 8)  Install emulated computer architectures with QEMU in your smartphone with two taps, or in one tap with 'setupTermuxArch visualorca [options]',
 ## 9)  Help make some of aur installers including the installer the Arch Linux package installers 'pacaur', 'pikaur' and 'yay' with TermuxArch commands 'makeaur*' and more!  Please read /usr/local/termuxarch/bin/README.md for details,
 ## 10)  And all options are are optional for installing Arch Linux in Android!
@@ -852,7 +848,7 @@ if [[ -z "${1:-}" ]]
 then
 _OPT1_ "$@"
 _INTRO_ "$@"
-## [./path/systemimage.tar.gz [customdir]]  Install directory argument is optional.  Network install can be substituted by copying systemimage.tar.gz and systemimage.tar.gz.md5 files with 'setupTermuxArch ./[path/]systemimage.tar.gz' and 'setupTermuxArch /absolutepath/systemimage.tar.gz'.  Both '*.tar.gz' and '*.tar.gz.md5' files are required for this process to complete successfully.  Installation for many versions of Linux that publish a root file sysytem is supported with this TermuxArch festure.  Download and configuration is not presently implemented, and hopefully will be in the future.  Create an issue and pull request at GitHub to implement these features.
+## [./path/systemimage.tar.gz [customdir]]  Network install can be substituted by copying systemimage.tar.gz and systemimage.tar.gz.md5 files with 'setupTermuxArch ./[path/]systemimage.tar.gz' and 'setupTermuxArch /absolutepath/systemimage.tar.gz'.  Both '*.tar.gz' and '*.tar.gz.md5' files are required for this process to complete successfully.  The install directory argument is optional.  Installation for many versions of Linux that publish a root file sysytem is supported with this TermuxArch festure.  Download and configuration is not presently implemented, and hopefully will be in the future.  Create an issue and pull request at GitHub to implement these features.
 elif [[ "${ARGS:0:1}" = . ]]
 then
 printf "\\n%s\\n" "Setting mode to copy system image."
@@ -902,7 +898,7 @@ printf "\\nSetting 'aria2c' as download manager.\\n"
 DM=aria2
 _OPT1_ "$@"
 _INTRO_ "$@"
-## [bl[oom]]  Create ~/TermuxArchBloom directory and Arch Linux in Termux PRoot root tree skeleton and skeleton files.  This option does NOT install the complete root file system.  Useful for running a customized setupTermuxArch locally and for developing and hacking TermuxArch.
+## [bl[oom]]  Create ~/TermuxArchBloom directory and Arch Linux in TermuxArch PRoot QEMU root tree skeleton and skeleton files.  This option does NOT install the complete root file system.  Useful for running a customized setupTermuxArch locally and for developing and hacking TermuxArch.
 elif [[ "${1//-}" = [Bb][Ll]* ]]
 then
 printf "\\nSetting mode to bloom. \\n"
@@ -1066,7 +1062,7 @@ echo Developing feature\; Please see https://github.com/TermuxArch/TermuxArch/di
 _PRPREFRESH_ "5"
 _ARG2DIR_ "$@"
 _INTROREFRESH_ "$@"
-## [refre[sh] [customdir]]  Refresh the Arch Linux in Termux PRoot scripts created by TermuxArch and the installation itself.  Useful for refreshing the installation, the root user's home directory, user home directories and the TermuxArch generated scripts to their newest version;  Directory '/var/backups/' backs up the refreshed files.  This refresh mode also runs keys, generates locales and updates the Arch Linux in Termux PRoot system.
+## [refre[sh] [customdir]]  Refresh the Arch Linux in TermuxArch PRoot QEMU scripts created by TermuxArch and the Arch Linux installation itself.  This option is useful for refreshing the installation, the root user's home directory, the user home directories and the TermuxArch generated scripts to their newest version;  Directory '/var/backups/' backs up the refreshed files.  This refresh mode also runs keys, generates locales and updates the Arch Linux in PRoot QEMU system.
 elif [[ "${1//-}" = [Rr][Ee][Ff][Rr][Ee]* ]]
 then
 printf "\\nSetting mode to full refresh.\\n"
@@ -1079,24 +1075,24 @@ printf "\\nSetting mode to 4 refresh.\\n"
 _PRPREFRESH_ "4"
 _ARG2DIR_ "$@"
 _INTROREFRESH_ "$@"
-## [ref [customdir]]  Refresh the Arch Linux in Termux PRoot scripts created by TermuxArch and populate the installation from the cache directory.  Useful for refreshing the root user's home directory and user home directories and the TermuxArch generated scripts to their newest version;  Directory '/var/backups/' backs up the refreshed files.
+## [ref [customdir]]  Refresh the Arch Linux in TermuxArch PRoot QEMU scripts created by TermuxArch and populate the installation from the cache directory.  Useful for refreshing the root user's home directory, the user home directories and the TermuxArch generated scripts to their newest version;  Directory '/var/backups/' backs up files.
 elif [[ "${1//-}" = [Rr][Ee][Ff]* ]]
 then
 printf "\\nSetting mode to 3 refresh.\\n"
 _PRPREFRESH_ "3"
 _ARG2DIR_ "$@"
 _INTROREFRESH_ "$@"
-## [re [customdir]]  Refresh the Arch Linux in Termux PRoot scripts created by TermuxArch.  Useful for refreshing the root user's home directory and user home directories and the TermuxArch generated scripts to their newest version;  Directory '/var/backups/' backs up the refreshed files.
+## [re [customdir]]  Refresh the Arch Linux in TermuxArch PRoot QEMU scripts created by TermuxArch.  Useful for refreshing the root user's home directory and the user home directories and the TermuxArch generated scripts to their newest version;  Directory '/var/backups/' backs up files.
 elif [[ "${1//-}" = [Rr][Ee]* ]]
 then
-printf "\\n\\e[0;32mSetting mode\\e[1;34m: \\e[1;32mminimal refresh with refresh user directories; Directory '/var/backups/' backs up the refreshed files \\e[1;34m:\\e[0;32m For a full system refresh you can use the \\e[1;32m'%s' \\e[0;32m%s\\e[1;34m...\\n" "${0##*/} refresh" "command"
+printf "\\n\\e[0;32mSetting mode\\e[1;34m: \\e[1;32mminimal refresh with refresh user directories.  Directory '/var/backups/' backs up files \\e[1;34m:\\e[0;32m For a full system refresh the \\e[1;32m'%s' \\e[0;32mcommand can used\\e[1;34m...\\n" "${0##*/} refresh"
 _PRPREFRESH_ "2"
 _ARG2DIR_ "$@"
 _INTROREFRESH_ "$@"
-## [r [customdir]]  Refresh the Arch Linux in Termux PRoot scripts created by TermuxArch.  Useful for only refreshing the root user's home directory and the TermuxArch generated scripts to their newest version;  Directory '/var/backups/' backs up the refreshed files.
+## [r [customdir]]  Refresh the Arch Linux in TermuxArch PRoot QEMU scripts created by TermuxArch.  Useful for only refreshing the root user's home directory and the TermuxArch generated scripts to their newest version;  Directory '/var/backups/' backs up the refreshed files.
 elif [[ "${1//-}" = [Rr]* ]]
 then
-printf "\\n\\e[0;32mSetting mode\\e[1;34m: \\e[1;32mminimal refresh; Directory '/var/backups/' backs up the refreshed files\\e[1;34m:\\e[0;32m For a full system refresh you can use the \\e[1;32m'%s' \\e[0;32m%s\\e[1;34m...\\n" "${0##*/} refresh" "command"
+printf "\\n\\e[0;32mSetting mode\\e[1;34m: \\e[1;32mminimal refresh; Directory '/var/backups/' backs up files\\e[1;34m:\\e[0;32m  For a full system refresh the \\e[1;32m'%s' \\e[0;32mcommand can used\\e[1;34m...\\n" "${0##*/} refresh"
 _PRPREFRESH_ "1"
 _ARG2DIR_ "$@"
 _INTROREFRESH_ "$@"
@@ -1104,11 +1100,11 @@ _INTROREFRESH_ "$@"
 elif [[ "${1//-}" = [Uu]* ]]
 then
 EDO01LCR=0
-printf "\\n\\e[0;32mSetting mode\\e[1;34m; \\e[1;32mupdate Termux tools with minimal refresh including user directories\\e[1;34m;\\e[0;32m For a full system refresh you can use the%s \\e[1;32m'%s' \\e[0;32m%s\\e[1;34m...\\n" "" "${0##*/} refresh" "command"
+printf "\\n\\e[0;32mSetting mode\\e[1;34m; \\e[1;32mupdate Termux tools with minimal refresh including user directories\\e[1;34m;\\e[0;32m  For a full system refresh the%s \\e[1;32m'%s' \\e[0;32mcommand can used\\e[1;34m...\\n" "" "${0##*/} refresh"
 _PRPREFRESH_ "2"
 _ARG2DIR_ "$@"
 _INTROREFRESH_ "$@"
-## [vis[ualorca] [manual] [install|refresh] [customdir]]  Install on smartphone.  Please use the TermuxArch command 'orcaconf' once Arch Linux in Termux PRoot in installed to complete the configuration.  Issue [Expanding setupTermuxArch so visually impaired users can install Orca screen reader (assistive technology) and have VNC support added easily. #34](https://github.com/TermuxArch/TermuxArch/issues/34) has more information about this option.
+## [vis[ualorca] [manual] [install|refresh] [customdir]]  Install Arch Linux on smartphone.  Please use the TermuxArch command 'orcaconf' once Arch Linux in installed to complete the configuration.  Issue [Expanding setupTermuxArch so visually impaired users can install Orca screen reader (assistive technology) and have VNC support added easily. #34](https://github.com/TermuxArch/TermuxArch/issues/34) has more information about this option.
 elif [[ "${1//-}" = [Vv][Ii][Ss]* ]]
 then
 VLORALCR=0
@@ -1116,13 +1112,13 @@ printf "\\nSetting mode to vis[ualorca] [manual] [install|refresh] [customdir].\
 _OPT1_ "$@"
 _PREPTERMUXARCH_
 _INTRO_ "$@"
-## [vi[sualorca] [manual] [install|refresh] [customdir]]  Install alternate architecture on smartphone with https://github.com/qemu/QEMU emulation.  Please use the TermuxArch command 'orcaconf' once Arch Linux in Termux PRoot in installed to complete the configuration.
+## [vi[sualorca] [manual] [install|refresh] [customdir]]  Install alternate architecture on smartphone with https://github.com/qemu/QEMU emulation.  Please use the TermuxArch command 'orcaconf' once Arch Linux is installed to complete the configuration.
 elif [[ "${1//-}" = [Vv][Ii]* ]]
 then
 VLORALCR=0
 printf "\\nSetting mode to vi[sualorca] [manual] [install|refresh] [customdir].\\n"
 _CHOOSEABIx86_ "$@"
-## [v[isualorca] [manual] [install|refresh] [customdir]]  Install alternate architecture on smartphone with https://github.com/qemu/QEMU emulation.  Please use the TermuxArch command 'orcaconf' once Arch Linux in Termux PRoot in installed to complete the configuration.
+## [v[isualorca] [manual] [install|refresh] [customdir]]  Install alternate architecture on smartphone with https://github.com/qemu/QEMU emulation.  Please use the TermuxArch command 'orcaconf' once Arch Linux is installed to complete the configuration.
 elif [[ "${1//-}" = [Vv]* ]]
 then
 VLORALCR=0
@@ -1163,7 +1159,7 @@ fi
 ## EXAMPLE USAGE:
 ## USAGE[1]: 'setupTermuxArch curl sysinfo' will use curl as the download manager and produce a system information file in the working directory.  This can be abbreviated to 'setupTermuxArch cs' and 'setupTermuxArch c s'.
 ## USAGE[2]: 'setupTermuxArch curl manual customdir' will install the installation in customdir with curl and use manual mode during installation.
-## USAGE[3]: 'setupTermuxArch curl refresh customdir' will refresh this installation using curl as the download manager.
+## USAGE[3]: 'setupTermuxArch curl refresh customdir' will refresh the installation using curl as the download manager.
 ## Should any of these options fail to work as expected, please open an issue at GitHub with the command line used and output.
-## After installing TermuxArch on device, file 'INSTALLDIR/usr/local/termuxarch/bin/README.md' has more information.  The TermuxArch files in directory 'INSTALLDIR/usr/local/termuxarch/bin' have more information as well.
-## Very many hardy thank yous to contributors who are helping and have worked very hard for many long years, some for more, and to those who took mere minutes from their valuable effort with time in order to make this open source resource much better for all of us!  Please enjoy using TermuxArch in Termux PRoot in Android, Chromebook, Amazon Fire OS and Windows on smartphone, tablet, wearable and similar:  setupTermuxArch FE
+## After installing TermuxArch on device, file 'INSTALLDIR/usr/local/termuxarch/bin/README.md' has more information.  The TermuxArch files in directory 'INSTALLDIR/usr/local/termuxarch/bin' have more information.
+## Very many hardy thank yous to contributors who are helping and have worked very hard for many long years, some for more, and to those who took mere minutes from their valuable effort with time in order to make this open source resource much better for all of us!  Please enjoy using TermuxArch in PRoot QEMU in Android, Chromebook, Amazon Fire OS and Windows on smartphone, tablet, wearable and similar:  setupTermuxArch FE

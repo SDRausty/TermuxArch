@@ -10,7 +10,7 @@ _ADDADDS_() {
 _ADDREADME_
 _ADDae_
 _ADDauser_
-printf '\e[0;32mGenerating dot files;  \e[1;32mBEGUN\n'
+printf '\e[0;32mGenerating dot files:  \e[1;32mBEGUN…\n'
 _ADDbash_logout_
 _ADDbash_profile_
 _ADDbashrc_
@@ -131,7 +131,7 @@ _ADDyt_
 _ADDzshrc_
 }
 _ADDauser_() {
-_CFLHDR_ $TMXRCHBNDS/addauser "# add Arch Linux in Termux PRoot QEMU user"
+_CFLHDR_ $TMXRCHBNDS/addauser "# add Arch Linux in TermuxArch PRoot QEMU user"
 cat >> $TMXRCHBNDS/addauser <<- EOM
 _HUSDIRC_() {
 if [ "\$UID" != 0 ]
@@ -154,7 +154,7 @@ fi
 }
 _FUNADDU_() {
 command -v sudo 1>/dev/null || { "$TMXRCHBNDR"/pc sudo || "$TMXRCHBNDR"/pc sudo ; }
-printf "\\\\e[0;32m%s\\\\n\\\\e[1;32m" "Adding Arch Linux in Termux PRoot QEMU user '\$1' and creating Arch Linux in Termux PRoot QEMU user \$1's home directory in /home/\$1..."
+printf "\\\\e[0;32m%s\\\\n\\\\e[1;32m" "Adding Arch Linux in TermuxArch PRoot QEMU user '\$1' and creating Arch Linux in TermuxArch PRoot QEMU user \$1's home directory in /home/\$1..."
 [ -f /etc/sudoers ] || :>/etc/sudoers
 sed -i "/# %wheel ALL=(ALL) NOPASSWD: ALL/ s/^# *//" /etc/sudoers
 sed -i "/# ALL ALL=(ALL) ALL/ s/^# *//" /etc/sudoers
@@ -169,7 +169,7 @@ chage -I -1 -m 0 -M -1 -E -1 "\$1"
 passwd -d "\$1"
 chmod 775 "/home/\$1"
 sed -i "s/\$1:x/\$1:/g" /etc/passwd
-printf "\\\\e[0;32m%s\\\\e[1;32m%s\\\\e[0;32m%s\\\\e[1;32m%s\\\\e[0;32m%s\\\\e[1;32m%s\\\\e[0;32m%s\\\\e[1;32m%s\\\\e[0;32m%s\\\\e[0m\\\\n" "Added Arch Linux in Termux PRoot QEMU user " "'\$1'" " and configured user '\$1' for use with the Arch Linux command 'sudo'.  Created Arch Linux user \$1's home directory in /home/\$1.  To use this account run " "'$STARTBIN login \$1'" " from the shell in Termux.  To add user accounts you can use " "'addauser \$1'" " in Arch Linux and " "'$STARTBIN c[ommand] addauser \$1'" " in the default Termux shell.  Please do not nest proot in proot by using '$STARTBIN' in '$STARTBIN' as this is known to cause issues for users of PRoot."
+printf "\\\\e[0;32m%s\\\\e[1;32m%s\\\\e[0;32m%s\\\\e[1;32m%s\\\\e[0;32m%s\\\\e[1;32m%s\\\\e[0;32m%s\\\\e[1;32m%s\\\\e[0;32m%s\\\\e[0m\\\\n" "Added Arch Linux in TermuxArch PRoot QEMU user " "'\$1'" " and configured user '\$1' for use with the Arch Linux command 'sudo'.  Created Arch Linux user \$1's home directory in /home/\$1.  To use this account run " "'$STARTBIN login \$1'" " from the shell in Termux.  To add user accounts you can use " "'addauser \$1'" " in Arch Linux and " "'$STARTBIN c[ommand] addauser \$1'" " in a default Termux shell.  Please do not nest proot in proot by using '$STARTBIN' in '$STARTBIN' as this is known to cause issues for users of PRoot."
 }
 _PMFSESTRING_() {
 printf "\\\\e[1;31m%s\\\\e[0;31m%s\\\\e[0;36m%s\\\\n\\\\n" "Signal generated in '\$1'; " "Cannot complete task; " "Continuing..."
@@ -288,7 +288,7 @@ else	# Arch Linux architectures armv7, aarch64 and x86_64 use these options
 X86INT=":"
 X86IPT="(1/2)"
 X86INK="[ \"\${#ARGS}\" = 0 ] || { printf \"\\\\n\\\\e[1;32m==> \\\\e[1;37mRunning command \\\\e[1;32mpacman -S %s --needed --noconfirm --color=always\\\\e[1;37m...\\\\n\" \"\$ARGS\" && pacman -S \$ARGS --needed --noconfirm --color=always || _PRTERROR_ ; }
-printf \"\\\\n\\\\e[1;32m(2/2) \\\\e[0;34mWhen \\\\e[1;37mGenerating pacman keyring master key\\\\e[0;34m appears on the screen, the installation process can be accelerated.  The system desires a lot of entropy at this part of the install procedure.  In order to generate some entropy quickly, play a multimedia file on this device.  \\\\n\\\\nThe program \\\\e[1;32mpacman-key\\\\e[0;34m will want as much entropy as possible when generating keys.  Entropy is also created through tapping, sliding, one, two and more fingers tapping with short and long taps.  When \\\\e[1;37mAppending keys from archlinux.gpg\\\\e[0;34m appears on the screen, use any of these simple methods to accelerate the installation process if it is stalled.  Put even simpler, just do something on device.  Browsing files will create entropy on device.  Slowly swiveling this device in space and time will accelerate the installation process.  This method alone might not generate enough entropy (a measure of randomness in a closed system) for the process to complete quickly.  Use \\\\e[1;32m~%s/bin/we\\\\e[0;34m in a new Termux session to generate and watch entropy on device.\\\\n\\\\e[1;32m==> \\\\e[1;37mRunning command \\\\e[1;32mpacman-key --populate\\\\e[1;37m...\\\\n\" \"$DARCH\"
+printf \"\\\\n\\\\e[1;32m(2/2) \\\\e[0;34mWhen \\\\e[1;37mGenerating pacman keyring master key\\\\e[0;34m appears on the screen, the installation process can be accelerated.  The system desires a lot of entropy at this part of the install procedure.  In order to generate some entropy quickly, play a multimedia file on this device.  \\\\n\\\\nThe program \\\\e[1;32mpacman-key\\\\e[0;34m will want as much entropy as possible when generating keys.  Entropy is also created through tapping, sliding, one, two and more fingers tapping with short and long taps.  When \\\\e[1;37mAppending keys from archlinux.gpg\\\\e[0;34m appears on the screen, use any of these simple methods to accelerate the installation process if it is stalled.  Put even simpler, just do something on device.  Browsing files will create entropy on device.  Slowly swiveling this device in space and time will accelerate the installation process.  This method alone might not generate enough entropy (a measure of randomness in a closed system) for the process to complete quickly.  The command \\\\e[1;32m~%s/bin/we\\\\e[0;34m can be used to generate and watch entropy on device in a new Termux session.\\\\n\\\\e[1;32m==> \\\\e[1;37mRunning command \\\\e[1;32mpacman-key --populate\\\\e[1;37m...\\\\n\" \"$DARCH\"
 { [ -f /var/run/lock/"${INSTALLDIR##*/}"/kpp.lock ] && printf '\\e[1;32m==> \\e[1;37mAlready populated with command \\e[1;32mpacman-key --populate\\e[1;37m...\\n' ; } || { printf '\\e[1;32m==> \\e[1;37mRunning command \\e[1;32mpacman-key --populate\\e[1;37m...\\n' && { $ECHOEXEC pacman-key --populate && :>/var/run/lock/"${INSTALLDIR##*/}"/kpp.lock ; } || _PRTERROR_ ; }
 printf \"\\\\e[1;32m==>\\\\e[1;37m Running command \\\\e[1;32mpacman -Ss keyring --color=always\\\\e[1;37m...\\\\n\"
 pacman -Ss keyring --color=always"
@@ -475,7 +475,7 @@ _COMMANDGNE_
 fi
 _PRINTUSAGE_() {
 printf "\\n\\e[1;32m%s\\e[0;32m%s\\n\\n" "$STARTBIN" "  starts Arch Linux in $TXPRQUON with PRoot QEMU root login.  This account is reserved for system administration.  Please use any system administrator account with care."
-printf "\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\n\\n" "$STARTBIN c[ommand] command" "  runs Arch Linux commands from Termux as PRoot QEMU root login.  Quoting multiple commands can assit when passing multiple arguments; i.e. " "$STARTBIN c 'whoami ; cat -n /etc/pacman.d/mirrorlist'" ".  Please pass commands through the system administrator account with caution."
+printf "\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\n\\n" "$STARTBIN c[ommand] command" "  runs an Arch Linux command from a Termux shell as PRoot QEMU root login.  Quoting multiple commands can assit when passing multiple arguments; i.e. " "$STARTBIN c 'whoami ; cat -n /etc/pacman.d/mirrorlist'" ".  Please pass commands through the system administrator account with caution."
 printf "\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\n\\n" "$STARTBIN e[login|user] user" "  login as user.  Uses alternate elogin and euser option to login as user.  This option is preferred for working with programs that have already been installed, and for working with the 'cp' and 'git' commands.  Please use " "$STARTBIN c 'addauser user'" " first to create this user and the user's home directory."
 printf "\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\n\\n" "$STARTBIN l[ogin]|u[ser] user" "  login as user.  This option is preferred when installing software from a user account with the 'sudo' command, and when using the 'makeaur*' commands.  Please use 'addauser user' first to create this user and the user's home directory."
 printf "\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\n\\n" "$STARTBIN r[aw]" "  construct the " "$STARTBIN " "proot statement from exec.../bin/.  For example " "$STARTBIN r su " "will exec 'su' in Arch Linux.  After installing the appropriate packages in Arch Linux, easy PRoot QEMU root shell access is possible with option raw:
@@ -487,12 +487,12 @@ printf "\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\n\\n
 ~ $ $STARTBIN+x864 r sh
 ~ $ $STARTBIN+x864 r zsh
 
-Command '${0##*/} qemu [options]' assists in installing alternate architectures.  Variable PROOTSTMNT has more information about the PRoot QEMU init statement options 'grep -h PROOTSTMNT ~/TermuxArchBloom/* | grep \=' if you wish to modify the PRoot QEMU init statement extensively.  The PRoot QEMU init statement can also be modified on-the-fly simply by using the /var/binds/ directory once logged into the Arch Linux in Termux PRoot QEMU environment."
-printf "\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\n\\n\\e[0m" "$STARTBIN s[u] user command" "  executes commands as Arch Linux user from the Termux shell.  This option is preferred when installing software from a user account with the 'sudo' command, and when using the 'makeaur*' commands.  Quoting multiple commands can assit when passing multiple arguments:  " "$STARTBIN s user 'whoami ; cat -n /etc/pacman.d/mirrorlist'" ".  Please use " "$STARTBIN c 'addauser user'" " first to create a login and the login's home directory."
+Command '${0##*/} qemu [options]' assists in installing alternate architectures.  Variable PROOTSTMNT has more information about the PRoot QEMU init statement options 'grep -h PROOTSTMNT ~/TermuxArchBloom/* | grep \=' if you wish to modify the PRoot QEMU init statement extensively.  The PRoot QEMU init statement can also be modified on-the-fly simply by using the /var/binds/ directory once logged into the Arch Linux in TermuxArch PRoot QEMU environment."
+printf "\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\n\\n\\e[0m" "$STARTBIN s[u] user command" "  executes commands as Arch Linux user from a Termux shell.  This option is preferred when installing software from a user account with the 'sudo' command, and when using the 'makeaur*' commands.  Quoting multiple commands can assit when passing multiple arguments:  " "$STARTBIN s user 'whoami ; cat -n /etc/pacman.d/mirrorlist'" ".  Please use " "$STARTBIN c 'addauser user'" " first to create a login and the login's home directory."
 printf '\\033]2;%s\\007' "TermuxArch $STARTBIN $@ 📲; DONE 🏁"
 }
-_PRNTUSGE_() { _PRINTUSAGE_ && printf "\\e[0;33m%s\\e[1;30m%s\\e[1;32m%s\\e[1;30m%s\\e[1;31m%s\\e[1;30m%s\\e[0m" "It appears that user '\$2' does not exist in the Arch Linux in Termux PRoot QEMU system!  " "The Arch Linux in Termux PRoot QEMU user account '\$2' can be created with command " "\${0##*/} command 'addauser \$2'" ".   This command can then be run once more to login with '\${0##*/} login \$2'." "  Exiting" "...  " ; exit 169 ; }
-## [] Default Arch Linux in Termux PRoot QEMU root login.
+_PRNTUSGE_() { _PRINTUSAGE_ && printf "\\e[0;33m%s\\e[0;32m%s\\e[1;31m%s\\e[0m" "It appears that user '\$2' does not exist in the Arch Linux in TermuxArch PRoot QEMU system!  " "Command '\${0##*/} command 'addauser \$2'' can create user account '\$2' in the TermuxArch PRoot QEMU system.   Command '\${0##*/} login \$2' can be run once more to login to the TermuxArch PRoot QEMU environment as user '\$2'." "  EXITING…  " ; exit 69 ; }
+## [] Default Arch Linux in TermuxArch  PRoot QEMU root login.
 if [[ -z "\${1:-}" ]]
 then
 printf '\\033]2;%s\\007' "TermuxArch $STARTBIN 📲"
@@ -531,13 +531,13 @@ set +Eeuo pipefail
 :>"$INSTALLDIR/var/lock/${INSTALLDIR##*/}/\$\$elock"
 if [ -f "$INSTALLDIR/var/lib/pacman/db.lck" ]
 then
-printf "%s" "File ~/${INSTALLDIR##*/}/var/lib/pacman/db.lck exists;  The TermuxArch 'pacmandblock' command can be used to alter the lock state.  Please use '$STARTBIN' and '$STARTBIN l[ogin] username' to install software in Arch Linux in Termux PRoot: "
+printf "%s" "File ~/${INSTALLDIR##*/}/var/lib/pacman/db.lck exists;  The TermuxArch 'pacmandblock' command can be used to alter the lock state.  Please use '$STARTBIN' and '$STARTBIN l[ogin] username' to install software in Arch Linux in TermuxArch PRoot QEMU: "
 else
-printf "%s" "Creating file ~/${INSTALLDIR##*/}/var/lib/pacman/db.lck;  The TermuxArch 'pacmandblock' command can be used to alter the lock state.  Please use '$STARTBIN' and '$STARTBIN l[ogin] username' to install software in the Arch Linux in Termux PRoot QEMU environment:  "
+printf "%s" "Creating file ~/${INSTALLDIR##*/}/var/lib/pacman/db.lck;  The TermuxArch 'pacmandblock' command can be used to alter the lock state.  Please use '$STARTBIN' and '$STARTBIN l[ogin] username' to install software in the Arch Linux in TermuxArch PRoot QEMU environment:  "
 :>"$INSTALLDIR/var/lib/pacman/db.lck"
 printf "%s\\n" "Continuing..."
 fi
-printf "%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n" "if [ -f \"$INSTALLDIR/var/lock/${INSTALLDIR##*/}/\$\$elock\" ]" "then" "if [ -f \"$INSTALLDIR/var/lib/pacman/db.lck\" ]" "then" "printf \"%s\" \"Deleting file '~/${INSTALLDIR##*/}/var/lib/pacman/db.lck'.  The TermuxArch 'pacmandblock' command can be used to alter the lock state.  Please use '$STARTBIN' and '$STARTBIN l[ogin] username' to install software in the Arch Linux in Termux PRoot QEMU environment:  \"" "rm -f \"$INSTALLDIR/var/lib/pacman/db.lck\"" "printf \"%s\\\\n\" \"DONE\"" "fi" "rm -f \"$INSTALLDIR/var/lock/${INSTALLDIR##*}\$\$elock\"" "fi" "[ ! -f "$INSTALLDIR/home/\$2/.hushlogout" ] && [ ! -f "$INSTALLDIR/home/\$2/.chushlogout" ] && . /etc/moto" "h # write session history to file HOME/.historyfile" "## .bash_logout FE" > "$INSTALLDIR/home/\$2/.bash_logout"
+printf "%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n" "if [ -f \"$INSTALLDIR/var/lock/${INSTALLDIR##*/}/\$\$elock\" ]" "then" "if [ -f \"$INSTALLDIR/var/lib/pacman/db.lck\" ]" "then" "printf \"%s\" \"Deleting file '~/${INSTALLDIR##*/}/var/lib/pacman/db.lck'.  The TermuxArch 'pacmandblock' command can be used to alter the lock state.  Please use '$STARTBIN' and '$STARTBIN l[ogin] username' to install software in the Arch Linux in TermuxArch PRoot QEMU environment:  \"" "rm -f \"$INSTALLDIR/var/lib/pacman/db.lck\"" "printf \"%s\\\\n\" \"DONE\"" "fi" "rm -f \"$INSTALLDIR/var/lock/${INSTALLDIR##*}\$\$elock\"" "fi" "[ ! -f "$INSTALLDIR/home/\$2/.hushlogout" ] && [ ! -f "$INSTALLDIR/home/\$2/.chushlogout" ] && . /etc/moto" "h # write session history to file HOME/.historyfile" "## .bash_logout FE" > "$INSTALLDIR/home/\$2/.bash_logout"
 ## $INSTALLDIR$TMXRCHBNDR/keys FE
 EOM
 printf "%s\\n" "$PROOTSTMNTEU /bin/su - \"\$2\" ||:" >> "$STARTBIN"
@@ -573,7 +573,7 @@ _CHCKUSER_ "\$@"
 printf '\\033]2;%s\\007' "TermuxArch $STARTBIN su \$2 \${@:3} 📲"
 if [[ "\$2" = root ]]
 then
-printf "%s\\n" "Please use this command \"$STARTBIN c '\${@:3}'\" for the Arch Linux in Termux PRoot QEMU \$2 user account;  Exiting..."
+printf "%s\\n" "Please use this command \"$STARTBIN c '\${@:3}'\" for the Arch Linux in TermuxArch PRoot QEMU \$2 user account;  Exiting..."
 exit
 fi
 :>"$INSTALLDIR/home/\$2/.chushlogin"
@@ -633,20 +633,10 @@ printf \"\\e[1;31m%s\\e[1;37m%s\\e[1;32m%s\\e[1;37m%s\\n\\n\" \"Signal generated
 printf \"\\e[1;34m%s\\e[0;34m%s\\e[1;34m%s\\e[0;34m%s\\e[1;34m%s\\n\\n\" \"  If you find better resolves for \" \"setupTermuxArch\" \" and \" \"\$0\" \", please open an issue and accompanying pull request.\"
 }
 _PMGPSSTRING_() {
-printf \"\\n\\e[1;34m:: \\e[1;32m%s\\n\" \"Processing system for $NASVER $ARCTEVAR, and removing redundant packages for Termux PRoot QEMU installation...\"
+printf \"\\n\\e[1;34m:: \\e[1;32m%s\\n\" \"Processing system for $NASVER $ARCTEVAR, and removing redundant packages for TermuxArch PRoot QEMU...\"
 }" >> root/bin/"$BINFNSTP"
 _DOPROXY_
 [ -d "$INSTALLDIR/run/lock/${INSTALLDIR##*/}" ] || mkdir -p "$INSTALLDIR/run/lock/${INSTALLDIR##*/}"
-if [[ ! -f '$INSTALLDIR/run/lock/${INSTALLDIR##*/}/pacmanRc.lock' ]]
-then
-if [[ "$CPUABI" = "$CPUABI7" ]]
-then
-printf "%s\\n" "{ _PMGPSSTRING_ && pacman -Rc linux-armv7 linux-firmware --noconfirm --color=always && :>'$INSTALLDIR/run/lock/${INSTALLDIR##*/}/pacmanRc.lock' ; } || _PMFSESTRING_ \"pacman -Rc linux-armv7 linux-firmware $BINFNSTP \${0##/*}\"" >> root/bin/"$BINFNSTP"
-elif [[ "$CPUABI" = "$CPUABI8" ]]
-then
-printf "%s\\n" "{ _PMGPSSTRING_ && pacman -Rc linux-aarch64 linux-firmware --noconfirm --color=always && :>'$INSTALLDIR/run/lock/${INSTALLDIR##*/}/pacmanRc.lock' ; } || _PMFSESTRING_ \"pacman -Rc linux-aarch64 linux-firmware $BINFNSTP \${0##/*}\"" >> root/bin/"$BINFNSTP"
-fi
-fi
 printf "%s\\n" "$DOKYSKEY" >> root/bin/"$BINFNSTP"
 if  [[ -z "${LCR:-}" ]] || [[ "${LCR:-}" -eq 5 ]]
 then
