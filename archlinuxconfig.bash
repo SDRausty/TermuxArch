@@ -812,7 +812,6 @@ procps-ng
 psmisc
 python
 python-pycodestyle
-python-selinux
 reiserfsprogs
 rpcsvc-proto
 rpm-tools
@@ -849,12 +848,12 @@ _RCSRPTA1_() { printf "\\e[48;5;112m%s\\e[48;5;28m%s\\e[0;0;0m\\n" "[\$1/\$NBRFC
 
 _RCSNPTNM_() { printf "\\e[48;5;112m%s\\e[48;5;28m%s\\e[0;0;0m\\n" "[\$1/\$NBRFCMDS]" " Running command '\$2' in directory '\$PWD'...  " && { { { \$2  && _RCSNPTC0_ "\${1:-}" "\${2:-}" "\${3:-}" "\${4:-}" ; } || printf '%s\n' "command \$2 FAILED" ; } ; printf "\\e[48;5;119m%s\\e[48;5;34m%s\\e[0;0;0m\\n" "[\$1/\$NBRFCMDS]" " Finished running command '\$2'." ; } ; }
 _RCSRPTNM_() { printf "\\e[48;5;112m%s\\e[48;5;28m%s\\e[0;0;0m\\n" "[\$1/\$NBRFCMDS]" " Running command '\$2' in directory '\$PWD'...  " && { { \$2  || _RCSRPTA0_ "\${1:-}" "\${2:-}" "\${3:-}" "\${4:-}" ; } ; printf "\\e[48;5;119m%s\\e[48;5;34m%s\\e[0;0;0m\\n" "[\$1/\$NBRFCMDS]" " Finished running command '\$2'." ; } ; }
+_CHECKFORQEMU_() { { command -v qemu 1>/dev/null || command -v qemu-io 1>/dev/null ; } || { { pc qemu || pci qemu ; } || { printf "\\e[48;5;22m%s\\n" "Command '\$SRPTNM' is attempting to build and install 'qemu' a 'libguestfs' prerequisite for computer architecture '\$NMCMND'.  If you find a better and simpler resolution for command '\$SRPTNM', please open an issue and pull request at GitHub..." && { { QEMUPKGI=(acpica brltty capstone glusterfs jack libcacard libepoxy libiscsi libnfs liblouis libpulse librpcsecgss libslirp libusb libusb-debug liburing libvirt libxkbcommon ninja pcsc-tools pixman python-sphinx python-sphinx_rtd_theme spice spice-protocol virglrenderer sdl2 sdl2_image) && pc "\${QEMUPKGI[@]}" || pci "\${QEMUPKGI[@]}" ; } && { cd || exit 69 ; } && { gcl https://github.com/qemu/qemu && mkdir -p qemu/build && { cd qemu/build || exit 69 ; } && TMRCMDVL="../configure && make V=1 && sudo make install" && printf '%s\n' "Running command '\$TMRCMDVL' in directory '\$PWD'..." && \$TMRCMDVL ; } ; } || makeaurhelpers build qemu-git ; } ; } ; }
+_RCSRPTNM_ 1 "_CHECKFORQEMU_" "echo \${SRPTNM^^} SIGNAL:  checking for qemu FAILED"
 _CHCKFRPRREQUSTS_() { [ -f /usr/share/licenses/python-pycodestyle/LICENSE ] && [ -x /usr/bin/bison ] && [ -x /usr/bin/gperf ] && [ -x /usr/bin/ocaml ] && [ -x /usr/bin/perl ]; }
 _INSTLLPRREQUSTS_() { pc \${GTFSDPND[@]} || pci \${GTFSDPND[@]} ; }
-_RCSRPTNM_ 1 "_CHCKFRPRREQUSTS_" "_INSTLLPRREQUSTS_" "echo \${SRPTNM^^} SIGNAL:  installing Arch Linux prerequisites FAILED"
-{ [ -f /run/lock/${INSTALLDIR##*/}/\$UID.libguestfs.cpan.lock ] && _RCSRPTNM_ 2 "echo file /run/lock/${INSTALLDIR##*/}/\$UID.libguestfs.cpan.lock exists" ; } || { _RCSNPTNM_ 2 "cpan -i Locale::TextDomain Module::Build Pod::Man Pod::Simple Test::More" "touch /run/lock/${INSTALLDIR##*/}/\$UID.libguestfs.cpan.lock" ; }
-_CHECKFORQEMU_() { command -v qemu 1>/dev/null || { { pc qemu || pci qemu ; } || { printf "\\e[48;5;22m%s\\n" "Command '\$SRPTNM' is attempting to build and install 'qemu' a 'libguestfs' prerequisite with command 'makeaurhelpers build qemu-git' for computer architecture '\$NMCMND'.  If you find a better and simpler resolution for command '\$SRPTNM', please open an issue and pull request at GitHub..." && { { QEMUPKGI=(acpica capstone jack libiscsi libnfs libpulse librpcsecgss libslirp liburing libvirt ninja pixman python-sphinx python-sphinx_rtd_theme sdl2) && pc "\${QEMUPKGI[@]}" || pci "\${QEMUPKGI[@]}" ; } && { cd || exit 69 ; } && { gcl https://github.com/qemu/qemu && mkdir -p qemu/build && { cd qemu/build || exit 69 ; } && printf '%s\n' "Running command '../configure && make' in directory '\$PWD'..." && ../configure && make V=1 && sudo make install ; } ; } || makeaurhelpers build qemu-git ; } ; } ; }
-_RCSRPTNM_ 3 "_CHECKFORQEMU_" "echo \${SRPTNM^^} SIGNAL:  checking for qemu FAILED"
+_RCSRPTNM_ 2 "_CHCKFRPRREQUSTS_" "_INSTLLPRREQUSTS_" "echo \${SRPTNM^^} SIGNAL:  installing Arch Linux prerequisites FAILED"
+{ [ -f /run/lock/${INSTALLDIR##*/}/\$UID.libguestfs.cpan.lock ] && _RCSRPTNM_ 3 "echo file /run/lock/${INSTALLDIR##*/}/\$UID.libguestfs.cpan.lock exists" ; } || { _RCSNPTNM_ 3 "cpan -i Locale::TextDomain Module::Build Pod::Man Pod::Simple Test::More" "touch /run/lock/${INSTALLDIR##*/}/\$UID.libguestfs.cpan.lock" ; }
 _PRPCLANG_() { command -v clang 1>/dev/null && export CC=clang || { { pc clang || pci clang ; } && export CC=clang ; } ; }
 _RCSRPTNM_ 4 "_PRPCLANG_" "echo \${SRPTNM^^} SIGNAL:  preparing clang FAILED"
 _RCSRPTNM_ 5 "cd \$HOME" "exit 69"
@@ -862,13 +861,13 @@ _RCSRPTNM_ 6 "gcl https://github.com/libguestfs/libguestfs" "echo \${SRPTNM^^} S
 _RCSRPTNM_ 7 "cd libguestfs" "exit 69"
 _RCSRPTNM_ 8 "gpl" "echo \${SRPTNM^^} SIGNAL:  gpl (git pull)"
 _RCSRPTNM_ 9 "git submodule update --init --recursive --remote" "echo \${SRPTNM^^} SIGNAL:  git submodule update --init --recursive --remote"
-_RCSRPTNM_ 10 "make -sC appliance clean-supermin-appliance" "echo \${SRPTNM^^} SIGNAL:  make -sC appliance clean-supermin-appliance"
-_RCSRPTNM_ 11 "make -s clean" "echo \${SRPTNM^^} SIGNAL:  make -s clean"
+_RCSRPTNM_ 10 "make -C appliance clean-supermin-appliance" "echo \${SRPTNM^^} SIGNAL:  make -C appliance clean-supermin-appliance"
+_RCSRPTNM_ 11 "make clean" "echo \${SRPTNM^^} SIGNAL:  make clean"
 _RCSRPTNM_ 12 "autoupdate -f" "autoupdate" "echo \${SRPTNM^^} SIGNAL:  autoupdate"
-_RCSRPTNM_ 13 "autoreconf -si" "autoreconf -i" "echo \${SRPTNM^^} SIGNAL:  autoreconf -i"
+_RCSRPTNM_ 13 "autoreconf -i" "echo \${SRPTNM^^} SIGNAL:  autoreconf -i"
 { [ -f ./localconfigure ] && _RCSRPTNM_ 12 "cat ./localconfigure" "./localconfigure" "echo \${SRPTNM^^} SIGNAL:  ./localconfigure" ; } || _RCSRPTNM_ 12 "./configure CFLAGS=-fPIC" "echo \${SRPTNM^^} SIGNAL:  ./configure CFLAGS=-fPIC"
-_RCSRPTNM_ 14 "make -s" "echo \${SRPTNM^^} SIGNAL:  make -s"
-_RCSRPTNM_ 15 "make -s quickcheck" "echo \${SRPTNM^^} SIGNAL:  make -s quickcheck"
+_RCSRPTNM_ 14 "make" "echo \${SRPTNM^^} SIGNAL:  make"
+_RCSRPTNM_ 15 "make quickcheck" "echo \${SRPTNM^^} SIGNAL:  make quickcheck"
 _RCSRPTNM_ 16 "\$HOME/libguestfs/run \$HOME/libguestfs/fish/guestfish --help" "echo \${SRPTNM^^} SIGNAL:  \$HOME/libguestfs/run \$HOME/libguestfs/fish/guestfish --help"
 printf "\\e[48;5;119m%s\\e[48;5;34m%s\\e[0;0;0m\\n" "[\$NBRFCMDS/\$NBRFCMDS]" " Please do NOT run 'make install' as this will create conflicting versions.  Use the '\$HOME/libguestfs/run' command in directory '\$HOME/libguestfs' instead.  Webpage https://libguestfs.org/guestfs-building.1.html#the-.-run-script has more information.  "
 }
