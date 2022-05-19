@@ -92,7 +92,9 @@ _ADDmakeaurutilsgit_
 _ADDmakeauryaah_
 _ADDmakeauryay_
 _ADDmakeaurzigzag_
+_ADDmakefakeroottcp_
 _ADDmakeksh_
+_ADDmakeyay_
 _ADDmemav_
 _ADDmemfree_
 _ADDmeminfo_

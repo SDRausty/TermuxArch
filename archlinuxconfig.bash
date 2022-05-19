@@ -5,7 +5,7 @@
 ## https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.
 ################################################################################
 _DPTCHHLP_() {
-printf "%s\\n%s\\n%s\\n" "[ -e $INSTALLDIR$TMXRCHBNDR/am ] || cp -f $PREFIX/bin/am $INSTALLDIR$TMXRCHBNDR/am" "[ -e $INSTALLDIR$TMXRCHBNDR/makeyay ] || cp -f $INSTALLDIR$TMXRCHBNDR/makeauryay $INSTALLDIR$TMXRCHBNDR/makeyay" "[ -e $INSTALLDIR$TMXRCHBNDR/patch ] || cp -f $PREFIX/bin/patch $INSTALLDIR$TMXRCHBNDR/patch" >> "$1"
+printf "%s\\n%s\\n" "[ -e $INSTALLDIR$TMXRCHBNDR/am ] || cp -f $PREFIX/bin/am $INSTALLDIR$TMXRCHBNDR/am" "[ -e $INSTALLDIR$TMXRCHBNDR/patch ] || cp -f $PREFIX/bin/patch $INSTALLDIR$TMXRCHBNDR/patch" >> "$1"
 }
 _PRTPATCHHELP_() {
 printf "%s\\n" "[ -e $TMXRCHBNDR/patch ] || printf \"\\e[1;30m%s\\e[0;40m%s\\e[1;30m%s\\e[0;40m%s\\e[1;30m%s\\e[0;40m%s\\e[1;30m%s\\e[0;40m%s\\e[1;30m%s\\e[0m\\n\" \"This command \" \"'ln -s $PREFIX/bin/patch $INSTALLDIR$TMXRCHBNDR/patch'\" \" should resolve a \" \"'patch: setting attribute security.selinux for security.selinux: Permission denied'\" \" error.  This workaround seems to work equally well in Termux PRoot with QEMU architecture emulation as well.  Issues \" \"“Building xrdp from AUR fails mentioning selinux #293”\" \" at https://github.com/SDRausty/TermuxArch/issues/293 and \" \"“patch: setting attribute security.selinux for security.selinux: Permission denied #182”\" \" at https://github.com/termux/proot/issues/182 have more information about this error.\"" >> "$1"
@@ -635,10 +635,10 @@ _CFLHDR_ "$TMXRCHBNDS"/gpl
 cat >> "$TMXRCHBNDS"/gpl <<- EOM
 if [ -x "\$(command -v git)" ]
 then
-git pull
+git pull || git pull -v
 else
 { pc git || pci git ; }
-git pull
+git pull || git pull -v
 fi
 ## $INSTALLDIR$TMXRCHBNDR/gpl FE
 EOM
@@ -683,7 +683,7 @@ chmod 755 "$TMXRCHBNDS"/info
 }
 
 _ADDmakelibguestfs_() {
-_CFLHDR_ "$TMXRCHBNDS"/makelibguestfs "# Developed around [userspace mount #74](https://github.com/SDRausty/termux-archlinux/issues/74) contributor gordol and [Feature Request: mount loopback device #376](https://github.com/termux/termux-app/issues/376) contributor SDRausty, and at [make[2]: *** No rule to make target 'guestfs_protocol.c', needed by 'all'. Stop. #82](https://github.com/libguestfs/libguestfs/issues/82) contributor rwmjones.  Reference https://libguestfs.org/guestfs-building.1.html#building-from-git"
+_CFLHDR_ "$TMXRCHBNDS"/makelibguestfs "# Developed around [userspace mount #74](https://github.com/SDRausty/termux-archlinux/issues/74) contributor gordol and [Feature Request: mount loopback device #376](https://github.com/termux/termux-app/issues/376) contributor SDRausty, and at [make[2]: *** No rule to make target 'guestfs_protocol.c', needed by 'all'. Stop. #82](https://github.com/libguestfs/libguestfs/issues/82, et. al.) contributor rwmjones, et. al.  Reference https://libguestfs.org/guestfs-building.1.html#building-from-git"
 _PRTRTHLP_ "$TMXRCHBNDS"/makelibguestfs
 _DPTCHHLP_ "$TMXRCHBNDS"/makelibguestfs
 cat >> "$TMXRCHBNDS"/makelibguestfs <<- EOM
@@ -699,29 +699,30 @@ XLCD04="'\$SRPTNM l 'guestfish --help'' \$PSCMMT"
 # builtin help string variables end
 HLPSTG="One and two letter arguments are good; i.e. Command \$XLCD00 is an equivalent of \$XLCD0L.  Command \$SRPTNM accepts these arguments:
 
-b[uild]			build libguestfs.  This argument is a synonym for 'make',
+b[uild]			build libguestfs.  This argument is a synonym for option 'make',
 
 f[ind packages]★	find default 'machine virtual' search or find AUR packages with search terms, EXAMPLE: \$XLCD00,
 
-g[uestfish 'run cmd']	run either guestfish shell (default) or run command commands if they are built.  This argument is a synonym for 'libguestfs', EXAMPLE: \$XLCD03,
+g[uestfish 'cmd cmd']	run either guestfish shell (default) or run command commands if they are built.  This argument is a synonym for option 'libguestfs', EXAMPLE: \$XLCD03,
 
 h[elp]			print this help screen,
 
 he[lp building]★	present this https://libguestfs.org/guestfs-building.1.html webpage,
 
-l[ibguestfs 'run cmd']	run either guestfish shell (default) or run commands if they are built.  This argument is a synonym for 'guestfish', EXAMPLE: \$XLCD04,
+l[ibguestfs 'cmd cmd']	run either guestfish shell (default) or run commands if they are built.  This argument is a synonym for option 'guestfish', EXAMPLE: \$XLCD04,
 
-m[ake]			make libguestfs.  This argument is a synonym for 'build',
+m[ake]			make libguestfs.  This argument is a synonym for option 'build',
 
-s[how PKGBUILD]★	show the libguestfs PKGBUILD file or show a PKGBUILD file for a particular package, EXAMPLE: \$XLCD02.  This option is a synonym for option view,
+s[how PKGBUILD]★	show the libguestfs PKGBUILD file or show a PKGBUILD file for a particular package, EXAMPLE: \$XLCD02,
 
-v[iew PKGBUILD]★	view the libguestfs PKGBUILD file or view a PKGBUILD file for a particular package;  EXAMPLE: \$XLCD02.  This option is a synonym for option show.
+v[virt-inspector 'cmd cmd']  run either virt-inspector (default) or run command 'virt-inspector 'cmd cmd'' if they are built,
 
 ★open and use an Android web browser to find Arch Linux AUR packages matching search term(s) or view a particular PKGBUILD package file.  "
-[ -n "\${1:-}" ] && { [[ "\${1:-}" = [Ff]* ]] && { printf '\\e[0;32m%s' "Finding '\${2:-machine virtual}' AUR packages...  " && am start -a android.intent.action.VIEW -d "https://aur.archlinux.org/packages?O=0&K=\${2:-machine virtual}" ; exit ; } ; }
-[ -n "\${1:-}" ] && { { [[ "\${1:-}" = [Gg]* ]] || [[ "\${1:-}" = [Ll]* ]] ; } && { [ -d "\$HOME"/libguestfs ] && cd "\$HOME"/libguestfs && printf '%s\n' "Running command '\$HOME/libguestfs/run \$HOME/libguestfs/fish/\${2:-\$HOME/libguestfs/fish/guestfish}' in directory '\$PWD'..." && \$HOME/libguestfs/run "\${2:-\$HOME/libguestfs/fish/guestfish}" && exit || { printf '\\e[0;32m%s' "\$HLPSTG" ; exit ; } ; } ; }
-[ -n "\${1:-}" ] && { [[ "\${1:-}" = [Hh][Ee]* ]] && { printf '\\e[0;32m%s' "\$HLPSTG" && am start -a android.intent.action.VIEW -d "https://libguestfs.org/guestfs-building.1.html" ; exit ; } ; }
-[ -n "\${1:-}" ] && { { [[ "\${1:-}" = [Ss]* ]] || [[ "\${1:-}" = [Vv]* ]] ; } && { printf '\\e[0;32m%s' "Showing PKGBUILD file for '\${2:-libguestfs}'...  " && am start -a android.intent.action.VIEW -d "https://aur.archlinux.org/cgit/aur.git/tree/PKGBUILD?h=\${2:-libguestfs}" && exit ; } ; }
+[ -n "\${1:-}" ] && { [[ "\${1//-}" = [Ff]* ]] && { printf '\\e[0;32m%s' "Finding '\${2:-machine virtual}' AUR packages...  " && am start -a android.intent.action.VIEW -d "https://aur.archlinux.org/packages?O=0&K=\${2:-machine virtual}" ; exit ; } ; }
+[ -n "\${1:-}" ] && { { [[ "\${1//-}" = [Gg]* ]] || [[ "\${1//-}" = [Ll]* ]] ; } && { [ -d "\$HOME"/libguestfs ] && cd "\$HOME"/libguestfs && printf '%s\n' "Running command '\$HOME/libguestfs/run \$HOME/libguestfs/fish/guestfish \${2:-}' in directory '\$PWD'..." && \$HOME/libguestfs/run "\$HOME/libguestfs/fish/guestfish \${2:-}" && exit || { printf '\\e[0;32m%s' "\$HLPSTG" ; exit ; } ; } ; }
+[ -n "\${1:-}" ] && { [[ "\${1//-}" = [Hh][Ee]* ]] && { printf '\\e[0;32m%s' "Presenting this 'https://libguestfs.org/guestfs-building.1.html' webpage...  " && am start -a android.intent.action.VIEW -d "https://libguestfs.org/guestfs-building.1.html" ; exit ; } ; }
+[ -n "\${1:-}" ] && [[ "\${1//-}" = [Ss]* ]] && { printf '\\e[0;32m%s' "Showing PKGBUILD file for '\${2:-libguestfs}'...  " && am start -a android.intent.action.VIEW -d "https://aur.archlinux.org/cgit/aur.git/tree/PKGBUILD?h=\${2:-libguestfs}" && exit ; }
+[ -n "\${1:-}" ] && [[ "\${1//-}" = [Vv]* ]] && { [ -d "\$HOME"/libguestfs ] && cd "\$HOME"/libguestfs && printf '%s\n' "Running command '\$HOME/libguestfs/run \$HOME/libguestfs/fish/virt-inspector \${2:-}' in directory '\$PWD'..." && \$HOME/libguestfs/run "\$HOME/libguestfs/fish/guestfish \${2:-}" && exit || { printf '\\e[0;32m%s' "\$HLPSTG" ; exit ; } ; }
 [ -n "\${1:-}" ] && { for ARG1 in '/' '?' {0..9} Aa Cc Dd Ee Hh Ii Jj Kk Oo Pp Qq Rr Tt Uu Ww Xx Yy Zz ; do [[ "\${1//-}" = ["\$ARG1"]* ]] && { printf '\\e[0;32m%s' "\$HLPSTG" ; exit ; } ; done ; }
 [ -z "\${1:-}" ] && { { [ -d "\$HOME"/libguestfs ] && cd "\$HOME"/libguestfs && printf '%s\n' "Running command '\$HOME/libguestfs/run \$HOME/libguestfs/fish/guestfish --help' in directory '\$PWD'..." && \$HOME/libguestfs/run \$HOME/libguestfs/fish/guestfish --help && exit ; } || printf "\\e[48;5;22m%s\\n" "Command \$SRPTNM is attempting to build and install 'libguestfs' for computer architecture '\$NMCMND'..." ; }
 # libguestfs dependencies
@@ -738,6 +739,7 @@ btrfs-progs
 bzip2
 cdrkit
 cdrtools
+clang
 coreutils
 cpio
 cryptsetup
@@ -755,6 +757,7 @@ findutils
 flex
 gawk
 gcc
+gdb
 gdisk
 gettext
 glibc
@@ -808,6 +811,7 @@ procps
 procps-ng
 psmisc
 python
+python-selinux
 reiserfsprogs
 rpcsvc-proto
 rpm-tools
@@ -825,6 +829,7 @@ texinfo
 udev
 util-linux
 valgrind
+virt-install
 vim
 wget
 which
@@ -833,9 +838,10 @@ xorriso
 xz
 yara
 )
-{ [ -x /usr/bin/autoupdate ] && [ -x /usr/bin/bison ] && [ -x /usr/bin/gperf ] && [ -x /usr/bin/ocaml ] && [ -x /usr/bin/perl ] && [ -x /usr/bin/python ] ; } || { pc \${GTFSDPND[@]} && makeaurfakeroottcp || pci \${GTFSDPND[@]} && makeaurfakeroottcp ; } || _RCSRPTNM_ 1 "echo \${SRPTNM^^} SIGNAL:  pci \${GTFSDPND[@]}"
-[ -f /run/lock/${INSTALLDIR##*/}/libguestfscpan.lock ] || { cpan -i Locale::TextDomain Pod::Man Pod::Simple || _RCSRPTNM_ 2 "echo \${SRPTNM^^} SIGNAL:  cpan -i Locale::TextDomain Pod::Man Pod::Simple" && :>/run/lock/${INSTALLDIR##*/}/libguestfscpan.lock ; }
+{ [ -f /usr/share/licenses/python-selinux/LICENSE ] && [ -x /usr/bin/bison ] && [ -x /usr/bin/gperf ] && [ -x /usr/bin/ocaml ] && [ -x /usr/bin/perl ]; } || { pc \${GTFSDPND[@]} && makeaurfakeroottcp || pci \${GTFSDPND[@]} && makeaurfakeroottcp ; } || _RCSRPTNM_ 1 "echo \${SRPTNM^^} SIGNAL:  pci \${GTFSDPND[@]}"
+[ -f /run/lock/${INSTALLDIR##*/}/\$UID.libguestfs.cpan.lock ] || { cpan -i Locale::TextDomain Module::Build Pod::Man Pod::Simple Test::More || _RCSRPTNM_ 2 "echo \${SRPTNM^^} SIGNAL:  cpan -i Bundle::Expect Locale::TextDomain Module::Build Pod::Man Pod::Simple Test::More" && :>/run/lock/${INSTALLDIR##*/}/\$UID.libguestfs.cpan.lock ; }
 command -v qemu-io 1>/dev/null || { { pc qemu-user qemu-img || pci qemu-user qemu-img || pc qemu ; } || { printf "\\e[48;5;22m%s\\n" "Command '\$SRPTNM' is attempting to build and install 'qemu' a 'libguestfs' prerequisite with command 'makeaurhelpers build qemu-git' for computer architecture '\$NMCMND'.  If you find a better and simpler resolution for command '\$SRPTNM', please open an issue and pull request at GitHub..." && { { QEMUPKGI=(acpica capstone jack libnfs libpulse librpcsecgss libslirp liburing libvirt ninja pixman python-sphinx python-sphinx_rtd_theme sdl2) && pc "\${QEMUPKGI[@]}" || pci "\${QEMUPKGI[@]}" ; } && { cd || exit 69 ; } && { gcl https://github.com/qemu/qemu && mkdir -p qemu/build && { cd qemu/build || exit 69 ; } && printf '%s\n' "Running command '../configure && make' in directory '\$PWD'..." && ../configure && make V=1 && sudo make install ; } ; } || makeaurhelpers build qemu-git ; } ; }
+command -v clang && export CC=clang || { { pc clang || pci clang ; } && export CC=clang ; }
 NMCMND="\$(uname -m)"
 _SLCTRHPR_() {
 NBRFCMDS=16
@@ -845,15 +851,15 @@ _RCSRPTNM_() { printf "\\e[48;5;112m%s\\e[48;5;28m%s\\e[0;0;0m\\n" "[\$1/\$NBRFC
 _RCSRPTNM_ 3 "cd \$HOME" "exit 69"
 _RCSRPTNM_ 4 "gcl https://github.com/libguestfs/libguestfs" "echo \${SRPTNM^^} SIGNAL:  gcl (git clone)"
 _RCSRPTNM_ 5 "cd libguestfs" "exit 69"
-_RCSRPTNM_ 6 "gpl" "git pull" "echo \${SRPTNM^^} SIGNAL:  gpl (git pull)"
+_RCSRPTNM_ 6 "gpl" "echo \${SRPTNM^^} SIGNAL:  gpl"
 _RCSRPTNM_ 7 "git submodule update --init --recursive --remote" "echo \${SRPTNM^^} SIGNAL:  git submodule update --init --recursive --remote"
-_RCSRPTNM_ 8 "make -C appliance clean-supermin-appliance" "echo \${SRPTNM^^} SIGNAL:  make -C appliance clean-supermin-appliance"
+_RCSRPTNM_ 8 "make -sC appliance clean-supermin-appliance" "echo \${SRPTNM^^} SIGNAL:  make -sC appliance clean-supermin-appliance"
 _RCSRPTNM_ 9 "make -s clean" "echo \${SRPTNM^^} SIGNAL:  make -s clean"
-_RCSRPTNM_ 10"autoupdate -f" "autoupdate" "echo \${SRPTNM^^} SIGNAL:  autoupdate"
-_RCSRPTNM_ 11"autoreconf -i" "echo \${SRPTNM^^} SIGNAL:  autoreconf -i"
-_RCSRPTNM_ 12 "./configure CFLAGS=-fPIC" "echo \${SRPTNM^^} SIGNAL:  ./configure CFLAGS=-fPIC"
+_RCSRPTNM_ 10 "autoupdate -f" "autoupdate" "echo \${SRPTNM^^} SIGNAL:  autoupdate"
+_RCSRPTNM_ 11 "autoreconf -si" "autoreconf -i" "echo \${SRPTNM^^} SIGNAL:  autoreconf -i"
+{ [ -f ./localconfigure ] && _RCSRPTNM_ 12 "./localconfigure" "echo \${SRPTNM^^} SIGNAL:  ./localconfigure" ; } || _RCSRPTNM_ 12 "./configure CFLAGS=-fPIC" "echo \${SRPTNM^^} SIGNAL:  ./configure CFLAGS=-fPIC"
 _RCSRPTNM_ 13 "make -s" "echo \${SRPTNM^^} SIGNAL:  make -s"
-_RCSRPTNM_ 14 "make -k check" "echo \${SRPTNM^^} SIGNAL:  make -k check"
+_RCSRPTNM_ 14 "make -s quickcheck" "echo \${SRPTNM^^} SIGNAL:  make -s quickcheck"
 _RCSRPTNM_ 15 "\$HOME/libguestfs/run \$HOME/libguestfs/fish/guestfish --help" "echo \${SRPTNM^^} SIGNAL:  \$HOME/libguestfs/run \$HOME/libguestfs/fish/guestfish --help"
 printf "\\e[48;5;119m%s\\e[48;5;34m%s\\e[0;0;0m\\n" "[\$NBRFCMDS/\$NBRFCMDS]" " Please do NOT run 'make install' as this will create conflicting versions.  Use the '\$HOME/libguestfs/run' command in directory '\$HOME/libguestfs' instead.  Webpage https://libguestfs.org/guestfs-building.1.html#the-.-run-script has more information.  "
 }
@@ -1456,6 +1462,14 @@ _ADDmakeaurtpac_() { _PREPFILEFTN0_ tpac tpac tpac  "a trizen wrapper to mimic y
 _ADDmakeauryaah_() { _PREPFILEFTN0_ yaah yaah yaah "Yet Another AUR Helper" ; }
 _ADDmakeaurzigzag_() { _PREPFILEFTN0_ zig-zag zig-zag zig-zag "a programming language prioritizing robustness, optimality, and clarity" ; }
 
+_ADDmakefakeroottcp_() {
+_CFLHDR_ "$TMXRCHBNDS"/makefakeroottcp "# build and install fakeroot-tcp"
+_PRTRTHLP_ "$TMXRCHBNDS"/makefakeroottcp
+_DPTCHHLP_ "$TMXRCHBNDS"/makefakeroottcp
+printf "\\n%s\\n" "makeaurhelpers build fakeroot-tcp" "## $INSTALLDIR$TMXRCHBNDR/makefakeroottcp FE" >> "$TMXRCHBNDS"/makefakeroottcp
+chmod 755 "$TMXRCHBNDS"/makefakeroottcp
+}
+
 _ADDmakeksh_() {
 _CFLHDR_ "$TMXRCHBNDS"/makeksh "# build and install the ksh shell; Inspired by https://github.com/termux/termux-api/issues/436"
 _PRTRTHLP_ "$TMXRCHBNDS"/makeksh
@@ -1482,6 +1496,14 @@ fi
 ## $INSTALLDIR$TMXRCHBNDR/makeksh FE
 EOM
 chmod 755 "$TMXRCHBNDS"/makeksh
+}
+
+_ADDmakeyay_() {
+_CFLHDR_ "$TMXRCHBNDS"/makeyay "# build and install command yay"
+_PRTRTHLP_ "$TMXRCHBNDS"/makeyay
+_DPTCHHLP_ "$TMXRCHBNDS"/makeyay
+printf "\\n%s\\n" "makeaurhelpers build yay-bin" "## $INSTALLDIR$TMXRCHBNDR/makeyay FE" >> "$TMXRCHBNDS"/makeyay
+chmod 755 "$TMXRCHBNDS"/makeyay
 }
 
 _ADDmemav_() {

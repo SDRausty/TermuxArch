@@ -109,6 +109,11 @@ printf "%s\\n" "## PRoot bind usage: PROOTSTMNT+=\"-b host_path:guest_path \"
 ## ~/${INSTALLDIR##*/}$TMXRCHBNDR/bindexample.prs FE" >> var/binds/bindexample.prs
 }
 
+_ADDfbindkvm_() {
+:>var/binds/fbindkvm
+chmod 666 var/binds/fbindkvm
+}
+
 _ADDbindprocloadavg_() {
 printf "%s" "0.$(shuf -n 1 -i 48-64) 0.$(shuf -n 1 -i 32-48) 0.$(shuf -n 1 -i 24-32) 1/$(shuf -n 1 -i 128-1024) $(shuf -n 1 -i 333333-999999)
 " > var/binds/fbindprocloadavg
@@ -255,7 +260,7 @@ swap_ra 9661
 swap_ra_hit 7872" > var/binds/fbindprocvmstat
 }
 _ADDfbinds_() {
-FBINDFUNCS=(_ADDfbindprocpcidevices_ _ADDfbindprocshmem_ _ADDfbindprocuptime_ _ADDfbindprocstat_ _ADDfbindprocversion_ _ADDbindprocloadavg_ _ADDbindprocvmstat_)
+FBINDFUNCS=(_ADDfbindkvm_ _ADDfbindprocpcidevices_ _ADDfbindprocshmem_ _ADDfbindprocuptime_ _ADDfbindprocstat_ _ADDfbindprocversion_ _ADDbindprocloadavg_ _ADDbindprocvmstat_)
 for FBINDFUNC in "${FBINDFUNCS[@]}"
 do
 "$FBINDFUNC"

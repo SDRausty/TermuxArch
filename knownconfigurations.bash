@@ -92,7 +92,7 @@ fi
 ##  Function _PR00TSTRING_ which creates the PRoot init statement PROOTSTMNT uses associative arrays.  Page https://www.gnu.org/software/bash/manual/html_node/Arrays.html has information about BASH arrays and is also available at https://www.gnu.org/software/bash/manual/ this link.
 declare -A PRSTARR # associative array
 # populate writable binds
-PRSTARR=([/dev/ashmem]=/dev/ashmem [/dev/shm]=/dev/shm)
+PRSTARR=([/dev/ashmem]=/dev/ashmem [/dev/kvm]=/dev/kvm [/dev/shm]=/dev/shm)
 for PRBIND in ${!PRSTARR[@]}
 do
 if [[ -w "$PRBIND" ]]	# is writable
@@ -111,7 +111,7 @@ fi
 done
 [[ "$SYSVER" -ge 10 ]] && PROOTSTMNT+="-b /apex -b /storage -b /sys -b /system -b /vendor "
 # populate NOT readable binds
-PRSTARR=([/dev/]=/dev/ [/dev/ashmem]="$INSTALLDIR/tmp" [/dev/shm]="$INSTALLDIR/tmp" [/proc/loadavg]="$INSTALLDIR/var/binds/fbindprocloadavg" [/proc/pcidevices]="$INSTALLDIR/var/binds/fbindprocpcidevices" [/proc/shmem]="$INSTALLDIR/var/binds/fbindprocshmem" [/proc/stat]="$INSTALLDIR/var/binds/fbindprocstat" [/proc/uptime]="$INSTALLDIR/var/binds/fbindprocuptime" [/proc/vmstat]="$INSTALLDIR/var/binds/fbindprocvmstat" [/proc/version]="$INSTALLDIR/var/binds/fbindprocversion")
+PRSTARR=([/dev/]=/dev/ [/dev/ashmem]="$INSTALLDIR/tmp" [/dev/kvm]="$INSTALLDIR/var/binds/fbindkvm" [/dev/shm]="$INSTALLDIR/tmp" [/proc/loadavg]="$INSTALLDIR/var/binds/fbindprocloadavg" [/proc/pcidevices]="$INSTALLDIR/var/binds/fbindprocpcidevices" [/proc/shmem]="$INSTALLDIR/var/binds/fbindprocshmem" [/proc/stat]="$INSTALLDIR/var/binds/fbindprocstat" [/proc/uptime]="$INSTALLDIR/var/binds/fbindprocuptime" [/proc/vmstat]="$INSTALLDIR/var/binds/fbindprocvmstat" [/proc/version]="$INSTALLDIR/var/binds/fbindprocversion")
 for PRBIND in ${!PRSTARR[@]}
 do
 if [[ ! -r "$PRBIND" ]]	# is not readable
