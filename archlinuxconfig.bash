@@ -630,19 +630,19 @@ else
 fi
 }
 
-_ADDgpl_() {
-_CFLHDR_ "$TMXRCHBNDS"/gpl
-cat >> "$TMXRCHBNDS"/gpl <<- EOM
+_ADDgmu_() {
+_CFLHDR_ "$TMXRCHBNDS"/gmu
+cat >> "$TMXRCHBNDS"/gmu <<- EOM
 if [ -x "\$(command -v git)" ]
 then
-git pull || git pull -v
+git submodule update --init --recursive --remote || git submodule update --init --recursive --remote --verbose
 else
 { pc git || pci git ; }
-git pull || git pull -v
+git submodule update --init --recursive --remote || git submodule update --init --recursive --remote --verbose
 fi
-## $INSTALLDIR$TMXRCHBNDR/gpl FE
+## $INSTALLDIR$TMXRCHBNDR/gmu FE
 EOM
-chmod 755 "$TMXRCHBNDS"/gpl
+chmod 755 "$TMXRCHBNDS"/gmu
 }
 
 _ADDgp_() {
@@ -658,6 +658,36 @@ fi
 ## $INSTALLDIR$TMXRCHBNDR/gp FE
 EOM
 chmod 755 "$TMXRCHBNDS"/gp
+}
+
+_ADDgpl_() {
+_CFLHDR_ "$TMXRCHBNDS"/gpl
+cat >> "$TMXRCHBNDS"/gpl <<- EOM
+if [ -x "\$(command -v git)" ]
+then
+git pull || git pull --verbose
+else
+{ pc git || pci git ; }
+git pull || git pull --verbose
+fi
+## $INSTALLDIR$TMXRCHBNDR/gpl FE
+EOM
+chmod 755 "$TMXRCHBNDS"/gpl
+}
+
+_ADDgsu_() {
+_CFLHDR_ "$TMXRCHBNDS"/gsu
+cat >> "$TMXRCHBNDS"/gsu <<- EOM
+if [ -x "\$(command -v git)" ]
+then
+git submodule update --init --recursive --remote || git submodule update --init --recursive --remote --verbose
+else
+{ pc git || pci git ; }
+git submodule update --init --recursive --remote || git submodule update --init --recursive --remote --verbose
+fi
+## $INSTALLDIR$TMXRCHBNDR/gsu FE
+EOM
+chmod 755 "$TMXRCHBNDS"/gsu
 }
 
 _ADDhunf_ () {
@@ -715,7 +745,7 @@ m[ake]			make libguestfs.  Useful for making 'libguestfs' again.  This argument 
 
 s[how PKGBUILD]★	show the libguestfs PKGBUILD file or show a PKGBUILD file for a particular package, EXAMPLE: \$XLCD02,
 
-v[virt-inspector 'cmd cmd']  run either virt-inspector (default) or run command 'virt-inspector 'cmd cmd'' if they are built,
+v[irt-inspector 'cmd cmd']  run either virt-inspector (default) or run command 'virt-inspector 'cmd cmd'' if they are built,
 
 ★open and use an Android web browser to find Arch Linux AUR packages matching search term(s) or view a particular PKGBUILD package file.  "
 [ -n "\${1:-}" ] && { [[ "\${1//-}" = [Ff]* ]] && { printf '\\e[0;32m%s' "Finding '\${2:-machine virtual}' AUR packages...  " && am start -a android.intent.action.VIEW -d "https://aur.archlinux.org/packages?O=0&K=\${2:-machine virtual}" ; exit ; } ; }
@@ -737,7 +767,6 @@ binutils
 bison
 btrfs-progs
 bzip2
-cdrkit
 cdrtools
 clang
 coreutils
@@ -756,7 +785,6 @@ file
 findutils
 flex
 gawk
-gcc
 gdb
 gdisk
 gettext
@@ -817,7 +845,6 @@ rpcsvc-proto
 rpm-tools
 rsync
 sed
-sleuthkit
 squashfs-tools
 strace
 sudo
@@ -843,24 +870,55 @@ NMCMND="\$(uname -m)"
 _SLCTRHPR_() {
 _RCSNPTC0_() { printf "\\e[48;5;112m%s\\e[48;5;28m%s\\e[0;0;0m\\n" "[\$1/\$NBRFCMDS]C0" " Running complementary command '\${3:-}' for command '\${2:-}' in directory '\$PWD'...  " && { { \${3:-:} || _RCSRPTA1_ "\${1:-}" "\${2:-}" "\${3:-}" "\${4:-}" ; } ; printf "\\e[48;5;119m%s\\e[48;5;34m%s\\e[0;0;0m\\n" "[\$1/\$NBRFCMDS]C0" " Finished running complementary command '\${3:-}' for command '\${2:-}'." ; } ; }
 _RCSRPTA0_() { printf "\\e[48;5;112m%s\\e[48;5;28m%s\\e[0;0;0m\\n" "[\$1/\$NBRFCMDS]A0" " Running alternate command '\${3:-}' for command '\${2:-}' in directory '\$PWD'...  " && { { \${3:-:} || _RCSRPTA1_ "\${1:-}" "\${2:-}" "\${3:-}" "\${4:-}" ; } ; printf "\\e[48;5;119m%s\\e[48;5;34m%s\\e[0;0;0m\\n" "[\$1/\$NBRFCMDS]A0" " Finished running alternate command '\${3:-}' for command '\${2:-}'." ; } ; }
-
 _RCSRPTA1_() { printf "\\e[48;5;112m%s\\e[48;5;28m%s\\e[0;0;0m\\n" "[\$1/\$NBRFCMDS]A1" " Running alternate command '\${4:-}' for commands '\${2:-}' then '\${3:-}' in directory '\$PWD'...  " && { { \${4:-:}  || : ; } ; printf "\\e[48;5;119m%s\\e[48;5;34m%s\\e[0;0;0m\\n" "[\$1/\$NBRFCMDS]A1" " Finished running alternate command '\${4:-}' for commands '\${2:-}' then '\${3:-}''." ; } ; }
-
-_RCSNPTNM_() { printf "\\e[48;5;112m%s\\e[48;5;28m%s\\e[0;0;0m\\n" "[\$1/\$NBRFCMDS]" " Running command '\$2' in directory '\$PWD'...  " && { { { \$2  && _RCSNPTC0_ "\${1:-}" "\${2:-}" "\${3:-}" "\${4:-}" ; } || printf '%s\n' "command \$2 FAILED" ; } ; printf "\\e[48;5;119m%s\\e[48;5;34m%s\\e[0;0;0m\\n" "[\$1/\$NBRFCMDS]" " Finished running command '\$2'." ; } ; }
+_RCSNPTNM_() { printf "\\e[48;5;112m%s\\e[48;5;28m%s\\e[0;0;0m\\n" "[\$1/\$NBRFCMDS]" " Running command '\$2' in directory '\$PWD'...  " && { { { \$2  && _RCSNPTC0_ "\${1:-}" "\${2:-}" "\${3:-}" "\${4:-}" ; } || printf '%s\n' "\${SRPTNM^^} SIGNAL:  \$2" ; } ; printf "\\e[48;5;119m%s\\e[48;5;34m%s\\e[0;0;0m\\n" "[\$1/\$NBRFCMDS]" " Finished running command '\$2'." ; } ; }
 _RCSRPTNM_() { printf "\\e[48;5;112m%s\\e[48;5;28m%s\\e[0;0;0m\\n" "[\$1/\$NBRFCMDS]" " Running command '\$2' in directory '\$PWD'...  " && { { \$2  || _RCSRPTA0_ "\${1:-}" "\${2:-}" "\${3:-}" "\${4:-}" ; } ; printf "\\e[48;5;119m%s\\e[48;5;34m%s\\e[0;0;0m\\n" "[\$1/\$NBRFCMDS]" " Finished running command '\$2'." ; } ; }
-_CHECKFORQEMU_() { { command -v qemu 1>/dev/null || command -v qemu-io 1>/dev/null ; } || { { pc qemu || pci qemu ; } || { printf "\\e[48;5;22m%s\\n" "Command '\$SRPTNM' is attempting to build and install 'qemu' a 'libguestfs' prerequisite for computer architecture '\$NMCMND'.  If you find a better and simpler resolution for command '\$SRPTNM', please open an issue and pull request at GitHub..." && { { QEMUPKGI=(acpica brltty capstone glusterfs jack libcacard libepoxy libiscsi libnfs liblouis libpulse librpcsecgss libslirp libusb libusb-debug liburing libvirt libxkbcommon ninja pcsc-tools pixman python-sphinx python-sphinx_rtd_theme spice spice-protocol virglrenderer sdl2 sdl2_image) && pc "\${QEMUPKGI[@]}" || pci "\${QEMUPKGI[@]}" ; } && { cd || exit 69 ; } && { gcl https://github.com/qemu/qemu && mkdir -p qemu/build && { cd qemu/build || exit 69 ; } && TMRCMDVL="../configure && make V=1 && sudo make install" && printf '%s\n' "Running command '\$TMRCMDVL' in directory '\$PWD'..." && \$TMRCMDVL ; } ; } || makeaurhelpers build qemu-git ; } ; } ; }
-_RCSRPTNM_ 1 "_CHECKFORQEMU_" "echo \${SRPTNM^^} SIGNAL:  checking for qemu FAILED"
-_CHCKFRPRREQUSTS_() { [ -f /usr/share/licenses/python-pycodestyle/LICENSE ] && [ -x /usr/bin/bison ] && [ -x /usr/bin/gperf ] && [ -x /usr/bin/ocaml ] && [ -x /usr/bin/perl ]; }
-_INSTLLPRREQUSTS_() { pc \${GTFSDPND[@]} || pci \${GTFSDPND[@]} ; }
-_RCSRPTNM_ 2 "_CHCKFRPRREQUSTS_" "_INSTLLPRREQUSTS_" "echo \${SRPTNM^^} SIGNAL:  installing Arch Linux prerequisites FAILED"
-{ [ -f /run/lock/${INSTALLDIR##*/}/\$UID.libguestfs.cpan.lock ] && _RCSRPTNM_ 3 "echo file /run/lock/${INSTALLDIR##*/}/\$UID.libguestfs.cpan.lock exists" ; } || { _RCSNPTNM_ 3 "cpan -i Locale::TextDomain Module::Build Pod::Man Pod::Simple Test::More" "touch /run/lock/${INSTALLDIR##*/}/\$UID.libguestfs.cpan.lock" ; }
 _PRPCLANG_() { command -v clang 1>/dev/null && export CC=clang || { { pc clang || pci clang ; } && export CC=clang ; } ; }
-_RCSRPTNM_ 4 "_PRPCLANG_" "echo \${SRPTNM^^} SIGNAL:  preparing clang FAILED"
+_CHECKFORQEMU_() {
+_PACMANCKQEMU_() {
+if [[ "\$NMCMND" == "$CPUABI7" ]] || [[ "\$NMCMND" == "armv7" ]] || [[ "\$NMCMND" = "$CPUABI8" ]] || [[ "\$NMCMND" = "aarch64" ]]
+then
+command -v qemu-system-arm && command -v qemu-img
+elif [[ "\$NMCMND" == "$CPUABIX86" ]] || [[ "\$NMCMND" == i686 ]]
+then
+command -v qemu-system-i368 && command -v qemu-img
+pc qemu || pci qemu
+elif [[ "\$NMCMND" == "$CPUABIX8664" ]]
+then
+command -v qemu-system-x86_64 && command -v qemu-img
+else
+command -v qemu && command -v qemu-img
+fi
+}
+_PACMANINQEMU_() {
+if [[ "\$NMCMND" == "$CPUABI7" ]] || [[ "\$NMCMND" == "armv7" ]] || [[ "\$NMCMND" = "$CPUABI8" ]] || [[ "\$NMCMND" = "aarch64" ]]
+then
+pc qemu-system-arm qemu-img qemu-tools || pci qemu-system-arm qemu-img qemu-tools
+elif [[ "\$NMCMND" == "$CPUABIX86" ]] || [[ "\$NMCMND" == i686 ]]
+then
+pc qemu || pci qemu
+elif [[ "\$NMCMND" == "$CPUABIX8664" ]]
+then
+pc qemu qemu-img qemu-tools || pci qemu qemu-img qemu-tools
+else
+pc qemu qemu-img || pci qemu qemu-img || pc qemu-img
+fi
+}
+_PACMANCKQEMU_ || { printf "\\e[48;5;22m%s\\n" "Command '\$SRPTNM' is attempting to install 'qemu' a 'libguestfs' prerequisite for computer architecture '\$NMCMND'.  If you find a better and simpler resolution for command '\$SRPTNM', please open an issue and pull request at GitHub..." && _PACMANINQEMU_ ; }
+{ command -v qemu-img ; } || { printf "\\e[48;5;22m%s\\n" "\${SRPTNM^^} SIGNAL:  Missing qemu command(s) found:  Command '\$SRPTNM' is attempting to build and install 'qemu' a 'libguestfs' prerequisite for computer architecture '\$NMCMND'.  If you find a better and simpler resolution for command '\$SRPTNM', please open an issue and pull request at GitHub." && { QEMUPKGI=(acpica brltty capstone glusterfs jack libcacard libepoxy libiscsi libnfs liblouis libpulse librpcsecgss libslirp libusb libusb-debug liburing libvirt libxkbcommon ninja pcsc-tools pixman python-sphinx python-sphinx_rtd_theme qemu-tools spice spice-protocol virglrenderer sdl2 sdl2_image) && pc "\${QEMUPKGI[@]}" || pci "\${QEMUPKGI[@]}" ; } && { { cd || exit 69 ; } && gcl https://gitlab.com/qemu-project/qemu && mkdir -p qemu/build && { cd qemu/build || exit 69 ; } && TMRCMDVL="../configure && make V=1 && sudo make install" && printf '%s\n' "Running command '\$TMRCMDVL' in directory '\$PWD':" && \$TMRCMDVL ; } ; }
+{ command -v qemu-img ; } || makeaurhelpers build qemu-git
+}
+_CHCKFRPRREQUSTS_() { [ -f /usr/share/licenses/python-pycodestyle/LICENSE ] && [ -x /usr/bin/bison ] && [ -x /usr/bin/gdb ] && [ -x /usr/bin/libtool ] && [ -x /usr/bin/ocaml ] ; }
+_INSTLLPRREQUSTS_() { pc \${GTFSDPND[@]} || pci \${GTFSDPND[@]} ; }
+_RCSRPTNM_ 1 "_PRPCLANG_" "echo \${SRPTNM^^} SIGNAL:  _PRPCLANG_"
+_RCSRPTNM_ 2 "_CHECKFORQEMU_" "echo \${SRPTNM^^} SIGNAL:  _CHECKFORQEMU_"
+_RCSRPTNM_ 3 "_CHCKFRPRREQUSTS_" "_INSTLLPRREQUSTS_" "echo \${SRPTNM^^} SIGNAL:  _CHCKFRPRREQUSTS_"
+{ [ -f /run/lock/${INSTALLDIR##*/}/\$UID.libguestfs.cpan.lock ] && _RCSRPTNM_ 4 "echo file /run/lock/${INSTALLDIR##*/}/\$UID.libguestfs.cpan.lock exists" ; } || { _RCSNPTNM_ 4 "cpan -i Locale::TextDomain Module::Build Pod::Man Pod::Simple Test::More" "touch /run/lock/${INSTALLDIR##*/}/\$UID.libguestfs.cpan.lock" ; }
 _RCSRPTNM_ 5 "cd \$HOME" "exit 69"
 _RCSRPTNM_ 6 "gcl https://github.com/libguestfs/libguestfs" "echo \${SRPTNM^^} SIGNAL:  gcl (git clone)"
 _RCSRPTNM_ 7 "cd libguestfs" "exit 69"
-_RCSRPTNM_ 8 "gpl" "echo \${SRPTNM^^} SIGNAL:  gpl (git pull)"
-_RCSRPTNM_ 9 "git submodule update --init --recursive --remote" "echo \${SRPTNM^^} SIGNAL:  git submodule update --init --recursive --remote"
+_RCSRPTNM_ 8 "gpl" "echo \${SRPTNM^^} SIGNAL:  gpl"
+_RCSRPTNM_ 9 "gsu" "echo \${SRPTNM^^} SIGNAL:  gsu"
 _RCSRPTNM_ 10 "make -C appliance clean-supermin-appliance" "echo \${SRPTNM^^} SIGNAL:  make -C appliance clean-supermin-appliance"
 _RCSRPTNM_ 11 "make clean" "echo \${SRPTNM^^} SIGNAL:  make clean"
 _RCSRPTNM_ 12 "autoupdate -f" "autoupdate" "echo \${SRPTNM^^} SIGNAL:  autoupdate"
@@ -868,8 +926,8 @@ _RCSRPTNM_ 13 "autoreconf -i" "echo \${SRPTNM^^} SIGNAL:  autoreconf -i"
 { [ -f ./localconfigure ] && _RCSRPTNM_ 12 "cat ./localconfigure" "./localconfigure" "echo \${SRPTNM^^} SIGNAL:  ./localconfigure" ; } || _RCSRPTNM_ 12 "./configure CFLAGS=-fPIC" "echo \${SRPTNM^^} SIGNAL:  ./configure CFLAGS=-fPIC"
 _RCSRPTNM_ 14 "make" "echo \${SRPTNM^^} SIGNAL:  make"
 _RCSRPTNM_ 15 "make quickcheck" "echo \${SRPTNM^^} SIGNAL:  make quickcheck"
-_RCSRPTNM_ 16 "\$HOME/libguestfs/run \$HOME/libguestfs/fish/guestfish --help" "echo \${SRPTNM^^} SIGNAL:  \$HOME/libguestfs/run \$HOME/libguestfs/fish/guestfish --help"
-printf "\\e[48;5;119m%s\\e[48;5;34m%s\\e[0;0;0m\\n" "[\$NBRFCMDS/\$NBRFCMDS]" " Please do NOT run 'make install' as this will create conflicting versions.  Use the '\$HOME/libguestfs/run' command in directory '\$HOME/libguestfs' instead.  Webpage https://libguestfs.org/guestfs-building.1.html#the-.-run-script has more information.  "
+_RCSRPTNM_ 16 "\$HOME/libguestfs/run \$HOME/libguestfs/fish/guestfish --help" "\${0##*/} h" "echo \${SRPTNM^^} SIGNAL:  \${0##*/} h"
+printf "\\e[48;5;119m%s\\e[48;5;34m%s\\e[0;0;0m\\n" "[\$NBRFCMDS/\$NBRFCMDS]" " Please do NOT run 'make install' in directory '\$HOME/libguestfs' as this may create conflicting versions.  Use the '\$HOME/libguestfs/run' command instead.  Webpage https://libguestfs.org/guestfs-building.1.html#the-.-run-script has more information.  "
 }
 
 _SLCTRHPR_ \$@ || { printf '\\e[0;32m%s' "\$HLPSTG" ; exit ; }
@@ -1672,23 +1730,15 @@ _ADDpc_() {
 _CFLHDR_ "$TMXRCHBNDS"/pc "# pacman install packages wrapper without system update"
 cat >> "$TMXRCHBNDS"/pc <<- EOM
 declare -g ARGS="\$@"
-_TRPET_() {
-printf "\\e[?25h\\e[0m"
-set +Eeuo pipefail
-_PRINTTAIL_ "\$ARGS"
-}
-
 _PRINTTAIL_() {
 printf "\\e[0;32m%s \\e[1;32m%s \\e[0;32m%s\\e[1;34m: \\e[1;32m%s\\e[0m 🏁  \\n\\n\\e[0m" "TermuxArch command" "\$STRNRG" "version \$VERSIONID" "DONE 📱"
 printf '\033]2;  🔑 TermuxArch %s:DONE 📱 \007' "\$STRNRG"
 }
-
 _TRPET_() {
 printf "\\e[?25h\\e[0m"
 set +Eeuo pipefail
 _PRINTTAIL_ "\$ARGS"
 }
-
 trap _TRPET_ EXIT
 ## pc begin ####################################################################
 printf '\033]2;  🔑 TermuxArch %s 📲 \007' "\$STRNRG"
@@ -1697,17 +1747,8 @@ printf "\\e[1;32m==> \\e[1;37mRunning TermuxArch command \\e[1;32m%s \\e[0;32m%s
 if [[ -z "\${1:-}" ]]
 then
 printf "\\e[1;31m%s \\e[0m\\n" "Run command '\${0##*/}' with at least one argument;  Exiting..."
-elif [[ "\$1" = "a" ]]
-then
-nice -n 20 \$SUDOCONF pacman --needed --noconfirm --color=always -S base base-devel "\${@:2}"
-elif [[ "\$1" = "ae" ]]
-then
-nice -n 20 \$SUDOCONF pacman --needed --noconfirm --color=always -S base base-devel emacs "\${@:2}"
-elif [[ "\$1" = "a8" ]]
-then
-nice -n 20 \$SUDOCONF pacman --needed --noconfirm --color=always -S base base-devel emacs jdk8-openjdk "\${@:2}"
 else
-nice -n 20 \$SUDOCONF pacman --needed --noconfirm --color=always -S "\$@"
+nice -n 20 \$SUDOCONF pacman --needed --noconfirm --color=always -S "\$@" || nice -n 20 \$SUDOCONF pacman --needed --noconfirm --color=always -S "\$@"
 fi
 ## $INSTALLDIR$TMXRCHBNDR/pc FE
 EOM
@@ -1718,36 +1759,21 @@ _ADDpci_() {
 _CFLHDR_ "$TMXRCHBNDS"/pci "# pacman install packages wrapper with system update"
 cat >> "$TMXRCHBNDS"/pci <<- EOM
 declare ARGS="\$@"
+_PRINTTAIL_() {
+printf "\\e[0;32m%s \\e[1;32m%s \\e[0;32m%s\\e[1;34m: \\e[1;32m%s\\e[0m 🏁  \\n\\n\\e[0m" "TermuxArch command" "\$STRNRG" "version \$VERSIONID" "DONE 📱"
+printf '\033]2;  🔑 TermuxArch %s:DONE 📱 \007' "\$STRNRG"
+}
 _TRPET_() {
 printf "\\e[?25h\\e[0m"
 set +Eeuo pipefail
 _PRINTTAIL_ "\$ARGS"
 }
-
-_PRINTTAIL_() {
-printf "\\e[0;32m%s \\e[1;32m%s \\e[0;32m%s\\e[1;34m: \\e[1;32m%s\\e[0m 🏁  \\n\\n\\e[0m" "TermuxArch command" "\$STRNRG" "version \$VERSIONID" "DONE 📱"
-printf '\033]2;  🔑 TermuxArch %s:DONE 📱 \007' "\$STRNRG"
-}
-
 trap _TRPET_ EXIT
 ## pci begin ###################################################################
-[ "\$UID" -eq 0 ] && SUDOCONF="" || SUDOCONF="sudo"
+printf '\033]2;  🔑 TermuxArch %s 📲 \007' "\$STRNRG"
 printf "\\e[1;32m==> \\e[1;37mRunning TermuxArch command \\e[1;32m%s \\e[0;32m%s\\e[1;37m...\\n" "\$STRNRG" "version \$VERSIONID"
-if [[ -z "\${1:-}" ]]
-then
-nice -n 20 \$SUDOCONF pacman --needed --noconfirm --color=always -Syu || nice -n 20 \$SUDOCONF pacman --needed --noconfirm --color=always -Syu
-elif [[ "\$1" = "e" ]]
-then
-nice -n 20 \$SUDOCONF pacman --needed --noconfirm --color=always -Syu "\${@:2}" || base base-devel emacs "\${@:2}" || nice -n 20 \$SUDOCONF pacman --needed --noconfirm --color=always -Su base base-devel emacs "\${@:2}"
-elif [[ "\$1" = "e8" ]]
-then
-nice -n 20 \$SUDOCONF pacman --needed --noconfirm --color=always -Syu base base-devel emacs jdk8-openjdk "\${@:2}" || nice -n 20 \$SUDOCONF pacman --needed --noconfirm --color=always -Su base base-devel emacs jdk8-openjdk "\${@:2}"
-elif [[ "\$1" = "e11" ]]
-then
-nice -n 20 \$SUDOCONF pacman --needed --noconfirm --color=always -Syu base base-devel emacs jdk11-openjdk "\${@:2}" || nice -n 20 \$SUDOCONF pacman --needed --noconfirm --color=always -Su base base-devel emacs jdk11-openjdk "\${@:2}"
-else
+[ "\$UID" -eq 0 ] && SUDOCONF="" || SUDOCONF="sudo"
 nice -n 20 \$SUDOCONF pacman --needed --noconfirm --color=always -Syu "\$@" || nice -n 20 \$SUDOCONF pacman --needed --noconfirm --color=always -Su "\$@"
-fi
 ## $INSTALLDIR$TMXRCHBNDR/pci FE
 EOM
 chmod 755 "$TMXRCHBNDS"/pci

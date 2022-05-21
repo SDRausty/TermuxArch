@@ -35,6 +35,8 @@ _ADDgcm_
 _ADDgitconfig_
 _ADDgp_
 _ADDgpl_
+_ADDgsu_
+_ADDgmu_
 _ADDhunf_
 _ADDhunw_
 _ADDinfo_
