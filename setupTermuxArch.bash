@@ -6,7 +6,7 @@
 set -Eeuo pipefail
 shopt -s  extglob nullglob globstar
 unset LD_PRELOAD
-VERSIONID=2.0.546
+VERSIONID=2.0.547
 _STRPEROR_() { # run on script error
 local RV="$?"
 printf "\\e[1;48;5;138m %s" "ＴｅｒｍｕｘＡｒｃｈ ${PGNM^^} NOTICE:  Generated script signal received ${RV:-UNKNOWN} near or at line number ${1:-UNKNOWN} by '${2:-UNKNOWNCOMMAND}'!  "
@@ -737,7 +737,7 @@ done
 }
 _RMARCHRM_() {
 _RMARCHCRRM_() {	# remove installation
-chmod -R 777 "$INSTALLDIR" || { printf "\\e[1;31m%s\\e[1;35m%s\\n" "Exit signal recieved:" " attempting to 'rmdir $EXONSTGEM' exception;  Please remove directory $EXONSTGEM manually;  Exiting..." && exit 206 ; }
+chmod -R 777 "$INSTALLDIR" || { printf "\\e[1;31m%s\\e[1;35m%s\\e[1;31m%s" "Exit signal recieved:" "  Attempting to 'rmdir ${EXONSTGEM##*/}' exception.  Please either remove directory '$EXONSTGEM' manually or use command 'chmod -R 777 ~/${INSTALLDIR##*/}' followed by 'rm -rf ~/${INSTALLDIR##*/}' in order to remove directory '~/${INSTALLDIR##*/}'.  " "Exiting...  " && exit 206 ; }
 find "$INSTALLDIR" -type l -delete  || _PSGI1ESTRING_ "find INSTALLDIR _RMARCHRM_ ${0##*/}"
 rm -rf "$INSTALLDIR" || _PSGI1ESTRING_ "rm -rf INSTALLDIR _RMARCHRM_ ${0##*/}"
 }
@@ -745,7 +745,7 @@ _DOEXONSTGE_() {	# remove empty storage directories
 printf "\\e[0;35m"
 for EXONSTGEM in ${EXONSTGE[@]:-}
 do
-{ find "$EXONSTGEM" -type l -delete && rmdir "$EXONSTGEM" ; } || { printf "\\e[1;31m%s\\e[1;35m%s\\n" "Exit signal recieved:" " attempting to 'rmdir $EXONSTGEM' exception;  Please remove directory $EXONSTGEM manually;  Exiting..." && exit 206 ; }
+{ find "$EXONSTGEM" -type l -delete && rmdir "$EXONSTGEM" ; } || { printf "\\e[1;31m%s\\e[1;35m%s\\e[1;31m%s" "Exit signal recieved:" "  Attempting to 'rmdir ${EXONSTGEM##*/}' exception.  Please either remove directory '$EXONSTGEM' manually or use command 'chmod -R 777 ~/${INSTALLDIR##*/}' followed by 'rm -rf ~/${INSTALLDIR##*/}' in order to remove directory '~/${INSTALLDIR##*/}'.  " "Exiting...  " && exit 206 ; }
 done
 printf "\\e[1;30m"
 }
@@ -842,7 +842,7 @@ WFDIR="${WFDIR%/*}"
 ## >>>>>>>>>>>>>>>>>>
 ## >> HELP OPTIONS >>
 ## >>>>>>>>>>>>>>>>>>
-## Please open an issue and an accompanying pull request at GitHub if you would like to have any these options amended and/or new options added.  Please see the new feature at Github, the discussion option!
+## Open an issue and an accompanying pull request at GitHub if you would like to have any these options amended and/or new options added.  Please see the new feature at Github, the discussion option.  Brackets mean optional.  They are not meant to be typed.
 ## []  Run default Arch Linux install.
 if [[ -z "${1:-}" ]]
 then
@@ -1160,6 +1160,6 @@ fi
 ## USAGE[1]: 'setupTermuxArch curl sysinfo' will use curl as the download manager and produce a system information file in the working directory.  This can be abbreviated to 'setupTermuxArch cs' and 'setupTermuxArch c s'.
 ## USAGE[2]: 'setupTermuxArch curl manual customdir' will install the installation in customdir with curl and use manual mode during installation.
 ## USAGE[3]: 'setupTermuxArch curl refresh customdir' will refresh the installation using curl as the download manager.
-## Should any of these options fail to work as expected, please open an issue at GitHub with the command line used and output.
+## Should any of these options fail to work as expected, please open an issue at GitHub with the command line used and output.  This product is being designed for both the sighted, and also the visually impaired;  Comments are welcome at discussions and issues webportals.
 ## After installing TermuxArch on device, file 'INSTALLDIR/usr/local/termuxarch/bin/README.md' has more information.  The TermuxArch files in directory 'INSTALLDIR/usr/local/termuxarch/bin' have more information.
 ## Very many hardy thank yous to contributors who are helping and have worked very hard for many long years, some for more, and to those who took mere minutes from their valuable effort with time in order to make this open source resource much better for all of us!  Please enjoy using TermuxArch in PRoot QEMU in Android, Chromebook, Amazon Fire OS and Windows on smartphone, tablet, wearable and similar:  setupTermuxArch FE

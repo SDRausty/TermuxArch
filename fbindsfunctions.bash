@@ -4,6 +4,24 @@
 ## https://sdrausty.github.io/TermuxArch/README has info about this project.
 ## https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.
 ################################################################################
+_ADDinitfbinds_() {
+FBINDFUNCS=(
+_ADDfbindkvm_
+_ADDfbindprocpcidevices_
+_ADDfbindprocshmem_
+_ADDfbindprocuptime_
+_ADDfbindprocstat_
+_ADDfbindprocversion_
+_ADDbindprocloadavg_
+_ADDbindprocvmstat_
+_ADDfbindsysdevices_
+)
+for FBINDFUNC in "${FBINDFUNCS[@]}"
+do
+"$FBINDFUNC"
+done
+}
+
 _ADDfbindprocpcidevices_() {
 :>var/binds/fbindprocpcidevices
 }
@@ -259,11 +277,9 @@ balloon_migrate 0
 swap_ra 9661
 swap_ra_hit 7872" > var/binds/fbindprocvmstat
 }
-_ADDfbinds_() {
-FBINDFUNCS=(_ADDfbindkvm_ _ADDfbindprocpcidevices_ _ADDfbindprocshmem_ _ADDfbindprocuptime_ _ADDfbindprocstat_ _ADDfbindprocversion_ _ADDbindprocloadavg_ _ADDbindprocvmstat_)
-for FBINDFUNC in "${FBINDFUNCS[@]}"
-do
-"$FBINDFUNC"
-done
+
+_ADDfbindsysdevices_() {
+:>var/binds/fbindsysdevices
+chmod 666 var/binds/fbindsysdevices
 }
 # fbindsfunctions.bash FE

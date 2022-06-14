@@ -15,7 +15,7 @@ FLHDR1[1]=""
 FLHDR1[2]="set -Eeuo pipefail"
 FLHDR1[3]="shopt -s extglob nullglob globstar"
 FLHDR1[4]="unset LD_PRELOAD"
-FLHDR1[5]="VERSIONID=2.0.546"
+FLHDR1[5]="VERSIONID=2.0.547"
 FLHDR1[6]="SRPTNM=\"\${0##*/}\""
 FLHDRP[0]="## BEGIN #####################################################################"
 FLHDRP[1]=""
@@ -179,7 +179,7 @@ printf "\\n\\e[07;1m\\e[31;1m 🔆 ＴｅｒｍｕｘＡｒｃｈ NOTICE: Maximu
 }
 
 _PRINTKEEPEXIT_() {
-printf "\\n\\e[0;34m 🕛 > 🕕 \\e[1;34mNot removing files after checking download integrity with md5sum.  \\e[37;1mPlease run '%s' again to continue a partial download.  Otherwise remove '%s' and restart the installation from scratch if the download is complete, but this error continues.  You can also reset KEEP=1 to disable the keep download image feature which is disabled by default as after downloading the root image file it should no longer be needed by the end user.  The command 'bash %s help' has more information.  \\e[1;33m" "${0##*/}" "$INSTALLDIR" "${0##*/}"
+printf "\\n\\e[0;34m 🕛 > 🕕 \\e[1;34mNot removing files after FAILED check of download integrity files with md5sum.  \\e[37;1m%s  \\e[1;33m" "Please run '${0##*/}' again to continue a partial download.  Otherwise remove '$INSTALLDIR' and restart the installation from scratch if the download is complete and FAILED checking download integrity checksum error continues.  You can set KEEP=1 in file 'setupTermuxArchConfigs.bash' by running '${0##*/} manual' to disable the keep download image file feature that is disabled by default as after downloading the root image file as it might no longer be needed by the end user execept for reinstalling the Arch Linux system and similar.  The command 'bash ${0##*/} help' and the source code for TermuxArch have more information."
 }
 
 _PRINTKEEP_() {
