@@ -108,6 +108,9 @@ printf "%s\\n" "export TZ=\"$(getprop persist.sys.timezone)\"
 _ADDbashrc_() {
 [ -e root/.bashrc ] && _DOTHRF_ "root/.bashrc"
 cat > root/.bashrc <<- EOM
+function _AM_() {
+command -v am 1>/dev/null || cp "$PREFIX"/bin/am "$TMXRCHBNDR"
+}
 function _PWD_() {
 printf '%s\n' "\$PWD"
 }
@@ -125,14 +128,14 @@ alias ..='cd ../.. && _PWD_'
 alias ...='cd ../../.. && _PWD_'
 alias ....='cd ../../../.. && _PWD_'
 alias .....='cd ../../../../.. && _PWD_'
-alias aiabrowser='am start -a android.intent.action.VIEW -d "content://com.android.externalstorage.documents/root/primary"'	## Reference [Android 11 (with Termux storage permission denied) question; What's the source for the shortcut to the file manager of the settings app?](https://www.reddit.com/r/termux/comments/msq7lm/android_11_with_termux_storage_permission_denied/) Contributors u/DutchOfBurdock u/xeffyr
-alias aiachrome='am start --user 0 -n com.android.chrome/com.google.android.apps.chrome.Main'	## Reference [Can I start an app from Termux's command line? How?](https://www.reddit.com/r/termux/comments/62zi71/can_i_start_an_app_from_termuxs_command_line_how/) Contributors u/u/fornwall u/Kramshet
-alias aiadial='am start -a android.intent.action.DIAL'
-alias aiafilemanager='am start -a android.intent.action.VIEW -d "content://com.android.externalstorage.documents/root/primary"'
-alias aiasearch='am start -a android.intent.action.SEARCH'
-alias aiaview='am start -a android.intent.action.VIEW'
-alias aiaviewd='am start -a android.intent.action.VIEW -d '
-alias aiawebsearch='am start -a android.intent.action.WEB_SEARCH'
+alias aiabrowser='_AM_ && am start -a android.intent.action.VIEW -d "content://com.android.externalstorage.documents/root/primary"'	## Reference [Android 11 (with Termux storage permission denied) question; What's the source for the shortcut to the file manager of the settings app?](https://www.reddit.com/r/termux/comments/msq7lm/android_11_with_termux_storage_permission_denied/) Contributors u/DutchOfBurdock u/xeffyr
+alias aiachrome='_AM_ && am start --user 0 -n com.android.chrome/com.google.android.apps.chrome.Main'	## Reference [Can I start an app from Termux's command line? How?](https://www.reddit.com/r/termux/comments/62zi71/can_i_start_an_app_from_termuxs_command_line_how/) Contributors u/u/fornwall u/Kramshet
+alias aiadial='_AM_ && am start -a android.intent.action.DIAL'
+alias aiafilemanager='_AM_ && am start -a android.intent.action.VIEW -d "content://com.android.externalstorage.documents/root/primary"'
+alias aiasearch='_AM_ && am start -a android.intent.action.SEARCH'
+alias aiaview='_AM_ && am start -a android.intent.action.VIEW'
+alias aiaviewd='_AM_ && am start -a android.intent.action.VIEW -d '
+alias aiawebsearch='_AM_ && am start -a android.intent.action.WEB_SEARCH'
 alias C='cd .. && _PWD_'
 alias c='cd .. && _PWD_'
 alias CN='cat -n \$(command -v' # use a close parenthesis ) to complete this alias
@@ -877,7 +880,7 @@ _RCSRPTA1_() { printf "\\e[48;5;112m%s\\e[48;5;28m%s\\e[0;0;0m\\n" "[\$1/\$NBRFC
 _RCSNPTNM_() { printf "\\e[48;5;112m%s\\e[48;5;28m%s\\e[0;0;0m\\n" "[\$1/\$NBRFCMDS]" " Running command '\$2' in directory '\$PWD'...  " && { { { \$2  && _RCSNPTC0_ "\${1:-}" "\${2:-}" "\${3:-}" "\${4:-}" ; } || printf '%s\n' "\${SRPTNM^^} SIGNAL:  \$2" ; } ; printf "\\e[48;5;119m%s\\e[48;5;34m%s\\e[0;0;0m\\n" "[\$1/\$NBRFCMDS]" " Finished running command '\$2'." ; } ; }
 _RCSRPTNM_() { printf "\\e[48;5;112m%s\\e[48;5;28m%s\\e[0;0;0m\\n" "[\$1/\$NBRFCMDS]" " Running command '\$2' in directory '\$PWD'...  " && { { \$2  || _RCSRPTA0_ "\${1:-}" "\${2:-}" "\${3:-}" "\${4:-}" ; } ; printf "\\e[48;5;119m%s\\e[48;5;34m%s\\e[0;0;0m\\n" "[\$1/\$NBRFCMDS]" " Finished running command '\$2'." ; } ; }
 _PRPCLANG_() { command -v clang 1>/dev/null && export CC=clang || { { pc clang || pci clang ; } && export CC=clang ; } ; }
-_BULDQEMU_() { { QEMUPKGI=(acpica brltty capstone glusterfs jack libcacard libepoxy libiscsi libnfs liblouis libpulse librpcsecgss libslirp libusb libusb-debug liburing libvirt libxkbcommon make ninja pkgconf pcsc-tools pixman python-sphinx python-sphinx_rtd_theme qemu-tools spice spice-protocol virglrenderer sdl2 sdl2_image) && pc "\${QEMUPKGI[@]}" || pci "\${QEMUPKGI[@]}" ; } && { cd || exit 69 ; }
+_BULDQEMU_() { { QEMUPKGI=(acpica brltty capstone glusterfs libcacard libepoxy libiscsi libnfs liblouis libpulse libslirp libusb liburing libvirt libxkbcommon make ninja pkgconf pcsc-tools pixman python-sphinx spice spice-protocol virglrenderer sdl2 sdl2_image) && pc "\${QEMUPKGI[@]}" || pci "\${QEMUPKGI[@]}" ; } && { cd || exit 69 ; }
 if [ -d qemu ]
 then
 cd qemu || exit 69
@@ -2024,9 +2027,11 @@ EOM
 chmod 755 "$TMXRCHBNDS"/tour
 }
 
+CCHDRX="$CACHEDIR$CACHEDIRSUFIX"
 _ADDtrim_() {
 _CFLHDR_ "$TMXRCHBNDS"/trim
 cat >> "$TMXRCHBNDS"/trim <<- EOM
+[ -f "$INSTALLDIR"/run/lock/"${INSTALLDIR##*/}"/pacman.cachedir.lock ] || { touch "$CCHDRX" && sed -Ei 's/.*#CacheDir.*/CacheDir    = ${CCHDRX//\//\\\/}/g' /etc/pacman.conf && :>"$INSTALLDIR"/run/lock/"${INSTALLDIR##*/}"/pacman.cachedir.lock ; }
 printf "\\e[1;32m==> \\e[1;37mRunning command \\e[1;32m%s\\e[1;37m…\\n" "\${0##*/}"
 [ "\$UID" -eq 0 ] && SUTRIM="" || SUTRIM="sudo"
 _DTRM_() {
@@ -2068,13 +2073,12 @@ find $INSTALLDIR -maxdepth 1 -type f -name "*.tar.gz*" -delete || _PMFSESTRING_ 
 }
 printf '%s\n' "Found 0 in file ${CACHEDIR}DLTCCH" && _DPRGLL_
 else
-_DTRM_
-printf '%s' "Found 0 NOT found in file ${CACHEDIR}DLTCCH.  "
+printf '%s' "0 NOT found in file ${CACHEDIR}DLTCCH.  " && _DTRM_
 fi
 else
 _DTRM_
-printf '%s' "File ${CACHEDIR}DLTCCH not found.  If file ${CACHEDIR}DLTCCH is present with a 0, all the pkg cache files will be removed and trimming steps [1/6]-[6/6] will be used instead of steps [1/3]-[3/3].  Command 'cw \${0##*/})' has more information.  "
 fi
+printf '%s' "File ${CACHEDIR}DLTCCH not found.  If file ${CACHEDIR}DLTCCH is present with a 0, all the pkg cache files will be removed and trimming steps [1/6]-[6/6] will be used instead of steps [1/3]-[3/3].  Command 'cw \${0##*/})' has more information.  "
 ## $INSTALLDIR$TMXRCHBNDR/trim FE
 EOM
 chmod 755 "$TMXRCHBNDS"/trim
@@ -2325,6 +2329,7 @@ fi
 }
 
 _PREPPACMANCONF_() {
-[ -f "$INSTALLDIR"/run/lock/"${INSTALLDIR##*/}"/pacman.conf.lock ] || { [ -f "$INSTALLDIR"/etc/pacman.conf ] && { sed -i 's/^CheckSpace/\#CheckSpace/g' "$INSTALLDIR/etc/pacman.conf" && sed -i 's/^#Color/Color/g' "$INSTALLDIR/etc/pacman.conf" && :>"$INSTALLDIR"/run/lock/"${INSTALLDIR##*/}"/pacman.conf.lock ; } ; }
+[ -f "$INSTALLDIR"/run/lock/"${INSTALLDIR##*/}"/pacman.conf.lock ] || {
+[ -f "$INSTALLDIR"/etc/pacman.conf ] && { sed -i 's/^CheckSpace/\#CheckSpace/g' "$INSTALLDIR/etc/pacman.conf" && sed -i 's/^#Color/Color/g' "$INSTALLDIR/etc/pacman.conf" && :>"$INSTALLDIR"/run/lock/"${INSTALLDIR##*/}"/pacman.conf.lock ; } ; }
 }
 # archlinuxconfig.bash FE
